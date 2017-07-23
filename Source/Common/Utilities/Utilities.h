@@ -29,5 +29,5 @@
 +(BOOL)appLaunchedBefore;
 + (BOOL)launchOnLogin;
 + (void)setLaunchOnLogin:(BOOL)launchOnLogin;
-
++(NSImage *)invertedImageFromImage:(NSImage*)image;
 @end
