@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11762"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="VolumeWindowController">
+            <connections>
+                <outlet property="volumeIndicator" destination="Olq-vK-PEx" id="FcV-nQ-ZIq"/>
+                <outlet property="window" destination="RIS-VR-4cf" id="hK0-by-hc2"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" hasShadow="NO" oneShot="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="RIS-VR-4cf" userLabel="volumeHUD" customClass="NSPanel">
+            <windowStyleMask key="styleMask" utility="YES" HUD="YES"/>
+            <windowPositionMask key="initialPositionMask" bottomStrut="YES"/>
+            <rect key="contentRect" x="1161" y="350" width="200" height="67"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1028"/>
+            <view key="contentView" wantsLayer="YES" id="IBr-Jy-LtY">
+                <rect key="frame" x="0.0" y="0.0" width="200" height="67"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="twZ-0l-9T5">
+                        <rect key="frame" x="55" y="34" width="89" height="24"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="eqMac" id="iKa-HT-Yqk">
+                            <font key="font" metaFont="system" size="20"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="0.84999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <levelIndicator verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Olq-vK-PEx" customClass="FlatLevelIndicator">
+                        <rect key="frame" x="19" y="10" width="160" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <levelIndicatorCell key="cell" alignment="left" doubleValue="16" maxValue="16" id="MQ6-SJ-ehb"/>
+                    </levelIndicator>
+                </subviews>
+            </view>
+            <connections>
+                <outlet property="delegate" destination="-2" id="EUb-cV-fCr"/>
+            </connections>
+            <point key="canvasLocation" x="-131" y="-52.5"/>
+        </window>
+    </objects>
+</document>
