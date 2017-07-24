@@ -30,7 +30,6 @@ return err; \
 +(AudioDeviceID)getEQMacDeviceID;
 +(AudioDeviceID)getBuiltInDeviceID;
 +(AudioDeviceID)getVolumeControllerDeviceID;
-+(AudioDeviceID)getBalanceControllerDeviceID;
 
 +(void)switchToDeviceWithID:(AudioDeviceID)ID;
 

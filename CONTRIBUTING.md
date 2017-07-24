@@ -7,7 +7,7 @@ If you found a bug in eqMac2, please follow these steps to properly report it:
 2. Go to [Issues tab](https://github.com/romankisil/eqMac2/issues) and create a new Issue
 3. Set the Label (on the right) to Bug or any other appropriate
 4. Describe the Bug as much as possible
-5. If required upload Screenshots to https://imgur.com and include links in your Issue
+5. If possible include some Screenshots
 
 ### Contributing your code
 1. First, create an Issue with an 'enchancement' or 'bug' label

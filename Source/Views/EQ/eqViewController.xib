@@ -8,8 +8,10 @@
         <customObject id="-2" userLabel="File's Owner" customClass="eqViewController">
             <connections>
                 <outlet property="_mockSliderView" destination="mxi-4w-muC" id="m0y-7L-vVw"/>
+                <outlet property="deleteButton" destination="j96-Rt-Axz" id="dCt-H6-I4l"/>
                 <outlet property="presetsButton" destination="rMA-BB-9m1" id="upR-4H-afm"/>
                 <outlet property="presetsComboBox" destination="k3c-0m-m56" id="pb5-Mx-iy5"/>
+                <outlet property="saveButton" destination="D6P-Fd-jYR" id="HEW-X4-pEk"/>
                 <outlet property="view" destination="l5q-FZ-i9D" id="ASl-08-s8D"/>
             </connections>
         </customObject>

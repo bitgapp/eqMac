@@ -10,6 +10,9 @@
 
 @interface eqViewController ()
 
+@property (strong) IBOutlet NSButton *deleteButton;
+@property (strong) IBOutlet NSButton *saveButton;
+
 @property (strong) IBOutlet NSView *mockSliderView;
 @property (weak) IBOutlet NSComboBox *presetsComboBox;
 @property (strong) IBOutlet NSButton *presetsButton;
@@ -43,6 +46,8 @@ NSNotificationCenter *notify;
 
 -(void)viewWillAppear{
     [Utilities executeBlock:^{ [self openPresetsDropdown:nil]; } after:0.1];
+    [_deleteButton setImage:[Utilities isDarkMode] ? [NSImage imageNamed:@"deleteLight"] : [NSImage imageNamed:@"deleteDark"]];
+    [_saveButton setImage:[Utilities isDarkMode] ? [NSImage imageNamed:@"saveLight"] : [NSImage imageNamed:@"saveDark"]];
 }
 
 -(void)viewDidAppear{
