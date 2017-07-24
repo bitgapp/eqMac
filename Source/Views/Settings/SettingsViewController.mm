@@ -11,12 +11,14 @@
 @interface SettingsViewController ()
 @property (strong) IBOutlet NSButton *launchOnStartupCheckbox;
 @property (strong) IBOutlet NSButton *showDefaultPresetsCheckbox;
+@property (strong) IBOutlet NSButton *exitButton;
 
 @property (strong) IBOutlet NSSlider *volumeSlider;
 @property (strong) IBOutlet NSSlider *balanceSlider;
 @property (strong) IBOutlet NSImageView *volumeBars;
 @property (strong) IBOutlet NSImageView *leftSpeaker;
 @property (strong) IBOutlet NSImageView *rightSpeaker;
+@property (strong) IBOutlet NSImageView *speakerIcon;
 @end
 
 
@@ -29,6 +31,8 @@
 
 -(void)viewWillAppear{
     [self readjustSettings];
+    [_speakerIcon setImage:[Utilities isDarkMode] ? [NSImage imageNamed:@"speakerLight.png"] : [NSImage imageNamed:@"speakerDark.png"]];
+    [_exitButton setImage:[Utilities isDarkMode] ? [NSImage imageNamed:@"exitLight.png"] : [NSImage imageNamed:@"exitDark.png"]];
 }
 
 
@@ -41,7 +45,7 @@
         [self changeVolumeIcons:currentVolume];
         
         //BALANCE
-        Float32 currentBalance = [Devices getBalanceForDeviceID:[Devices getBalanceControllerDeviceID]];
+        Float32 currentBalance = [Devices getBalanceForDeviceID:[Devices getVolumeControllerDeviceID]];
         [_balanceSlider setFloatValue:currentBalance];
         [self changeBalanceIcons:currentBalance];
         
@@ -69,7 +73,7 @@
 
 - (IBAction)changeBalance:(NSSlider *)sender {
     Float32 balance = [sender floatValue];
-    [Devices setBalanceForDevice:[Devices getBalanceControllerDeviceID] to:balance];
+    [Devices setBalanceForDevice:[Devices getVolumeControllerDeviceID] to:balance];
     [self changeBalanceIcons: [sender floatValue]];
 }
 - (IBAction)changeVolume:(id)sender {
@@ -83,42 +87,42 @@
     if (volume == 0) {
         [_volumeBars setHidden:YES];
     }else if(volume >= VOLUME_STEP && volume <= 0.25){
-        [_volumeBars setImage: [NSImage imageNamed:@"vol1.png"]];
+        [_volumeBars setImage: [Utilities isDarkMode] ? [NSImage imageNamed:@"vol1Light.png"] : [NSImage imageNamed:@"vol1Dark.png"]];
     }else if(volume >0.25 && volume <= 0.5){
-        [_volumeBars setImage: [NSImage imageNamed:@"vol2.png"]];
+        [_volumeBars setImage: [Utilities isDarkMode] ? [NSImage imageNamed:@"vol2Light.png"] : [NSImage imageNamed:@"vol2Dark.png"]];
     }else if(volume >0.5 && volume <= 0.75){
-        [_volumeBars setImage: [NSImage imageNamed:@"vol3.png"]];
+        [_volumeBars setImage: [Utilities isDarkMode] ? [NSImage imageNamed:@"vol3Light.png"] : [NSImage imageNamed:@"vol3Dark.png"]];
     }else if(volume >0.75 && volume <= 1){
-        [_volumeBars setImage: [NSImage imageNamed:@"vol4.png"]];
+        [_volumeBars setImage: [Utilities isDarkMode] ? [NSImage imageNamed:@"vol4Light.png"] : [NSImage imageNamed:@"vol4Dark.png"]];
     }
 }
 
 -(void)changeBalanceIcons:(CGFloat)balance{
     if (balance == -1) {
-        [_leftSpeaker setImage: [Utilities flipImage:[NSImage imageNamed:@"vol4.png"]]];
-        [_rightSpeaker setImage: [NSImage imageNamed:@"vol1.png"]];
+        [_leftSpeaker setImage: [Utilities flipImage: [Utilities isDarkMode] ? [NSImage imageNamed:@"vol4Light.png"] : [NSImage imageNamed:@"vol4Dark.png"]]];
+        [_rightSpeaker setImage: [Utilities isDarkMode] ? [NSImage imageNamed:@"vol1Light.png"] : [NSImage imageNamed:@"vol1Dark.png"]];
     }else if(balance >-1 && balance <= -0.5){
-        [_leftSpeaker setImage: [Utilities flipImage:[NSImage imageNamed:@"vol4.png"]]];
-        [_rightSpeaker setImage: [NSImage imageNamed:@"vol2.png"]];
+        [_leftSpeaker setImage: [Utilities flipImage:[Utilities isDarkMode] ? [NSImage imageNamed:@"vol4Light.png"] : [NSImage imageNamed:@"vol4Dark.png"]]];
+        [_rightSpeaker setImage: [Utilities isDarkMode] ? [NSImage imageNamed:@"vol2Light.png"] : [NSImage imageNamed:@"vol2Dark.png"]];
 
     }else if(balance > -0.5 && balance < 0){
-        [_leftSpeaker setImage: [Utilities flipImage:[NSImage imageNamed:@"vol4.png"]]];
-        [_rightSpeaker setImage: [NSImage imageNamed:@"vol3.png"]];
+        [_leftSpeaker setImage: [Utilities flipImage:[Utilities isDarkMode] ? [NSImage imageNamed:@"vol4Light.png"] : [NSImage imageNamed:@"vol4Dark.png"]]];
+        [_rightSpeaker setImage: [Utilities isDarkMode] ? [NSImage imageNamed:@"vol3Light.png"] : [NSImage imageNamed:@"vol3Dark.png"]];
 
     }else if(balance == 0){
-        [_leftSpeaker setImage: [Utilities flipImage:[NSImage imageNamed:@"vol4.png"]]];
-        [_rightSpeaker setImage: [NSImage imageNamed:@"vol4.png"]];
+        [_leftSpeaker setImage: [Utilities flipImage:[Utilities isDarkMode] ? [NSImage imageNamed:@"vol4Light.png"] : [NSImage imageNamed:@"vol4Dark.png"]]];
+        [_rightSpeaker setImage: [Utilities isDarkMode] ? [NSImage imageNamed:@"vol4Light.png"] : [NSImage imageNamed:@"vol4Dark.png"]];
 
     }else if(balance >0 && balance <= 0.5){
-        [_leftSpeaker setImage: [Utilities flipImage:[NSImage imageNamed:@"vol3.png"]]];
-        [_rightSpeaker setImage: [NSImage imageNamed:@"vol4.png"]];
+        [_leftSpeaker setImage: [Utilities flipImage:[Utilities isDarkMode] ? [NSImage imageNamed:@"vol3Light.png"] : [NSImage imageNamed:@"vol3Dark.png"]]];
+        [_rightSpeaker setImage: [Utilities isDarkMode] ? [NSImage imageNamed:@"vol4Light.png"] : [NSImage imageNamed:@"vol4Dark.png"]];
 
     }else if(balance >0.5 && balance < 1){
-        [_leftSpeaker setImage: [Utilities flipImage:[NSImage imageNamed:@"vol2.png"]]];
-        [_rightSpeaker setImage: [NSImage imageNamed:@"vol4.png"]];
+        [_leftSpeaker setImage: [Utilities flipImage:[Utilities isDarkMode] ? [NSImage imageNamed:@"vol2Light.png"] : [NSImage imageNamed:@"vol2Dark.png"]]];
+        [_rightSpeaker setImage: [Utilities isDarkMode] ? [NSImage imageNamed:@"vol4Light.png"] : [NSImage imageNamed:@"vol4Dark.png"]];
     }else{
-        [_leftSpeaker setImage: [Utilities flipImage:[NSImage imageNamed:@"vol1.png"]]];
-        [_rightSpeaker setImage: [NSImage imageNamed:@"vol4.png"]];
+        [_leftSpeaker setImage: [Utilities flipImage:[Utilities isDarkMode] ? [NSImage imageNamed:@"vol1Light.png"] : [NSImage imageNamed:@"vol1Dark.png"]]];
+        [_rightSpeaker setImage: [Utilities isDarkMode] ? [NSImage imageNamed:@"vol4Light.png"] : [NSImage imageNamed:@"vol4Dark.png"]];
     }
 
 }
@@ -139,6 +143,10 @@
 }
 - (IBAction)changeLaunchOnStartup:(NSButton*)sender {
     [Utilities setLaunchOnLogin:[sender state] == NSOnState ? true : false];
+}
+- (IBAction)openWebsite:(id)sender {
+    [sender setHighlighted:NO];
+    [Utilities openBrowserWithURL:APP_URL];
 }
 
 

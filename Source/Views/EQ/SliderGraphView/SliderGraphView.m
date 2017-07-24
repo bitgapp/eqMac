@@ -92,14 +92,14 @@ NSMutableArray *bandValues;
     
     [NSGraphicsContext restoreGraphicsState];
     
-    drawingColor = [NSColor whiteColor];
+    drawingColor = [Utilities isDarkMode] ? [NSColor whiteColor] : [NSColor blackColor];
     [drawingColor set];
     [graph setLineWidth:sliderBarWidth];
     [graph stroke];
     
+    drawingColor =  [Utilities isDarkMode] ? [NSColor colorWithRed:0.85 green:0.85 blue:0.85 alpha:1] : [NSColor colorWithRed:0.15 green:0.15 blue:0.15 alpha:1];
+    [drawingColor set];
     for(NSBezierPath *bar in sliderBarArray){
-        drawingColor = [NSColor colorWithRed:0.85 green:0.85 blue:0.85 alpha:1];
-        [drawingColor set];
         [bar fill];
     }
     
@@ -107,10 +107,10 @@ NSMutableArray *bandValues;
     NSMutableArray *tempArray = [[NSMutableArray alloc] init];
 
     for(NSBezierPath *knob in knobArray){
-        drawingColor = [NSColor colorWithRed:0.85 green:0.85 blue:0.85 alpha:1];
+        drawingColor = [Utilities isDarkMode] ? [NSColor colorWithRed:0.85 green:0.85 blue:0.85 alpha:1] : [NSColor colorWithRed:0.15 green:0.15 blue:0.15 alpha:1];
         [drawingColor set];
         [knob fill];
-        drawingColor = [NSColor colorWithRed:0.15 green:0.15 blue:0.15 alpha:1];
+        drawingColor = [Utilities isDarkMode] ? [NSColor colorWithRed:0.15 green:0.15 blue:0.15 alpha:1] : [NSColor colorWithRed:0.85 green:0.85 blue:0.85 alpha:1];
         [drawingColor set];
         [knob stroke];
         [tempArray addObject:[NSNumber numberWithFloat:[self mapValue:knob.bounds.origin.y inMin:0 inMax:self.bounds.size.height-knobSize outMin:-1 outMax:1]]];
@@ -126,7 +126,8 @@ NSMutableArray *bandValues;
         if(point.y > self.bounds.size.height - knobSize/2 || point.y < knobSize/2) return;
         NSAffineTransform *transform = [NSAffineTransform transform];
         CGPoint knobPos = [[knobArray objectAtIndex:sliderSelected] bounds].origin;
-        [transform translateXBy: 0 yBy: point.y - (knobPos.y + knobSize/2)];
+        CGFloat knobPosY = knobPos.y + knobSize/2;
+        [transform translateXBy: 0 yBy: point.y - knobPosY];
         [[knobArray objectAtIndex:sliderSelected] transformUsingAffineTransform: transform];
         [self newGraphFromKnobs];
         [self postNotification];

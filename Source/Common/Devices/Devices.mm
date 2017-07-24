@@ -131,24 +131,7 @@ typedef enum {
 
 
 +(AudioDeviceID)getVolumeControllerDeviceID{
-    if([EQHost EQEngineExists]){
-        AudioDeviceID selectedDeviceID = [EQHost getSelectedOutputDeviceID];
-        if(selectedDeviceID == [self getEQMacDeviceID]){
-            return [self getBuiltInDeviceID];
-        }else{
-            return selectedDeviceID;
-        }
-    }else{
-        return [self getCurrentDeviceID];
-    }
-}
-
-+(AudioDeviceID)getBalanceControllerDeviceID{
-    if([EQHost EQEngineExists]){
-        return [EQHost getSelectedOutputDeviceID];
-    }else{
-        return [Devices getCurrentDeviceID];
-    }
+    return [EQHost EQEngineExists] ? [EQHost getSelectedOutputDeviceID] :  [self getCurrentDeviceID];
 }
 
 #pragma mark -
@@ -195,13 +178,15 @@ typedef enum {
 }
 
 +(Float32)getVolumeForDeviceID:(AudioDeviceID)ID{
+    Float32 volume = 0;
     if([self audioDeviceHasMasterVolume:ID]){
-        return [self getVolumeForDevice:ID andChannel:kChannelMaster];
+        volume = [self getVolumeForDevice:ID andChannel:kChannelMaster];
     }else{
         Float32 leftVolume = [self getVolumeForDevice:ID andChannel:kChannelLeft];
         Float32 rightVolume = [self getVolumeForDevice:ID andChannel:kChannelRight];
-        return MAX(rightVolume, leftVolume);
+        volume = MAX(rightVolume, leftVolume);
     }
+    return volume;
 }
 
 +(Float32)getBalanceForDeviceID:(AudioDeviceID)ID{
@@ -209,7 +194,9 @@ typedef enum {
     Float32 left = [self getVolumeForDevice:ID andChannel:kChannelLeft];
     Float32 right = [self getVolumeForDevice:ID andChannel:kChannelRight];
     Float32 balance = right - left;
-    return [Utilities mapValue:balance withInMin:-volume InMax:volume OutMin:-1 OutMax:1];
+    balance = [Utilities mapValue:balance withInMin:-volume InMax:volume OutMin:-1 OutMax:1];
+    if(isnan(balance)) balance = 0;
+    return balance;
 }
 
 +(BOOL)getIsMutedForDeviceID:(AudioDeviceID)ID{
@@ -366,12 +353,11 @@ typedef enum {
 
 //PUBLIC
 +(void)setVolumeForDevice:(AudioDeviceID)ID to:(Float32)volume{
-    
+
     if([self audioDeviceHasMasterVolume:ID]){
         [self setVolumeForDevice:ID andChannel:kChannelMaster to:volume];
     }else{
         Float32 balance = [self getBalanceForDeviceID:ID];
-    
         Float32 leftMultiplier = balance < 0 ? 1 : 1 - balance;
         Float32 rightMiltiplier = balance > 0 ? 1 : 1 + balance;
         Float32 leftVolume = volume * leftMultiplier;

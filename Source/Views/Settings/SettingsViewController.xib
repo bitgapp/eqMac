@@ -8,10 +8,12 @@
         <customObject id="-2" userLabel="File's Owner" customClass="SettingsViewController">
             <connections>
                 <outlet property="balanceSlider" destination="wRl-4Y-XuQ" id="5e7-QC-ynS"/>
+                <outlet property="exitButton" destination="ZwI-nq-tzt" id="i1O-Mi-Voa"/>
                 <outlet property="launchOnStartupCheckbox" destination="y4U-2A-0hS" id="xsQ-8n-gl4"/>
                 <outlet property="leftSpeaker" destination="GOn-ns-gtZ" id="zeX-Kg-o7O"/>
                 <outlet property="rightSpeaker" destination="bbr-Ks-HWq" id="Ffg-Az-onv"/>
                 <outlet property="showDefaultPresetsCheckbox" destination="SBN-ac-d6R" id="mlT-OE-f83"/>
+                <outlet property="speakerIcon" destination="35D-it-36i" id="ywo-TZ-jS5"/>
                 <outlet property="view" destination="YWX-Fx-d7l" id="7TW-ZZ-t6v"/>
                 <outlet property="volumeBars" destination="bTp-D4-agQ" id="ALV-KD-2cr"/>
                 <outlet property="volumeSlider" destination="NTb-Hc-1W1" id="R7b-Q0-rai"/>
@@ -41,12 +43,12 @@
                         <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" mirrorLayoutDirectionWhenInternationalizing="always" translatesAutoresizingMaskIntoConstraints="NO" id="GOn-ns-gtZ">
                             <rect key="frame" x="22" y="19" width="37" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <imageCell key="cell" refusesFirstResponder="YES" userInterfaceLayoutDirection="rightToLeft" alignment="left" imageScaling="proportionallyDown" image="vol4" id="RPE-lx-c4J"/>
+                            <imageCell key="cell" refusesFirstResponder="YES" userInterfaceLayoutDirection="rightToLeft" alignment="left" imageScaling="proportionallyDown" image="vol4Dark" id="RPE-lx-c4J"/>
                         </imageView>
                         <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bbr-Ks-HWq">
                             <rect key="frame" x="233" y="19" width="37" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="vol4" id="x0G-dr-4GR"/>
+                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="vol4Dark" id="x0G-dr-4GR"/>
                         </imageView>
                         <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wRl-4Y-XuQ">
                             <rect key="frame" x="55" y="26" width="179" height="24"/>
@@ -85,7 +87,7 @@
                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZwI-nq-tzt">
                     <rect key="frame" x="7" y="5" width="74" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <buttonCell key="cell" type="squareTextured" title="Quit" bezelStyle="texturedSquare" image="exit" imagePosition="left" alignment="center" borderStyle="border" imageScaling="proportionallyUpOrDown" inset="2" id="dYo-0Z-FaE">
+                    <buttonCell key="cell" type="squareTextured" title="Quit" bezelStyle="texturedSquare" image="exitDark" imagePosition="left" alignment="center" borderStyle="border" imageScaling="proportionallyUpOrDown" inset="2" id="dYo-0Z-FaE">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
@@ -111,6 +113,9 @@
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="systemBold" size="12"/>
                     </buttonCell>
+                    <connections>
+                        <action selector="openWebsite:" target="-2" id="tlI-5E-mVJ"/>
+                    </connections>
                 </button>
                 <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="y4U-2A-0hS">
                     <rect key="frame" x="147" y="113" width="143" height="33"/>
@@ -147,12 +152,12 @@
                 <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" mirrorLayoutDirectionWhenInternationalizing="always" translatesAutoresizingMaskIntoConstraints="NO" id="bTp-D4-agQ">
                     <rect key="frame" x="27" y="250" width="31" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <imageCell key="cell" refusesFirstResponder="YES" userInterfaceLayoutDirection="rightToLeft" alignment="left" imageScaling="proportionallyUpOrDown" image="vol4" id="g2Q-7d-Q4h"/>
+                    <imageCell key="cell" refusesFirstResponder="YES" userInterfaceLayoutDirection="rightToLeft" alignment="left" imageScaling="proportionallyUpOrDown" image="vol4Dark" id="g2Q-7d-Q4h"/>
                 </imageView>
                 <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="35D-it-36i">
                     <rect key="frame" x="4" y="249" width="40" height="32"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="speaker" id="mTI-b6-9Kf"/>
+                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="speakerDark" id="mTI-b6-9Kf"/>
                 </imageView>
                 <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="OsC-Ne-fWR">
                     <rect key="frame" x="0.0" y="40" width="289" height="5"/>
@@ -186,8 +191,8 @@
         <customObject id="3OH-Zw-Vrk" customClass="SUUpdater"/>
     </objects>
     <resources>
-        <image name="exit" width="27" height="30"/>
-        <image name="speaker" width="128" height="128"/>
-        <image name="vol4" width="67" height="100"/>
+        <image name="exitDark" width="27" height="30"/>
+        <image name="speakerDark" width="128" height="128"/>
+        <image name="vol4Dark" width="67" height="100"/>
     </resources>
 </document>

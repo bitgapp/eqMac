@@ -39,13 +39,18 @@ NSPopover *eqPopover;
     statusItemView.action = @selector(openEQ); //Open EQ View on Left Click
     statusItemView.rightAction = @selector(openSettingsMenu); //Open Settings on Right Click
     
-    statusItemView.image = [NSImage imageNamed: [Utilities isDarkMode] ? @"statusItemWhite" : @"statusItemBlack"];
     _statusBar = [[NSStatusBar systemStatusBar] statusItemWithLength:NSSquareStatusItemLength];
     [_statusBar setView:statusItemView];
+    [self setStatusItemIcon];
+    [Utilities executeBlock:^{ [self setStatusItemIcon]; } every:1];
 }
 
+-(void)setStatusItemIcon{
+    statusItemView.image = [NSImage imageNamed: [Utilities isDarkMode] ? @"statusItemLight" : @"statusItemDark"];
+}
 
 -(void)applicationDidFinishLaunching:(NSNotification *)notification{
+
     NSNotificationCenter *observer = [NSNotificationCenter defaultCenter];
     [observer addObserver:self selector:@selector(changeVolume:) name:@"changeVolume" object:nil];
     [observer addObserver:self selector:@selector(quitApplication) name:@"closeApp" object:nil];

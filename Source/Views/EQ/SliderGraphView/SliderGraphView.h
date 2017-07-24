@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import <Quartz/Quartz.h>
+#import "Utilities.h"
 
 @interface SliderGraphView : NSView
 
