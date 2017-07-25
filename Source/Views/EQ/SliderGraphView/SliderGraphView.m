@@ -127,7 +127,26 @@ NSMutableArray *bandValues;
         NSAffineTransform *transform = [NSAffineTransform transform];
         CGPoint knobPos = [[knobArray objectAtIndex:sliderSelected] bounds].origin;
         CGFloat knobPosY = knobPos.y + knobSize/2;
-        [transform translateXBy: 0 yBy: point.y - knobPosY];
+        CGFloat halfHeight = self.bounds.size.height / 2;
+        CGFloat diffFromKnobToPoint = point.y - knobPosY;
+        CGFloat distFromKnobToPoint = diffFromKnobToPoint >=0 ? diffFromKnobToPoint : -diffFromKnobToPoint;
+        CGFloat diffFromKnobToMiddle = halfHeight - knobPosY;
+        CGFloat distFromKnobToMiddle = diffFromKnobToMiddle >= 0 ? diffFromKnobToMiddle : -diffFromKnobToMiddle;
+        BOOL dirUp = diffFromKnobToPoint > 0;
+        
+        CGFloat yTransform = diffFromKnobToPoint;
+        if(distFromKnobToMiddle < 3){
+            if((dirUp && diffFromKnobToMiddle > 0) || (!dirUp && diffFromKnobToMiddle < 0)){
+                yTransform = diffFromKnobToMiddle;
+                [[NSHapticFeedbackManager defaultPerformer] performFeedbackPattern:NSHapticFeedbackPatternAlignment performanceTime:NSHapticFeedbackPerformanceTimeDefault];
+            }
+        }
+        
+        if(round(knobPosY) == round(halfHeight) && distFromKnobToPoint < 7){
+            yTransform = 0;
+        }
+        
+        [transform translateXBy: 0 yBy: yTransform];
         [[knobArray objectAtIndex:sliderSelected] transformUsingAffineTransform: transform];
         [self newGraphFromKnobs];
         [self postNotification];

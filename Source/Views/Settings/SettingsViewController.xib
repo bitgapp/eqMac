@@ -12,7 +12,6 @@
                 <outlet property="launchOnStartupCheckbox" destination="y4U-2A-0hS" id="xsQ-8n-gl4"/>
                 <outlet property="leftSpeaker" destination="GOn-ns-gtZ" id="zeX-Kg-o7O"/>
                 <outlet property="rightSpeaker" destination="bbr-Ks-HWq" id="Ffg-Az-onv"/>
-                <outlet property="showDefaultPresetsCheckbox" destination="SBN-ac-d6R" id="mlT-OE-f83"/>
                 <outlet property="speakerIcon" destination="35D-it-36i" id="ywo-TZ-jS5"/>
                 <outlet property="view" destination="YWX-Fx-d7l" id="7TW-ZZ-t6v"/>
                 <outlet property="volumeBars" destination="bTp-D4-agQ" id="ALV-KD-2cr"/>
@@ -106,21 +105,10 @@
                         <action selector="uninstallApplication:" target="-2" id="DwC-kH-nx7"/>
                     </connections>
                 </button>
-                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="foe-nM-2tb">
-                    <rect key="frame" x="97" y="12" width="94" height="19"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <buttonCell key="cell" type="recessed" title="Ⓡ Bitgapp" bezelStyle="recessed" alignment="center" imageScaling="proportionallyDown" inset="2" id="DQe-2m-rCN">
-                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="systemBold" size="12"/>
-                    </buttonCell>
-                    <connections>
-                        <action selector="openWebsite:" target="-2" id="tlI-5E-mVJ"/>
-                    </connections>
-                </button>
                 <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="y4U-2A-0hS">
                     <rect key="frame" x="147" y="113" width="143" height="33"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <buttonCell key="cell" type="check" title="Launch on Startup" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="hkX-cL-CHR">
+                    <buttonCell key="cell" type="check" title="Launch on Startup" bezelStyle="regularSquare" imagePosition="left" inset="2" id="hkX-cL-CHR">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
@@ -166,13 +154,10 @@
                 <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SBN-ac-d6R">
                     <rect key="frame" x="7" y="113" width="129" height="33"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <buttonCell key="cell" type="check" title="Default presets" bezelStyle="regularSquare" imagePosition="left" enabled="NO" state="on" inset="2" id="gGu-4k-7jq">
+                    <buttonCell key="cell" type="check" title="Show Vol. HUD" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="gGu-4k-7jq">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
-                    <connections>
-                        <action selector="switchShowDefaultPresets:" target="-2" id="qoy-FH-bmX"/>
-                    </connections>
                 </button>
                 <button horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IWK-Kd-2ra">
                     <rect key="frame" x="147" y="83" width="136" height="30"/>
@@ -185,6 +170,15 @@
                         <action selector="reportBug:" target="-2" id="MwV-j8-Xid"/>
                     </connections>
                 </button>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Np-6h-pUG">
+                    <rect key="frame" x="87" y="12" width="113" height="17"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Build 2.0" id="1ef-Tb-KkM">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
             </subviews>
             <point key="canvasLocation" x="828.5" y="357.5"/>
         </customView>
