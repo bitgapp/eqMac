@@ -12,6 +12,7 @@
 @property (strong) IBOutlet NSButton *launchOnStartupCheckbox;
 @property (strong) IBOutlet NSButton *showDefaultPresetsCheckbox;
 @property (strong) IBOutlet NSButton *exitButton;
+@property (strong) IBOutlet NSTextField *buildLabel;
 
 @property (strong) IBOutlet NSSlider *volumeSlider;
 @property (strong) IBOutlet NSSlider *balanceSlider;
