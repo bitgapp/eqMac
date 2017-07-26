@@ -14,6 +14,7 @@
                 <outlet property="leftSpeaker" destination="GOn-ns-gtZ" id="zeX-Kg-o7O"/>
                 <outlet property="rightSpeaker" destination="bbr-Ks-HWq" id="Ffg-Az-onv"/>
                 <outlet property="showDefaultPresetsCheckbox" destination="FP9-RF-EA2" id="gYK-RE-JH0"/>
+                <outlet property="showVolumeHUDCheckbox" destination="SBN-ac-d6R" id="i1e-dm-4Lu"/>
                 <outlet property="speakerIcon" destination="35D-it-36i" id="ywo-TZ-jS5"/>
                 <outlet property="view" destination="YWX-Fx-d7l" id="7TW-ZZ-t6v"/>
                 <outlet property="volumeBars" destination="bTp-D4-agQ" id="ALV-KD-2cr"/>
@@ -160,11 +161,14 @@
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
+                    <connections>
+                        <action selector="switchShowVolumeHUD:" target="-2" id="eeQ-mO-9wg"/>
+                    </connections>
                 </button>
                 <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FP9-RF-EA2">
-                    <rect key="frame" x="7" y="115" width="129" height="33"/>
+                    <rect key="frame" x="7" y="115" width="161" height="33"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <buttonCell key="cell" type="check" title="Default Presets" bezelStyle="regularSquare" imagePosition="left" inset="2" id="CxU-Wu-mzI">
+                    <buttonCell key="cell" type="check" title="Show Default Presets" bezelStyle="regularSquare" imagePosition="left" inset="2" id="CxU-Wu-mzI">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
@@ -186,23 +190,12 @@
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Np-6h-pUG">
                     <rect key="frame" x="86" y="12" width="113" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Build 2.0" id="1ef-Tb-KkM">
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Build 2" id="1ef-Tb-KkM">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
-                <button horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SVu-Dc-EFY">
-                    <rect key="frame" x="146" y="118" width="136" height="25"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <buttonCell key="cell" type="squareTextured" title="Restore Default Presets" bezelStyle="texturedSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="CKI-ZN-XtS">
-                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="system" size="11"/>
-                    </buttonCell>
-                    <connections>
-                        <action selector="reportBug:" target="-2" id="oKp-5y-3WO"/>
-                    </connections>
-                </button>
             </subviews>
             <point key="canvasLocation" x="828.5" y="372.5"/>
         </customView>

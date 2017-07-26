@@ -55,7 +55,6 @@ NSPopover *eqPopover;
     [observer addObserver:self selector:@selector(changeVolume:) name:@"changeVolume" object:nil];
     [observer addObserver:self selector:@selector(quitApplication) name:@"closeApp" object:nil];
     
-    [Presets setupPresets];
     [EQHost detectAndRemoveRoguePassthroughDevice];
     [self checkAndInstallDriver];
     
@@ -76,6 +75,14 @@ NSPopover *eqPopover;
     
     if(![Utilities appLaunchedBefore]){
         [Utilities setLaunchOnLogin:YES];
+    }
+    
+    if(![Storage get: kStorageShowDefaultPresets]){
+        [Storage set:[NSNumber numberWithBool:NO] key: kStorageShowDefaultPresets];
+    }
+    
+    if(![Storage get: kStorageShowVolumeHUD]){
+        [Storage set:[NSNumber numberWithBool:YES] key: kStorageShowVolumeHUD];
     }
     
     //Send anonymous analytics data to the API
@@ -173,7 +180,9 @@ NSPopover *eqPopover;
         }
         
         [Utilities executeBlock:^{
-            [volumeHUD showHUDforVolume: [Devices getIsMutedForDeviceID:volDevice] ? 0 : [Devices getVolumeForDeviceID:volDevice]];
+            if([[Storage get:kStorageShowVolumeHUD] integerValue] == 1){
+                [volumeHUD showHUDforVolume: [Devices getIsMutedForDeviceID:volDevice] ? 0 : [Devices getVolumeForDeviceID:volDevice]];
+            }
         } after:0.01];
     }
 }

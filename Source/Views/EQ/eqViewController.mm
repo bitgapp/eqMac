@@ -46,8 +46,8 @@ NSNotificationCenter *notify;
 
 -(void)viewWillAppear{
     [Utilities executeBlock:^{ [self openPresetsDropdown:nil]; } after:0.1];
-    [_deleteButton setImage:[Utilities isDarkMode] ? [NSImage imageNamed:@"deleteLight"] : [NSImage imageNamed:@"deleteDark"]];
-    [_saveButton setImage:[Utilities isDarkMode] ? [NSImage imageNamed:@"saveLight"] : [NSImage imageNamed:@"saveDark"]];
+    [_deleteButton setImage:[Utilities isDarkMode] ? [NSImage imageNamed:@"deleteLight.png"] : [NSImage imageNamed:@"deleteDark.png"]];
+    [_saveButton setImage:[Utilities isDarkMode] ? [NSImage imageNamed:@"saveLight.png"] : [NSImage imageNamed:@"saveDark.png"]];
 }
 
 -(void)viewDidAppear{
@@ -65,7 +65,7 @@ NSNotificationCenter *notify;
 
 -(void)populatePresetComboBox{
     [_presetsComboBox removeAllItems];
-    NSArray *presets = [Presets getPresets];
+    NSArray *presets = [Presets getShowablePresetsNames];
     [_presetsComboBox addItemsWithObjectValues:presets];
     [_presetsComboBox setNumberOfVisibleItems:[presets count]];
 }

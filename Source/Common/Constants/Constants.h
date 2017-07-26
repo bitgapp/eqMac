@@ -8,6 +8,5 @@ extern NSString * const API_URL;
 extern NSString * const APP_URL;
 extern NSString * const SUPPORT_URL;
 extern NSString * const REPO_ISSUES_URL;
-extern BOOL       const DEBUGGING;
 extern Float32    const VOLUME_STEP;
 #endif /* Constants_h */

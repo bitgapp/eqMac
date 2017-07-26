@@ -114,7 +114,7 @@
                 <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="j96-Rt-Axz">
                     <rect key="frame" x="4" y="268" width="30" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="trash" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="4Wb-mN-t2v">
+                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="deleteDark" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="4Wb-mN-t2v">
                         <behavior key="behavior" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
@@ -125,7 +125,7 @@
                 <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="D6P-Fd-jYR">
                     <rect key="frame" x="256" y="270" width="26" height="26"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="save" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="ued-Rm-cUy">
+                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="saveDark" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="ued-Rm-cUy">
                         <behavior key="behavior" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
@@ -207,7 +207,7 @@
         </customView>
     </objects>
     <resources>
-        <image name="save" width="20.803611755371094" height="20.803611755371094"/>
-        <image name="trash" width="20.803611755371094" height="20.803611755371094"/>
+        <image name="deleteDark" width="20.799968719482422" height="20.799968719482422"/>
+        <image name="saveDark" width="20.799968719482422" height="20.799968719482422"/>
     </resources>
 </document>

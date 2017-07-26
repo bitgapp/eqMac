@@ -11,13 +11,18 @@
 #import "Constants.h"
 
 @interface Presets : NSObject
-+(void)setupPresets;
 
 +(void)setShowDefaultPresets:(BOOL)condition;
 +(BOOL)getShowDefaultPresets;
 
-+(NSArray*)getPresets;
++(NSDictionary*)getDefaultPresets;
++(NSArray*)getDefaultPresetsNames;
 +(NSDictionary*)getUserPresets;
++(NSArray*)getUserPresetsNames;
++(NSDictionary*)getAllPresets;
++(NSArray*)getAllPresetsNames;
++(NSArray*)getShowablePresetsNames;
+
 +(NSArray*)getGainsForPreset:(NSString*)preset;
 +(void)savePreset:(NSArray*)gains withName:(NSString*)name;
 +(void)deletePresetWithName:(NSString*)name;

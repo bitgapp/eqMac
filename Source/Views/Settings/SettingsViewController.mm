@@ -11,6 +11,7 @@
 @interface SettingsViewController ()
 @property (strong) IBOutlet NSButton *launchOnStartupCheckbox;
 @property (strong) IBOutlet NSButton *showDefaultPresetsCheckbox;
+@property (strong) IBOutlet NSButton *showVolumeHUDCheckbox;
 @property (strong) IBOutlet NSButton *exitButton;
 @property (strong) IBOutlet NSTextField *buildLabel;
 
@@ -34,6 +35,11 @@
     [self readjustSettings];
     [_speakerIcon setImage:[Utilities isDarkMode] ? [NSImage imageNamed:@"speakerLight.png"] : [NSImage imageNamed:@"speakerDark.png"]];
     [_exitButton setImage:[Utilities isDarkMode] ? [NSImage imageNamed:@"exitLight.png"] : [NSImage imageNamed:@"exitDark.png"]];
+    
+    [_launchOnStartupCheckbox setState: [Utilities launchOnLogin] ? NSOnState : NSOffState];
+    [_showDefaultPresetsCheckbox setState:[[Storage get:kStorageShowDefaultPresets] integerValue]];
+    [_buildLabel setStringValue:[NSString stringWithFormat:@"Build %@", [Utilities getAppVersion]]];
+    [_showVolumeHUDCheckbox setState:[[Storage get: kStorageShowVolumeHUD] integerValue]];
 }
 
 
@@ -51,14 +57,14 @@
         [self changeBalanceIcons:currentBalance];
         
     } after:0.01];
-    
-    [_launchOnStartupCheckbox setState: [Utilities launchOnLogin] ? NSOnState : NSOffState];
-    [_showDefaultPresetsCheckbox setState:[[Storage get:kStorageShowDefaultPresets] integerValue]];
 }
 
 - (IBAction)switchShowDefaultPresets:(NSButton *)sender {
     [Storage set:[NSNumber numberWithInteger:[sender state]] key:kStorageShowDefaultPresets];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"showDefaultPresetsChanged" object:nil];
+}
+- (IBAction)switchShowVolumeHUD:(NSButton *)sender {
+    [Storage set:[NSNumber numberWithInteger:[sender state]] key:kStorageShowVolumeHUD];
 }
 
 - (IBAction)checkForUpdates:(id)sender {

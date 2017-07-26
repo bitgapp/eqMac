@@ -10,50 +10,56 @@
 
 @implementation Presets
 
-+(void)setupPresets{
-    if(![Storage get: kStoragePresets] || DEBUGGING){
-        NSMutableDictionary *defaultPresets = [[NSMutableDictionary alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"defaultPresets" ofType:@"plist"]];
-        [Storage set:defaultPresets key: kStoragePresets];
-    }
-    
-    if(![Storage get: kStorageShowDefaultPresets]){
-        [Storage set:[NSNumber numberWithBool:NO] key: kStorageShowDefaultPresets];
-    }
+
++(NSDictionary*)getDefaultPresets{
+     NSMutableDictionary *defaultPresets = [[NSMutableDictionary alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"defaultPresets" ofType:@"plist"]];
+    return defaultPresets;
 }
 
-+(NSArray*)getPresets{
-    NSMutableDictionary *allPresets = [[Storage get: kStoragePresets] mutableCopy];
-    
-    if([self getShowDefaultPresets]){
-        return [allPresets allKeys];
-    }
-    
-    NSMutableArray *result = [[NSMutableArray alloc] init];
-    
-    for(NSString *presetName in allPresets){
-        NSDictionary *preset = [allPresets objectForKey:presetName];
-        if(![[preset objectForKey:@"default"] boolValue]){
-            [result addObject:presetName];
-        }
-    }
-    return result;
++(NSArray*)getDefaultPresetsNames{
+    return [[self getDefaultPresets] allKeys];
 }
 
 +(NSDictionary*)getUserPresets{
-    NSMutableDictionary *userPresets = [[NSMutableDictionary alloc] init];
-    NSDictionary *allPresets = [Storage get: kStoragePresets];
-    for(NSString *presetName in allPresets){
-        NSDictionary *preset = [allPresets objectForKey:presetName];
-        if(![[preset objectForKey:@"default"] boolValue]){
-            [userPresets setObject:[preset objectForKey:@"gains"] forKey:presetName];
-        }
+    NSDictionary *userPresets = [Storage get: kStoragePresets];
+    if(!userPresets) {
+        userPresets = @{};
+        [Storage set:userPresets key:kStoragePresets];
     }
-    [userPresets removeObjectForKey:@"Flat"];
     return userPresets;
 }
 
++(NSArray*)getUserPresetsNames{
+    return [[self getUserPresets] allKeys];
+}
+
++(NSDictionary*)getAllPresets{
+    NSMutableDictionary *defaultPresets = [[self getDefaultPresets] mutableCopy];
+    [defaultPresets addEntriesFromDictionary:[self getUserPresets]];
+    return defaultPresets;
+}
+
++(NSArray*)getAllPresetsNames{
+    return [[self getDefaultPresetsNames] arrayByAddingObjectsFromArray:[self getUserPresetsNames]];
+}
+
++(NSArray*)getShowablePresetsNames{
+    NSDictionary *allPresets = [self getAllPresets];
+    NSMutableArray *showablePresetsNames = [[NSMutableArray alloc] init];
+
+    BOOL showDefaults = [self getShowDefaultPresets];
+    
+    for(NSString *presetName in [allPresets allKeys]){
+        NSDictionary *preset = [allPresets objectForKey:presetName];
+        if(![[preset objectForKey:@"default"] boolValue] || showDefaults)
+            [showablePresetsNames addObject:presetName];
+    }
+    
+    return showablePresetsNames;
+}
+
 +(NSArray*)getGainsForPreset:(NSString*)preset{
-    return [[[Storage get: kStoragePresets] objectForKey:preset] objectForKey:@"gains"];
+    return [[[self getAllPresets] objectForKey:preset] objectForKey:@"gains"];
 }
 
 
@@ -61,15 +67,15 @@
     NSMutableDictionary *newPreset = [[NSMutableDictionary alloc] init];
     [newPreset setObject:[NSNumber numberWithBool:NO] forKey:@"default"];
     [newPreset setObject:gains forKey:@"gains"];
-    NSMutableDictionary *presets = [[Storage get: kStoragePresets] mutableCopy];
-    [presets setObject:newPreset forKey:name];
-    [Storage set:presets key: kStoragePresets];
+    NSMutableDictionary *userPresets = [[self getUserPresets] mutableCopy];
+    [userPresets setObject:newPreset forKey:name];
+    [Storage set:userPresets key: kStoragePresets];
 }
 
 +(void)deletePresetWithName:(NSString*)name{
-    NSMutableDictionary *allPresets = [[Storage get: kStoragePresets] mutableCopy];
-    [allPresets removeObjectForKey:name];
-    [Storage set:allPresets key: kStoragePresets];
+    NSMutableDictionary *userPresets = [[self getUserPresets] mutableCopy];
+    [userPresets removeObjectForKey:name];
+    [Storage set:userPresets key: kStoragePresets];
 }
 
 +(void)setShowDefaultPresets:(BOOL)condition{
