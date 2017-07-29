@@ -36,6 +36,10 @@
         }
     }
     
+    if([event type] == NSKeyDown && [event keyCode] == 53){
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"escapePressed" object:nil];
+    }
+    
     [super sendEvent: event];
 }
 
