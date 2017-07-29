@@ -367,7 +367,7 @@ typedef enum {
         [self setVolumeForDevice:ID andChannel:kChannelRight to: rightVolume];
     }
     
-    [self setDevice:ID toMuted:volume < 0.0625];
+    [self setDevice:ID toMuted:volume < QUARTER_VOLUME_STEP];
 }
 
 

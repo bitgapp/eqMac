@@ -93,7 +93,7 @@
     [_volumeBars setHidden:NO];
     if (volume == 0) {
         [_volumeBars setHidden:YES];
-    }else if(volume >= 0.0625 && volume <= 0.25){
+    }else if(volume >= QUARTER_VOLUME_STEP && volume <= 0.25){
         [_volumeBars setImage: [Utilities isDarkMode] ? [NSImage imageNamed:@"vol1Light.png"] : [NSImage imageNamed:@"vol1Dark.png"]];
     }else if(volume >0.25 && volume <= 0.5){
         [_volumeBars setImage: [Utilities isDarkMode] ? [NSImage imageNamed:@"vol2Light.png"] : [NSImage imageNamed:@"vol2Dark.png"]];
