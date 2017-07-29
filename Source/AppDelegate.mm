@@ -195,7 +195,6 @@ NSEvent *settingsPopoverTransiencyMonitor;
 }
 
 - (void)openEQ{
-    [statusItemView setHighlightState:NO];
     if([eqPopover isShown]){
         [eqPopover close];
     }else{
@@ -213,7 +212,6 @@ NSEvent *settingsPopoverTransiencyMonitor;
 }
 
 -(void)openSettingsMenu{
-    [statusItemView setHighlightState:NO];
     if([settingsPopover isShown]){
         [settingsPopover close];
     }else{
@@ -236,6 +234,10 @@ NSEvent *settingsPopoverTransiencyMonitor;
 }
 -(void)popoverWillShow:(NSNotification *)notification{
     [[NSNotificationCenter defaultCenter] postNotificationName:@"settingsPopoverWillOpen" object:nil];
+}
+
+-(void)popoverWillClose:(NSNotification *)notification{
+    [statusItemView setHighlightState:NO];
 }
 
 - (void)quitApplication{
