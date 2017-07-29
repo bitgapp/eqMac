@@ -41,7 +41,6 @@
 		E0B781501EF704660076B3AB /* eqMac2Driver.kext in Resources */ = {isa = PBXBuildFile; fileRef = E0B781341EF704660076B3AB /* eqMac2Driver.kext */; };
 		E0B781511EF704660076B3AB /* EQEngine.mm in Sources */ = {isa = PBXBuildFile; fileRef = E0B781371EF704660076B3AB /* EQEngine.mm */; };
 		E0B781521EF704660076B3AB /* EQHost.mm in Sources */ = {isa = PBXBuildFile; fileRef = E0B7813A1EF704660076B3AB /* EQHost.mm */; };
-		E0B781531EF704660076B3AB /* NSBorderedTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = E0B7813D1EF704660076B3AB /* NSBorderedTextField.m */; };
 		E0B781541EF704660076B3AB /* defaultPresets.plist in Resources */ = {isa = PBXBuildFile; fileRef = E0B7813F1EF704660076B3AB /* defaultPresets.plist */; };
 		E0B781551EF704660076B3AB /* Presets.m in Sources */ = {isa = PBXBuildFile; fileRef = E0B781411EF704660076B3AB /* Presets.m */; };
 		E0B781561EF704660076B3AB /* install_new.sh in Resources */ = {isa = PBXBuildFile; fileRef = E0B781431EF704660076B3AB /* install_new.sh */; };
@@ -59,7 +58,6 @@
 		E0B781891EF704A20076B3AB /* SettingsViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = E0B781771EF704A20076B3AB /* SettingsViewController.mm */; };
 		E0B7818A1EF704A20076B3AB /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E0B781781EF704A20076B3AB /* SettingsViewController.xib */; };
 		E0B7818B1EF704A20076B3AB /* eqMacStatusItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = E0B7817B1EF704A20076B3AB /* eqMacStatusItemView.m */; };
-		E0B7818C1EF704A20076B3AB /* FlatLevelIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = E0B7817F1EF704A20076B3AB /* FlatLevelIndicator.m */; };
 		E0B7818D1EF704A20076B3AB /* VolumeWindowController.mm in Sources */ = {isa = PBXBuildFile; fileRef = E0B781811EF704A20076B3AB /* VolumeWindowController.mm */; };
 		E0B7818E1EF704A20076B3AB /* VolumeWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E0B781821EF704A20076B3AB /* VolumeWindowController.xib */; };
 		E0B781AD1EF704BA0076B3AB /* blueLine.png in Resources */ = {isa = PBXBuildFile; fileRef = E0B781911EF704BA0076B3AB /* blueLine.png */; };
@@ -80,6 +78,8 @@
 		E0B781CF1EF706670076B3AB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E0B781CA1EF706670076B3AB /* main.m */; };
 		E0B781D01EF706670076B3AB /* NSAppEventCather.m in Sources */ = {isa = PBXBuildFile; fileRef = E0B781CC1EF706670076B3AB /* NSAppEventCather.m */; };
 		E0B781D31EF706700076B3AB /* Main.xib in Resources */ = {isa = PBXBuildFile; fileRef = E0B781D11EF706700076B3AB /* Main.xib */; };
+		E0CADB0E1F2CC1A500AC53E8 /* VolumeLevelIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = E0CADB0D1F2CC1A500AC53E8 /* VolumeLevelIndicatorView.m */; };
+		E0CADB121F2CD2F400AC53E8 /* Volume.m in Sources */ = {isa = PBXBuildFile; fileRef = E0CADB111F2CD2F400AC53E8 /* Volume.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -138,8 +138,6 @@
 		E0B781371EF704660076B3AB /* EQEngine.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = EQEngine.mm; sourceTree = "<group>"; };
 		E0B781391EF704660076B3AB /* EQHost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQHost.h; sourceTree = "<group>"; };
 		E0B7813A1EF704660076B3AB /* EQHost.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = EQHost.mm; sourceTree = "<group>"; };
-		E0B7813C1EF704660076B3AB /* NSBorderedTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSBorderedTextField.h; sourceTree = "<group>"; };
-		E0B7813D1EF704660076B3AB /* NSBorderedTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSBorderedTextField.m; sourceTree = "<group>"; };
 		E0B7813F1EF704660076B3AB /* defaultPresets.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = defaultPresets.plist; sourceTree = "<group>"; };
 		E0B781401EF704660076B3AB /* Presets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Presets.h; sourceTree = "<group>"; };
 		E0B781411EF704660076B3AB /* Presets.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Presets.m; sourceTree = "<group>"; };
@@ -173,8 +171,6 @@
 		E0B781781EF704A20076B3AB /* SettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsViewController.xib; sourceTree = "<group>"; };
 		E0B7817A1EF704A20076B3AB /* eqMacStatusItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = eqMacStatusItemView.h; sourceTree = "<group>"; };
 		E0B7817B1EF704A20076B3AB /* eqMacStatusItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = eqMacStatusItemView.m; sourceTree = "<group>"; };
-		E0B7817E1EF704A20076B3AB /* FlatLevelIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlatLevelIndicator.h; sourceTree = "<group>"; };
-		E0B7817F1EF704A20076B3AB /* FlatLevelIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlatLevelIndicator.m; sourceTree = "<group>"; };
 		E0B781801EF704A20076B3AB /* VolumeWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VolumeWindowController.h; sourceTree = "<group>"; };
 		E0B781811EF704A20076B3AB /* VolumeWindowController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = VolumeWindowController.mm; sourceTree = "<group>"; };
 		E0B781821EF704A20076B3AB /* VolumeWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VolumeWindowController.xib; sourceTree = "<group>"; };
@@ -198,6 +194,10 @@
 		E0B781CB1EF706670076B3AB /* NSAppEventCatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSAppEventCatcher.h; sourceTree = "<group>"; };
 		E0B781CC1EF706670076B3AB /* NSAppEventCather.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSAppEventCather.m; sourceTree = "<group>"; };
 		E0B781D21EF706700076B3AB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/Main.xib; sourceTree = "<group>"; };
+		E0CADB0C1F2CC1A500AC53E8 /* VolumeLevelIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VolumeLevelIndicatorView.h; path = VolumeLevelIndicatorView/VolumeLevelIndicatorView.h; sourceTree = "<group>"; };
+		E0CADB0D1F2CC1A500AC53E8 /* VolumeLevelIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VolumeLevelIndicatorView.m; path = VolumeLevelIndicatorView/VolumeLevelIndicatorView.m; sourceTree = "<group>"; };
+		E0CADB101F2CD2F400AC53E8 /* Volume.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Volume.h; path = Volume/Volume.h; sourceTree = "<group>"; };
+		E0CADB111F2CD2F400AC53E8 /* Volume.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Volume.m; path = Volume/Volume.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -287,13 +287,13 @@
 		E0B781291EF704660076B3AB /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				E0CADB0F1F2CD2D400AC53E8 /* Volume */,
 				E0B7812A1EF704660076B3AB /* API */,
 				E0B7812D1EF704660076B3AB /* Constants */,
 				E0B781301EF704660076B3AB /* Devices */,
 				E0B781331EF704660076B3AB /* Driver */,
 				E0B781351EF704660076B3AB /* EQEngine */,
 				E0B781381EF704660076B3AB /* EQHost */,
-				E0B7813B1EF704660076B3AB /* Overrides */,
 				E0B7813E1EF704660076B3AB /* Presets */,
 				E0B781421EF704660076B3AB /* Scripts */,
 				E0B781471EF704660076B3AB /* Storage */,
@@ -353,15 +353,6 @@
 				E0B7813A1EF704660076B3AB /* EQHost.mm */,
 			);
 			path = EQHost;
-			sourceTree = "<group>";
-		};
-		E0B7813B1EF704660076B3AB /* Overrides */ = {
-			isa = PBXGroup;
-			children = (
-				E0B7813C1EF704660076B3AB /* NSBorderedTextField.h */,
-				E0B7813D1EF704660076B3AB /* NSBorderedTextField.m */,
-			);
-			path = Overrides;
 			sourceTree = "<group>";
 		};
 		E0B7813E1EF704660076B3AB /* Presets */ = {
@@ -499,21 +490,12 @@
 		E0B7817C1EF704A20076B3AB /* Volume */ = {
 			isa = PBXGroup;
 			children = (
-				E0B7817D1EF704A20076B3AB /* FlatLevelIndicator */,
+				E0CADB0B1F2CC17A00AC53E8 /* VolumeLevelIndicatorView */,
 				E0B781801EF704A20076B3AB /* VolumeWindowController.h */,
 				E0B781811EF704A20076B3AB /* VolumeWindowController.mm */,
 				E0B781821EF704A20076B3AB /* VolumeWindowController.xib */,
 			);
 			path = Volume;
-			sourceTree = "<group>";
-		};
-		E0B7817D1EF704A20076B3AB /* FlatLevelIndicator */ = {
-			isa = PBXGroup;
-			children = (
-				E0B7817E1EF704A20076B3AB /* FlatLevelIndicator.h */,
-				E0B7817F1EF704A20076B3AB /* FlatLevelIndicator.m */,
-			);
-			path = FlatLevelIndicator;
 			sourceTree = "<group>";
 		};
 		E0B7818F1EF704BA0076B3AB /* Assets */ = {
@@ -568,6 +550,24 @@
 				E0B7819D1EF704BA0076B3AB /* 96x96.png */,
 			);
 			path = Icons;
+			sourceTree = "<group>";
+		};
+		E0CADB0B1F2CC17A00AC53E8 /* VolumeLevelIndicatorView */ = {
+			isa = PBXGroup;
+			children = (
+				E0CADB0C1F2CC1A500AC53E8 /* VolumeLevelIndicatorView.h */,
+				E0CADB0D1F2CC1A500AC53E8 /* VolumeLevelIndicatorView.m */,
+			);
+			name = VolumeLevelIndicatorView;
+			sourceTree = "<group>";
+		};
+		E0CADB0F1F2CD2D400AC53E8 /* Volume */ = {
+			isa = PBXGroup;
+			children = (
+				E0CADB101F2CD2F400AC53E8 /* Volume.h */,
+				E0CADB111F2CD2F400AC53E8 /* Volume.m */,
+			);
+			name = Volume;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -734,17 +734,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				E0B781861EF704A20076B3AB /* eqViewController.mm in Sources */,
+				E0CADB0E1F2CC1A500AC53E8 /* VolumeLevelIndicatorView.m in Sources */,
 				E0B7818B1EF704A20076B3AB /* eqMacStatusItemView.m in Sources */,
-				E0B7818C1EF704A20076B3AB /* FlatLevelIndicator.m in Sources */,
 				E0B781551EF704660076B3AB /* Presets.m in Sources */,
 				E0B781841EF704A20076B3AB /* CARingBuffer.cpp in Sources */,
+				E0CADB121F2CD2F400AC53E8 /* Volume.m in Sources */,
 				E0B781891EF704A20076B3AB /* SettingsViewController.mm in Sources */,
 				E0B781881EF704A20076B3AB /* SliderGraphView.m in Sources */,
 				E0B7814E1EF704660076B3AB /* Constants.m in Sources */,
 				E0B7814F1EF704660076B3AB /* Devices.mm in Sources */,
 				E0B781521EF704660076B3AB /* EQHost.mm in Sources */,
 				E0B781CF1EF706670076B3AB /* main.m in Sources */,
-				E0B781531EF704660076B3AB /* NSBorderedTextField.m in Sources */,
 				E0B7818D1EF704A20076B3AB /* VolumeWindowController.mm in Sources */,
 				E0B7815B1EF704660076B3AB /* Utilities.m in Sources */,
 				E0B7814D1EF704660076B3AB /* API.m in Sources */,

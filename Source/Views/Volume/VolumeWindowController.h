@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "FlatLevelIndicator.h"
+#import "VolumeLevelIndicatorView.h"
 #import "Devices.h"
 #import "Utilities.h"
 

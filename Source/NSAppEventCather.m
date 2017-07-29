@@ -16,8 +16,16 @@
         int keyFlags = ([event data1] & 0x0000FFFF);
         int keyState = (((keyFlags & 0xFF00) >> 8)) == 0xA;
         
+        
+        
         if(keyState == 1 && (keyCode == NX_KEYTYPE_SOUND_UP || keyCode == NX_KEYTYPE_SOUND_DOWN || keyCode == NX_KEYTYPE_MUTE)){
             NSMutableDictionary *userInfo = [[NSMutableDictionary alloc] init];
+            
+            //Detect SHIFT+ALT
+            [userInfo setObject:
+                [NSNumber numberWithBool:[event modifierFlags] & NSShiftKeyMask && [event modifierFlags] & NSAlternateKeyMask]
+                            forKey:@"SHIFT+ALT"];
+            
             switch(keyCode){
                 case NX_KEYTYPE_SOUND_UP:{
                     [userInfo setObject:[NSNumber numberWithInt:UP] forKey:@"key"];
