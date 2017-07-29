@@ -13,5 +13,5 @@ typedef enum {
     UP,
     MUTE,
     DOWN
-} VolumeChange;
+} VOLUME_CHANGE_KEY;
 @end
