@@ -21,6 +21,9 @@ eqMacStatusItemView *statusItemView;
 //Windows
 NSPopover *settingsPopover;
 NSPopover *eqPopover;
+NSEvent *eqPopoverTransiencyMonitor;
+NSEvent *settingsPopoverTransiencyMonitor;
+
 
 @implementation AppDelegate
 
@@ -54,6 +57,8 @@ NSPopover *eqPopover;
     NSNotificationCenter *observer = [NSNotificationCenter defaultCenter];
     [observer addObserver:self selector:@selector(changeVolume:) name:@"changeVolume" object:nil];
     [observer addObserver:self selector:@selector(quitApplication) name:@"closeApp" object:nil];
+    [observer addObserver:self selector:@selector(closePopovers) name:@"escapePressed" object:nil];
+    
     
     [EQHost detectAndRemoveRoguePassthroughDevice];
     [self checkAndInstallDriver];
@@ -65,10 +70,12 @@ NSPopover *eqPopover;
     eqPopover = [[NSPopover alloc] init];
     [eqPopover setDelegate:self];
     [eqPopover setContentViewController:eqVC];
+    [eqPopover setBehavior:NSPopoverBehaviorTransient];
     
      settingsPopover = [[NSPopover alloc] init];
     [settingsPopover setDelegate:self];
     [settingsPopover setContentViewController:settingsVC];
+    [settingsPopover setBehavior:NSPopoverBehaviorTransient];
     
     [volumeHUD.window setCollectionBehavior:NSWindowCollectionBehaviorCanJoinAllSpaces | NSWindowCollectionBehaviorTransient];
     [volumeHUD.window setLevel:NSPopUpMenuWindowLevel];
@@ -194,6 +201,14 @@ NSPopover *eqPopover;
     }else{
         if([settingsPopover isShown]) [settingsPopover close];
         [eqPopover showRelativeToRect:statusItemView.bounds ofView:statusItemView preferredEdge:NSMaxYEdge];
+        [[NSRunningApplication currentApplication] activateWithOptions:NSApplicationActivateIgnoringOtherApps];
+        if (eqPopoverTransiencyMonitor == nil) {
+            eqPopoverTransiencyMonitor = [NSEvent addGlobalMonitorForEventsMatchingMask:(NSLeftMouseDownMask | NSRightMouseDownMask | NSKeyUpMask) handler:^(NSEvent* event) {
+                [NSEvent removeMonitor:eqPopoverTransiencyMonitor];
+                eqPopoverTransiencyMonitor = nil;
+                [eqPopover close];
+            }];
+        }
     }
 }
 
@@ -204,9 +219,21 @@ NSPopover *eqPopover;
     }else{
         if([eqPopover isShown]) [eqPopover close];
         [settingsPopover showRelativeToRect:statusItemView.bounds ofView:statusItemView preferredEdge:NSMaxYEdge];
+        [[NSRunningApplication currentApplication] activateWithOptions:NSApplicationActivateIgnoringOtherApps];
+        if (settingsPopoverTransiencyMonitor == nil) {
+            settingsPopoverTransiencyMonitor = [NSEvent addGlobalMonitorForEventsMatchingMask:(NSLeftMouseDownMask | NSRightMouseDownMask | NSKeyUpMask) handler:^(NSEvent* event) {
+                [NSEvent removeMonitor:settingsPopoverTransiencyMonitor];
+                settingsPopoverTransiencyMonitor = nil;
+                [settingsPopover close];
+            }];
+        }
     }
 }
 
+-(void)closePopovers{
+    if([eqPopover isShown]) [eqPopover close];
+    if([settingsPopover isShown]) [settingsPopover close];
+}
 -(void)popoverWillShow:(NSNotification *)notification{
     [[NSNotificationCenter defaultCenter] postNotificationName:@"settingsPopoverWillOpen" object:nil];
 }
