@@ -1,2 +1,5 @@
-### Please bear with me while I update this README. 
-Until then you can ask for access to the https://eqmac.slack.com team through my Twitter: https://twitter.com/romanbitgapp
+[![https://gitter.im/eqMac2](https://img.shields.io/gitter/room/nwjs/nw.js.svg)]()
+# eqMac2
+Free System-Wide Equalizer for the Mac.
+
+
