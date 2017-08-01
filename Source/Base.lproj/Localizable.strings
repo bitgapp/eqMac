@@ -39,7 +39,7 @@
 "Old eqMac Driver was detected"="Old eqMac Driver was detected";
 "Old driver needs to be uninstalled for eqMac2 to function properly."="Old driver needs to be uninstalled for eqMac2 to function properly.";
 "eqMac2 Requires a Driver"="eqMac2 Requires a Driver";
-"In order to install the driver, the eqMac will ask for your system password."="In order to install the driver, the eqMac will ask for your system password.";
+"In order to install the driver, the app will ask for your system password."="In order to install the driver, the app will ask for your system password.";
 "Uninstall eqMac2?"="Uninstall eqMac2?";
 "Are you sure about this?"="Are you sure about this?";
 "Yes, uninstall"="Yes, uninstall";
