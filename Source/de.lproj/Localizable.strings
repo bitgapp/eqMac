@@ -1,0 +1,47 @@
+/* 
+  Localizable.strings
+  eqMac2
+
+  Created by mrlochis on 01.08.17.
+  Copyright © 2017 bitgapp. All rights reserved.
+*/
+"Flat"="Linear";
+"Accoustic"="Acoustic";
+"Bass Booster"="Mehr Bässe";
+"Bass Reducer"="Weniger Bässe";
+"Classic"="Klassik";
+"Dance"="Dance";
+"Deep"="Deep";
+"Electronic"="Electronic";
+"Hip-Hop"="Hip-Hop";
+"Jazz"="Jazz";
+"Latin"="Latin";
+"Loudness"="Loudness";
+"Lounge"="Halle";
+"Piano"="Piano";
+"Pop"="Pop";
+"R&B"="R&B";
+"Rock"="Rock";
+"Small Speakers"="Kleine Boxen";
+"Spoken Word"="Sprache";
+"Treble Booster"="Mehr Höhen";
+"Treble Reducer"="Weniger Höhen";
+"Vocal Booster"="Gesang";
+"Custom"="Benutzerdefiniert";
+"Cancel"="Abbrechen";
+"Save"="Speichern";
+"Uninstall"="Deinstallieren";
+"Install"="Installieren";
+"Please enter a name for your new preset."="Name für neue Einstellung.";
+"eqMac Driver requires an update"="Der eqMac Treiber muss aktualisiert werden.";
+"In order to update the driver, the eqMac will ask for your system password."="Für die Aktualisierung des Treibers wird das System Passwort benötigt.";
+"Update"="Aktualisierung";
+"Old eqMac Driver was detected"="Ein alter eqMac Treiber wurde erkannt.";
+"Old driver needs to be uninstalled for eqMac2 to function properly."="Damit eqMac2 ordnungsgemäß funktioniert, muss der alte Treiber deinstalliert werden.";
+"eqMac2 Requires a Driver"="eqMac2 benötigt einen Treiber";
+"In order to install the driver, the eqMac will ask for your system password."="Für die Installation des Treibers wird das System Passwort benötigt.";
+"Uninstall eqMac2?"="eqMac2 deinstallieren ?";
+"Are you sure about this?"="Sind sie sicher ?";
+"Yes, uninstall"="Ja, deinstallieren";
+"No, cancel"="Nein, abbrechen";
+

@@ -13,11 +13,17 @@
 
 +(NSDictionary*)getDefaultPresets{
      NSMutableDictionary *defaultPresets = [[NSMutableDictionary alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"defaultPresets" ofType:@"plist"]];
-    return defaultPresets;
+    NSMutableDictionary* result = [[NSMutableDictionary alloc] init];
+    for(id key in defaultPresets)
+    {
+        [result setObject:[defaultPresets objectForKey:key] forKey:NSLocalizedString(key, nil)];
+    }
+    return result;
+
 }
 
 +(NSArray*)getDefaultPresetsNames{
-    return [[self getDefaultPresets] allKeys];
+    return [[[self getDefaultPresets] allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
 }
 
 +(NSDictionary*)getUserPresets{
@@ -30,7 +36,7 @@
 }
 
 +(NSArray*)getUserPresetsNames{
-    return [[self getUserPresets] allKeys];
+    return [[[self getUserPresets] allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
 }
 
 +(NSDictionary*)getAllPresets{
@@ -40,7 +46,7 @@
 }
 
 +(NSArray*)getAllPresetsNames{
-    return [[self getDefaultPresetsNames] arrayByAddingObjectsFromArray:[self getUserPresetsNames]];
+    return [[[self getDefaultPresetsNames] arrayByAddingObjectsFromArray:[self getUserPresetsNames]] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
 }
 
 +(NSArray*)getShowablePresetsNames{
@@ -54,8 +60,7 @@
         if(![[preset objectForKey:@"default"] boolValue] || showDefaults)
             [showablePresetsNames addObject:presetName];
     }
-    
-    return showablePresetsNames;
+    return [showablePresetsNames sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
 }
 
 +(NSArray*)getGainsForPreset:(NSString*)preset{

@@ -79,7 +79,7 @@ NSNotificationCenter *notify;
 }
 
 - (IBAction)savePreset:(NSButton *)sender {
-    NSString *newPresetName = [Utilities showAlertWithInputAndTitle:@"Please enter a name for your new preset."];
+    NSString *newPresetName = [Utilities showAlertWithInputAndTitle:NSLocalizedString(@"Please enter a name for your new preset.",nil)];
     if(![newPresetName isEqualToString:@""]){
         [Presets savePreset:[sliderView getBandValues] withName:newPresetName];
         [self populatePresetComboBox];
@@ -88,7 +88,7 @@ NSNotificationCenter *notify;
 }
 
 - (IBAction)deletePreset:(id)sender {
-    if(![[_presetsButton title] isEqualToString:@"Flat"]){
+    if(![[_presetsButton title] isEqualToString:NSLocalizedString(@"Flat",nil)]){
         [Presets deletePresetWithName:[_presetsButton title]];
         [_presetsButton setTitle:@"Preset"];
         [self populatePresetComboBox];
@@ -100,12 +100,12 @@ NSNotificationCenter *notify;
 #pragma mark -
 #pragma mark UI Actions
 -(void)sliderGraphChanged{
-    [_presetsButton setTitle:@"Custom"];
+    [_presetsButton setTitle:NSLocalizedString(@"Custom",nil)];
     [EQHost setEQEngineFrequencyGains:[sliderView getBandValues]];
 }
 
 - (IBAction)resetEQ:(id)sender {
-    [_presetsButton setTitle:@"Flat"];
+    [_presetsButton setTitle:NSLocalizedString(@"Flat",nil)];
     NSArray *flatGains = @[@0,@0,@0,@0,@0,@0,@0,@0,@0,@0];
     [sliderView animateBandsToValues:flatGains];
     [EQHost setEQEngineFrequencyGains:flatGains];

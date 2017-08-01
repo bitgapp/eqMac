@@ -139,9 +139,9 @@
 }
 
 - (IBAction)uninstallApplication:(id)sender {
-    if([Utilities showAlertWithTitle:@"Uninstall eqMac2?"
-                          andMessage:@"Are you sure about this?"
-                          andButtons:@[@"Yes, uninstall", @"No, cancel"]] == NSAlertFirstButtonReturn){
+    if([Utilities showAlertWithTitle:NSLocalizedString(@"Uninstall eqMac2?",nil)
+                          andMessage:NSLocalizedString(@"Are you sure about this?",nil)
+                          andButtons:@[NSLocalizedString(@"Yes, uninstall",nil),NSLocalizedString(@"No, cancel",nil)]] == NSAlertFirstButtonReturn){
         
         if([EQHost EQEngineExists]) [EQHost deleteEQEngine];
         [Utilities runShellScriptWithName:@"uninstall_app"];
