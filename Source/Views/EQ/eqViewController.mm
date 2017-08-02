@@ -66,7 +66,9 @@ NSNotificationCenter *notify;
 -(void)populatePresetComboBox{
     [_presetsComboBox removeAllItems];
     NSArray *presets = [Presets getShowablePresetsNames];
-    [_presetsComboBox addItemsWithObjectValues:presets];
+    [_presetsComboBox addItemsWithObjectValues:[presets sortedArrayUsingComparator:^NSComparisonResult(NSString *firstString, NSString *secondString) {
+        return [[firstString lowercaseString] compare:[secondString lowercaseString]];
+    }]];
     [_presetsComboBox setNumberOfVisibleItems:[presets count]];
 }
 
