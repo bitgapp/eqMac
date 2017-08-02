@@ -198,7 +198,7 @@ static NSDate *runStart;
     AudioObjectGetPropertyDataSize(pluginID, &pluginAOPA, 0, NULL, &outDataSize);
     
     AudioObjectGetPropertyData(pluginID, &pluginAOPA, 0, NULL, &outDataSize, &ID);
-    
+    passthroughDeviceID = 0;
     return;
 }
 

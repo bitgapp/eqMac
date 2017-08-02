@@ -23,6 +23,7 @@ NSPopover *settingsPopover;
 NSPopover *eqPopover;
 NSEvent *eqPopoverTransiencyMonitor;
 NSEvent *settingsPopoverTransiencyMonitor;
+NSTimer *deviceWatcher;
 
 
 @implementation AppDelegate
@@ -96,12 +97,36 @@ NSEvent *settingsPopoverTransiencyMonitor;
     [API startPinging];
     [API sendPresets];
     
-    [Utilities executeBlock:^{
+    [self startWatchingDevices];
+    
+    [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(goToSleep) name:NSWorkspaceWillSleepNotification object:NULL];
+    [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(wakeUpFromSleep) name:NSWorkspaceDidWakeNotification object:NULL];
+}
+
+-(void)startWatchingDevices{
+    deviceWatcher = [Utilities executeBlock:^{
         AudioDeviceID selectedDeviceID = [Devices getCurrentDeviceID];
         if(selectedDeviceID != [EQHost getPassthroughDeviceID]){
             [EQHost createEQEngineWithOutputDevice: selectedDeviceID];
         }
     } every:1];
+}
+
+-(void)goToSleep{
+    [deviceWatcher invalidate];
+    deviceWatcher = nil;
+    [EQHost deleteEQEngine];
+    [Devices switchToDeviceWithID:[EQHost getSelectedOutputDeviceID]];
+    [EQHost detectAndRemoveRoguePassthroughDevice];
+}
+
+-(void)wakeUpFromSleep{
+    [self goToSleep]; //just in case
+    
+    //delay the start a little so os has time to catchup with the Audio Processing
+    [Utilities executeBlock:^{
+        [self startWatchingDevices];
+    } after:3];
 }
 
 -(void)checkAndInstallDriver{
