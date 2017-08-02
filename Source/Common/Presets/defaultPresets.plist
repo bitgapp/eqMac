@@ -31,7 +31,7 @@
 			<real>-0.326666666667</real>
 			<real>0.04375</real>
 			<real>0.379583333333</real>
-			<real>0.0729166666667</real>
+			<real>0.07291666666670001</real>
 			<real>0.145833333333</real>
 			<real>0.170833333333</real>
 			<real>0.147916666667</real>
@@ -118,7 +118,7 @@
 		<array>
 			<real>0.20625</real>
 			<real>0.147916666667</real>
-			<real>0.0729166666667</real>
+			<real>0.07291666666670001</real>
 			<real>0.0416666666667</real>
 			<real>0.11875</real>
 			<real>0.104166666667</real>
@@ -160,7 +160,7 @@
 			<real>-0.0416666666667</real>
 			<real>0.0625</real>
 			<real>-0.0208333333333</real>
-			<real>0.0833333333333</real>
+			<real>0.08333333333329999</real>
 			<real>0.125</real>
 		</array>
 	</dict>
@@ -210,7 +210,7 @@
 			<real>0.166666666667</real>
 			<integer>0</integer>
 			<integer>0</integer>
-			<real>-0.0833333333333</real>
+			<real>-0.08333333333329999</real>
 			<integer>0</integer>
 			<real>-0.0416666666667</real>
 			<real>-0.208333333333</real>
@@ -232,7 +232,7 @@
 			<real>0.104166666667</real>
 			<integer>0</integer>
 			<real>-0.0625</real>
-			<real>0.0833333333333</real>
+			<real>0.08333333333329999</real>
 			<real>0.0416666666667</real>
 		</array>
 	</dict>
@@ -243,7 +243,7 @@
 		<key>gains</key>
 		<array>
 			<real>0.125</real>
-			<real>0.0833333333333</real>
+			<real>0.08333333333329999</real>
 			<integer>0</integer>
 			<real>0.104166666667</real>
 			<real>0.125</real>
@@ -263,16 +263,16 @@
 			<real>-0.0625</real>
 			<real>-0.0416666666667</real>
 			<integer>0</integer>
-			<real>0.0833333333333</real>
+			<real>0.08333333333329999</real>
 			<real>0.166666666667</real>
 			<real>0.166666666667</real>
-			<real>0.0833333333333</real>
+			<real>0.08333333333329999</real>
 			<integer>0</integer>
 			<real>-0.0416666666667</real>
 			<real>-0.0625</real>
 		</array>
 	</dict>
-	<key>R</key>
+	<key>R&amp;B</key>
 	<dict>
 		<key>default</key>
 		<true/>

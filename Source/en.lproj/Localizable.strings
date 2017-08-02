@@ -1,0 +1,47 @@
+/* 
+  Localizable.strings
+  eqMac2
+
+  Created by mrlochis on 01.08.17.
+  Copyright © 2017 bitgapp. All rights reserved.
+*/
+"Flat"="Flat";
+"Accoustic"="Acoustic";
+"Bass Booster"="Bass Booster";
+"Bass Reducer"="Bass Reducer";
+"Classic"="Classic";
+"Dance"="Dance";
+"Deep"="Deep";
+"Electronic"="Electronic";
+"Hip-Hop"="Hip-Hop";
+"Jazz"="Jazz";
+"Latin"="Latin";
+"Loudness"="Loudness";
+"Lounge"="Lounge";
+"Piano"="Piano";
+"Pop"="Pop";
+"R&B"="R&B";
+"Rock"="Rock";
+"Small Speakers"="Small Speakers";
+"Spoken Word"="Spoken Word";
+"Treble Booster"="Treble Booster";
+"Treble Reducer"="Treble Reducer";
+"Vocal Booster"="Vocal Booster";
+"Custom"="Custom";
+"Cancel"="Cancel";
+"Save"="Save";
+"Uninstall"="Uninstall";
+"Install"="Install";
+"Please enter a name for your new preset."="Please enter a name for your new preset.";
+"eqMac Driver requires an update"="eqMac Driver requires an update";
+"In order to update the driver, the eqMac will ask for your system password."="In order to update the driver, the eqMac will ask for your system password.";
+"Update"="Update";
+"Old eqMac Driver was detected"="Old eqMac Driver was detected";
+"Old driver needs to be uninstalled for eqMac2 to function properly."="Old driver needs to be uninstalled for eqMac2 to function properly.";
+"eqMac2 Requires a Driver"="eqMac2 Requires a Driver";
+"In order to install the driver, the app will ask for your system password."="In order to install the driver, the app will ask for your system password.";
+"Uninstall eqMac2?"="Uninstall eqMac2?";
+"Are you sure about this?"="Are you sure about this?";
+"Yes, uninstall"="Yes, uninstall";
+"No, cancel"="No, cancel";
+

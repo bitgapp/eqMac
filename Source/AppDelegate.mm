@@ -108,9 +108,9 @@ NSEvent *settingsPopoverTransiencyMonitor;
     if([Devices legacyDriverInstalled]){
         if(![Devices eqMacDriverInstalled]){
             //Delete old and install new device
-            switch([Utilities showAlertWithTitle:@"eqMac Driver requires an update"
-                                      andMessage:@"In order to update the driver, the eqMac will ask for your system password."
-                                      andButtons:@[@"Update", @"Quit"]]){
+            switch([Utilities showAlertWithTitle:NSLocalizedString(@"eqMac Driver requires an update",nil)
+                                      andMessage:NSLocalizedString(@"In order to update the driver, the eqMac will ask for your system password.",nil)
+                                      andButtons:@[NSLocalizedString(@"Update",nil), NSLocalizedString(@"Quit",nil)]]){
                 case NSAlertFirstButtonReturn:{
                     if(![Utilities runShellScriptWithName:@"uninstall_old_install_new"]){
                         [self checkAndInstallDriver];
@@ -124,9 +124,9 @@ NSEvent *settingsPopoverTransiencyMonitor;
             }
         }else{
             //Delete old driver only
-            switch([Utilities showAlertWithTitle:@"Old eqMac Driver was detected"
-                                      andMessage:@"Old driver needs to be uninstalled for eqMac2 to function properly."
-                                      andButtons:@[@"Uninstall", @"Quit"]]){
+            switch([Utilities showAlertWithTitle:NSLocalizedString(@"Old eqMac Driver was detected",nil)
+                                      andMessage:NSLocalizedString(@"Old driver needs to be uninstalled for eqMac2 to function properly.",nil)
+                                      andButtons:@[NSLocalizedString(@"Uninstall",nil), NSLocalizedString(@"Quit",nil)]]){
                 case NSAlertFirstButtonReturn:{
                     if(![Utilities runShellScriptWithName:@"uninstall_old"]){
                         [self checkAndInstallDriver];
@@ -142,9 +142,9 @@ NSEvent *settingsPopoverTransiencyMonitor;
     }else{
         if(![Devices eqMacDriverInstalled]){
             //Install only the new driver
-            switch([Utilities showAlertWithTitle:@"eqMac2 Requires a Driver"
-                                      andMessage:@"In order to install the driver, the app will ask for your system password."
-                                      andButtons:@[@"Install", @"Quit"]]){
+            switch([Utilities showAlertWithTitle:NSLocalizedString(@"eqMac2 Requires a Driver",nil)
+                                      andMessage:NSLocalizedString(@"In order to install the driver, the app will ask for your system password.",nil)
+                                      andButtons:@[NSLocalizedString(@"Install",nil), NSLocalizedString(@"Quit",nil)]]){
                 case NSAlertFirstButtonReturn:{
                     if(![Utilities runShellScriptWithName:@"install_new"]){
                         [self checkAndInstallDriver];

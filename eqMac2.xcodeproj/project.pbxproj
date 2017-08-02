@@ -14,6 +14,9 @@
 		30A77E881BFB093A00503E6E /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30A77E871BFB093A00503E6E /* IOKit.framework */; };
 		30A77E8A1BFB094700503E6E /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30A77E891BFB094700503E6E /* AudioToolbox.framework */; };
 		30A77E8C1BFB094F00503E6E /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30A77E8B1BFB094F00503E6E /* AudioUnit.framework */; };
+		3AD8DE6E1F30EFA80079E8A7 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3AD8DE701F30EFA80079E8A7 /* Localizable.strings */; };
+		3AD8DE731F30F1340079E8A7 /* eqViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3AD8DE751F30F1340079E8A7 /* eqViewController.xib */; };
+		3AD8DE7A1F30F2270079E8A7 /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3AD8DE7C1F30F2270079E8A7 /* SettingsViewController.xib */; };
 		C7E49B3F727A9657BBC43E9B /* Pods_eqMac2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB898D1CC464E56A965D8E4A /* Pods_eqMac2.framework */; };
 		E07BF4B51D6B4BA400589F0C /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E07BF4B41D6B4BA400589F0C /* WebKit.framework */; };
 		E0B0A7E61EA023F800D2BB98 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0B0A7E51EA023F800D2BB98 /* Carbon.framework */; };
@@ -53,10 +56,8 @@
 		E0B781841EF704A20076B3AB /* CARingBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0B781611EF704A20076B3AB /* CARingBuffer.cpp */; };
 		E0B781851EF704A20076B3AB /* CAStreamBasicDescription.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0B7816A1EF704A20076B3AB /* CAStreamBasicDescription.cpp */; };
 		E0B781861EF704A20076B3AB /* eqViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = E0B7816F1EF704A20076B3AB /* eqViewController.mm */; };
-		E0B781871EF704A20076B3AB /* eqViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E0B781701EF704A20076B3AB /* eqViewController.xib */; };
 		E0B781881EF704A20076B3AB /* SliderGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = E0B781731EF704A20076B3AB /* SliderGraphView.m */; };
 		E0B781891EF704A20076B3AB /* SettingsViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = E0B781771EF704A20076B3AB /* SettingsViewController.mm */; };
-		E0B7818A1EF704A20076B3AB /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E0B781781EF704A20076B3AB /* SettingsViewController.xib */; };
 		E0B7818B1EF704A20076B3AB /* eqMacStatusItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = E0B7817B1EF704A20076B3AB /* eqMacStatusItemView.m */; };
 		E0B7818D1EF704A20076B3AB /* VolumeWindowController.mm in Sources */ = {isa = PBXBuildFile; fileRef = E0B781811EF704A20076B3AB /* VolumeWindowController.mm */; };
 		E0B7818E1EF704A20076B3AB /* VolumeWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E0B781821EF704A20076B3AB /* VolumeWindowController.xib */; };
@@ -103,6 +104,16 @@
 		30A77E871BFB093A00503E6E /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		30A77E891BFB094700503E6E /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		30A77E8B1BFB094F00503E6E /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = System/Library/Frameworks/AudioUnit.framework; sourceTree = SDKROOT; };
+		3AD8DE6D1F30EF9A0079E8A7 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Main.strings; sourceTree = "<group>"; };
+		3AD8DE6F1F30EFA80079E8A7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
+		3AD8DE711F30EFAA0079E8A7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		3AD8DE721F30EFAB0079E8A7 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		3AD8DE741F30F1340079E8A7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/eqViewController.xib; sourceTree = "<group>"; };
+		3AD8DE771F30F13D0079E8A7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/eqViewController.strings; sourceTree = "<group>"; };
+		3AD8DE791F30F1400079E8A7 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/eqViewController.strings; sourceTree = "<group>"; };
+		3AD8DE7B1F30F2270079E8A7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/SettingsViewController.xib; sourceTree = "<group>"; };
+		3AD8DE7E1F30F2280079E8A7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/SettingsViewController.strings; sourceTree = "<group>"; };
+		3AD8DE811F30F2C60079E8A7 /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/SettingsViewController.xib; sourceTree = "<group>"; };
 		614DEEEB6C06E6431C8B7EC2 /* Pods-eqMac2.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-eqMac2.release.xcconfig"; path = "Pods/Target Support Files/Pods-eqMac2/Pods-eqMac2.release.xcconfig"; sourceTree = "<group>"; };
 		A44CF14B89CD3E798D15238B /* Pods-eqMac2.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-eqMac2.debug.xcconfig"; path = "Pods/Target Support Files/Pods-eqMac2/Pods-eqMac2.debug.xcconfig"; sourceTree = "<group>"; };
 		A7CD694314F86C465E4A5F8B /* libPods-eqMac.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-eqMac.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -163,12 +174,10 @@
 		E0B7816B1EF704A20076B3AB /* CAStreamBasicDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CAStreamBasicDescription.h; sourceTree = "<group>"; };
 		E0B7816E1EF704A20076B3AB /* eqViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = eqViewController.h; sourceTree = "<group>"; };
 		E0B7816F1EF704A20076B3AB /* eqViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = eqViewController.mm; sourceTree = "<group>"; };
-		E0B781701EF704A20076B3AB /* eqViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = eqViewController.xib; sourceTree = "<group>"; };
 		E0B781721EF704A20076B3AB /* SliderGraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SliderGraphView.h; sourceTree = "<group>"; };
 		E0B781731EF704A20076B3AB /* SliderGraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SliderGraphView.m; sourceTree = "<group>"; };
 		E0B781761EF704A20076B3AB /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		E0B781771EF704A20076B3AB /* SettingsViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SettingsViewController.mm; sourceTree = "<group>"; };
-		E0B781781EF704A20076B3AB /* SettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsViewController.xib; sourceTree = "<group>"; };
 		E0B7817A1EF704A20076B3AB /* eqMacStatusItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = eqMacStatusItemView.h; sourceTree = "<group>"; };
 		E0B7817B1EF704A20076B3AB /* eqMacStatusItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = eqMacStatusItemView.m; sourceTree = "<group>"; };
 		E0B781801EF704A20076B3AB /* VolumeWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VolumeWindowController.h; sourceTree = "<group>"; };
@@ -253,6 +262,7 @@
 				E0B7815C1EF704A20076B3AB /* Libs */,
 				E0B7816C1EF704A20076B3AB /* Views */,
 				E0B7818F1EF704BA0076B3AB /* Assets */,
+				3AD8DE701F30EFA80079E8A7 /* Localizable.strings */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -453,7 +463,7 @@
 			children = (
 				E0B7816E1EF704A20076B3AB /* eqViewController.h */,
 				E0B7816F1EF704A20076B3AB /* eqViewController.mm */,
-				E0B781701EF704A20076B3AB /* eqViewController.xib */,
+				3AD8DE751F30F1340079E8A7 /* eqViewController.xib */,
 				E0B781711EF704A20076B3AB /* SliderGraphView */,
 			);
 			path = EQ;
@@ -473,7 +483,7 @@
 			children = (
 				E0B781761EF704A20076B3AB /* SettingsViewController.h */,
 				E0B781771EF704A20076B3AB /* SettingsViewController.mm */,
-				E0B781781EF704A20076B3AB /* SettingsViewController.xib */,
+				3AD8DE7C1F30F2270079E8A7 /* SettingsViewController.xib */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -605,8 +615,8 @@
 				TargetAttributes = {
 					306DA1C61BEF965F002CB1C9 = {
 						CreatedOnToolsVersion = 7.0.1;
-						DevelopmentTeam = JZA6C97KJA;
-						ProvisioningStyle = Manual;
+						DevelopmentTeam = XJY842UDZ5;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -617,6 +627,7 @@
 			knownRegions = (
 				en,
 				Base,
+				de,
 			);
 			mainGroup = 306DA1BE1BEF965F002CB1C9;
 			productRefGroup = 306DA1C81BEF965F002CB1C9 /* Products */;
@@ -641,6 +652,7 @@
 				E0B781B71EF704BA0076B3AB /* 64x64.png in Resources */,
 				E0B781581EF704660076B3AB /* uninstall_old.sh in Resources */,
 				E0B781B31EF704BA0076B3AB /* 256x256.png in Resources */,
+				3AD8DE6E1F30EFA80079E8A7 /* Localizable.strings in Resources */,
 				E0B5F09A1F25EEE4005C5F46 /* vol1Light.png in Resources */,
 				E0B781D31EF706700076B3AB /* Main.xib in Resources */,
 				E0B5F0951F25EEE4005C5F46 /* statusItemDark.png in Resources */,
@@ -648,10 +660,10 @@
 				E0B5F0991F25EEE4005C5F46 /* vol1Dark.png in Resources */,
 				E0B5F09C1F25EEE4005C5F46 /* vol2Light.png in Resources */,
 				E0B781B21EF704BA0076B3AB /* 24x24.png in Resources */,
-				E0B7818A1EF704A20076B3AB /* SettingsViewController.xib in Resources */,
+				3AD8DE7A1F30F2270079E8A7 /* SettingsViewController.xib in Resources */,
 				E0B5F09F1F25EEE4005C5F46 /* vol4Dark.png in Resources */,
 				E0B5F0901F25EEE4005C5F46 /* exitLight.png in Resources */,
-				E0B781871EF704A20076B3AB /* eqViewController.xib in Resources */,
+				3AD8DE731F30F1340079E8A7 /* eqViewController.xib in Resources */,
 				E0B781B81EF704BA0076B3AB /* 96x96.png in Resources */,
 				E0B781B61EF704BA0076B3AB /* 512x512.png in Resources */,
 				E0B5F09B1F25EEE4005C5F46 /* vol2Dark.png in Resources */,
@@ -723,7 +735,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -760,10 +772,41 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		3AD8DE701F30EFA80079E8A7 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3AD8DE6F1F30EFA80079E8A7 /* Base */,
+				3AD8DE711F30EFAA0079E8A7 /* en */,
+				3AD8DE721F30EFAB0079E8A7 /* de */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		3AD8DE751F30F1340079E8A7 /* eqViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3AD8DE741F30F1340079E8A7 /* Base */,
+				3AD8DE771F30F13D0079E8A7 /* en */,
+				3AD8DE791F30F1400079E8A7 /* de */,
+			);
+			name = eqViewController.xib;
+			sourceTree = "<group>";
+		};
+		3AD8DE7C1F30F2270079E8A7 /* SettingsViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3AD8DE7B1F30F2270079E8A7 /* Base */,
+				3AD8DE7E1F30F2280079E8A7 /* en */,
+				3AD8DE811F30F2C60079E8A7 /* de */,
+			);
+			name = SettingsViewController.xib;
+			sourceTree = "<group>";
+		};
 		E0B781D11EF706700076B3AB /* Main.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				E0B781D21EF706700076B3AB /* Base */,
+				3AD8DE6D1F30EF9A0079E8A7 /* de */,
 			);
 			name = Main.xib;
 			sourceTree = "<group>";
@@ -775,6 +818,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -818,6 +862,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -856,9 +901,9 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = JZA6C97KJA;
+				DEVELOPMENT_TEAM = XJY842UDZ5;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -870,8 +915,8 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bitgapp.eqMac2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "436b674f-56fa-48cd-9846-cd9ef65d7a8e";
-				PROVISIONING_PROFILE_SPECIFIER = "eqMac2 Distribution";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
@@ -881,9 +926,9 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = JZA6C97KJA;
+				DEVELOPMENT_TEAM = XJY842UDZ5;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -895,8 +940,8 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bitgapp.eqMac2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "436b674f-56fa-48cd-9846-cd9ef65d7a8e";
-				PROVISIONING_PROFILE_SPECIFIER = "eqMac2 Distribution";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};
