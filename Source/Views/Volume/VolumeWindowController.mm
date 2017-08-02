@@ -9,7 +9,7 @@
 #import "VolumeWindowController.h"
 
 @interface VolumeWindowController ()
-@property (weak) IBOutlet FlatLevelIndicator *volumeIndicator;
+@property (strong) IBOutlet VolumeLevelIndicatorView *volumeLevelIndicator;
 
 @end
 
@@ -22,12 +22,10 @@ CFTimeInterval lastShow;
 }
 
 -(void) showHUDforVolume:(Float32)volume{
-    Float32 mapped = [Utilities mapValue:volume withInMin:0 InMax:1 OutMin:0 OutMax:16];
-    int nTicks = floor(mapped);
-    [_volumeIndicator setIntValue: nTicks];
-    
     
     lastShow = CACurrentMediaTime();
+    [_volumeLevelIndicator setVolume:volume];
+    [_volumeLevelIndicator setNeedsDisplay:YES];
     
     float alpha = 1.0;
     [self.window setAlphaValue:alpha];

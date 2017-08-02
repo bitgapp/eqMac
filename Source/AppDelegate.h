@@ -17,6 +17,7 @@
 #import "eqMacStatusItemView.h"
 #import "API.h"
 #import "Devices.h"
+#import "Volume.h"
 
 @interface AppDelegate : NSObject <NSApplicationDelegate, NSPopoverDelegate>
 @end

@@ -184,7 +184,7 @@ typedef enum {
     }else{
         Float32 leftVolume = [self getVolumeForDevice:ID andChannel:kChannelLeft];
         Float32 rightVolume = [self getVolumeForDevice:ID andChannel:kChannelRight];
-        volume = MAX(rightVolume, leftVolume);
+        volume = leftVolume > rightVolume ? leftVolume : rightVolume;
     }
     return volume;
 }
@@ -367,7 +367,7 @@ typedef enum {
         [self setVolumeForDevice:ID andChannel:kChannelRight to: rightVolume];
     }
     
-    [self setDevice:ID toMuted:volume < VOLUME_STEP];
+    [self setDevice:ID toMuted:volume < QUARTER_VOLUME_STEP];
 }
 
 

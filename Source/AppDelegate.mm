@@ -164,38 +164,27 @@ NSEvent *settingsPopoverTransiencyMonitor;
 -(void)changeVolume:(NSNotification*)notification{
     if([EQHost EQEngineExists]){
         AudioDeviceID volDevice = [Devices getVolumeControllerDeviceID];
-        if([[notification.userInfo objectForKey:@"key"] intValue] == MUTE){
-            [Devices setDevice:volDevice toMuted:![Devices getIsMutedForDeviceID:volDevice]];
+        NSInteger volumeChangeKey = [[notification.userInfo objectForKey:@"key"] intValue];
+        Float32 newVolume = 0;
+        if(volumeChangeKey == MUTE){
+            BOOL mute = ![Devices getIsMutedForDeviceID:volDevice];
+            [Devices setDevice:volDevice toMuted: mute];
+            if(!mute) newVolume = [Devices getVolumeForDeviceID:volDevice];
         }else{
-            Float32 volumeChange = 0.0;
-            switch( [[notification.userInfo objectForKey:@"key"] intValue]){
-                case UP:{
-                    volumeChange = VOLUME_STEP;
-                    break;
-                }
-                case DOWN:{
-                    volumeChange = -VOLUME_STEP;
-                    break;
-                }
-            }
-                
-            Float32 newVolume = [Devices getVolumeForDeviceID:volDevice] + volumeChange;
-            if(newVolume < 0) newVolume = 0;
-            if(newVolume > 1) newVolume = 1;
-
+            Float32 currentVolume = [Devices getVolumeForDeviceID:volDevice];
+            newVolume = [Volume setVolume:currentVolume
+                                      inDirection:volumeChangeKey == UP ? kVolumeChangeDirectionUp : kVolumeChangeDirectionDown
+                                toNearest:[[notification.userInfo objectForKey:@"SHIFT+ALT"] boolValue] ? kVolumeStepTypeQuarter : kVolumeStepTypeFull];
             [Devices setVolumeForDevice:volDevice to: newVolume];
         }
         
-        [Utilities executeBlock:^{
-            if([[Storage get:kStorageShowVolumeHUD] integerValue] == 1){
-                [volumeHUD showHUDforVolume: [Devices getIsMutedForDeviceID:volDevice] ? 0 : [Devices getVolumeForDeviceID:volDevice]];
-            }
-        } after:0.01];
+        if([[Storage get:kStorageShowVolumeHUD] integerValue] == 1){
+            [volumeHUD showHUDforVolume: newVolume];
+        }
     }
 }
 
 - (void)openEQ{
-    [statusItemView setHighlightState:NO];
     if([eqPopover isShown]){
         [eqPopover close];
     }else{
@@ -213,7 +202,6 @@ NSEvent *settingsPopoverTransiencyMonitor;
 }
 
 -(void)openSettingsMenu{
-    [statusItemView setHighlightState:NO];
     if([settingsPopover isShown]){
         [settingsPopover close];
     }else{
@@ -236,6 +224,10 @@ NSEvent *settingsPopoverTransiencyMonitor;
 }
 -(void)popoverWillShow:(NSNotification *)notification{
     [[NSNotificationCenter defaultCenter] postNotificationName:@"settingsPopoverWillOpen" object:nil];
+}
+
+-(void)popoverWillClose:(NSNotification *)notification{
+    [statusItemView setHighlightState:NO];
 }
 
 - (void)quitApplication{
