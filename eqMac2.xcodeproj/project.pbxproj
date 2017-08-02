@@ -19,7 +19,6 @@
 		3AD8DE7A1F30F2270079E8A7 /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3AD8DE7C1F30F2270079E8A7 /* SettingsViewController.xib */; };
 		C7E49B3F727A9657BBC43E9B /* Pods_eqMac2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB898D1CC464E56A965D8E4A /* Pods_eqMac2.framework */; };
 		E07BF4B51D6B4BA400589F0C /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E07BF4B41D6B4BA400589F0C /* WebKit.framework */; };
-		E0B0A7E61EA023F800D2BB98 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0B0A7E51EA023F800D2BB98 /* Carbon.framework */; };
 		E0B5F08F1F25EEE4005C5F46 /* exitDark.png in Resources */ = {isa = PBXBuildFile; fileRef = E0B5F07D1F25EEE4005C5F46 /* exitDark.png */; };
 		E0B5F0901F25EEE4005C5F46 /* exitLight.png in Resources */ = {isa = PBXBuildFile; fileRef = E0B5F07E1F25EEE4005C5F46 /* exitLight.png */; };
 		E0B5F0911F25EEE4005C5F46 /* saveDark.png in Resources */ = {isa = PBXBuildFile; fileRef = E0B5F07F1F25EEE4005C5F46 /* saveDark.png */; };
@@ -214,7 +213,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E0B0A7E61EA023F800D2BB98 /* Carbon.framework in Frameworks */,
 				E07BF4B51D6B4BA400589F0C /* WebKit.framework in Frameworks */,
 				30A77E8C1BFB094F00503E6E /* AudioUnit.framework in Frameworks */,
 				30A77E8A1BFB094700503E6E /* AudioToolbox.framework in Frameworks */,
@@ -615,7 +613,7 @@
 				TargetAttributes = {
 					306DA1C61BEF965F002CB1C9 = {
 						CreatedOnToolsVersion = 7.0.1;
-						DevelopmentTeam = XJY842UDZ5;
+						DevelopmentTeam = JZA6C97KJA;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -735,7 +733,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -903,7 +901,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = XJY842UDZ5;
+				DEVELOPMENT_TEAM = JZA6C97KJA;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -928,7 +926,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = XJY842UDZ5;
+				DEVELOPMENT_TEAM = JZA6C97KJA;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
