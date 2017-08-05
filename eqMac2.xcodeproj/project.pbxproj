@@ -614,7 +614,7 @@
 					306DA1C61BEF965F002CB1C9 = {
 						CreatedOnToolsVersion = 7.0.1;
 						DevelopmentTeam = JZA6C97KJA;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -899,7 +899,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "Developer ID Application";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = JZA6C97KJA;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -913,8 +913,8 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bitgapp.eqMac2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "436b674f-56fa-48cd-9846-cd9ef65d7a8e";
+				PROVISIONING_PROFILE_SPECIFIER = "eqMac2 Distribution";
 			};
 			name = Debug;
 		};
@@ -924,7 +924,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "Developer ID Application";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = JZA6C97KJA;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -938,8 +938,8 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bitgapp.eqMac2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "436b674f-56fa-48cd-9846-cd9ef65d7a8e";
+				PROVISIONING_PROFILE_SPECIFIER = "eqMac2 Distribution";
 			};
 			name = Release;
 		};
