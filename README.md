@@ -15,6 +15,8 @@
 
 Best way to install eqMac2 is from the website: https://bitgapp.com/eqmac
 
+Or if you use [Homebrew](https://brew.sh/): `brew cask install eqmac`
+
 ## How it started?
 
 If you are interested to know how eqMac was created, you can read the [Story](https://github.com/romankisil/eqMac2/blob/master/STORY.md)
