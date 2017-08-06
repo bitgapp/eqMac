@@ -223,6 +223,19 @@ typedef enum {
     return data == 1;
 }
 
++(BOOL)getIsAliveForDeviceID:(AudioDeviceID)ID{
+    
+    AudioObjectPropertyAddress mutedAddress;
+    mutedAddress.mScope = kAudioDevicePropertyScopeOutput;
+    mutedAddress.mSelector = kAudioDevicePropertyDeviceIsAlive;
+    mutedAddress.mElement = kAudioObjectPropertyElementMaster;
+    
+    UInt32 data;
+    UInt32 dataSize = sizeof(data);
+    AudioObjectGetPropertyData(ID, &mutedAddress, 0, NULL, &dataSize, &data);
+    return data == 1;
+}
+
 +(AudioDeviceID)getDeviceIDByName:(NSString*)name{
     for(NSDictionary *device in [self getDevices]){
         if([[device objectForKey:@"name"] isEqualToString:name]){

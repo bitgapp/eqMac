@@ -23,7 +23,8 @@ NSPopover *settingsPopover;
 NSPopover *eqPopover;
 NSEvent *eqPopoverTransiencyMonitor;
 NSEvent *settingsPopoverTransiencyMonitor;
-NSTimer *deviceWatcher;
+NSTimer *deviceChangeWatcher;
+NSTimer *deviceActivityWatcher;
 
 
 @implementation AppDelegate
@@ -97,35 +98,43 @@ NSTimer *deviceWatcher;
     [API startPinging];
     [API sendPresets];
     
-    [self startWatchingDevices];
+    [self startWatchingDeviceChanges];
     
-    [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(goToSleep) name:NSWorkspaceWillSleepNotification object:NULL];
     [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(wakeUpFromSleep) name:NSWorkspaceDidWakeNotification object:NULL];
 }
 
--(void)startWatchingDevices{
-    deviceWatcher = [Utilities executeBlock:^{
+-(void)startWatchingDeviceChanges{
+    deviceChangeWatcher = [Utilities executeBlock:^{
         AudioDeviceID selectedDeviceID = [Devices getCurrentDeviceID];
-        if(selectedDeviceID != [EQHost getPassthroughDeviceID]){
+        if(selectedDeviceID != [EQHost getPassthroughDeviceID] && [Devices getIsAliveForDeviceID:selectedDeviceID]){
             [EQHost createEQEngineWithOutputDevice: selectedDeviceID];
+            [self startWatchingActivityOfDeviceWithID:selectedDeviceID];
         }
     } every:1];
 }
 
--(void)goToSleep{
-    [deviceWatcher invalidate];
-    deviceWatcher = nil;
-    [EQHost deleteEQEngine];
-    [Devices switchToDeviceWithID:[EQHost getSelectedOutputDeviceID]];
-    [EQHost detectAndRemoveRoguePassthroughDevice];
+-(void)startWatchingActivityOfDeviceWithID:(AudioDeviceID)ID{
+    deviceActivityWatcher = [Utilities executeBlock:^{
+        if(![Devices getIsAliveForDeviceID:ID]){
+            [EQHost deleteEQEngine];
+            [EQHost detectAndRemoveRoguePassthroughDevice];
+            [deviceActivityWatcher invalidate];
+            deviceActivityWatcher = nil;
+        }
+    } every:1];
 }
 
 -(void)wakeUpFromSleep{
-    [self goToSleep]; //just in case
+    [deviceChangeWatcher invalidate];
+    deviceChangeWatcher = nil;
+    
+    [EQHost deleteEQEngine];
+    [Devices switchToDeviceWithID:[EQHost getSelectedOutputDeviceID]];
+    [EQHost detectAndRemoveRoguePassthroughDevice];
     
     //delay the start a little so os has time to catchup with the Audio Processing
     [Utilities executeBlock:^{
-        [self startWatchingDevices];
+        [self startWatchingDeviceChanges];
     } after:3];
 }
 

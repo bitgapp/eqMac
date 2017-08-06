@@ -659,6 +659,7 @@ OSStatus EQEngine::OutputProc(void *inRefCon,
 	}
 		
 	err = AudioDeviceGetCurrentTime(This->mOutputDevice.mID, &outTS);
+    
 	checkErr(err);
 	
     rate = inTS.mRateScalar / outTS.mRateScalar;

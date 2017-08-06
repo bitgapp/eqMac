@@ -37,6 +37,7 @@ return err; \
 +(Float32)getVolumeForDeviceID:(AudioDeviceID)ID;
 +(Float32)getBalanceForDeviceID:(AudioDeviceID)ID;
 +(BOOL)getIsMutedForDeviceID:(AudioDeviceID)ID;
++(BOOL)getIsAliveForDeviceID:(AudioDeviceID)ID;
 +(UInt32)getDeviceTransportTypeByID:(AudioDeviceID)ID;
 +(AudioDeviceID)getDeviceIDByName:(NSString*)name;
 
