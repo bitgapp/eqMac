@@ -17,8 +17,9 @@ If you are interested to know how eqMac was created, you can read the [Story](ht
 ## How to help?
 
 If you are an Objective-C / C++ developer, please read the [Contribution Guide](https://github.com/romankisil/eqMac2/blob/master/CONTRIBUTING.md)
-If you are a user, you can always help by [Reporting Bugs](https://github.com/romankisil/eqMac2/blob/master/CONTRIBUTING.md),
-making direct contributions from the [website](https://bitgapp.com/eqmac/#/donate)
+
+If you are a user, you can always help by [Reporting Bugs](https://github.com/romankisil/eqMac2/blob/master/CONTRIBUTING.md)
+and/or [making direct contributions from the website](https://bitgapp.com/eqmac/#/donate)
 
 ## How it works
 
