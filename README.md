@@ -1,4 +1,4 @@
-#eqMac2
+# eqMac2
 
 [![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/eqMac2/Lobby?source=github)
 [![Twitter Follow](https://img.shields.io/twitter/follow/RomanBitgapp.svg?style=social)](http://twitter.com/AudioKitMan)
