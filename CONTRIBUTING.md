@@ -4,7 +4,8 @@
 ### Submitting Issues (Bug reports)
 If you found a bug in eqMac2, please follow these steps to properly report it:
 1. Sign-up / Log-in to GitHub
-2. Go to [Issues tab](https://github.com/romankisil/eqMac2/issues) and create a new Issue
+2. Go to [Issues tab](https://github.com/romankisil/eqMac2/issues) **and make sure your issue was not reported yet**
+3. **If issue wasn't reported yet**, create a new one.
 3. Set the Label (on the right) to Bug or any other appropriate
 4. Describe the Bug as much as possible
 5. If possible include some Screenshots
