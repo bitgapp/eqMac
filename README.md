@@ -28,6 +28,18 @@ If you are an Objective-C / C++ developer, please read the [Contribution Guide](
 If you are a user, you can always help by [Reporting Bugs](https://github.com/romankisil/eqMac2/blob/master/CONTRIBUTING.md)
 and/or [making direct contributions from the website](https://bitgapp.com/eqmac/#/donate)
 
+## How to build?
+
+Please install [CocoaPods](https://cocoapods.org/) dependency manager on your Mac.
+Then in Terminal:
+```
+git clone https://github.com/romankisil/eqMac2.git
+cd eqMac2/
+pod install
+open eqMac2.xcworkspace
+```
+And then ⌘R
+
 ## How it works
 
 I basically took Apple's [CAPlayThrough example](https://developer.apple.com/library/content/samplecode/CAPlayThrough/Introduction/Intro.html) and modified the AUGraph to have an EQ node. Combined it with [SoundFlower Audio Driver](https://github.com/mattingalls/Soundflower) and it just worked. 
