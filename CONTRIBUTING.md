@@ -17,3 +17,15 @@ If you found a bug in eqMac2, please follow these steps to properly report it:
 4. Write code in your Forked repository. Make sure to properly comment complex solutions
 5. Once you are happy with your code, test it until no bugs are prevelant.
 6. Submit a [New Pull Request](https://github.com/romankisil/eqMac2/pulls) and wait for someone to review it.
+
+## How to build?
+
+Please install [CocoaPods](https://cocoapods.org/) dependency manager on your Mac.
+Then in Terminal:
+```
+git clone https://github.com/romankisil/eqMac2.git
+cd eqMac2/
+pod install
+open eqMac2.xcworkspace
+```
+And then ⌘R
