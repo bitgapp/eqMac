@@ -114,6 +114,10 @@
 		3AD8DE7E1F30F2280079E8A7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/SettingsViewController.strings; sourceTree = "<group>"; };
 		3AD8DE811F30F2C60079E8A7 /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/SettingsViewController.xib; sourceTree = "<group>"; };
 		614DEEEB6C06E6431C8B7EC2 /* Pods-eqMac2.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-eqMac2.release.xcconfig"; path = "Pods/Target Support Files/Pods-eqMac2/Pods-eqMac2.release.xcconfig"; sourceTree = "<group>"; };
+		8F8FBF101F430B4C00E91FEB /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Main.strings; sourceTree = "<group>"; };
+		8F8FBF111F430B4C00E91FEB /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/eqViewController.strings; sourceTree = "<group>"; };
+		8F8FBF121F430B4C00E91FEB /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/SettingsViewController.strings; sourceTree = "<group>"; };
+		8F8FBF131F430B4C00E91FEB /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Localizable.strings; sourceTree = "<group>"; };
 		A44CF14B89CD3E798D15238B /* Pods-eqMac2.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-eqMac2.debug.xcconfig"; path = "Pods/Target Support Files/Pods-eqMac2/Pods-eqMac2.debug.xcconfig"; sourceTree = "<group>"; };
 		A7CD694314F86C465E4A5F8B /* libPods-eqMac.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-eqMac.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CB898D1CC464E56A965D8E4A /* Pods_eqMac2.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_eqMac2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -626,6 +630,7 @@
 				en,
 				Base,
 				de,
+				pl,
 			);
 			mainGroup = 306DA1BE1BEF965F002CB1C9;
 			productRefGroup = 306DA1C81BEF965F002CB1C9 /* Products */;
@@ -776,6 +781,7 @@
 				3AD8DE6F1F30EFA80079E8A7 /* Base */,
 				3AD8DE711F30EFAA0079E8A7 /* en */,
 				3AD8DE721F30EFAB0079E8A7 /* de */,
+				8F8FBF131F430B4C00E91FEB /* pl */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -786,6 +792,7 @@
 				3AD8DE741F30F1340079E8A7 /* Base */,
 				3AD8DE771F30F13D0079E8A7 /* en */,
 				3AD8DE791F30F1400079E8A7 /* de */,
+				8F8FBF111F430B4C00E91FEB /* pl */,
 			);
 			name = eqViewController.xib;
 			sourceTree = "<group>";
@@ -796,6 +803,7 @@
 				3AD8DE7B1F30F2270079E8A7 /* Base */,
 				3AD8DE7E1F30F2280079E8A7 /* en */,
 				3AD8DE811F30F2C60079E8A7 /* de */,
+				8F8FBF121F430B4C00E91FEB /* pl */,
 			);
 			name = SettingsViewController.xib;
 			sourceTree = "<group>";
@@ -805,6 +813,7 @@
 			children = (
 				E0B781D21EF706700076B3AB /* Base */,
 				3AD8DE6D1F30EF9A0079E8A7 /* de */,
+				8F8FBF101F430B4C00E91FEB /* pl */,
 			);
 			name = Main.xib;
 			sourceTree = "<group>";
