@@ -16,8 +16,7 @@
 
 
 <p align="center">
-  <img alt="eqMac2 Screenshot EQ" height="300" src="https://user-images.githubusercontent.com/8472525/29003295-fa4f92f0-7aab-11e7-9b5d-9ff2fbc7f845.png">
-  <img alt="eqMac2 Screenshot Settings" height="300" src="https://user-images.githubusercontent.com/8472525/29003296-fa5602c0-7aab-11e7-8180-6b641dd27693.png">
+  <img alt="eqMac2 Screenshot EQ" height="300" src="https://user-images.githubusercontent.com/8472525/29582045-27cbf68c-8773-11e7-8490-8fbc6eaea743.png">
 </p>
 
 ## How to install?
