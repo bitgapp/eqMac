@@ -639,7 +639,7 @@ OSStatus EQEngine::OutputProc(void *inRefCon,
 									 AudioBufferList * ioData){
     OSStatus err = noErr;
     EQEngine *This = (EQEngine *)inRefCon;
-	
+
 	Float64 rate = 0.0;
 	AudioTimeStamp inTS, outTS;
 	if (This->mFirstInputTime < 0.) {
@@ -647,8 +647,8 @@ OSStatus EQEngine::OutputProc(void *inRefCon,
 		MakeBufferSilent (ioData);
 		return noErr;
 	}
-    
-	//use the varispeed playback rate to offset small discrepancies in sample rate
+
+    //use the varispeed playback rate to offset small discrepancies in sample rate
 	//first find the rate scalars of the input and output devices
 	err = AudioDeviceGetCurrentTime(This->mInputDevice.mID, &inTS);
 	// this callback may still be called a few times after the device has been stopped

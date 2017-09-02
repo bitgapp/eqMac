@@ -38,7 +38,7 @@
     
     [_launchOnStartupCheckbox setState: [Utilities launchOnLogin] ? NSOnState : NSOffState];
     [_showDefaultPresetsCheckbox setState:[[Storage get:kStorageShowDefaultPresets] integerValue]];
-    [_buildLabel setStringValue:[NSString stringWithFormat:@"Build %@", [Utilities getAppVersion]]];
+    [_buildLabel setStringValue:[@"Build " stringByAppendingString:[Utilities getAppVersion]]];
     [_showVolumeHUDCheckbox setState:[[Storage get: kStorageShowVolumeHUD] integerValue]];
 }
 

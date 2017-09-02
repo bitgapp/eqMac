@@ -114,6 +114,8 @@ static NSDate *runStart;
     // Set the sub-device list
     //-----------------------
     
+    
+    
     pluginAOPA.mSelector = kAudioAggregateDevicePropertyFullSubDeviceList;
     pluginAOPA.mScope = kAudioObjectPropertyScopeGlobal;
     pluginAOPA.mElement = kAudioObjectPropertyElementMaster;
@@ -136,6 +138,39 @@ static NSDate *runStart;
     outDataSize = sizeof(deviceUID);
     osErr = AudioObjectSetPropertyData(outPassthroughDevice, &pluginAOPA, 0, NULL, outDataSize, &deviceUID);
     if (osErr != noErr) return osErr;
+    
+    // pause again to give the changes time to take effect
+    CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.1, false);
+    
+    //-----------------------
+    // Set drift correction for each device
+    //-----------------------
+    
+    AudioObjectPropertyAddress subDevicesAddress = { kAudioObjectPropertyOwnedObjects, kAudioObjectPropertyScopeGlobal, kAudioObjectPropertyElementMaster };
+    UInt32 theQualifierDataSize = sizeof(AudioObjectID);
+    AudioClassID inClass = kAudioSubDeviceClassID;
+    void* theQualifierData = &inClass;
+    // Get the property data size
+    osErr = AudioObjectGetPropertyDataSize(outPassthroughDevice, &subDevicesAddress, theQualifierDataSize, theQualifierData, &outSize);
+    if (osErr != noErr) return osErr;
+
+    
+    //	Calculate the number of object IDs
+    UInt32 subDevicesNum = outSize / sizeof(AudioObjectID);
+    AudioObjectID subDevices[subDevicesNum];
+    outSize = sizeof(subDevices);
+    
+    osErr = AudioObjectGetPropertyData(outPassthroughDevice, &subDevicesAddress, theQualifierDataSize, theQualifierData, &outSize, subDevices);
+    if (osErr != noErr) return osErr;
+
+    
+    // Set kAudioSubDevicePropertyDriftCompensation property...
+    AudioObjectPropertyAddress theAddressDrift = { kAudioSubDevicePropertyDriftCompensation, kAudioObjectPropertyScopeGlobal, kAudioObjectPropertyElementMaster };
+    for (UInt32 index = 0; index < subDevicesNum; ++index) {
+        UInt32 theDriftCompensationValue = 1;
+        osErr = AudioObjectSetPropertyData(subDevices[index], &theAddressDrift, 0, NULL, sizeof(UInt32), &theDriftCompensationValue);
+        if (osErr != noErr) return osErr;
+    }
     
     // pause again to give the changes time to take effect
     CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.1, false);
