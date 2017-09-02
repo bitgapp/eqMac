@@ -229,6 +229,8 @@ NSTimer *deviceActivityWatcher;
         }else{
             if([settingsPopover isShown]) [settingsPopover close];
             [eqPopover showRelativeToRect:statusItemView.bounds ofView:statusItemView preferredEdge:NSMaxYEdge];
+            NSWindow *popoverWindow = eqPopover.contentViewController.view.window;
+            [popoverWindow.parentWindow removeChildWindow:popoverWindow];
             [[NSRunningApplication currentApplication] activateWithOptions:NSApplicationActivateIgnoringOtherApps];
             if (eqPopoverTransiencyMonitor == nil) {
                 eqPopoverTransiencyMonitor = [NSEvent addGlobalMonitorForEventsMatchingMask:(NSLeftMouseDownMask | NSRightMouseDownMask | NSKeyUpMask) handler:^(NSEvent* event) {
@@ -247,6 +249,8 @@ NSTimer *deviceActivityWatcher;
     }else{
         if([eqPopover isShown]) [eqPopover close];
         [settingsPopover showRelativeToRect:statusItemView.bounds ofView:statusItemView preferredEdge:NSMaxYEdge];
+        NSWindow *popoverWindow = settingsPopover.contentViewController.view.window;
+        [popoverWindow.parentWindow removeChildWindow:popoverWindow];
         [[NSRunningApplication currentApplication] activateWithOptions:NSApplicationActivateIgnoringOtherApps];
         if (settingsPopoverTransiencyMonitor == nil) {
             settingsPopoverTransiencyMonitor = [NSEvent addGlobalMonitorForEventsMatchingMask:(NSLeftMouseDownMask | NSRightMouseDownMask | NSKeyUpMask) handler:^(NSEvent* event) {
