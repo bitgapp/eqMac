@@ -61,18 +61,18 @@ void	AudioDevice::Init(AudioDeviceID devid, bool isInput)
                                               theScope,
                                               0 }; // channel
 
-    verify_noerr(AudioObjectGetPropertyData(mID,
+    AudioObjectGetPropertyData(mID,
                                             &theAddress,
                                             0,
                                             NULL,
                                             &propsize,
-                                            &mSafetyOffset));
+                                            &mSafetyOffset);
 
 	
 	propsize = sizeof(UInt32);
     theAddress.mSelector = kAudioDevicePropertyBufferFrameSize;
     
-    verify_noerr(AudioObjectGetPropertyData(mID,
+    (AudioObjectGetPropertyData(mID,
                                             &theAddress,
                                             0,
                                             NULL,
@@ -82,7 +82,7 @@ void	AudioDevice::Init(AudioDeviceID devid, bool isInput)
 	propsize = sizeof(AudioStreamBasicDescription);
     theAddress.mSelector = kAudioDevicePropertyStreamFormat;
     
-    verify_noerr(AudioObjectGetPropertyData(mID,
+    (AudioObjectGetPropertyData(mID,
                                             &theAddress,
                                             0,
                                             NULL,
@@ -101,9 +101,9 @@ void	AudioDevice::SetBufferSize(UInt32 size)
                                               theScope,
                                               0 }; // channel
                                               
-    verify_noerr(AudioObjectSetPropertyData(mID, &theAddress, 0, NULL, propsize, &size));
+    (AudioObjectSetPropertyData(mID, &theAddress, 0, NULL, propsize, &size));
     
-    verify_noerr(AudioObjectGetPropertyData(mID, &theAddress, 0, NULL, &propsize, &mBufferSizeFrames));
+    (AudioObjectGetPropertyData(mID, &theAddress, 0, NULL, &propsize, &mBufferSizeFrames));
 }
 
 int		AudioDevice::CountChannels()
@@ -150,7 +150,7 @@ char *	AudioDevice::GetName(char *buf, UInt32 maxlen)
                                               theScope,
                                               0 }; // channel
 
-    verify_noerr(AudioObjectGetPropertyData(mID, &theAddress, 0, NULL,  &maxlen, buf));
+    (AudioObjectGetPropertyData(mID, &theAddress, 0, NULL,  &maxlen, buf));
 
 	return buf;
 }
