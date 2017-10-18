@@ -8,7 +8,6 @@
 
 #import <Cocoa/Cocoa.h>
 #import "eqViewController.h"
-#import "SettingsViewController.h"
 #import "VolumeWindowController.h"
 #import "NSAppEventCatcher.h"
 #import "Presets.h"
