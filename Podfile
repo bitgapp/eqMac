@@ -12,4 +12,4 @@ target 'eqMac2' do
     pod 'Sparkle'
 end
 
-workspace 'eqMac'
+workspace 'eqMac2'
