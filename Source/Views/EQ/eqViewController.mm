@@ -11,29 +11,26 @@
 @interface eqViewController ()
 
 @property (strong) IBOutlet NSButton *deleteButton;
+@property (strong) IBOutlet NSPopUpButton *presetsPopup;
 @property (strong) IBOutlet NSButton *saveButton;
 
 @property (strong) IBOutlet NSView *mockSliderView;
-@property (weak) IBOutlet NSComboBox *presetsComboBox;
-@property (strong) IBOutlet NSButton *presetsButton;
 
+@property (strong) IBOutlet NSImageView *speakerIcon;
+@property (strong) IBOutlet NSSlider *volumeSlider;
+@property (strong) IBOutlet NSImageView *volumeBars;
+
+@property (strong) IBOutlet NSImageView *leftSpeaker;
+@property (strong) IBOutlet NSSlider *balanceSlider;
+@property (strong) IBOutlet NSImageView *rightSpeaker;
+
+@property (strong) IBOutlet NSButton *showVolumeHUDCheckbox;
 @property (strong) IBOutlet NSButton *launchOnStartupCheckbox;
 @property (strong) IBOutlet NSButton *showDefaultPresetsCheckbox;
-@property (strong) IBOutlet NSButton *showVolumeHUDCheckbox;
-@property (strong) IBOutlet NSButton *exitButton;
 @property (strong) IBOutlet NSTextField *buildLabel;
-
-@property (strong) IBOutlet NSSlider *volumeSlider;
-@property (strong) IBOutlet NSSlider *balanceSlider;
-@property (strong) IBOutlet NSImageView *volumeBars;
-@property (strong) IBOutlet NSImageView *leftSpeaker;
-@property (strong) IBOutlet NSImageView *rightSpeaker;
-@property (strong) IBOutlet NSImageView *speakerIcon;
 
 @end
 
-
-NSArray *bandArray;
 SliderGraphView *sliderView;
 NSNotificationCenter *notify;
 
@@ -46,8 +43,7 @@ NSNotificationCenter *notify;
     _mockSliderView = nil;
     [self.view addSubview:sliderView];
     
-    [_presetsComboBox setDelegate:self];
-    [_presetsComboBox setStringValue:@""];
+    [_presetsPopup setStringValue:@""];
     
     notify = [NSNotificationCenter defaultCenter];
     [notify addObserver:self selector:@selector(sliderGraphChanged) name:@"sliderGraphChanged" object:nil];
@@ -55,24 +51,23 @@ NSNotificationCenter *notify;
 
     [self populatePresetComboBox];
     NSString *selectedPresetsName = [Storage get:kStorageSelectedPresetName];
-    if(selectedPresetsName) [_presetsButton setTitle:selectedPresetsName];
+    if(selectedPresetsName) [_presetsPopup setTitle:selectedPresetsName];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(readjustSettings) name:@"settingsPopoverWillOpen" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(readjustSettings) name:@"changeVolume" object:nil];
+    [notify addObserver:self selector:@selector(readjustSettings) name:@"popoverWillOpen" object:nil];
+    [notify addObserver:self selector:@selector(readjustSettings) name:@"changeVolume" object:nil];
+    
+    [_buildLabel setStringValue:[@"Build " stringByAppendingString:[Utilities getAppVersion]]];
 }
 
 -(void)viewWillAppear{
-    [Utilities executeBlock:^{ [self openPresetsDropdown:nil]; } after:0.1];
     [_deleteButton setImage:[Utilities isDarkMode] ? [NSImage imageNamed:@"deleteLight.png"] : [NSImage imageNamed:@"deleteDark.png"]];
     [_saveButton setImage:[Utilities isDarkMode] ? [NSImage imageNamed:@"saveLight.png"] : [NSImage imageNamed:@"saveDark.png"]];
     
     [self readjustSettings];
     [_speakerIcon setImage:[Utilities isDarkMode] ? [NSImage imageNamed:@"speakerLight.png"] : [NSImage imageNamed:@"speakerDark.png"]];
-    [_exitButton setImage:[Utilities isDarkMode] ? [NSImage imageNamed:@"exitLight.png"] : [NSImage imageNamed:@"exitDark.png"]];
     
     [_launchOnStartupCheckbox setState: [Utilities launchOnLogin] ? NSOnState : NSOffState];
     [_showDefaultPresetsCheckbox setState:[[Storage get:kStorageShowDefaultPresets] integerValue]];
-    [_buildLabel setStringValue:[@"Build " stringByAppendingString:[Utilities getAppVersion]]];
     [_showVolumeHUDCheckbox setState:[[Storage get: kStorageShowVolumeHUD] integerValue]];
 }
 
@@ -82,28 +77,22 @@ NSNotificationCenter *notify;
     } after:.1];
 }
 
--(void)viewDidDisappear{
-    [_presetsComboBox setHidden:NO];
-}
-
 #pragma mark -
 #pragma mark Presets logic
 
 -(void)populatePresetComboBox{
-    [_presetsComboBox removeAllItems];
+    [_presetsPopup removeAllItems];
     NSArray *presets = [Presets getShowablePresetsNames];
-    [_presetsComboBox addItemsWithObjectValues:[presets sortedArrayUsingComparator:^NSComparisonResult(NSString *firstString, NSString *secondString) {
+    [_presetsPopup addItemsWithTitles:[presets sortedArrayUsingComparator:^NSComparisonResult(NSString *firstString, NSString *secondString) {
         return [[firstString lowercaseString] compare:[secondString lowercaseString]];
     }]];
-    [_presetsComboBox setNumberOfVisibleItems:[presets count]];
 }
 
-- (IBAction)changePreset:(NSComboBox *)sender {
-    NSString *presetName = [sender itemObjectValueAtIndex:[sender indexOfSelectedItem]];
+- (IBAction)changePreset:(NSPopUpButton *)sender {
+    NSString *presetName = [_presetsPopup title];
     NSArray *gains = [Presets getGainsForPreset:presetName];
     [sliderView animateBandsToValues:gains];
     [EQHost setEQEngineFrequencyGains:gains];
-    [_presetsButton setTitle:presetName];
 }
 
 - (IBAction)savePreset:(NSButton *)sender {
@@ -111,14 +100,13 @@ NSNotificationCenter *notify;
     if(![newPresetName isEqualToString:@""]){
         [Presets savePreset:[sliderView getBandValues] withName:newPresetName];
         [self populatePresetComboBox];
-        [_presetsButton setTitle:newPresetName];
+        [_presetsPopup selectItemWithTitle:newPresetName];
     }
 }
 
 - (IBAction)deletePreset:(id)sender {
-    if(![[_presetsButton title] isEqualToString:NSLocalizedString(@"Flat",nil)]){
-        [Presets deletePresetWithName:[_presetsButton title]];
-        [_presetsButton setTitle:@"Preset"];
+    if(![[_presetsPopup title] isEqualToString:NSLocalizedString(@"Flat",nil)]){
+        [Presets deletePresetWithName:[_presetsPopup title]];
         [self populatePresetComboBox];
         [self resetEQ:nil];
     }
@@ -128,37 +116,23 @@ NSNotificationCenter *notify;
 #pragma mark -
 #pragma mark UI Actions
 -(void)sliderGraphChanged{
-    [_presetsButton setTitle:NSLocalizedString(@"Custom",nil)];
+    [_presetsPopup setTitle:NSLocalizedString(@"Custom",nil)];
     [EQHost setEQEngineFrequencyGains:[sliderView getBandValues]];
 }
 
 - (IBAction)resetEQ:(id)sender {
-    [_presetsButton setTitle:NSLocalizedString(@"Flat",nil)];
+    [_presetsPopup setTitle:NSLocalizedString(@"Flat",nil)];
     NSArray *flatGains = @[@0,@0,@0,@0,@0,@0,@0,@0,@0,@0];
     [sliderView animateBandsToValues:flatGains];
     [EQHost setEQEngineFrequencyGains:flatGains];
 }
 
--(IBAction)openPresetsDropdown:(NSButton*)sender{
-    if([_presetsComboBox isHidden]){
-        [_presetsComboBox setStringValue:@""];
-        [_presetsComboBox setHidden:NO];
-        [_presetsComboBox.cell performSelector:@selector(popUp:)];
-    }else{
-        [_presetsComboBox setHidden:YES];
-    }
-}
-
--(void)comboBoxWillDismiss:(NSNotification *)notification{
-    [_presetsComboBox setHidden:YES];
-}
-
 -(NSString*)getSelectedPresetName{
-    return [_presetsButton title];
+    return [_presetsPopup title];
 }
 
 -(void)setSelectedPresetName:(NSString*)name{
-    [_presetsButton setTitle:name];
+    [_presetsPopup setTitle:name];
 }
 
 -(void)readjustSettings{
@@ -185,15 +159,15 @@ NSNotificationCenter *notify;
     [Storage set:[NSNumber numberWithInteger:[sender state]] key:kStorageShowVolumeHUD];
 }
 
-- (IBAction)checkForUpdates:(id)sender {
-}
-
 - (IBAction)reportBug:(id)sender {
     [Utilities openBrowserWithURL:REPO_ISSUES_URL];
 }
 
 - (IBAction)supportProject:(id)sender {
     [Utilities openBrowserWithURL:SUPPORT_URL];
+}
+- (IBAction)getHelp:(id)sender {
+    [Utilities openBrowserWithURL:HELP_URL];
 }
 
 - (IBAction)changeBalance:(NSSlider *)sender {
