@@ -15,6 +15,7 @@
 @property (strong) IBOutlet NSButton *saveButton;
 
 @property (strong) IBOutlet NSView *mockSliderView;
+@property (strong) IBOutlet NSPopUpButton *outputPopup;
 
 @property (strong) IBOutlet NSImageView *speakerIcon;
 @property (strong) IBOutlet NSSlider *volumeSlider;
@@ -33,6 +34,7 @@
 
 SliderGraphView *sliderView;
 NSNotificationCenter *notify;
+NSArray *outputDevices;
 
 @implementation eqViewController
 
@@ -43,13 +45,17 @@ NSNotificationCenter *notify;
     _mockSliderView = nil;
     [self.view addSubview:sliderView];
     
-    [_presetsPopup setStringValue:@""];
+    [_presetsPopup setTitle:@""];
+    [_outputPopup setTitle:@""];
     
     notify = [NSNotificationCenter defaultCenter];
     [notify addObserver:self selector:@selector(sliderGraphChanged) name:@"sliderGraphChanged" object:nil];
-    [notify addObserver:self selector:@selector(populatePresetComboBox) name:@"showDefaultPresetsChanged" object:nil];
+    [notify addObserver:self selector:@selector(populatePresetPopup) name:@"showDefaultPresetsChanged" object:nil];
+    [notify addObserver:self selector:@selector(populateOutputPopup) name:@"devicesChanged" object:nil];
 
-    [self populatePresetComboBox];
+    [self populatePresetPopup];
+    [self populateOutputPopup];
+    
     NSString *selectedPresetsName = [Storage get:kStorageSelectedPresetName];
     if(selectedPresetsName) [_presetsPopup setTitle:selectedPresetsName];
     
@@ -60,6 +66,8 @@ NSNotificationCenter *notify;
 }
 
 -(void)viewWillAppear{
+    [self populateOutputPopup];
+
     [_deleteButton setImage:[Utilities isDarkMode] ? [NSImage imageNamed:@"deleteLight.png"] : [NSImage imageNamed:@"deleteDark.png"]];
     [_saveButton setImage:[Utilities isDarkMode] ? [NSImage imageNamed:@"saveLight.png"] : [NSImage imageNamed:@"saveDark.png"]];
     
@@ -77,15 +85,20 @@ NSNotificationCenter *notify;
     } after:.1];
 }
 
-#pragma mark -
-#pragma mark Presets logic
+-(void)populateOutputPopup{
+    [_outputPopup removeAllItems];
+    outputDevices = [Devices getAllDevices];
+    NSMutableArray *outputDeviceNames = [[NSMutableArray alloc] init];
+    for (NSDictionary *device in outputDevices) {
+        [outputDeviceNames addObject: [device objectForKey:@"name"]];
+    }
+    [_outputPopup addItemsWithTitles: [Utilities orderedStringArrayFromStringArray: outputDeviceNames]];
+}
 
--(void)populatePresetComboBox{
+-(void)populatePresetPopup{
     [_presetsPopup removeAllItems];
     NSArray *presets = [Presets getShowablePresetsNames];
-    [_presetsPopup addItemsWithTitles:[presets sortedArrayUsingComparator:^NSComparisonResult(NSString *firstString, NSString *secondString) {
-        return [[firstString lowercaseString] compare:[secondString lowercaseString]];
-    }]];
+    [_presetsPopup addItemsWithTitles: [Utilities orderedStringArrayFromStringArray: presets]];
 }
 
 - (IBAction)changePreset:(NSPopUpButton *)sender {
@@ -99,7 +112,7 @@ NSNotificationCenter *notify;
     NSString *newPresetName = [Utilities showAlertWithInputAndTitle:NSLocalizedString(@"Please enter a name for your new preset.",nil)];
     if(![newPresetName isEqualToString:@""]){
         [Presets savePreset:[sliderView getBandValues] withName:newPresetName];
-        [self populatePresetComboBox];
+        [self populatePresetPopup];
         [_presetsPopup selectItemWithTitle:newPresetName];
     }
 }
@@ -107,14 +120,11 @@ NSNotificationCenter *notify;
 - (IBAction)deletePreset:(id)sender {
     if(![[_presetsPopup title] isEqualToString:NSLocalizedString(@"Flat",nil)]){
         [Presets deletePresetWithName:[_presetsPopup title]];
-        [self populatePresetComboBox];
+        [self populatePresetPopup];
         [self resetEQ:nil];
     }
 }
 
-
-#pragma mark -
-#pragma mark UI Actions
 -(void)sliderGraphChanged{
     [_presetsPopup setTitle:NSLocalizedString(@"Custom",nil)];
     [EQHost setEQEngineFrequencyGains:[sliderView getBandValues]];
