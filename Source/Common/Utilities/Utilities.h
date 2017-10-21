@@ -29,4 +29,5 @@
 +(BOOL)appLaunchedBefore;
 + (BOOL)launchOnLogin;
 + (void)setLaunchOnLogin:(BOOL)launchOnLogin;
++(NSArray*)orderedStringArrayFromStringArray:(NSArray*)stringArray;
 @end

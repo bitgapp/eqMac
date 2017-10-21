@@ -23,7 +23,14 @@ typedef enum {
 +(NSArray*)getAllDevices{
     //Get device IDs
     UInt32 propsize;
-    AudioObjectPropertyAddress theAddress = { kAudioHardwarePropertyDevices, kAudioObjectPropertyScopeGlobal, kAudioObjectPropertyElementMaster }; //Get devices memory address
+    
+    //Get devices memory address
+    AudioObjectPropertyAddress theAddress = {
+        kAudioHardwarePropertyDevices,
+        kAudioObjectPropertyScopeGlobal,
+        kAudioObjectPropertyElementMaster
+        
+    };
     AudioObjectGetPropertyDataSize(kAudioObjectSystemObject, &theAddress, 0, NULL,&propsize); //Get property size of each device
     int nDevices = propsize / sizeof(AudioDeviceID); //Calculate the number of devices
     AudioDeviceID *devids = new AudioDeviceID[nDevices]; //Allocate new AudioDeviceID array
@@ -33,6 +40,11 @@ typedef enum {
     NSMutableArray *deviceIDs = [[NSMutableArray alloc] init];
     
     for(int i = 0; i < nDevices; ++i){
+        //Get device transport type
+        UInt32 transportType = [self getDeviceTransportTypeByID:devids[i]];
+        if(transportType == kAudioDeviceTransportTypeBuiltIn) {
+            builtInDeviceID = devids[i];
+        }
         NSString *deviceName = [NSString stringWithFormat:@"%@",[self getDeviceNameByID:devids[i]]];
         [deviceIDs addObject:@{@"id": [NSNumber numberWithInt:devids[i]], @"name": deviceName}];
     }
@@ -53,20 +65,9 @@ typedef enum {
     //Convert C++ array to NSArray
     NSMutableArray *deviceIDs = [[NSMutableArray alloc] init];
     
-    //Add the eqMac Device and say it's "Built-in Speaker or Line out"
-    [deviceIDs addObject:[NSNumber numberWithInt:[self getEQMacDeviceID]]];
-    
     for(int i = 0; i < nDevices; ++i){
-        
         //Check if the device is input and dont add the input devices
         if([self deviceIsInput:devids[i]]) continue;
-        
-        //Get device transport type and dont add the built-in devices
-        UInt32 transportType = [self getDeviceTransportTypeByID:devids[i]];
-        if(transportType == kAudioDeviceTransportTypeBuiltIn) {
-            builtInDeviceID = devids[i];
-            continue;
-        }
         
         [deviceIDs addObject:[NSNumber numberWithInt:devids[i]]];
     }
@@ -74,6 +75,17 @@ typedef enum {
     
     delete[] devids;
     return deviceIDs;
+}
+
++(NSArray*)getAllUsableDevices{
+    NSArray *deviceIDs = [self getAllUsableDeviceIDs];
+    NSMutableArray *devices = [[NSMutableArray alloc] init];
+    for (NSNumber* deviceID in deviceIDs) {
+        AudioDeviceID ID = [deviceID intValue];
+        NSString *deviceName = [self getDeviceNameByID: ID];
+        [devices addObject: @{ @"name": deviceName, @"id": deviceID }];
+    }
+    return devices;
 }
 
 +(NSArray*)getDevices{

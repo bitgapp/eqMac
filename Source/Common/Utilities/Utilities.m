@@ -242,5 +242,11 @@
                                           timeStyle:NSDateFormatterFullStyle];
 }
 
++(NSArray*)orderedStringArrayFromStringArray:(NSArray*)stringArray{
+    return [stringArray sortedArrayUsingComparator:^NSComparisonResult(NSString *firstString, NSString *secondString) {
+        return [[firstString lowercaseString] compare:[secondString lowercaseString]];
+    }];
+}
+
 @end
 

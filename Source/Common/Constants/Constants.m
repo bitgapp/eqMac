@@ -3,6 +3,7 @@
 
 NSString * const LEGACY_DRIVER_NAME = @"eqMac";
 NSString * const DEVICE_NAME = @"eqMac2";
+NSString * const BUILTIN_DEVICE_NAME = @"Built-in Speaker or Line out";
 NSString * const DRIVER_UID = @"EQMAC2_DRIVER_ENGINE";
 NSString * const API_URL = @"https://eqmac-api.bitgapp.com";
 NSString * const APP_URL = @"https://bitgapp.com/eqmac/";

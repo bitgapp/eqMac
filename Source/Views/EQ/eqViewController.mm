@@ -15,6 +15,7 @@
 @property (strong) IBOutlet NSButton *saveButton;
 
 @property (strong) IBOutlet NSView *mockSliderView;
+@property (strong) IBOutlet NSPopUpButton *outputPopup;
 
 @property (strong) IBOutlet NSImageView *speakerIcon;
 @property (strong) IBOutlet NSSlider *volumeSlider;
@@ -33,6 +34,7 @@
 
 SliderGraphView *sliderView;
 NSNotificationCenter *notify;
+NSArray *outputDevices;
 
 @implementation eqViewController
 
@@ -43,13 +45,17 @@ NSNotificationCenter *notify;
     _mockSliderView = nil;
     [self.view addSubview:sliderView];
     
-    [_presetsPopup setStringValue:@""];
+    [_presetsPopup setTitle:@""];
+    [_outputPopup setTitle:@""];
     
     notify = [NSNotificationCenter defaultCenter];
     [notify addObserver:self selector:@selector(sliderGraphChanged) name:@"sliderGraphChanged" object:nil];
-    [notify addObserver:self selector:@selector(populatePresetComboBox) name:@"showDefaultPresetsChanged" object:nil];
+    [notify addObserver:self selector:@selector(populatePresetPopup) name:@"showDefaultPresetsChanged" object:nil];
+    [notify addObserver:self selector:@selector(populateOutputPopup) name:@"devicesChanged" object:nil];
 
-    [self populatePresetComboBox];
+    [self populatePresetPopup];
+    [self populateOutputPopup];
+    
     NSString *selectedPresetsName = [Storage get:kStorageSelectedPresetName];
     if(selectedPresetsName) [_presetsPopup setTitle:selectedPresetsName];
     
@@ -60,6 +66,8 @@ NSNotificationCenter *notify;
 }
 
 -(void)viewWillAppear{
+    [self populateOutputPopup];
+
     [_deleteButton setImage:[Utilities isDarkMode] ? [NSImage imageNamed:@"deleteLight.png"] : [NSImage imageNamed:@"deleteDark.png"]];
     [_saveButton setImage:[Utilities isDarkMode] ? [NSImage imageNamed:@"saveLight.png"] : [NSImage imageNamed:@"saveDark.png"]];
     
@@ -77,15 +85,11 @@ NSNotificationCenter *notify;
     } after:.1];
 }
 
-#pragma mark -
-#pragma mark Presets logic
 
--(void)populatePresetComboBox{
+-(void)populatePresetPopup{
     [_presetsPopup removeAllItems];
     NSArray *presets = [Presets getShowablePresetsNames];
-    [_presetsPopup addItemsWithTitles:[presets sortedArrayUsingComparator:^NSComparisonResult(NSString *firstString, NSString *secondString) {
-        return [[firstString lowercaseString] compare:[secondString lowercaseString]];
-    }]];
+    [_presetsPopup addItemsWithTitles: [Utilities orderedStringArrayFromStringArray: presets]];
 }
 
 - (IBAction)changePreset:(NSPopUpButton *)sender {
@@ -95,26 +99,25 @@ NSNotificationCenter *notify;
     [EQHost setEQEngineFrequencyGains:gains];
 }
 
-- (IBAction)savePreset:(NSButton *)sender {
-    NSString *newPresetName = [Utilities showAlertWithInputAndTitle:NSLocalizedString(@"Please enter a name for your new preset.",nil)];
-    if(![newPresetName isEqualToString:@""]){
-        [Presets savePreset:[sliderView getBandValues] withName:newPresetName];
-        [self populatePresetComboBox];
-        [_presetsPopup selectItemWithTitle:newPresetName];
-    }
-}
-
 - (IBAction)deletePreset:(id)sender {
     if(![[_presetsPopup title] isEqualToString:NSLocalizedString(@"Flat",nil)]){
         [Presets deletePresetWithName:[_presetsPopup title]];
-        [self populatePresetComboBox];
+        [self populatePresetPopup];
         [self resetEQ:nil];
     }
 }
 
+- (IBAction)savePreset:(NSButton *)sender {
+    NSString *newPresetName = [Utilities showAlertWithInputAndTitle:NSLocalizedString(@"Please enter a name for your new preset.",nil)];
+    if(![newPresetName isEqualToString:@""]){
+        [Presets savePreset:[sliderView getBandValues] withName:newPresetName];
+        [self populatePresetPopup];
+        [_presetsPopup selectItemWithTitle:newPresetName];
+    }
+}
 
-#pragma mark -
-#pragma mark UI Actions
+
+
 -(void)sliderGraphChanged{
     [_presetsPopup setTitle:NSLocalizedString(@"Custom",nil)];
     [EQHost setEQEngineFrequencyGains:[sliderView getBandValues]];
@@ -131,9 +134,29 @@ NSNotificationCenter *notify;
     return [_presetsPopup title];
 }
 
--(void)setSelectedPresetName:(NSString*)name{
-    [_presetsPopup setTitle:name];
+-(void)populateOutputPopup{
+    [_outputPopup removeAllItems];
+    outputDevices = [Devices getAllUsableDevices];
+    NSMutableArray *outputDeviceNames = [[NSMutableArray alloc] init];
+    for (NSDictionary *device in outputDevices) {
+        [outputDeviceNames addObject: [device objectForKey:@"name"]];
+    }
+    [_outputPopup addItemsWithTitles: [Utilities orderedStringArrayFromStringArray: outputDeviceNames]];
+    AudioDeviceID selectedDeviceID = [EQHost EQEngineExists] ? [EQHost getSelectedOutputDeviceID] : [Devices getCurrentDeviceID];
+    NSString *nameOfSelectedDevice = [Devices getDeviceNameByID: selectedDeviceID];
+    [_outputPopup selectItemWithTitle: nameOfSelectedDevice];
 }
+
+- (IBAction)changeOutputDevice:(id)sender {
+    AudioDeviceID selectedOutputDevice = [EQHost getSelectedOutputDeviceID];
+    for (NSDictionary *device in outputDevices) {
+        if ([[device objectForKey:@"name"] isEqualToString: [_outputPopup titleOfSelectedItem]]) {
+            selectedOutputDevice = [[device objectForKey:@"id"] intValue];
+        }
+    }
+    [Devices switchToDeviceWithID: selectedOutputDevice];
+}
+
 
 -(void)readjustSettings{
     [Utilities executeBlock:^{
@@ -151,30 +174,7 @@ NSNotificationCenter *notify;
     } after:0.01];
 }
 
-- (IBAction)switchShowDefaultPresets:(NSButton *)sender {
-    [Storage set:[NSNumber numberWithInteger:[sender state]] key:kStorageShowDefaultPresets];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"showDefaultPresetsChanged" object:nil];
-}
-- (IBAction)switchShowVolumeHUD:(NSButton *)sender {
-    [Storage set:[NSNumber numberWithInteger:[sender state]] key:kStorageShowVolumeHUD];
-}
 
-- (IBAction)reportBug:(id)sender {
-    [Utilities openBrowserWithURL:REPO_ISSUES_URL];
-}
-
-- (IBAction)supportProject:(id)sender {
-    [Utilities openBrowserWithURL:SUPPORT_URL];
-}
-- (IBAction)getHelp:(id)sender {
-    [Utilities openBrowserWithURL:HELP_URL];
-}
-
-- (IBAction)changeBalance:(NSSlider *)sender {
-    Float32 balance = [sender floatValue];
-    [Devices setBalanceForDevice:[Devices getVolumeControllerDeviceID] to:balance];
-    [self changeBalanceIcons: [sender floatValue]];
-}
 - (IBAction)changeVolume:(id)sender {
     Float32 volume = [sender floatValue];
     [Devices setVolumeForDevice:[Devices getVolumeControllerDeviceID] to:volume];
@@ -194,6 +194,12 @@ NSNotificationCenter *notify;
     }else if(volume >0.75 && volume <= 1){
         [_volumeBars setImage: [Utilities isDarkMode] ? [NSImage imageNamed:@"vol4Light.png"] : [NSImage imageNamed:@"vol4Dark.png"]];
     }
+}
+
+- (IBAction)changeBalance:(NSSlider *)sender {
+    Float32 balance = [sender floatValue];
+    [Devices setBalanceForDevice:[Devices getVolumeControllerDeviceID] to:balance];
+    [self changeBalanceIcons: [sender floatValue]];
 }
 
 -(void)changeBalanceIcons:(CGFloat)balance{
@@ -226,6 +232,30 @@ NSNotificationCenter *notify;
     
 }
 
+
+- (IBAction)reportBug:(id)sender {
+    [Utilities openBrowserWithURL:REPO_ISSUES_URL];
+}
+
+- (IBAction)supportProject:(id)sender {
+    [Utilities openBrowserWithURL:SUPPORT_URL];
+}
+- (IBAction)getHelp:(id)sender {
+    [Utilities openBrowserWithURL:HELP_URL];
+}
+
+- (IBAction)changeLaunchOnStartup:(NSButton*)sender {
+    [Utilities setLaunchOnLogin:[sender state] == NSOnState ? true : false];
+}
+
+- (IBAction)switchShowDefaultPresets:(NSButton *)sender {
+    [Storage set:[NSNumber numberWithInteger:[sender state]] key:kStorageShowDefaultPresets];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"showDefaultPresetsChanged" object:nil];
+}
+- (IBAction)switchShowVolumeHUD:(NSButton *)sender {
+    [Storage set:[NSNumber numberWithInteger:[sender state]] key:kStorageShowVolumeHUD];
+}
+
 - (IBAction)quitApplication:(id)sender {
     [[NSNotificationCenter defaultCenter] postNotificationName:@"closeApp" object:nil];
 }
@@ -239,13 +269,6 @@ NSNotificationCenter *notify;
         [Utilities runShellScriptWithName:@"uninstall_app"];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"closeApp" object:nil];
     }
-}
-- (IBAction)changeLaunchOnStartup:(NSButton*)sender {
-    [Utilities setLaunchOnLogin:[sender state] == NSOnState ? true : false];
-}
-- (IBAction)openWebsite:(id)sender {
-    [sender setHighlighted:NO];
-    [Utilities openBrowserWithURL:APP_URL];
 }
 
 

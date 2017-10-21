@@ -18,5 +18,4 @@
 
 @interface eqViewController : NSViewController <NSComboBoxDelegate>
 -(NSString*)getSelectedPresetName;
--(void)setSelectedPresetName:(NSString*)name;
 @end
