@@ -25,6 +25,7 @@ return err; \
 @interface Devices : NSObject
 
 +(NSArray*)getAllDevices;
++(NSArray*)getAllUsableDevices;
 
 +(AudioDeviceID)getCurrentDeviceID;
 +(AudioDeviceID)getEQMacDeviceID;

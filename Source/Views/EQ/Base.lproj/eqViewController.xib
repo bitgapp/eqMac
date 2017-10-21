@@ -382,7 +382,7 @@
                         </menu>
                     </popUpButtonCell>
                     <connections>
-                        <action selector="changePreset:" target="-2" id="Td3-pW-zUo"/>
+                        <action selector="changeOutputDevice:" target="-2" id="K30-ST-WIc"/>
                     </connections>
                 </popUpButton>
                 <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="SUc-KM-yDj">
@@ -405,7 +405,7 @@
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                 </box>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zdt-6p-vPA">
-                    <rect key="frame" x="5" y="231" width="50" height="17"/>
+                    <rect key="frame" x="7" y="231" width="50" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Output:" id="SzD-Mi-Egd">
                         <font key="font" metaFont="system"/>

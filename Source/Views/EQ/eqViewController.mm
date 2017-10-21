@@ -85,15 +85,6 @@ NSArray *outputDevices;
     } after:.1];
 }
 
--(void)populateOutputPopup{
-    [_outputPopup removeAllItems];
-    outputDevices = [Devices getAllDevices];
-    NSMutableArray *outputDeviceNames = [[NSMutableArray alloc] init];
-    for (NSDictionary *device in outputDevices) {
-        [outputDeviceNames addObject: [device objectForKey:@"name"]];
-    }
-    [_outputPopup addItemsWithTitles: [Utilities orderedStringArrayFromStringArray: outputDeviceNames]];
-}
 
 -(void)populatePresetPopup{
     [_presetsPopup removeAllItems];
@@ -108,6 +99,14 @@ NSArray *outputDevices;
     [EQHost setEQEngineFrequencyGains:gains];
 }
 
+- (IBAction)deletePreset:(id)sender {
+    if(![[_presetsPopup title] isEqualToString:NSLocalizedString(@"Flat",nil)]){
+        [Presets deletePresetWithName:[_presetsPopup title]];
+        [self populatePresetPopup];
+        [self resetEQ:nil];
+    }
+}
+
 - (IBAction)savePreset:(NSButton *)sender {
     NSString *newPresetName = [Utilities showAlertWithInputAndTitle:NSLocalizedString(@"Please enter a name for your new preset.",nil)];
     if(![newPresetName isEqualToString:@""]){
@@ -117,13 +116,7 @@ NSArray *outputDevices;
     }
 }
 
-- (IBAction)deletePreset:(id)sender {
-    if(![[_presetsPopup title] isEqualToString:NSLocalizedString(@"Flat",nil)]){
-        [Presets deletePresetWithName:[_presetsPopup title]];
-        [self populatePresetPopup];
-        [self resetEQ:nil];
-    }
-}
+
 
 -(void)sliderGraphChanged{
     [_presetsPopup setTitle:NSLocalizedString(@"Custom",nil)];
@@ -141,9 +134,29 @@ NSArray *outputDevices;
     return [_presetsPopup title];
 }
 
--(void)setSelectedPresetName:(NSString*)name{
-    [_presetsPopup setTitle:name];
+-(void)populateOutputPopup{
+    [_outputPopup removeAllItems];
+    outputDevices = [Devices getAllUsableDevices];
+    NSMutableArray *outputDeviceNames = [[NSMutableArray alloc] init];
+    for (NSDictionary *device in outputDevices) {
+        [outputDeviceNames addObject: [device objectForKey:@"name"]];
+    }
+    [_outputPopup addItemsWithTitles: [Utilities orderedStringArrayFromStringArray: outputDeviceNames]];
+    AudioDeviceID selectedDeviceID = [EQHost EQEngineExists] ? [EQHost getSelectedOutputDeviceID] : [Devices getCurrentDeviceID];
+    NSString *nameOfSelectedDevice = [Devices getDeviceNameByID: selectedDeviceID];
+    [_outputPopup selectItemWithTitle: nameOfSelectedDevice];
 }
+
+- (IBAction)changeOutputDevice:(id)sender {
+    AudioDeviceID selectedOutputDevice = [EQHost getSelectedOutputDeviceID];
+    for (NSDictionary *device in outputDevices) {
+        if ([[device objectForKey:@"name"] isEqualToString: [_outputPopup titleOfSelectedItem]]) {
+            selectedOutputDevice = [[device objectForKey:@"id"] intValue];
+        }
+    }
+    [Devices switchToDeviceWithID: selectedOutputDevice];
+}
+
 
 -(void)readjustSettings{
     [Utilities executeBlock:^{
@@ -161,30 +174,7 @@ NSArray *outputDevices;
     } after:0.01];
 }
 
-- (IBAction)switchShowDefaultPresets:(NSButton *)sender {
-    [Storage set:[NSNumber numberWithInteger:[sender state]] key:kStorageShowDefaultPresets];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"showDefaultPresetsChanged" object:nil];
-}
-- (IBAction)switchShowVolumeHUD:(NSButton *)sender {
-    [Storage set:[NSNumber numberWithInteger:[sender state]] key:kStorageShowVolumeHUD];
-}
 
-- (IBAction)reportBug:(id)sender {
-    [Utilities openBrowserWithURL:REPO_ISSUES_URL];
-}
-
-- (IBAction)supportProject:(id)sender {
-    [Utilities openBrowserWithURL:SUPPORT_URL];
-}
-- (IBAction)getHelp:(id)sender {
-    [Utilities openBrowserWithURL:HELP_URL];
-}
-
-- (IBAction)changeBalance:(NSSlider *)sender {
-    Float32 balance = [sender floatValue];
-    [Devices setBalanceForDevice:[Devices getVolumeControllerDeviceID] to:balance];
-    [self changeBalanceIcons: [sender floatValue]];
-}
 - (IBAction)changeVolume:(id)sender {
     Float32 volume = [sender floatValue];
     [Devices setVolumeForDevice:[Devices getVolumeControllerDeviceID] to:volume];
@@ -204,6 +194,12 @@ NSArray *outputDevices;
     }else if(volume >0.75 && volume <= 1){
         [_volumeBars setImage: [Utilities isDarkMode] ? [NSImage imageNamed:@"vol4Light.png"] : [NSImage imageNamed:@"vol4Dark.png"]];
     }
+}
+
+- (IBAction)changeBalance:(NSSlider *)sender {
+    Float32 balance = [sender floatValue];
+    [Devices setBalanceForDevice:[Devices getVolumeControllerDeviceID] to:balance];
+    [self changeBalanceIcons: [sender floatValue]];
 }
 
 -(void)changeBalanceIcons:(CGFloat)balance{
@@ -236,6 +232,30 @@ NSArray *outputDevices;
     
 }
 
+
+- (IBAction)reportBug:(id)sender {
+    [Utilities openBrowserWithURL:REPO_ISSUES_URL];
+}
+
+- (IBAction)supportProject:(id)sender {
+    [Utilities openBrowserWithURL:SUPPORT_URL];
+}
+- (IBAction)getHelp:(id)sender {
+    [Utilities openBrowserWithURL:HELP_URL];
+}
+
+- (IBAction)changeLaunchOnStartup:(NSButton*)sender {
+    [Utilities setLaunchOnLogin:[sender state] == NSOnState ? true : false];
+}
+
+- (IBAction)switchShowDefaultPresets:(NSButton *)sender {
+    [Storage set:[NSNumber numberWithInteger:[sender state]] key:kStorageShowDefaultPresets];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"showDefaultPresetsChanged" object:nil];
+}
+- (IBAction)switchShowVolumeHUD:(NSButton *)sender {
+    [Storage set:[NSNumber numberWithInteger:[sender state]] key:kStorageShowVolumeHUD];
+}
+
 - (IBAction)quitApplication:(id)sender {
     [[NSNotificationCenter defaultCenter] postNotificationName:@"closeApp" object:nil];
 }
@@ -249,13 +269,6 @@ NSArray *outputDevices;
         [Utilities runShellScriptWithName:@"uninstall_app"];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"closeApp" object:nil];
     }
-}
-- (IBAction)changeLaunchOnStartup:(NSButton*)sender {
-    [Utilities setLaunchOnLogin:[sender state] == NSOnState ? true : false];
-}
-- (IBAction)openWebsite:(id)sender {
-    [sender setHighlighted:NO];
-    [Utilities openBrowserWithURL:APP_URL];
 }
 
 
