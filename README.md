@@ -1,5 +1,5 @@
 <h1 align="center">
-  <a href="https://bitgapp.com/eqmac"><img src="https://github.com/romankisil/eqMac2/blob/master/Source/Assets/Assets/Icons/256x256.png?raw=true?raw=true" alt="eqMac2 - System-Wide Equalizer for the Mac" width="200"></a>
+  <a href="https://bitgapp.com/eqmac"><img src="https://github.com/romankisil/eqMac2/blob/master/eqMac2/Assets/Assets/Icons/256x256.png?raw=true?raw=true" alt="eqMac2 - System-Wide Equalizer for the Mac" width="200"></a>
   <br>
   eqMac2
 
