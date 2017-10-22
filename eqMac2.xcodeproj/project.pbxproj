@@ -44,10 +44,8 @@
 		E0B781521EF704660076B3AB /* EQHost.mm in Sources */ = {isa = PBXBuildFile; fileRef = E0B7813A1EF704660076B3AB /* EQHost.mm */; };
 		E0B781541EF704660076B3AB /* defaultPresets.plist in Resources */ = {isa = PBXBuildFile; fileRef = E0B7813F1EF704660076B3AB /* defaultPresets.plist */; };
 		E0B781551EF704660076B3AB /* Presets.m in Sources */ = {isa = PBXBuildFile; fileRef = E0B781411EF704660076B3AB /* Presets.m */; };
-		E0B781561EF704660076B3AB /* install_new.sh in Resources */ = {isa = PBXBuildFile; fileRef = E0B781431EF704660076B3AB /* install_new.sh */; };
+		E0B781561EF704660076B3AB /* install_driver.sh in Resources */ = {isa = PBXBuildFile; fileRef = E0B781431EF704660076B3AB /* install_driver.sh */; };
 		E0B781571EF704660076B3AB /* uninstall_app.sh in Resources */ = {isa = PBXBuildFile; fileRef = E0B781441EF704660076B3AB /* uninstall_app.sh */; };
-		E0B781581EF704660076B3AB /* uninstall_old.sh in Resources */ = {isa = PBXBuildFile; fileRef = E0B781451EF704660076B3AB /* uninstall_old.sh */; };
-		E0B781591EF704660076B3AB /* uninstall_old_install_new.sh in Resources */ = {isa = PBXBuildFile; fileRef = E0B781461EF704660076B3AB /* uninstall_old_install_new.sh */; };
 		E0B7815A1EF704660076B3AB /* Storage.m in Sources */ = {isa = PBXBuildFile; fileRef = E0B781491EF704660076B3AB /* Storage.m */; };
 		E0B7815B1EF704660076B3AB /* Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = E0B7814C1EF704660076B3AB /* Utilities.m */; };
 		E0B781831EF704A20076B3AB /* AudioDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0B7815E1EF704A20076B3AB /* AudioDevice.cpp */; };
@@ -152,10 +150,8 @@
 		E0B7813F1EF704660076B3AB /* defaultPresets.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = defaultPresets.plist; sourceTree = "<group>"; };
 		E0B781401EF704660076B3AB /* Presets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Presets.h; sourceTree = "<group>"; };
 		E0B781411EF704660076B3AB /* Presets.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Presets.m; sourceTree = "<group>"; };
-		E0B781431EF704660076B3AB /* install_new.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = install_new.sh; sourceTree = "<group>"; };
+		E0B781431EF704660076B3AB /* install_driver.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = install_driver.sh; sourceTree = "<group>"; };
 		E0B781441EF704660076B3AB /* uninstall_app.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = uninstall_app.sh; sourceTree = "<group>"; };
-		E0B781451EF704660076B3AB /* uninstall_old.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = uninstall_old.sh; sourceTree = "<group>"; };
-		E0B781461EF704660076B3AB /* uninstall_old_install_new.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = uninstall_old_install_new.sh; sourceTree = "<group>"; };
 		E0B781481EF704660076B3AB /* Storage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Storage.h; sourceTree = "<group>"; };
 		E0B781491EF704660076B3AB /* Storage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Storage.m; sourceTree = "<group>"; };
 		E0B7814B1EF704660076B3AB /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utilities.h; sourceTree = "<group>"; };
@@ -230,7 +226,7 @@
 		306DA1BE1BEF965F002CB1C9 = {
 			isa = PBXGroup;
 			children = (
-				306DA1C91BEF965F002CB1C9 /* Source */,
+				306DA1C91BEF965F002CB1C9 /* eqMac2 */,
 				306DA1C81BEF965F002CB1C9 /* Products */,
 				30A77E8D1BFB097400503E6E /* Frameworks */,
 				6D3D49CE95FBA49AB1FBC4BF /* Pods */,
@@ -245,7 +241,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		306DA1C91BEF965F002CB1C9 /* Source */ = {
+		306DA1C91BEF965F002CB1C9 /* eqMac2 */ = {
 			isa = PBXGroup;
 			children = (
 				E0B781C71EF706670076B3AB /* AppDelegate.h */,
@@ -261,7 +257,7 @@
 				E0B7818F1EF704BA0076B3AB /* Assets */,
 				3AD8DE701F30EFA80079E8A7 /* Localizable.strings */,
 			);
-			path = Source;
+			path = eqMac2;
 			sourceTree = "<group>";
 		};
 		30A77E8D1BFB097400503E6E /* Frameworks */ = {
@@ -375,10 +371,8 @@
 		E0B781421EF704660076B3AB /* Scripts */ = {
 			isa = PBXGroup;
 			children = (
-				E0B781431EF704660076B3AB /* install_new.sh */,
+				E0B781431EF704660076B3AB /* install_driver.sh */,
 				E0B781441EF704660076B3AB /* uninstall_app.sh */,
-				E0B781451EF704660076B3AB /* uninstall_old.sh */,
-				E0B781461EF704660076B3AB /* uninstall_old_install_new.sh */,
 			);
 			path = Scripts;
 			sourceTree = "<group>";
@@ -638,7 +632,6 @@
 				E0B5F0A01F25EEE4005C5F46 /* vol4Light.png in Resources */,
 				E0B781B11EF704BA0076B3AB /* 16x16.png in Resources */,
 				E0B781B71EF704BA0076B3AB /* 64x64.png in Resources */,
-				E0B781581EF704660076B3AB /* uninstall_old.sh in Resources */,
 				E0B781B31EF704BA0076B3AB /* 256x256.png in Resources */,
 				3AD8DE6E1F30EFA80079E8A7 /* Localizable.strings in Resources */,
 				E0B5F09A1F25EEE4005C5F46 /* vol1Light.png in Resources */,
@@ -654,13 +647,12 @@
 				E0B781B81EF704BA0076B3AB /* 96x96.png in Resources */,
 				E0B781B61EF704BA0076B3AB /* 512x512.png in Resources */,
 				E0B5F09B1F25EEE4005C5F46 /* vol2Dark.png in Resources */,
-				E0B781591EF704660076B3AB /* uninstall_old_install_new.sh in Resources */,
 				E0B781CE1EF706670076B3AB /* Info.plist in Resources */,
 				E0B5F0961F25EEE4005C5F46 /* statusItemLight.png in Resources */,
 				E0B5F0971F25EEE4005C5F46 /* deleteDark.png in Resources */,
 				E0B781541EF704660076B3AB /* defaultPresets.plist in Resources */,
 				E0B781AD1EF704BA0076B3AB /* blueLine.png in Resources */,
-				E0B781561EF704660076B3AB /* install_new.sh in Resources */,
+				E0B781561EF704660076B3AB /* install_driver.sh in Resources */,
 				E0B781B91EF704BA0076B3AB /* redLine.png in Resources */,
 				E0B5F09E1F25EEE4005C5F46 /* vol3Light.png in Resources */,
 				E0B5F0941F25EEE4005C5F46 /* speakerLight.png in Resources */,
@@ -904,7 +896,7 @@
 					"$(PROJECT_DIR)/eqMac",
 				);
 				GCC_INPUT_FILETYPE = automatic;
-				INFOPLIST_FILE = "$(SRCROOT)/Source/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/eqMac2/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bitgapp.eqMac2;
@@ -929,7 +921,7 @@
 					"$(PROJECT_DIR)/eqMac",
 				);
 				GCC_INPUT_FILETYPE = automatic;
-				INFOPLIST_FILE = "$(SRCROOT)/Source/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/eqMac2/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bitgapp.eqMac2;

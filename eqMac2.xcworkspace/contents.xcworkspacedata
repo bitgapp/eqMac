@@ -5,6 +5,9 @@
       location = "group:eqMac2.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:eqMac2Driver.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:Pods/Pods.xcodeproj">
    </FileRef>
 </Workspace>

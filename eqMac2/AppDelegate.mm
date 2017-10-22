@@ -132,60 +132,23 @@ NSTimer *deviceActivityWatcher;
 }
 
 -(void)checkAndInstallDriver{
-    if([Devices legacyDriverInstalled]){
-        if(![Devices eqMacDriverInstalled]){
-            //Delete old and install new device
-            switch([Utilities showAlertWithTitle:NSLocalizedString(@"eqMac Driver requires an update",nil)
-                                      andMessage:NSLocalizedString(@"In order to update the driver, the eqMac will ask for your system password.",nil)
-                                      andButtons:@[NSLocalizedString(@"Update",nil), NSLocalizedString(@"Quit",nil)]]){
-                case NSAlertFirstButtonReturn:{
-                    if(![Utilities runShellScriptWithName:@"uninstall_old_install_new"]){
-                        [self checkAndInstallDriver];
-                    };
-                    break;
-                }
-                case NSAlertSecondButtonReturn:{
-                    [[NSNotificationCenter defaultCenter] postNotificationName:@"closeApp" object:nil];
-                    break;
-                }
+    if(![Devices eqMacDriverInstalled]){
+        //Install only the new driver
+        switch([Utilities showAlertWithTitle:NSLocalizedString(@"eqMac2 Requires a Driver",nil)
+                                  andMessage:NSLocalizedString(@"In order to install the driver, the app will ask for your system password.",nil)
+                                  andButtons:@[NSLocalizedString(@"Install",nil), NSLocalizedString(@"Quit",nil)]]){
+            case NSAlertFirstButtonReturn:{
+                if(![Utilities runShellScriptWithName:@"install_driver"]){
+                    [self checkAndInstallDriver];
+                };
+                break;
             }
-        }else{
-            //Delete old driver only
-            switch([Utilities showAlertWithTitle:NSLocalizedString(@"Old eqMac Driver was detected",nil)
-                                      andMessage:NSLocalizedString(@"Old driver needs to be uninstalled for eqMac2 to function properly.",nil)
-                                      andButtons:@[NSLocalizedString(@"Uninstall",nil), NSLocalizedString(@"Quit",nil)]]){
-                case NSAlertFirstButtonReturn:{
-                    if(![Utilities runShellScriptWithName:@"uninstall_old"]){
-                        [self checkAndInstallDriver];
-                    };
-                    break;
-                }
-                case NSAlertSecondButtonReturn:{
-                    [[NSNotificationCenter defaultCenter] postNotificationName:@"closeApp" object:nil];
-                    break;
-                }
-            }
-        }
-    }else{
-        if(![Devices eqMacDriverInstalled]){
-            //Install only the new driver
-            switch([Utilities showAlertWithTitle:NSLocalizedString(@"eqMac2 Requires a Driver",nil)
-                                      andMessage:NSLocalizedString(@"In order to install the driver, the app will ask for your system password.",nil)
-                                      andButtons:@[NSLocalizedString(@"Install",nil), NSLocalizedString(@"Quit",nil)]]){
-                case NSAlertFirstButtonReturn:{
-                    if(![Utilities runShellScriptWithName:@"install_new"]){
-                        [self checkAndInstallDriver];
-                    };
-                    break;
-                }
-                case NSAlertSecondButtonReturn:{
-                    [[NSNotificationCenter defaultCenter] postNotificationName:@"closeApp" object:nil];
-                    break;
-                }
+            case NSAlertSecondButtonReturn:{
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"closeApp" object:nil];
+                break;
             }
         }
     }
-
 }
 
 -(void)changeVolume:(NSNotification*)notification{

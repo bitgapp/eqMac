@@ -1,0 +1,346 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		E080114A1F9BDBE3004389C0 /* eqMac2DriverDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E08011461F9BCEF7004389C0 /* eqMac2DriverDevice.cpp */; };
+		E080114B1F9BDBE6004389C0 /* eqMac2DriverEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E08011451F9BCEF7004389C0 /* eqMac2DriverEngine.cpp */; };
+		E080114C1F9BDBF3004389C0 /* eqMac2DriverEngine.h in Headers */ = {isa = PBXBuildFile; fileRef = E08011471F9BCEF7004389C0 /* eqMac2DriverEngine.h */; };
+		E080114D1F9BDBFC004389C0 /* eqMac2DriverDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = E08011491F9BCEF7004389C0 /* eqMac2DriverDevice.h */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		222ADFEC1862531600C9BE56 /* eqMac2Driver.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = eqMac2Driver.kext; sourceTree = BUILT_PRODUCTS_DIR; };
+		E08011451F9BCEF7004389C0 /* eqMac2DriverEngine.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = eqMac2DriverEngine.cpp; path = eqMac2Driver/eqMac2DriverEngine.cpp; sourceTree = "<group>"; };
+		E08011461F9BCEF7004389C0 /* eqMac2DriverDevice.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = eqMac2DriverDevice.cpp; path = eqMac2Driver/eqMac2DriverDevice.cpp; sourceTree = "<group>"; };
+		E08011471F9BCEF7004389C0 /* eqMac2DriverEngine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = eqMac2DriverEngine.h; path = eqMac2Driver/eqMac2DriverEngine.h; sourceTree = "<group>"; };
+		E08011481F9BCEF7004389C0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = eqMac2Driver/Info.plist; sourceTree = "<group>"; };
+		E08011491F9BCEF7004389C0 /* eqMac2DriverDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = eqMac2DriverDevice.h; path = eqMac2Driver/eqMac2DriverDevice.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		222ADFE71862531600C9BE56 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		222ADFE11862531500C9BE56 = {
+			isa = PBXGroup;
+			children = (
+				E08011461F9BCEF7004389C0 /* eqMac2DriverDevice.cpp */,
+				E08011491F9BCEF7004389C0 /* eqMac2DriverDevice.h */,
+				E08011451F9BCEF7004389C0 /* eqMac2DriverEngine.cpp */,
+				E08011471F9BCEF7004389C0 /* eqMac2DriverEngine.h */,
+				E08011481F9BCEF7004389C0 /* Info.plist */,
+				222ADFED1862531600C9BE56 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		222ADFED1862531600C9BE56 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				222ADFEC1862531600C9BE56 /* eqMac2Driver.kext */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		222ADFE81862531600C9BE56 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E080114D1F9BDBFC004389C0 /* eqMac2DriverDevice.h in Headers */,
+				E080114C1F9BDBF3004389C0 /* eqMac2DriverEngine.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		222ADFEB1862531600C9BE56 /* eqMac2Driver */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 222ADFFC1862531600C9BE56 /* Build configuration list for PBXNativeTarget "eqMac2Driver" */;
+			buildPhases = (
+				222ADFE61862531600C9BE56 /* Sources */,
+				222ADFE71862531600C9BE56 /* Frameworks */,
+				222ADFE81862531600C9BE56 /* Headers */,
+				222ADFE91862531600C9BE56 /* Resources */,
+				222ADFEA1862531600C9BE56 /* Rez */,
+				E06F19FC1E3D5110000CD894 /* Run Script */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = eqMac2Driver;
+			productName = Soundflower;
+			productReference = 222ADFEC1862531600C9BE56 /* eqMac2Driver.kext */;
+			productType = "com.apple.product-type.kernel-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		222ADFE21862531600C9BE56 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0610;
+				ORGANIZATIONNAME = Bitgapp;
+				TargetAttributes = {
+					222ADFEB1862531600C9BE56 = {
+						DevelopmentTeam = JZA6C97KJA;
+						ProvisioningStyle = Manual;
+					};
+				};
+			};
+			buildConfigurationList = 222ADFE51862531600C9BE56 /* Build configuration list for PBXProject "eqMac2Driver" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 222ADFE11862531500C9BE56;
+			productRefGroup = 222ADFED1862531600C9BE56 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				222ADFEB1862531600C9BE56 /* eqMac2Driver */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		222ADFE91862531600C9BE56 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXRezBuildPhase section */
+		222ADFEA1862531600C9BE56 /* Rez */ = {
+			isa = PBXRezBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXRezBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		E06F19FC1E3D5110000CD894 /* Run Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		222ADFE61862531600C9BE56 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E080114B1F9BDBE6004389C0 /* eqMac2DriverEngine.cpp in Sources */,
+				E080114A1F9BDBE3004389C0 /* eqMac2DriverDevice.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		222ADFFA1862531600C9BE56 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "Developer ID Application: Romans Kisils (JZA6C97KJA)";
+				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = JZA6C97KJA;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "ee47f9f1-6f20-493e-9c09-41d7bb351c48";
+				SDKROOT = macosx;
+				SYMROOT = ../eqMac/Common/Driver/;
+			};
+			name = Debug;
+		};
+		222ADFFB1862531600C9BE56 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "Developer ID Application: Romans Kisils (JZA6C97KJA)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = JZA6C97KJA;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "ee47f9f1-6f20-493e-9c09-41d7bb351c48";
+				SDKROOT = macosx;
+				SYMROOT = ../eqMac/Common/Driver/;
+			};
+			name = Release;
+		};
+		222ADFFD1862531600C9BE56 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "Developer ID Application: Romans Kisils (JZA6C97KJA)";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1.0;
+				DEPLOYMENT_LOCATION = YES;
+				DEVELOPMENT_TEAM = JZA6C97KJA;
+				DSTROOT = eqMac2;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "$(SRCROOT)/eqMac2Driver/Info.plist";
+				INSTALL_GROUP = wheel;
+				INSTALL_OWNER = root;
+				INSTALL_PATH = /Common/Driver;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MODULE_NAME = com.bitgapp.eqMac2Driver;
+				MODULE_VERSION = 1.0;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bitgapp.eqMac2Driver;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = NO;
+				SYMROOT = build;
+				WRAPPER_EXTENSION = kext;
+			};
+			name = Debug;
+		};
+		222ADFFE1862531600C9BE56 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "Developer ID Application: Romans Kisils (JZA6C97KJA)";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1.0;
+				DEPLOYMENT_LOCATION = YES;
+				DEVELOPMENT_TEAM = JZA6C97KJA;
+				DSTROOT = eqMac2;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = "";
+				INFOPLIST_FILE = "$(SRCROOT)/eqMac2Driver/Info.plist";
+				INSTALL_GROUP = wheel;
+				INSTALL_OWNER = root;
+				INSTALL_PATH = /Common/Driver;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MODULE_NAME = com.bitgapp.eqMac2Driver;
+				MODULE_VERSION = 1.0;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bitgapp.eqMac2Driver;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = NO;
+				SYMROOT = build;
+				WRAPPER_EXTENSION = kext;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		222ADFE51862531600C9BE56 /* Build configuration list for PBXProject "eqMac2Driver" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				222ADFFA1862531600C9BE56 /* Debug */,
+				222ADFFB1862531600C9BE56 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		222ADFFC1862531600C9BE56 /* Build configuration list for PBXNativeTarget "eqMac2Driver" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				222ADFFD1862531600C9BE56 /* Debug */,
+				222ADFFE1862531600C9BE56 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 222ADFE21862531600C9BE56 /* Project object */;
+}
