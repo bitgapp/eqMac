@@ -19,7 +19,8 @@ typedef enum {
     kStorageLastRuntimeCheck,
     kStorageUUID,
     kStorageSelectedGains,
-    kStorageSelectedPresetName
+    kStorageSelectedPresetName,
+    kStorageSelectedBandMode
 } StorageKey;
 
 +(id)get:(StorageKey)key;

@@ -16,12 +16,18 @@ static NSDate *runStart;
     selectedOutputDeviceID = output;
     
     [Devices switchToDeviceWithID: passthroughDeviceID];
+    
+    NSNumber *bandMode = [Storage get: kStorageSelectedBandMode];
+    if (!bandMode) {
+        bandMode = @10;
+        [Storage set: bandMode key: kStorageSelectedBandMode];
+    }
+    
+    NSLog(@"%@", bandMode);
 
     mEngine = new EQEngine(input, output);
     mEngine->Start();
     
-    
-
     NSArray *savedGains = [Storage get:kStorageSelectedGains];
     if(!savedGains) savedGains = @[@0,@0,@0,@0,@0,@0,@0,@0,@0,@0];
     [self setEQEngineFrequencyGains: savedGains];

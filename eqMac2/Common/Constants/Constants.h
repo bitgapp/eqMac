@@ -1,4 +1,4 @@
-
+#import <Foundation/Foundation.h>
 #ifndef Constants_h
 #define Constants_h
 extern NSString * const LEGACY_DRIVER_NAME;
@@ -13,4 +13,11 @@ extern NSString * const HELP_URL;
 extern Float32    const FULL_VOLUME_STEP;
 extern Float32    const QUARTER_VOLUME_STEP;
 
+@interface Constants : NSObject
++(NSArray*)getFrequenciesForBandMode:(NSString*)bandMode;
+@end
+
+
 #endif /* Constants_h */
+
+

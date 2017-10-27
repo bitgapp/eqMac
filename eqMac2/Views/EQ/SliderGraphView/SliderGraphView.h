@@ -14,4 +14,7 @@
 
 -(void)animateBandsToValues:(NSArray*)values;
 -(NSArray*)getBandValues;
+-(NSArray*)getSliderXPosition;
+-(void)setNSliders:(int)number;
+-(void)forceRedraw;
 @end

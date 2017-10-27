@@ -57,6 +57,7 @@ NSTimer *deviceActivityWatcher;
     [observer addObserver:self selector:@selector(changeVolume:) name:@"changeVolume" object:nil];
     [observer addObserver:self selector:@selector(quitApplication) name:@"closeApp" object:nil];
     [observer addObserver:self selector:@selector(closePopover) name:@"escapePressed" object:nil];
+    [observer addObserver:self selector:@selector(readjustPopover) name:@"readjustPopover" object:nil];
     
     
     [EQHost detectAndRemoveRoguePassthroughDevice];
@@ -85,6 +86,10 @@ NSTimer *deviceActivityWatcher;
     
     if(![Storage get: kStorageShowVolumeHUD]){
         [Storage set:[NSNumber numberWithBool:YES] key: kStorageShowVolumeHUD];
+    }
+    
+    if(![Storage get: kStorageSelectedBandMode]){
+        [Storage set:@10 key: kStorageSelectedBandMode];
     }
     
     //Send anonymous analytics data to the API
@@ -194,6 +199,14 @@ NSTimer *deviceActivityWatcher;
 
 -(void)popoverWillShow:(NSNotification *)notification{
     [[NSNotificationCenter defaultCenter] postNotificationName:@"popoverWillOpen" object:nil];
+}
+
+-(void)popoverDidShow:(NSNotification *)notification{
+    [self readjustPopover];
+}
+
+-(void)readjustPopover{
+    [eqPopover setContentSize: eqPopover.contentViewController.view.frame.size];
 }
 
 -(void)popoverWillClose:(NSNotification *)notification{
