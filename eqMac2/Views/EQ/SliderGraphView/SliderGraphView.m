@@ -36,7 +36,7 @@ CGFloat padding;
         nSliders = 10;
         knobSize = 10;
         sliderBarWidth = 3;
-        padding = 10;
+        padding = 5;
         dragging = false;
     }
     return self;

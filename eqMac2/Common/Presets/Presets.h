@@ -22,7 +22,6 @@
 +(NSDictionary*)getAllPresets;
 +(NSArray*)getAllPresetsNames;
 +(NSArray*)getShowablePresetsNames;
-
 +(NSArray*)getGainsForPreset:(NSString*)preset;
 +(void)savePreset:(NSArray*)gains withName:(NSString*)name;
 +(void)deletePresetWithName:(NSString*)name;

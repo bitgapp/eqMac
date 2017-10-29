@@ -74,8 +74,11 @@ CGFloat originalHeight;
     [notify addObserver:self selector:@selector(readjustView) name:@"changeVolume" object:nil];
     
     [_buildLabel setStringValue:[@"Build " stringByAppendingString:[Utilities getAppVersion]]];
-    [sliderView setNSliders: [bandMode intValue]];
+    
     bandMode = [Storage get: kStorageSelectedBandMode];
+    
+    [sliderView setNSliders: [bandMode intValue]];
+    
     [self readjustView];
 }
 
@@ -155,7 +158,8 @@ CGFloat originalHeight;
 
 - (IBAction)resetEQ:(id)sender {
     [_presetsPopup setTitle:NSLocalizedString(@"Flat",nil)];
-    NSArray *flatGains = @[@0,@0,@0,@0,@0,@0,@0,@0,@0,@0];
+    NSMutableArray *flatGains = [@[] mutableCopy];
+    for (int i = 0; i < [bandMode intValue]; i++) [flatGains addObject:@0];
     [sliderView animateBandsToValues:flatGains];
     [EQHost setEQEngineFrequencyGains:flatGains];
 }
@@ -188,17 +192,18 @@ CGFloat originalHeight;
 }
 
 - (IBAction)toggleBandMode:(id)sender {
-    if ([bandMode intValue] == 10) {
-        bandMode = @31;
-    } else {
-        bandMode = @10;
-    }
+    bandMode = [bandMode intValue] == 10 ? @31 : @10;
     
     [Storage set: bandMode key: kStorageSelectedBandMode];
-    
-    [sliderView setNSliders: [bandMode intValue]];
-
+    [self populatePresetPopup];
     [self readjustView];
+    [self setBandModeSettings];
+    [Devices switchToDeviceWithID: [EQHost getSelectedOutputDeviceID]];
+}
+
+-(void)setBandModeSettings{
+    [sliderView setNSliders: [bandMode intValue]];
+    [_showDefaultPresetsCheckbox setEnabled: [bandMode intValue] == 10];
 }
 
 -(void)readjustView{

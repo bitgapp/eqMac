@@ -26,7 +26,8 @@ static NSUserDefaults *defaults;
 +(NSString*)convertKey:(StorageKey)key{
     switch(key){
         case kStorageShowDefaultPresets: return @"kStorageShowDefaultPresets";
-        case kStoragePresets: return @"kStoragePresets";
+        case kStorage10BandPresets: return @"kStoragePresets";
+        case kStorage31BandPresets: return @"kStorage31BandPresets";
         case kStorageAlreadyLaunched: return @"kStorageAlreadyLaunched";
         case kStorageOverallRuntime: return @"kStorageOverallRuntime";
         case kStorageLastRuntimeCheck: return @"kStorageLastRuntimeCheck";

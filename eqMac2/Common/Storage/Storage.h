@@ -13,7 +13,8 @@
 typedef enum {
     kStorageShowDefaultPresets,
     kStorageShowVolumeHUD,
-    kStoragePresets,
+    kStorage10BandPresets,
+    kStorage31BandPresets,
     kStorageAlreadyLaunched,
     kStorageOverallRuntime,
     kStorageLastRuntimeCheck,
