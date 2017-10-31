@@ -26,14 +26,16 @@ static NSUserDefaults *defaults;
 +(NSString*)convertKey:(StorageKey)key{
     switch(key){
         case kStorageShowDefaultPresets: return @"kStorageShowDefaultPresets";
-        case kStorage10BandPresets: return @"kStoragePresets";
-        case kStorage31BandPresets: return @"kStorage31BandPresets";
+        case kStoragePresets10Bands: return @"kStoragePresets";
+        case kStoragePresets31Bands: return @"kStoragePresets31Bands";
         case kStorageAlreadyLaunched: return @"kStorageAlreadyLaunched";
         case kStorageOverallRuntime: return @"kStorageOverallRuntime";
         case kStorageLastRuntimeCheck: return @"kStorageLastRuntimeCheck";
         case kStorageUUID: return @"kStorageUUID";
-        case kStorageSelectedGains: return @"kStorageSelectedGains";
-        case kStorageSelectedPresetName: return @"kStorageSelectedPresetName";
+        case kStorageSelectedGains10Bands: return @"kStorageSelectedGains";
+        case kStorageSelectedGains31Bands: return @"kStorageSelectedGains31Bands";
+        case kStorageSelectedPresetName10Bands: return @"kStorageSelectedPresetName";
+        case kStorageSelectedPresetName31Bands: return @"kStorageSelectedPresetName31Bands";
         case kStorageShowVolumeHUD: return @"kStorageShowVolumeHUD";
             
         default: return @"temp";

@@ -67,9 +67,6 @@ CGFloat originalHeight;
     [self populatePresetPopup];
     [self populateOutputPopup];
     
-    NSString *selectedPresetsName = [Storage get:kStorageSelectedPresetName];
-    if(selectedPresetsName) [_presetsPopup setTitle:selectedPresetsName];
-    
     [notify addObserver:self selector:@selector(readjustView) name:@"popoverWillOpen" object:nil];
     [notify addObserver:self selector:@selector(readjustView) name:@"changeVolume" object:nil];
     
@@ -125,6 +122,9 @@ CGFloat originalHeight;
     [_presetsPopup removeAllItems];
     NSArray *presets = [Presets getShowablePresetsNames];
     [_presetsPopup addItemsWithTitles: [Utilities orderedStringArrayFromStringArray: presets]];
+    StorageKey selectedPresetNameKey = bandMode.intValue == 10 ? kStorageSelectedPresetName10Bands : kStorageSelectedPresetName31Bands;
+    NSString *selectedPresetsName = [Storage get: selectedPresetNameKey];
+    if(selectedPresetsName) [_presetsPopup setTitle: selectedPresetsName];
 }
 
 - (IBAction)changePreset:(NSPopUpButton *)sender {
@@ -132,6 +132,8 @@ CGFloat originalHeight;
     NSArray *gains = [Presets getGainsForPreset:presetName];
     [sliderView animateBandsToValues:gains];
     [EQHost setEQEngineFrequencyGains:gains];
+    StorageKey selectedPresetNameKey = bandMode.intValue == 10 ? kStorageSelectedPresetName10Bands : kStorageSelectedPresetName31Bands;
+    [Storage set: presetName key: selectedPresetNameKey];
 }
 
 - (IBAction)deletePreset:(id)sender {

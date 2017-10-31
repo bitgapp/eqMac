@@ -25,17 +25,17 @@ static NSNumber *bandMode;
     }
     
 
-    NSLog(@"%@", bandMode);
     mEngine = new EQEngine(input, output);
     mEngine->Start();
     
-    NSMutableArray *savedGains = [Storage get:kStorageSelectedGains];
+    StorageKey selectedGainsKey = bandMode.intValue == 10 ? kStorageSelectedGains10Bands : kStorageSelectedGains31Bands;
+    NSMutableArray *savedGains = [Storage get: selectedGainsKey];
     if(!savedGains) {
         savedGains = [@[] mutableCopy];
         
         for (int i = 0; i < [bandMode intValue]; i++) [savedGains addObject: @0];
         
-        [Storage set: savedGains key: kStorageSelectedGains];
+        [Storage set: savedGains key: selectedGainsKey];
     }
     [self setEQEngineFrequencyGains: savedGains];
     runStart = [NSDate date];
@@ -254,7 +254,8 @@ static NSNumber *bandMode;
 
 +(void)deleteEQEngine{
     if(mEngine){
-        [Storage set:[EQHost getEQEngineFrequencyGains] key:kStorageSelectedGains];
+        StorageKey selectedGainsKey = bandMode.intValue == 10 ? kStorageSelectedGains10Bands : kStorageSelectedGains31Bands;
+        [Storage set:[EQHost getEQEngineFrequencyGains] key: selectedGainsKey];
         
         mEngine->Stop();
             

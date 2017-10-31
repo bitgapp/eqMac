@@ -86,7 +86,7 @@ OSStatus EQEngine::Init(AudioDeviceID input, AudioDeviceID output){
 	checkErr(err);
 
 	//Setup Graph containing Varispeed Unit & Default Output Unit
-	err = SetupGraph(output);	
+	err = SetupGraph(output);
 	checkErr(err);
 	
 	err = SetupBuffers();
@@ -96,10 +96,13 @@ OSStatus EQEngine::Init(AudioDeviceID input, AudioDeviceID output){
 	err = AUGraphConnectNodeInput(mGraph, mVarispeedNode, 0, mFormatNode, 0);
 	checkErr(err);
     
-    err = AUGraphConnectNodeInput(mGraph, mFormatNode, 0, mEqualizerNode, 0);
+    err = AUGraphConnectNodeInput(mGraph, mFormatNode, 0, mEqualizerNode1, 0);
     checkErr(err);
     
-    err = AUGraphConnectNodeInput(mGraph, mEqualizerNode, 0, mOutputNode, 0);
+    err = AUGraphConnectNodeInput(mGraph, mEqualizerNode1, 0, mEqualizerNode2, 0);
+    checkErr(err);
+    
+    err = AUGraphConnectNodeInput(mGraph, mEqualizerNode2, 0, mOutputNode, 0);
     checkErr(err);
 	
 	err = AUGraphInitialize(mGraph); 
@@ -257,18 +260,80 @@ Float32 map(Float32 x, Float32 in_min, Float32 in_max, Float32 out_min, Float32 
     return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
 
+OSStatus EQEngine::ResetEqUnits(){
+    OSStatus err = noErr;
+    for (int i = 0; i < 16; i++) {
+        AudioUnitParameterID frequencyParamID = kAUNBandEQParam_Frequency + i;
+        err = AudioUnitSetParameter(mEqualizerUnit1, frequencyParamID, kAudioUnitScope_Global, 0, 0, 0);
+        checkErr(err);
+        err = AudioUnitSetParameter(mEqualizerUnit2, frequencyParamID, kAudioUnitScope_Global, 0, 0, 0);
+        checkErr(err);
+        
+        AudioUnitParameterID bypassBandParamID = kAUNBandEQParam_BypassBand + i;
+        err = AudioUnitSetParameter(mEqualizerUnit1, bypassBandParamID, kAudioUnitScope_Global, 0, 0, 0);
+        checkErr(err);
+        err = AudioUnitSetParameter(mEqualizerUnit2, bypassBandParamID, kAudioUnitScope_Global, 0, 0, 0);
+        checkErr(err);
+        
+        AudioUnitParameterID gainParamID = kAUNBandEQParam_Gain + i;
+        err = AudioUnitSetParameter(mEqualizerUnit1, gainParamID, kAudioUnitScope_Global, 0, 0, 0);
+        checkErr(err);
+        err = AudioUnitSetParameter(mEqualizerUnit2, gainParamID, kAudioUnitScope_Global, 0, 0, 0);
+        checkErr(err);
+    }
+    return err;
+}
+
+void EQEngine::SetEqFrequencies(UInt64 *frequencies){
+    ResetEqUnits();
+    
+    UInt32 nBands = sizeof(frequencies) / sizeof(*frequencies);
+    
+    for (int i = 0; i < nBands; i++) {
+        int incrementor = i;
+        AudioUnit eqUnit = mEqualizerUnit1;
+        if (i >= 16) {
+            incrementor = i - 16;
+            eqUnit = mEqualizerUnit2;
+        }
+        
+        AudioUnitParameterID parameterID = kAUNBandEQParam_Frequency + incrementor;
+        AudioUnitSetParameter(eqUnit, parameterID, kAudioUnitScope_Global, 0, (AudioUnitParameterValue)frequencies[i], 0);
+        parameterID = kAUNBandEQParam_BypassBand + incrementor;
+        AudioUnitSetParameter(eqUnit, parameterID, kAudioUnitScope_Global, 0, (AudioUnitParameterValue)0, 0);
+    }
+}
+
 void EQEngine::SetEqGains(Float32 *gains){
-    for (int i = 0; i<nBands; i++) {
-        AudioUnitParameterID parameterID = kAUNBandEQParam_Gain + i;
-        AudioUnitSetParameter(mEqualizerUnit,parameterID, kAudioUnitScope_Global,0,map(gains[i], -1.0, 1.0, -24.0, 24.0),0);
+    
+    UInt32 nBands = sizeof(gains) / sizeof(*gains);
+    
+    for (int i = 0; i < nBands; i++) {
+        int incrementor = i;
+        AudioUnit eqUnit = mEqualizerUnit1;
+        if (i >= 16) {
+            incrementor = i - 16;
+            eqUnit = mEqualizerUnit2;
+        }
+        
+        AudioUnitParameterID parameterID = kAUNBandEQParam_Gain + incrementor;
+        AudioUnitSetParameter(eqUnit, parameterID, kAudioUnitScope_Global, 0, map(gains[i], -1.0, 1.0, -24.0, 24.0),0);
     }
 }
 
 Float32* EQEngine::GetEqGains(){
-    Float32 *gains = new Float32[nBands]();
-    for (int i = 0; i<nBands; i++) {
-        AudioUnitParameterID parameterID = kAUNBandEQParam_Gain + i;
-        AudioUnitGetParameter(mEqualizerUnit, parameterID, kAudioUnitScope_Global, 0, &gains[i]);
+    Float32 *gains = new Float32[32]();
+    for (int i = 0; i < 32; i++) {
+        
+        int incrementor = i;
+        AudioUnit eqUnit = mEqualizerUnit1;
+        if (i >= 16) {
+            incrementor = i - 16;
+            eqUnit = mEqualizerUnit2;
+        }
+        
+        AudioUnitParameterID parameterID = kAUNBandEQParam_Gain + incrementor;
+        AudioUnitGetParameter(eqUnit, parameterID, kAudioUnitScope_Global, 0, &gains[i]);
         gains[i] = map(gains[i], -24, 24, -1, 1);
     }
     return gains;
@@ -309,37 +374,33 @@ OSStatus EQEngine::SetupGraph(AudioDeviceID out)
 	output.inputProc = OutputProc;
 	output.inputProcRefCon = this;
     
-    NSArray *eqFrequencies = @[ @32, @64, @125, @250, @500, @1000, @2000, @4000, @8000, @16000 ];
+    UInt32 nBands = 16;
     
-    nBands = (int)[eqFrequencies count];
+    err = AudioUnitSetProperty(mEqualizerUnit1, kAUNBandEQProperty_NumberOfBands, kAudioUnitScope_Global, 0, &nBands, sizeof(nBands));
+    checkErr(err);
     
-    AudioUnitSetProperty(mEqualizerUnit, kAUNBandEQProperty_NumberOfBands, kAudioUnitScope_Global, 0, &nBands, sizeof(nBands));
+    err = AudioUnitSetProperty(mEqualizerUnit2, kAUNBandEQProperty_NumberOfBands, kAudioUnitScope_Global, 0, &nBands, sizeof(nBands));
+    checkErr(err);
     
-    for (int i=0; i<nBands; i++) {
-        AudioUnitParameterID parameterID = kAUNBandEQParam_Frequency + i;
-        err = AudioUnitSetParameter(mEqualizerUnit, parameterID, kAudioUnitScope_Global, 0, (AudioUnitParameterValue)[[eqFrequencies objectAtIndex:i] floatValue], 0);
-        parameterID = kAUNBandEQParam_BypassBand + i;
-        err = AudioUnitSetParameter(mEqualizerUnit, parameterID, kAudioUnitScope_Global, 0, (AudioUnitParameterValue)0, 0);
-        checkErr(err);
-    }
+    ResetEqUnits();
+    
+    err = AudioUnitSetProperty(mFormatUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, 0, &asbd, sizeof(asbd));
+    checkErr(err);
 
-    
-    AudioUnitSetProperty(mFormatUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, 0, &asbd, sizeof(asbd));
-	
 	err = AudioUnitSetProperty(mVarispeedUnit, 
 							  kAudioUnitProperty_SetRenderCallback, 
 							  kAudioUnitScope_Input,
 							  0,
 							  &output, 
 							  sizeof(output));
-	checkErr(err);		
-	
+	checkErr(err);
+
 	return err;
 }
 
 OSStatus EQEngine::MakeGraph(){
 	OSStatus err = noErr;
-	AudioComponentDescription varispeedDesc,outDesc, eqDesc, formatDesc;
+	AudioComponentDescription varispeedDesc,outDesc, eqDesc1, eqDesc2, formatDesc;
 	
 	//Q:Why do we need a varispeed unit?
 	//A:If the input device and the output device are running at different sample rates
@@ -356,13 +417,18 @@ OSStatus EQEngine::MakeGraph(){
     formatDesc.componentFlags = 0;
     formatDesc.componentFlagsMask = 0;
     
-    eqDesc.componentType = kAudioUnitType_Effect;
-    eqDesc.componentSubType = kAudioUnitSubType_NBandEQ;
-    eqDesc.componentManufacturer = kAudioUnitManufacturer_Apple;
-    eqDesc.componentFlags = 0;
-    eqDesc.componentFlagsMask = 0;
+    eqDesc1.componentType = kAudioUnitType_Effect;
+    eqDesc1.componentSubType = kAudioUnitSubType_NBandEQ;
+    eqDesc1.componentManufacturer = kAudioUnitManufacturer_Apple;
+    eqDesc1.componentFlags = 0;
+    eqDesc1.componentFlagsMask = 0;
     
-  
+    eqDesc2.componentType = kAudioUnitType_Effect;
+    eqDesc2.componentSubType = kAudioUnitSubType_NBandEQ;
+    eqDesc2.componentManufacturer = kAudioUnitManufacturer_Apple;
+    eqDesc2.componentFlags = 0;
+    eqDesc2.componentFlagsMask = 0;
+    
 	outDesc.componentType = kAudioUnitType_Output;
 	outDesc.componentSubType = kAudioUnitSubType_HALOutput;
 	outDesc.componentManufacturer = kAudioUnitManufacturer_Apple;
@@ -377,7 +443,9 @@ OSStatus EQEngine::MakeGraph(){
 	checkErr(err);
     err = AUGraphAddNode(mGraph, &formatDesc, &mFormatNode);
     checkErr(err);
-    err = AUGraphAddNode(mGraph, &eqDesc, &mEqualizerNode);
+    err = AUGraphAddNode(mGraph, &eqDesc1, &mEqualizerNode1);
+    checkErr(err);
+    err = AUGraphAddNode(mGraph, &eqDesc2, &mEqualizerNode2);
     checkErr(err);
 	err = AUGraphAddNode(mGraph, &outDesc, &mOutputNode);
 	checkErr(err);
@@ -387,7 +455,9 @@ OSStatus EQEngine::MakeGraph(){
 	checkErr(err);
     err = AUGraphNodeInfo(mGraph, mFormatNode, NULL, &mFormatUnit);
     checkErr(err);
-    err = AUGraphNodeInfo(mGraph, mEqualizerNode, NULL, &mEqualizerUnit);
+    err = AUGraphNodeInfo(mGraph, mEqualizerNode1, NULL, &mEqualizerUnit1);
+    checkErr(err);
+    err = AUGraphNodeInfo(mGraph, mEqualizerNode2, NULL, &mEqualizerUnit2);
     checkErr(err);
 	err = AUGraphNodeInfo(mGraph, mOutputNode, NULL, &mOutputUnit);   
 	checkErr(err);
@@ -513,8 +583,8 @@ OSStatus EQEngine::SetupBuffers(){
 	propertySize = sizeof(asbd_dev1_in);
 	err = AudioUnitGetProperty(mInputUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, 1, &asbd_dev1_in, &propertySize);
 	checkErr(err);
-    //printf("=====Input DEVICE stream format\n" );
-	//asbd_dev1_in.Print();
+    printf("=====Input DEVICE stream format\n" );
+    asbd_dev1_in.Print();
 	
 	//Get the Stream Format (client side)
 	propertySize = sizeof(asbd);

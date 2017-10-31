@@ -231,7 +231,6 @@ NSTimer *deviceActivityWatcher;
         [EQHost deleteEQEngine];
     }
     
-    [Storage set:[eqVC getSelectedPresetName] key:kStorageSelectedPresetName];
     [EQHost detectAndRemoveRoguePassthroughDevice];
     [Devices switchToDeviceWithID:[EQHost getSelectedOutputDeviceID]];
 }

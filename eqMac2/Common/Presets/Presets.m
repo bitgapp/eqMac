@@ -27,7 +27,7 @@
 }
 
 +(NSDictionary*)getUserPresets{
-    StorageKey presetStorageKey = [[Storage get: kStorageSelectedBandMode] intValue] == 10 ? kStorage10BandPresets : kStorage31BandPresets;
+    StorageKey presetStorageKey = [[Storage get: kStorageSelectedBandMode] intValue] == 10 ? kStoragePresets10Bands : kStoragePresets31Bands;
     NSDictionary *userPresets = [Storage get: presetStorageKey];
     if(!userPresets) {
         userPresets = @{};
@@ -75,7 +75,7 @@
     [newPreset setObject:gains forKey:@"gains"];
     NSMutableDictionary *userPresets = [[self getUserPresets] mutableCopy];
     [userPresets setObject:newPreset forKey:name];
-    StorageKey presetStorageKey = [[Storage get: kStorageSelectedBandMode] intValue] == 10 ? kStorage10BandPresets : kStorage31BandPresets;
+    StorageKey presetStorageKey = [[Storage get: kStorageSelectedBandMode] intValue] == 10 ? kStoragePresets10Bands : kStoragePresets31Bands;
 
     [Storage set:userPresets key: presetStorageKey];
 }
@@ -83,7 +83,7 @@
 +(void)deletePresetWithName:(NSString*)name{
     NSMutableDictionary *userPresets = [[self getUserPresets] mutableCopy];
     [userPresets removeObjectForKey:name];
-    StorageKey presetStorageKey = [[Storage get: kStorageSelectedBandMode] intValue] == 10 ? kStorage10BandPresets : kStorage31BandPresets;
+    StorageKey presetStorageKey = [[Storage get: kStorageSelectedBandMode] intValue] == 10 ? kStoragePresets10Bands : kStoragePresets31Bands;
     [Storage set:userPresets key: presetStorageKey];
 }
 
