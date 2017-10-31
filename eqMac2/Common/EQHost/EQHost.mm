@@ -26,6 +26,16 @@ static NSNumber *bandMode;
     
 
     mEngine = new EQEngine(input, output);
+    
+    NSArray *frequenciesArray = [Constants getFrequenciesForBandMode: bandMode.stringValue];
+    
+    UInt32 *frequencies = new UInt32[frequenciesArray.count]();
+    for (int i = 0; i < frequenciesArray.count; i++) {
+        frequencies[i] = [[[frequenciesArray objectAtIndex: i] objectForKey:@"frequency"] intValue];
+    }
+    
+    mEngine->SetEqFrequencies(frequencies, (UInt32)frequenciesArray.count);
+    
     mEngine->Start();
     
     StorageKey selectedGainsKey = bandMode.intValue == 10 ? kStorageSelectedGains10Bands : kStorageSelectedGains31Bands;
@@ -284,7 +294,7 @@ static NSNumber *bandMode;
     }
     
     if(mEngine){
-        mEngine->SetEqGains(array);
+        mEngine->SetEqGains(array, (UInt32)gains.count);
     }
 }
 

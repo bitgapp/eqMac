@@ -264,15 +264,15 @@ OSStatus EQEngine::ResetEqUnits(){
     OSStatus err = noErr;
     for (int i = 0; i < 16; i++) {
         AudioUnitParameterID frequencyParamID = kAUNBandEQParam_Frequency + i;
-        err = AudioUnitSetParameter(mEqualizerUnit1, frequencyParamID, kAudioUnitScope_Global, 0, 0, 0);
+        err = AudioUnitSetParameter(mEqualizerUnit1, frequencyParamID, kAudioUnitScope_Global, 0, (AudioUnitParameterValue)0, 0);
         checkErr(err);
-        err = AudioUnitSetParameter(mEqualizerUnit2, frequencyParamID, kAudioUnitScope_Global, 0, 0, 0);
+        err = AudioUnitSetParameter(mEqualizerUnit2, frequencyParamID, kAudioUnitScope_Global, 0, (AudioUnitParameterValue)0, 0);
         checkErr(err);
         
         AudioUnitParameterID bypassBandParamID = kAUNBandEQParam_BypassBand + i;
-        err = AudioUnitSetParameter(mEqualizerUnit1, bypassBandParamID, kAudioUnitScope_Global, 0, 0, 0);
+        err = AudioUnitSetParameter(mEqualizerUnit1, bypassBandParamID, kAudioUnitScope_Global, 0, (AudioUnitParameterValue)0, 0);
         checkErr(err);
-        err = AudioUnitSetParameter(mEqualizerUnit2, bypassBandParamID, kAudioUnitScope_Global, 0, 0, 0);
+        err = AudioUnitSetParameter(mEqualizerUnit2, bypassBandParamID, kAudioUnitScope_Global, 0,(AudioUnitParameterValue) 0, 0);
         checkErr(err);
         
         AudioUnitParameterID gainParamID = kAUNBandEQParam_Gain + i;
@@ -284,12 +284,10 @@ OSStatus EQEngine::ResetEqUnits(){
     return err;
 }
 
-void EQEngine::SetEqFrequencies(UInt64 *frequencies){
+void EQEngine::SetEqFrequencies(UInt32 *frequencies, UInt32 count){
     ResetEqUnits();
     
-    UInt32 nBands = sizeof(frequencies) / sizeof(*frequencies);
-    
-    for (int i = 0; i < nBands; i++) {
+    for (int i = 0; i < count; i++) {
         int incrementor = i;
         AudioUnit eqUnit = mEqualizerUnit1;
         if (i >= 16) {
@@ -304,11 +302,9 @@ void EQEngine::SetEqFrequencies(UInt64 *frequencies){
     }
 }
 
-void EQEngine::SetEqGains(Float32 *gains){
+void EQEngine::SetEqGains(Float32 *gains, UInt32 count){
     
-    UInt32 nBands = sizeof(gains) / sizeof(*gains);
-    
-    for (int i = 0; i < nBands; i++) {
+    for (int i = 0; i < count; i++) {
         int incrementor = i;
         AudioUnit eqUnit = mEqualizerUnit1;
         if (i >= 16) {
@@ -317,6 +313,7 @@ void EQEngine::SetEqGains(Float32 *gains){
         }
         
         AudioUnitParameterID parameterID = kAUNBandEQParam_Gain + incrementor;
+        NSLog(@"%f", gains[i]);
         AudioUnitSetParameter(eqUnit, parameterID, kAudioUnitScope_Global, 0, map(gains[i], -1.0, 1.0, -24.0, 24.0),0);
     }
 }
@@ -384,8 +381,7 @@ OSStatus EQEngine::SetupGraph(AudioDeviceID out)
     
     ResetEqUnits();
     
-    err = AudioUnitSetProperty(mFormatUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, 0, &asbd, sizeof(asbd));
-    checkErr(err);
+    AudioUnitSetProperty(mFormatUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, 0, &asbd, sizeof(asbd));
 
 	err = AudioUnitSetProperty(mVarispeedUnit, 
 							  kAudioUnitProperty_SetRenderCallback, 

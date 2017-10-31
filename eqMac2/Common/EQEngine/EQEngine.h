@@ -77,8 +77,8 @@ public:
     OSStatus	Start();
     OSStatus	Stop();
     Boolean		IsRunning();
-    void        SetEqFrequencies(UInt64 frequencies[]);
-    void        SetEqGains(Float32 gains[]);
+    void        SetEqFrequencies(UInt32 frequencies[], UInt32 count);
+    void        SetEqGains(Float32 gains[], UInt32 count);
     Float32*     GetEqGains();
     
     AudioDeviceID GetInputDeviceID()	{ return mInputDevice.mID;	}
