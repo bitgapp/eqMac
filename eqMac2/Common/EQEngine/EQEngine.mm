@@ -295,6 +295,8 @@ void EQEngine::SetEqFrequencies(UInt32 *frequencies, UInt32 count){
             eqUnit = mEqualizerUnit2;
         }
         
+        NSLog(@"%i: %i", i, frequencies[i]);
+
         AudioUnitParameterID parameterID = kAUNBandEQParam_Frequency + incrementor;
         AudioUnitSetParameter(eqUnit, parameterID, kAudioUnitScope_Global, 0, (AudioUnitParameterValue)frequencies[i], 0);
         parameterID = kAUNBandEQParam_BypassBand + incrementor;
@@ -313,7 +315,7 @@ void EQEngine::SetEqGains(Float32 *gains, UInt32 count){
         }
         
         AudioUnitParameterID parameterID = kAUNBandEQParam_Gain + incrementor;
-        NSLog(@"%f", gains[i]);
+//        NSLog(@"%i: %f", i, gains[i]);
         AudioUnitSetParameter(eqUnit, parameterID, kAudioUnitScope_Global, 0, map(gains[i], -1.0, 1.0, -24.0, 24.0),0);
     }
 }

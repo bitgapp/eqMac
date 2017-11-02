@@ -155,7 +155,10 @@ CGFloat originalHeight;
 
 -(void)sliderGraphChanged{
     [_presetsPopup setTitle:NSLocalizedString(@"Custom",nil)];
-    [EQHost setEQEngineFrequencyGains:[sliderView getBandValues]];
+    NSArray *selectedGains = [sliderView getBandValues];
+    [EQHost setEQEngineFrequencyGains: selectedGains];
+    StorageKey selectedGainsKey = bandMode.intValue == 10 ? kStorageSelectedGains10Bands : kStorageSelectedGains31Bands;
+    [Storage set: selectedGains key: selectedGainsKey];
 }
 
 - (IBAction)resetEQ:(id)sender {
@@ -164,6 +167,8 @@ CGFloat originalHeight;
     for (int i = 0; i < [bandMode intValue]; i++) [flatGains addObject:@0];
     [sliderView animateBandsToValues:flatGains];
     [EQHost setEQEngineFrequencyGains:flatGains];
+    StorageKey selectedGainsKey = bandMode.intValue == 10 ? kStorageSelectedGains10Bands : kStorageSelectedGains31Bands;
+    [Storage set: flatGains key: selectedGainsKey];
 }
 
 -(NSString*)getSelectedPresetName{
@@ -200,7 +205,12 @@ CGFloat originalHeight;
     [self populatePresetPopup];
     [self readjustView];
     [self setBandModeSettings];
-    [Devices switchToDeviceWithID: [EQHost getSelectedOutputDeviceID]];
+    [Utilities executeBlock:^{
+        [Devices switchToDeviceWithID: [EQHost getSelectedOutputDeviceID]];
+        StorageKey selectedGainsKey = bandMode.intValue == 10 ? kStorageSelectedGains10Bands : kStorageSelectedGains31Bands;
+        NSArray *selectedGains = [Storage get: selectedGainsKey];
+        [sliderView animateBandsToValues: selectedGains];
+    } after: 0.1];
 }
 
 -(void)setBandModeSettings{
@@ -231,8 +241,6 @@ CGFloat originalHeight;
     
     [self.view setFrame: NSMakeRect(self.view.frame.origin.x, self.view.frame.origin.y, width, height)];
     [notify postNotificationName:@"readjustPopover" object:nil];
-    
-   
 }
 
 

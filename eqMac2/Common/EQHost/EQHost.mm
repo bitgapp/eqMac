@@ -264,9 +264,6 @@ static NSNumber *bandMode;
 
 +(void)deleteEQEngine{
     if(mEngine){
-        StorageKey selectedGainsKey = bandMode.intValue == 10 ? kStorageSelectedGains10Bands : kStorageSelectedGains31Bands;
-        [Storage set:[EQHost getEQEngineFrequencyGains] key: selectedGainsKey];
-        
         mEngine->Stop();
             
         delete mEngine;
