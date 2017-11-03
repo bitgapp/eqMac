@@ -3,7 +3,7 @@
 Hey, my name is Roman and I'm mainly a Full Stack TypeScript developer, Objective-C is just a hobby.
 
 #### Idea:
-In 2015 I finished University (Computer Hardware and Software Engineering course) and was pretty poor. Back then I liked to listen to Music 24/7, but I always had cheap headphones and the experice wasn't the best. I knew I can make my headphones better with a good Audio Equalizer. Made some research and found Boom2, like all of us did. But when I looked at the price I felt disgusted. Being that I'm a fresh Software Developer graduate I was very keen to apply myself somewhere. I decided that I will build my own Equalizer.
+In 2015 I finished my University degree (Computer Hardware and Software Engineering course) and was pretty bored. Back then I liked to listen to Music 24/7, but I always had cheap headphones and the experice wasn't the best. I knew I can make my headphones better with a good Audio Equalizer. Made some research and found Boom2, like all of us did. But when I looked at the price I felt disgusted. Being that I'm a fresh Software Developer graduate I was very keen to apply myself somewhere. I decided that I will build my own Equalizer.
 #### eqMac1 Summer 2015:
 Back then Objective-C was always my language of choice. 
 I've spent around a month building the first version of eqMac. Had to do loads of reading but mostly it was pretty simple. Due to stupidity I coded the entire UI rather than using the Interface Builder. Honestly, the hardest part was doing the Website where people could download the app.
