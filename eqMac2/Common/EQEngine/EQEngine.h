@@ -77,7 +77,8 @@ public:
     OSStatus	Start();
     OSStatus	Stop();
     Boolean		IsRunning();
-    void        SetEqGains(Float32 gains[]);
+    void        SetEqFrequencies(UInt32 frequencies[], UInt32 count);
+    void        SetEqGains(Float32 gains[], UInt32 count);
     Float32*     GetEqGains();
     
     AudioDeviceID GetInputDeviceID()	{ return mInputDevice.mID;	}
@@ -93,6 +94,8 @@ private:
     OSStatus EnableIO();
     OSStatus CallbackSetup();
     OSStatus SetupBuffers();
+    
+    OSStatus ResetEqUnits();
     
     void ComputeThruOffset();
     
@@ -128,8 +131,10 @@ private:
     AudioUnit mVarispeedUnit;
     AUNode mFormatNode;
     AudioUnit mFormatUnit;
-    AUNode mEqualizerNode;
-    AudioUnit mEqualizerUnit;
+    AUNode mEqualizerNode1;
+    AudioUnit mEqualizerUnit1;
+    AUNode mEqualizerNode2;
+    AudioUnit mEqualizerUnit2;
     AUNode mOutputNode;
     AudioUnit mOutputUnit;
     
@@ -137,9 +142,6 @@ private:
     Float64 mFirstInputTime;
     Float64 mFirstOutputTime;
     Float64 mInToOutSampleOffset;
-    
-    UInt32 nBands;
-    
 };
 
 #endif //__EQEngine_H__

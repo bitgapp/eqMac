@@ -14,8 +14,10 @@
 @property (strong) IBOutlet NSPopUpButton *presetsPopup;
 @property (strong) IBOutlet NSButton *saveButton;
 
+@property (strong) IBOutlet NSView *bandLabelsView;
 @property (strong) IBOutlet NSView *mockSliderView;
 @property (strong) IBOutlet NSPopUpButton *outputPopup;
+@property (strong) IBOutlet NSButton *bandModeButton;
 
 @property (strong) IBOutlet NSImageView *speakerIcon;
 @property (strong) IBOutlet NSSlider *volumeSlider;
@@ -25,6 +27,8 @@
 @property (strong) IBOutlet NSSlider *balanceSlider;
 @property (strong) IBOutlet NSImageView *rightSpeaker;
 
+@property (strong) IBOutlet NSView *optionsView;
+@property (strong) IBOutlet NSView *settingsView;
 @property (strong) IBOutlet NSButton *showVolumeHUDCheckbox;
 @property (strong) IBOutlet NSButton *launchOnStartupCheckbox;
 @property (strong) IBOutlet NSButton *showDefaultPresetsCheckbox;
@@ -35,13 +39,20 @@
 SliderGraphView *sliderView;
 NSNotificationCenter *notify;
 NSArray *outputDevices;
+NSNumber *bandMode;
+CGFloat originalWidth;
+CGFloat originalHeight;
 
 @implementation eqViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    originalWidth = self.view.frame.size.width;
+    originalHeight = self.view.frame.size.height;
   
     sliderView = [[SliderGraphView alloc] initWithFrame: _mockSliderView.frame];
+    [sliderView setAutoresizingMask: _mockSliderView.autoresizingMask];
     _mockSliderView = nil;
     [self.view addSubview:sliderView];
     
@@ -56,33 +67,54 @@ NSArray *outputDevices;
     [self populatePresetPopup];
     [self populateOutputPopup];
     
-    NSString *selectedPresetsName = [Storage get:kStorageSelectedPresetName];
-    if(selectedPresetsName) [_presetsPopup setTitle:selectedPresetsName];
-    
-    [notify addObserver:self selector:@selector(readjustSettings) name:@"popoverWillOpen" object:nil];
-    [notify addObserver:self selector:@selector(readjustSettings) name:@"changeVolume" object:nil];
+    [notify addObserver:self selector:@selector(readjustView) name:@"popoverWillOpen" object:nil];
+    [notify addObserver:self selector:@selector(readjustView) name:@"changeVolume" object:nil];
     
     [_buildLabel setStringValue:[@"Build " stringByAppendingString:[Utilities getAppVersion]]];
+    
+    bandMode = [Storage get: kStorageSelectedBandMode];
+    
+    [sliderView setNSliders: [bandMode intValue]];
+    
+    [self readjustView];
 }
 
--(void)viewWillAppear{
+-(void)viewDidAppear{
+    [sliderView forceRedraw];
     [self populateOutputPopup];
-
     [_deleteButton setImage:[Utilities isDarkMode] ? [NSImage imageNamed:@"deleteLight.png"] : [NSImage imageNamed:@"deleteDark.png"]];
     [_saveButton setImage:[Utilities isDarkMode] ? [NSImage imageNamed:@"saveLight.png"] : [NSImage imageNamed:@"saveDark.png"]];
-    
-    [self readjustSettings];
     [_speakerIcon setImage:[Utilities isDarkMode] ? [NSImage imageNamed:@"speakerLight.png"] : [NSImage imageNamed:@"speakerDark.png"]];
     
     [_launchOnStartupCheckbox setState: [Utilities launchOnLogin] ? NSOnState : NSOffState];
     [_showDefaultPresetsCheckbox setState:[[Storage get:kStorageShowDefaultPresets] integerValue]];
     [_showVolumeHUDCheckbox setState:[[Storage get: kStorageShowVolumeHUD] integerValue]];
-}
-
--(void)viewDidAppear{
+    
     [Utilities executeBlock:^{
         [sliderView animateBandsToValues:[EQHost getEQEngineFrequencyGains]];
     } after:.1];
+}
+    
+-(void)setBandLabels{
+    NSArray *sliderPositions = [sliderView getSliderXPosition];
+    [_bandLabelsView setSubviews: [[NSArray alloc] init]];
+    NSArray *frequencies = [Constants getFrequenciesForBandMode: [bandMode stringValue]];
+    CGFloat labelWidth = 38;
+    CGFloat labelHeight = 17;
+    CGFloat labelYPos = _bandLabelsView.bounds.size.height / 2 - labelHeight / 2;
+    int index = -1;
+    for(NSNumber *position in sliderPositions) {
+        index++;
+        CGFloat labelXPos = [position floatValue] - labelWidth / 2;
+        NSTextField *label = [[NSTextField alloc] initWithFrame: NSMakeRect(labelXPos, labelYPos, labelWidth, labelHeight)];
+        [label setBackgroundColor: [NSColor colorWithRed:0 green:0 blue:0 alpha:0]];
+        [label setBordered:NO];
+        [label setStringValue: [[frequencies objectAtIndex: index] objectForKey:@"label"]];
+        [label setAlignment: NSCenterTextAlignment];
+        CGFloat fontSize = bandMode.intValue == 10 ? 9 : 7;
+        [label setFont: [NSFont systemFontOfSize: fontSize]];
+        [_bandLabelsView addSubview:label];
+    }
 }
 
 
@@ -90,6 +122,7 @@ NSArray *outputDevices;
     [_presetsPopup removeAllItems];
     NSArray *presets = [Presets getShowablePresetsNames];
     [_presetsPopup addItemsWithTitles: [Utilities orderedStringArrayFromStringArray: presets]];
+    [self setSelectedPresetName];
 }
 
 - (IBAction)changePreset:(NSPopUpButton *)sender {
@@ -97,6 +130,7 @@ NSArray *outputDevices;
     NSArray *gains = [Presets getGainsForPreset:presetName];
     [sliderView animateBandsToValues:gains];
     [EQHost setEQEngineFrequencyGains:gains];
+    [self saveSelectedPresetName];
 }
 
 - (IBAction)deletePreset:(id)sender {
@@ -113,26 +147,41 @@ NSArray *outputDevices;
         [Presets savePreset:[sliderView getBandValues] withName:newPresetName];
         [self populatePresetPopup];
         [_presetsPopup selectItemWithTitle:newPresetName];
+        [self saveSelectedPresetName];
     }
 }
 
+-(void)saveSelectedPresetName{
+    StorageKey selectedPresetNameKey = bandMode.intValue == 10 ? kStorageSelectedPresetName10Bands : kStorageSelectedPresetName31Bands;
+    [Storage set: _presetsPopup.title key: selectedPresetNameKey];
+}
 
+-(void)setSelectedPresetName{
+    StorageKey selectedPresetNameKey = bandMode.intValue == 10 ? kStorageSelectedPresetName10Bands : kStorageSelectedPresetName31Bands;
+    [_presetsPopup setTitle: [Storage get: selectedPresetNameKey]];
+}
 
 -(void)sliderGraphChanged{
     [_presetsPopup setTitle:NSLocalizedString(@"Custom",nil)];
-    [EQHost setEQEngineFrequencyGains:[sliderView getBandValues]];
+    NSArray *selectedGains = [sliderView getBandValues];
+    [EQHost setEQEngineFrequencyGains: selectedGains];
+    StorageKey selectedGainsKey = bandMode.intValue == 10 ? kStorageSelectedGains10Bands : kStorageSelectedGains31Bands;
+    [Storage set: selectedGains key: selectedGainsKey];
+    [self saveSelectedPresetName];
 }
 
 - (IBAction)resetEQ:(id)sender {
     [_presetsPopup setTitle:NSLocalizedString(@"Flat",nil)];
-    NSArray *flatGains = @[@0,@0,@0,@0,@0,@0,@0,@0,@0,@0];
+    NSMutableArray *flatGains = [@[] mutableCopy];
+    for (int i = 0; i < [bandMode intValue]; i++) [flatGains addObject:@0];
     [sliderView animateBandsToValues:flatGains];
     [EQHost setEQEngineFrequencyGains:flatGains];
+    StorageKey selectedGainsKey = bandMode.intValue == 10 ? kStorageSelectedGains10Bands : kStorageSelectedGains31Bands;
+    [Storage set: flatGains key: selectedGainsKey];
+    [self saveSelectedPresetName];
 }
 
--(NSString*)getSelectedPresetName{
-    return [_presetsPopup title];
-}
+
 
 -(void)populateOutputPopup{
     [_outputPopup removeAllItems];
@@ -157,8 +206,28 @@ NSArray *outputDevices;
     [Devices switchToDeviceWithID: selectedOutputDevice];
 }
 
+- (IBAction)toggleBandMode:(id)sender {
+    bandMode = [bandMode intValue] == 10 ? @31 : @10;
+    
+    [Storage set: bandMode key: kStorageSelectedBandMode];
+    [self populatePresetPopup];
+    [self readjustView];
+    [self setBandModeSettings];
+    [Utilities executeBlock:^{
+        [Devices switchToDeviceWithID: [EQHost getSelectedOutputDeviceID]];
+        StorageKey selectedGainsKey = bandMode.intValue == 10 ? kStorageSelectedGains10Bands : kStorageSelectedGains31Bands;
+        NSArray *selectedGains = [Storage get: selectedGainsKey];
+        [sliderView animateBandsToValues: selectedGains];
+        [self setSelectedPresetName];
+    } after: 0.1];
+}
 
--(void)readjustSettings{
+-(void)setBandModeSettings{
+    [sliderView setNSliders: [bandMode intValue]];
+    [_showDefaultPresetsCheckbox setEnabled: [bandMode intValue] == 10];
+}
+
+-(void)readjustView{
     [Utilities executeBlock:^{
         
         //VOLUME
@@ -170,8 +239,17 @@ NSArray *outputDevices;
         Float32 currentBalance = [Devices getBalanceForDeviceID:[Devices getVolumeControllerDeviceID]];
         [_balanceSlider setFloatValue:currentBalance];
         [self changeBalanceIcons:currentBalance];
-        
+    
+        [self setBandLabels];
     } after:0.01];
+    
+    [_bandModeButton setTitle: [[bandMode intValue] == 10 ? @"31" : @"10" stringByAppendingString:@" Bands"]];
+    
+    CGFloat width = [bandMode intValue] == 10 ? originalWidth : originalWidth * 2;
+    CGFloat height = [bandMode intValue] == 10 ? originalHeight : originalHeight - (_optionsView.frame.size.height + _settingsView.frame.size.height);
+    
+    [self.view setFrame: NSMakeRect(self.view.frame.origin.x, self.view.frame.origin.y, width, height)];
+    [notify postNotificationName:@"readjustPopover" object:nil];
 }
 
 

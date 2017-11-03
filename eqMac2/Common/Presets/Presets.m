@@ -1,4 +1,4 @@
-//
+ //
 //  Presets.m
 //  eqMac2
 //
@@ -27,10 +27,11 @@
 }
 
 +(NSDictionary*)getUserPresets{
-    NSDictionary *userPresets = [Storage get: kStoragePresets];
+    StorageKey presetStorageKey = [[Storage get: kStorageSelectedBandMode] intValue] == 10 ? kStoragePresets10Bands : kStoragePresets31Bands;
+    NSDictionary *userPresets = [Storage get: presetStorageKey];
     if(!userPresets) {
         userPresets = @{};
-        [Storage set:userPresets key:kStoragePresets];
+        [Storage set:userPresets key: presetStorageKey];
     }
     return userPresets;
 }
@@ -53,7 +54,7 @@
     NSDictionary *allPresets = [self getAllPresets];
     NSMutableArray *showablePresetsNames = [[NSMutableArray alloc] init];
 
-    BOOL showDefaults = [self getShowDefaultPresets];
+    BOOL showDefaults = [[Storage get: kStorageSelectedBandMode] intValue] == 10 ? [self getShowDefaultPresets] : NO;
     
     for(NSString *presetName in [allPresets allKeys]){
         NSDictionary *preset = [allPresets objectForKey:presetName];
@@ -74,13 +75,16 @@
     [newPreset setObject:gains forKey:@"gains"];
     NSMutableDictionary *userPresets = [[self getUserPresets] mutableCopy];
     [userPresets setObject:newPreset forKey:name];
-    [Storage set:userPresets key: kStoragePresets];
+    StorageKey presetStorageKey = [[Storage get: kStorageSelectedBandMode] intValue] == 10 ? kStoragePresets10Bands : kStoragePresets31Bands;
+
+    [Storage set:userPresets key: presetStorageKey];
 }
 
 +(void)deletePresetWithName:(NSString*)name{
     NSMutableDictionary *userPresets = [[self getUserPresets] mutableCopy];
     [userPresets removeObjectForKey:name];
-    [Storage set:userPresets key: kStoragePresets];
+    StorageKey presetStorageKey = [[Storage get: kStorageSelectedBandMode] intValue] == 10 ? kStoragePresets10Bands : kStoragePresets31Bands;
+    [Storage set:userPresets key: presetStorageKey];
 }
 
 +(void)setShowDefaultPresets:(BOOL)condition{

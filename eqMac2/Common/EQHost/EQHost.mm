@@ -7,6 +7,7 @@ static EQEngine *mEngine;
 static AudioDeviceID selectedOutputDeviceID;
 static AudioDeviceID passthroughDeviceID;
 static NSDate *runStart;
+static NSNumber *bandMode;
 
 +(void)createEQEngineWithOutputDevice:(AudioDeviceID)output{
     if([self EQEngineExists]) [self deleteEQEngine];
@@ -16,14 +17,36 @@ static NSDate *runStart;
     selectedOutputDeviceID = output;
     
     [Devices switchToDeviceWithID: passthroughDeviceID];
+    
+    bandMode = [Storage get: kStorageSelectedBandMode];
+    if (!bandMode) {
+        bandMode = @10;
+        [Storage set: bandMode key: kStorageSelectedBandMode];
+    }
+    
 
     mEngine = new EQEngine(input, output);
+    
+    NSArray *frequenciesArray = [Constants getFrequenciesForBandMode: bandMode.stringValue];
+    
+    UInt32 *frequencies = new UInt32[frequenciesArray.count]();
+    for (int i = 0; i < frequenciesArray.count; i++) {
+        frequencies[i] = [[[frequenciesArray objectAtIndex: i] objectForKey:@"frequency"] intValue];
+    }
+    
+    mEngine->SetEqFrequencies(frequencies, (UInt32)frequenciesArray.count);
+    
     mEngine->Start();
     
-    
-
-    NSArray *savedGains = [Storage get:kStorageSelectedGains];
-    if(!savedGains) savedGains = @[@0,@0,@0,@0,@0,@0,@0,@0,@0,@0];
+    StorageKey selectedGainsKey = bandMode.intValue == 10 ? kStorageSelectedGains10Bands : kStorageSelectedGains31Bands;
+    NSMutableArray *savedGains = [Storage get: selectedGainsKey];
+    if(!savedGains) {
+        savedGains = [@[] mutableCopy];
+        
+        for (int i = 0; i < [bandMode intValue]; i++) [savedGains addObject: @0];
+        
+        [Storage set: savedGains key: selectedGainsKey];
+    }
     [self setEQEngineFrequencyGains: savedGains];
     runStart = [NSDate date];
 }
@@ -241,8 +264,6 @@ static NSDate *runStart;
 
 +(void)deleteEQEngine{
     if(mEngine){
-        [Storage set:[EQHost getEQEngineFrequencyGains] key:kStorageSelectedGains];
-        
         mEngine->Stop();
             
         delete mEngine;
@@ -270,21 +291,18 @@ static NSDate *runStart;
     }
     
     if(mEngine){
-        mEngine->SetEqGains(array);
+        mEngine->SetEqGains(array, (UInt32)gains.count);
     }
 }
 
 +(NSArray*)getEQEngineFrequencyGains{
-    if(mEngine){
         Float32 *gains = mEngine->GetEqGains();
+        int nGains = bandMode.intValue;
         NSMutableArray *convertedGains = [[NSMutableArray alloc] init];
-        for(int i = 0; i < 10; i++){
-            [convertedGains addObject:[NSNumber numberWithFloat:gains[i]]];
+        for(int i = 0; i < nGains; i++){
+            [convertedGains addObject: mEngine ? [NSNumber numberWithFloat:gains[i]] : @0];
         }
         return convertedGains;
-    }else{
-        return @[@0, @0, @0, @0, @0, @0, @0, @0, @0, @0];
-    }
 }
 
 

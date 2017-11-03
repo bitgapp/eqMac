@@ -13,13 +13,17 @@
 typedef enum {
     kStorageShowDefaultPresets,
     kStorageShowVolumeHUD,
-    kStoragePresets,
+    kStoragePresets10Bands,
+    kStoragePresets31Bands,
     kStorageAlreadyLaunched,
     kStorageOverallRuntime,
     kStorageLastRuntimeCheck,
     kStorageUUID,
-    kStorageSelectedGains,
-    kStorageSelectedPresetName
+    kStorageSelectedGains10Bands,
+    kStorageSelectedGains31Bands,
+    kStorageSelectedPresetName10Bands,
+    kStorageSelectedPresetName31Bands,
+    kStorageSelectedBandMode
 } StorageKey;
 
 +(id)get:(StorageKey)key;

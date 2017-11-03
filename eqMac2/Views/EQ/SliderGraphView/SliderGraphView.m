@@ -24,7 +24,7 @@ NSColor *drawingColor;
 NSBezierPath *graph;
 NSBezierPath *middleLine;
 NSMutableArray *bandValues;
-
+CGFloat padding;
 
 @implementation SliderGraphView
 
@@ -36,6 +36,7 @@ NSMutableArray *bandValues;
         nSliders = 10;
         knobSize = 10;
         sliderBarWidth = 3;
+        padding = 5;
         dragging = false;
     }
     return self;
@@ -45,16 +46,16 @@ NSMutableArray *bandValues;
 -(void)generateAssets{
     knobArray = [[NSMutableArray alloc] init];
     sliderBarArray = [[NSMutableArray alloc] init];
-    CGFloat x = 0;
+    CGFloat x = padding;
     CGFloat y = self.bounds.size.height/2 - knobSize/2;
-    CGFloat gap = (self.bounds.size.width - knobSize * nSliders) / (nSliders/2+1);
+    CGFloat gap = (self.bounds.size.width - knobSize * nSliders - padding * 2) / (nSliders - 1) + knobSize;
     for(int i = 0; i < nSliders; i++){
         NSBezierPath *knob = [NSBezierPath bezierPathWithOvalInRect:CGRectMake(x, y, knobSize, knobSize)];
         [knobArray addObject:knob];
         [sliderBarArray addObject:[NSBezierPath bezierPathWithRect:CGRectMake(x + knobSize/2 - sliderBarWidth/2, 0, sliderBarWidth, self.bounds.size.height)]];
         x+=gap;
     }
-    middleLine = [NSBezierPath bezierPathWithRect:CGRectMake([[sliderBarArray firstObject] bounds].origin.x, self.bounds.size.height/2 - sliderBarWidth/4, [[sliderBarArray lastObject] bounds].origin.x + sliderBarWidth, sliderBarWidth/2)];
+    middleLine = [NSBezierPath bezierPathWithRect:CGRectMake([[sliderBarArray firstObject] bounds].origin.x, self.bounds.size.height/2 - sliderBarWidth/4, [[sliderBarArray lastObject] bounds].origin.x - [[sliderBarArray firstObject] bounds].origin.x, sliderBarWidth/2)];
     
     topBars = [[NSMutableArray alloc] init];
     bottomBars = [[NSMutableArray alloc] init];
@@ -304,6 +305,24 @@ NSMutableArray *bandValues;
 -(NSArray*)getBandValues{
     return bandValues;
 }
+    
+-(NSArray*)getSliderXPosition{
+    NSMutableArray *positions = [[NSMutableArray alloc] init];
+    for (NSBezierPath *knob in knobArray) {
+        [positions addObject: [NSNumber numberWithFloat: knob.bounds.origin.x + knobSize / 2]];
+    }
+    return positions;
+}
 
+-(void)setNSliders:(int)number{
+    nSliders = number;
+    knobArray = nil;
+    [self forceRedraw];
+}
+
+-(void)forceRedraw{
+    [self setHidden:YES];
+    [self setHidden:NO];
+}
 
 @end
