@@ -122,9 +122,7 @@ CGFloat originalHeight;
     [_presetsPopup removeAllItems];
     NSArray *presets = [Presets getShowablePresetsNames];
     [_presetsPopup addItemsWithTitles: [Utilities orderedStringArrayFromStringArray: presets]];
-    StorageKey selectedPresetNameKey = bandMode.intValue == 10 ? kStorageSelectedPresetName10Bands : kStorageSelectedPresetName31Bands;
-    NSString *selectedPresetsName = [Storage get: selectedPresetNameKey];
-    if(selectedPresetsName) [_presetsPopup setTitle: selectedPresetsName];
+    [self setSelectedPresetName];
 }
 
 - (IBAction)changePreset:(NSPopUpButton *)sender {
@@ -132,8 +130,7 @@ CGFloat originalHeight;
     NSArray *gains = [Presets getGainsForPreset:presetName];
     [sliderView animateBandsToValues:gains];
     [EQHost setEQEngineFrequencyGains:gains];
-    StorageKey selectedPresetNameKey = bandMode.intValue == 10 ? kStorageSelectedPresetName10Bands : kStorageSelectedPresetName31Bands;
-    [Storage set: presetName key: selectedPresetNameKey];
+    [self saveSelectedPresetName];
 }
 
 - (IBAction)deletePreset:(id)sender {
@@ -150,7 +147,18 @@ CGFloat originalHeight;
         [Presets savePreset:[sliderView getBandValues] withName:newPresetName];
         [self populatePresetPopup];
         [_presetsPopup selectItemWithTitle:newPresetName];
+        [self saveSelectedPresetName];
     }
+}
+
+-(void)saveSelectedPresetName{
+    StorageKey selectedPresetNameKey = bandMode.intValue == 10 ? kStorageSelectedPresetName10Bands : kStorageSelectedPresetName31Bands;
+    [Storage set: _presetsPopup.title key: selectedPresetNameKey];
+}
+
+-(void)setSelectedPresetName{
+    StorageKey selectedPresetNameKey = bandMode.intValue == 10 ? kStorageSelectedPresetName10Bands : kStorageSelectedPresetName31Bands;
+    [_presetsPopup setTitle: [Storage get: selectedPresetNameKey]];
 }
 
 -(void)sliderGraphChanged{
@@ -159,6 +167,7 @@ CGFloat originalHeight;
     [EQHost setEQEngineFrequencyGains: selectedGains];
     StorageKey selectedGainsKey = bandMode.intValue == 10 ? kStorageSelectedGains10Bands : kStorageSelectedGains31Bands;
     [Storage set: selectedGains key: selectedGainsKey];
+    [self saveSelectedPresetName];
 }
 
 - (IBAction)resetEQ:(id)sender {
@@ -169,11 +178,10 @@ CGFloat originalHeight;
     [EQHost setEQEngineFrequencyGains:flatGains];
     StorageKey selectedGainsKey = bandMode.intValue == 10 ? kStorageSelectedGains10Bands : kStorageSelectedGains31Bands;
     [Storage set: flatGains key: selectedGainsKey];
+    [self saveSelectedPresetName];
 }
 
--(NSString*)getSelectedPresetName{
-    return [_presetsPopup title];
-}
+
 
 -(void)populateOutputPopup{
     [_outputPopup removeAllItems];
@@ -210,6 +218,7 @@ CGFloat originalHeight;
         StorageKey selectedGainsKey = bandMode.intValue == 10 ? kStorageSelectedGains10Bands : kStorageSelectedGains31Bands;
         NSArray *selectedGains = [Storage get: selectedGainsKey];
         [sliderView animateBandsToValues: selectedGains];
+        [self setSelectedPresetName];
     } after: 0.1];
 }
 

@@ -17,5 +17,4 @@
 #import "API.h"
 
 @interface eqViewController : NSViewController <NSComboBoxDelegate>
--(NSString*)getSelectedPresetName;
 @end

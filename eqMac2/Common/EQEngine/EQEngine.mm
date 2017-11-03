@@ -294,8 +294,6 @@ void EQEngine::SetEqFrequencies(UInt32 *frequencies, UInt32 count){
             incrementor = i - 16;
             eqUnit = mEqualizerUnit2;
         }
-        
-        NSLog(@"%i: %i", i, frequencies[i]);
 
         AudioUnitParameterID parameterID = kAUNBandEQParam_Frequency + incrementor;
         AudioUnitSetParameter(eqUnit, parameterID, kAudioUnitScope_Global, 0, (AudioUnitParameterValue)frequencies[i], 0);
@@ -315,7 +313,6 @@ void EQEngine::SetEqGains(Float32 *gains, UInt32 count){
         }
         
         AudioUnitParameterID parameterID = kAUNBandEQParam_Gain + incrementor;
-//        NSLog(@"%i: %f", i, gains[i]);
         AudioUnitSetParameter(eqUnit, parameterID, kAudioUnitScope_Global, 0, map(gains[i], -1.0, 1.0, -24.0, 24.0),0);
     }
 }
@@ -755,7 +752,6 @@ OSStatus EQEngine::OutputProc(void *inRefCon,
     checkErr(err);
 	if(err != kCARingBufferError_OK)
 	{
-        NSLog(@"error");
 		MakeBufferSilent (ioData);
 		SInt64 bufferStartTime, bufferEndTime;
 		This->mBuffer->GetTimeBounds(bufferStartTime, bufferEndTime);
