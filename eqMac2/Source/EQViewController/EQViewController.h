@@ -16,5 +16,5 @@
 #import "Devices.h"
 #import "API.h"
 
-@interface eqViewController : NSViewController <NSComboBoxDelegate>
+@interface EQViewController : NSViewController <NSComboBoxDelegate>
 @end

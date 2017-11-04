@@ -6,9 +6,9 @@
 //  Copyright © 2016 bitgapp. All rights reserved.
 //
 
-#import "eqViewController.h"
+#import "EQViewController.h"
 
-@interface eqViewController ()
+@interface EQViewController ()
 
 @property (strong) IBOutlet NSButton *deleteButton;
 @property (strong) IBOutlet NSPopUpButton *presetsPopup;
@@ -28,6 +28,7 @@
 @property (strong) IBOutlet NSImageView *rightSpeaker;
 
 @property (strong) IBOutlet NSView *optionsView;
+
 @property (strong) IBOutlet NSView *settingsView;
 @property (strong) IBOutlet NSButton *showVolumeHUDCheckbox;
 @property (strong) IBOutlet NSButton *launchOnStartupCheckbox;
@@ -43,7 +44,7 @@ NSNumber *bandMode;
 CGFloat originalWidth;
 CGFloat originalHeight;
 
-@implementation eqViewController
+@implementation EQViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -246,7 +247,7 @@ CGFloat originalHeight;
     [_bandModeButton setTitle: [[bandMode intValue] == 10 ? @"31" : @"10" stringByAppendingString:@" Bands"]];
     
     CGFloat width = [bandMode intValue] == 10 ? originalWidth : originalWidth * 2;
-    CGFloat height = [bandMode intValue] == 10 ? originalHeight : originalHeight - (_optionsView.frame.size.height + _settingsView.frame.size.height);
+    CGFloat height = [bandMode intValue] == 10 ? originalHeight : 358;
     
     [self.view setFrame: NSMakeRect(self.view.frame.origin.x, self.view.frame.origin.y, width, height)];
     [notify postNotificationName:@"readjustPopover" object:nil];
