@@ -13,7 +13,7 @@
 @end
 
 //Views
-eqViewController *eqVC;
+EQViewController *eqVC;
 VolumeWindowController *volumeHUD;
 eqMacStatusItemView *statusItemView;
 
@@ -63,7 +63,7 @@ NSTimer *deviceActivityWatcher;
     [EQHost detectAndRemoveRoguePassthroughDevice];
     [self checkAndInstallDriver];
     
-    eqVC = [[eqViewController alloc] initWithNibName:@"eqViewController" bundle:nil];
+    eqVC = [[EQViewController alloc] initWithNibName:@"EQViewController" bundle:nil];
 
     volumeHUD = [[VolumeWindowController alloc] initWithWindowNibName:@"VolumeWindowController"]; //Unfortunately have to use a custom Volume HUD as Aggregate Device Doesn't have master volume control :/
     

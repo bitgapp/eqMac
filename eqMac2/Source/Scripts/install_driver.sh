@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# enable install of apps downloaded from anywhere
+spctl --master-disable
+
 # remove old driver
 kextunload /System/Library/Extensions/eqMacDriver.kext
 rm -rf /System/Library/Extensions/eqMacDriver.kext
@@ -12,3 +15,5 @@ cp -R $DIR/eqMac2Driver.kext /System/Library/Extensions/
 kextload -tv /System/Library/Extensions/eqMac2Driver.kext
 touch /System/Library/Extensions
 
+# disable install of apps downloaded from anywhere
+spctl --master-enable
