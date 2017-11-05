@@ -229,5 +229,9 @@
     }];
 }
 
++(NSString*)stringifyAnything:(id)anything{
+    return [[NSString alloc] initWithData: [NSJSONSerialization dataWithJSONObject:anything options:(NSJSONWritingOptions) NSJSONWritingPrettyPrinted error:nil] encoding:NSUTF8StringEncoding];
+}
+
 @end
 

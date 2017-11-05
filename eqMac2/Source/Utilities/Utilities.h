@@ -28,4 +28,5 @@
 + (BOOL)launchOnLogin;
 + (void)setLaunchOnLogin:(BOOL)launchOnLogin;
 +(NSArray*)orderedStringArrayFromStringArray:(NSArray*)stringArray;
++(NSString*)stringifyAnything:(id)anything;
 @end

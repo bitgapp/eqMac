@@ -7,6 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Logger.h"
+#import "Utilities.h"
 
 @interface Storage : NSObject
 

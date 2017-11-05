@@ -38,7 +38,7 @@ static NSUserDefaults *defaults;
 }
 
 +(NSString*)getSelectedPresetNameKey{
-    return [[self getSelectedBandMode] intValue] == 10 ? @"kStorageSelectedPresetName" : @"kStoragePresets31Bands";
+    return [[self getSelectedBandMode] intValue] == 10 ? @"kStorageSelectedPresetName" : @"kStorageSelectedPresetName31Bands";
 }
 
 +(NSString*)getSelectedGainsKey{
@@ -57,6 +57,7 @@ static NSUserDefaults *defaults;
 
 // Show Default Presets
 +(void)setShowDefaultPresets:(BOOL)show{
+    [Logger log: [NSString stringWithFormat: @"Storage: setting show default presets to %hhd", show]];
     [self set: [NSNumber numberWithBool:show] key: [self getShowDefaultPresetsKey]];
 }
 
@@ -71,6 +72,7 @@ static NSUserDefaults *defaults;
 
 // Show Volume HUD
 +(void)setShowVolumeHUD:(BOOL)show{
+    [Logger log: [NSString stringWithFormat: @"Storage: setting show volume hud to %hhd", show]];
     [self set: [NSNumber numberWithBool:show] key: [self getShowVolumeHUDKey]];
 }
 +(BOOL)getShowVolumeHUD{
@@ -84,6 +86,7 @@ static NSUserDefaults *defaults;
 
 // Selected Band Mode
 +(void)setSelectedBandMode:(NSNumber*)bandMode{
+    [Logger log: [NSString stringWithFormat: @"Storage: setting band mode to %@", bandMode]];
     [self set: bandMode key: [self getSelectedBandModeKey]];
 }
 
@@ -112,6 +115,7 @@ static NSUserDefaults *defaults;
         userPresets = @{};
         [self setUserPresets: userPresets];
     }
+    NSLog(@"%@", userPresets);
     return userPresets;
 }
 
@@ -120,10 +124,14 @@ static NSUserDefaults *defaults;
 }
 
 +(NSDictionary*)getPresets{
+    int bandMode = [[self getSelectedBandMode] intValue];
     NSMutableDictionary *presets = [@{} mutableCopy];
-    BOOL showDefaultPresets = [[self getSelectedBandMode] intValue] == 10 ? [self getShowDefaultPresets] : false;
+    BOOL showDefaultPresets = bandMode == 10 ? [self getShowDefaultPresets] : false;
     if (showDefaultPresets) [presets addEntriesFromDictionary: [self getDefaultPresets]];
     [presets addEntriesFromDictionary: [self getUserPresets]];
+    NSMutableArray *flatGains = [@[] mutableCopy];
+    for (int i = 0; i < bandMode; i++) [flatGains addObject:@0];
+    [presets setObject:@{ @"gains": flatGains } forKey: @"Flat"];
     return presets;
 }
 
@@ -132,6 +140,7 @@ static NSUserDefaults *defaults;
 }
 
 +(void)savePresetWithName:(NSString*)name andGains:(NSArray*)gains{
+    [Logger log: [NSString stringWithFormat: @"Storage: saving preset with name: %@ and gains: %@", name, gains]];
     NSMutableDictionary *userPresets = [[self getUserPresets] mutableCopy];
     [userPresets setObject: @{ @"gains": gains, @"default" : @NO } forKey: name];
     [self setUserPresets: userPresets];
@@ -146,7 +155,7 @@ static NSUserDefaults *defaults;
 +(NSArray*)getGainsForPresetName:(NSString*)presetName{
     NSArray *gains = [[[self getPresets] objectForKey: presetName] objectForKey:@"gains"];
     if (!gains) {
-        NSLog(@"Could not find Preset gains for Preset Name: %@", presetName);
+        [Logger error: [NSString stringWithFormat: @"Storage: Could not find Preset gains for Preset Name: %@", presetName]];
         NSMutableArray *gains = [@[] mutableCopy];
         for (int i = 0; i < [[self getSelectedBandMode] intValue]; i++)
             [gains addObject:@0];
@@ -165,6 +174,7 @@ static NSUserDefaults *defaults;
 }
 
 +(void)setSelectedPresetName:(NSString*)presetName{
+    [Logger log: [NSString stringWithFormat: @"Storage: setting selected preset name to: %@", presetName]];
     return [self set: presetName key: [self getSelectedPresetNameKey]];
 }
 
@@ -181,6 +191,7 @@ static NSUserDefaults *defaults;
 }
 
 +(void)setSelectedGains:(NSArray*) gains{
+    [Logger log: [NSString stringWithFormat: @"Storage: setting selected gains name to: %@", gains]];
     [self set: gains key: [self getSelectedGainsKey]];
 }
 

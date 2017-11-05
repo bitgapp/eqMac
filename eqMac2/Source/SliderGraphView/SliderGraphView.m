@@ -166,7 +166,7 @@ CGFloat padding;
             }
         }
     }
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"sliderGraphChanged" object:self];
+    [self postNotification];
 }
 
 -(void)mouseDown:(NSEvent *)e{
@@ -186,10 +186,11 @@ CGFloat padding;
 }
 
 -(void)mouseUp:(NSEvent *)e{
-        if(dragging){
-            dragging = false;
-            sliderSelected = 0;
-        }
+    if(dragging){
+        dragging = false;
+        sliderSelected = 0;
+    }
+    [self postNotification];
 }
 
 #pragma mark External methods
@@ -237,8 +238,6 @@ CGFloat padding;
 }
 
 #pragma mark Helpers
-
-
 
 -(void)transformKnob:(NSBezierPath*)knob toPoint:(CGPoint)point withAdjustment:(BOOL)withAdjustment{
     if(point.y > self.bounds.size.height - knobSize/2 || point.y < knobSize/2) return;

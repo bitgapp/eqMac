@@ -46,7 +46,7 @@ CGFloat originalHeight;
 
 @implementation EQViewController
 
-- (void)viewDidLoad {
+-(void)viewDidLoad {
     [super viewDidLoad];
     
     originalWidth = self.view.frame.size.width;
@@ -62,7 +62,6 @@ CGFloat originalHeight;
     
     notify = [NSNotificationCenter defaultCenter];
     [notify addObserver:self selector:@selector(sliderGraphChanged) name:@"sliderGraphChanged" object:nil];
-    [notify addObserver:self selector:@selector(populatePresetPopup) name:@"showDefaultPresetsChanged" object:nil];
     [notify addObserver:self selector:@selector(populateOutputPopup) name:@"devicesChanged" object:nil];
 
     [self populatePresetPopup];
@@ -118,7 +117,6 @@ CGFloat originalHeight;
     }
 }
 
-
 -(void)populatePresetPopup{
     [_presetsPopup removeAllItems];
     NSArray *presets = [Storage getPresetsNames];
@@ -161,7 +159,8 @@ CGFloat originalHeight;
 }
 
 -(void)sliderGraphChanged{
-    [_presetsPopup setTitle:NSLocalizedString(@"Custom",nil)];
+    NSString *popupTitle = NSLocalizedString(@"Custom",nil);
+    [_presetsPopup setTitle: popupTitle];
     NSArray *selectedGains = [sliderView getBandValues];
     [EQHost setEQEngineFrequencyGains: selectedGains];
     [Storage setSelectedGains: selectedGains];
@@ -177,8 +176,6 @@ CGFloat originalHeight;
     [Storage setSelectedGains: flatGains];
     [self saveSelectedPresetName];
 }
-
-
 
 -(void)populateOutputPopup{
     [_outputPopup removeAllItems];
@@ -302,9 +299,7 @@ CGFloat originalHeight;
         [_leftSpeaker setImage: [Utilities flipImage:[Utilities isDarkMode] ? [NSImage imageNamed:@"vol1Light.png"] : [NSImage imageNamed:@"vol1Dark.png"]]];
         [_rightSpeaker setImage: [Utilities isDarkMode] ? [NSImage imageNamed:@"vol4Light.png"] : [NSImage imageNamed:@"vol4Dark.png"]];
     }
-    
 }
-
 
 - (IBAction)reportBug:(id)sender {
     [Utilities openBrowserWithURL:REPO_ISSUES_URL];
@@ -313,6 +308,7 @@ CGFloat originalHeight;
 - (IBAction)supportProject:(id)sender {
     [Utilities openBrowserWithURL:SUPPORT_URL];
 }
+
 - (IBAction)getHelp:(id)sender {
     [Utilities openBrowserWithURL:HELP_URL];
 }
@@ -343,7 +339,5 @@ CGFloat originalHeight;
         [[NSNotificationCenter defaultCenter] postNotificationName:@"closeApp" object:nil];
     }
 }
-
-
 
 @end

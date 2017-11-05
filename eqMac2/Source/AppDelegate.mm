@@ -52,7 +52,7 @@ NSTimer *deviceActivityWatcher;
 }
 
 -(void)applicationDidFinishLaunching:(NSNotification *)notification{
-
+    
     NSNotificationCenter *observer = [NSNotificationCenter defaultCenter];
     [observer addObserver:self selector:@selector(changeVolume:) name:@"changeVolume" object:nil];
     [observer addObserver:self selector:@selector(quitApplication) name:@"closeApp" object:nil];
@@ -76,7 +76,7 @@ NSTimer *deviceActivityWatcher;
     [volumeHUD.window setCollectionBehavior:NSWindowCollectionBehaviorCanJoinAllSpaces | NSWindowCollectionBehaviorTransient];
     [volumeHUD.window setLevel:NSPopUpMenuWindowLevel];
     
-    if(![Storage getAppAlreadyLaunchedBefore]){
+    if([Storage getAppAlreadyLaunchedBefore]){
 
     }
     
@@ -205,15 +205,14 @@ NSTimer *deviceActivityWatcher;
 }
 
 - (void)quitApplication{
-    [self tearDownEQEngine];
     [NSApp terminate:nil];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
-    [self tearDownEQEngine];
+    [self tearDownApplication];
 }
 
--(void)tearDownEQEngine{
+-(void)tearDownApplication{
     if([EQHost EQEngineExists]){
         [EQHost deleteEQEngine];
     }

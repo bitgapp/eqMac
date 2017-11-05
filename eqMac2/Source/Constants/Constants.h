@@ -12,6 +12,7 @@ extern NSString * const REPO_ISSUES_URL;
 extern NSString * const HELP_URL;
 extern Float32    const FULL_VOLUME_STEP;
 extern Float32    const QUARTER_VOLUME_STEP;
+extern BOOL       const LOG;
 
 @interface Constants : NSObject
 +(NSArray*)getFrequenciesForBandMode:(NSString*)bandMode;
