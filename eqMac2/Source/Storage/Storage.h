@@ -10,22 +10,28 @@
 
 @interface Storage : NSObject
 
-typedef enum {
-    kStorageShowDefaultPresets,
-    kStorageShowVolumeHUD,
-    kStoragePresets10Bands,
-    kStoragePresets31Bands,
-    kStorageAlreadyLaunched,
-    kStorageOverallRuntime,
-    kStorageLastRuntimeCheck,
-    kStorageUUID,
-    kStorageSelectedGains10Bands,
-    kStorageSelectedGains31Bands,
-    kStorageSelectedPresetName10Bands,
-    kStorageSelectedPresetName31Bands,
-    kStorageSelectedBandMode
-} StorageKey;
++(void)setShowDefaultPresets:(BOOL)show;
++(BOOL)getShowDefaultPresets;
 
-+(id)get:(StorageKey)key;
-+(void)set:(id)object key:(StorageKey)key;
++(void)setShowVolumeHUD:(BOOL)show;
++(BOOL)getShowVolumeHUD;
+
+
++(NSArray*)getPresetsNames;
++(void)savePresetWithName:(NSString*)name andGains:(NSArray*)gains;
++(void)deletePresetWithName:(NSString*)name;
+
++(BOOL)getAppAlreadyLaunchedBefore;
+
++(NSString*)getUUID;
+
++(NSArray*)getSelectedGains;
++(void)setSelectedGains:(NSArray*)gains;
+
++(NSString*)getSelectedPresetName;
++(void)setSelectedPresetName:(NSString*)name;
+
++(NSNumber*)getSelectedBandMode;
++(void)setSelectedBandMode:(NSNumber*)bandMode;
+
 @end
