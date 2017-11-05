@@ -10,7 +10,6 @@
 #import "EQViewController.h"
 #import "VolumeWindowController.h"
 #import "NSAppEventCatcher.h"
-#import "Presets.h"
 #import "Storage.h"
 #import "Utilities.h"
 #import "eqMacStatusItemView.h"

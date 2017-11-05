@@ -34,7 +34,15 @@ static NSUserDefaults *defaults;
 }
 
 +(NSString*)getUserPresetsKey{
-    return [[self getSelectedBandMode] intValue] == 10 ? @"kStoragePresets10Bands" : @"kStoragePresets31Bands";
+    return [[self getSelectedBandMode] intValue] == 10 ? @"kStoragePresets" : @"kStoragePresets31Bands";
+}
+
++(NSString*)getSelectedPresetNameKey{
+    return [[self getSelectedBandMode] intValue] == 10 ? @"kStorageSelectedPresetName" : @"kStoragePresets31Bands";
+}
+
++(NSString*)getSelectedGainsKey{
+    return [[self getSelectedBandMode] intValue] == 10 ? @"kStorageSelectedGains" : @"kStorageSelectedGains31Bands";
 }
 
 +(NSString*)getAppAlreadyLaunchedBeforeKey{
@@ -53,7 +61,12 @@ static NSUserDefaults *defaults;
 }
 
 +(BOOL)getShowDefaultPresets{
-    return [[self get: [self getShowDefaultPresetsKey]] boolValue];
+    NSNumber *showDefaultPresets = [self get: [self getShowDefaultPresetsKey]];
+    if (!showDefaultPresets) {
+        showDefaultPresets = @NO;
+        [self setShowDefaultPresets: showDefaultPresets.boolValue];
+    }
+    return [showDefaultPresets boolValue];
 }
 
 // Show Volume HUD
@@ -61,7 +74,12 @@ static NSUserDefaults *defaults;
     [self set: [NSNumber numberWithBool:show] key: [self getShowVolumeHUDKey]];
 }
 +(BOOL)getShowVolumeHUD{
-    return [[self get: [self getShowVolumeHUDKey]] boolValue];
+    NSNumber *showVolumeHUD = [self get: [self getShowVolumeHUDKey]];
+    if (!showVolumeHUD) {
+        showVolumeHUD = @YES;
+        [self setShowVolumeHUD: showVolumeHUD.boolValue];
+    }
+    return [showVolumeHUD boolValue];
 }
 
 // Selected Band Mode
@@ -72,14 +90,13 @@ static NSUserDefaults *defaults;
 +(NSNumber*)getSelectedBandMode{
     NSNumber *selectedBandMode = [self get: [self getSelectedBandModeKey]];
     if (!selectedBandMode) {
-        [self setSelectedBandMode:@10];
-        return [self getSelectedBandMode];
+        selectedBandMode = @10;
+        [self setSelectedBandMode: selectedBandMode];
     }
     return selectedBandMode;
 }
 
 // Presets
-
 +(NSDictionary*)getDefaultPresets{
     NSMutableDictionary *defaultPresets = [[NSMutableDictionary alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"defaultPresets" ofType:@"plist"]];
     NSMutableDictionary* result = [[NSMutableDictionary alloc] init];
@@ -92,8 +109,8 @@ static NSUserDefaults *defaults;
 +(NSDictionary*)getUserPresets{
     NSDictionary *userPresets = [self get: [self getUserPresetsKey]];
     if (!userPresets) {
-        [self setUserPresets: @{}];
-        return [self getUserPresets];
+        userPresets = @{};
+        [self setUserPresets: userPresets];
     }
     return userPresets;
 }
@@ -114,17 +131,6 @@ static NSUserDefaults *defaults;
     return [[self getPresets] allKeys];
 }
 
-+(NSArray*)getGainsForPresetName:(NSString*)presetName{
-    NSArray *gains = [[[self getPresets] objectForKey: presetName] objectForKey:@"gains"];
-    if (!gains) {
-        NSLog(@"Could not find Preset gains for Preset Name: %@", presetName);
-        NSMutableArray *gains = [@[] mutableCopy];
-        for (int i = 0; i < [[self getSelectedBandMode] intValue]; i++)
-            [gains addObject:@0];
-    }
-    return gains;
-}
-
 +(void)savePresetWithName:(NSString*)name andGains:(NSArray*)gains{
     NSMutableDictionary *userPresets = [[self getUserPresets] mutableCopy];
     [userPresets setObject: @{ @"gains": gains, @"default" : @NO } forKey: name];
@@ -136,26 +142,65 @@ static NSUserDefaults *defaults;
     [self setUserPresets: userPresets];
 }
 
+// Preset Gains
++(NSArray*)getGainsForPresetName:(NSString*)presetName{
+    NSArray *gains = [[[self getPresets] objectForKey: presetName] objectForKey:@"gains"];
+    if (!gains) {
+        NSLog(@"Could not find Preset gains for Preset Name: %@", presetName);
+        NSMutableArray *gains = [@[] mutableCopy];
+        for (int i = 0; i < [[self getSelectedBandMode] intValue]; i++)
+            [gains addObject:@0];
+    }
+    return gains;
+}
+
+// Selected Preset Name
++(NSString*)getSelectedPresetName{
+    NSString *selectedPresetName = [self get: [self getSelectedPresetNameKey]];
+    if (!selectedPresetName) {
+        selectedPresetName = @"Flat";
+        [self setSelectedPresetName: selectedPresetName];
+    }
+    return selectedPresetName;
+}
+
++(void)setSelectedPresetName:(NSString*)presetName{
+    return [self set: presetName key: [self getSelectedPresetNameKey]];
+}
+
+
++(NSArray*)getSelectedGains{
+    NSArray *gains = [self get: [self getSelectedGainsKey]];
+    if (!gains) {
+        NSMutableArray *gains = [@[] mutableCopy];
+        for (int i = 0; i < [[self getSelectedBandMode] intValue]; i++)
+            [gains addObject:@0];
+        [self setSelectedGains: gains];
+    }
+    return gains;
+}
+
++(void)setSelectedGains:(NSArray*) gains{
+    [self set: gains key: [self getSelectedGainsKey]];
+}
+
+
 //kStorageAlreadyLaunched,
 +(BOOL)getAppAlreadyLaunchedBefore{
     return [[self get: [self getAppAlreadyLaunchedBeforeKey]] boolValue];
 }
 
-// UUID
+//UUID
 +(NSString*)getUUID{
-    
+    NSString *uuid = [self get: [self getUUIDKey]];
+    if(!uuid){
+        uuid = [[NSUUID UUID] UUIDString];;
+        [self set: uuid key: [self getUUIDKey]];
+    }
+    return uuid;
 }
 
-//kStorageSelectedGains10Bands,
-//kStorageSelectedGains31Bands,
-+(NSArray*)getSelectedGains{
-    
-}
 
-//kStorageSelectedPresetName10Bands,
-//kStorageSelectedPresetName31Bands,
-+(NSString*)getSelectedPresetName{
-    
-}
+
 
 @end

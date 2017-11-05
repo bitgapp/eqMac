@@ -10,9 +10,8 @@
 #import "AFNetworking.h"
 #import "Constants.h"
 #import "Utilities.h"
-#import "Presets.h"
+#import "Storage.h"
 
 @interface API : NSObject
 +(void)startPinging;
-+(void)sendPresets;
 @end

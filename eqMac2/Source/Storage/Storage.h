@@ -16,15 +16,11 @@
 +(void)setShowVolumeHUD:(BOOL)show;
 +(BOOL)getShowVolumeHUD;
 
-
 +(NSArray*)getPresetsNames;
 +(void)savePresetWithName:(NSString*)name andGains:(NSArray*)gains;
 +(void)deletePresetWithName:(NSString*)name;
 
-+(BOOL)getAppAlreadyLaunchedBefore;
-
-+(NSString*)getUUID;
-
++(NSArray*)getGainsForPresetName:(NSString*)presetName;
 +(NSArray*)getSelectedGains;
 +(void)setSelectedGains:(NSArray*)gains;
 
@@ -33,5 +29,10 @@
 
 +(NSNumber*)getSelectedBandMode;
 +(void)setSelectedBandMode:(NSNumber*)bandMode;
+
++(BOOL)getAppAlreadyLaunchedBefore;
+
++(NSString*)getUUID;
+
 
 @end
