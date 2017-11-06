@@ -121,7 +121,7 @@ CGFloat originalHeight;
     [_presetsPopup removeAllItems];
     NSArray *presets = [Storage getPresetsNames];
     [_presetsPopup addItemsWithTitles: [Utilities orderedStringArrayFromStringArray: presets]];
-    [self setSelectedPresetName];
+    [self setState];
 }
 
 - (IBAction)changePreset:(NSPopUpButton *)sender {
@@ -129,7 +129,7 @@ CGFloat originalHeight;
     NSArray *gains = [Storage getGainsForPresetName: presetName];
     [sliderView animateBandsToValues:gains];
     [EQHost setEQEngineFrequencyGains:gains];
-    [self saveSelectedPresetName];
+    [self saveState];
 }
 
 - (IBAction)deletePreset:(id)sender {
@@ -146,16 +146,20 @@ CGFloat originalHeight;
         [Storage savePresetWithName:newPresetName andGains:[sliderView getBandValues]];
         [self populatePresetPopup];
         [_presetsPopup selectItemWithTitle:newPresetName];
-        [self saveSelectedPresetName];
+        [self saveState];
     }
 }
 
--(void)saveSelectedPresetName{
+-(void)saveState{
     [Storage setSelectedPresetName: _presetsPopup.title];
+    [Storage setSelectedGains: [EQHost getEQEngineFrequencyGains]];
 }
 
--(void)setSelectedPresetName{
+-(void)setState{
     [_presetsPopup setTitle: [Storage getSelectedPresetName]];
+    NSArray *selectedGains = [Storage getSelectedGains];
+    [EQHost setEQEngineFrequencyGains: selectedGains];
+    [sliderView animateBandsToValues: selectedGains];
 }
 
 -(void)sliderGraphChanged{
@@ -164,7 +168,7 @@ CGFloat originalHeight;
     NSArray *selectedGains = [sliderView getBandValues];
     [EQHost setEQEngineFrequencyGains: selectedGains];
     [Storage setSelectedGains: selectedGains];
-    [self saveSelectedPresetName];
+    [self saveState];
 }
 
 - (IBAction)resetEQ:(id)sender {
@@ -174,7 +178,7 @@ CGFloat originalHeight;
     [sliderView animateBandsToValues:flatGains];
     [EQHost setEQEngineFrequencyGains:flatGains];
     [Storage setSelectedGains: flatGains];
-    [self saveSelectedPresetName];
+    [self saveState];
 }
 
 -(void)populateOutputPopup{
@@ -209,8 +213,7 @@ CGFloat originalHeight;
     [self setBandModeSettings];
     [Utilities executeBlock:^{
         [Devices switchToDeviceWithID: [EQHost getSelectedOutputDeviceID]];
-        [sliderView animateBandsToValues: [Storage getSelectedGains]];
-        [self setSelectedPresetName];
+        [self setState];
     } after: 0.1];
 }
 

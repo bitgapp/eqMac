@@ -230,7 +230,10 @@
 }
 
 +(NSString*)stringifyAnything:(id)anything{
-    return [[NSString alloc] initWithData: [NSJSONSerialization dataWithJSONObject:anything options:(NSJSONWritingOptions) NSJSONWritingPrettyPrinted error:nil] encoding:NSUTF8StringEncoding];
+    if ([@[NSArray.class, NSMutableArray.class, NSDictionary.class, NSMutableDictionary.class] containsObject: [anything class]] ){
+        return [[NSString alloc] initWithData: [NSJSONSerialization dataWithJSONObject:anything options:(NSJSONWritingOptions) NSJSONWritingPrettyPrinted error:nil] encoding:NSUTF8StringEncoding];
+    }
+    return anything;
 }
 
 @end

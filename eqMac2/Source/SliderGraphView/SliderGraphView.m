@@ -208,8 +208,6 @@ CGFloat padding;
     }
     
     [self animateFrameWithSteps:steps andFrame:0];
-    
-    
 }
 
 -(void)animateFrameWithSteps:(NSArray*)steps andFrame:(int)frame{

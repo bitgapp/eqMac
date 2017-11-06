@@ -10,11 +10,11 @@
 
 @implementation Logger
 +(void)log:(id)anything{
-    if (LOG) [self logOnLevel:@"log" andString: anything];
+    if (LOG) [self logOnLevel:@"log" andString: [Utilities stringifyAnything: anything]];
 }
 
 +(void)error:(id)anything{
-    if (LOG) [self logOnLevel:@"error" andString: anything];
+    if (LOG) [self logOnLevel:@"error" andString: [Utilities stringifyAnything: anything]];
 }
 
 +(void)logOnLevel:(NSString*)level andString:(NSString*)string{
