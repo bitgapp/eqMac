@@ -58,17 +58,6 @@
 }
 
 
-+ (NSString *)getUUID{
-    NSString *existingUUID = [Storage get:kStorageUUID];
-    if(!existingUUID){
-        NSString *newUUID = [self generateUUID];
-        [Storage set:newUUID key:kStorageUUID];
-        return newUUID;
-    }else{
-        return existingUUID;
-    }
-}
-
 +(NSString*)getOSXVersion{
     NSProcessInfo *pInfo = [NSProcessInfo processInfo];
     NSArray *versionArray = [[pInfo operatingSystemVersionString] componentsSeparatedByString:@" "];
@@ -196,14 +185,6 @@
     }
 }
 
-+(BOOL)appLaunchedBefore{
-    if([[Storage get: kStorageAlreadyLaunched] boolValue]){
-        return true;
-    }else{
-        [Storage set:[NSNumber numberWithBool:YES] key:kStorageAlreadyLaunched];
-        return false;
-    }
-}
 +(NSString *) md5:(NSString *) input{
     const char *cStr = [input UTF8String];
     unsigned char digest[16];
@@ -246,6 +227,13 @@
     return [stringArray sortedArrayUsingComparator:^NSComparisonResult(NSString *firstString, NSString *secondString) {
         return [[firstString lowercaseString] compare:[secondString lowercaseString]];
     }];
+}
+
++(NSString*)stringifyAnything:(id)anything{
+    if ([@[NSArray.class, NSMutableArray.class, NSDictionary.class, NSMutableDictionary.class] containsObject: [anything class]] ){
+        return [[NSString alloc] initWithData: [NSJSONSerialization dataWithJSONObject:anything options:(NSJSONWritingOptions) NSJSONWritingPrettyPrinted error:nil] encoding:NSUTF8StringEncoding];
+    }
+    return anything;
 }
 
 @end

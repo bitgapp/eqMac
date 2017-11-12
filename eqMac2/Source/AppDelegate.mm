@@ -52,7 +52,7 @@ NSTimer *deviceActivityWatcher;
 }
 
 -(void)applicationDidFinishLaunching:(NSNotification *)notification{
-
+    
     NSNotificationCenter *observer = [NSNotificationCenter defaultCenter];
     [observer addObserver:self selector:@selector(changeVolume:) name:@"changeVolume" object:nil];
     [observer addObserver:self selector:@selector(quitApplication) name:@"closeApp" object:nil];
@@ -76,25 +76,12 @@ NSTimer *deviceActivityWatcher;
     [volumeHUD.window setCollectionBehavior:NSWindowCollectionBehaviorCanJoinAllSpaces | NSWindowCollectionBehaviorTransient];
     [volumeHUD.window setLevel:NSPopUpMenuWindowLevel];
     
-    if(![Utilities appLaunchedBefore]){
-        [Utilities setLaunchOnLogin:YES];
-    }
-    
-    if(![Storage get: kStorageShowDefaultPresets]){
-        [Storage set:[NSNumber numberWithBool:NO] key: kStorageShowDefaultPresets];
-    }
-    
-    if(![Storage get: kStorageShowVolumeHUD]){
-        [Storage set:[NSNumber numberWithBool:YES] key: kStorageShowVolumeHUD];
-    }
-    
-    if(![Storage get: kStorageSelectedBandMode]){
-        [Storage set:@10 key: kStorageSelectedBandMode];
+    if([Storage getAppAlreadyLaunchedBefore]){
+
     }
     
     //Send anonymous analytics data to the API
     [API startPinging];
-    [API sendPresets];
     
     [self startWatchingDeviceChanges];
     
@@ -173,7 +160,7 @@ NSTimer *deviceActivityWatcher;
             [Devices setVolumeForDevice:volDevice to: newVolume];
         }
         
-        if([[Storage get:kStorageShowVolumeHUD] integerValue] == 1){
+        if([Storage getShowVolumeHUD]){
             [volumeHUD showHUDforVolume: newVolume];
         }
     }
@@ -218,15 +205,15 @@ NSTimer *deviceActivityWatcher;
 }
 
 - (void)quitApplication{
-    [self tearDownEQEngine];
     [NSApp terminate:nil];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
-    [self tearDownEQEngine];
+    [self tearDownApplication];
 }
 
--(void)tearDownEQEngine{
+-(void)tearDownApplication{
+    [[NSUserDefaults standardUserDefaults] synchronize];
     if([EQHost EQEngineExists]){
         [EQHost deleteEQEngine];
     }

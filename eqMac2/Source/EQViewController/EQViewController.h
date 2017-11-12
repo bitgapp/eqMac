@@ -12,8 +12,8 @@
 #import "Constants.h"
 #import "AppDelegate.h"
 #import "Utilities.h"
-#import "Presets.h"
 #import "Devices.h"
+#import "Storage.h"
 #import "API.h"
 
 @interface EQViewController : NSViewController <NSComboBoxDelegate>

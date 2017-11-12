@@ -46,7 +46,7 @@ CGFloat originalHeight;
 
 @implementation EQViewController
 
-- (void)viewDidLoad {
+-(void)viewDidLoad {
     [super viewDidLoad];
     
     originalWidth = self.view.frame.size.width;
@@ -62,22 +62,24 @@ CGFloat originalHeight;
     
     notify = [NSNotificationCenter defaultCenter];
     [notify addObserver:self selector:@selector(sliderGraphChanged) name:@"sliderGraphChanged" object:nil];
-    [notify addObserver:self selector:@selector(populatePresetPopup) name:@"showDefaultPresetsChanged" object:nil];
     [notify addObserver:self selector:@selector(populateOutputPopup) name:@"devicesChanged" object:nil];
 
-    [self populatePresetPopup];
-    [self populateOutputPopup];
+   
     
     [notify addObserver:self selector:@selector(readjustView) name:@"popoverWillOpen" object:nil];
     [notify addObserver:self selector:@selector(readjustView) name:@"changeVolume" object:nil];
     
     [_buildLabel setStringValue:[@"Build " stringByAppendingString:[Utilities getAppVersion]]];
     
-    bandMode = [Storage get: kStorageSelectedBandMode];
+    bandMode = [Storage getSelectedBandMode];
     
-    [sliderView setNSliders: [bandMode intValue]];
+    [_showDefaultPresetsCheckbox setState: [Storage getShowDefaultPresets] ? NSOnState : NSOffState];
+    [_showVolumeHUDCheckbox setState: [Storage getShowVolumeHUD] ? NSOnState : NSOffState];
     
+    [self setBandModeSettings];
     [self readjustView];
+    [self populatePresetPopup];
+    [self populateOutputPopup];
 }
 
 -(void)viewDidAppear{
@@ -88,11 +90,9 @@ CGFloat originalHeight;
     [_speakerIcon setImage:[Utilities isDarkMode] ? [NSImage imageNamed:@"speakerLight.png"] : [NSImage imageNamed:@"speakerDark.png"]];
     
     [_launchOnStartupCheckbox setState: [Utilities launchOnLogin] ? NSOnState : NSOffState];
-    [_showDefaultPresetsCheckbox setState:[[Storage get:kStorageShowDefaultPresets] integerValue]];
-    [_showVolumeHUDCheckbox setState:[[Storage get: kStorageShowVolumeHUD] integerValue]];
     
     [Utilities executeBlock:^{
-        [sliderView animateBandsToValues:[EQHost getEQEngineFrequencyGains]];
+        [self setState];
     } after:.1];
 }
     
@@ -118,25 +118,23 @@ CGFloat originalHeight;
     }
 }
 
-
 -(void)populatePresetPopup{
     [_presetsPopup removeAllItems];
-    NSArray *presets = [Presets getShowablePresetsNames];
+    NSArray *presets = [Storage getPresetsNames];
     [_presetsPopup addItemsWithTitles: [Utilities orderedStringArrayFromStringArray: presets]];
-    [self setSelectedPresetName];
 }
 
 - (IBAction)changePreset:(NSPopUpButton *)sender {
     NSString *presetName = [_presetsPopup title];
-    NSArray *gains = [Presets getGainsForPreset:presetName];
+    NSArray *gains = [Storage getGainsForPresetName: presetName];
     [sliderView animateBandsToValues:gains];
     [EQHost setEQEngineFrequencyGains:gains];
-    [self saveSelectedPresetName];
+    [self saveState];
 }
 
 - (IBAction)deletePreset:(id)sender {
     if(![[_presetsPopup title] isEqualToString:NSLocalizedString(@"Flat",nil)]){
-        [Presets deletePresetWithName:[_presetsPopup title]];
+        [Storage deletePresetWithName:[_presetsPopup title]];
         [self populatePresetPopup];
         [self resetEQ:nil];
     }
@@ -145,30 +143,32 @@ CGFloat originalHeight;
 - (IBAction)savePreset:(NSButton *)sender {
     NSString *newPresetName = [Utilities showAlertWithInputAndTitle:NSLocalizedString(@"Please enter a name for your new preset.",nil)];
     if(![newPresetName isEqualToString:@""]){
-        [Presets savePreset:[sliderView getBandValues] withName:newPresetName];
+        [Storage savePresetWithName:newPresetName andGains:[sliderView getBandValues]];
         [self populatePresetPopup];
         [_presetsPopup selectItemWithTitle:newPresetName];
-        [self saveSelectedPresetName];
+        [self saveState];
     }
 }
 
--(void)saveSelectedPresetName{
-    StorageKey selectedPresetNameKey = bandMode.intValue == 10 ? kStorageSelectedPresetName10Bands : kStorageSelectedPresetName31Bands;
-    [Storage set: _presetsPopup.title key: selectedPresetNameKey];
+-(void)saveState{
+    [Storage setSelectedPresetName: _presetsPopup.title];
+    [Storage setSelectedGains: [EQHost getEQEngineFrequencyGains]];
 }
 
--(void)setSelectedPresetName{
-    StorageKey selectedPresetNameKey = bandMode.intValue == 10 ? kStorageSelectedPresetName10Bands : kStorageSelectedPresetName31Bands;
-    [_presetsPopup setTitle: [Storage get: selectedPresetNameKey]];
+-(void)setState{
+    [_presetsPopup setTitle: [Storage getSelectedPresetName]];
+    NSArray *selectedGains = [Storage getSelectedGains];
+    [EQHost setEQEngineFrequencyGains: selectedGains];
+    [sliderView animateBandsToValues: selectedGains];
 }
 
 -(void)sliderGraphChanged{
-    [_presetsPopup setTitle:NSLocalizedString(@"Custom",nil)];
+    NSString *popupTitle = NSLocalizedString(@"Custom",nil);
+    [_presetsPopup setTitle: popupTitle];
     NSArray *selectedGains = [sliderView getBandValues];
     [EQHost setEQEngineFrequencyGains: selectedGains];
-    StorageKey selectedGainsKey = bandMode.intValue == 10 ? kStorageSelectedGains10Bands : kStorageSelectedGains31Bands;
-    [Storage set: selectedGains key: selectedGainsKey];
-    [self saveSelectedPresetName];
+    [Storage setSelectedGains: selectedGains];
+    [self saveState];
 }
 
 - (IBAction)resetEQ:(id)sender {
@@ -177,12 +177,9 @@ CGFloat originalHeight;
     for (int i = 0; i < [bandMode intValue]; i++) [flatGains addObject:@0];
     [sliderView animateBandsToValues:flatGains];
     [EQHost setEQEngineFrequencyGains:flatGains];
-    StorageKey selectedGainsKey = bandMode.intValue == 10 ? kStorageSelectedGains10Bands : kStorageSelectedGains31Bands;
-    [Storage set: flatGains key: selectedGainsKey];
-    [self saveSelectedPresetName];
+    [Storage setSelectedGains: flatGains];
+    [self saveState];
 }
-
-
 
 -(void)populateOutputPopup{
     [_outputPopup removeAllItems];
@@ -210,16 +207,13 @@ CGFloat originalHeight;
 - (IBAction)toggleBandMode:(id)sender {
     bandMode = [bandMode intValue] == 10 ? @31 : @10;
     
-    [Storage set: bandMode key: kStorageSelectedBandMode];
+    [Storage setSelectedBandMode: bandMode];
     [self populatePresetPopup];
     [self readjustView];
     [self setBandModeSettings];
     [Utilities executeBlock:^{
         [Devices switchToDeviceWithID: [EQHost getSelectedOutputDeviceID]];
-        StorageKey selectedGainsKey = bandMode.intValue == 10 ? kStorageSelectedGains10Bands : kStorageSelectedGains31Bands;
-        NSArray *selectedGains = [Storage get: selectedGainsKey];
-        [sliderView animateBandsToValues: selectedGains];
-        [self setSelectedPresetName];
+        [self setState];
     } after: 0.1];
 }
 
@@ -308,9 +302,7 @@ CGFloat originalHeight;
         [_leftSpeaker setImage: [Utilities flipImage:[Utilities isDarkMode] ? [NSImage imageNamed:@"vol1Light.png"] : [NSImage imageNamed:@"vol1Dark.png"]]];
         [_rightSpeaker setImage: [Utilities isDarkMode] ? [NSImage imageNamed:@"vol4Light.png"] : [NSImage imageNamed:@"vol4Dark.png"]];
     }
-    
 }
-
 
 - (IBAction)reportBug:(id)sender {
     [Utilities openBrowserWithURL:REPO_ISSUES_URL];
@@ -319,6 +311,7 @@ CGFloat originalHeight;
 - (IBAction)supportProject:(id)sender {
     [Utilities openBrowserWithURL:SUPPORT_URL];
 }
+
 - (IBAction)getHelp:(id)sender {
     [Utilities openBrowserWithURL:HELP_URL];
 }
@@ -328,11 +321,11 @@ CGFloat originalHeight;
 }
 
 - (IBAction)switchShowDefaultPresets:(NSButton *)sender {
-    [Storage set:[NSNumber numberWithInteger:[sender state]] key:kStorageShowDefaultPresets];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"showDefaultPresetsChanged" object:nil];
+    [Storage setShowDefaultPresets: [sender state] == NSOnState];
+    [self populatePresetPopup];
 }
 - (IBAction)switchShowVolumeHUD:(NSButton *)sender {
-    [Storage set:[NSNumber numberWithInteger:[sender state]] key:kStorageShowVolumeHUD];
+    [Storage setShowVolumeHUD: [sender state] == NSOnState];
 }
 
 - (IBAction)quitApplication:(id)sender {
@@ -349,7 +342,5 @@ CGFloat originalHeight;
         [[NSNotificationCenter defaultCenter] postNotificationName:@"closeApp" object:nil];
     }
 }
-
-
 
 @end

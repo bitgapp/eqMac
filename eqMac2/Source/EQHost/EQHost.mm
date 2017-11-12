@@ -6,7 +6,6 @@
 static EQEngine *mEngine;
 static AudioDeviceID selectedOutputDeviceID;
 static AudioDeviceID passthroughDeviceID;
-static NSDate *runStart;
 static NSNumber *bandMode;
 
 +(void)createEQEngineWithOutputDevice:(AudioDeviceID)output{
@@ -18,12 +17,7 @@ static NSNumber *bandMode;
     
     [Devices switchToDeviceWithID: passthroughDeviceID];
     
-    bandMode = [Storage get: kStorageSelectedBandMode];
-    if (!bandMode) {
-        bandMode = @10;
-        [Storage set: bandMode key: kStorageSelectedBandMode];
-    }
-    
+    bandMode = [Storage getSelectedBandMode];
 
     mEngine = new EQEngine(input, output);
     
@@ -38,17 +32,8 @@ static NSNumber *bandMode;
     
     mEngine->Start();
     
-    StorageKey selectedGainsKey = bandMode.intValue == 10 ? kStorageSelectedGains10Bands : kStorageSelectedGains31Bands;
-    NSMutableArray *savedGains = [Storage get: selectedGainsKey];
-    if(!savedGains) {
-        savedGains = [@[] mutableCopy];
-        
-        for (int i = 0; i < [bandMode intValue]; i++) [savedGains addObject: @0];
-        
-        [Storage set: savedGains key: selectedGainsKey];
-    }
+    NSArray *savedGains = [Storage getSelectedGains];
     [self setEQEngineFrequencyGains: savedGains];
-    runStart = [NSDate date];
 }
 
 
@@ -268,15 +253,7 @@ static NSNumber *bandMode;
             
         delete mEngine;
         mEngine = NULL;
-        
-        [self stopTimer];
     }
-}
-
-+(void)stopTimer{
-    NSTimeInterval currentRun = -[runStart timeIntervalSinceNow];
-    int overallRuntime = [[Storage get: kStorageOverallRuntime] intValue];
-    [Storage set:[NSNumber numberWithInt:overallRuntime + currentRun] key:kStorageOverallRuntime];
 }
 
 +(BOOL)EQEngineExists{

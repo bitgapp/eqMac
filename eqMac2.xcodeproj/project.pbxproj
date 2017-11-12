@@ -17,6 +17,7 @@
 		3AD8DE6E1F30EFA80079E8A7 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3AD8DE701F30EFA80079E8A7 /* Localizable.strings */; };
 		3AD8DE731F30F1340079E8A7 /* EQViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3AD8DE751F30F1340079E8A7 /* EQViewController.xib */; };
 		C7E49B3F727A9657BBC43E9B /* Pods_eqMac2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB898D1CC464E56A965D8E4A /* Pods_eqMac2.framework */; };
+		E01871471FAFC70C0084ECAA /* Logger.m in Sources */ = {isa = PBXBuildFile; fileRef = E01871461FAFC70C0084ECAA /* Logger.m */; };
 		E0255FE71FADE45200A84EA0 /* VolumeLevelIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = E0A028CF1FAD2FF80036AD30 /* VolumeLevelIndicatorView.m */; };
 		E07BF4B51D6B4BA400589F0C /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E07BF4B41D6B4BA400589F0C /* WebKit.framework */; };
 		E0B5F08F1F25EEE4005C5F46 /* exitDark.png in Resources */ = {isa = PBXBuildFile; fileRef = E0B5F07D1F25EEE4005C5F46 /* exitDark.png */; };
@@ -44,7 +45,6 @@
 		E0B781511EF704660076B3AB /* EQEngine.mm in Sources */ = {isa = PBXBuildFile; fileRef = E0B781371EF704660076B3AB /* EQEngine.mm */; };
 		E0B781521EF704660076B3AB /* EQHost.mm in Sources */ = {isa = PBXBuildFile; fileRef = E0B7813A1EF704660076B3AB /* EQHost.mm */; };
 		E0B781541EF704660076B3AB /* defaultPresets.plist in Resources */ = {isa = PBXBuildFile; fileRef = E0B7813F1EF704660076B3AB /* defaultPresets.plist */; };
-		E0B781551EF704660076B3AB /* Presets.m in Sources */ = {isa = PBXBuildFile; fileRef = E0B781411EF704660076B3AB /* Presets.m */; };
 		E0B781561EF704660076B3AB /* install_driver.sh in Resources */ = {isa = PBXBuildFile; fileRef = E0B781431EF704660076B3AB /* install_driver.sh */; };
 		E0B781571EF704660076B3AB /* uninstall_app.sh in Resources */ = {isa = PBXBuildFile; fileRef = E0B781441EF704660076B3AB /* uninstall_app.sh */; };
 		E0B7815A1EF704660076B3AB /* Storage.m in Sources */ = {isa = PBXBuildFile; fileRef = E0B781491EF704660076B3AB /* Storage.m */; };
@@ -113,6 +113,8 @@
 		A44CF14B89CD3E798D15238B /* Pods-eqMac2.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-eqMac2.debug.xcconfig"; path = "Pods/Target Support Files/Pods-eqMac2/Pods-eqMac2.debug.xcconfig"; sourceTree = "<group>"; };
 		A7CD694314F86C465E4A5F8B /* libPods-eqMac.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-eqMac.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CB898D1CC464E56A965D8E4A /* Pods_eqMac2.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_eqMac2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E01871451FAFC70C0084ECAA /* Logger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Logger.h; sourceTree = "<group>"; };
+		E01871461FAFC70C0084ECAA /* Logger.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Logger.m; sourceTree = "<group>"; };
 		E052D97E1F489A11003B0535 /* ru-RU */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ru-RU"; path = "ru-RU.lproj/Main.strings"; sourceTree = "<group>"; };
 		E052D97F1F489A11003B0535 /* ru-RU */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ru-RU"; path = "ru-RU.lproj/EQViewController.strings"; sourceTree = "<group>"; };
 		E052D9811F489A11003B0535 /* ru-RU */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ru-RU"; path = "ru-RU.lproj/Localizable.strings"; sourceTree = "<group>"; };
@@ -150,8 +152,6 @@
 		E0B781391EF704660076B3AB /* EQHost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQHost.h; sourceTree = "<group>"; };
 		E0B7813A1EF704660076B3AB /* EQHost.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = EQHost.mm; sourceTree = "<group>"; };
 		E0B7813F1EF704660076B3AB /* defaultPresets.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = defaultPresets.plist; sourceTree = "<group>"; };
-		E0B781401EF704660076B3AB /* Presets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Presets.h; sourceTree = "<group>"; };
-		E0B781411EF704660076B3AB /* Presets.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Presets.m; sourceTree = "<group>"; };
 		E0B781431EF704660076B3AB /* install_driver.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = install_driver.sh; sourceTree = "<group>"; };
 		E0B781441EF704660076B3AB /* uninstall_app.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = uninstall_app.sh; sourceTree = "<group>"; };
 		E0B781481EF704660076B3AB /* Storage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Storage.h; sourceTree = "<group>"; };
@@ -279,9 +279,19 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		E01871441FAFC6E10084ECAA /* Logger */ = {
+			isa = PBXGroup;
+			children = (
+				E01871451FAFC70C0084ECAA /* Logger.h */,
+				E01871461FAFC70C0084ECAA /* Logger.m */,
+			);
+			path = Logger;
+			sourceTree = "<group>";
+		};
 		E0616A591FADCC7000B5B19E /* Supporting files */ = {
 			isa = PBXGroup;
 			children = (
+				E0B7813F1EF704660076B3AB /* defaultPresets.plist */,
 				3AD8DE701F30EFA80079E8A7 /* Localizable.strings */,
 				E0B781D11EF706700076B3AB /* Main.xib */,
 				E0B781CA1EF706670076B3AB /* main.m */,
@@ -313,12 +323,12 @@
 				E0B781331EF704660076B3AB /* Driver */,
 				E0B781711EF704A20076B3AB /* SliderGraphView */,
 				E0B7816D1EF704A20076B3AB /* EQViewController */,
+				E01871441FAFC6E10084ECAA /* Logger */,
 				E0B781791EF704A20076B3AB /* EQStatusItemView */,
 				E0B7817C1EF704A20076B3AB /* VolumeWindowController */,
 				E0CADB0F1F2CD2D400AC53E8 /* Volume */,
 				E0B781351EF704660076B3AB /* EQEngine */,
 				E0B781381EF704660076B3AB /* EQHost */,
-				E0B7813E1EF704660076B3AB /* Presets */,
 				E0B781421EF704660076B3AB /* Scripts */,
 				E0B781471EF704660076B3AB /* Storage */,
 				E0B7814A1EF704660076B3AB /* Utilities */,
@@ -377,16 +387,6 @@
 				E0B7813A1EF704660076B3AB /* EQHost.mm */,
 			);
 			path = EQHost;
-			sourceTree = "<group>";
-		};
-		E0B7813E1EF704660076B3AB /* Presets */ = {
-			isa = PBXGroup;
-			children = (
-				E0B7813F1EF704660076B3AB /* defaultPresets.plist */,
-				E0B781401EF704660076B3AB /* Presets.h */,
-				E0B781411EF704660076B3AB /* Presets.m */,
-			);
-			path = Presets;
 			sourceTree = "<group>";
 		};
 		E0B781421EF704660076B3AB /* Scripts */ = {
@@ -738,7 +738,6 @@
 			files = (
 				E0B781861EF704A20076B3AB /* EQViewController.mm in Sources */,
 				E0B7818B1EF704A20076B3AB /* eqMacStatusItemView.m in Sources */,
-				E0B781551EF704660076B3AB /* Presets.m in Sources */,
 				E0B781841EF704A20076B3AB /* CARingBuffer.cpp in Sources */,
 				E0CADB121F2CD2F400AC53E8 /* Volume.m in Sources */,
 				E0B781881EF704A20076B3AB /* SliderGraphView.m in Sources */,
@@ -756,6 +755,7 @@
 				E0B7815A1EF704660076B3AB /* Storage.m in Sources */,
 				E0B781511EF704660076B3AB /* EQEngine.mm in Sources */,
 				E0B781851EF704A20076B3AB /* CAStreamBasicDescription.cpp in Sources */,
+				E01871471FAFC70C0084ECAA /* Logger.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

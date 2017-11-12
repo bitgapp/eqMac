@@ -16,7 +16,6 @@
 +(NSImage *)flipImage:(NSImage *)image;
 +(NSString*)generateRandString;
 +(CGFloat)mapValue:(CGFloat) x withInMin:(CGFloat) in_min InMax:(CGFloat) in_max OutMin:(CGFloat) out_min OutMax:(CGFloat) out_max;
-+(NSString*)getUUID;
 +(NSString*)getOSXVersion;
 +(NSString*)getMacModel;
 +(NSString*)getAppVersion;
@@ -26,8 +25,8 @@
 +(BOOL)isDarkMode;
 +(void)executeBlock:(void(^)(void))block after:(CGFloat)seconds;
 +(NSTimer *)executeBlock:(void(^)(void))block every:(CGFloat)seconds;
-+(BOOL)appLaunchedBefore;
 + (BOOL)launchOnLogin;
 + (void)setLaunchOnLogin:(BOOL)launchOnLogin;
 +(NSArray*)orderedStringArrayFromStringArray:(NSArray*)stringArray;
++(NSString*)stringifyAnything:(id)anything;
 @end

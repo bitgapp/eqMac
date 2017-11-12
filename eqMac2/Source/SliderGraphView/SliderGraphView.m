@@ -166,7 +166,7 @@ CGFloat padding;
             }
         }
     }
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"sliderGraphChanged" object:self];
+    [self postNotification];
 }
 
 -(void)mouseDown:(NSEvent *)e{
@@ -186,10 +186,11 @@ CGFloat padding;
 }
 
 -(void)mouseUp:(NSEvent *)e{
-        if(dragging){
-            dragging = false;
-            sliderSelected = 0;
-        }
+    if(dragging){
+        dragging = false;
+        sliderSelected = 0;
+    }
+    [self postNotification];
 }
 
 #pragma mark External methods
@@ -200,15 +201,13 @@ CGFloat padding;
     
     NSMutableArray *steps = [[NSMutableArray alloc] init];
     for(int s = 0; s < nSliders; s++){
-        CGFloat yPointToReach = [self mapValue:[[values objectAtIndex:s] floatValue] inMin:-1 inMax:1 outMin:0 outMax: self.bounds.size.height];
-        CGFloat diff =  yPointToReach - ([[knobArray objectAtIndex:s] bounds].origin.y + knobSize/2);
+        CGFloat yPointToReach = [self mapValue:[[values objectAtIndex:s] floatValue] inMin:-1 inMax:1 outMin:0 outMax: self.bounds.size.height - knobSize];
+        CGFloat diff =  yPointToReach - [[knobArray objectAtIndex:s] bounds].origin.y;
         CGFloat step = diff/30;
         [steps addObject:[NSNumber numberWithFloat:step]];
     }
     
     [self animateFrameWithSteps:steps andFrame:0];
-    
-    
 }
 
 -(void)animateFrameWithSteps:(NSArray*)steps andFrame:(int)frame{
@@ -237,8 +236,6 @@ CGFloat padding;
 }
 
 #pragma mark Helpers
-
-
 
 -(void)transformKnob:(NSBezierPath*)knob toPoint:(CGPoint)point withAdjustment:(BOOL)withAdjustment{
     if(point.y > self.bounds.size.height - knobSize/2 || point.y < knobSize/2) return;
