@@ -10,14 +10,14 @@
 
 @implementation Logger
 +(void)log:(id)anything{
-    if (LOG) [self logOnLevel:@"log" andString: [Utilities stringifyAnything: anything]];
+    if (LOG) [self logOnLevel:@"log" andAnything: anything];
 }
 
 +(void)error:(id)anything{
-    if (LOG) [self logOnLevel:@"error" andString: [Utilities stringifyAnything: anything]];
+    if (LOG) [self logOnLevel:@"error" andAnything: anything];
 }
 
-+(void)logOnLevel:(NSString*)level andString:(NSString*)string{
-    NSLog(@"Logger.%@: %@", level, string);
++(void)logOnLevel:(NSString*)level andAnything:(id)anything{
+    NSLog(@"Logger.%@: %@", level, anything);
 }
 @end

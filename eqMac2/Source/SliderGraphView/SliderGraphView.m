@@ -201,8 +201,8 @@ CGFloat padding;
     
     NSMutableArray *steps = [[NSMutableArray alloc] init];
     for(int s = 0; s < nSliders; s++){
-        CGFloat yPointToReach = [self mapValue:[[values objectAtIndex:s] floatValue] inMin:-1 inMax:1 outMin:0 outMax: self.bounds.size.height];
-        CGFloat diff =  yPointToReach - ([[knobArray objectAtIndex:s] bounds].origin.y + knobSize/2);
+        CGFloat yPointToReach = [self mapValue:[[values objectAtIndex:s] floatValue] inMin:-1 inMax:1 outMin:0 outMax: self.bounds.size.height - knobSize];
+        CGFloat diff =  yPointToReach - [[knobArray objectAtIndex:s] bounds].origin.y;
         CGFloat step = diff/30;
         [steps addObject:[NSNumber numberWithFloat:step]];
     }

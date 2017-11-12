@@ -6,7 +6,6 @@
 static EQEngine *mEngine;
 static AudioDeviceID selectedOutputDeviceID;
 static AudioDeviceID passthroughDeviceID;
-static NSDate *runStart;
 static NSNumber *bandMode;
 
 +(void)createEQEngineWithOutputDevice:(AudioDeviceID)output{
@@ -33,9 +32,8 @@ static NSNumber *bandMode;
     
     mEngine->Start();
     
-    NSMutableArray *savedGains = [Storage getSelectedGains];
+    NSArray *savedGains = [Storage getSelectedGains];
     [self setEQEngineFrequencyGains: savedGains];
-    runStart = [NSDate date];
 }
 
 

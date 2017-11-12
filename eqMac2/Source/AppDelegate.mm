@@ -213,6 +213,7 @@ NSTimer *deviceActivityWatcher;
 }
 
 -(void)tearDownApplication{
+    [[NSUserDefaults standardUserDefaults] synchronize];
     if([EQHost EQEngineExists]){
         [EQHost deleteEQEngine];
     }

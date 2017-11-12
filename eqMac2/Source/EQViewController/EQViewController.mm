@@ -64,8 +64,7 @@ CGFloat originalHeight;
     [notify addObserver:self selector:@selector(sliderGraphChanged) name:@"sliderGraphChanged" object:nil];
     [notify addObserver:self selector:@selector(populateOutputPopup) name:@"devicesChanged" object:nil];
 
-    [self populatePresetPopup];
-    [self populateOutputPopup];
+   
     
     [notify addObserver:self selector:@selector(readjustView) name:@"popoverWillOpen" object:nil];
     [notify addObserver:self selector:@selector(readjustView) name:@"changeVolume" object:nil];
@@ -74,9 +73,13 @@ CGFloat originalHeight;
     
     bandMode = [Storage getSelectedBandMode];
     
-    [sliderView setNSliders: [bandMode intValue]];
+    [_showDefaultPresetsCheckbox setState: [Storage getShowDefaultPresets] ? NSOnState : NSOffState];
+    [_showVolumeHUDCheckbox setState: [Storage getShowVolumeHUD] ? NSOnState : NSOffState];
     
+    [self setBandModeSettings];
     [self readjustView];
+    [self populatePresetPopup];
+    [self populateOutputPopup];
 }
 
 -(void)viewDidAppear{
@@ -87,11 +90,9 @@ CGFloat originalHeight;
     [_speakerIcon setImage:[Utilities isDarkMode] ? [NSImage imageNamed:@"speakerLight.png"] : [NSImage imageNamed:@"speakerDark.png"]];
     
     [_launchOnStartupCheckbox setState: [Utilities launchOnLogin] ? NSOnState : NSOffState];
-    [_showDefaultPresetsCheckbox setState: [Storage getShowDefaultPresets] ? NSOnState : NSOffState];
-    [_showVolumeHUDCheckbox setState: [Storage getShowVolumeHUD] ? NSOnState : NSOffState];
     
     [Utilities executeBlock:^{
-        [sliderView animateBandsToValues:[EQHost getEQEngineFrequencyGains]];
+        [self setState];
     } after:.1];
 }
     
@@ -121,7 +122,6 @@ CGFloat originalHeight;
     [_presetsPopup removeAllItems];
     NSArray *presets = [Storage getPresetsNames];
     [_presetsPopup addItemsWithTitles: [Utilities orderedStringArrayFromStringArray: presets]];
-    [self setState];
 }
 
 - (IBAction)changePreset:(NSPopUpButton *)sender {

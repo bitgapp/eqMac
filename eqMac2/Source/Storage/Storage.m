@@ -19,6 +19,7 @@ static NSUserDefaults *defaults;
 }
 +(void)set:(id)object key:(NSString*)key{
     [[NSUserDefaults standardUserDefaults] setObject:object forKey:key];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 +(NSString*)getShowDefaultPresetsKey{
