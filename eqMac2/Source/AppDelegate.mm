@@ -22,6 +22,7 @@ NSPopover *eqPopover;
 NSEvent *eqPopoverTransiencyMonitor;
 NSTimer *deviceChangeWatcher;
 NSTimer *deviceActivityWatcher;
+EQPromotionWindowController *promotionWindowController;
 
 
 @implementation AppDelegate
@@ -77,7 +78,8 @@ NSTimer *deviceActivityWatcher;
     [volumeHUD.window setLevel:NSPopUpMenuWindowLevel];
     
     if([Storage getAppAlreadyLaunchedBefore]){
-
+        promotionWindowController = [[EQPromotionWindowController alloc] initWithWindowNibName:@"EQPromotionWindowController"];
+        [promotionWindowController window];
     }
     
     //Send anonymous analytics data to the API

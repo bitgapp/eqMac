@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "STPrivilegedTask.h"
 #import "Storage.h"
-
+#import <CommonCrypto/CommonDigest.h>
 
 @interface Utilities : NSObject
 +(BOOL)runShellScriptWithName:(NSString*)scriptName;
@@ -29,4 +29,5 @@
 + (void)setLaunchOnLogin:(BOOL)launchOnLogin;
 +(NSArray*)orderedStringArrayFromStringArray:(NSArray*)stringArray;
 +(NSString*)stringifyAnything:(id)anything;
++(NSString*)hashString:(NSString*)string;
 @end

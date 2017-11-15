@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "EQViewController.h"
+#import "EQPromotionWindowController.h"
 #import "VolumeWindowController.h"
 #import "NSAppEventCatcher.h"
 #import "Storage.h"
