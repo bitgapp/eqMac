@@ -14,4 +14,5 @@
 
 @interface API : NSObject
 +(void)startPinging;
++(void)getPromotionWithCallback: (void (^)(id _Nullable resp, NSError * _Nullable err)) cb;
 @end

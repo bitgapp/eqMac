@@ -19,6 +19,7 @@
 		C7E49B3F727A9657BBC43E9B /* Pods_eqMac2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB898D1CC464E56A965D8E4A /* Pods_eqMac2.framework */; };
 		E01871471FAFC70C0084ECAA /* Logger.m in Sources */ = {isa = PBXBuildFile; fileRef = E01871461FAFC70C0084ECAA /* Logger.m */; };
 		E0255FE71FADE45200A84EA0 /* VolumeLevelIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = E0A028CF1FAD2FF80036AD30 /* VolumeLevelIndicatorView.m */; };
+		E04186141FBCB33400F4F845 /* EQClickableImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = E04186131FBCB33400F4F845 /* EQClickableImageView.m */; };
 		E07BF4B51D6B4BA400589F0C /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E07BF4B41D6B4BA400589F0C /* WebKit.framework */; };
 		E0B5F08F1F25EEE4005C5F46 /* exitDark.png in Resources */ = {isa = PBXBuildFile; fileRef = E0B5F07D1F25EEE4005C5F46 /* exitDark.png */; };
 		E0B5F0901F25EEE4005C5F46 /* exitLight.png in Resources */ = {isa = PBXBuildFile; fileRef = E0B5F07E1F25EEE4005C5F46 /* exitLight.png */; };
@@ -76,6 +77,8 @@
 		E0B781D01EF706670076B3AB /* NSAppEventCather.m in Sources */ = {isa = PBXBuildFile; fileRef = E0B781CC1EF706670076B3AB /* NSAppEventCather.m */; };
 		E0B781D31EF706700076B3AB /* Main.xib in Resources */ = {isa = PBXBuildFile; fileRef = E0B781D11EF706700076B3AB /* Main.xib */; };
 		E0CADB121F2CD2F400AC53E8 /* Volume.m in Sources */ = {isa = PBXBuildFile; fileRef = E0CADB111F2CD2F400AC53E8 /* Volume.m */; };
+		E0D7AA091FB98E80002952DE /* EQPromotionWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = E0D7AA071FB98E80002952DE /* EQPromotionWindowController.m */; };
+		E0D7AA0A1FB98E80002952DE /* EQPromotionWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E0D7AA081FB98E80002952DE /* EQPromotionWindowController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -115,6 +118,8 @@
 		CB898D1CC464E56A965D8E4A /* Pods_eqMac2.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_eqMac2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E01871451FAFC70C0084ECAA /* Logger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Logger.h; sourceTree = "<group>"; };
 		E01871461FAFC70C0084ECAA /* Logger.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Logger.m; sourceTree = "<group>"; };
+		E04186121FBCB33400F4F845 /* EQClickableImageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EQClickableImageView.h; sourceTree = "<group>"; };
+		E04186131FBCB33400F4F845 /* EQClickableImageView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EQClickableImageView.m; sourceTree = "<group>"; };
 		E052D97E1F489A11003B0535 /* ru-RU */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ru-RU"; path = "ru-RU.lproj/Main.strings"; sourceTree = "<group>"; };
 		E052D97F1F489A11003B0535 /* ru-RU */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ru-RU"; path = "ru-RU.lproj/EQViewController.strings"; sourceTree = "<group>"; };
 		E052D9811F489A11003B0535 /* ru-RU */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ru-RU"; path = "ru-RU.lproj/Localizable.strings"; sourceTree = "<group>"; };
@@ -201,6 +206,9 @@
 		E0B781D21EF706700076B3AB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/Main.xib; sourceTree = "<group>"; };
 		E0CADB101F2CD2F400AC53E8 /* Volume.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Volume.h; path = Volume/Volume.h; sourceTree = "<group>"; };
 		E0CADB111F2CD2F400AC53E8 /* Volume.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Volume.m; path = Volume/Volume.m; sourceTree = "<group>"; };
+		E0D7AA061FB98E80002952DE /* EQPromotionWindowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EQPromotionWindowController.h; sourceTree = "<group>"; };
+		E0D7AA071FB98E80002952DE /* EQPromotionWindowController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EQPromotionWindowController.m; sourceTree = "<group>"; };
+		E0D7AA081FB98E80002952DE /* EQPromotionWindowController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EQPromotionWindowController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -288,6 +296,15 @@
 			path = Logger;
 			sourceTree = "<group>";
 		};
+		E04186111FBCB30700F4F845 /* EQClickableImageView */ = {
+			isa = PBXGroup;
+			children = (
+				E04186121FBCB33400F4F845 /* EQClickableImageView.h */,
+				E04186131FBCB33400F4F845 /* EQClickableImageView.m */,
+			);
+			path = EQClickableImageView;
+			sourceTree = "<group>";
+		};
 		E0616A591FADCC7000B5B19E /* Supporting files */ = {
 			isa = PBXGroup;
 			children = (
@@ -319,14 +336,16 @@
 				E0B7812A1EF704660076B3AB /* API */,
 				E0B7812D1EF704660076B3AB /* Constants */,
 				E0B781301EF704660076B3AB /* Devices */,
-				E0A028CD1FAD2FF80036AD30 /* VolumeLevelIndicatorView */,
 				E0B781331EF704660076B3AB /* Driver */,
-				E0B781711EF704A20076B3AB /* SliderGraphView */,
+				E04186111FBCB30700F4F845 /* EQClickableImageView */,
 				E0B7816D1EF704A20076B3AB /* EQViewController */,
-				E01871441FAFC6E10084ECAA /* Logger */,
+				E0D7AA051FB98E58002952DE /* EQPromotionWindowController */,
 				E0B781791EF704A20076B3AB /* EQStatusItemView */,
+				E01871441FAFC6E10084ECAA /* Logger */,
+				E0B781711EF704A20076B3AB /* SliderGraphView */,
 				E0B7817C1EF704A20076B3AB /* VolumeWindowController */,
 				E0CADB0F1F2CD2D400AC53E8 /* Volume */,
+				E0A028CD1FAD2FF80036AD30 /* VolumeLevelIndicatorView */,
 				E0B781351EF704660076B3AB /* EQEngine */,
 				E0B781381EF704660076B3AB /* EQHost */,
 				E0B781421EF704660076B3AB /* Scripts */,
@@ -560,6 +579,16 @@
 			name = Volume;
 			sourceTree = "<group>";
 		};
+		E0D7AA051FB98E58002952DE /* EQPromotionWindowController */ = {
+			isa = PBXGroup;
+			children = (
+				E0D7AA061FB98E80002952DE /* EQPromotionWindowController.h */,
+				E0D7AA071FB98E80002952DE /* EQPromotionWindowController.m */,
+				E0D7AA081FB98E80002952DE /* EQPromotionWindowController.xib */,
+			);
+			path = EQPromotionWindowController;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -632,6 +661,7 @@
 				E0B5F0A01F25EEE4005C5F46 /* vol4Light.png in Resources */,
 				E0B781B11EF704BA0076B3AB /* 16x16.png in Resources */,
 				E0B781B71EF704BA0076B3AB /* 64x64.png in Resources */,
+				E0D7AA0A1FB98E80002952DE /* EQPromotionWindowController.xib in Resources */,
 				E0B781B31EF704BA0076B3AB /* 256x256.png in Resources */,
 				3AD8DE6E1F30EFA80079E8A7 /* Localizable.strings in Resources */,
 				E0B5F09A1F25EEE4005C5F46 /* vol1Light.png in Resources */,
@@ -736,6 +766,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E0D7AA091FB98E80002952DE /* EQPromotionWindowController.m in Sources */,
 				E0B781861EF704A20076B3AB /* EQViewController.mm in Sources */,
 				E0B7818B1EF704A20076B3AB /* eqMacStatusItemView.m in Sources */,
 				E0B781841EF704A20076B3AB /* CARingBuffer.cpp in Sources */,
@@ -754,6 +785,7 @@
 				E0B781CD1EF706670076B3AB /* AppDelegate.mm in Sources */,
 				E0B7815A1EF704660076B3AB /* Storage.m in Sources */,
 				E0B781511EF704660076B3AB /* EQEngine.mm in Sources */,
+				E04186141FBCB33400F4F845 /* EQClickableImageView.m in Sources */,
 				E0B781851EF704A20076B3AB /* CAStreamBasicDescription.cpp in Sources */,
 				E01871471FAFC70C0084ECAA /* Logger.m in Sources */,
 			);
