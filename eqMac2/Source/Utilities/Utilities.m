@@ -31,6 +31,16 @@
     return err == errAuthorizationSuccess;
 }
 
++(void)runAppleScriptWithName:(NSString*)scriptName{
+    NSString *resourcePath = [[NSBundle bundleForClass:[self class]] resourcePath];
+    NSString *scriptExtension = @"scpt";
+    NSString *scriptAbsolutePath = [NSString stringWithFormat:@"%@/%@.%@", resourcePath, scriptName, scriptExtension];
+    NSURL* url = [NSURL fileURLWithPath:scriptAbsolutePath];
+    NSDictionary* errors = [NSDictionary dictionary];
+    NSAppleScript* appleScript = [[NSAppleScript alloc] initWithContentsOfURL:url error:&errors];
+    [appleScript executeAndReturnError:nil];
+}
+
 +(NSString*)generateUUID{
     return [[NSUUID UUID] UUIDString];
 }

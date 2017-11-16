@@ -44,7 +44,7 @@ OSDefineMetaClassAndStructors(eqMac2DriverEngine, IOAudioEngine)
 
 OSString *eqMac2DriverEngine::getGlobalUniqueID()
 {
-    return OSString::withCString("EQMAC2_DRIVER_ENGINE");
+    return OSString::withCString("EQMAC2.1_DRIVER_ENGINE");
 }
 
 bool eqMac2DriverEngine::init(OSDictionary *properties)

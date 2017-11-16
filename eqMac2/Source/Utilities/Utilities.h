@@ -13,8 +13,8 @@
 
 @interface Utilities : NSObject
 +(BOOL)runShellScriptWithName:(NSString*)scriptName;
++(void)runAppleScriptWithName:(NSString*)scriptName;
 +(NSImage *)flipImage:(NSImage *)image;
-+(NSString*)generateRandString;
 +(CGFloat)mapValue:(CGFloat) x withInMin:(CGFloat) in_min InMax:(CGFloat) in_max OutMin:(CGFloat) out_min OutMax:(CGFloat) out_max;
 +(NSString*)getOSXVersion;
 +(NSString*)getMacModel;

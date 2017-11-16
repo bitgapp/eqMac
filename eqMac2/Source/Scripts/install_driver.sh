@@ -3,9 +3,15 @@
 # enable install of apps downloaded from anywhere
 spctl --master-disable
 
-# remove old driver
+# remove eqMac 1.0 driver
 kextunload /System/Library/Extensions/eqMacDriver.kext
 rm -rf /System/Library/Extensions/eqMacDriver.kext
+
+# remove eqMac < 2.1 driver
+kextunload /System/Library/Extensions/eqMacDriver2.kext
+rm -rf /System/Library/Extensions/eqMacDriver2.kext
+
+touch /System/Library/Extensions
 
 # get current directory path
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"

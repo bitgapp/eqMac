@@ -258,6 +258,7 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "Developer ID Application: Romans Kisils (JZA6C97KJA)";
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1.0;
 				DEPLOYMENT_LOCATION = YES;
@@ -271,7 +272,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/eqMac2Driver/Info.plist";
 				INSTALL_GROUP = wheel;
 				INSTALL_OWNER = root;
-				INSTALL_PATH = /Common/Driver;
+				INSTALL_PATH = "/Supporting files";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				MODULE_NAME = com.bitgapp.eqMac2Driver;
 				MODULE_VERSION = 1.0;
@@ -293,7 +294,8 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "Developer ID Application: Romans Kisils (JZA6C97KJA)";
+				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1.0;
 				DEPLOYMENT_LOCATION = YES;
@@ -304,7 +306,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/eqMac2Driver/Info.plist";
 				INSTALL_GROUP = wheel;
 				INSTALL_OWNER = root;
-				INSTALL_PATH = /Common/Driver;
+				INSTALL_PATH = "/Supporting files";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				MODULE_NAME = com.bitgapp.eqMac2Driver;
 				MODULE_VERSION = 1.0;

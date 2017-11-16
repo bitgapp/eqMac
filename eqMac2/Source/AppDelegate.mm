@@ -126,15 +126,22 @@ EQPromotionWindowController *promotionWindowController;
 }
 
 -(void)checkAndInstallDriver{
+  
     if(![Devices eqMacDriverInstalled]){
         //Install only the new driver
-        switch([Utilities showAlertWithTitle:NSLocalizedString(@"eqMac2 Requires a Driver",nil)
+        switch([Utilities showAlertWithTitle:NSLocalizedString(@"eqMac2 Requires a Driver Update",nil)
                                   andMessage:NSLocalizedString(@"In order to install the driver, the app will ask for your system password.",nil)
                                   andButtons:@[NSLocalizedString(@"Install",nil), NSLocalizedString(@"Quit",nil)]]){
             case NSAlertFirstButtonReturn:{
-                if(![Utilities runShellScriptWithName:@"install_driver"]){
-                    [self checkAndInstallDriver];
-                };
+                [Utilities runShellScriptWithName:@"install_driver"];
+
+                if (![Devices eqMacDriverInstalled]) {
+                    [Utilities runAppleScriptWithName:@"open_security_settings"];
+                    [Utilities showAlertWithTitle:@"Problem installing the Driver"
+                                       andMessage:@"eqMac has just openned your System Preferences > Security and Privacy Settings. P "
+                                       andButtons:@[@"Did it, try to install again"]];
+                    return [self checkAndInstallDriver];
+                }
                 break;
             }
             case NSAlertSecondButtonReturn:{
