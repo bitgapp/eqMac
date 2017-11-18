@@ -8,7 +8,7 @@
 
 <p align="center">
   <a href="https://gitter.im/eqMac2/Lobby?source=github"><img src="https://img.shields.io/gitter/room/nwjs/nw.js.svg" alt="chat on gitter"></a>
-  <a href="http://twitter.com/RomanBitgapp"><img src="https://img.shields.io/twitter/follow/RomanBitgapp.svg?style=social" alt="Twitter"></a>
+  <a href="http://twitter.com/eqMacApp"><img src="https://img.shields.io/twitter/follow/RomanBitgapp.svg?style=social" alt="Twitter"></a>
   <a href="https://github.com/romankisil/eqMac2/releases"><img src="https://img.shields.io/github/downloads/romankisil/eqMac2/total.svg" alt="Download"></a>+ 127k (Legacy)
 </p>
 
