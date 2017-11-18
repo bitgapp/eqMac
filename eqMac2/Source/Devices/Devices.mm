@@ -328,18 +328,6 @@ typedef enum {
     AudioObjectSetPropertyData(deviceID, &volumePropertyAddress,0, NULL, sizeof(vol), &vol);
 }
 
-+(void)setDevice:(AudioDeviceID)ID isHidden:(BOOL)condition{
-    UInt32 hidden = condition ? 1 : 0;
-    
-    AudioObjectPropertyAddress hiddenAddress;
-    hiddenAddress.mScope = kAudioDevicePropertyScopeOutput;
-    hiddenAddress.mSelector = kAudioDevicePropertyIsHidden;
-    
-    hiddenAddress.mElement = kAudioObjectPropertyElementMaster;
-    if (AudioObjectHasProperty(ID, &hiddenAddress)){
-        OSStatus err = AudioObjectSetPropertyData(ID, &hiddenAddress, 0, NULL, sizeof(hidden), &hidden);
-    }}
-
 
 +(void)setDevice:(AudioDeviceID)ID toMuted:(BOOL)condition{
     UInt32 mute = condition ? 1 : 0;
@@ -442,13 +430,5 @@ typedef enum {
 +(BOOL)eqMacDriverInstalled{
     return ([self getDeviceIDWithUID:DRIVER_UID] > 0);
 }
-
-+(BOOL)legacyDriverInstalled{
-    for(NSDictionary *device in [self getAllDevices]){
-        if([[device objectForKey:@"name"] isEqualToString: LEGACY_DRIVER_NAME]) return true;
-    }
-    return false;
-}
-
 
 @end
