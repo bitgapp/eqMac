@@ -2,6 +2,7 @@
 #import <Foundation/Foundation.h>
 #import "Constants.h"
 
+NSString * const HELPER_BUNDLE_IDENTIFIER = @"com.bitgapp.eqMac2Helper";
 NSString * const DRIVER_UID = @"EQMAC2.1_DRIVER_ENGINE";
 NSString * const API_URL = @"https://eqmac-api.bitgapp.com";
 NSString * const APP_URL = @"https://bitgapp.com/eqmac/";

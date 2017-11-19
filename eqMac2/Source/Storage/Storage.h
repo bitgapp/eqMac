@@ -36,5 +36,9 @@
 
 +(NSString*)getUUID;
 
++(void)setStashedVolume:(Float32)volume;
+
++(Float32)getStashedVolume;
+
 
 @end

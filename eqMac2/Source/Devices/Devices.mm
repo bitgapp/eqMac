@@ -143,7 +143,16 @@ typedef enum {
 
 
 +(AudioDeviceID)getVolumeControllerDeviceID{
-    return [EQHost EQEngineExists] ? [EQHost getSelectedOutputDeviceID] :  [self getCurrentDeviceID];
+    AudioDeviceID volumeControlDeviceID = [self getCurrentDeviceID];
+    if ([EQHost EQEngineExists]) {
+        AudioDeviceID selectedDeviceID = [EQHost getSelectedOutputDeviceID];
+        if ([Devices deviceIsBuiltIn: selectedDeviceID]) {
+            volumeControlDeviceID = [Devices getEQMacDeviceID];
+        } else {
+            volumeControlDeviceID = selectedDeviceID;
+        }
+    }
+    return volumeControlDeviceID;
 }
 
 #pragma mark -
@@ -386,7 +395,7 @@ typedef enum {
 
 //PUBLIC
 +(void)setBalanceForDevice:(AudioDeviceID)ID to:(Float32)balance{
-    Float32 masterVolume = [self getVolumeForDeviceID:ID];
+    Float32 masterVolume = [self audioDeviceHasMasterVolume:ID] ? 1 : [self getVolumeForDeviceID:ID];
 
     Float32 leftVolume = 1 - balance;
     Float32 rightVolume = 1 + balance;

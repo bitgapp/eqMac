@@ -58,6 +58,7 @@ EQPromotionWindowController *promotionWindowController;
     [observer addObserver:self selector:@selector(readjustPopover) name:@"readjustPopover" object:nil];
     
     [self checkAndInstallDriver];
+    [self startHelperIfNeeded];
     
     eqVC = [[EQViewController alloc] initWithNibName:@"EQViewController" bundle:nil];
     
@@ -73,11 +74,11 @@ EQPromotionWindowController *promotionWindowController;
     
     //Send anonymous analytics data to the API
     [API startPinging];
-    
     [self startWatchingDeviceChanges];
     
     [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(wakeUpFromSleep) name:NSWorkspaceDidWakeNotification object:NULL];
 }
+
 
 -(void)checkAndInstallDriver{
     if(![Devices eqMacDriverInstalled]){
@@ -104,6 +105,14 @@ EQPromotionWindowController *promotionWindowController;
                 break;
             }
         }
+    }
+}
+
+-(void)startHelperIfNeeded{
+    NSString *helperBundlePath = [[[NSBundle mainBundle] bundlePath] stringByAppendingString:@"/Contents/Resources/eqMac2Helper.app"];
+    [Utilities setLaunchOnLogin:YES forBundlePath: helperBundlePath];
+    if (![Utilities appWithBundleIdentifierIsRunning: HELPER_BUNDLE_IDENTIFIER]) {
+        [[NSWorkspace sharedWorkspace] launchApplication: helperBundlePath];
     }
 }
 
@@ -188,11 +197,7 @@ EQPromotionWindowController *promotionWindowController;
 
 -(void)tearDownApplication{
     [[NSUserDefaults standardUserDefaults] synchronize];
-    if([EQHost EQEngineExists]){
-        [EQHost deleteEQEngine];
-    }
-    
-    [Devices switchToDeviceWithID:[EQHost getSelectedOutputDeviceID]];
+    [EQHost deleteEQEngine];
 }
 
 @end

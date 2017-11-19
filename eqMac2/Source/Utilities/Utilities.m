@@ -146,12 +146,11 @@
                             repeats:YES];
 }
 
-+ (BOOL)launchOnLogin
-{
++ (BOOL)launchOnLoginForBundlePath:(NSString*)bundlePath{
     LSSharedFileListRef loginItemsListRef = LSSharedFileListCreate(NULL, kLSSharedFileListSessionLoginItems, NULL);
     CFArrayRef snapshotRef = LSSharedFileListCopySnapshot(loginItemsListRef, NULL);
     NSArray* loginItems = (__bridge NSArray*) snapshotRef;
-    NSURL *bundleURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] bundlePath]];
+    NSURL *bundleURL = [NSURL fileURLWithPath: bundlePath];
     for (id item in loginItems) {
         LSSharedFileListItemRef itemRef = (__bridge LSSharedFileListItemRef)item;
         CFURLRef itemURLRef;
@@ -165,9 +164,12 @@
     return NO;
 }
 
-+ (void)setLaunchOnLogin:(BOOL)launchOnLogin
-{
-    NSURL *bundleURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] bundlePath]];
++ (BOOL)launchOnLogin{
+    return [self launchOnLoginForBundlePath: [[NSBundle mainBundle] bundlePath]];
+}
+
++ (void)setLaunchOnLogin:(BOOL)launchOnLogin forBundlePath:(NSString*)bundlePath{
+    NSURL *bundleURL = [NSURL fileURLWithPath: bundlePath];
     LSSharedFileListRef loginItemsListRef = LSSharedFileListCreate(NULL, kLSSharedFileListSessionLoginItems, NULL);
     
     if (launchOnLogin) {
@@ -193,6 +195,18 @@
             }
         }
     }
+}
+
++ (void)setLaunchOnLogin:(BOOL)launchOnLogin{
+    [self setLaunchOnLogin:launchOnLogin forBundlePath: [[NSBundle mainBundle] bundlePath]];
+}
+
++ (BOOL)appWithBundleIdentifierIsRunning:(NSString*)bundleIdentifier{
+    NSArray *runningApplications = [[NSWorkspace sharedWorkspace] runningApplications];
+    for (NSRunningApplication *application in runningApplications) {
+        if ([[application bundleIdentifier] isEqualToString: bundleIdentifier]) return true;
+    }
+    return false;
 }
 
 +(NSString *) md5:(NSString *) input{

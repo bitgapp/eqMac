@@ -54,6 +54,10 @@ static NSUserDefaults *defaults;
     return @"kStorageUUID";
 }
 
++(NSString*)getStashedVolumeKey{
+    return @"kStorageStashedVolume";
+}
+
 // PUBLIC
 
 // Show Default Presets
@@ -212,6 +216,16 @@ static NSUserDefaults *defaults;
     return uuid;
 }
 
+
+// Stashed Volume
+
++(void)setStashedVolume:(Float32)volume{
+    [self set: [NSNumber numberWithFloat:volume] key: [self getStashedVolumeKey]];
+}
+
++(Float32)getStashedVolume{
+    return [[self get: [self getStashedVolumeKey]] floatValue];
+}
 
 
 

@@ -13,31 +13,37 @@ static NSNumber *bandMode;
     AudioDeviceID input = [Devices getEQMacDeviceID];
     selectedOutputDeviceID = output;
     
+    Float32 stashedVolume = [Devices getVolumeForDeviceID: output];
+    [Storage setStashedVolume: stashedVolume];
+    [Devices setVolumeForDevice:output to: 0]; //silence the output for now
+    [Devices setVolumeForDevice: input to: stashedVolume];
     [Devices switchToDeviceWithID: input];
-    
-    bandMode = [Storage getSelectedBandMode];
 
     mEngine = new EQEngine(input, output);
     
-    NSArray *frequenciesArray = [Constants getFrequenciesForBandMode: bandMode.stringValue];
+    [Devices setVolumeForDevice:output to: 1]; //full blast
     
+    bandMode = [Storage getSelectedBandMode];
+    NSArray *frequenciesArray = [Constants getFrequenciesForBandMode: bandMode.stringValue];
     UInt32 *frequencies = new UInt32[frequenciesArray.count]();
     for (int i = 0; i < frequenciesArray.count; i++) {
         frequencies[i] = [[[frequenciesArray objectAtIndex: i] objectForKey:@"frequency"] intValue];
     }
     
     mEngine->SetEqFrequencies(frequencies, (UInt32)frequenciesArray.count);
-    
     mEngine->Start();
     
     NSArray *savedGains = [Storage getSelectedGains];
     [self setEQEngineFrequencyGains: savedGains];
 }
 
+
 +(void)deleteEQEngine{
     if(mEngine){
+        [Devices setVolumeForDevice: [self getSelectedOutputDeviceID] to: [Devices getVolumeForDeviceID: [Devices getEQMacDeviceID]]];
         mEngine->Stop();
-            
+        [Devices switchToDeviceWithID:[EQHost getSelectedOutputDeviceID]];
+
         delete mEngine;
         mEngine = NULL;
     }
