@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>KEXT</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>2.0</string>
 	<key>CFBundleSignature</key>
 	<string>sFlo</string>
 	<key>CFBundleSupportedPlatforms</key>
@@ -25,7 +25,7 @@
 		<string>MacOSX</string>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1.0</string>
+	<string>2.0</string>
 	<key>DTCompiler</key>
 	<string>com.apple.compilers.llvm.clang.1_0</string>
 	<key>DTPlatformBuild</key>
@@ -74,8 +74,6 @@
 							<integer>1819304813</integer>
 						</dict>
 					</array>
-					<key>IOAudioEngineIsHidden</key>
-					<integer>1</integer>
 					<key>NumBlocks</key>
 					<integer>2</integer>
 					<key>NumStreams</key>
@@ -93,8 +91,6 @@
 			</array>
 			<key>CFBundleIdentifier</key>
 			<string>com.bitgapp.eqMac2Driver</string>
-			<key>IOAudioEngineIsHidden</key>
-			<integer>1</integer>
 			<key>IOClass</key>
 			<string>com_bitgapp_eqMac2Driver</string>
 			<key>IOMatchCategory</key>

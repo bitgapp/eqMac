@@ -48,6 +48,5 @@ return err; \
 +(void)setDevice:(AudioDeviceID)ID toMuted:(BOOL)condition;
 
 +(BOOL)eqMacDriverInstalled;
-+(BOOL)legacyDriverInstalled;
 +(BOOL)deviceIsBuiltIn:(AudioDeviceID)ID;
 @end

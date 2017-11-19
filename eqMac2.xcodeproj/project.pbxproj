@@ -18,9 +18,12 @@
 		3AD8DE731F30F1340079E8A7 /* EQViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3AD8DE751F30F1340079E8A7 /* EQViewController.xib */; };
 		C7E49B3F727A9657BBC43E9B /* Pods_eqMac2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB898D1CC464E56A965D8E4A /* Pods_eqMac2.framework */; };
 		E01871471FAFC70C0084ECAA /* Logger.m in Sources */ = {isa = PBXBuildFile; fileRef = E01871461FAFC70C0084ECAA /* Logger.m */; };
-		E0255FE71FADE45200A84EA0 /* VolumeLevelIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = E0A028CF1FAD2FF80036AD30 /* VolumeLevelIndicatorView.m */; };
+		E036A54E1FBE42E400A4FF07 /* open_security_settings.scpt in Resources */ = {isa = PBXBuildFile; fileRef = E036A54D1FBE42E400A4FF07 /* open_security_settings.scpt */; };
+		E036A54F1FBE4C1400A4FF07 /* eqMac2Driver.kext in Resources */ = {isa = PBXBuildFile; fileRef = E036A54C1FBE3DE900A4FF07 /* eqMac2Driver.kext */; };
 		E04186141FBCB33400F4F845 /* EQClickableImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = E04186131FBCB33400F4F845 /* EQClickableImageView.m */; };
 		E07BF4B51D6B4BA400589F0C /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E07BF4B41D6B4BA400589F0C /* WebKit.framework */; };
+		E09DCA731FC0B1CC00046CDC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E09DCA721FC09A8F00046CDC /* Assets.xcassets */; };
+		E09DCA771FC0BBE200046CDC /* eqMac2Helper.app in Resources */ = {isa = PBXBuildFile; fileRef = E09DCA761FC0BBDF00046CDC /* eqMac2Helper.app */; };
 		E0B5F08F1F25EEE4005C5F46 /* exitDark.png in Resources */ = {isa = PBXBuildFile; fileRef = E0B5F07D1F25EEE4005C5F46 /* exitDark.png */; };
 		E0B5F0901F25EEE4005C5F46 /* exitLight.png in Resources */ = {isa = PBXBuildFile; fileRef = E0B5F07E1F25EEE4005C5F46 /* exitLight.png */; };
 		E0B5F0911F25EEE4005C5F46 /* saveDark.png in Resources */ = {isa = PBXBuildFile; fileRef = E0B5F07F1F25EEE4005C5F46 /* saveDark.png */; };
@@ -42,7 +45,6 @@
 		E0B7814D1EF704660076B3AB /* API.m in Sources */ = {isa = PBXBuildFile; fileRef = E0B7812C1EF704660076B3AB /* API.m */; };
 		E0B7814E1EF704660076B3AB /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = E0B7812F1EF704660076B3AB /* Constants.m */; };
 		E0B7814F1EF704660076B3AB /* Devices.mm in Sources */ = {isa = PBXBuildFile; fileRef = E0B781321EF704660076B3AB /* Devices.mm */; };
-		E0B781501EF704660076B3AB /* eqMac2Driver.kext in Resources */ = {isa = PBXBuildFile; fileRef = E0B781341EF704660076B3AB /* eqMac2Driver.kext */; };
 		E0B781511EF704660076B3AB /* EQEngine.mm in Sources */ = {isa = PBXBuildFile; fileRef = E0B781371EF704660076B3AB /* EQEngine.mm */; };
 		E0B781521EF704660076B3AB /* EQHost.mm in Sources */ = {isa = PBXBuildFile; fileRef = E0B7813A1EF704660076B3AB /* EQHost.mm */; };
 		E0B781541EF704660076B3AB /* defaultPresets.plist in Resources */ = {isa = PBXBuildFile; fileRef = E0B7813F1EF704660076B3AB /* defaultPresets.plist */; };
@@ -56,8 +58,6 @@
 		E0B781861EF704A20076B3AB /* EQViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = E0B7816F1EF704A20076B3AB /* EQViewController.mm */; };
 		E0B781881EF704A20076B3AB /* SliderGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = E0B781731EF704A20076B3AB /* SliderGraphView.m */; };
 		E0B7818B1EF704A20076B3AB /* eqMacStatusItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = E0B7817B1EF704A20076B3AB /* eqMacStatusItemView.m */; };
-		E0B7818D1EF704A20076B3AB /* VolumeWindowController.mm in Sources */ = {isa = PBXBuildFile; fileRef = E0B781811EF704A20076B3AB /* VolumeWindowController.mm */; };
-		E0B7818E1EF704A20076B3AB /* VolumeWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E0B781821EF704A20076B3AB /* VolumeWindowController.xib */; };
 		E0B781AD1EF704BA0076B3AB /* blueLine.png in Resources */ = {isa = PBXBuildFile; fileRef = E0B781911EF704BA0076B3AB /* blueLine.png */; };
 		E0B781AF1EF704BA0076B3AB /* 1024x1024.png in Resources */ = {isa = PBXBuildFile; fileRef = E0B781941EF704BA0076B3AB /* 1024x1024.png */; };
 		E0B781B01EF704BA0076B3AB /* 128x128.png in Resources */ = {isa = PBXBuildFile; fileRef = E0B781951EF704BA0076B3AB /* 128x128.png */; };
@@ -70,13 +70,11 @@
 		E0B781B71EF704BA0076B3AB /* 64x64.png in Resources */ = {isa = PBXBuildFile; fileRef = E0B7819C1EF704BA0076B3AB /* 64x64.png */; };
 		E0B781B81EF704BA0076B3AB /* 96x96.png in Resources */ = {isa = PBXBuildFile; fileRef = E0B7819D1EF704BA0076B3AB /* 96x96.png */; };
 		E0B781B91EF704BA0076B3AB /* redLine.png in Resources */ = {isa = PBXBuildFile; fileRef = E0B7819E1EF704BA0076B3AB /* redLine.png */; };
-		E0B781C61EF704BA0076B3AB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E0B781AC1EF704BA0076B3AB /* Assets.xcassets */; };
 		E0B781CD1EF706670076B3AB /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = E0B781C81EF706670076B3AB /* AppDelegate.mm */; };
 		E0B781CE1EF706670076B3AB /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E0B781C91EF706670076B3AB /* Info.plist */; };
 		E0B781CF1EF706670076B3AB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E0B781CA1EF706670076B3AB /* main.m */; };
 		E0B781D01EF706670076B3AB /* NSAppEventCather.m in Sources */ = {isa = PBXBuildFile; fileRef = E0B781CC1EF706670076B3AB /* NSAppEventCather.m */; };
 		E0B781D31EF706700076B3AB /* Main.xib in Resources */ = {isa = PBXBuildFile; fileRef = E0B781D11EF706700076B3AB /* Main.xib */; };
-		E0CADB121F2CD2F400AC53E8 /* Volume.m in Sources */ = {isa = PBXBuildFile; fileRef = E0CADB111F2CD2F400AC53E8 /* Volume.m */; };
 		E0D7AA091FB98E80002952DE /* EQPromotionWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = E0D7AA071FB98E80002952DE /* EQPromotionWindowController.m */; };
 		E0D7AA0A1FB98E80002952DE /* EQPromotionWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E0D7AA081FB98E80002952DE /* EQPromotionWindowController.xib */; };
 /* End PBXBuildFile section */
@@ -118,14 +116,16 @@
 		CB898D1CC464E56A965D8E4A /* Pods_eqMac2.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_eqMac2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E01871451FAFC70C0084ECAA /* Logger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Logger.h; sourceTree = "<group>"; };
 		E01871461FAFC70C0084ECAA /* Logger.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Logger.m; sourceTree = "<group>"; };
+		E036A54C1FBE3DE900A4FF07 /* eqMac2Driver.kext */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.kernel-extension"; path = eqMac2Driver.kext; sourceTree = "<group>"; };
+		E036A54D1FBE42E400A4FF07 /* open_security_settings.scpt */ = {isa = PBXFileReference; lastKnownFileType = file; path = open_security_settings.scpt; sourceTree = "<group>"; };
 		E04186121FBCB33400F4F845 /* EQClickableImageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EQClickableImageView.h; sourceTree = "<group>"; };
 		E04186131FBCB33400F4F845 /* EQClickableImageView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EQClickableImageView.m; sourceTree = "<group>"; };
 		E052D97E1F489A11003B0535 /* ru-RU */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ru-RU"; path = "ru-RU.lproj/Main.strings"; sourceTree = "<group>"; };
 		E052D97F1F489A11003B0535 /* ru-RU */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ru-RU"; path = "ru-RU.lproj/EQViewController.strings"; sourceTree = "<group>"; };
 		E052D9811F489A11003B0535 /* ru-RU */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ru-RU"; path = "ru-RU.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		E07BF4B41D6B4BA400589F0C /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
-		E0A028CE1FAD2FF80036AD30 /* VolumeLevelIndicatorView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VolumeLevelIndicatorView.h; sourceTree = "<group>"; };
-		E0A028CF1FAD2FF80036AD30 /* VolumeLevelIndicatorView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VolumeLevelIndicatorView.m; sourceTree = "<group>"; };
+		E09DCA721FC09A8F00046CDC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		E09DCA761FC0BBDF00046CDC /* eqMac2Helper.app */ = {isa = PBXFileReference; lastKnownFileType = wrapper.application; path = eqMac2Helper.app; sourceTree = "<group>"; };
 		E0B0A7E51EA023F800D2BB98 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
 		E0B5F07D1F25EEE4005C5F46 /* exitDark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = exitDark.png; sourceTree = "<group>"; };
 		E0B5F07E1F25EEE4005C5F46 /* exitLight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = exitLight.png; sourceTree = "<group>"; };
@@ -151,7 +151,6 @@
 		E0B7812F1EF704660076B3AB /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
 		E0B781311EF704660076B3AB /* Devices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Devices.h; sourceTree = "<group>"; };
 		E0B781321EF704660076B3AB /* Devices.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Devices.mm; sourceTree = "<group>"; };
-		E0B781341EF704660076B3AB /* eqMac2Driver.kext */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.kernel-extension"; path = eqMac2Driver.kext; sourceTree = "<group>"; };
 		E0B781361EF704660076B3AB /* EQEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQEngine.h; sourceTree = "<group>"; };
 		E0B781371EF704660076B3AB /* EQEngine.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = EQEngine.mm; sourceTree = "<group>"; };
 		E0B781391EF704660076B3AB /* EQHost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQHost.h; sourceTree = "<group>"; };
@@ -181,9 +180,6 @@
 		E0B781731EF704A20076B3AB /* SliderGraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SliderGraphView.m; sourceTree = "<group>"; };
 		E0B7817A1EF704A20076B3AB /* eqMacStatusItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = eqMacStatusItemView.h; sourceTree = "<group>"; };
 		E0B7817B1EF704A20076B3AB /* eqMacStatusItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = eqMacStatusItemView.m; sourceTree = "<group>"; };
-		E0B781801EF704A20076B3AB /* VolumeWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VolumeWindowController.h; sourceTree = "<group>"; };
-		E0B781811EF704A20076B3AB /* VolumeWindowController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = VolumeWindowController.mm; sourceTree = "<group>"; };
-		E0B781821EF704A20076B3AB /* VolumeWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VolumeWindowController.xib; sourceTree = "<group>"; };
 		E0B781911EF704BA0076B3AB /* blueLine.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blueLine.png; sourceTree = "<group>"; };
 		E0B781941EF704BA0076B3AB /* 1024x1024.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1024x1024.png; sourceTree = "<group>"; };
 		E0B781951EF704BA0076B3AB /* 128x128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 128x128.png; sourceTree = "<group>"; };
@@ -196,7 +192,6 @@
 		E0B7819C1EF704BA0076B3AB /* 64x64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 64x64.png; sourceTree = "<group>"; };
 		E0B7819D1EF704BA0076B3AB /* 96x96.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 96x96.png; sourceTree = "<group>"; };
 		E0B7819E1EF704BA0076B3AB /* redLine.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = redLine.png; sourceTree = "<group>"; };
-		E0B781AC1EF704BA0076B3AB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E0B781C71EF706670076B3AB /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		E0B781C81EF706670076B3AB /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
 		E0B781C91EF706670076B3AB /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -204,8 +199,6 @@
 		E0B781CB1EF706670076B3AB /* NSAppEventCatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSAppEventCatcher.h; sourceTree = "<group>"; };
 		E0B781CC1EF706670076B3AB /* NSAppEventCather.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSAppEventCather.m; sourceTree = "<group>"; };
 		E0B781D21EF706700076B3AB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/Main.xib; sourceTree = "<group>"; };
-		E0CADB101F2CD2F400AC53E8 /* Volume.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Volume.h; path = Volume/Volume.h; sourceTree = "<group>"; };
-		E0CADB111F2CD2F400AC53E8 /* Volume.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Volume.m; path = Volume/Volume.m; sourceTree = "<group>"; };
 		E0D7AA061FB98E80002952DE /* EQPromotionWindowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EQPromotionWindowController.h; sourceTree = "<group>"; };
 		E0D7AA071FB98E80002952DE /* EQPromotionWindowController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EQPromotionWindowController.m; sourceTree = "<group>"; };
 		E0D7AA081FB98E80002952DE /* EQPromotionWindowController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EQPromotionWindowController.xib; sourceTree = "<group>"; };
@@ -308,6 +301,8 @@
 		E0616A591FADCC7000B5B19E /* Supporting files */ = {
 			isa = PBXGroup;
 			children = (
+				E09DCA761FC0BBDF00046CDC /* eqMac2Helper.app */,
+				E036A54C1FBE3DE900A4FF07 /* eqMac2Driver.kext */,
 				E0B7813F1EF704660076B3AB /* defaultPresets.plist */,
 				3AD8DE701F30EFA80079E8A7 /* Localizable.strings */,
 				E0B781D11EF706700076B3AB /* Main.xib */,
@@ -315,15 +310,6 @@
 				E0B781C91EF706670076B3AB /* Info.plist */,
 			);
 			path = "Supporting files";
-			sourceTree = "<group>";
-		};
-		E0A028CD1FAD2FF80036AD30 /* VolumeLevelIndicatorView */ = {
-			isa = PBXGroup;
-			children = (
-				E0A028CE1FAD2FF80036AD30 /* VolumeLevelIndicatorView.h */,
-				E0A028CF1FAD2FF80036AD30 /* VolumeLevelIndicatorView.m */,
-			);
-			path = VolumeLevelIndicatorView;
 			sourceTree = "<group>";
 		};
 		E0B781291EF704660076B3AB /* Source */ = {
@@ -336,16 +322,12 @@
 				E0B7812A1EF704660076B3AB /* API */,
 				E0B7812D1EF704660076B3AB /* Constants */,
 				E0B781301EF704660076B3AB /* Devices */,
-				E0B781331EF704660076B3AB /* Driver */,
 				E04186111FBCB30700F4F845 /* EQClickableImageView */,
 				E0B7816D1EF704A20076B3AB /* EQViewController */,
 				E0D7AA051FB98E58002952DE /* EQPromotionWindowController */,
 				E0B781791EF704A20076B3AB /* EQStatusItemView */,
 				E01871441FAFC6E10084ECAA /* Logger */,
 				E0B781711EF704A20076B3AB /* SliderGraphView */,
-				E0B7817C1EF704A20076B3AB /* VolumeWindowController */,
-				E0CADB0F1F2CD2D400AC53E8 /* Volume */,
-				E0A028CD1FAD2FF80036AD30 /* VolumeLevelIndicatorView */,
 				E0B781351EF704660076B3AB /* EQEngine */,
 				E0B781381EF704660076B3AB /* EQHost */,
 				E0B781421EF704660076B3AB /* Scripts */,
@@ -382,14 +364,6 @@
 			path = Devices;
 			sourceTree = "<group>";
 		};
-		E0B781331EF704660076B3AB /* Driver */ = {
-			isa = PBXGroup;
-			children = (
-				E0B781341EF704660076B3AB /* eqMac2Driver.kext */,
-			);
-			path = Driver;
-			sourceTree = "<group>";
-		};
 		E0B781351EF704660076B3AB /* EQEngine */ = {
 			isa = PBXGroup;
 			children = (
@@ -411,6 +385,7 @@
 		E0B781421EF704660076B3AB /* Scripts */ = {
 			isa = PBXGroup;
 			children = (
+				E036A54D1FBE42E400A4FF07 /* open_security_settings.scpt */,
 				E0B781431EF704660076B3AB /* install_driver.sh */,
 				E0B781441EF704660076B3AB /* uninstall_app.sh */,
 			);
@@ -506,21 +481,11 @@
 			path = EQStatusItemView;
 			sourceTree = "<group>";
 		};
-		E0B7817C1EF704A20076B3AB /* VolumeWindowController */ = {
-			isa = PBXGroup;
-			children = (
-				E0B781801EF704A20076B3AB /* VolumeWindowController.h */,
-				E0B781811EF704A20076B3AB /* VolumeWindowController.mm */,
-				E0B781821EF704A20076B3AB /* VolumeWindowController.xib */,
-			);
-			path = VolumeWindowController;
-			sourceTree = "<group>";
-		};
 		E0B7818F1EF704BA0076B3AB /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				E09DCA721FC09A8F00046CDC /* Assets.xcassets */,
 				E0B781901EF704BA0076B3AB /* Assets */,
-				E0B781AC1EF704BA0076B3AB /* Assets.xcassets */,
 			);
 			path = Assets;
 			sourceTree = "<group>";
@@ -568,15 +533,6 @@
 				E0B7819D1EF704BA0076B3AB /* 96x96.png */,
 			);
 			path = Icons;
-			sourceTree = "<group>";
-		};
-		E0CADB0F1F2CD2D400AC53E8 /* Volume */ = {
-			isa = PBXGroup;
-			children = (
-				E0CADB101F2CD2F400AC53E8 /* Volume.h */,
-				E0CADB111F2CD2F400AC53E8 /* Volume.m */,
-			);
-			name = Volume;
 			sourceTree = "<group>";
 		};
 		E0D7AA051FB98E58002952DE /* EQPromotionWindowController */ = {
@@ -657,7 +613,6 @@
 			files = (
 				E0B781B51EF704BA0076B3AB /* 48x48.png in Resources */,
 				E0B5F09D1F25EEE4005C5F46 /* vol3Dark.png in Resources */,
-				E0B781501EF704660076B3AB /* eqMac2Driver.kext in Resources */,
 				E0B5F0A01F25EEE4005C5F46 /* vol4Light.png in Resources */,
 				E0B781B11EF704BA0076B3AB /* 16x16.png in Resources */,
 				E0B781B71EF704BA0076B3AB /* 64x64.png in Resources */,
@@ -666,6 +621,8 @@
 				3AD8DE6E1F30EFA80079E8A7 /* Localizable.strings in Resources */,
 				E0B5F09A1F25EEE4005C5F46 /* vol1Light.png in Resources */,
 				E0B781D31EF706700076B3AB /* Main.xib in Resources */,
+				E09DCA771FC0BBE200046CDC /* eqMac2Helper.app in Resources */,
+				E036A54E1FBE42E400A4FF07 /* open_security_settings.scpt in Resources */,
 				E0B5F0951F25EEE4005C5F46 /* statusItemDark.png in Resources */,
 				E0B5F08F1F25EEE4005C5F46 /* exitDark.png in Resources */,
 				E0B5F0991F25EEE4005C5F46 /* vol1Dark.png in Resources */,
@@ -680,6 +637,7 @@
 				E0B781CE1EF706670076B3AB /* Info.plist in Resources */,
 				E0B5F0961F25EEE4005C5F46 /* statusItemLight.png in Resources */,
 				E0B5F0971F25EEE4005C5F46 /* deleteDark.png in Resources */,
+				E09DCA731FC0B1CC00046CDC /* Assets.xcassets in Resources */,
 				E0B781541EF704660076B3AB /* defaultPresets.plist in Resources */,
 				E0B781AD1EF704BA0076B3AB /* blueLine.png in Resources */,
 				E0B781561EF704660076B3AB /* install_driver.sh in Resources */,
@@ -687,9 +645,8 @@
 				E0B5F09E1F25EEE4005C5F46 /* vol3Light.png in Resources */,
 				E0B5F0941F25EEE4005C5F46 /* speakerLight.png in Resources */,
 				E0B5F0911F25EEE4005C5F46 /* saveDark.png in Resources */,
-				E0B7818E1EF704A20076B3AB /* VolumeWindowController.xib in Resources */,
 				E0B5F0931F25EEE4005C5F46 /* speakerDark.png in Resources */,
-				E0B781C61EF704BA0076B3AB /* Assets.xcassets in Resources */,
+				E036A54F1FBE4C1400A4FF07 /* eqMac2Driver.kext in Resources */,
 				E0B781571EF704660076B3AB /* uninstall_app.sh in Resources */,
 				E0B781B01EF704BA0076B3AB /* 128x128.png in Resources */,
 				E0B781AF1EF704BA0076B3AB /* 1024x1024.png in Resources */,
@@ -770,14 +727,11 @@
 				E0B781861EF704A20076B3AB /* EQViewController.mm in Sources */,
 				E0B7818B1EF704A20076B3AB /* eqMacStatusItemView.m in Sources */,
 				E0B781841EF704A20076B3AB /* CARingBuffer.cpp in Sources */,
-				E0CADB121F2CD2F400AC53E8 /* Volume.m in Sources */,
 				E0B781881EF704A20076B3AB /* SliderGraphView.m in Sources */,
 				E0B7814E1EF704660076B3AB /* Constants.m in Sources */,
 				E0B7814F1EF704660076B3AB /* Devices.mm in Sources */,
 				E0B781521EF704660076B3AB /* EQHost.mm in Sources */,
 				E0B781CF1EF706670076B3AB /* main.m in Sources */,
-				E0255FE71FADE45200A84EA0 /* VolumeLevelIndicatorView.m in Sources */,
-				E0B7818D1EF704A20076B3AB /* VolumeWindowController.mm in Sources */,
 				E0B7815B1EF704660076B3AB /* Utilities.m in Sources */,
 				E0B7814D1EF704660076B3AB /* API.m in Sources */,
 				E0B781D01EF706670076B3AB /* NSAppEventCather.m in Sources */,
@@ -958,8 +912,8 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bitgapp.eqMac2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "436b674f-56fa-48cd-9846-cd9ef65d7a8e";
-				PROVISIONING_PROFILE_SPECIFIER = "eqMac2 Distribution";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};

@@ -1,9 +1,8 @@
 #import <Foundation/Foundation.h>
 #ifndef Constants_h
 #define Constants_h
-extern NSString * const LEGACY_DRIVER_NAME;
-extern NSString * const DEVICE_NAME;
-extern NSString * const BUILTIN_DEVICE_NAME;
+
+extern NSString * const HELPER_BUNDLE_IDENTIFIER;
 extern NSString * const DRIVER_UID;
 extern NSString * const API_URL;
 extern NSString * const APP_URL;

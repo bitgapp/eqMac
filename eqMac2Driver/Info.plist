@@ -15,11 +15,11 @@
 	<key>CFBundlePackageType</key>
 	<string>KEXT</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>2.0</string>
 	<key>CFBundleSignature</key>
 	<string>sFlo</string>
 	<key>CFBundleVersion</key>
-	<string>1.0</string>
+	<string>2.0</string>
 	<key>IOKitPersonalities</key>
 	<dict>
 		<key>PhantomAudioDriver</key>
@@ -54,8 +54,6 @@
 							<integer>1819304813</integer>
 						</dict>
 					</array>
-					<key>IOAudioEngineIsHidden</key>
-					<integer>1</integer>
 					<key>NumBlocks</key>
 					<integer>2</integer>
 					<key>NumStreams</key>
@@ -73,8 +71,6 @@
 			</array>
 			<key>CFBundleIdentifier</key>
 			<string>com.bitgapp.eqMac2Driver</string>
-			<key>IOAudioEngineIsHidden</key>
-			<integer>1</integer>
 			<key>IOClass</key>
 			<string>com_bitgapp_eqMac2Driver</string>
 			<key>IOMatchCategory</key>

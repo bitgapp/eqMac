@@ -63,11 +63,8 @@ CGFloat originalHeight;
     notify = [NSNotificationCenter defaultCenter];
     [notify addObserver:self selector:@selector(sliderGraphChanged) name:@"sliderGraphChanged" object:nil];
     [notify addObserver:self selector:@selector(populateOutputPopup) name:@"devicesChanged" object:nil];
-
    
-    
     [notify addObserver:self selector:@selector(readjustView) name:@"popoverWillOpen" object:nil];
-    [notify addObserver:self selector:@selector(readjustView) name:@"changeVolume" object:nil];
     
     [_buildLabel setStringValue:[@"Build " stringByAppendingString:[Utilities getAppVersion]]];
     
@@ -80,6 +77,13 @@ CGFloat originalHeight;
     [self readjustView];
     [self populatePresetPopup];
     [self populateOutputPopup];
+    
+    [self readjustVolumeControls];
+    [Utilities executeBlock: ^{
+        if ([self.view.window isVisible]) {
+            [self readjustVolumeControls];
+        }
+    } every: 1];
 }
 
 -(void)viewDidAppear{
@@ -224,17 +228,6 @@ CGFloat originalHeight;
 
 -(void)readjustView{
     [Utilities executeBlock:^{
-        
-        //VOLUME
-        Float32 currentVolume = [Devices getVolumeForDeviceID:[Devices getVolumeControllerDeviceID]];
-        [_volumeSlider setFloatValue:currentVolume];
-        [self changeVolumeIcons:currentVolume];
-        
-        //BALANCE
-        Float32 currentBalance = [Devices getBalanceForDeviceID:[Devices getVolumeControllerDeviceID]];
-        [_balanceSlider setFloatValue:currentBalance];
-        [self changeBalanceIcons:currentBalance];
-    
         [self setBandLabels];
     } after:0.01];
     
@@ -247,6 +240,17 @@ CGFloat originalHeight;
     [notify postNotificationName:@"readjustPopover" object:nil];
 }
 
+-(void)readjustVolumeControls{
+    //VOLUME
+    Float32 currentVolume = [Devices getVolumeForDeviceID:[Devices getVolumeControllerDeviceID]];
+    [_volumeSlider setFloatValue:currentVolume];
+    [self changeVolumeIcons:currentVolume];
+    
+    //BALANCE
+    Float32 currentBalance = [Devices getBalanceForDeviceID:[Devices getVolumeControllerDeviceID]];
+    [_balanceSlider setFloatValue:currentBalance];
+    [self changeBalanceIcons:currentBalance];
+}
 
 - (IBAction)changeVolume:(id)sender {
     Float32 volume = [sender floatValue];

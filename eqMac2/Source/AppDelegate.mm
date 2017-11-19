@@ -14,7 +14,6 @@
 
 //Views
 EQViewController *eqVC;
-VolumeWindowController *volumeHUD;
 eqMacStatusItemView *statusItemView;
 
 //Windows
@@ -23,7 +22,6 @@ NSEvent *eqPopoverTransiencyMonitor;
 NSTimer *deviceChangeWatcher;
 NSTimer *deviceActivityWatcher;
 EQPromotionWindowController *promotionWindowController;
-
 
 @implementation AppDelegate
 
@@ -55,27 +53,19 @@ EQPromotionWindowController *promotionWindowController;
 -(void)applicationDidFinishLaunching:(NSNotification *)notification{
     
     NSNotificationCenter *observer = [NSNotificationCenter defaultCenter];
-    [observer addObserver:self selector:@selector(changeVolume:) name:@"changeVolume" object:nil];
     [observer addObserver:self selector:@selector(quitApplication) name:@"closeApp" object:nil];
     [observer addObserver:self selector:@selector(closePopover) name:@"escapePressed" object:nil];
     [observer addObserver:self selector:@selector(readjustPopover) name:@"readjustPopover" object:nil];
     
-    
-    [EQHost detectAndRemoveRoguePassthroughDevice];
     [self checkAndInstallDriver];
+    [self startHelperIfNeeded];
     
     eqVC = [[EQViewController alloc] initWithNibName:@"EQViewController" bundle:nil];
-
-    volumeHUD = [[VolumeWindowController alloc] initWithWindowNibName:@"VolumeWindowController"]; //Unfortunately have to use a custom Volume HUD as Aggregate Device Doesn't have master volume control :/
     
     eqPopover = [[NSPopover alloc] init];
     [eqPopover setDelegate:self];
     [eqPopover setContentViewController:eqVC];
     [eqPopover setBehavior:NSPopoverBehaviorTransient];
-    
-    
-    [volumeHUD.window setCollectionBehavior:NSWindowCollectionBehaviorCanJoinAllSpaces | NSWindowCollectionBehaviorTransient];
-    [volumeHUD.window setLevel:NSPopUpMenuWindowLevel];
     
     if([Storage getAppAlreadyLaunchedBefore]){
         promotionWindowController = [[EQPromotionWindowController alloc] initWithWindowNibName:@"EQPromotionWindowController"];
@@ -84,16 +74,52 @@ EQPromotionWindowController *promotionWindowController;
     
     //Send anonymous analytics data to the API
     [API startPinging];
-    
     [self startWatchingDeviceChanges];
     
     [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(wakeUpFromSleep) name:NSWorkspaceDidWakeNotification object:NULL];
 }
 
+
+-(void)checkAndInstallDriver{
+    if(![Devices eqMacDriverInstalled]){
+        //Install only the new driver
+        switch([Utilities showAlertWithTitle:NSLocalizedString(@"eqMac2 Requires a Driver Update",nil)
+                                  andMessage:NSLocalizedString(@"In order to install the driver, the app will ask for your system password.",nil)
+                                  andButtons:@[NSLocalizedString(@"Install",nil), NSLocalizedString(@"Quit",nil)]]){
+            case NSAlertFirstButtonReturn:{
+                [Utilities runShellScriptWithName:@"install_driver"];
+                
+                if (![Devices eqMacDriverInstalled]) {
+                    [Utilities runAppleScriptWithName:@"open_security_settings"];
+                    [Utilities showAlertWithTitle:@"Problem installing the Driver"
+                                       andMessage:@"eqMac has just openned your System Preferences > Security and Privacy Settings. \
+                     Please follow the instructions to allow eqMac2 Driver to be installed.\
+                     Once you finished with all the steps, please try to install again."
+                                       andButtons:@[@"Did it, try to install again"]];
+                    return [self checkAndInstallDriver];
+                }
+                break;
+            }
+            case NSAlertSecondButtonReturn:{
+                [self quitApplication];
+                break;
+            }
+        }
+    }
+}
+
+-(void)startHelperIfNeeded{
+    NSString *helperBundlePath = [[[NSBundle mainBundle] bundlePath] stringByAppendingString:@"/Contents/Resources/eqMac2Helper.app"];
+    [Utilities setLaunchOnLogin:YES forBundlePath: helperBundlePath];
+    if (![Utilities appWithBundleIdentifierIsRunning: HELPER_BUNDLE_IDENTIFIER]) {
+        [[NSWorkspace sharedWorkspace] launchApplication: helperBundlePath];
+    }
+}
+
 -(void)startWatchingDeviceChanges{
     deviceChangeWatcher = [Utilities executeBlock:^{
         AudioDeviceID selectedDeviceID = [Devices getCurrentDeviceID];
-        if(selectedDeviceID != [EQHost getPassthroughDeviceID] && [Devices getIsAliveForDeviceID:selectedDeviceID]){
+        if(selectedDeviceID != [Devices getEQMacDeviceID] && [Devices getIsAliveForDeviceID:selectedDeviceID]){
             [EQHost createEQEngineWithOutputDevice: selectedDeviceID];
             [self startWatchingActivityOfDeviceWithID:selectedDeviceID];
         }
@@ -104,7 +130,6 @@ EQPromotionWindowController *promotionWindowController;
     deviceActivityWatcher = [Utilities executeBlock:^{
         if(![Devices getIsAliveForDeviceID:ID]){
             [EQHost deleteEQEngine];
-            [EQHost detectAndRemoveRoguePassthroughDevice];
             [deviceActivityWatcher invalidate];
             deviceActivityWatcher = nil;
         }
@@ -117,55 +142,11 @@ EQPromotionWindowController *promotionWindowController;
     
     [EQHost deleteEQEngine];
     [Devices switchToDeviceWithID:[EQHost getSelectedOutputDeviceID]];
-    [EQHost detectAndRemoveRoguePassthroughDevice];
     
     //delay the start a little so os has time to catchup with the Audio Processing
     [Utilities executeBlock:^{
         [self startWatchingDeviceChanges];
     } after:3];
-}
-
--(void)checkAndInstallDriver{
-    if(![Devices eqMacDriverInstalled]){
-        //Install only the new driver
-        switch([Utilities showAlertWithTitle:NSLocalizedString(@"eqMac2 Requires a Driver",nil)
-                                  andMessage:NSLocalizedString(@"In order to install the driver, the app will ask for your system password.",nil)
-                                  andButtons:@[NSLocalizedString(@"Install",nil), NSLocalizedString(@"Quit",nil)]]){
-            case NSAlertFirstButtonReturn:{
-                if(![Utilities runShellScriptWithName:@"install_driver"]){
-                    [self checkAndInstallDriver];
-                };
-                break;
-            }
-            case NSAlertSecondButtonReturn:{
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"closeApp" object:nil];
-                break;
-            }
-        }
-    }
-}
-
--(void)changeVolume:(NSNotification*)notification{
-    if([EQHost EQEngineExists]){
-        AudioDeviceID volDevice = [Devices getVolumeControllerDeviceID];
-        NSInteger volumeChangeKey = [[notification.userInfo objectForKey:@"key"] intValue];
-        Float32 newVolume = 0;
-        if(volumeChangeKey == MUTE){
-            BOOL mute = ![Devices getIsMutedForDeviceID:volDevice];
-            [Devices setDevice:volDevice toMuted: mute];
-            if(!mute) newVolume = [Devices getVolumeForDeviceID:volDevice];
-        }else{
-            Float32 currentVolume = [Devices getVolumeForDeviceID:volDevice];
-            newVolume = [Volume setVolume:currentVolume
-                                      inDirection:volumeChangeKey == UP ? kVolumeChangeDirectionUp : kVolumeChangeDirectionDown
-                                toNearest:[[notification.userInfo objectForKey:@"SHIFT+ALT"] boolValue] ? kVolumeStepTypeQuarter : kVolumeStepTypeFull];
-            [Devices setVolumeForDevice:volDevice to: newVolume];
-        }
-        
-        if([Storage getShowVolumeHUD]){
-            [volumeHUD showHUDforVolume: newVolume];
-        }
-    }
 }
 
 - (void)openEQ{
@@ -216,12 +197,7 @@ EQPromotionWindowController *promotionWindowController;
 
 -(void)tearDownApplication{
     [[NSUserDefaults standardUserDefaults] synchronize];
-    if([EQHost EQEngineExists]){
-        [EQHost deleteEQEngine];
-    }
-    
-    [EQHost detectAndRemoveRoguePassthroughDevice];
-    [Devices switchToDeviceWithID:[EQHost getSelectedOutputDeviceID]];
+    [EQHost deleteEQEngine];
 }
 
 @end
