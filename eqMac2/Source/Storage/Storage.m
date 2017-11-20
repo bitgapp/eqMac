@@ -136,7 +136,7 @@ static NSUserDefaults *defaults;
     [presets addEntriesFromDictionary: [self getUserPresets]];
     NSMutableArray *flatGains = [@[] mutableCopy];
     for (int i = 0; i < bandMode; i++) [flatGains addObject:@0];
-    [presets setObject:@{ @"gains": flatGains } forKey: @"Flat"];
+    [presets setObject:@{ @"gains": flatGains } forKey: NSLocalizedString(@"Flat", nil)];
     return presets;
 }
 

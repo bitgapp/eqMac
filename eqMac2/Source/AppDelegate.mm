@@ -87,20 +87,25 @@ EQPromotionWindowController *promotionWindowController;
                                   andMessage:NSLocalizedString(@"In order to install the driver, the app will ask for your system password.",nil)
                                   andButtons:@[NSLocalizedString(@"Install",nil), NSLocalizedString(@"Quit",nil)]]){
             case NSAlertFirstButtonReturn:{
-                [Utilities runShellScriptWithName:@"install_driver"];
-                
-                if (![Devices eqMacDriverInstalled]) {
-                    [Utilities runAppleScriptWithName:@"open_security_settings"];
-                    [Utilities showAlertWithTitle:@"Problem installing the Driver"
-                                       andMessage:@"eqMac has just openned your System Preferences > Security and Privacy Settings. \
-                     Please follow the instructions to allow eqMac2 Driver to be installed.\
-                     Once you finished with all the steps, please try to install again."
-                                       andButtons:@[@"Did it, try to install again"]];
-                    return [self checkAndInstallDriver];
+                if([Utilities runShellScriptWithName:@"install_driver"]){
+                    if ([Devices eqMacDriverInstalled]) {
+                        switch([Utilities showAlertWithTitle:NSLocalizedString(@"Problem installing the Driver", nil)
+                                                  andMessage:NSLocalizedString(@"You can try to resolve the issue by chatting with the developer, or quit eqMac now", nil)
+                                                  andButtons:@[NSLocalizedString(@"Chat with the developer", nil), [NSLocalizedString(@"Quit",nil) stringByAppendingString:@" eqMac2"]]]){
+                            case NSAlertFirstButtonReturn: {
+                                [Utilities openBrowserWithURL: HELP_URL];
+                            }
+                            default: {
+                                [self quitApplication];
+                            }
+                        }
+                    }
+                } else {
+                    [self checkAndInstallDriver];
                 }
                 break;
             }
-            case NSAlertSecondButtonReturn:{
+            default :{
                 [self quitApplication];
                 break;
             }
