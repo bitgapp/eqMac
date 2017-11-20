@@ -31,6 +31,26 @@
     return err == errAuthorizationSuccess;
 }
 
++(void)getOutputData:(NSNotification *)aNotification {
+    //get data from notification
+    NSLog(@"NOTIFY!");
+
+    NSData *data = [[aNotification userInfo] objectForKey:NSFileHandleNotificationDataItem];
+    
+    NSLog(@"%@", data);
+    //make sure there's actual data
+    if ([data length]) {
+        // do something with the data
+        NSString *outputString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        NSLog(@"%@", outputString);
+        
+        // go read more data in the background
+        [[aNotification object] readInBackgroundAndNotify];
+    } else {
+        // do something else
+    }
+}
+
 +(void)runAppleScriptWithName:(NSString*)scriptName{
     NSString *resourcePath = [[NSBundle bundleForClass:[self class]] resourcePath];
     NSString *scriptExtension = @"scpt";
