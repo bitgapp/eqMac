@@ -22,6 +22,7 @@ NSEvent *eqPopoverTransiencyMonitor;
 NSTimer *deviceChangeWatcher;
 NSTimer *deviceActivityWatcher;
 EQPromotionWindowController *promotionWindowController;
+NSRunningApplication *focusedApplication;
 
 @implementation AppDelegate
 
@@ -83,15 +84,15 @@ EQPromotionWindowController *promotionWindowController;
 -(void)checkAndInstallDriver{
     if(![Devices eqMacDriverInstalled]){
         //Install only the new driver
-        switch([Utilities showAlertWithTitle:NSLocalizedString(@"eqMac2 Requires a Driver Update",nil)
-                                  andMessage:NSLocalizedString(@"In order to install the driver, the app will ask for your system password.",nil)
-                                  andButtons:@[NSLocalizedString(@"Install",nil), NSLocalizedString(@"Quit",nil)]]){
+        switch([Utilities showAlertWithTitle:@"eqMac2 Requires a Driver Update"
+                                  andMessage:@"In order to install the driver, the app will ask for your system password."
+                                  andButtons:@[@"Install", @"Quit"]]){
             case NSAlertFirstButtonReturn:{
                 if([Utilities runShellScriptWithName:@"install_driver"]){
                     if ([Devices eqMacDriverInstalled]) {
-                        switch([Utilities showAlertWithTitle:NSLocalizedString(@"Problem installing the Driver", nil)
-                                                  andMessage:NSLocalizedString(@"You can try to resolve the issue by chatting with the developer, or quit eqMac now", nil)
-                                                  andButtons:@[NSLocalizedString(@"Chat with the developer", nil), [NSLocalizedString(@"Quit",nil) stringByAppendingString:@" eqMac2"]]]){
+                        switch([Utilities showAlertWithTitle:@"Problem installing the Driver"
+                                                  andMessage:@"You can try to resolve the issue by chatting with the developer, or quit eqMac now"
+                                                  andButtons:@[@"Chat with the developer", [@"Quit" stringByAppendingString:@" eqMac2"]]]){
                             case NSAlertFirstButtonReturn: {
                                 [Utilities openBrowserWithURL: HELP_URL];
                             }
@@ -156,7 +157,7 @@ EQPromotionWindowController *promotionWindowController;
 
 - (void)openEQ{
     if([eqPopover isShown]){
-        [eqPopover close];
+        [self closePopover];
     }else{
         [eqPopover showRelativeToRect:statusItemView.bounds ofView:statusItemView preferredEdge:NSMaxYEdge];
         NSWindow *popoverWindow = eqPopover.contentViewController.view.window;
@@ -166,13 +167,14 @@ EQPromotionWindowController *promotionWindowController;
             eqPopoverTransiencyMonitor = [NSEvent addGlobalMonitorForEventsMatchingMask:(NSLeftMouseDownMask | NSRightMouseDownMask | NSKeyUpMask) handler:^(NSEvent* event) {
                 [NSEvent removeMonitor:eqPopoverTransiencyMonitor];
                 eqPopoverTransiencyMonitor = nil;
-                [eqPopover close];
+                [self closePopover];
             }];
         }
     }
 }
 
 -(void)popoverWillShow:(NSNotification *)notification{
+    focusedApplication = [[NSWorkspace sharedWorkspace] frontmostApplication];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"popoverWillOpen" object:nil];
 }
 
@@ -190,6 +192,10 @@ EQPromotionWindowController *promotionWindowController;
 
 -(void)closePopover{
     [eqPopover close];
+    if (focusedApplication) {
+        [focusedApplication activateWithOptions:NSApplicationActivateIgnoringOtherApps];
+        focusedApplication = nil;
+    }
 }
 
 - (void)quitApplication{
