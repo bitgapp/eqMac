@@ -132,8 +132,8 @@
 +(NSString *)showAlertWithInputAndTitle:(NSString*) title{
     NSAlert *alert = [[NSAlert alloc] init];
     [alert setMessageText: title];
-    [alert addButtonWithTitle:NSLocalizedString(@"Save",nil)];
-    [alert addButtonWithTitle:NSLocalizedString(@"Cancel",nil)];
+    [alert addButtonWithTitle:@"Save"];
+    [alert addButtonWithTitle:@"Cancel"];
     NSTextField *input = [[NSTextField alloc] initWithFrame:NSMakeRect(0, 0, 200, 24)];
     [input setStringValue:@""];
     [alert setAccessoryView:input];

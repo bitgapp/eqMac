@@ -83,7 +83,7 @@ CGFloat originalHeight;
         if ([self.view.window isVisible]) {
             [self readjustVolumeControls];
         }
-    } every: 1];
+    } every: .5];
 }
 
 -(void)viewDidAppear{
@@ -126,6 +126,7 @@ CGFloat originalHeight;
     [_presetsPopup removeAllItems];
     NSArray *presets = [Storage getPresetsNames];
     [_presetsPopup addItemsWithTitles: [Utilities orderedStringArrayFromStringArray: presets]];
+    [_presetsPopup setTitle: [Storage getSelectedPresetName]];
 }
 
 - (IBAction)changePreset:(NSPopUpButton *)sender {
@@ -137,7 +138,7 @@ CGFloat originalHeight;
 }
 
 - (IBAction)deletePreset:(id)sender {
-    if(![[_presetsPopup title] isEqualToString:NSLocalizedString(@"Flat",nil)]){
+    if(![[_presetsPopup title] isEqualToString:@"Flat"]){
         [Storage deletePresetWithName:[_presetsPopup title]];
         [self populatePresetPopup];
         [self resetEQ:nil];
@@ -145,7 +146,7 @@ CGFloat originalHeight;
 }
 
 - (IBAction)savePreset:(NSButton *)sender {
-    NSString *newPresetName = [Utilities showAlertWithInputAndTitle:NSLocalizedString(@"Please enter a name for your new preset.",nil)];
+    NSString *newPresetName = [Utilities showAlertWithInputAndTitle:@"Please enter a name for your new preset."];
     if(![newPresetName isEqualToString:@""]){
         [Storage savePresetWithName:newPresetName andGains:[sliderView getBandValues]];
         [self populatePresetPopup];
@@ -167,7 +168,7 @@ CGFloat originalHeight;
 }
 
 -(void)sliderGraphChanged{
-    NSString *popupTitle = NSLocalizedString(@"Custom",nil);
+    NSString *popupTitle = @"Custom";
     [_presetsPopup setTitle: popupTitle];
     NSArray *selectedGains = [sliderView getBandValues];
     [EQHost setEQEngineFrequencyGains: selectedGains];
@@ -176,7 +177,7 @@ CGFloat originalHeight;
 }
 
 - (IBAction)resetEQ:(id)sender {
-    [_presetsPopup setTitle:NSLocalizedString(@"Flat",nil)];
+    [_presetsPopup setTitle:@"Flat"];
     NSMutableArray *flatGains = [@[] mutableCopy];
     for (int i = 0; i < [bandMode intValue]; i++) [flatGains addObject:@0];
     [sliderView animateBandsToValues:flatGains];
@@ -337,9 +338,9 @@ CGFloat originalHeight;
 }
 
 - (IBAction)uninstallApplication:(id)sender {
-    if([Utilities showAlertWithTitle:NSLocalizedString(@"Uninstall eqMac2?",nil)
-                          andMessage:NSLocalizedString(@"Are you sure about this?",nil)
-                          andButtons:@[NSLocalizedString(@"Yes, uninstall",nil),NSLocalizedString(@"No, cancel",nil)]] == NSAlertFirstButtonReturn){
+    if([Utilities showAlertWithTitle:@"Uninstall eqMac2?"
+                          andMessage:@"Are you sure about this?"
+                          andButtons:@[@"Yes, uninstall",@"No, cancel"]] == NSAlertFirstButtonReturn){
         
         if([EQHost EQEngineExists]) [EQHost deleteEQEngine];
         [Utilities runShellScriptWithName:@"uninstall_app"];

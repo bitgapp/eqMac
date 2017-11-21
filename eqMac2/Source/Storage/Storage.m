@@ -109,7 +109,7 @@ static NSUserDefaults *defaults;
     NSMutableDictionary *defaultPresets = [[NSMutableDictionary alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"defaultPresets" ofType:@"plist"]];
     NSMutableDictionary* result = [[NSMutableDictionary alloc] init];
     for(NSString* key in defaultPresets){
-        [result setObject:[defaultPresets objectForKey:key] forKey:NSLocalizedString(key, nil)];
+        [result setObject:[defaultPresets objectForKey:key] forKey:key];
     }
     return result;
 }
@@ -136,7 +136,7 @@ static NSUserDefaults *defaults;
     [presets addEntriesFromDictionary: [self getUserPresets]];
     NSMutableArray *flatGains = [@[] mutableCopy];
     for (int i = 0; i < bandMode; i++) [flatGains addObject:@0];
-    [presets setObject:@{ @"gains": flatGains } forKey: NSLocalizedString(@"Flat", nil)];
+    [presets setObject:@{ @"gains": flatGains } forKey: @"Flat"];
     return presets;
 }
 
