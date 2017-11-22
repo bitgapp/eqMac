@@ -29,7 +29,7 @@ NSRunningApplication *focusedApplication;
 #pragma mark Initialization
 
 - (id)init {
-    [NSApp activateIgnoringOtherApps:YES];
+    [NSApp activateIgnoringOtherApps:NO];
     [self setupStatusBar];
     return self;
 }
@@ -89,10 +89,11 @@ NSRunningApplication *focusedApplication;
                                   andButtons:@[@"Install", @"Quit"]]){
             case NSAlertFirstButtonReturn:{
                 if([Utilities runShellScriptWithName:@"install_driver"]){
-                    if ([Devices eqMacDriverInstalled]) {
+                    [NSThread sleepForTimeInterval: .1];
+                    if (![Devices eqMacDriverInstalled]) {
                         switch([Utilities showAlertWithTitle:@"Problem installing the Driver"
                                                   andMessage:@"You can try to resolve the issue by chatting with the developer, or quit eqMac now"
-                                                  andButtons:@[@"Chat with the developer", [@"Quit" stringByAppendingString:@" eqMac2"]]]){
+                                                  andButtons:@[@"Chat with the developer", @"Quit eqMac2"]]){
                             case NSAlertFirstButtonReturn: {
                                 [Utilities openBrowserWithURL: HELP_URL];
                             }

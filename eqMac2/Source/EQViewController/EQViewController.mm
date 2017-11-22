@@ -343,7 +343,11 @@ CGFloat originalHeight;
                           andButtons:@[@"Yes, uninstall",@"No, cancel"]] == NSAlertFirstButtonReturn){
         
         if([EQHost EQEngineExists]) [EQHost deleteEQEngine];
-        [Utilities runShellScriptWithName:@"uninstall_app"];
+        [Utilities runShellScriptWithName:@"uninstall_driver"];
+        [Utilities setLaunchOnLogin: NO];
+        NSString *helperBundlePath = [[[NSBundle mainBundle] bundlePath] stringByAppendingString:@"/Contents/Resources/eqMac2Helper.app"];
+        [Utilities setLaunchOnLogin:NO forBundlePath: helperBundlePath];
+        [[NSFileManager defaultManager] removeItemAtPath:[[NSBundle mainBundle] bundlePath] error:nil];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"closeApp" object:nil];
     }
 }

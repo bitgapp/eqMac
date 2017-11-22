@@ -160,7 +160,7 @@ typedef enum {
 
 
 +(void)switchToDeviceWithID:(AudioDeviceID)ID{
-    AudioObjectPropertyAddress devAddress = { kAudioHardwarePropertyDefaultOutputDevice, kAudioObjectPropertyScopeGlobal, kAudioObjectPropertyElementMaster };
+    AudioObjectPropertyAddress devAddress = { kAudioHardwarePropertyDefaultOutputDevice, kAudioObjectPropertyScopeOutput, kAudioObjectPropertyElementMaster };
     AudioObjectSetPropertyData(kAudioObjectSystemObject, &devAddress, 0, NULL, sizeof(ID), &ID);
 }
 

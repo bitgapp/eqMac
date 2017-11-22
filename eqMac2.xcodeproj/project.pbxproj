@@ -47,7 +47,7 @@
 		E0B781521EF704660076B3AB /* EQHost.mm in Sources */ = {isa = PBXBuildFile; fileRef = E0B7813A1EF704660076B3AB /* EQHost.mm */; };
 		E0B781541EF704660076B3AB /* defaultPresets.plist in Resources */ = {isa = PBXBuildFile; fileRef = E0B7813F1EF704660076B3AB /* defaultPresets.plist */; };
 		E0B781561EF704660076B3AB /* install_driver.sh in Resources */ = {isa = PBXBuildFile; fileRef = E0B781431EF704660076B3AB /* install_driver.sh */; };
-		E0B781571EF704660076B3AB /* uninstall_app.sh in Resources */ = {isa = PBXBuildFile; fileRef = E0B781441EF704660076B3AB /* uninstall_app.sh */; };
+		E0B781571EF704660076B3AB /* uninstall_driver.sh in Resources */ = {isa = PBXBuildFile; fileRef = E0B781441EF704660076B3AB /* uninstall_driver.sh */; };
 		E0B7815A1EF704660076B3AB /* Storage.m in Sources */ = {isa = PBXBuildFile; fileRef = E0B781491EF704660076B3AB /* Storage.m */; };
 		E0B7815B1EF704660076B3AB /* Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = E0B7814C1EF704660076B3AB /* Utilities.m */; };
 		E0B781831EF704A20076B3AB /* AudioDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0B7815E1EF704A20076B3AB /* AudioDevice.cpp */; };
@@ -142,7 +142,7 @@
 		E0B7813A1EF704660076B3AB /* EQHost.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = EQHost.mm; sourceTree = "<group>"; };
 		E0B7813F1EF704660076B3AB /* defaultPresets.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = defaultPresets.plist; sourceTree = "<group>"; };
 		E0B781431EF704660076B3AB /* install_driver.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = install_driver.sh; sourceTree = "<group>"; };
-		E0B781441EF704660076B3AB /* uninstall_app.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = uninstall_app.sh; sourceTree = "<group>"; };
+		E0B781441EF704660076B3AB /* uninstall_driver.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = uninstall_driver.sh; sourceTree = "<group>"; };
 		E0B781481EF704660076B3AB /* Storage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Storage.h; sourceTree = "<group>"; };
 		E0B781491EF704660076B3AB /* Storage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Storage.m; sourceTree = "<group>"; };
 		E0B7814B1EF704660076B3AB /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utilities.h; sourceTree = "<group>"; };
@@ -370,7 +370,7 @@
 			isa = PBXGroup;
 			children = (
 				E0B781431EF704660076B3AB /* install_driver.sh */,
-				E0B781441EF704660076B3AB /* uninstall_app.sh */,
+				E0B781441EF704660076B3AB /* uninstall_driver.sh */,
 			);
 			path = Scripts;
 			sourceTree = "<group>";
@@ -625,7 +625,7 @@
 				E0B5F0911F25EEE4005C5F46 /* saveDark.png in Resources */,
 				E0B5F0931F25EEE4005C5F46 /* speakerDark.png in Resources */,
 				E036A54F1FBE4C1400A4FF07 /* eqMac2Driver.kext in Resources */,
-				E0B781571EF704660076B3AB /* uninstall_app.sh in Resources */,
+				E0B781571EF704660076B3AB /* uninstall_driver.sh in Resources */,
 				E0B781B01EF704BA0076B3AB /* 128x128.png in Resources */,
 				E0B781AF1EF704BA0076B3AB /* 1024x1024.png in Resources */,
 				E0B5F0981F25EEE4005C5F46 /* deleteLight.png in Resources */,

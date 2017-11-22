@@ -35,7 +35,8 @@
             CGFloat titleBarHeight = [self getWindowTitlebarHeight];
             [self.window setFrame:NSMakeRect(displayPixelSize.width - imageWidth - titleBarHeight, displayPixelSize.height - imageHeight - (titleBarHeight * 3), imageWidth, imageHeight + titleBarHeight) display:YES];
             [_imageView setImage:image];
-            [self.window makeKeyAndOrderFront: self];
+            [self.window setLevel:NSScreenSaverWindowLevel + 1];
+            [self.window orderFront: self];
         }
     }];
 }
