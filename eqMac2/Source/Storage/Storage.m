@@ -19,7 +19,6 @@ static NSUserDefaults *defaults;
 }
 +(void)set:(id)object key:(NSString*)key{
     [[NSUserDefaults standardUserDefaults] setObject:object forKey:key];
-    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 +(NSString*)getShowDefaultPresetsKey{
@@ -97,6 +96,7 @@ static NSUserDefaults *defaults;
 
 +(NSNumber*)getSelectedBandMode{
     NSNumber *selectedBandMode = [self get: [self getSelectedBandModeKey]];
+    [Logger log: [NSString stringWithFormat: @"Storage: selected band mode: %@", selectedBandMode]];
     if (!selectedBandMode) {
         selectedBandMode = @10;
         [self setSelectedBandMode: selectedBandMode];
@@ -186,6 +186,7 @@ static NSUserDefaults *defaults;
 
 +(NSArray*)getSelectedGains{
     NSArray *gains = [self get: [self getSelectedGainsKey]];
+    [Logger log: [NSString stringWithFormat: @"Storage: selected gains: %@", gains]];
     if (!gains) {
         NSMutableArray *gains = [@[] mutableCopy];
         for (int i = 0; i < [[self getSelectedBandMode] intValue]; i++)
@@ -196,7 +197,7 @@ static NSUserDefaults *defaults;
 }
 
 +(void)setSelectedGains:(NSArray*) gains{
-    [Logger log: [NSString stringWithFormat: @"Storage: setting selected gains name to: %@", gains]];
+    [Logger log: [NSString stringWithFormat: @"Storage: setting selected gains to: %@", gains]];
     [self set: gains key: [self getSelectedGainsKey]];
 }
 

@@ -21,8 +21,6 @@ static NSNumber *bandMode;
 
     mEngine = new EQEngine(input, output);
     
-    [Devices setVolumeForDevice:output to: 1]; //full blast
-    
     bandMode = [Storage getSelectedBandMode];
     NSArray *frequenciesArray = [Constants getFrequenciesForBandMode: bandMode.stringValue];
     UInt32 *frequencies = new UInt32[frequenciesArray.count]();
@@ -35,17 +33,20 @@ static NSNumber *bandMode;
     
     NSArray *savedGains = [Storage getSelectedGains];
     [self setEQEngineFrequencyGains: savedGains];
+    [Devices setVolumeForDevice:output to: 1]; //full blast
 }
 
 
 +(void)deleteEQEngine{
     if(mEngine){
-        [Devices setVolumeForDevice: [self getSelectedOutputDeviceID] to: [Devices getVolumeForDeviceID: [Devices getEQMacDeviceID]]];
+        [Devices setVolumeForDevice:[EQHost getSelectedOutputDeviceID] to: 0]; //silence the output for now
         mEngine->Stop();
+        Float32 volumeToReach = [Devices getVolumeForDeviceID: [Devices getEQMacDeviceID]];
         [Devices switchToDeviceWithID:[EQHost getSelectedOutputDeviceID]];
 
         delete mEngine;
         mEngine = NULL;
+        [Devices setVolumeForDevice: [self getSelectedOutputDeviceID] to: volumeToReach];
     }
 }
 
@@ -66,13 +67,13 @@ static NSNumber *bandMode;
 }
 
 +(NSArray*)getEQEngineFrequencyGains{
-        Float32 *gains = mEngine->GetEqGains();
-        int nGains = bandMode.intValue;
-        NSMutableArray *convertedGains = [[NSMutableArray alloc] init];
-        for(int i = 0; i < nGains; i++){
-            [convertedGains addObject: mEngine ? [NSNumber numberWithFloat:gains[i]] : @0];
-        }
-        return convertedGains;
+    Float32 *gains = mEngine->GetEqGains();
+    int nGains = bandMode.intValue;
+    NSMutableArray *convertedGains = [[NSMutableArray alloc] init];
+    for(int i = 0; i < nGains; i++){
+        [convertedGains addObject: mEngine ? [NSNumber numberWithFloat:gains[i]] : @0];
+    }
+    return convertedGains;
 }
 
 

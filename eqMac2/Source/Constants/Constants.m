@@ -11,7 +11,7 @@ NSString * const REPO_ISSUES_URL = @"https://github.com/romankisil/eqMac2/blob/m
 NSString * const HELP_URL = @"https://go.crisp.chat/chat/embed/?website_id=d43e2906-97e3-4c50-82ea-6fa04383b983";
 Float32 const FULL_VOLUME_STEP = 0.0625;
 Float32 const QUARTER_VOLUME_STEP = 0.015625;
-BOOL const LOG = NO;
+BOOL const LOG = YES;
 
 
 @implementation Constants

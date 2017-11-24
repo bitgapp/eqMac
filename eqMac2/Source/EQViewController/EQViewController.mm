@@ -156,11 +156,14 @@ CGFloat originalHeight;
 }
 
 -(void)saveState{
+    NSLog(@"saveState");
     [Storage setSelectedPresetName: _presetsPopup.title];
+    [Storage setSelectedBandMode: bandMode];
     [Storage setSelectedGains: [EQHost getEQEngineFrequencyGains]];
 }
 
 -(void)setState{
+    NSLog(@"setState");
     [_presetsPopup setTitle: [Storage getSelectedPresetName]];
     NSArray *selectedGains = [Storage getSelectedGains];
     [EQHost setEQEngineFrequencyGains: selectedGains];
@@ -235,7 +238,7 @@ CGFloat originalHeight;
     [_bandModeButton setTitle: [[bandMode intValue] == 10 ? @"31" : @"10" stringByAppendingString:@" Bands"]];
     
     CGFloat width = [bandMode intValue] == 10 ? originalWidth : originalWidth * 2;
-    CGFloat height = [bandMode intValue] == 10 ? originalHeight : 358;
+    CGFloat height = [bandMode intValue] == 10 ? originalHeight : 352;
     
     [self.view setFrame: NSMakeRect(self.view.frame.origin.x, self.view.frame.origin.y, width, height)];
     [notify postNotificationName:@"readjustPopover" object:nil];

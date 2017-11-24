@@ -29,6 +29,8 @@ NSRunningApplication *focusedApplication;
 #pragma mark Initialization
 
 - (id)init {
+    NSString *appDomain = [[NSBundle mainBundle] bundleIdentifier];
+    [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:appDomain];
     [NSApp activateIgnoringOtherApps:NO];
     [self setupStatusBar];
     return self;
@@ -52,7 +54,8 @@ NSRunningApplication *focusedApplication;
 }
 
 -(void)applicationDidFinishLaunching:(NSNotification *)notification{
-    
+    [[NSUserDefaults standardUserDefaults] synchronize];
+
     NSNotificationCenter *observer = [NSNotificationCenter defaultCenter];
     [observer addObserver:self selector:@selector(quitApplication) name:@"closeApp" object:nil];
     [observer addObserver:self selector:@selector(closePopover) name:@"escapePressed" object:nil];

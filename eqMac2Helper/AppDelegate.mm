@@ -33,7 +33,7 @@ AudioDeviceID previouslySelectedDeviceID;
     NSString *selectedDeviceName = [self getDeviceNameByID: selectedDeviceID];
     if ([selectedDeviceName isEqualToString:@"eqMac2"] && ![self eqMacAppIsRunning]) {
         AudioDeviceID switchDeviceID = previouslySelectedDeviceID;
-        if (!previouslySelectedDeviceID) {
+        if (!previouslySelectedDeviceID || [[self getDeviceNameByID:previouslySelectedDeviceID] isEqualToString:@"eqMac2"]) {
             switchDeviceID = [self getBuiltInDeviceID];
         }
         [self switchToDeviceWithID: switchDeviceID];
