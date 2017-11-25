@@ -29,8 +29,8 @@ NSRunningApplication *focusedApplication;
 #pragma mark Initialization
 
 - (id)init {
-    NSString *appDomain = [[NSBundle mainBundle] bundleIdentifier];
-    [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:appDomain];
+//    NSString *appDomain = [[NSBundle mainBundle] bundleIdentifier];
+//    [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:appDomain];
     [NSApp activateIgnoringOtherApps:NO];
     [self setupStatusBar];
     return self;
@@ -54,8 +54,6 @@ NSRunningApplication *focusedApplication;
 }
 
 -(void)applicationDidFinishLaunching:(NSNotification *)notification{
-    [[NSUserDefaults standardUserDefaults] synchronize];
-
     NSNotificationCenter *observer = [NSNotificationCenter defaultCenter];
     [observer addObserver:self selector:@selector(quitApplication) name:@"closeApp" object:nil];
     [observer addObserver:self selector:@selector(closePopover) name:@"escapePressed" object:nil];
@@ -63,6 +61,10 @@ NSRunningApplication *focusedApplication;
     
     [self checkAndInstallDriver];
     [self startHelperIfNeeded];
+    
+    [Storage load];
+    
+    [Utilities executeBlock:^{ [Storage save]; } every: 60];
     
     eqVC = [[EQViewController alloc] initWithNibName:@"EQViewController" bundle:nil];
     
@@ -211,7 +213,7 @@ NSRunningApplication *focusedApplication;
 }
 
 -(void)tearDownApplication{
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    [Storage save];
     [EQHost deleteEQEngine];
 }
 

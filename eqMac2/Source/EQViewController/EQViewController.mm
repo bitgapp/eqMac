@@ -30,7 +30,6 @@
 @property (strong) IBOutlet NSView *optionsView;
 
 @property (strong) IBOutlet NSView *settingsView;
-@property (strong) IBOutlet NSButton *showVolumeHUDCheckbox;
 @property (strong) IBOutlet NSButton *launchOnStartupCheckbox;
 @property (strong) IBOutlet NSButton *showDefaultPresetsCheckbox;
 @property (strong) IBOutlet NSTextField *buildLabel;
@@ -71,7 +70,6 @@ CGFloat originalHeight;
     bandMode = [Storage getSelectedBandMode];
     
     [_showDefaultPresetsCheckbox setState: [Storage getShowDefaultPresets] ? NSOnState : NSOffState];
-    [_showVolumeHUDCheckbox setState: [Storage getShowVolumeHUD] ? NSOnState : NSOffState];
     
     [self setBandModeSettings];
     [self readjustView];
@@ -131,10 +129,11 @@ CGFloat originalHeight;
 
 - (IBAction)changePreset:(NSPopUpButton *)sender {
     NSString *presetName = [_presetsPopup title];
+    [Storage setSelectedPresetName: presetName];
     NSArray *gains = [Storage getGainsForPresetName: presetName];
+    [Storage setSelectedGains: gains];
     [sliderView animateBandsToValues:gains];
     [EQHost setEQEngineFrequencyGains:gains];
-    [self saveState];
 }
 
 - (IBAction)deletePreset:(id)sender {
@@ -149,17 +148,10 @@ CGFloat originalHeight;
     NSString *newPresetName = [Utilities showAlertWithInputAndTitle:@"Please enter a name for your new preset."];
     if(![newPresetName isEqualToString:@""]){
         [Storage savePresetWithName:newPresetName andGains:[sliderView getBandValues]];
+        [Storage setSelectedPresetName: newPresetName];
         [self populatePresetPopup];
         [_presetsPopup selectItemWithTitle:newPresetName];
-        [self saveState];
     }
-}
-
--(void)saveState{
-    NSLog(@"saveState");
-    [Storage setSelectedPresetName: _presetsPopup.title];
-    [Storage setSelectedBandMode: bandMode];
-    [Storage setSelectedGains: [EQHost getEQEngineFrequencyGains]];
 }
 
 -(void)setState{
@@ -173,20 +165,22 @@ CGFloat originalHeight;
 -(void)sliderGraphChanged{
     NSString *popupTitle = @"Custom";
     [_presetsPopup setTitle: popupTitle];
+    [Storage setSelectedPresetName: popupTitle];
     NSArray *selectedGains = [sliderView getBandValues];
-    [EQHost setEQEngineFrequencyGains: selectedGains];
     [Storage setSelectedGains: selectedGains];
-    [self saveState];
+    [Storage setSelectedCustomGains: selectedGains];
+    [EQHost setEQEngineFrequencyGains: selectedGains];
 }
 
 - (IBAction)resetEQ:(id)sender {
-    [_presetsPopup setTitle:@"Flat"];
+    NSString *presetName = @"Flat";
+    [_presetsPopup setTitle: presetName];
+    [Storage setSelectedPresetName: presetName];
     NSMutableArray *flatGains = [@[] mutableCopy];
     for (int i = 0; i < [bandMode intValue]; i++) [flatGains addObject:@0];
+    [Storage setSelectedGains: flatGains];
     [sliderView animateBandsToValues:flatGains];
     [EQHost setEQEngineFrequencyGains:flatGains];
-    [Storage setSelectedGains: flatGains];
-    [self saveState];
 }
 
 -(void)populateOutputPopup{
@@ -213,15 +207,17 @@ CGFloat originalHeight;
 }
 
 - (IBAction)toggleBandMode:(id)sender {
+    [sender setEnabled: NO];
     bandMode = [bandMode intValue] == 10 ? @31 : @10;
-    
     [Storage setSelectedBandMode: bandMode];
+    
     [self populatePresetPopup];
     [self readjustView];
     [self setBandModeSettings];
     [Utilities executeBlock:^{
-        [Devices switchToDeviceWithID: [EQHost getSelectedOutputDeviceID]];
+        [EQHost deleteEQEngine];
         [self setState];
+        [sender setEnabled: YES];
     } after: 0.1];
 }
 
@@ -331,9 +327,6 @@ CGFloat originalHeight;
 - (IBAction)switchShowDefaultPresets:(NSButton *)sender {
     [Storage setShowDefaultPresets: [sender state] == NSOnState];
     [self populatePresetPopup];
-}
-- (IBAction)switchShowVolumeHUD:(NSButton *)sender {
-    [Storage setShowVolumeHUD: [sender state] == NSOnState];
 }
 
 - (IBAction)quitApplication:(id)sender {

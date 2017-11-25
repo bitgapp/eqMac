@@ -8,7 +8,6 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="EQViewController">
             <connections>
-                <outlet property="_mockSliderView" destination="mxi-4w-muC" id="m0y-7L-vVw"/>
                 <outlet property="balanceSlider" destination="5O3-5r-Qyb" id="Nlx-Md-494"/>
                 <outlet property="bandLabelsView" destination="pfD-yK-NBh" id="qf4-me-lvi"/>
                 <outlet property="bandModeButton" destination="A3d-OE-EvB" id="Dnm-OI-B5o"/>
@@ -17,6 +16,7 @@
                 <outlet property="exitButton" destination="DBG-3t-4Br" id="ejU-n2-r36"/>
                 <outlet property="launchOnStartupCheckbox" destination="u3z-eA-tLq" id="dhM-hD-lqX"/>
                 <outlet property="leftSpeaker" destination="Tj4-Cd-asv" id="iEC-yW-1Fu"/>
+                <outlet property="mockSliderView" destination="mxi-4w-muC" id="WXD-dG-tKF"/>
                 <outlet property="optionsView" destination="zYL-Yc-hBK" id="Tha-hc-CDe"/>
                 <outlet property="outputPopup" destination="nWT-xx-p7P" id="fe7-54-i4l"/>
                 <outlet property="presetsPopup" destination="ZNl-vW-MXA" id="mU5-jX-Oew"/>

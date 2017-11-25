@@ -14,7 +14,6 @@ static NSNumber *bandMode;
     selectedOutputDeviceID = output;
     
     Float32 stashedVolume = [Devices getVolumeForDeviceID: output];
-    [Storage setStashedVolume: stashedVolume];
     [Devices setVolumeForDevice:output to: 0]; //silence the output for now
     [Devices setVolumeForDevice: input to: stashedVolume];
     [Devices switchToDeviceWithID: input];

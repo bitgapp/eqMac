@@ -8,23 +8,21 @@
 
 #import <Foundation/Foundation.h>
 #import "Logger.h"
-#import "Utilities.h"
 
 @interface Storage : NSObject
+
++(void)load;
++(void)save;
+
++(id)get:(NSString*)key;
++(void)set:(id)object key:(NSString*)key;
 
 +(void)setShowDefaultPresets:(BOOL)show;
 +(BOOL)getShowDefaultPresets;
 
-+(void)setShowVolumeHUD:(BOOL)show;
-+(BOOL)getShowVolumeHUD;
-
-+(NSArray*)getPresetsNames;
-+(void)savePresetWithName:(NSString*)name andGains:(NSArray*)gains;
-+(void)deletePresetWithName:(NSString*)name;
-
-+(NSArray*)getGainsForPresetName:(NSString*)presetName;
 +(NSArray*)getSelectedGains;
 +(void)setSelectedGains:(NSArray*)gains;
++(void)setSelectedCustomGains:(NSArray*)customGains;
 
 +(NSString*)getSelectedPresetName;
 +(void)setSelectedPresetName:(NSString*)name;
@@ -33,12 +31,12 @@
 +(void)setSelectedBandMode:(NSNumber*)bandMode;
 
 +(BOOL)getAppAlreadyLaunchedBefore;
-
 +(NSString*)getUUID;
 
-+(void)setStashedVolume:(Float32)volume;
++(NSArray*)getPresetsNames;
++(void)savePresetWithName:(NSString*)name andGains:(NSArray*)gains;
++(void)deletePresetWithName:(NSString*)name;
 
-+(Float32)getStashedVolume;
-
++(NSArray*)getGainsForPresetName:(NSString*)presetName;
 
 @end
