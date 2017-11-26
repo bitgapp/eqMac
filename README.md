@@ -16,7 +16,7 @@
 
 
 <p align="center">
-  <a href="https://bitgapp.com/eqmac"><img alt="eqMac2 Screenshot EQ" height="300" src="https://user-images.githubusercontent.com/8472525/29582045-27cbf68c-8773-11e7-8490-8fbc6eaea743.png"></a>
+  <a href="https://bitgapp.com/eqmac"><img alt="eqMac2 Screenshot EQ" height="300" src="https://user-images.githubusercontent.com/8472525/33244041-488cf4b4-d2e8-11e7-986c-49826dd853e1.png"></a>
 </p>
 
 ## How to install?
