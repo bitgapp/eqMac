@@ -42,7 +42,7 @@ return err; \
 +(UInt32)getDeviceTransportTypeByID:(AudioDeviceID)ID;
 +(AudioDeviceID)getDeviceIDByName:(NSString*)name;
 
-+(void)setDevice:(AudioDeviceID)ID isHidden:(BOOL)condition;
++(BOOL)audioDeviceHasVolumeControls:(AudioDeviceID)ID;
 +(void)setVolumeForDevice:(AudioDeviceID)ID to:(Float32)volume;
 +(void)setBalanceForDevice:(AudioDeviceID)ID to:(Float32)balance;
 +(void)setDevice:(AudioDeviceID)ID toMuted:(BOOL)condition;

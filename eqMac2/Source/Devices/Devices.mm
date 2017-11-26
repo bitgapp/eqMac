@@ -373,6 +373,26 @@ typedef enum {
     return AudioObjectHasProperty(ID, &address);
 }
 
++(BOOL)audioDeviceHasLeftChannelVolume:(AudioDeviceID)ID{
+    AudioObjectPropertyAddress address;
+    address.mScope = kAudioDevicePropertyScopeOutput;
+    address.mSelector = kAudioDevicePropertyVolumeScalar;
+    address.mElement = kChannelLeft;
+    return AudioObjectHasProperty(ID, &address);
+}
+
++(BOOL)audioDeviceHasRightChannelVolume:(AudioDeviceID)ID{
+    AudioObjectPropertyAddress address;
+    address.mScope = kAudioDevicePropertyScopeOutput;
+    address.mSelector = kAudioDevicePropertyVolumeScalar;
+    address.mElement = kChannelRight;
+    return AudioObjectHasProperty(ID, &address);
+}
+
++(BOOL)audioDeviceHasVolumeControls:(AudioDeviceID)ID{
+    return ([self audioDeviceHasMasterVolume:ID] || [self audioDeviceHasLeftChannelVolume:ID] || [self audioDeviceHasRightChannelVolume:ID]);
+}
+
 //PUBLIC
 +(void)setVolumeForDevice:(AudioDeviceID)ID to:(Float32)volume{
 

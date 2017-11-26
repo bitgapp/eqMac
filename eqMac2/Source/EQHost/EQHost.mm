@@ -13,7 +13,7 @@ static NSNumber *bandMode;
     AudioDeviceID input = [Devices getEQMacDeviceID];
     selectedOutputDeviceID = output;
     
-    Float32 stashedVolume = [Devices getVolumeForDeviceID: output];
+    Float32 stashedVolume = [Devices audioDeviceHasVolumeControls:output] ? [Devices getVolumeForDeviceID: output] : 1;
     [Devices setVolumeForDevice:output to: 0]; //silence the output for now
     [Devices setVolumeForDevice: input to: stashedVolume];
     [Devices switchToDeviceWithID: input];
