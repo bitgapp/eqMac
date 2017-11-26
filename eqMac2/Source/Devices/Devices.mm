@@ -457,7 +457,9 @@ typedef enum {
 }
 
 +(BOOL)eqMacDriverInstalled{
-    return ([self getDeviceIDWithUID:DRIVER_UID] > 0);
+    AudioDeviceID eqMacDeviceID = [self getEQMacDeviceID];
+    NSLog(@"%u", (unsigned int)eqMacDeviceID);
+    return (eqMacDeviceID > 0);
 }
 
 @end

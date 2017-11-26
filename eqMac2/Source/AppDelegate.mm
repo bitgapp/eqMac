@@ -96,11 +96,30 @@ NSRunningApplication *focusedApplication;
                 if([Utilities runShellScriptWithName:@"install_driver"]){
                     [NSThread sleepForTimeInterval: .1];
                     if (![Devices eqMacDriverInstalled]) {
+                        [Utilities runAppleScriptWithName:@"open_security_settings"];
                         switch([Utilities showAlertWithTitle:@"Problem installing the Driver"
-                                                  andMessage:@"You can try to resolve the issue by chatting with the developer, or quit eqMac now"
-                                                  andButtons:@[@"Chat with the developer", @"Quit eqMac2"]]){
+                                                  andMessage:@"Most likely your Security settings don't allow non-Appstore apps to be installed with drivers.\nWe have openned your System Preferences.\nDown where it says \"Allow apps downloaded from:\"\nTry to switch to \"App Store and identified developers\"\nAnd then try to install the driver again..."
+                                                  andButtons:@[@"I changed my settings, try to install again..."]]){
                             case NSAlertFirstButtonReturn: {
-                                [Utilities openBrowserWithURL: HELP_URL];
+                                if([Utilities runShellScriptWithName:@"install_driver"]){
+                                    [NSThread sleepForTimeInterval: .1];
+                                    if (![Devices eqMacDriverInstalled]) {
+                                        switch([Utilities showAlertWithTitle:@"Still a problem installing the Driver"
+                                                                  andMessage:@"You can try to resolve the issue by chatting with the developer, or quit eqMac now"
+                                                                  andButtons:@[@"Chat with the developer", @"Quit eqMac2"]]){
+                                            case NSAlertFirstButtonReturn: {
+                                                [Utilities openBrowserWithURL: HELP_URL];
+                                            }
+                                            default: {
+                                                return [self quitApplication];
+                                            }
+                                        }
+                                    } else {
+                                        return [self checkAndInstallDriver];
+                                    }
+                                } else {
+                                    return [self checkAndInstallDriver];
+                                }
                             }
                             default: {
                                 [self quitApplication];

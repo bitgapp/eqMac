@@ -20,6 +20,7 @@
 		E04186141FBCB33400F4F845 /* EQClickableImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = E04186131FBCB33400F4F845 /* EQClickableImageView.m */; };
 		E04DBF491FC383F30017DB23 /* EQViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E04DBF4B1FC383F30017DB23 /* EQViewController.xib */; };
 		E07BF4B51D6B4BA400589F0C /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E07BF4B41D6B4BA400589F0C /* WebKit.framework */; };
+		E080F8DA1FCB07640071A222 /* open_security_settings.scpt in Resources */ = {isa = PBXBuildFile; fileRef = E080F8D91FCB07640071A222 /* open_security_settings.scpt */; };
 		E09DCA731FC0B1CC00046CDC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E09DCA721FC09A8F00046CDC /* Assets.xcassets */; };
 		E09DCA771FC0BBE200046CDC /* eqMac2Helper.app in Resources */ = {isa = PBXBuildFile; fileRef = E09DCA761FC0BBDF00046CDC /* eqMac2Helper.app */; };
 		E0B5F08F1F25EEE4005C5F46 /* exitDark.png in Resources */ = {isa = PBXBuildFile; fileRef = E0B5F07D1F25EEE4005C5F46 /* exitDark.png */; };
@@ -109,6 +110,7 @@
 		E04186131FBCB33400F4F845 /* EQClickableImageView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EQClickableImageView.m; sourceTree = "<group>"; };
 		E04DBF4A1FC383F30017DB23 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/EQViewController.xib; sourceTree = "<group>"; };
 		E07BF4B41D6B4BA400589F0C /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		E080F8D91FCB07640071A222 /* open_security_settings.scpt */ = {isa = PBXFileReference; lastKnownFileType = file; path = open_security_settings.scpt; sourceTree = "<group>"; };
 		E09DCA721FC09A8F00046CDC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E09DCA761FC0BBDF00046CDC /* eqMac2Helper.app */ = {isa = PBXFileReference; lastKnownFileType = wrapper.application; path = eqMac2Helper.app; sourceTree = "<group>"; };
 		E0B0A7E51EA023F800D2BB98 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
@@ -369,6 +371,7 @@
 		E0B781421EF704660076B3AB /* Scripts */ = {
 			isa = PBXGroup;
 			children = (
+				E080F8D91FCB07640071A222 /* open_security_settings.scpt */,
 				E0B781431EF704660076B3AB /* install_driver.sh */,
 				E0B781441EF704660076B3AB /* uninstall_driver.sh */,
 			);
@@ -601,6 +604,7 @@
 				E0D7AA0A1FB98E80002952DE /* EQPromotionWindowController.xib in Resources */,
 				E0B781B31EF704BA0076B3AB /* 256x256.png in Resources */,
 				E0B5F09A1F25EEE4005C5F46 /* vol1Light.png in Resources */,
+				E080F8DA1FCB07640071A222 /* open_security_settings.scpt in Resources */,
 				E09DCA771FC0BBE200046CDC /* eqMac2Helper.app in Resources */,
 				E0B5F0951F25EEE4005C5F46 /* statusItemDark.png in Resources */,
 				E0B5F08F1F25EEE4005C5F46 /* exitDark.png in Resources */,
