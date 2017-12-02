@@ -21,6 +21,3 @@ cp -R $DIR/eqMac2Driver.kext /System/Library/Extensions/
 kextload -tv /System/Library/Extensions/eqMac2Driver.kext
 touch /System/Library/Extensions
 
-# disable install of apps downloaded from anywhere
-spctl --master-enable
-

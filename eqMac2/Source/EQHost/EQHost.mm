@@ -8,15 +8,20 @@ static AudioDeviceID selectedOutputDeviceID;
 static NSNumber *bandMode;
 
 +(void)createEQEngineWithOutputDevice:(AudioDeviceID)output{
+    BOOL selectedDeviceIsMuted = [Devices getIsMutedForDeviceID: output];
+    Float32 stashedVolume = [Devices audioDeviceHasVolumeControls:output] ? [Devices getOutputVolumeForDeviceID: output] : 1;
+    [Devices setOutputVolumeForDeviceID:output to: 0]; //silence the output for now
+    
     if([self EQEngineExists]) [self deleteEQEngine];
     
     AudioDeviceID input = [Devices getEQMacDeviceID];
     selectedOutputDeviceID = output;
     
-    Float32 stashedVolume = [Devices audioDeviceHasVolumeControls:output] ? [Devices getVolumeForDeviceID: output] : 1;
-    [Devices setVolumeForDevice:output to: 0]; //silence the output for now
-    [Devices setVolumeForDevice: input to: stashedVolume];
-    [Devices switchToDeviceWithID: input];
+    [Devices setOutputVolumeForDeviceID: input to: stashedVolume];
+    [Devices setDevice: input toMuted: selectedDeviceIsMuted];
+
+    [Devices switchToOutputDeviceWithID: input];
+    [Devices switchToSystemDeviceWithID: input];
 
     mEngine = new EQEngine(input, output);
     
@@ -32,20 +37,23 @@ static NSNumber *bandMode;
     
     NSArray *savedGains = [Storage getSelectedGains];
     [self setEQEngineFrequencyGains: savedGains];
-    [Devices setVolumeForDevice:output to: 1]; //full blast
+    [Devices setOutputVolumeForDeviceID:output to: 1]; //full blast
 }
 
 
 +(void)deleteEQEngine{
     if(mEngine){
-        [Devices setVolumeForDevice:[EQHost getSelectedOutputDeviceID] to: 0]; //silence the output for now
+        [Devices setOutputVolumeForDeviceID:[EQHost getSelectedOutputDeviceID] to: 0]; //silence the output for now
         mEngine->Stop();
-        Float32 volumeToReach = [Devices getVolumeForDeviceID: [Devices getEQMacDeviceID]];
-        [Devices switchToDeviceWithID:[EQHost getSelectedOutputDeviceID]];
+        BOOL eqMacDeviceIsMuted = [Devices getIsMutedForDeviceID: [Devices getEQMacDeviceID]];
+        Float32 volumeToReach = [Devices getOutputVolumeForDeviceID: [Devices getEQMacDeviceID]];
+        [Devices switchToOutputDeviceWithID:[EQHost getSelectedOutputDeviceID]];
+        [Devices switchToSystemDeviceWithID: [EQHost getSelectedOutputDeviceID]];
 
         delete mEngine;
         mEngine = NULL;
-        [Devices setVolumeForDevice: [self getSelectedOutputDeviceID] to: volumeToReach];
+        [Devices setOutputVolumeForDeviceID: [self getSelectedOutputDeviceID] to: volumeToReach];
+        [Devices setDevice: [self getSelectedOutputDeviceID] toMuted: eqMacDeviceIsMuted];
     }
 }
 

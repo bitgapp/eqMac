@@ -67,9 +67,11 @@ typedef enum {
     
     for(int i = 0; i < nDevices; ++i){
         //Check if the device is input and dont add the input devices
-        if([self deviceIsInput:devids[i]]) continue;
+        AudioDeviceID deviceID = devids[i];
+        if([self deviceIsOutput: deviceID] && deviceID != [self getEQMacDeviceID]) {
+            [deviceIDs addObject:[NSNumber numberWithInt:deviceID]];
+        }
         
-        [deviceIDs addObject:[NSNumber numberWithInt:devids[i]]];
     }
     
     
@@ -158,8 +160,12 @@ typedef enum {
 #pragma mark -
 #pragma mark Device Control
 
++(void)switchToSystemDeviceWithID:(AudioDeviceID)ID{
+    AudioObjectPropertyAddress devAddress = { kAudioHardwarePropertyDefaultSystemOutputDevice, kAudioObjectPropertyScopeGlobal, kAudioObjectPropertyElementMaster };
+    AudioObjectSetPropertyData(kAudioObjectSystemObject, &devAddress, 0, NULL, sizeof(ID), &ID);
+}
 
-+(void)switchToDeviceWithID:(AudioDeviceID)ID{
++(void)switchToOutputDeviceWithID:(AudioDeviceID)ID{
     AudioObjectPropertyAddress devAddress = { kAudioHardwarePropertyDefaultOutputDevice, kAudioObjectPropertyScopeOutput, kAudioObjectPropertyElementMaster };
     AudioObjectSetPropertyData(kAudioObjectSystemObject, &devAddress, 0, NULL, sizeof(ID), &ID);
 }
@@ -167,8 +173,7 @@ typedef enum {
 #pragma mark -
 #pragma mark Get Device Properties
 
-
-+(Float32)getVolumeForDevice:(AudioDeviceID)deviceID andChannel:(VOLUME_CHANNEL)ch{
++(Float32)getVolumeForDeviceID:(AudioDeviceID)deviceID andChannel:(VOLUME_CHANNEL)ch andScope:(UInt32)scope{
     UInt32 channel;
     
     switch(ch){
@@ -188,7 +193,7 @@ typedef enum {
     
     AudioObjectPropertyAddress volumePropertyAddress = {
         kAudioDevicePropertyVolumeScalar,
-        kAudioDevicePropertyScopeOutput,
+        scope,
         channel
     };
     
@@ -198,24 +203,43 @@ typedef enum {
     return volume;
 }
 
-+(Float32)getVolumeForDeviceID:(AudioDeviceID)ID{
++(Float32)getOutputVolumeForDeviceID:(AudioDeviceID)deviceID andChannel:(VOLUME_CHANNEL)ch{
+    return [self getVolumeForDeviceID:deviceID andChannel:ch andScope:kAudioDevicePropertyScopeOutput];
+}
+
++(Float32)getInputVolumeForDeviceID:(AudioDeviceID)deviceID andChannel:(VOLUME_CHANNEL)ch{
+    return [self getVolumeForDeviceID:deviceID andChannel:ch andScope:kAudioDevicePropertyScopeInput];
+}
+
++(Float32)getOutputVolumeForDeviceID:(AudioDeviceID)ID{
     Float32 volume = 0;
     if([self audioDeviceHasMasterVolume:ID]){
-        volume = [self getVolumeForDevice:ID andChannel:kChannelMaster];
+        volume = [self getOutputVolumeForDeviceID:ID andChannel:kChannelMaster];
     }else{
-        Float32 leftVolume = [self getVolumeForDevice:ID andChannel:kChannelLeft];
-        Float32 rightVolume = [self getVolumeForDevice:ID andChannel:kChannelRight];
+        Float32 leftVolume = [self getOutputVolumeForDeviceID:ID andChannel:kChannelLeft];
+        Float32 rightVolume = [self getOutputVolumeForDeviceID:ID andChannel:kChannelRight];
         volume = leftVolume > rightVolume ? leftVolume : rightVolume;
     }
     return volume;
 }
 
-+(Float32)getBalanceForDeviceID:(AudioDeviceID)ID{
-    Float32 volume = [self getVolumeForDeviceID:ID];
-    Float32 left = [self getVolumeForDevice:ID andChannel:kChannelLeft];
-    Float32 right = [self getVolumeForDevice:ID andChannel:kChannelRight];
+
++(Float32)getInputVolumeForDeviceID:(AudioDeviceID)ID{
+    Float32 volume = 0;
+    if([self audioDeviceHasMasterVolume:ID]){
+        volume = [self getOutputVolumeForDeviceID:ID andChannel:kChannelMaster];
+    }else{
+        Float32 leftVolume = [self getOutputVolumeForDeviceID:ID andChannel:kChannelLeft];
+        Float32 rightVolume = [self getOutputVolumeForDeviceID:ID andChannel:kChannelRight];
+        volume = leftVolume > rightVolume ? leftVolume : rightVolume;
+    }
+    return volume;
+}
+
++(Float32)getInputBalanceForDeviceID:(AudioDeviceID)ID{
+    Float32 left = [self getInputVolumeForDeviceID:ID andChannel:kChannelLeft];
+    Float32 right = [self getInputVolumeForDeviceID:ID andChannel:kChannelRight];
     Float32 balance = right - left;
-    balance = [Utilities mapValue:balance withInMin:-volume InMax:volume OutMin:-1 OutMax:1];
     if(isnan(balance)) balance = 0;
     return balance;
 }
@@ -249,6 +273,18 @@ typedef enum {
     AudioObjectPropertyAddress mutedAddress;
     mutedAddress.mScope = kAudioDevicePropertyScopeOutput;
     mutedAddress.mSelector = kAudioDevicePropertyDeviceIsAlive;
+    mutedAddress.mElement = kAudioObjectPropertyElementMaster;
+    
+    UInt32 data;
+    UInt32 dataSize = sizeof(data);
+    AudioObjectGetPropertyData(ID, &mutedAddress, 0, NULL, &dataSize, &data);
+    return data == 1;
+}
+
++(BOOL)getIsRunningForDeviceID:(AudioDeviceID)ID{
+    AudioObjectPropertyAddress mutedAddress;
+    mutedAddress.mScope = kAudioDevicePropertyScopeOutput;
+    mutedAddress.mSelector = kAudioDevicePropertyDeviceIsRunning;
     mutedAddress.mElement = kAudioObjectPropertyElementMaster;
     
     UInt32 data;
@@ -309,7 +345,7 @@ typedef enum {
 #pragma mark Set Device Properties
 
 //PRIVATE
-+(void)setVolumeForDevice:(AudioDeviceID)deviceID andChannel:(VOLUME_CHANNEL)ch to:(Float32)vol{
++(void)setVolumeForDeviceID:(AudioDeviceID)ID andChannel:(VOLUME_CHANNEL)ch andScope:(UInt32)scope to:(Float32)vol{
     UInt32 channel;
     if(vol < 0) vol = 0;
     
@@ -330,11 +366,19 @@ typedef enum {
     
     AudioObjectPropertyAddress volumePropertyAddress = {
         kAudioDevicePropertyVolumeScalar,
-        kAudioDevicePropertyScopeOutput,
+        scope,
         channel
     };
     
-    AudioObjectSetPropertyData(deviceID, &volumePropertyAddress,0, NULL, sizeof(vol), &vol);
+    AudioObjectSetPropertyData(ID, &volumePropertyAddress,0, NULL, sizeof(vol), &vol);
+}
+
++(void)setOutputVolumeForDeviceID:(AudioDeviceID)ID andChannel:(VOLUME_CHANNEL)ch to:(Float32)vol{
+    return [self setVolumeForDeviceID:ID andChannel:ch andScope:kAudioDevicePropertyScopeOutput to:vol];
+}
+
++(void)setInputVolumeForDeviceID:(AudioDeviceID)ID andChannel:(VOLUME_CHANNEL)ch to:(Float32)vol{
+    return [self setVolumeForDeviceID:ID andChannel:ch andScope:kAudioDevicePropertyScopeInput to:vol];
 }
 
 
@@ -394,40 +438,27 @@ typedef enum {
 }
 
 //PUBLIC
-+(void)setVolumeForDevice:(AudioDeviceID)ID to:(Float32)volume{
-
++(void)setOutputVolumeForDeviceID:(AudioDeviceID)ID to:(Float32)volume{
     if([self audioDeviceHasMasterVolume:ID]){
-        [self setVolumeForDevice:ID andChannel:kChannelMaster to:volume];
+        [self setOutputVolumeForDeviceID:ID andChannel:kChannelMaster to:volume];
     }else{
-        Float32 balance = [self getBalanceForDeviceID:ID];
-        Float32 leftMultiplier = balance < 0 ? 1 : 1 - balance;
-        Float32 rightMiltiplier = balance > 0 ? 1 : 1 + balance;
-        Float32 leftVolume = volume * leftMultiplier;
-        Float32 rightVolume = volume * rightMiltiplier;
-        
-        [self setVolumeForDevice:ID andChannel:kChannelLeft to: leftVolume];
-        [self setVolumeForDevice:ID andChannel:kChannelRight to: rightVolume];
+        [self setOutputVolumeForDeviceID:ID andChannel:kChannelLeft to: volume];
+        [self setOutputVolumeForDeviceID:ID andChannel:kChannelRight to: volume];
     }
-    
     [self setDevice:ID toMuted:volume < QUARTER_VOLUME_STEP];
 }
 
 
 //PUBLIC
-+(void)setBalanceForDevice:(AudioDeviceID)ID to:(Float32)balance{
-    Float32 masterVolume = [self audioDeviceHasMasterVolume:ID] ? 1 : [self getVolumeForDeviceID:ID];
-
++(void)setInputBalanceForDeviceID:(AudioDeviceID)ID to:(Float32)balance{
     Float32 leftVolume = 1 - balance;
     Float32 rightVolume = 1 + balance;
     
     if(leftVolume > 1) leftVolume = 1;
     if(rightVolume > 1) rightVolume = 1;
     
-    leftVolume *= masterVolume;
-    rightVolume *= masterVolume;
-    
-    [self setVolumeForDevice:ID andChannel:kChannelLeft to:leftVolume];
-    [self setVolumeForDevice:ID andChannel:kChannelRight to:rightVolume];
+    [self setInputVolumeForDeviceID:ID andChannel:kChannelLeft to:leftVolume];
+    [self setInputVolumeForDeviceID:ID andChannel:kChannelRight to:rightVolume];
 }
 
 

@@ -14,8 +14,9 @@
 @property (strong) IBOutlet NSPopUpButton *presetsPopup;
 @property (strong) IBOutlet NSButton *saveButton;
 
-@property (strong) IBOutlet NSView *bandLabelsView;
+@property (strong) IBOutlet NSView *bandFrequencyLabelsView;
 @property (strong) IBOutlet NSView *mockSliderView;
+@property (strong) IBOutlet NSView *bandGainLabelsView;
 @property (strong) IBOutlet NSPopUpButton *outputPopup;
 @property (strong) IBOutlet NSButton *bandModeButton;
 
@@ -98,13 +99,13 @@ CGFloat originalHeight;
     } after:.1];
 }
     
--(void)setBandLabels{
+-(void)setBandFrequencyLabels{
     NSArray *sliderPositions = [sliderView getSliderXPosition];
-    [_bandLabelsView setSubviews: [[NSArray alloc] init]];
+    [_bandFrequencyLabelsView setSubviews: [[NSArray alloc] init]];
     NSArray *frequencies = [Constants getFrequenciesForBandMode: [bandMode stringValue]];
     CGFloat labelWidth = 38;
     CGFloat labelHeight = 17;
-    CGFloat labelYPos = _bandLabelsView.bounds.size.height / 2 - labelHeight / 2;
+    CGFloat labelYPos = _bandFrequencyLabelsView.bounds.size.height / 2 - labelHeight / 2;
     int index = -1;
     for(NSNumber *position in sliderPositions) {
         index++;
@@ -116,7 +117,30 @@ CGFloat originalHeight;
         [label setAlignment: NSCenterTextAlignment];
         CGFloat fontSize = bandMode.intValue == 10 ? 9 : 7;
         [label setFont: [NSFont systemFontOfSize: fontSize]];
-        [_bandLabelsView addSubview:label];
+        [_bandFrequencyLabelsView addSubview:label];
+    }
+}
+
+-(void)setBandGainLabels{
+    NSArray *sliderPositions = [sliderView getSliderXPosition];
+    [_bandGainLabelsView setSubviews: [[NSArray alloc] init]];
+    NSArray *gains = [EQHost getEQEngineFrequencyGains];
+    CGFloat labelWidth = 38;
+    CGFloat labelHeight = 17;
+    CGFloat labelYPos = _bandFrequencyLabelsView.bounds.size.height / 2 - labelHeight / 2;
+    int index = -1;
+    for(NSNumber *position in sliderPositions) {
+        index++;
+        CGFloat labelXPos = [position floatValue] - labelWidth / 2;
+        NSTextField *label = [[NSTextField alloc] initWithFrame: NSMakeRect(labelXPos, labelYPos, labelWidth, labelHeight)];
+        [label setBackgroundColor: [NSColor colorWithRed:0 green:0 blue:0 alpha:0]];
+        [label setBordered:NO];
+        CGFloat gain = round([Utilities mapValue:[[gains objectAtIndex: index] floatValue] withInMin:-1 InMax:1 OutMin:-24 OutMax:24]);
+        [label setStringValue: [NSString stringWithFormat:@"%@%.0f", gain > 0 ? @"+": @"", gain]];
+        [label setAlignment: NSCenterTextAlignment];
+        CGFloat fontSize = bandMode.intValue == 10 ? 9 : 7;
+        [label setFont: [NSFont systemFontOfSize: fontSize]];
+        [_bandGainLabelsView addSubview:label];
     }
 }
 
@@ -134,6 +158,7 @@ CGFloat originalHeight;
     [Storage setSelectedGains: gains];
     [sliderView animateBandsToValues:gains];
     [EQHost setEQEngineFrequencyGains:gains];
+    [self setBandGainLabels];
 }
 
 - (IBAction)deletePreset:(id)sender {
@@ -160,6 +185,7 @@ CGFloat originalHeight;
     NSArray *selectedGains = [Storage getSelectedGains];
     [EQHost setEQEngineFrequencyGains: selectedGains];
     [sliderView animateBandsToValues: selectedGains];
+    [Utilities executeBlock:^{ [self setBandGainLabels];} after:.1];
 }
 
 -(void)sliderGraphChanged{
@@ -170,6 +196,7 @@ CGFloat originalHeight;
     [Storage setSelectedGains: selectedGains];
     [Storage setSelectedCustomGains: selectedGains];
     [EQHost setEQEngineFrequencyGains: selectedGains];
+    [self setBandGainLabels];
 }
 
 - (IBAction)resetEQ:(id)sender {
@@ -181,6 +208,7 @@ CGFloat originalHeight;
     [Storage setSelectedGains: flatGains];
     [sliderView animateBandsToValues:flatGains];
     [EQHost setEQEngineFrequencyGains:flatGains];
+    [self setBandGainLabels];
 }
 
 -(void)populateOutputPopup{
@@ -203,7 +231,8 @@ CGFloat originalHeight;
             selectedOutputDevice = [[device objectForKey:@"id"] intValue];
         }
     }
-    [Devices switchToDeviceWithID: selectedOutputDevice];
+    [Devices setOutputVolumeForDeviceID: selectedOutputDevice to: [Devices getOutputVolumeForDeviceID:[Devices getEQMacDeviceID]]];
+    [Devices switchToOutputDeviceWithID: selectedOutputDevice];
 }
 
 - (IBAction)toggleBandMode:(id)sender {
@@ -228,13 +257,13 @@ CGFloat originalHeight;
 
 -(void)readjustView{
     [Utilities executeBlock:^{
-        [self setBandLabels];
+        [self setBandFrequencyLabels];
     } after:0.01];
     
     [_bandModeButton setTitle: [[bandMode intValue] == 10 ? @"31" : @"10" stringByAppendingString:@" Bands"]];
     
     CGFloat width = [bandMode intValue] == 10 ? originalWidth : originalWidth * 2;
-    CGFloat height = [bandMode intValue] == 10 ? originalHeight : 352;
+    CGFloat height = [bandMode intValue] == 10 ? originalHeight : 338;
     
     [self.view setFrame: NSMakeRect(self.view.frame.origin.x, self.view.frame.origin.y, width, height)];
     [notify postNotificationName:@"readjustPopover" object:nil];
@@ -242,19 +271,19 @@ CGFloat originalHeight;
 
 -(void)readjustVolumeControls{
     //VOLUME
-    Float32 currentVolume = [Devices getVolumeForDeviceID:[Devices getVolumeControllerDeviceID]];
+    Float32 currentVolume = [Devices getOutputVolumeForDeviceID:[Devices getVolumeControllerDeviceID]];
     [_volumeSlider setFloatValue:currentVolume];
     [self changeVolumeIcons:currentVolume];
     
     //BALANCE
-    Float32 currentBalance = [Devices getBalanceForDeviceID:[Devices getVolumeControllerDeviceID]];
+    Float32 currentBalance = [Devices getInputBalanceForDeviceID:[Devices getEQMacDeviceID]];
     [_balanceSlider setFloatValue:currentBalance];
     [self changeBalanceIcons:currentBalance];
 }
 
 - (IBAction)changeVolume:(id)sender {
     Float32 volume = [sender floatValue];
-    [Devices setVolumeForDevice:[Devices getVolumeControllerDeviceID] to:volume];
+    [Devices setOutputVolumeForDeviceID:[Devices getVolumeControllerDeviceID] to:volume];
     [self changeVolumeIcons:volume];
 }
 
@@ -275,7 +304,7 @@ CGFloat originalHeight;
 
 - (IBAction)changeBalance:(NSSlider *)sender {
     Float32 balance = [sender floatValue];
-    [Devices setBalanceForDevice:[Devices getVolumeControllerDeviceID] to:balance];
+    [Devices setInputBalanceForDeviceID: [Devices getEQMacDeviceID] to:balance];
     [self changeBalanceIcons: [sender floatValue]];
 }
 
@@ -306,10 +335,6 @@ CGFloat originalHeight;
         [_leftSpeaker setImage: [Utilities flipImage:[Utilities isDarkMode] ? [NSImage imageNamed:@"vol1Light.png"] : [NSImage imageNamed:@"vol1Dark.png"]]];
         [_rightSpeaker setImage: [Utilities isDarkMode] ? [NSImage imageNamed:@"vol4Light.png"] : [NSImage imageNamed:@"vol4Dark.png"]];
     }
-}
-
-- (IBAction)reportBug:(id)sender {
-    [Utilities openBrowserWithURL:REPO_ISSUES_URL];
 }
 
 - (IBAction)supportProject:(id)sender {

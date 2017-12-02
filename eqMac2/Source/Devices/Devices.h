@@ -32,19 +32,20 @@ return err; \
 +(AudioDeviceID)getBuiltInDeviceID;
 +(AudioDeviceID)getVolumeControllerDeviceID;
 
-+(void)switchToDeviceWithID:(AudioDeviceID)ID;
++(void)switchToSystemDeviceWithID:(AudioDeviceID)ID;
++(void)switchToOutputDeviceWithID:(AudioDeviceID)ID;
 
 +(NSString*)getDeviceNameByID:(UInt32)ID;
-+(Float32)getVolumeForDeviceID:(AudioDeviceID)ID;
-+(Float32)getBalanceForDeviceID:(AudioDeviceID)ID;
++(Float32)getOutputVolumeForDeviceID:(AudioDeviceID)ID;
++(Float32)getInputBalanceForDeviceID:(AudioDeviceID)ID;
 +(BOOL)getIsMutedForDeviceID:(AudioDeviceID)ID;
 +(BOOL)getIsAliveForDeviceID:(AudioDeviceID)ID;
 +(UInt32)getDeviceTransportTypeByID:(AudioDeviceID)ID;
 +(AudioDeviceID)getDeviceIDByName:(NSString*)name;
 
 +(BOOL)audioDeviceHasVolumeControls:(AudioDeviceID)ID;
-+(void)setVolumeForDevice:(AudioDeviceID)ID to:(Float32)volume;
-+(void)setBalanceForDevice:(AudioDeviceID)ID to:(Float32)balance;
++(void)setOutputVolumeForDeviceID:(AudioDeviceID)ID to:(Float32)volume;
++(void)setInputBalanceForDeviceID:(AudioDeviceID)ID to:(Float32)balance;
 +(void)setDevice:(AudioDeviceID)ID toMuted:(BOOL)condition;
 
 +(BOOL)eqMacDriverInstalled;

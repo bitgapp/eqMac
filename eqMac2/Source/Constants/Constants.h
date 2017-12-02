@@ -7,7 +7,6 @@ extern NSString * const DRIVER_UID;
 extern NSString * const API_URL;
 extern NSString * const APP_URL;
 extern NSString * const SUPPORT_URL;
-extern NSString * const REPO_ISSUES_URL;
 extern NSString * const HELP_URL;
 extern Float32    const FULL_VOLUME_STEP;
 extern Float32    const QUARTER_VOLUME_STEP;

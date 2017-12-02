@@ -126,7 +126,8 @@ CGFloat padding;
     if(dragging){
         if(point.y > self.bounds.size.height - knobSize/2 || point.y < knobSize/2) return;
         NSAffineTransform *transform = [NSAffineTransform transform];
-        CGPoint knobPos = [[knobArray objectAtIndex:sliderSelected] bounds].origin;
+        NSBezierPath *selectedKnob = [knobArray objectAtIndex:sliderSelected];
+        CGPoint knobPos = [selectedKnob bounds].origin;
         CGFloat knobPosY = knobPos.y + knobSize/2;
         CGFloat halfHeight = self.bounds.size.height / 2;
         CGFloat diffFromKnobToPoint = point.y - knobPosY;
