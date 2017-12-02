@@ -29,8 +29,6 @@ NSRunningApplication *focusedApplication;
 #pragma mark Initialization
 
 - (id)init {
-//    NSString *appDomain = [[NSBundle mainBundle] bundleIdentifier];
-//    [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:appDomain];
     [NSApp activateIgnoringOtherApps:NO];
     [self setupStatusBar];
     return self;
@@ -42,14 +40,9 @@ NSRunningApplication *focusedApplication;
     
     statusItemView.action = @selector(openEQ); //Open EQ View on Left Click
     statusItemView.rightAction = @selector(openEQ); //Open EQ on Right Click
-    
+        
     _statusBar = [[NSStatusBar systemStatusBar] statusItemWithLength:NSSquareStatusItemLength];
     [_statusBar setView:statusItemView];
-    [self setStatusItemIcon];
-    [Utilities executeBlock:^{ [self setStatusItemIcon]; } every:1];
-}
-
--(void)setStatusItemIcon{
     statusItemView.image = [NSImage imageNamed: [Utilities isDarkMode] ? @"statusItemLight" : @"statusItemDark"];
 }
 
@@ -105,7 +98,7 @@ NSRunningApplication *focusedApplication;
                                     [NSThread sleepForTimeInterval: .1];
                                     if (![Devices eqMacDriverInstalled]) {
                                         switch([Utilities showAlertWithTitle:@"Still a problem installing the Driver"
-                                                                  andMessage:@"You can try to resolve the issue by chatting with the developer, or quit eqMac now"
+                                                                  andMessage:@"Please restart your Mac and try to run eqMac2 again.\nIf you have restarted and retried already and it still doesn't work, \nYou can try to resolve the issue by chatting with the developer, or quit eqMac now"
                                                                   andButtons:@[@"Chat with the developer", @"Quit eqMac2"]]){
                                             case NSAlertFirstButtonReturn: {
                                                 [Utilities openBrowserWithURL: HELP_URL];
@@ -154,7 +147,7 @@ NSRunningApplication *focusedApplication;
             [EQHost createEQEngineWithOutputDevice: selectedDeviceID];
             [self startWatchingActivityOfDeviceWithID:selectedDeviceID];
         }
-    } every:1];
+    } every:.1];
 }
 
 -(void)startWatchingActivityOfDeviceWithID:(AudioDeviceID)ID{
@@ -172,7 +165,7 @@ NSRunningApplication *focusedApplication;
     deviceChangeWatcher = nil;
     
     [EQHost deleteEQEngine];
-    [Devices switchToDeviceWithID:[EQHost getSelectedOutputDeviceID]];
+    [Devices switchToOutputDeviceWithID:[EQHost getSelectedOutputDeviceID]];
     
     //delay the start a little so os has time to catchup with the Audio Processing
     [Utilities executeBlock:^{
