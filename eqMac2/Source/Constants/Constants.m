@@ -4,7 +4,7 @@
 
 NSString * const HELPER_BUNDLE_IDENTIFIER = @"com.bitgapp.eqMac2Helper";
 NSString * const DRIVER_UID = @"EQMAC2.1_DRIVER_ENGINE";
-NSString * const API_URL = @"http://localhost:3000";//@"https://eqmac-api.bitgapp.com";
+NSString * const API_URL = @"https://eqmac-api.bitgapp.com";
 NSString * const APP_URL = @"https://bitgapp.com/eqmac/";
 NSString * const SUPPORT_URL = @"https://bitgapp.com/eqmac/#/donate";
 NSString * const HELP_URL = @"https://go.crisp.chat/chat/embed/?website_id=d43e2906-97e3-4c50-82ea-6fa04383b983";
