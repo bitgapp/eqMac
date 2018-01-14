@@ -7,7 +7,7 @@
 <h4 align="center">System-Wide Equalizer for the Mac</h4>
 
 <p align="center">
-  <a href="https://gitter.im/eqMac2/Lobby?source=github"><img src="https://img.shields.io/gitter/room/nwjs/nw.js.svg" alt="chat on gitter"></a>
+  <a href="https://join.slack.com/t/eqmac/shared_invite/enQtMjk4NDkwNzEzOTA4LTg4OWFlYWFjNGQzZTJiM2RmMDI4MTUzMjk5ZTk1ZTkwYzk5NTk1ZDMwNTc1ZmU2MDdmNzRhNjc4ZTBhOWM2MzA"><img src="https://img.shields.io/badge/slack-workspace-pink.svg" alt="chat on slack"></a>
   <a href="http://twitter.com/eqMacApp"><img src="https://img.shields.io/twitter/follow/eqMacApp.svg?style=social" alt="Twitter"></a>
   <a href="https://github.com/romankisil/eqMac2/releases"><img src="https://img.shields.io/github/downloads/romankisil/eqMac2/total.svg" alt="Download"></a>+ 127k (Legacy)
 </p>
