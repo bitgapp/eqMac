@@ -211,7 +211,7 @@ OSStatus EQEngine::SetOutputDeviceAsCurrent(AudioDeviceID out)
 		err = AudioObjectGetPropertyData(kAudioObjectSystemObject, &theAddress, 0, NULL, &size, &out);
         checkErr(err);
 	}
-	mOutputDevice.Init(out, false);
+    mOutputDevice.Init(out, false);
 	
     
 	//Set the Current Device to the Default Output Unit only if the devices are different
