@@ -23,6 +23,8 @@ GitHub is only for source-code related issues.
 
 Still would like to report a bug or suggest a feature I can implement in the next version? 
 
-Please make sure you search through the [Open and Closed Issues](https://github.com/nodeful/eqMac2/issues?utf8=%E2%9C%93&q=is%3Aissue+) people have already submitted. 
+Please make sure you search through the Open and Closed Issues people have already submitted:
+
+https://github.com/nodeful/eqMac2/issues?utf8=%E2%9C%93&q=is%3Aissue+
 
 This eliviates the posibility of people creating duplicate issues.
