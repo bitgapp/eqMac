@@ -117,6 +117,7 @@ CGFloat originalHeight;
         [label setAlignment: NSCenterTextAlignment];
         CGFloat fontSize = bandMode.intValue == 10 ? 9 : 7;
         [label setFont: [NSFont systemFontOfSize: fontSize]];
+        [label setEditable:NO];
         [_bandFrequencyLabelsView addSubview:label];
     }
 }
@@ -138,6 +139,7 @@ CGFloat originalHeight;
         CGFloat gain = round([Utilities mapValue:[[gains objectAtIndex: index] floatValue] withInMin:-1 InMax:1 OutMin:-24 OutMax:24]);
         [label setStringValue: [NSString stringWithFormat:@"%@%.0f", gain > 0 ? @"+": @"", gain]];
         [label setAlignment: NSCenterTextAlignment];
+        [label setEditable:NO];
         CGFloat fontSize = bandMode.intValue == 10 ? 9 : 7;
         [label setFont: [NSFont systemFontOfSize: fontSize]];
         [_bandGainLabelsView addSubview:label];
