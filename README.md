@@ -19,6 +19,11 @@
   <a href="https://bitgapp.com/eqmac"><img alt="eqMac2 Screenshot EQ" height="300" src="https://user-images.githubusercontent.com/8472525/33244041-488cf4b4-d2e8-11e7-986c-49826dd853e1.png"></a>
 </p>
 
+## Warning! Volume bug with wireless devices
+
+Until this bug is fixed you may experience sudden loud changes in volume level! 
+https://github.com/nodeful/eqMac2/issues/112
+
 ## How to install?
 
 Best way to install eqMac2 is from the website: https://bitgapp.com/eqmac
