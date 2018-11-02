@@ -46,7 +46,7 @@ and/or [making direct contributions from the website](https://bitgapp.com/eqmac/
 Please install [CocoaPods](https://cocoapods.org/) dependency manager on your Mac.
 Then in Terminal:
 ```
-git clone https://github.com/romankisil/eqMac2.git
+git clone https://github.com/nodeful/eqMac2.git
 cd eqMac2/
 pod install
 open eqMac2.xcworkspace
