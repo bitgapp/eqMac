@@ -322,6 +322,9 @@ Float32* EQEngine::GetEqGains(){
     for (int i = 0; i < 32; i++) {
         
         int incrementor = i;
+        if (this == NULL){
+            return NULL;
+        }
         AudioUnit eqUnit = mEqualizerUnit1;
         if (i >= 16) {
             incrementor = i - 16;
