@@ -37,7 +37,7 @@ static NSNumber *bandMode;
     
     NSArray *savedGains = [Storage getSelectedGains];
     [self setEQEngineFrequencyGains: savedGains];
-    [Devices setOutputVolumeForDeviceID:output to: 1]; //full blast
+    [Devices setOutputVolumeForDeviceID:output to: stashedVolume]; //Avoid blowing out people's eardrums by restoring the original volume
 }
 
 
