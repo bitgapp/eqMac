@@ -1,0 +1,88 @@
+PODS:
+  - AMCoreAudio (3.2.1)
+  - AudioKit (4.7):
+    - AudioKit/Core (= 4.7)
+    - AudioKit/UI (= 4.7)
+  - AudioKit/Core (4.7)
+  - AudioKit/UI (4.7):
+    - AudioKit/Core
+  - CocoaAsyncSocket (7.6.3)
+  - Criollo (0.5.5):
+    - CocoaAsyncSocket (~> 7.6)
+  - EmitterKit (5.2.2)
+  - KeychainSwift (13.0.0)
+  - ReSwift (5.0.0)
+  - Sentry (4.4.0):
+    - Sentry/Core (= 4.4.0)
+  - Sentry/Core (4.4.0)
+  - Sparkle (1.21.3)
+  - STPrivilegedTask (1.0.7)
+  - SwiftLint (0.35.0)
+  - SwiftyJSON (4.3.0)
+  - SwiftyUserDefaults (4.0.0)
+  - WebViewJavascriptBridge (6.0.3)
+  - Zip (1.1.0)
+
+DEPENDENCIES:
+  - AMCoreAudio (~> 3.2.1)
+  - AudioKit (= 4.7)
+  - Criollo (~> 0.5)
+  - EmitterKit (~> 5.2)
+  - KeychainSwift (~> 13.0)
+  - ReSwift
+  - Sentry (~> 4.1)
+  - Sparkle
+  - STPrivilegedTask (from `https://github.com/sveinbjornt/STPrivilegedTask.git`, commit `fdca677c77adb166a2be4c5ea9c7580a738c49c9`)
+  - SwiftLint
+  - SwiftyJSON (~> 4.2)
+  - SwiftyUserDefaults (= 4.0)
+  - WebViewJavascriptBridge (~> 6.0)
+  - Zip (~> 1.1)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - AMCoreAudio
+    - AudioKit
+    - CocoaAsyncSocket
+    - Criollo
+    - EmitterKit
+    - KeychainSwift
+    - ReSwift
+    - Sentry
+    - Sparkle
+    - SwiftLint
+    - SwiftyJSON
+    - SwiftyUserDefaults
+    - WebViewJavascriptBridge
+    - Zip
+
+EXTERNAL SOURCES:
+  STPrivilegedTask:
+    :commit: fdca677c77adb166a2be4c5ea9c7580a738c49c9
+    :git: https://github.com/sveinbjornt/STPrivilegedTask.git
+
+CHECKOUT OPTIONS:
+  STPrivilegedTask:
+    :commit: fdca677c77adb166a2be4c5ea9c7580a738c49c9
+    :git: https://github.com/sveinbjornt/STPrivilegedTask.git
+
+SPEC CHECKSUMS:
+  AMCoreAudio: 7fa6b718dc93acc29f849d60c3ad680ae1bf07b5
+  AudioKit: 8b3c883fb6023d1b30764e40372991c9c66aa022
+  CocoaAsyncSocket: eafaa68a7e0ec99ead0a7b35015e0bf25d2c8987
+  Criollo: 617173837c296ca4248b0b058f36ce9b91e5c25b
+  EmitterKit: e7a27b37118823d8ad413b8396f75e40d59f8cba
+  KeychainSwift: 23d6c16cbc33f20fafa30c3d783241b4b87d998c
+  ReSwift: 628f1a9b3ee52e3b3ca2a644435472fd77afafe1
+  Sentry: 26650184fe71eb7476dfd2737acb5ea6cc64b4b1
+  Sparkle: 3f75576db8b0265adef36c43249d747f22d0b708
+  STPrivilegedTask: 56c3397238a1ec07720fb877a044898373cd2c68
+  SwiftLint: 5553187048b900c91aa03552807681bb6b027846
+  SwiftyJSON: 6faa0040f8b59dead0ee07436cbf76b73c08fd08
+  SwiftyUserDefaults: 6a1951df1daa19337862b677dd9a4b9bd4c288cd
+  WebViewJavascriptBridge: 7f5bc4d3581e672e8f32bd0f812d54bc69bb8e29
+  Zip: 8877eede3dda76bcac281225c20e71c25270774c
+
+PODFILE CHECKSUM: 962f761723cb1dd27b5ae01e3daa668e4804fff4
+
+COCOAPODS: 1.5.2

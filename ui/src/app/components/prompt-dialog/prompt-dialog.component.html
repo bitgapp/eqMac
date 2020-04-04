@@ -1,0 +1,8 @@
+<eqm-confirm-dialog 
+[text]="text" 
+[confirmText]="confirmText" 
+[onConfirm]="confirm.bind(this)"
+[cancelText]="cancelText"
+>
+  <eqm-input-field [(text)]="prompt" [placeholder]="placeholder" (enter)="confirm()"></eqm-input-field>
+</eqm-confirm-dialog>

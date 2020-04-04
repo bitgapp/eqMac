@@ -1,0 +1,24 @@
+<?xml version="1.0" standalone="yes"?>
+<rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" version="2.0">
+    <channel>
+        <title>eqMac</title>
+        <item>
+            <title>v0.0.1</title>
+            <pubDate>Sun, 22 Mar 2020 18:45:51 +0000</pubDate>
+            <description><![CDATA[<h1 id="eqmac-changelog">eqMac Changelog</h1>
+<h2 id="v0-0-1">v0.0.1</h2>
+<ul>
+<li>Decreased audio processing delay</li>
+<li>Not blocking main thread when installing audio driver</li>
+<li>Improved Font rendering</li>
+</ul>
+<h2 id="v0-0-0">v0.0.0</h2>
+<ul>
+<li>Initial release of eqMac in beta</li>
+</ul>
+]]></description>
+            <sparkle:minimumSystemVersion>10.12</sparkle:minimumSystemVersion>
+            <enclosure url="https://update.eqmac.app/eqMac.dmg" sparkle:version="0.0.1" sparkle:shortVersionString="v0.0.1" length="17896256" type="application/octet-stream" sparkle:edSignature="x7/5aUu80cqw53g+jypoI5a24z5lN3H4NH3MkacvATZXtmz66at9PtigAkxRpwo1/IQPOT2BWTZdJwA9kkoOAQ=="/>
+        </item>
+    </channel>
+</rss>

@@ -1,0 +1,24 @@
+.recorder {
+  margin: 5px !important;      
+
+  .record-button {
+    background-color: #eb3f42;
+    transition-property: all;
+    transition-duration: 0.2s; 
+    -webkit-transition-property: all;
+    -webkit-transition-duration: 0.2s; 
+    margin: 0 auto;
+  }
+
+  .start-recording {
+    width: 60%;
+    height: 60%;
+    border-radius: 25px;
+  }
+
+  .stop-recording {
+    width: 50%;
+    height: 50%;
+    border-radius: 2px;
+  }
+}

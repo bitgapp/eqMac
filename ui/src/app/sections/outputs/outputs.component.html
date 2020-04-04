@@ -1,0 +1,8 @@
+<div fxFill class="outputs" fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="10px">
+  <eqm-vent fxFlex="20"></eqm-vent>
+  <eqm-dropdown 
+  fxFlex="55" labelParam="name" noItemsPlaceholder="No Outputs" placeholder="Select Output" 
+  [items]="outputs" [(selectedItem)]="selected" (itemSelected)="select($event)"
+  ></eqm-dropdown>
+  <eqm-vent fxFlex="20"></eqm-vent>
+</div>

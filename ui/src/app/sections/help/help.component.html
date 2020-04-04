@@ -1,0 +1,5 @@
+<eqm-options [options]="options"></eqm-options>
+<div fxLayout="row" fxLayoutAlign="space-around center">
+  <eqm-label style="margin-top: 10px;">UI Version: {{uiVersion}}</eqm-label>
+  <eqm-label *ngIf="info" style="margin-top: 10px;">App Version: {{info.version}}</eqm-label>
+</div>

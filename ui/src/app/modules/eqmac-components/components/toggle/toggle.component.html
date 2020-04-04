@@ -1,0 +1,5 @@
+<div class="container" (click)="toggleState()">
+  <div class="indicator left"></div>
+  <div class="indicator right"></div>
+  <div [class]="'switch ' + (state ? 'on' : 'off')"></div>
+</div>

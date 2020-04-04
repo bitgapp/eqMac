@@ -1,0 +1,45 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Launch Client",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:4200/#",
+      "port": 9223,
+      "sourceMaps": true,
+      "diagnosticLogging": true,
+      "webRoot": "${workspaceRoot}",
+      "runtimeArgs": [
+          "--disable-session-crashed-bubble",
+          "--disable-infobars"
+      ],
+      "userDataDir": "${workspaceRoot}/.vscode/chrome"
+  },
+  {
+    "name": "Debug",
+    "type": "chrome",
+    "request": "attach",
+    "port": 9000,
+    "url": "http://localhost:4200/#",
+    "webRoot": "${workspaceRoot}/src"
+}, {
+  "name": "Deploy (production)",
+  "type": "node",
+  "request": "launch",
+  "program": "${workspaceRoot}/node_modules/ts-node/dist/bin.js",
+  "args": ["ci/base.ts"],
+  "cwd": "${workspaceRoot}/../",
+  "protocol": "inspector",
+  "env": {
+    "CI_COMMIT_SHA": "latest",
+    "CI_COMMIT_MESSAGE": "deploying from VSCode (production) --deploy=ui",
+    "CI_COMMIT_REF_NAME": "master"
+  },
+  "outputCapture": "std"
+}
+  ]
+}

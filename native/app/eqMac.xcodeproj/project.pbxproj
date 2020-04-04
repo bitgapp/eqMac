@@ -1,0 +1,1216 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 48;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A440F8AC660DBCD6D26C37EA /* Pods_eqMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C0FBD24DF0BA400D806B8AC /* Pods_eqMac.framework */; };
+		E002178823BCC354006C452A /* CARingBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E002178723BCC354006C452A /* CARingBuffer.swift */; };
+		E00618E220F14C08003BA0B0 /* UIState.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00618E120F14C08003BA0B0 /* UIState.swift */; };
+		E00618EB20F22BD1003BA0B0 /* Effect.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00618EA20F22BD1003BA0B0 /* Effect.swift */; };
+		E00618ED20F292B9003BA0B0 /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00618EC20F292B9003BA0B0 /* Networking.swift */; };
+		E00C595923BBB8B000C7B8B6 /* RingBufferTimeBounds.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00C595823BBB8B000C7B8B6 /* RingBufferTimeBounds.swift */; };
+		E00C595B23BBB96100C7B8B6 /* RingBufferOffsets.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00C595A23BBB96100C7B8B6 /* RingBufferOffsets.swift */; };
+		E00C595D23BBBB6C00C7B8B6 /* UnsafeMutableAudioBufferListPointer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00C595C23BBBB6C00C7B8B6 /* UnsafeMutableAudioBufferListPointer.swift */; };
+		E00C596623BBBF3100C7B8B6 /* Atomic.m in Sources */ = {isa = PBXBuildFile; fileRef = E00C596523BBBF3100C7B8B6 /* Atomic.m */; };
+		E012A46E2044BC200029C800 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E012A46D2044BC200029C800 /* StringExtensions.swift */; };
+		E012A4702044C4DA0029C800 /* Sysctl.swift in Sources */ = {isa = PBXBuildFile; fileRef = E012A46F2044C4DA0029C800 /* Sysctl.swift */; };
+		E0136BB122D9EAB60048D5BC /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0136BB022D9EAB60048D5BC /* WebView.swift */; };
+		E0136BB322D9EC920048D5BC /* DraggableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0136BB222D9EC920048D5BC /* DraggableView.swift */; };
+		E017A0091FF055B50019BBF1 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = E017A0081FF055B50019BBF1 /* User.swift */; };
+		E018710F21696D9500436B68 /* NSObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = E018710E21696D9500436B68 /* NSObject.swift */; };
+		E01B1BB5235E452D00CC58E5 /* Sources.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01B1BB4235E452D00CC58E5 /* Sources.swift */; };
+		E01B1BB9235E454500CC58E5 /* InputSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01B1BB8235E454500CC58E5 /* InputSource.swift */; };
+		E01B1BBB235E456600CC58E5 /* SystemSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01B1BBA235E456600CC58E5 /* SystemSource.swift */; };
+		E01B1BBD235E458200CC58E5 /* Driver.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01B1BBC235E458200CC58E5 /* Driver.swift */; };
+		E01F2F5D203391EA005123BE /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01F2F5C203391EA005123BE /* Utilities.swift */; };
+		E01F2F5F2034A188005123BE /* ArrayExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01F2F5E2034A188005123BE /* ArrayExtensions.swift */; };
+		E021BCE722313F1E004921FF /* SettingsRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = E021BCE622313F1E004921FF /* SettingsRoute.swift */; };
+		E0241AA5225E9FB700748656 /* BasicEqualizerPreset.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0241AA4225E9FB700748656 /* BasicEqualizerPreset.swift */; };
+		E02662F022BC3239006B486C /* NSSavePanelExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E02662EF22BC3239006B486C /* NSSavePanelExtensions.swift */; };
+		E0267AF7218ADD8D00FB2E5A /* uninstall_driver.sh in Resources */ = {isa = PBXBuildFile; fileRef = E0267AF5218ADD6000FB2E5A /* uninstall_driver.sh */; };
+		E0267AFA218ADD9500FB2E5A /* install_driver.sh in Resources */ = {isa = PBXBuildFile; fileRef = E0DDF3FC2189021300B37E77 /* install_driver.sh */; };
+		E0267AFD218AE39500FB2E5A /* Script.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0267AFC218AE39500FB2E5A /* Script.swift */; };
+		E02B922C219843DF00AC130B /* open_privacy_microphone_settings.scpt in Resources */ = {isa = PBXBuildFile; fileRef = E02B922B219843DA00AC130B /* open_privacy_microphone_settings.scpt */; };
+		E02B922E219CBCD800AC130B /* AudioDeviceEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = E02B922D219CBCD800AC130B /* AudioDeviceEvents.swift */; };
+		E02FF91622C7EC6C0051342A /* Transition.swift in Sources */ = {isa = PBXBuildFile; fileRef = E02FF91522C7EC6C0051342A /* Transition.swift */; };
+		E02FF91822C8E87D0051342A /* Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = E02FF91722C8E87D0051342A /* Time.swift */; };
+		E02FF91A22C95B310051342A /* TransitionDataBus.swift in Sources */ = {isa = PBXBuildFile; fileRef = E02FF91922C95B310051342A /* TransitionDataBus.swift */; };
+		E030FDB4211F766100BA524E /* AKWorkingEqualizerFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E030FDB3211F766100BA524E /* AKWorkingEqualizerFilter.swift */; };
+		E031E9CE23700DDF00BA6DD8 /* Outputs.swift in Sources */ = {isa = PBXBuildFile; fileRef = E031E9CD23700DDF00BA6DD8 /* Outputs.swift */; };
+		E036BCE723598772001F057B /* DataBus.swift in Sources */ = {isa = PBXBuildFile; fileRef = E036BCE623598772001F057B /* DataBus.swift */; };
+		E036BCEA235B1171001F057B /* ApplicationDataBus.swift in Sources */ = {isa = PBXBuildFile; fileRef = E036BCE9235B1171001F057B /* ApplicationDataBus.swift */; };
+		E036BCEC235B2C12001F057B /* EffectsDataBus.swift in Sources */ = {isa = PBXBuildFile; fileRef = E036BCEB235B2C12001F057B /* EffectsDataBus.swift */; };
+		E044AB7621ED27E4000C41A1 /* Equalizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E044AB7521ED27E4000C41A1 /* Equalizer.swift */; };
+		E044AB7821ED2CA9000C41A1 /* NumberExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E044AB7721ED2CA9000C41A1 /* NumberExtensions.swift */; };
+		E0493D0B21F222D300A8FD3D /* EventInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0493D0A21F222D300A8FD3D /* EventInterceptor.swift */; };
+		E04E256021E21717002DFC2A /* AdvancedEqualizerState.swift in Sources */ = {isa = PBXBuildFile; fileRef = E04E255F21E21717002DFC2A /* AdvancedEqualizerState.swift */; };
+		E04E256221E23CD5002DFC2A /* AdvancedEqualizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E04E256121E23CD5002DFC2A /* AdvancedEqualizer.swift */; };
+		E05559851FF64CF6009EE4B7 /* BitOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = E05559841FF64CF6009EE4B7 /* BitOperations.swift */; };
+		E057A637227032EC0019D13C /* EngineDataBus.swift in Sources */ = {isa = PBXBuildFile; fileRef = E057A636227032EC0019D13C /* EngineDataBus.swift */; };
+		E057A639227038B80019D13C /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = E057A638227038B80019D13C /* Settings.swift */; };
+		E057A63B22703F590019D13C /* BasicEqualizerDataBus.swift in Sources */ = {isa = PBXBuildFile; fileRef = E057A63A22703F590019D13C /* BasicEqualizerDataBus.swift */; };
+		E057A641227043EF0019D13C /* DataBusEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = E057A640227043EF0019D13C /* DataBusEvent.swift */; };
+		E057A6472270582C0019D13C /* EqualizersDataBus.swift in Sources */ = {isa = PBXBuildFile; fileRef = E057A6462270582C0019D13C /* EqualizersDataBus.swift */; };
+		E057A64922710F2B0019D13C /* AdvancedEqualizerDataBus.swift in Sources */ = {isa = PBXBuildFile; fileRef = E057A64822710F2B0019D13C /* AdvancedEqualizerDataBus.swift */; };
+		E057A64D2271A6DD0019D13C /* VolumeDataBus.swift in Sources */ = {isa = PBXBuildFile; fileRef = E057A64C2271A6DD0019D13C /* VolumeDataBus.swift */; };
+		E057A6512271A7DC0019D13C /* OutputsDataBus.swift in Sources */ = {isa = PBXBuildFile; fileRef = E057A6502271A7DC0019D13C /* OutputsDataBus.swift */; };
+		E06E98D021D17E230041DD9C /* UI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E06E98CF21D17E230041DD9C /* UI.swift */; };
+		E06E98D221D2E32E0041DD9C /* Popover.swift in Sources */ = {isa = PBXBuildFile; fileRef = E06E98D121D2E32E0041DD9C /* Popover.swift */; };
+		E072856B23F84A5500EDE8AC /* BoolExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E072856A23F84A5500EDE8AC /* BoolExtensions.swift */; };
+		E073727B20167CA300874CC6 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E073727A20167CA300874CC6 /* Constants.swift */; };
+		E073727D20167E7600874CC6 /* Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = E073727C20167E7600874CC6 /* Application.swift */; };
+		E07A24E41FF3D49F007AEF20 /* AudioDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = E07A24E31FF3D49F007AEF20 /* AudioDevice.swift */; };
+		E07A24E61FF3D4E4007AEF20 /* CheckErr.swift in Sources */ = {isa = PBXBuildFile; fileRef = E07A24E51FF3D4E4007AEF20 /* CheckErr.swift */; };
+		E07A6EE122B6BA4E00DE7B16 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = E07A6EE022B6BA4E00DE7B16 /* File.swift */; };
+		E07B45A620FBA4990086AA7E /* Encodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E07B45A520FBA4990086AA7E /* Encodable.swift */; };
+		E07CB5A7218D00380033DA89 /* uninstall_legacy_drivers.sh in Resources */ = {isa = PBXBuildFile; fileRef = E07CB5A6218CFE980033DA89 /* uninstall_legacy_drivers.sh */; };
+		E07CB5B121902F4F0033DA89 /* Output.swift in Sources */ = {isa = PBXBuildFile; fileRef = E07CB5B021902F4F0033DA89 /* Output.swift */; };
+		E08300ED23F9964A00C9A12A /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E08300EC23F9964A00C9A12A /* LoadingViewController.swift */; };
+		E083214720715BBA0038ED1A /* NSOpenPanelExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E083214620715BBA0038ED1A /* NSOpenPanelExtensions.swift */; };
+		E086B0001FCCB8E700CF9F0D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E086AFFF1FCCB8E700CF9F0D /* AppDelegate.swift */; };
+		E086B0021FCCB8E700CF9F0D /* assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E086B0011FCCB8E700CF9F0D /* assets.xcassets */; };
+		E089AC492095E0B1005B72E5 /* Console.swift in Sources */ = {isa = PBXBuildFile; fileRef = E089AC482095E0B1005B72E5 /* Console.swift */; };
+		E090AD5820A9725F003BE5FF /* Volume.swift in Sources */ = {isa = PBXBuildFile; fileRef = E090AD5720A9725F003BE5FF /* Volume.swift */; };
+		E090AD5A20A972DE003BE5FF /* BasicEqualizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E090AD5920A972DE003BE5FF /* BasicEqualizer.swift */; };
+		E095BBC42014D999003473E9 /* RingBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E095BBC32014D999003473E9 /* RingBuffer.swift */; };
+		E095BBC62014E4A1003473E9 /* NumericTypesConversions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E095BBC52014E4A1003473E9 /* NumericTypesConversions.swift */; };
+		E09C17201FEC1969008E65A4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E09C171F1FEC1969008E65A4 /* Main.storyboard */; };
+		E0A3B96120DF8FE500E46908 /* Effects.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A3B96020DF8FE500E46908 /* Effects.swift */; };
+		E0A3B96320DF992600E46908 /* Buffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A3B96220DF992600E46908 /* Buffer.swift */; };
+		E0A4C28D23C08E0F004A8A9A /* ui.zip in Resources */ = {isa = PBXBuildFile; fileRef = E0A4C28C23C08E0F004A8A9A /* ui.zip */; };
+		E0A9A90E22D24A6200EB1E49 /* Window.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A9A90D22D24A6200EB1E49 /* Window.swift */; };
+		E0AD99D52251022700D893F7 /* AdvancedEqualizerDefaultPresets.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0AD99D42251022700D893F7 /* AdvancedEqualizerDefaultPresets.swift */; };
+		E0C5629320A39651000902ED /* Bridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C5629220A39651000902ED /* Bridge.swift */; };
+		E0C5629920A75BAD000902ED /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C5629820A75BAD000902ED /* Storage.swift */; };
+		E0C8F78621D3B6590023B1E5 /* UIDataBus.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C8F78521D3B6590023B1E5 /* UIDataBus.swift */; };
+		E0D5F88722DD20F800499250 /* SettingsState.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D5F88622DD20F800499250 /* SettingsState.swift */; };
+		E0DDF3FA2188390300B37E77 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0DDF3F92188390300B37E77 /* Alert.swift */; };
+		E0E2CFF72104EA7A002DC989 /* Equalizers.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E2CFF62104EA7A002DC989 /* Equalizers.swift */; };
+		E0E8B62F20EEB6A900DE905C /* EffectsState.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E8B62420EEB6A900DE905C /* EffectsState.swift */; };
+		E0E8B63220EEB6A900DE905C /* EqualizersState.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E8B62920EEB6A900DE905C /* EqualizersState.swift */; };
+		E0E8B63320EEB6A900DE905C /* BasicEqualizerState.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E8B62B20EEB6A900DE905C /* BasicEqualizerState.swift */; };
+		E0E8B63420EEB6A900DE905C /* VolumeState.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E8B62C20EEB6A900DE905C /* VolumeState.swift */; };
+		E0E8B63620EEB6A900DE905C /* ApplicationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E8B62E20EEB6A900DE905C /* ApplicationState.swift */; };
+		E0ECA88B23B8B8DD002AFBF0 /* AVAudioEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0ECA88A23B8B8DD002AFBF0 /* AVAudioEngine.swift */; };
+		E0F4FD9E22888D5A00BEB0A6 /* eqMac.driver in Resources */ = {isa = PBXBuildFile; fileRef = E0F4FD9D22888D5A00BEB0A6 /* eqMac.driver */; };
+		E0F661711FDC38BE00252923 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0F661701FDC38B600252923 /* WebKit.framework */; };
+		E0F661861FDDED0C00252923 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0F661851FDDED0C00252923 /* ViewController.swift */; };
+		E0F6A112220D573C00D16624 /* AUGraphOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0F6A111220D573C00D16624 /* AUGraphOutput.swift */; };
+		E0FFB703200119060003EC9E /* StatusItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0FFB702200119060003EC9E /* StatusItem.swift */; };
+		E0FFB705200679DD0003EC9E /* Engine.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0FFB704200679DD0003EC9E /* Engine.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E021BD0422318630004921FF /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = Contents/Library/LoginItems;
+			dstSubfolderSpec = 1;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		20D88D3EA39797A9F428F0E3 /* Pods-eqMacAudio.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-eqMacAudio.debug.xcconfig"; path = "Pods/Target Support Files/Pods-eqMacAudio/Pods-eqMacAudio.debug.xcconfig"; sourceTree = "<group>"; };
+		454077A0596E209B8ABF4043 /* Pods-eqMac.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-eqMac.debug.xcconfig"; path = "Pods/Target Support Files/Pods-eqMac/Pods-eqMac.debug.xcconfig"; sourceTree = "<group>"; };
+		9659E2C2598F04A2CD8229EF /* Pods_eqMac_Audio.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_eqMac_Audio.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9C0FBD24DF0BA400D806B8AC /* Pods_eqMac.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_eqMac.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A3D606D740D37C93ABA157E7 /* Pods-eqMac.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-eqMac.release.xcconfig"; path = "Pods/Target Support Files/Pods-eqMac/Pods-eqMac.release.xcconfig"; sourceTree = "<group>"; };
+		A676AD8DA8974C2CCC183A30 /* Pods-eqMacAudio.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-eqMacAudio.release.xcconfig"; path = "Pods/Target Support Files/Pods-eqMacAudio/Pods-eqMacAudio.release.xcconfig"; sourceTree = "<group>"; };
+		E002178623BBC069006C452A /* module.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
+		E002178723BCC354006C452A /* CARingBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CARingBuffer.swift; sourceTree = "<group>"; };
+		E00618E120F14C08003BA0B0 /* UIState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIState.swift; sourceTree = "<group>"; };
+		E00618EA20F22BD1003BA0B0 /* Effect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Effect.swift; sourceTree = "<group>"; };
+		E00618EC20F292B9003BA0B0 /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
+		E00C595823BBB8B000C7B8B6 /* RingBufferTimeBounds.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingBufferTimeBounds.swift; sourceTree = "<group>"; };
+		E00C595A23BBB96100C7B8B6 /* RingBufferOffsets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingBufferOffsets.swift; sourceTree = "<group>"; };
+		E00C595C23BBBB6C00C7B8B6 /* UnsafeMutableAudioBufferListPointer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnsafeMutableAudioBufferListPointer.swift; sourceTree = "<group>"; };
+		E00C596423BBBF3100C7B8B6 /* Atomic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Atomic.h; sourceTree = "<group>"; };
+		E00C596523BBBF3100C7B8B6 /* Atomic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Atomic.m; sourceTree = "<group>"; };
+		E012A46D2044BC200029C800 /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
+		E012A46F2044C4DA0029C800 /* Sysctl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sysctl.swift; sourceTree = "<group>"; };
+		E0136BB022D9EAB60048D5BC /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
+		E0136BB222D9EC920048D5BC /* DraggableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DraggableView.swift; sourceTree = "<group>"; };
+		E017A0081FF055B50019BBF1 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		E018710E21696D9500436B68 /* NSObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSObject.swift; sourceTree = "<group>"; };
+		E01B1BB4235E452D00CC58E5 /* Sources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources.swift; sourceTree = "<group>"; };
+		E01B1BB8235E454500CC58E5 /* InputSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputSource.swift; sourceTree = "<group>"; };
+		E01B1BBA235E456600CC58E5 /* SystemSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemSource.swift; sourceTree = "<group>"; };
+		E01B1BBC235E458200CC58E5 /* Driver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Driver.swift; sourceTree = "<group>"; };
+		E01F2F5C203391EA005123BE /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
+		E01F2F5E2034A188005123BE /* ArrayExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtensions.swift; sourceTree = "<group>"; };
+		E021BCE622313F1E004921FF /* SettingsRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsRoute.swift; sourceTree = "<group>"; };
+		E0241AA4225E9FB700748656 /* BasicEqualizerPreset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicEqualizerPreset.swift; sourceTree = "<group>"; };
+		E02662EF22BC3239006B486C /* NSSavePanelExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSSavePanelExtensions.swift; sourceTree = "<group>"; };
+		E0267AF5218ADD6000FB2E5A /* uninstall_driver.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = uninstall_driver.sh; sourceTree = "<group>"; };
+		E0267AFC218AE39500FB2E5A /* Script.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Script.swift; sourceTree = "<group>"; };
+		E02B922B219843DA00AC130B /* open_privacy_microphone_settings.scpt */ = {isa = PBXFileReference; lastKnownFileType = file; path = open_privacy_microphone_settings.scpt; sourceTree = "<group>"; };
+		E02B922D219CBCD800AC130B /* AudioDeviceEvents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioDeviceEvents.swift; sourceTree = "<group>"; };
+		E02FF91522C7EC6C0051342A /* Transition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transition.swift; sourceTree = "<group>"; };
+		E02FF91722C8E87D0051342A /* Time.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Time.swift; sourceTree = "<group>"; };
+		E02FF91922C95B310051342A /* TransitionDataBus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitionDataBus.swift; sourceTree = "<group>"; };
+		E030FDB3211F766100BA524E /* AKWorkingEqualizerFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AKWorkingEqualizerFilter.swift; sourceTree = "<group>"; };
+		E031E9CD23700DDF00BA6DD8 /* Outputs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Outputs.swift; sourceTree = "<group>"; };
+		E036BCE623598772001F057B /* DataBus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBus.swift; sourceTree = "<group>"; };
+		E036BCE9235B1171001F057B /* ApplicationDataBus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationDataBus.swift; sourceTree = "<group>"; };
+		E036BCEB235B2C12001F057B /* EffectsDataBus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EffectsDataBus.swift; sourceTree = "<group>"; };
+		E0370EB0200D68AB00DF4DBF /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		E044AB7521ED27E4000C41A1 /* Equalizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Equalizer.swift; sourceTree = "<group>"; };
+		E044AB7721ED2CA9000C41A1 /* NumberExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberExtensions.swift; sourceTree = "<group>"; };
+		E0493D0A21F222D300A8FD3D /* EventInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventInterceptor.swift; sourceTree = "<group>"; };
+		E04E255F21E21717002DFC2A /* AdvancedEqualizerState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedEqualizerState.swift; sourceTree = "<group>"; };
+		E04E256121E23CD5002DFC2A /* AdvancedEqualizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedEqualizer.swift; sourceTree = "<group>"; };
+		E05559841FF64CF6009EE4B7 /* BitOperations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitOperations.swift; sourceTree = "<group>"; };
+		E057A636227032EC0019D13C /* EngineDataBus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EngineDataBus.swift; sourceTree = "<group>"; };
+		E057A638227038B80019D13C /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		E057A63A22703F590019D13C /* BasicEqualizerDataBus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicEqualizerDataBus.swift; sourceTree = "<group>"; };
+		E057A640227043EF0019D13C /* DataBusEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBusEvent.swift; sourceTree = "<group>"; };
+		E057A6462270582C0019D13C /* EqualizersDataBus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EqualizersDataBus.swift; sourceTree = "<group>"; };
+		E057A64822710F2B0019D13C /* AdvancedEqualizerDataBus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedEqualizerDataBus.swift; sourceTree = "<group>"; };
+		E057A64C2271A6DD0019D13C /* VolumeDataBus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeDataBus.swift; sourceTree = "<group>"; };
+		E057A6502271A7DC0019D13C /* OutputsDataBus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutputsDataBus.swift; sourceTree = "<group>"; };
+		E05901ED2221F21E006B93A5 /* Sandbox.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Sandbox.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		E06E98CF21D17E230041DD9C /* UI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI.swift; sourceTree = "<group>"; };
+		E06E98D121D2E32E0041DD9C /* Popover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Popover.swift; sourceTree = "<group>"; };
+		E072856A23F84A5500EDE8AC /* BoolExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoolExtensions.swift; sourceTree = "<group>"; };
+		E073727A20167CA300874CC6 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		E073727C20167E7600874CC6 /* Application.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Application.swift; sourceTree = "<group>"; };
+		E07A24E31FF3D49F007AEF20 /* AudioDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioDevice.swift; sourceTree = "<group>"; };
+		E07A24E51FF3D4E4007AEF20 /* CheckErr.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckErr.swift; sourceTree = "<group>"; };
+		E07A6EE022B6BA4E00DE7B16 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
+		E07B45A520FBA4990086AA7E /* Encodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Encodable.swift; sourceTree = "<group>"; };
+		E07CB5A6218CFE980033DA89 /* uninstall_legacy_drivers.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = uninstall_legacy_drivers.sh; sourceTree = "<group>"; };
+		E07CB5B021902F4F0033DA89 /* Output.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Output.swift; sourceTree = "<group>"; };
+		E08300EC23F9964A00C9A12A /* LoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
+		E083214620715BBA0038ED1A /* NSOpenPanelExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSOpenPanelExtensions.swift; sourceTree = "<group>"; };
+		E086AFFC1FCCB8E700CF9F0D /* eqMac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = eqMac.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E086AFFF1FCCB8E700CF9F0D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		E086B0011FCCB8E700CF9F0D /* assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = assets.xcassets; path = ../shared/assets.xcassets; sourceTree = SOURCE_ROOT; };
+		E086B0061FCCB8E700CF9F0D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E086B0071FCCB8E700CF9F0D /* eqMacAudio.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = eqMacAudio.entitlements; sourceTree = "<group>"; };
+		E089AC482095E0B1005B72E5 /* Console.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Console.swift; sourceTree = "<group>"; };
+		E090AD5720A9725F003BE5FF /* Volume.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Volume.swift; sourceTree = "<group>"; };
+		E090AD5920A972DE003BE5FF /* BasicEqualizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicEqualizer.swift; sourceTree = "<group>"; };
+		E095BBC32014D999003473E9 /* RingBuffer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RingBuffer.swift; sourceTree = "<group>"; };
+		E095BBC52014E4A1003473E9 /* NumericTypesConversions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumericTypesConversions.swift; sourceTree = "<group>"; };
+		E09C171F1FEC1969008E65A4 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		E0A3B96020DF8FE500E46908 /* Effects.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Effects.swift; sourceTree = "<group>"; };
+		E0A3B96220DF992600E46908 /* Buffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Buffer.swift; sourceTree = "<group>"; };
+		E0A48D6123C5FB6B00700C39 /* eqMac.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = eqMac.entitlements; sourceTree = "<group>"; };
+		E0A4C28C23C08E0F004A8A9A /* ui.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; name = ui.zip; path = ../../../../ui/ui.zip; sourceTree = "<group>"; };
+		E0A9A90D22D24A6200EB1E49 /* Window.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Window.swift; sourceTree = "<group>"; };
+		E0AB8FA223C3D5B900035701 /* LaunchAtLogin.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LaunchAtLogin.framework; path = Carthage/Build/Mac/LaunchAtLogin.framework; sourceTree = "<group>"; };
+		E0AD99D42251022700D893F7 /* AdvancedEqualizerDefaultPresets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedEqualizerDefaultPresets.swift; sourceTree = "<group>"; };
+		E0AFAE9A23C39187007D2D56 /* LaunchAtLogin.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LaunchAtLogin.framework; path = Carthage/Build/Mac/LaunchAtLogin.framework; sourceTree = "<group>"; };
+		E0C5629220A39651000902ED /* Bridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bridge.swift; sourceTree = "<group>"; };
+		E0C5629820A75BAD000902ED /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
+		E0C8F78521D3B6590023B1E5 /* UIDataBus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDataBus.swift; sourceTree = "<group>"; };
+		E0D5F88622DD20F800499250 /* SettingsState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsState.swift; sourceTree = "<group>"; };
+		E0DDF3F92188390300B37E77 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
+		E0DDF3FC2189021300B37E77 /* install_driver.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = install_driver.sh; sourceTree = "<group>"; };
+		E0E2CFF62104EA7A002DC989 /* Equalizers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Equalizers.swift; sourceTree = "<group>"; };
+		E0E8B62420EEB6A900DE905C /* EffectsState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EffectsState.swift; sourceTree = "<group>"; };
+		E0E8B62920EEB6A900DE905C /* EqualizersState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EqualizersState.swift; sourceTree = "<group>"; };
+		E0E8B62B20EEB6A900DE905C /* BasicEqualizerState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicEqualizerState.swift; sourceTree = "<group>"; };
+		E0E8B62C20EEB6A900DE905C /* VolumeState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VolumeState.swift; sourceTree = "<group>"; };
+		E0E8B62E20EEB6A900DE905C /* ApplicationState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApplicationState.swift; sourceTree = "<group>"; };
+		E0ECA88923B7F816002AFBF0 /* ExceptionCatcher.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExceptionCatcher.h; sourceTree = "<group>"; };
+		E0ECA88A23B8B8DD002AFBF0 /* AVAudioEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVAudioEngine.swift; sourceTree = "<group>"; };
+		E0F4FD9D22888D5A00BEB0A6 /* eqMac.driver */ = {isa = PBXFileReference; lastKnownFileType = folder; name = eqMac.driver; path = ../build/eqMac/Build/Products/Release/eqMac.driver; sourceTree = "<group>"; };
+		E0F661701FDC38B600252923 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		E0F661851FDDED0C00252923 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		E0F6A111220D573C00D16624 /* AUGraphOutput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AUGraphOutput.swift; sourceTree = "<group>"; };
+		E0FFB702200119060003EC9E /* StatusItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusItem.swift; sourceTree = "<group>"; };
+		E0FFB704200679DD0003EC9E /* Engine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E086AFF91FCCB8E700CF9F0D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E0F661711FDC38BE00252923 /* WebKit.framework in Frameworks */,
+				A440F8AC660DBCD6D26C37EA /* Pods_eqMac.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A433E835860EBA2247574C67 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				20D88D3EA39797A9F428F0E3 /* Pods-eqMacAudio.debug.xcconfig */,
+				A676AD8DA8974C2CCC183A30 /* Pods-eqMacAudio.release.xcconfig */,
+				454077A0596E209B8ABF4043 /* Pods-eqMac.debug.xcconfig */,
+				A3D606D740D37C93ABA157E7 /* Pods-eqMac.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		E004A8F3209D08AF00A878AA /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				E00C595C23BBBB6C00C7B8B6 /* UnsafeMutableAudioBufferListPointer.swift */,
+				E030FDB3211F766100BA524E /* AKWorkingEqualizerFilter.swift */,
+				E01F2F5E2034A188005123BE /* ArrayExtensions.swift */,
+				E07A24E31FF3D49F007AEF20 /* AudioDevice.swift */,
+				E07B45A520FBA4990086AA7E /* Encodable.swift */,
+				E018710E21696D9500436B68 /* NSObject.swift */,
+				E083214620715BBA0038ED1A /* NSOpenPanelExtensions.swift */,
+				E044AB7721ED2CA9000C41A1 /* NumberExtensions.swift */,
+				E012A46D2044BC200029C800 /* StringExtensions.swift */,
+				E02662EF22BC3239006B486C /* NSSavePanelExtensions.swift */,
+				E0ECA88A23B8B8DD002AFBF0 /* AVAudioEngine.swift */,
+				E072856A23F84A5500EDE8AC /* BoolExtensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		E00C595723BBB84900C7B8B6 /* RingBuffer */ = {
+			isa = PBXGroup;
+			children = (
+				E095BBC32014D999003473E9 /* RingBuffer.swift */,
+				E00C595823BBB8B000C7B8B6 /* RingBufferTimeBounds.swift */,
+				E00C595A23BBB96100C7B8B6 /* RingBufferOffsets.swift */,
+			);
+			path = RingBuffer;
+			sourceTree = "<group>";
+		};
+		E00C596123BBBEA800C7B8B6 /* Vendor */ = {
+			isa = PBXGroup;
+			children = (
+				E00C596223BBBF3100C7B8B6 /* ConcurrencyOC */,
+				E002178623BBC069006C452A /* module.modulemap */,
+			);
+			path = Vendor;
+			sourceTree = "<group>";
+		};
+		E00C596223BBBF3100C7B8B6 /* ConcurrencyOC */ = {
+			isa = PBXGroup;
+			children = (
+				E00C596323BBBF3100C7B8B6 /* include */,
+				E00C596523BBBF3100C7B8B6 /* Atomic.m */,
+			);
+			path = ConcurrencyOC;
+			sourceTree = "<group>";
+		};
+		E00C596323BBBF3100C7B8B6 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				E00C596423BBBF3100C7B8B6 /* Atomic.h */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		E01B1BB3235E449000CC58E5 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				E01B1BB7235E453900CC58E5 /* System */,
+				E01B1BB6235E453200CC58E5 /* Input */,
+				E01B1BB4235E452D00CC58E5 /* Sources.swift */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		E01B1BB6235E453200CC58E5 /* Input */ = {
+			isa = PBXGroup;
+			children = (
+				E01B1BB8235E454500CC58E5 /* InputSource.swift */,
+			);
+			path = Input;
+			sourceTree = "<group>";
+		};
+		E01B1BB7235E453900CC58E5 /* System */ = {
+			isa = PBXGroup;
+			children = (
+				E01B1BBA235E456600CC58E5 /* SystemSource.swift */,
+				E01B1BBC235E458200CC58E5 /* Driver.swift */,
+			);
+			path = System;
+			sourceTree = "<group>";
+		};
+		E01B5C862356E07600E1A675 /* Transition */ = {
+			isa = PBXGroup;
+			children = (
+				E02FF91522C7EC6C0051342A /* Transition.swift */,
+				E02FF91922C95B310051342A /* TransitionDataBus.swift */,
+			);
+			path = Transition;
+			sourceTree = "<group>";
+		};
+		E036BCE8235B09CB001F057B /* DataBus */ = {
+			isa = PBXGroup;
+			children = (
+				E057A640227043EF0019D13C /* DataBusEvent.swift */,
+				E036BCE623598772001F057B /* DataBus.swift */,
+			);
+			path = DataBus;
+			sourceTree = "<group>";
+		};
+		E086AFF31FCCB8E700CF9F0D = {
+			isa = PBXGroup;
+			children = (
+				E0A48D6123C5FB6B00700C39 /* eqMac.entitlements */,
+				E05901ED2221F21E006B93A5 /* Sandbox.playground */,
+				E0F661751FDCA05F00252923 /* Source */,
+				E0F4FD9C22888D1100BEB0A6 /* Embedded */,
+				E0F661741FDCA01F00252923 /* Supporting Files */,
+				E086AFFD1FCCB8E700CF9F0D /* Products */,
+				A433E835860EBA2247574C67 /* Pods */,
+				E6BAF3EF1807277C1A4360F7 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		E086AFFD1FCCB8E700CF9F0D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E086AFFC1FCCB8E700CF9F0D /* eqMac.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E090AD5B20A9F13E003BE5FF /* Effects */ = {
+			isa = PBXGroup;
+			children = (
+				E0DD0A9920E7FF2D00B14020 /* Equalizers */,
+				E00618EA20F22BD1003BA0B0 /* Effect.swift */,
+				E0A3B96020DF8FE500E46908 /* Effects.swift */,
+				E0E8B62420EEB6A900DE905C /* EffectsState.swift */,
+				E036BCEB235B2C12001F057B /* EffectsDataBus.swift */,
+			);
+			path = Effects;
+			sourceTree = "<group>";
+		};
+		E095BBC02014CDAD003473E9 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				E0DDF3F92188390300B37E77 /* Alert.swift */,
+				E05559841FF64CF6009EE4B7 /* BitOperations.swift */,
+				E0A3B96220DF992600E46908 /* Buffer.swift */,
+				E07A24E51FF3D4E4007AEF20 /* CheckErr.swift */,
+				E00618EC20F292B9003BA0B0 /* Networking.swift */,
+				E095BBC52014E4A1003473E9 /* NumericTypesConversions.swift */,
+				E089AC482095E0B1005B72E5 /* Console.swift */,
+				E0267AFC218AE39500FB2E5A /* Script.swift */,
+				E0C5629820A75BAD000902ED /* Storage.swift */,
+				E012A46F2044C4DA0029C800 /* Sysctl.swift */,
+				E01F2F5C203391EA005123BE /* Utilities.swift */,
+				E07A6EE022B6BA4E00DE7B16 /* File.swift */,
+				E02FF91722C8E87D0051342A /* Time.swift */,
+				E0ECA88923B7F816002AFBF0 /* ExceptionCatcher.h */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		E095BBC12014CDF1003473E9 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				E0C5629220A39651000902ED /* Bridge.swift */,
+				E0A4C28C23C08E0F004A8A9A /* ui.zip */,
+				E0C8F78521D3B6590023B1E5 /* UIDataBus.swift */,
+				E06E98CF21D17E230041DD9C /* UI.swift */,
+				E08300EC23F9964A00C9A12A /* LoadingViewController.swift */,
+				E09C171F1FEC1969008E65A4 /* Main.storyboard */,
+				E00618E120F14C08003BA0B0 /* UIState.swift */,
+				E0FFB702200119060003EC9E /* StatusItem.swift */,
+				E0F661851FDDED0C00252923 /* ViewController.swift */,
+				E06E98D121D2E32E0041DD9C /* Popover.swift */,
+				E0A9A90D22D24A6200EB1E49 /* Window.swift */,
+				E0136BB022D9EAB60048D5BC /* WebView.swift */,
+				E0136BB222D9EC920048D5BC /* DraggableView.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		E095BBC22014CE19003473E9 /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				E00C595723BBB84900C7B8B6 /* RingBuffer */,
+				E0AD99DA225114C600D893F7 /* Volume */,
+				E01B1BB3235E449000CC58E5 /* Sources */,
+				E090AD5B20A9F13E003BE5FF /* Effects */,
+				E0AD99DB2251151F00D893F7 /* Outputs */,
+				E02B922D219CBCD800AC130B /* AudioDeviceEvents.swift */,
+				E057A636227032EC0019D13C /* EngineDataBus.swift */,
+				E0FFB704200679DD0003EC9E /* Engine.swift */,
+				E002178723BCC354006C452A /* CARingBuffer.swift */,
+			);
+			path = Audio;
+			sourceTree = "<group>";
+		};
+		E0AD99D22251020400D893F7 /* Basic */ = {
+			isa = PBXGroup;
+			children = (
+				E0E8B62B20EEB6A900DE905C /* BasicEqualizerState.swift */,
+				E090AD5920A972DE003BE5FF /* BasicEqualizer.swift */,
+				E0241AA4225E9FB700748656 /* BasicEqualizerPreset.swift */,
+				E057A63A22703F590019D13C /* BasicEqualizerDataBus.swift */,
+			);
+			path = Basic;
+			sourceTree = "<group>";
+		};
+		E0AD99D32251021100D893F7 /* Advanced */ = {
+			isa = PBXGroup;
+			children = (
+				E04E255F21E21717002DFC2A /* AdvancedEqualizerState.swift */,
+				E04E256121E23CD5002DFC2A /* AdvancedEqualizer.swift */,
+				E0AD99D42251022700D893F7 /* AdvancedEqualizerDefaultPresets.swift */,
+				E057A64822710F2B0019D13C /* AdvancedEqualizerDataBus.swift */,
+			);
+			path = Advanced;
+			sourceTree = "<group>";
+		};
+		E0AD99DA225114C600D893F7 /* Volume */ = {
+			isa = PBXGroup;
+			children = (
+				E0E8B62C20EEB6A900DE905C /* VolumeState.swift */,
+				E090AD5720A9725F003BE5FF /* Volume.swift */,
+				E057A64C2271A6DD0019D13C /* VolumeDataBus.swift */,
+			);
+			path = Volume;
+			sourceTree = "<group>";
+		};
+		E0AD99DB2251151F00D893F7 /* Outputs */ = {
+			isa = PBXGroup;
+			children = (
+				E0F6A111220D573C00D16624 /* AUGraphOutput.swift */,
+				E07CB5B021902F4F0033DA89 /* Output.swift */,
+				E057A6502271A7DC0019D13C /* OutputsDataBus.swift */,
+				E031E9CD23700DDF00BA6DD8 /* Outputs.swift */,
+			);
+			path = Outputs;
+			sourceTree = "<group>";
+		};
+		E0D5F88522DD1BB800499250 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				E021BCE622313F1E004921FF /* SettingsRoute.swift */,
+				E057A638227038B80019D13C /* Settings.swift */,
+				E0D5F88622DD20F800499250 /* SettingsState.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		E0DD0A8220E58C0900B14020 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				E017A0081FF055B50019BBF1 /* User.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		E0DD0A9920E7FF2D00B14020 /* Equalizers */ = {
+			isa = PBXGroup;
+			children = (
+				E0AD99D22251020400D893F7 /* Basic */,
+				E0AD99D32251021100D893F7 /* Advanced */,
+				E044AB7521ED27E4000C41A1 /* Equalizer.swift */,
+				E0E8B62920EEB6A900DE905C /* EqualizersState.swift */,
+				E0E2CFF62104EA7A002DC989 /* Equalizers.swift */,
+				E057A6462270582C0019D13C /* EqualizersDataBus.swift */,
+			);
+			path = Equalizers;
+			sourceTree = "<group>";
+		};
+		E0DDF3FB218901E700B37E77 /* Scripts */ = {
+			isa = PBXGroup;
+			children = (
+				E02B922B219843DA00AC130B /* open_privacy_microphone_settings.scpt */,
+				E0DDF3FC2189021300B37E77 /* install_driver.sh */,
+				E0267AF5218ADD6000FB2E5A /* uninstall_driver.sh */,
+				E07CB5A6218CFE980033DA89 /* uninstall_legacy_drivers.sh */,
+			);
+			path = Scripts;
+			sourceTree = "<group>";
+		};
+		E0F4FD9C22888D1100BEB0A6 /* Embedded */ = {
+			isa = PBXGroup;
+			children = (
+				E0AB8FA223C3D5B900035701 /* LaunchAtLogin.framework */,
+				E0F4FD9D22888D5A00BEB0A6 /* eqMac.driver */,
+			);
+			name = Embedded;
+			sourceTree = "<group>";
+		};
+		E0F661741FDCA01F00252923 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				E086B0071FCCB8E700CF9F0D /* eqMacAudio.entitlements */,
+				E086B0061FCCB8E700CF9F0D /* Info.plist */,
+				E086B0011FCCB8E700CF9F0D /* assets.xcassets */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E0F661751FDCA05F00252923 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				E086AFFF1FCCB8E700CF9F0D /* AppDelegate.swift */,
+				E073727C20167E7600874CC6 /* Application.swift */,
+				E036BCE9235B1171001F057B /* ApplicationDataBus.swift */,
+				E0493D0A21F222D300A8FD3D /* EventInterceptor.swift */,
+				E0E8B62E20EEB6A900DE905C /* ApplicationState.swift */,
+				E073727A20167CA300874CC6 /* Constants.swift */,
+				E095BBC22014CE19003473E9 /* Audio */,
+				E036BCE8235B09CB001F057B /* DataBus */,
+				E004A8F3209D08AF00A878AA /* Extensions */,
+				E095BBC02014CDAD003473E9 /* Helpers */,
+				E0DD0A8220E58C0900B14020 /* Models */,
+				E0D5F88522DD1BB800499250 /* Settings */,
+				E0DDF3FB218901E700B37E77 /* Scripts */,
+				E01B5C862356E07600E1A675 /* Transition */,
+				E095BBC12014CDF1003473E9 /* UI */,
+				E00C596123BBBEA800C7B8B6 /* Vendor */,
+			);
+			path = Source;
+			sourceTree = "<group>";
+		};
+		E6BAF3EF1807277C1A4360F7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E0AFAE9A23C39187007D2D56 /* LaunchAtLogin.framework */,
+				E0370EB0200D68AB00DF4DBF /* AudioToolbox.framework */,
+				E0F661701FDC38B600252923 /* WebKit.framework */,
+				9659E2C2598F04A2CD8229EF /* Pods_eqMac_Audio.framework */,
+				9C0FBD24DF0BA400D806B8AC /* Pods_eqMac.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		E00C596723BBBF7500C7B8B6 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		E086AFFB1FCCB8E700CF9F0D /* eqMac */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E086B00A1FCCB8E700CF9F0D /* Build configuration list for PBXNativeTarget "eqMac" */;
+			buildPhases = (
+				AFDFF826F547656CFBBD1F8A /* [CP] Check Pods Manifest.lock */,
+				E00C596723BBBF7500C7B8B6 /* Headers */,
+				E086AFF81FCCB8E700CF9F0D /* Sources */,
+				E086AFFA1FCCB8E700CF9F0D /* Resources */,
+				E086AFF91FCCB8E700CF9F0D /* Frameworks */,
+				896A6D438DAEE15F87C748E4 /* [CP] Embed Pods Frameworks */,
+				E0F4FDA1228ABE0400BEB0A6 /* Run Script - Carthage copy-frameworks */,
+				E07CB5AA21902A080033DA89 /* Run Script - Highlight TODO and FIXME */,
+				E0DD0A9E20E95B8D00B14020 /* Run Script - SwiftLint */,
+				E057A635226F9F710019D13C /* Run Script - Kill eqMac (DEBUG) */,
+				E0F4FD9A22888AC300BEB0A6 /* Run Script - LaunchAtLogin copy-helper */,
+				E0D46F8C23C50C840067F83C /* Run Script - Package */,
+				E021BD0422318630004921FF /* CopyFiles */,
+				E0A48D6223C6028F00700C39 /* Run Script - Hardruntime + Sign Sparkle */,
+				E0A48D6323C61CC200700C39 /* Run Script - Hardruntime + Sign LaunchAtLogin */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = eqMac;
+			productName = eqMacAudio;
+			productReference = E086AFFC1FCCB8E700CF9F0D /* eqMac.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E086AFF41FCCB8E700CF9F0D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0900;
+				LastUpgradeCheck = 0940;
+				ORGANIZATIONNAME = "Romans Kisils";
+				TargetAttributes = {
+					E086AFFB1FCCB8E700CF9F0D = {
+						CreatedOnToolsVersion = 9.0;
+						ProvisioningStyle = Manual;
+						SystemCapabilities = {
+							com.apple.HardenedRuntime = {
+								enabled = 1;
+							};
+							com.apple.Sandbox = {
+								enabled = 0;
+							};
+						};
+					};
+				};
+			};
+			buildConfigurationList = E086AFF71FCCB8E700CF9F0D /* Build configuration list for PBXProject "eqMac" */;
+			compatibilityVersion = "Xcode 8.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = E086AFF31FCCB8E700CF9F0D;
+			productRefGroup = E086AFFD1FCCB8E700CF9F0D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E086AFFB1FCCB8E700CF9F0D /* eqMac */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E086AFFA1FCCB8E700CF9F0D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E0F4FD9E22888D5A00BEB0A6 /* eqMac.driver in Resources */,
+				E07CB5A7218D00380033DA89 /* uninstall_legacy_drivers.sh in Resources */,
+				E0267AFA218ADD9500FB2E5A /* install_driver.sh in Resources */,
+				E086B0021FCCB8E700CF9F0D /* assets.xcassets in Resources */,
+				E09C17201FEC1969008E65A4 /* Main.storyboard in Resources */,
+				E0A4C28D23C08E0F004A8A9A /* ui.zip in Resources */,
+				E02B922C219843DF00AC130B /* open_privacy_microphone_settings.scpt in Resources */,
+				E0267AF7218ADD8D00FB2E5A /* uninstall_driver.sh in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		896A6D438DAEE15F87C748E4 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-eqMac/Pods-eqMac-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/AMCoreAudio/AMCoreAudio.framework",
+				"${BUILT_PRODUCTS_DIR}/CocoaAsyncSocket/CocoaAsyncSocket.framework",
+				"${BUILT_PRODUCTS_DIR}/Criollo/Criollo.framework",
+				"${BUILT_PRODUCTS_DIR}/EmitterKit/EmitterKit.framework",
+				"${BUILT_PRODUCTS_DIR}/KeychainSwift/KeychainSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/ReSwift/ReSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/STPrivilegedTask/STPrivilegedTask.framework",
+				"${BUILT_PRODUCTS_DIR}/Sentry/Sentry.framework",
+				"${PODS_ROOT}/Sparkle/Sparkle.framework",
+				"${PODS_ROOT}/Sparkle/Sparkle.framework.dSYM",
+				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyUserDefaults/SwiftyUserDefaults.framework",
+				"${BUILT_PRODUCTS_DIR}/WebViewJavascriptBridge/WebViewJavascriptBridge.framework",
+				"${BUILT_PRODUCTS_DIR}/Zip/Zip.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AMCoreAudio.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaAsyncSocket.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Criollo.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/EmitterKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KeychainSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/STPrivilegedTask.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Sentry.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Sparkle.framework",
+				"${DWARF_DSYM_FOLDER_PATH}/Sparkle.framework.dSYM",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyUserDefaults.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/WebViewJavascriptBridge.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Zip.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-eqMac/Pods-eqMac-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AFDFF826F547656CFBBD1F8A /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-eqMac-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E057A635226F9F710019D13C /* Run Script - Kill eqMac (DEBUG) */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script - Kill eqMac (DEBUG)";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [[ $CONFIGURATION == \"Debug\" ]]; then\n    pkill -f eqMac || true\nfi\n";
+		};
+		E07CB5AA21902A080033DA89 /* Run Script - Highlight TODO and FIXME */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script - Highlight TODO and FIXME";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "TAGS=\"TODO:|FIXME:\"\nSKIPDIRS=\"/Pods\"\nfind \"${SRCROOT}/\" -type f \\( -name \"*.h\" -or -name \"*.m\" -or -name \"*.swift\" \\) -print0 \\\n| xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$\" \\\n| grep -v \"$SKIPDIRS\" \\\n| perl -p -e \"s/($TAGS)/ warning: \\$1/\"\n";
+		};
+		E0A48D6223C6028F00700C39 /* Run Script - Hardruntime + Sign Sparkle */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script - Hardruntime + Sign Sparkle";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "LOCATION=\"${BUILT_PRODUCTS_DIR}\"/\"${FRAMEWORKS_FOLDER_PATH}\"\n\n# By default, use the configured code signing identity for the project/target\nIDENTITY=\"${CODE_SIGN_IDENTITY}\"\nif [ \"$IDENTITY\" == \"\" ]\nthen\n# If a code signing identity is not specified, use ad hoc signing\nIDENTITY=\"-\"\nfi\ncodesign --verbose --force --deep -o runtime --sign \"$IDENTITY\" \"$LOCATION/Sparkle.framework/Versions/A/Resources/AutoUpdate.app\"\ncodesign --verbose --force -o runtime --sign \"$IDENTITY\" \"$LOCATION/Sparkle.framework/Versions/A\"\n";
+		};
+		E0A48D6323C61CC200700C39 /* Run Script - Hardruntime + Sign LaunchAtLogin */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script - Hardruntime + Sign LaunchAtLogin";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "LOCATION=\"$BUILT_PRODUCTS_DIR/$CONTENTS_FOLDER_PATH/Library/LoginItems/LaunchAtLoginHelper.app\"\n\n# By default, use the configured code signing identity for the project/target\nIDENTITY=\"${CODE_SIGN_IDENTITY}\"\nif [ \"$IDENTITY\" == \"\" ]\nthen\n# If a code signing identity is not specified, use ad hoc signing\nIDENTITY=\"-\"\nfi\necho \"Hardening Launch At Login Helper with developer identity \\\"$IDENTITY\\\"...\"\ncodesign --verbose --force --deep -o runtime --sign \"$IDENTITY\" \"$LOCATION\"\n";
+		};
+		E0D46F8C23C50C840067F83C /* Run Script - Package */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script - Package";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [[ $EQMAC_BUILD_ENV != \"Package\" ]]; then exit; fi # Run only on Package\n\n#envs\nBUILD_DIR=\"$PROJECT_DIR/../build\"\nDMG_PATH_WILDCARD=\"$BUILD_DIR/eqMac*.dmg\"\nUPDATE_DIR=\"$PROJECT_DIR/update\"\nrm $DMG_PATH_WILDCARD || true #Remove old DMG files\n\n# Create new DMG\nnpx create-dmg \"$BUILT_PRODUCTS_DIR/$FULL_PRODUCT_NAME\" --overwrite --dmg-title=eqMac $BUILD_DIR\nmv -v $DMG_PATH_WILDCARD \"$UPDATE_DIR/eqMac.dmg\" # Move it to update dir\n\n# Generate Changelog HTML\nnpx showdown makehtml -i \"$UPDATE_DIR/CHANGELOG.md\" -o \"$UPDATE_DIR/eqMac.html\"\n\n# Generate Appcast XML\n\"$UPDATE_DIR/generate_appcast\" \"$UPDATE_DIR\"\n\n";
+		};
+		E0DD0A9E20E95B8D00B14020 /* Run Script - SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script - SwiftLint";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# \"${PODS_ROOT}/SwiftLint/swiftlint\"\n";
+		};
+		E0F4FD9A22888AC300BEB0A6 /* Run Script - LaunchAtLogin copy-helper */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script - LaunchAtLogin copy-helper";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PROJECT_DIR}/Carthage/Build/Mac/LaunchAtLogin.framework/Resources/copy-helper.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E0F4FDA1228ABE0400BEB0A6 /* Run Script - Carthage copy-frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/Mac/LaunchAtLogin.framework",
+			);
+			name = "Run Script - Carthage copy-frameworks";
+			outputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/LaunchAtLogin.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks\n\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E086AFF81FCCB8E700CF9F0D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E00C596623BBBF3100C7B8B6 /* Atomic.m in Sources */,
+				E089AC492095E0B1005B72E5 /* Console.swift in Sources */,
+				E030FDB4211F766100BA524E /* AKWorkingEqualizerFilter.swift in Sources */,
+				E090AD5820A9725F003BE5FF /* Volume.swift in Sources */,
+				E073727D20167E7600874CC6 /* Application.swift in Sources */,
+				E02FF91622C7EC6C0051342A /* Transition.swift in Sources */,
+				E0E8B63220EEB6A900DE905C /* EqualizersState.swift in Sources */,
+				E036BCEA235B1171001F057B /* ApplicationDataBus.swift in Sources */,
+				E036BCEC235B2C12001F057B /* EffectsDataBus.swift in Sources */,
+				E0FFB705200679DD0003EC9E /* Engine.swift in Sources */,
+				E073727B20167CA300874CC6 /* Constants.swift in Sources */,
+				E044AB7821ED2CA9000C41A1 /* NumberExtensions.swift in Sources */,
+				E02B922E219CBCD800AC130B /* AudioDeviceEvents.swift in Sources */,
+				E00618EB20F22BD1003BA0B0 /* Effect.swift in Sources */,
+				E0C5629320A39651000902ED /* Bridge.swift in Sources */,
+				E057A64D2271A6DD0019D13C /* VolumeDataBus.swift in Sources */,
+				E0E8B63320EEB6A900DE905C /* BasicEqualizerState.swift in Sources */,
+				E06E98D021D17E230041DD9C /* UI.swift in Sources */,
+				E057A64922710F2B0019D13C /* AdvancedEqualizerDataBus.swift in Sources */,
+				E07CB5B121902F4F0033DA89 /* Output.swift in Sources */,
+				E00C595B23BBB96100C7B8B6 /* RingBufferOffsets.swift in Sources */,
+				E0267AFD218AE39500FB2E5A /* Script.swift in Sources */,
+				E0F661861FDDED0C00252923 /* ViewController.swift in Sources */,
+				E02FF91822C8E87D0051342A /* Time.swift in Sources */,
+				E083214720715BBA0038ED1A /* NSOpenPanelExtensions.swift in Sources */,
+				E01F2F5D203391EA005123BE /* Utilities.swift in Sources */,
+				E0E2CFF72104EA7A002DC989 /* Equalizers.swift in Sources */,
+				E095BBC42014D999003473E9 /* RingBuffer.swift in Sources */,
+				E07A24E61FF3D4E4007AEF20 /* CheckErr.swift in Sources */,
+				E012A46E2044BC200029C800 /* StringExtensions.swift in Sources */,
+				E0C8F78621D3B6590023B1E5 /* UIDataBus.swift in Sources */,
+				E095BBC62014E4A1003473E9 /* NumericTypesConversions.swift in Sources */,
+				E08300ED23F9964A00C9A12A /* LoadingViewController.swift in Sources */,
+				E07A6EE122B6BA4E00DE7B16 /* File.swift in Sources */,
+				E0A3B96320DF992600E46908 /* Buffer.swift in Sources */,
+				E00618ED20F292B9003BA0B0 /* Networking.swift in Sources */,
+				E0AD99D52251022700D893F7 /* AdvancedEqualizerDefaultPresets.swift in Sources */,
+				E0ECA88B23B8B8DD002AFBF0 /* AVAudioEngine.swift in Sources */,
+				E01B1BBD235E458200CC58E5 /* Driver.swift in Sources */,
+				E057A63B22703F590019D13C /* BasicEqualizerDataBus.swift in Sources */,
+				E002178823BCC354006C452A /* CARingBuffer.swift in Sources */,
+				E0136BB122D9EAB60048D5BC /* WebView.swift in Sources */,
+				E0A3B96120DF8FE500E46908 /* Effects.swift in Sources */,
+				E018710F21696D9500436B68 /* NSObject.swift in Sources */,
+				E021BCE722313F1E004921FF /* SettingsRoute.swift in Sources */,
+				E00C595923BBB8B000C7B8B6 /* RingBufferTimeBounds.swift in Sources */,
+				E017A0091FF055B50019BBF1 /* User.swift in Sources */,
+				E0E8B62F20EEB6A900DE905C /* EffectsState.swift in Sources */,
+				E0D5F88722DD20F800499250 /* SettingsState.swift in Sources */,
+				E01B1BB9235E454500CC58E5 /* InputSource.swift in Sources */,
+				E06E98D221D2E32E0041DD9C /* Popover.swift in Sources */,
+				E07B45A620FBA4990086AA7E /* Encodable.swift in Sources */,
+				E0F6A112220D573C00D16624 /* AUGraphOutput.swift in Sources */,
+				E0241AA5225E9FB700748656 /* BasicEqualizerPreset.swift in Sources */,
+				E057A639227038B80019D13C /* Settings.swift in Sources */,
+				E0C5629920A75BAD000902ED /* Storage.swift in Sources */,
+				E0E8B63620EEB6A900DE905C /* ApplicationState.swift in Sources */,
+				E02662F022BC3239006B486C /* NSSavePanelExtensions.swift in Sources */,
+				E0A9A90E22D24A6200EB1E49 /* Window.swift in Sources */,
+				E01B1BBB235E456600CC58E5 /* SystemSource.swift in Sources */,
+				E00C595D23BBBB6C00C7B8B6 /* UnsafeMutableAudioBufferListPointer.swift in Sources */,
+				E0E8B63420EEB6A900DE905C /* VolumeState.swift in Sources */,
+				E057A637227032EC0019D13C /* EngineDataBus.swift in Sources */,
+				E057A6472270582C0019D13C /* EqualizersDataBus.swift in Sources */,
+				E057A6512271A7DC0019D13C /* OutputsDataBus.swift in Sources */,
+				E0136BB322D9EC920048D5BC /* DraggableView.swift in Sources */,
+				E0493D0B21F222D300A8FD3D /* EventInterceptor.swift in Sources */,
+				E044AB7621ED27E4000C41A1 /* Equalizer.swift in Sources */,
+				E01B1BB5235E452D00CC58E5 /* Sources.swift in Sources */,
+				E057A641227043EF0019D13C /* DataBusEvent.swift in Sources */,
+				E090AD5A20A972DE003BE5FF /* BasicEqualizer.swift in Sources */,
+				E01F2F5F2034A188005123BE /* ArrayExtensions.swift in Sources */,
+				E0DDF3FA2188390300B37E77 /* Alert.swift in Sources */,
+				E0FFB703200119060003EC9E /* StatusItem.swift in Sources */,
+				E07A24E41FF3D49F007AEF20 /* AudioDevice.swift in Sources */,
+				E04E256021E21717002DFC2A /* AdvancedEqualizerState.swift in Sources */,
+				E031E9CE23700DDF00BA6DD8 /* Outputs.swift in Sources */,
+				E036BCE723598772001F057B /* DataBus.swift in Sources */,
+				E072856B23F84A5500EDE8AC /* BoolExtensions.swift in Sources */,
+				E086B0001FCCB8E700CF9F0D /* AppDelegate.swift in Sources */,
+				E02FF91A22C95B310051342A /* TransitionDataBus.swift in Sources */,
+				E00618E220F14C08003BA0B0 /* UIState.swift in Sources */,
+				E04E256221E23CD5002DFC2A /* AdvancedEqualizer.swift in Sources */,
+				E012A4702044C4DA0029C800 /* Sysctl.swift in Sources */,
+				E05559851FF64CF6009EE4B7 /* BitOperations.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		E086B0081FCCB8E700CF9F0D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		E086B0091FCCB8E700CF9F0D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+			};
+			name = Release;
+		};
+		E086B00B1FCCB8E700CF9F0D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 454077A0596E209B8ABF4043 /* Pods-eqMac.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_MODULES_AUTOLINK = NO;
+				CODE_SIGN_ENTITLEMENTS = eqMac.entitlements;
+				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_STYLE = Manual;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = JZA6C97KJA;
+				ENABLE_HARDENED_RUNTIME = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/AMCoreAudio/AMCoreAudio.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/AwaitKit/AwaitKit.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/CocoaAsyncSocket/CocoaAsyncSocket.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Criollo/Criollo.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/EmitterKit/EmitterKit.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/KeychainSwift/KeychainSwift.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/PromiseKit/PromiseKit.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/ReSwift/ReSwift.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/STPrivilegedTask/STPrivilegedTask.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Sentry/Sentry.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Swifter/Swifter.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SwiftyJSON/SwiftyJSON.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SwiftyUserDefaults/SwiftyUserDefaults.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/WebViewJavascriptBridge/WebViewJavascriptBridge.framework/Headers\"",
+					"$(SRCROOT)/OpenSSL/include",
+				);
+				INFOPLIST_FILE = "$(SRCROOT)/Supporting Files/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Source/Vendor",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bitgapp.eqmac;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = singlefile;
+				SWIFT_INCLUDE_PATHS = "$(PROJECT_DIR) $(PROJECT_DIR)/Source/Vendor";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/Source/Helpers/ExceptionCatcher.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.2;
+				USER_HEADER_SEARCH_PATHS = "";
+			};
+			name = Debug;
+		};
+		E086B00C1FCCB8E700CF9F0D /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A3D606D740D37C93ABA157E7 /* Pods-eqMac.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_MODULES_AUTOLINK = NO;
+				CODE_SIGN_ENTITLEMENTS = eqMac.entitlements;
+				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_STYLE = Manual;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = JZA6C97KJA;
+				ENABLE_HARDENED_RUNTIME = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/AMCoreAudio/AMCoreAudio.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/AwaitKit/AwaitKit.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/CocoaAsyncSocket/CocoaAsyncSocket.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Criollo/Criollo.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/EmitterKit/EmitterKit.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/KeychainSwift/KeychainSwift.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/PromiseKit/PromiseKit.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/ReSwift/ReSwift.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/STPrivilegedTask/STPrivilegedTask.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Sentry/Sentry.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Swifter/Swifter.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SwiftyJSON/SwiftyJSON.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SwiftyUserDefaults/SwiftyUserDefaults.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/WebViewJavascriptBridge/WebViewJavascriptBridge.framework/Headers\"",
+					"$(SRCROOT)/OpenSSL/include",
+				);
+				INFOPLIST_FILE = "$(SRCROOT)/Supporting Files/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Source/Vendor",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bitgapp.eqmac;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_INCLUDE_PATHS = "$(PROJECT_DIR) $(PROJECT_DIR)/Source/Vendor";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/Source/Helpers/ExceptionCatcher.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Osize";
+				SWIFT_VERSION = 4.2;
+				USER_HEADER_SEARCH_PATHS = "";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E086AFF71FCCB8E700CF9F0D /* Build configuration list for PBXProject "eqMac" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E086B0081FCCB8E700CF9F0D /* Debug */,
+				E086B0091FCCB8E700CF9F0D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E086B00A1FCCB8E700CF9F0D /* Build configuration list for PBXNativeTarget "eqMac" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E086B00B1FCCB8E700CF9F0D /* Debug */,
+				E086B00C1FCCB8E700CF9F0D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E086AFF41FCCB8E700CF9F0D /* Project object */;
+}

@@ -1,0 +1,14 @@
+<div fxLayout="column" fxLayoutGap="10px">
+  <eqm-label>
+    {{text}}
+  </eqm-label>
+  <ng-content></ng-content>
+  <div fxLayout="row" fxLayoutGap="10px">
+    <eqm-button type="narrow" fxFlex (pressed)="cancel()">
+      <eqm-label>{{cancelText}}</eqm-label>
+    </eqm-button>
+    <eqm-button type="narrow" fxFlex (pressed)="confirm()">
+      <eqm-label>{{confirmText}}</eqm-label>
+    </eqm-button>
+  </div>  
+</div>

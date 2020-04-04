@@ -1,0 +1,55 @@
+import { Component, OnInit } from '@angular/core'
+import { OutputsService, Output } from './outputs.service'
+
+@Component({
+  selector: 'eqm-outputs',
+  templateUrl: './outputs.component.html',
+  styleUrls: ['./outputs.component.scss']
+})
+export class OutputsComponent implements OnInit {
+  outputs: Output[]
+  selected: Output
+  constructor (private service: OutputsService) { }
+
+  async ngOnInit () {
+    await this.sync()
+    this.setupEventListeners()
+  }
+
+  async sync () {
+    await this.syncOutputs()
+    await this.syncSelected()
+  }
+
+  async syncOutputs () {
+    const outputs = await this.service.getDevices()
+    for (const output of outputs) {
+      output.icon = (() => {
+        switch (output.transportType) {
+          case 'airPlay': return 'airplay'
+          case 'bluetoothLE': return 'bluetooth'
+          case 'builtIn': return output.name === 'Headphones' ? 'headphones' : 'speaker'
+          case 'displayPort': return 'displayport'
+          case 'fireWire': return 'firewire'
+          default: return output.transportType
+        }
+      })()
+    }
+    this.outputs = outputs
+  }
+
+  async syncSelected () {
+    const selected = await this.service.getSelected()
+    const output = this.outputs.find(output => output.id === selected.id)
+    if (output) this.selected = output
+  }
+
+  async select (output: Output) {
+    await this.service.select(output)
+  }
+
+  setupEventListeners () {
+    this.service.onChanged(() => this.sync())
+    this.service.onDevicesChanged(() => this.sync())
+  }
+}

@@ -1,0 +1,55 @@
+source 'https://github.com/AudioKit/Specs.git'
+source 'https://github.com/CocoaPods/Specs.git'
+
+# Uncomment the next line to define a global platform for your project
+platform :osx, '10.12'
+project 'eqMac.xcodeproj'
+
+target 'eqMac' do
+    # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
+    use_frameworks!
+    
+    # Pods for eqMac
+    pod 'AudioKit', '4.7'
+    pod 'AMCoreAudio', '~> 3.2.1'
+    pod 'Criollo', '~> 0.5’
+    pod 'WebViewJavascriptBridge', '~> 6.0'
+    pod 'ReSwift'
+    pod 'SwiftLint'
+    pod 'Sparkle'
+    pod 'Sentry', '~> 4.1'
+    pod 'EmitterKit', '~> 5.2'
+    pod 'SwiftyJSON', '~> 4.2'
+    pod 'SwiftyUserDefaults', '4.0'
+#    pod 'Swifter', '~> 1.4'
+    pod 'STPrivilegedTask', :git => 'https://github.com/sveinbjornt/STPrivilegedTask.git', :commit => 'fdca677c77adb166a2be4c5ea9c7580a738c49c9'
+    pod 'KeychainSwift', '~> 13.0'
+    pod 'Zip', '~> 1.1'
+
+    # Workaround Cocoapods to mix Swift 3.2 and 4
+    # Manually add to swift4Targets, otherwise assume target uses Swift 4
+    swift40Targets = []
+    swift41Targets = []
+    swift42Targets = []
+    post_install do |installer|
+        installer.pods_project.targets.each do |target|
+            target.build_configurations.each do |config|
+                version = '5.0'
+                if swift40Targets.include? target.name
+                    version = '4'
+                else
+                    if swift41Targets.include? target.name
+                        version = '4.1'
+                    else
+                        if swift42Targets.include? target.name
+                            version = '4.2'
+                        end
+                    end
+                end
+                print('Setting "', target.name, '" swift version to ', version)
+                puts()
+                config.build_settings['SWIFT_VERSION'] = version
+            end
+        end
+    end
+end

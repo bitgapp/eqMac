@@ -1,0 +1,5 @@
+.dropdown-blur-outside {
+  -webkit-transition: -webkit-filter 200ms linear;
+  transition: filter 200ms linear;
+  filter: blur(5px);
+}

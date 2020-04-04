@@ -1,0 +1,3 @@
+<div class="wrapper" [style.height.px]="height" [style.transition-duration.ms]="animationDuration" #wrapper [style.width.%]="items.length * 100">
+  <ng-container *ngFor="let item of items;" class="item" [ngTemplateOutlet]="item.template"></ng-container>
+</div>

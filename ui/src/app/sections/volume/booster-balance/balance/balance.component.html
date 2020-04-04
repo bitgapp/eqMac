@@ -1,0 +1,19 @@
+<div fxLayout="column" fxLayoutAlign="space-between center">
+  <eqm-label>Balance</eqm-label>
+  <div fxLayout="row" fxLayoutAlign="space-around start" [class]="'controls' + (hide ? ' hide' : '')">
+    <div fxLayout="column" fxLayoutAlign="center center">
+      <eqm-label>Left</eqm-label>
+      <eqm-value-screen>{{(balance | mapValue:0:1:100:0 | clipValue:0:100 | fixFloat:0:false)}}%</eqm-value-screen>
+    </div>
+    <eqm-knob size="small" [min]="-1" [max]="1" 
+    [(value)]="balance" (userChangedValue)="setBalance($event)" 
+    [stickToMiddle]="true" (stickedToMiddle)="performHapticFeedback($event)"
+    [animationDuration]="animationDuration" [animationFps]="animationFps"
+    ></eqm-knob>
+    <div fxLayout="column" fxLayoutAlign="center center">
+      <eqm-label>Right</eqm-label>
+      <eqm-value-screen>{{(balance | mapValue:0:-1:100:0 | clipValue:0:100 | fixFloat:0:false)}}%</eqm-value-screen>
+    </div>
+  </div>
+</div>
+

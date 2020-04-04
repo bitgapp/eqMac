@@ -1,0 +1,23 @@
+<div fxLayout="column" class="container" fxFill fxLayoutAlign="space-between center">
+  <eqm-label>Audio Source</eqm-label>
+  <div fxLayout="row" fxFlex="100" class="button-container" fxLayoutAlign="space-around center">
+    <eqm-button [depressable]="false" [toggle]="true" [state]="source === 'File'" (click)="setSource('File')"
+      class="button" size="narrow">
+      <eqm-label>FILE</eqm-label>
+    </eqm-button>
+    <eqm-button [depressable]="false" [toggle]="true" [state]="source === 'Input'" (click)="setSource('Input')"
+      class="button" size="narrow">
+      <eqm-label>DEVICE</eqm-label>
+    </eqm-button>
+    <eqm-button [depressable]="false" [toggle]="true" [state]="source === 'System'" (click)="setSource('System')"
+      class="button" size="narrow">
+      <eqm-label>SYSTEM</eqm-label>
+    </eqm-button>
+  </div>
+
+  <div class="control" fxLayout="column" fxFill fxLayoutAlign="center start">
+    <eqm-file fxFill *ngIf="source === 'File'"></eqm-file>
+    <eqm-input fxFill *ngIf="source === 'Input'"></eqm-input>
+    <eqm-system fxFill *ngIf="source === 'System'"></eqm-system>
+  </div>
+</div>

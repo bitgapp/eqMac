@@ -1,0 +1,7 @@
+@import "../../styles/colors.scss";
+
+:host {
+  background-color: $dark;
+  display: block;
+  padding: 10px;
+}

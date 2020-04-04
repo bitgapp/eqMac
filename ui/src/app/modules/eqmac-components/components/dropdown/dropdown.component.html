@@ -1,0 +1,18 @@
+<eqm-container #container [disabled]="disabled" (click)="editable ? undefined : toggle($event)"
+  class="container">
+  <div class="item">
+
+    <eqm-icon *ngIf="selectedItem && selectedItem.icon" [name]="selectedItem.icon" class="icon" color="#4f8d71"></eqm-icon>
+    <eqm-label color="#4f8d71"> {{label || (items.length ? (selectedItem ? selectedItem[labelParam] : placeholder) : noItemsPlaceholder)}} </eqm-label>
+  </div>
+
+  <div class="arrows" (click)="editable ? toggle($event) : undefined">
+    <eqm-icon [name]="'triangle'" [height]="8" [width]="8" [color]="hasSelection ? '#4f8d71' : '#555'" rotate="-90">
+    </eqm-icon>
+    <eqm-icon [name]="'triangle'" [height]="8" [width]="8" [color]="hasSelection ? '#4f8d71' : '#555'" rotate="90">
+    </eqm-icon>
+  </div>
+</eqm-container>
+<eqm-select-box [numberOfVisibleItems]="numberOfVisibleItems" (clickOutside)="close()" #box [hidden]="!shown"
+  [class]="'items-select-box' + (direction === 'down' ? ' down' : ' up')" [items]="items" [labelParam]="labelParam"
+  [selectedItem]="selectedItem" (itemSelected)="selectItem($event)" [style.top.px]="yCoordinate"></eqm-select-box>

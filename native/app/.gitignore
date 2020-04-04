@@ -1,0 +1,15 @@
+Pods/
+.DS_Store
+.DS_Store/
+*/.DS_Store
+eqMacAudio.xcworkspace/xcuserdata/
+eqMacAudio.xcodeproj/xcuserdata
+eqMacAudioDriver.xcodeproj/xcuserdata
+eqMacAudio.xcworkspace/xcuserdata
+Carthage/
+
+OpenSSL/*
+!OpenSSL/.gitkeep
+
+update/eqMac.dmg
+update/eqMac.app

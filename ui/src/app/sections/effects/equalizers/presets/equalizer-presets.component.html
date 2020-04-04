@@ -1,0 +1,41 @@
+<div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px">
+    <!-- Left buttons -->
+    <!-- <div class="button-container">
+      <eqm-button *ngIf="false" 
+        size="square" [height]="20" [width]="20"
+        eqmTooltip="Export Presets">
+        <eqm-icon name="minus" [width]="10" [height]="10" [stroke]="2"></eqm-icon>
+      </eqm-button>
+    </div> -->
+    <div class="button-container">
+      <eqm-button 
+        size="square" [height]="20" [width]="20" [disabled]="disabled || selectedPreset?.isDefault"
+        (pressed)="deletePreset()"
+        eqmTooltip="Remove Preset">
+        <eqm-icon name="minus" [width]="10" [height]="10" [stroke]="2"></eqm-icon>
+      </eqm-button>
+    </div>
+
+    <!-- Presets Dropdown -->
+    <eqm-dropdown
+      [disabled]="disabled"
+      [editable]="false" noItemsPlaceholder="No Presets" placeholder="Select Preset"
+      [items]="presets"
+      [selectedItem]="selectedPreset"
+      labelParam="name"
+      (itemSelected)="presetSelected.emit($event)"
+    ></eqm-dropdown>
+
+    <!-- Right buttons -->
+    <div class="button-container">
+      <eqm-button type="square" [height]="20" [width]="20" eqmTooltip="Save Preset" (pressed)="savePreset()" [disabled]="disabled">
+        <eqm-icon name="cross" [width]="10" [height]="10" [stroke]="5" [rotate]="45"></eqm-icon>
+      </eqm-button>
+    </div>
+    <!-- <div class="button-container">
+      <eqm-button *ngIf="false" size="square" [height]="20" [width]="20"
+      eqmTooltip="Import Presets">
+        <eqm-icon name="cross" [width]="10" [height]="10" [stroke]="5" [rotate]="45"></eqm-icon>
+      </eqm-button>
+    </div> -->
+</div>

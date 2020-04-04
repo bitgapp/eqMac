@@ -1,0 +1,89 @@
+@import "./styles/colors";
+
+::ng-deep *:not(input) {
+  user-select: none !important;
+  -moz-user-select: none !important;
+  -khtml-user-select: none !important;
+  -webkit-user-select: none !important;
+  -o-user-select: none !important;
+  cursor: default !important;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+} 
+
+// ::ng-deep * :
+
+::ng-deep html, body {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  overflow: hidden;
+  background-image: url('../assets/noise.png');
+  background-color: $gradient-end;
+  /* Adjust font size */
+  font-size: 100%;
+  -webkit-text-size-adjust: 100%;
+  /* Smoothing */
+  text-rendering: optimizeLegibility;
+  text-shadow: rgba(0, 0, 0, .01) 0 0 1px;
+  -webkit-font-smoothing: subpixel-antialiased;
+}
+
+
+.container {
+  position: absolute;
+  display: inline-block;
+  padding-top: 25px;
+
+  $border-radius: 0px;
+
+  width: 400px; 
+  top: 0;
+  left: 0;
+
+  background-image: url('../assets/noise.png'), linear-gradient($gradient-start, $gradient-end);
+  overflow: hidden;
+
+  .loader {
+    width: 100%;
+    height: 100%;
+    background-image: url('../assets/noise.png');
+    background-color: $gradient-end;
+    position: absolute;
+    z-index: 99;
+  }
+
+  .fill-width {
+    width: 100%;
+  }
+  
+  .show-hide {
+    position: absolute;
+    right: 5px;
+    top: 0;
+  }
+  
+  .on-off {
+    position: absolute;
+    left: 5px;
+    top: 0;
+  }
+
+  .header {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 3;
+  }
+
+  .dropdown-section {
+    width: 100%;
+    position: absolute;
+    z-index: 2;
+    transform-origin: right top;
+  }
+  
+}
+

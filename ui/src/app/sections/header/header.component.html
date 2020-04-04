@@ -1,0 +1,31 @@
+<div class="header" fxLayout="row" fxLayoutAlign="space-between center">
+  <div class="menu-buttons" 
+  fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px"
+  (mouseenter)="setShowBoolean('showLeftIcons', true)" (mouseleave)="setShowBoolean('showLeftIcons', false)" 
+  >
+    <div class="circle-button left" fxLayout="row" fxLayoutAlign="center center" (click)="quit()">
+      <eqm-icon *ngIf="showLeftIcons" [@FadeInOut] stroke=3 strokeColor="#2E2E2E" color="#2E2E2E" width="8" height="8" name="cross"></eqm-icon>
+    </div>
+    <div class="circle-button left" fxLayoutAlign="center center" (click)="hide()">
+      <eqm-icon *ngIf="showLeftIcons" [@FadeInOut] color="#2E2E2E" width="8" height="8" name="minus"></eqm-icon>
+    </div>
+  </div> 
+  <eqm-label>eqMac</eqm-label>
+  <div class="menu-buttons" 
+  fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px"
+  (mouseenter)="setShowBoolean('showRightIcons', true)" (mouseleave)="setShowBoolean('showRightIcons', false)" 
+  >
+    <div class="circle-button right" 
+    fxLayout="row" fxLayoutAlign="center center"
+    (click)="toggleHelp($event)" 
+    eqmTooltip="Help" eqmTooltipPositionSide="bottom" eqmTooltipDelay="100">
+      <eqm-icon class="settings" *ngIf="showRightIcons" [@FadeInOut] stroke="0" color="#2E2E2E" width="10" height="10" name="help"></eqm-icon>
+    </div>
+    <div class="circle-button right" 
+    fxLayout="row" fxLayoutAlign="center center" 
+    (click)="toggleSettings($event)" 
+    eqmTooltip="Settings" eqmTooltipPositionSide="bottom" eqmTooltipDelay="100">
+      <eqm-icon class="settings" *ngIf="showRightIcons" [@FadeInOut] stroke="0" color="#2E2E2E" width="14" height="14" name="spanner-circle"></eqm-icon>
+    </div>      
+  </div> 
+</div>

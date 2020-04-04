@@ -1,0 +1,24 @@
+
+:host {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+:host.disabled {
+  filter: grayscale(80%);
+}
+
+
+.groove {
+  position: absolute;
+}
+
+.groove-filling {
+  position: absolute;
+}
+
+.thumb {
+  position: absolute;
+}

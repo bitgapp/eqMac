@@ -1,0 +1,17 @@
+.container {
+  margin: 2px;
+  .button-container {
+    width: 100%;
+    .button {
+      width: 27.5%;
+
+    }
+  }
+
+  .control {
+    height: 50px !important;
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px !important;  
+  }
+}

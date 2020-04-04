@@ -1,0 +1,32 @@
+<div #container class="container">
+  <eqm-loading class="loader" *ngIf="!loaded"></eqm-loading>
+  <eqm-header class="header" 
+    (settingsToggled)="toggleDropdownSection('settings')"
+    (helpToggled)="toggleDropdownSection('help')"
+  ></eqm-header>
+  <eqm-divider></eqm-divider>
+  <eqm-settings 
+    class="dropdown-section" 
+    (clickOutside)="closeDropdownSection('settings', $event)"
+    [@FadeInOut]
+    [@FromTop] 
+    *ngIf="showDropdownSections.settings"
+  ></eqm-settings>
+  <eqm-help 
+    class="dropdown-section" 
+    (clickOutside)="closeDropdownSection('help', $event)"
+    [@FadeInOut]
+    [@FromTop] 
+    *ngIf="showDropdownSections.help"
+  ></eqm-help>
+
+  <eqm-volume-booster-balance></eqm-volume-booster-balance>
+  <eqm-divider></eqm-divider>
+
+  <eqm-equalizers (type)="syncDimensions()" (visibilityToggled)="syncDimensions()"></eqm-equalizers>
+  <eqm-divider></eqm-divider>
+
+  <eqm-outputs></eqm-outputs>
+  <eqm-tooltip-container></eqm-tooltip-container>
+</div>
+

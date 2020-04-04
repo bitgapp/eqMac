@@ -1,0 +1,27 @@
+::ng-deep.knob-large-src {
+  background-image: url('../../assets/knobs/knob-large.png');
+}
+
+::ng-deep.knob-medium-src {
+  background-image: url('../../assets/knobs/knob-medium.png');
+}
+
+::ng-deep.knob-scale-large-src {
+  background-image: url('../../assets/knobs/knob-scale-large.png');
+}
+
+::ng-deep.knob-scale-medium-src {
+  background-image: url('../../assets/knobs/knob-scale-medium.png');
+}
+
+::ng-deep.knob-scale-small-src {
+  background-image: url('../../assets/knobs/knob-scale-small.png');
+}
+
+::ng-deep.knob-small-src {
+  background-image: url('../../assets/knobs/knob-small.png');
+}
+
+:host.disabled {
+  filter: grayscale(80%)
+}

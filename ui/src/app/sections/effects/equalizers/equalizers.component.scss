@@ -1,0 +1,20 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-items: center;
+  position: relative;
+
+  .presets {
+    width: 95%;
+  }
+
+  .equalizers {
+    // min-height: 143px !important;
+   
+    .equalizer {
+      width: 100%;
+    }
+  }
+  
+}

@@ -1,0 +1,34 @@
+:host {
+  height: 100%;
+  width: 100%;
+}
+
+.container {
+  ::ng-deep .container {
+    position: relative;
+    width: 100%;
+    min-height: 166px;
+  }
+}
+
+.light-gradient {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(ellipse at center -20px, #fff2 0%, transparent 90%)
+}
+
+.canvas {
+  width: 100%;
+  height: 100%;
+  vertical-align: bottom;
+  background-color: transparent;
+}
+
+.absolute {
+  position: absolute;
+  top: 0;
+  left: 0;
+}

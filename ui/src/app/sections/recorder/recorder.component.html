@@ -1,0 +1,12 @@
+<div class="recorder" fxLayout="row" fxLayoutAlign="space-between center">
+    <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="center center">
+      <eqm-button type="circle" [hoverable]="false" height="25px" width="25px" (click)="toggleRecording()">
+        <div [class]="'record-button ' + (recording ? 'stop-recording' : 'start-recording')"></div>
+      </eqm-button>
+      <eqm-label>Record{{recording ? 'ing' : ''}}</eqm-label>
+      <eqm-label *ngIf="recording">{{utils.getTimestampFromDurationAndProgress(duration)}}</eqm-label>
+    </div>
+    <eqm-button type="narrow">
+      <eqm-label>Export File</eqm-label>
+    </eqm-button>
+  </div>
