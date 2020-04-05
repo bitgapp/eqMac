@@ -2,11 +2,9 @@
   <img height="512" src="https://github.com/bitgapp/eqMac/raw/master/assets/screenshots/advanced-equalizer.png"/>
 </p>
 
-&nbsp;&nbsp;&nbsp;&nbsp; <img height="64" src="https://github.com/bitgapp/eqMac/raw/master/assets/icon/128.png"/>
+<img height="128" src="https://github.com/bitgapp/eqMac/raw/master/assets/icon/256.png"/>
 
 # eqMac
 
-🎧 &nbsp; macOS System-wide Audio Equalizer
+## 🎧 &nbsp; macOS System-wide Audio Equalizer
 
-
-## 
