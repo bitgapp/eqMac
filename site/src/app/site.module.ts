@@ -16,6 +16,7 @@ import { Routes, RouterModule } from '@angular/router'
 import { TermsAndConditionsComponent } from './routes/terms/terms.component'
 import { FAQComponent } from './routes/faq/faq.component'
 import { MatExpansionModule } from '@angular/material/expansion'
+import { GithubStatsComponent } from './components/github-stats/github-stats.component'
 
 const routes: Routes = [{
   path: '',
@@ -39,7 +40,8 @@ const routes: Routes = [{
     HelpComponent,
     FooterComponent,
     TermsAndConditionsComponent,
-    FAQComponent
+    FAQComponent,
+    GithubStatsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
