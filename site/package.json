@@ -2,16 +2,13 @@
   "name": "eqmac-site",
   "version": "0.0.0",
   "scripts": {
-    "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e",
-    "compile:server": "webpack --config webpack.server.config.js --progress --colors",
+    "start": "./node_modules/.bin/ng serve",
+    "build": "./node_modules/.bin/ng build",
+    "compile:server": "./node_modules/.bin/webpack --config webpack.server.config.js --progress --colors",
     "serve:ssr": "node dist/server",
     "build:ssr": "npm run build:client-and-server-bundles && npm run compile:server",
-    "build:client-and-server-bundles": "ng build --prod && ng run eqmac-site:server:production --bundleDependencies all"
+    "build:client-and-server-bundles": "./node_modules/.bin/ng build --prod && ng run eqmac-site:server:production --bundleDependencies all",
+    "deploy": "export $(tr -d '\\r' < .env | xargs) && ./scripts/deploy.sh"
   },
   "private": true,
   "dependencies": {

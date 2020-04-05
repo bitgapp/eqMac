@@ -7,12 +7,11 @@
           <div *ngFor="let feature of category.features" 
           [fxFlex]="100 / category.features.length" class="feature" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="10px">
             <span>{{feature.feature || ''}}</span>
-            <div class="screenshot">
-              <img [src]="'assets/' + feature.screenshot" [height]="category.height"/>
+            <div class="image">
+              <img [src]="'assets/sections/' + feature.image" [height]="category.height"/>
               <div *ngIf="feature.border !== false" class="border" [style.height.px]="category.height"></div>
             </div>
-            <span [class]="feature.specialPrice ? 'crossed-out' : ''">{{feature.price}}</span>
-            <span class="accent-light">{{feature.specialPrice}}</span>
+            <p *ngIf="feature.comment !== false">{{feature.comment}}</p>
           </div>
         </div>
     </div>

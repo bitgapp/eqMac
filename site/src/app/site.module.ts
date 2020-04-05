@@ -14,6 +14,8 @@ import { HelpComponent } from './routes/root/sections/help/help.component'
 import { FooterComponent } from './components/footer/footer.component'
 import { Routes, RouterModule } from '@angular/router'
 import { TermsAndConditionsComponent } from './routes/terms/terms.component'
+import { FAQComponent } from './routes/faq/faq.component'
+import { MatExpansionModule } from '@angular/material/expansion'
 
 const routes: Routes = [{
   path: '',
@@ -21,6 +23,9 @@ const routes: Routes = [{
 }, {
   path: 'terms',
   component: TermsAndConditionsComponent
+}, {
+  path: 'faq',
+  component: FAQComponent
 }]
 
 @NgModule({
@@ -33,14 +38,16 @@ const routes: Routes = [{
     HeaderComponent,
     HelpComponent,
     FooterComponent,
-    TermsAndConditionsComponent
+    TermsAndConditionsComponent,
+    FAQComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
     FlexLayoutModule,
     RouterModule.forRoot(routes),
     BrowserAnimationsModule,
-    HttpClientModule
+    HttpClientModule,
+    MatExpansionModule
   ],
   providers: [],
   bootstrap: [SiteComponent]

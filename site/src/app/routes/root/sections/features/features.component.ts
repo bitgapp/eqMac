@@ -10,25 +10,21 @@ export class FeaturesComponent implements OnInit {
     category: 'Volume',
     height: 99,
     features: [{
-      screenshot: 'booster.jpg',
-      price: 'Free'
+      image: 'booster.jpg',
     }, {
-      screenshot: 'balance.jpg',
-      price: 'Free'
+      image: 'balance.jpg',
     }]
   }, {
     category: 'Equalizers',
     height: 250,
     features: [{
-      screenshot: 'basic-equalizer.jpg',
-      price: 'Free'
+      image: 'basic-equalizer.jpg',
     }, {
-      screenshot: 'advanced-equalizer.jpg',
-      price: 'Free'
+      image: 'advanced-equalizer.jpg',
     }, {
       feature: 'Expert',
-      screenshot: 'expert-equalizer.svg',
-      price: 'Coming soon',
+      image: 'expert-equalizer.svg',
+      comment: 'Coming soon',
       border: false
     }]
   }]
