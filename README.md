@@ -15,7 +15,7 @@
 * Advanced EQ - 10 bands
 
 ### Roadmap
-Idea is to become the ultimate Audio toolbox for macOS (some features might now be open sourced)
+Idea is to become the ultimate Audio toolbox for macOS (some features might not be open sourced)
 * Expert EQ - Ultimited bands
 * Reverb - Spatial audio enchancement
 * Volume mixer - Apply different 
