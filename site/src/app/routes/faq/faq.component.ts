@@ -35,7 +35,7 @@ export class FAQComponent implements OnInit {
     Q: `How do I uninstall eqMac?`,
     A: `The proper way to uninstall eqMac is to click the "Uninstall" button in eqMac Settings section.
     <br>That will run a script to uninstall the app and the driver properly.
-    <br>If for whatever reason you cannot run eqMac, to install the driver you can run this command in Terminal: 
+    <br>If for whatever reason you cannot run eqMac, to uninstall the driver you can run this command in Terminal: 
     <br><br>
     <div class="terminal-command">sudo rm -rf /Library/Audio/Plug-Ins/HAL/eqMac.driver/ && launchctl kickstart -k system/com.apple.audio.coreaudiod &>/dev/null</div>`
   }]
