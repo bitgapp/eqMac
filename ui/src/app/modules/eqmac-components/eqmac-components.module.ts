@@ -38,7 +38,6 @@ import { TooltipContainerComponent } from './components/tooltip/tooltip-containe
 import { TooltipComponent } from './components/tooltip/tooltip.component'
 import { SkeuomorphSliderComponent } from './components/skeuomorph-slider/skeuomorph-slider.component'
 import { UtilitiesService } from './services/utilities.service'
-import { AssetsService } from './services/assets.service'
 import { LabelComponent } from './components/label/label.component'
 import { PipesModule } from '../pipes/pipes.module'
 import { LoadingComponent } from './components/loading/loading.component'
@@ -110,8 +109,7 @@ import { CarouselComponent, CarouselItemDirective, CarouselItemElement } from '.
     CarouselItemDirective
   ],
   providers: [
-    UtilitiesService,
-    AssetsService
+    UtilitiesService
   ]
 })
 export class EqmacComponentsModule {}

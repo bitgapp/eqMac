@@ -1,1 +1,34 @@
-  <canvas #knobCanvas mouseWheel (dblclick)="doubleclick()" (mouseWheel)="mouseWheel($event)" (mousedown)="mousedown($event)" (mousemove)="mousemove($event)" (mouseup)="mouseup($event)" (touchstart)="mousedown($event)" (touchmove)="mousemove($event)" (touchend)="mouseup($event)"></canvas>
+<div #container class="container" mouseWheel (mouseWheel)="mouseWheel($event)" (dblclick)="doubleclick()"
+  (mousedown)="mousedown($event)" (mousemove)="mousemove($event)" (mouseup)="mouseup($event)"
+  (touchstart)="mousedown($event)" (touchmove)="mousemove($event)" (touchend)="mouseup($event)">
+  <!-- Large -->
+  <div *ngIf="size === 'large'" class="knob large">
+    <img class="scale" src="assets/knobs/large/scale.svg" />
+    <div class="slot"></div>
+    <div class="body"></div>
+    <div class="cap">
+      <img class="cap-body" src="assets/knobs/large/cap.svg" onload="SVGInject(this)"/>
+      <!-- <svg class="cap-body">
+          <use xlink:href="assets/knobs/large/cap.svg"></use>
+      </svg> -->
+
+      <img class="cap-inner-line" src="assets/knobs/large/cap-inner-line.svg" />
+    </div>
+  </div>
+
+  <!-- Medium -->
+  <div *ngIf="size === 'medium'" class="knob medium">
+    <img src="assets/knobs/medium/scale.svg" />
+    <div class="cap">
+      <img src="assets/knobs/medium/cap.svg" />
+    </div>
+  </div>
+
+  <!-- Small -->
+  <div *ngIf="size === 'small'" class="knob small">
+    <img src="assets/knobs/small/scale.svg" />
+    <div class="cap">
+      <img src="assets/knobs/small/cap.svg" />
+    </div>
+  </div>
+</div>

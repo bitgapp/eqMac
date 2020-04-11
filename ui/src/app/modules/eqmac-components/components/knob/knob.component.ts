@@ -8,9 +8,6 @@ import {
   HostListener,
   HostBinding
 } from '@angular/core'
-import {
-  AssetsService
-} from '../../services/assets.service'
 
 import { UtilitiesService } from '../../services/utilities.service'
 
@@ -44,14 +41,14 @@ export class KnobComponent implements OnInit {
 
   @Input() stickToMiddle = false
   @Output() stickedToMiddle = new EventEmitter()
-  private frameImage = new Image()
+
   private dragging = false
   private padding = 5
   private setDraggingFalseTimeout: any = null
   private continueAnimation = false
   private dragStartDegr = 0
-  private loaded = false
-  @ViewChild('knobCanvas', { static: true }) knobCanvas
+
+  @ViewChild('container', { static: true }) container: HTMLDivElement
 
   private _value = 0
   @Output() valueChange = new EventEmitter<number>()
@@ -90,11 +87,9 @@ export class KnobComponent implements OnInit {
     return this.middleValue
   }
 
-  constructor (private utils: UtilitiesService, private assets: AssetsService) {}
+  constructor (private utils: UtilitiesService) {}
 
   async ngOnInit () {
-    await this.assets.load()
-    this.loaded = true
     this.setKnobImage(this._value)
   }
 
@@ -145,7 +140,7 @@ export class KnobComponent implements OnInit {
       if (this.dragging) {
         this.continueAnimation = false
         const distanceFromCenter = this.getDistanceFromCenterOfElementAndEvent(event)
-        const unaffectedRadius = (this.frameImage.width + this.padding * 2) / 7
+        const unaffectedRadius = (this.container.clientWidth + this.padding * 2) / 7
         if (distanceFromCenter < unaffectedRadius) {
           return
         }
@@ -211,16 +206,16 @@ export class KnobComponent implements OnInit {
 
   private getDegreesFromEvent (event) {
     const coords = this.utils.getCoordinatesInsideElementFromEvent(event)
-    const knobCenterX = (this.frameImage.width + this.padding * 2) / 2
-    const knobCenterY = (this.frameImage.height + this.padding * 2) / 2
+    const knobCenterX = (this.container.clientWidth + this.padding * 2) / 2
+    const knobCenterY = (this.container.clientHeight + this.padding * 2) / 2
     const rads = Math.atan2(coords.x - knobCenterX, coords.y - knobCenterY)
     return rads * 50
   }
 
   private getDistanceFromCenterOfElementAndEvent (event) {
     const coords = this.utils.getCoordinatesInsideElementFromEvent(event)
-    const knobCenterX = (this.frameImage.width + this.padding * 2) / 2
-    const knobCenterY = (this.frameImage.height + this.padding * 2) / 2
+    const knobCenterX = (this.container.clientWidth + this.padding * 2) / 2
+    const knobCenterY = (this.container.clientHeight + this.padding * 2) / 2
     const w = coords.x - knobCenterX
     const h = coords.y - knobCenterY
     return Math.sqrt(w * w + h * h)
@@ -239,46 +234,7 @@ export class KnobComponent implements OnInit {
   }
 
   private setKnobImage (value: number) {
-    if (!this.loaded) return
 
-    const frame = Math.round(this.utils.mapValue(value, this.min, this.max, 1, this.assets.maxFrames))
-    this.frameImage.crossOrigin = 'anonymous'  // This enables CORS
-    this.frameImage = this.assets.getKnobFrameImageForSizeAndFrame(this.size, frame)
-
-    const imageHeight = this.frameImage.height
-    const imageWidth = this.frameImage.width
-    const canvasHeight = imageHeight + this.padding * 2
-    const canvasWidth = imageWidth + this.padding * 2
-    this.knobCanvas.nativeElement.height = canvasHeight
-    this.knobCanvas.nativeElement.width = canvasWidth
-    const ctx: CanvasRenderingContext2D = this.knobCanvas.nativeElement.getContext('2d')
-    ctx.clearRect(0, 0, canvasHeight, canvasWidth)
-
-    if (this.size === 'large') {
-      ctx.beginPath()
-      const height = imageHeight * 0.85
-      ctx.arc(canvasWidth / 2, (imageHeight - this.padding + 1) / 2, height / 2, 0, 2 * Math.PI)
-      ctx.fill()
-      ctx.closePath()
-    }
-
-    if (this.showScale) {
-      const scaleImage = this.assets.getKnobScaleImageForSize(this.size)
-      const [size, y] = (() => {
-        switch (this.size) {
-          case 'large':
-            return [1, 1.5]
-          case 'medium':
-            return [1, 6]
-          case 'small':
-            return [1.05, 8]
-        }
-      })()
-      const x = (this.frameImage.width - scaleImage.width * size) / 2 + this.padding
-      ctx.drawImage(scaleImage, x, y, scaleImage.width * size, scaleImage.height * size)
-    }
-
-    ctx.drawImage(this.frameImage, this.padding, this.padding)
   }
 
 }

@@ -1,3 +1,4 @@
+import '@iconfu/svg-inject'
 import {
   Component,
   OnInit,
@@ -9,7 +10,6 @@ import { UIService, UIDimensions } from './services/ui.service'
 import { FadeInOutAnimation, FromTopAnimation } from 'src/app/modules/animations'
 import { MatDialog } from '@angular/material'
 import { TransitionService } from './services/transitions.service'
-import { AssetsService } from './modules/eqmac-components/services/assets.service'
 import { AnalyticsService } from './services/analytics.service'
 
 @Component({
@@ -35,7 +35,6 @@ export class AppComponent implements OnInit, AfterContentInit {
     private ui: UIService,
     public matDialog: MatDialog,
     private transitions: TransitionService,
-    private assets: AssetsService,
     private analytics: AnalyticsService
   ) { }
 
@@ -45,9 +44,6 @@ export class AppComponent implements OnInit, AfterContentInit {
   }
 
   async ngAfterContentInit () {
-    await Promise.all([
-      this.assets.load()
-    ])
     await this.utils.delay(this.animationDuration)
     this.syncDimensions()
     this.startDimensionsSync()
