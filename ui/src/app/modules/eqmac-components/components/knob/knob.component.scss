@@ -4,6 +4,22 @@
   filter: grayscale(80%)
 }
 
+@mixin center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@mixin size ($size) {
+  width: $size;
+  height: $size;
+}
+
+@mixin circle () {
+  border-radius: 50%;
+}
+
 .container {
 
   .knob {
@@ -11,46 +27,70 @@
   }
 
   .large {
-    width: 100px;
-    height: 100px;
-
+    @mixin shadow ($size: 0.5px, $blur: 5px) {
+      box-shadow: 0 1px $blur $size #000,
+              0 -1px $blur $size #FFF9;
+    }
+    
+    @include size(80px);
     .scale {
-      position: absolute;
+      @include size(80px);
+      @include center();
       fill: $accent;
-      width: 100px;
-      height: 100px;
+      top: 41.5%;
     }
 
     .slot {
-      position: absolute;
+      @include center();
+      @include size(70px);
+      @include circle();
+      box-shadow: 0 5px 5px #000A;
       background-color: #46494E;
       border: 2px solid black;
-      border-radius: 50%;
-      width: 74px;
-      height: 74px;
     }
 
     .body {
-      position: absolute;
+      @include center();
+      @include size(64px);
+      @include shadow();
+      @include circle();
+
+      box-shadow: 
+      0 -.5px 0px 0px #FFF3, // solid line top
+      0 -1px 5px 0.5px #FFF4, // diffused shadow top
+      0 .5px .5px 0.5px #000, // solid line bottom
+      0 1px 5px 0.5px #000; // diffused shadow bottom
+      ;
       background-color: #46494E;
-      border-radius: 50%;
-      width: 70px;
-      height: 70px;
     }
 
     .cap {
-      position: absolute;
+      @include center();
+      @include size(58px);
+      filter: drop-shadow(0 -0.2px 0px #FFF5)
+      drop-shadow(0 1px 0.5px black);
 
-      .cap-body {
-        width: 50px;
-        height: 50px;
+      .body {
+        @include center();
+        @include size(58px);
+        // @include shadow(2px, 0px);
 
-        fill: red;
+        background-image: linear-gradient(to bottom, #51555A, #3C4045);
+        clip-path: url('#clip-path');
       }
 
-      .cap-inner-line {
-        width: 50px;
-        height: 50px;
+      .inner-line {
+        @include center();
+        @include size(40px);
+        fill: darken(#2F3336, 5%);
+      }
+
+      .pointer {
+        @include center();
+        @include size(6px);
+        @include circle();
+        top: 17%;
+        background-color: $accent;
       }
     }
   }
