@@ -8,36 +8,42 @@
     <div class="slot"></div>
     <div class="body"></div>
     <div class="cap">
-      <svg width="0" height="0">
+      <svg width="58px" height="58px">
         <defs>
-          <clipPath id="clip-path" clipPathUnits="objectBoundingBox" transform="scale(0.0076)">
-            <path d="M125.07,36.7c-2.58,10.76-0.32,20.4,6.79,28.9c0,0.07,0.01,0.14,0.01,0.21c0,10.35-2.4,20.13-6.66,28.84
-            c-9.75,4.46-15.77,11.95-18.06,22.51c-8.02,6.42-17.57,11.02-28.03,13.14c-8.78-4.19-17.56-4.19-26.35,0
-            c-10.45-2.11-20-6.7-28.02-13.12c-2.28-10.58-8.32-18.09-18.1-22.55C2.4,85.93,0,76.15,0,65.81c0-0.06,0-0.11,0-0.17
-            c7.14-8.52,9.41-18.18,6.81-28.97C11.52,27.18,18.44,19,26.9,12.78c9.12-0.2,16.65-3.77,22.59-10.71C54.75,0.72,60.26,0,65.93,0
-            c5.69,0,11.21,0.72,16.47,2.07c5.94,6.93,13.46,10.5,22.56,10.71C113.44,19,120.37,27.2,125.07,36.7z"/>
+          <clipPath id="large-knob-cap-clip-path" clipPathUnits="objectBoundingBox" [ngStyle]="getLargeCapClipPathStyle()">
+            <path d="M0.95,0.28C0.93,0.36,0.95,0.43,1,0.5c0,0,0,0,0,0c0,0.08-0.02,0.15-0.05,0.22C0.88,0.75,0.83,0.81,0.81,0.89
+              C0.75,0.94,0.68,0.97,0.6,0.99c-0.07-0.03-0.13-0.03-0.2,0c-0.08-0.02-0.15-0.05-0.21-0.1C0.17,0.81,0.12,0.75,0.05,0.72
+              C0.02,0.65,0,0.58,0,0.5c0,0,0,0,0,0c0.05-0.06,0.07-0.14,0.05-0.22C0.09,0.21,0.14,0.14,0.2,0.1c0.07,0,0.13-0.03,0.17-0.08
+              C0.42,0.01,0.46,0,0.5,0c0.04,0,0.09,0.01,0.12,0.02C0.67,0.07,0.73,0.1,0.8,0.1C0.86,0.14,0.91,0.21,0.95,0.28z"/>
           </clipPath>
         </defs>
       </svg>
-      <div class="body"></div>
-      <img class="inner-line" src="assets/knobs/large/cap-inner-line.svg" onload="SVGInject(this)"/>
-      <div class="pointer"></div>
+      <div class="cap-body"></div>
+      <div class="indicator" [ngStyle]="getLargeCapIndicatorStyle()">
+        <img class="inner-line" src="assets/knobs/large/cap-inner-line.svg" onload="SVGInject(this)"/>
+        <div class="pointer"></div>
+      </div>
     </div>
   </div>
 
   <!-- Medium -->
   <div *ngIf="size === 'medium'" class="knob medium">
-    <img src="assets/knobs/medium/scale.svg" />
-    <div class="cap">
-      <img src="assets/knobs/medium/cap.svg" />
+    <img class="scale" src="assets/knobs/medium/scale.svg" onload="SVGInject(this)" />
+    <div class="slot"></div>
+    <div class="body"></div>
+    <div class="cap" [ngStyle]="getMediumCapIndicatorStyle()">
+      <img src="assets/knobs/medium/cap.svg" onload="SVGInject(this)" />
     </div>
   </div>
 
   <!-- Small -->
   <div *ngIf="size === 'small'" class="knob small">
-    <img src="assets/knobs/small/scale.svg" />
-    <div class="cap">
-      <img src="assets/knobs/small/cap.svg" />
+    <img class="scale" src="assets/knobs/small/scale.svg" onload="SVGInject(this)" />
+    <div class="slot"></div>
+    <div class="body"></div>
+
+    <div class="cap" [ngStyle]="getSmallCapIndicatorStyle()">
+      <img src="assets/knobs/small/cap.svg" onload="SVGInject(this)" />
     </div>
   </div>
 </div>

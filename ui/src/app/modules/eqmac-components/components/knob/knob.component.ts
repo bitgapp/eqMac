@@ -6,7 +6,8 @@ import {
   EventEmitter,
   ViewChild,
   HostListener,
-  HostBinding
+  HostBinding,
+  ElementRef
 } from '@angular/core'
 
 import { UtilitiesService } from '../../services/utilities.service'
@@ -48,7 +49,8 @@ export class KnobComponent implements OnInit {
   private continueAnimation = false
   private dragStartDegr = 0
 
-  @ViewChild('container', { static: true }) container: HTMLDivElement
+  @ViewChild('container', { static: true }) containerRef: ElementRef
+  container: HTMLDivElement
 
   private _value = 0
   @Output() valueChange = new EventEmitter<number>()
@@ -90,6 +92,7 @@ export class KnobComponent implements OnInit {
   constructor (private utils: UtilitiesService) {}
 
   async ngOnInit () {
+    this.container = this.containerRef.nativeElement
     this.setKnobImage(this._value)
   }
 
@@ -181,6 +184,33 @@ export class KnobComponent implements OnInit {
     }
   }
 
+  largeCapMaxAngle = 130
+  getLargeCapClipPathStyle () {
+    return {
+      transform: `rotate(${this.utils.mapValue(this.value, this.min, this.max, -this.largeCapMaxAngle, this.largeCapMaxAngle)}deg)`
+    }
+  }
+
+  getLargeCapIndicatorStyle () {
+    return {
+      transform: `translate(-50%, -50%) rotate(${this.utils.mapValue(this.value, this.min, this.max, -this.largeCapMaxAngle, this.largeCapMaxAngle)}deg)`
+    }
+  }
+
+  mediumCapMaxAngle = 135
+  getMediumCapIndicatorStyle () {
+    return {
+      transform: `translate(-50%, -50%) rotate(${this.utils.mapValue(this.value, this.min, this.max, -this.mediumCapMaxAngle, this.mediumCapMaxAngle)}deg)`
+    }
+  }
+
+  smallCapMaxAngle = 135
+  getSmallCapIndicatorStyle () {
+    return {
+      transform: `translate(-50%, -50%) rotate(${this.utils.mapValue(this.value, this.min, this.max, -this.smallCapMaxAngle, this.smallCapMaxAngle)}deg)`
+    }
+  }
+
   async animateKnob (from: number, to: number) {
     from = this.clampValue(from)
     to = this.clampValue(to)
@@ -209,7 +239,7 @@ export class KnobComponent implements OnInit {
     const knobCenterX = (this.container.clientWidth + this.padding * 2) / 2
     const knobCenterY = (this.container.clientHeight + this.padding * 2) / 2
     const rads = Math.atan2(coords.x - knobCenterX, coords.y - knobCenterY)
-    return rads * 50
+    return rads * 100
   }
 
   private getDistanceFromCenterOfElementAndEvent (event) {

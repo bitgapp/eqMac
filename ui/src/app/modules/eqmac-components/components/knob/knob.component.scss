@@ -22,6 +22,7 @@
 
 .container {
 
+  display: inline-block;
   .knob {
     position: relative;
   }
@@ -31,13 +32,13 @@
       box-shadow: 0 1px $blur $size #000,
               0 -1px $blur $size #FFF9;
     }
-    
-    @include size(80px);
+    @include size(90px);
+
     .scale {
       @include size(80px);
       @include center();
       fill: $accent;
-      top: 41.5%;
+      top: 43%;
     }
 
     .slot {
@@ -67,35 +68,117 @@
     .cap {
       @include center();
       @include size(58px);
-      filter: drop-shadow(0 -0.2px 0px #FFF5)
+      filter: drop-shadow(0 -0.1px 0px #FFF3)
       drop-shadow(0 1px 0.5px black);
 
-      .body {
+      #large-knob-cap-clip-path {
+        @include size(58px);
+        transform-origin: 50% 50%;
+      }
+
+      .cap-body {
         @include center();
         @include size(58px);
         // @include shadow(2px, 0px);
 
         background-image: linear-gradient(to bottom, #51555A, #3C4045);
-        clip-path: url('#clip-path');
+        clip-path: url('#large-knob-cap-clip-path');
       }
 
-      .inner-line {
+      .indicator {
         @include center();
         @include size(40px);
-        fill: darken(#2F3336, 5%);
+        .inner-line {
+          @include center();
+          @include size(40px);
+          fill: darken(#2F3336, 5%);
+        }
+  
+        .pointer {
+          @include size(5px);
+          @include circle();
+          position: absolute;
+          top: -4%;
+          left: 50%;
+          transform: translate(-50%, 0);
+          background-color: $accent;
+        }
       }
-
-      .pointer {
-        @include center();
-        @include size(6px);
-        @include circle();
-        top: 17%;
-        background-color: $accent;
-      }
+      
     }
   }
 
-  .medium {}
+  .medium {
+    @include size(70px);
 
-  .small {}
+    .scale {
+      @include size(62px);
+      @include center();
+      fill: $accent;
+      // top: 41.5%;
+    }
+
+    .slot {
+      @include center();
+      @include size(48px);
+      @include circle();
+      background-color: #3F4346;
+      box-shadow: 0 3px 5px 2px #0009;
+
+    }
+
+    .body {
+      @include center();
+      @include size(38px);
+      @include circle();
+
+      box-shadow: 0 0 2px 0.5px #FFF2;
+
+      background-color: #3D4244;
+    }
+
+    .cap {
+      @include center();
+      @include size(38px);
+      fill: $accent;
+    }
+
+  }
+
+  .small {
+    @include size(50px);
+
+    .scale {
+      @include size(40px);
+      @include center();
+      fill: $accent;
+      // top: 41.5%;
+    }
+
+    .slot {
+      @include center();
+      @include size(34px);
+      @include circle();
+      background-color: #3F4346;
+      box-shadow: 0 2px 5px 2px #0009;
+
+    }
+
+    .body {
+      @include center();
+      @include size(27px);
+      @include circle();
+
+      box-shadow: 0 0 2px 0.5px #FFF2;
+
+      background-color: #3D4244;
+    }
+
+    .cap {
+      @include center();
+      @include size(24px);
+      fill: $accent;
+    }
+
+  }
 }
