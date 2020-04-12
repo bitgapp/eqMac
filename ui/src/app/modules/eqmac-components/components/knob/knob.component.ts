@@ -9,7 +9,7 @@ import {
   HostBinding,
   ElementRef
 } from '@angular/core'
-
+import * as uuid from 'uuid/v4'
 import { UtilitiesService } from '../../services/utilities.service'
 
 export interface KnobValueChangedEvent {
@@ -24,7 +24,7 @@ export interface KnobValueChangedEvent {
 export class KnobComponent implements OnInit {
   @Input() size: 'large' | 'medium' | 'small' = 'medium'
   @Input() showScale = true
-
+  id = uuid()
   private _min = -1
   @Input() set min (newMin) { this._min = newMin; this.calculateMiddleValue() }
   get min () { return this._min }
@@ -44,7 +44,6 @@ export class KnobComponent implements OnInit {
   @Output() stickedToMiddle = new EventEmitter()
 
   private dragging = false
-  private padding = 5
   private setDraggingFalseTimeout: any = null
   private continueAnimation = false
   private dragStartDegr = 0
@@ -77,7 +76,6 @@ export class KnobComponent implements OnInit {
     }
     this._value = this.clampValue(value)
     this.valueChange.emit(this._value)
-    this.setKnobImage(this._value)
   }
   get value () {
     return this._value
@@ -93,7 +91,6 @@ export class KnobComponent implements OnInit {
 
   async ngOnInit () {
     this.container = this.containerRef.nativeElement
-    this.setKnobImage(this._value)
   }
 
   mouseWheel (event) {
@@ -143,7 +140,7 @@ export class KnobComponent implements OnInit {
       if (this.dragging) {
         this.continueAnimation = false
         const distanceFromCenter = this.getDistanceFromCenterOfElementAndEvent(event)
-        const unaffectedRadius = (this.container.clientWidth + this.padding * 2) / 7
+        const unaffectedRadius = (this.container.clientWidth) / 7
         if (distanceFromCenter < unaffectedRadius) {
           return
         }
@@ -184,28 +181,35 @@ export class KnobComponent implements OnInit {
     }
   }
 
-  largeCapMaxAngle = 130
-  getLargeCapClipPathStyle () {
+  largeCapMaxAngle = 135
+  get largeCapClipPathStyle () {
     return {
-      transform: `rotate(${this.utils.mapValue(this.value, this.min, this.max, -this.largeCapMaxAngle, this.largeCapMaxAngle)}deg)`
+      transform: `rotate(${this.utils.mapValue(this.value, this.min, this.max, -this.largeCapMaxAngle, this.largeCapMaxAngle)}deg)`,
+      'transform-origin': '50% 50%'
     }
   }
 
-  getLargeCapIndicatorStyle () {
+  get largeCapIndicatorStyle () {
     return {
       transform: `translate(-50%, -50%) rotate(${this.utils.mapValue(this.value, this.min, this.max, -this.largeCapMaxAngle, this.largeCapMaxAngle)}deg)`
     }
   }
 
+  get largeCapBodyStyle () {
+    return {
+      'clip-path': `url(#large-knob-cap-clip-path-${this.id})`
+    }
+  }
+
   mediumCapMaxAngle = 135
-  getMediumCapIndicatorStyle () {
+  get mediumCapIndicatorStyle () {
     return {
       transform: `translate(-50%, -50%) rotate(${this.utils.mapValue(this.value, this.min, this.max, -this.mediumCapMaxAngle, this.mediumCapMaxAngle)}deg)`
     }
   }
 
   smallCapMaxAngle = 135
-  getSmallCapIndicatorStyle () {
+  get smallCapIndicatorStyle () {
     return {
       transform: `translate(-50%, -50%) rotate(${this.utils.mapValue(this.value, this.min, this.max, -this.smallCapMaxAngle, this.smallCapMaxAngle)}deg)`
     }
@@ -235,17 +239,17 @@ export class KnobComponent implements OnInit {
   }
 
   private getDegreesFromEvent (event) {
-    const coords = this.utils.getCoordinatesInsideElementFromEvent(event)
-    const knobCenterX = (this.container.clientWidth + this.padding * 2) / 2
-    const knobCenterY = (this.container.clientHeight + this.padding * 2) / 2
+    const coords = this.utils.getCoordinatesInsideElementFromEvent(event, this.container)
+    const knobCenterX = (this.container.clientWidth) / 2
+    const knobCenterY = (this.container.clientHeight) / 2
     const rads = Math.atan2(coords.x - knobCenterX, coords.y - knobCenterY)
     return rads * 100
   }
 
   private getDistanceFromCenterOfElementAndEvent (event) {
-    const coords = this.utils.getCoordinatesInsideElementFromEvent(event)
-    const knobCenterX = (this.container.clientWidth + this.padding * 2) / 2
-    const knobCenterY = (this.container.clientHeight + this.padding * 2) / 2
+    const coords = this.utils.getCoordinatesInsideElementFromEvent(event, this.container)
+    const knobCenterX = (this.container.clientWidth) / 2
+    const knobCenterY = (this.container.clientHeight) / 2
     const w = coords.x - knobCenterX
     const h = coords.y - knobCenterY
     return Math.sqrt(w * w + h * h)
@@ -262,9 +266,4 @@ export class KnobComponent implements OnInit {
 
     return value
   }
-
-  private setKnobImage (value: number) {
-
-  }
-
 }

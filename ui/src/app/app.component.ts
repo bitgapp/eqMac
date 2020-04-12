@@ -39,15 +39,15 @@ export class AppComponent implements OnInit, AfterContentInit {
   ) { }
 
   async ngOnInit () {
-    // this.sync()
-    // this.analytics.send()
+    this.sync()
+    this.analytics.send()
   }
 
   async ngAfterContentInit () {
-    // await this.utils.delay(this.animationDuration)
-    // this.syncDimensions()
-    // this.startDimensionsSync()
-    // this.loaded = true
+    await this.utils.delay(this.animationDuration)
+    this.syncDimensions()
+    this.startDimensionsSync()
+    this.loaded = true
   }
 
   async sync () {

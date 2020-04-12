@@ -68,13 +68,8 @@
     .cap {
       @include center();
       @include size(58px);
-      filter: drop-shadow(0 -0.1px 0px #FFF3)
-      drop-shadow(0 1px 0.5px black);
-
-      #large-knob-cap-clip-path {
-        @include size(58px);
-        transform-origin: 50% 50%;
-      }
+      filter: drop-shadow(0 -1px 0px #FFF3)
+      drop-shadow(0 2px 5px black);
 
       .cap-body {
         @include center();
@@ -82,7 +77,7 @@
         // @include shadow(2px, 0px);
 
         background-image: linear-gradient(to bottom, #51555A, #3C4045);
-        clip-path: url('#large-knob-cap-clip-path');
+        // clip-path: url('#large-knob-cap-clip-path');
       }
 
       .indicator {
