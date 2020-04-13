@@ -77,9 +77,6 @@ import {
 import {
   VolumeMixerComponent
 } from './sections/volume/volume-mixer/volume-mixer.component'
-import {
-  HelperModule
-} from './modules/helper/helper.module'
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { SettingsComponent } from './sections/settings/settings.component'
@@ -99,7 +96,6 @@ import { OptionsDialogComponent } from './components/options-dialog/options-dial
     FlexLayoutModule,
     PipesModule,
     EqmacComponentsModule,
-    HelperModule,
     MatDialogModule,
     BrowserModule,
     ClickOutsideModule,

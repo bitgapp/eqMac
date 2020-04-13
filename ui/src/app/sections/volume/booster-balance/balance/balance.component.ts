@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core'
 import { BalanceService } from './balance.service'
 import { ApplicationService } from '../../../../services/app.service'
 import { KnobValueChangedEvent } from '../../../../modules/eqmac-components/components/knob/knob.component'
+import { UIService } from '../../../../services/ui.service'
 
 @Component({
   selector: 'eqm-balance',
@@ -13,10 +14,12 @@ export class BalanceComponent implements OnInit {
   @Input() animationDuration = 500
   @Input() animationFps = 30
   @Input() hide = false
+  replaceKnobWithSlider = false
 
   constructor (
     public balanceService: BalanceService,
-    private app: ApplicationService
+    private app: ApplicationService,
+    private ui: UIService
   ) { }
 
   ngOnInit () {
@@ -25,6 +28,7 @@ export class BalanceComponent implements OnInit {
   }
 
   async sync () {
+    this.replaceKnobWithSlider = !!this.ui.getWebSettings().replaceKnobsWithSliders
     await Promise.all([
       this.getBalance()
     ])
@@ -33,6 +37,9 @@ export class BalanceComponent implements OnInit {
   protected setupEvents () {
     this.balanceService.onBalanceChanged((balance) => {
       this.balance = balance
+    })
+    this.ui.webSettingsChanged.subscribe(webUISettings => {
+      this.replaceKnobWithSlider = !!webUISettings.replaceKnobsWithSliders
     })
   }
 

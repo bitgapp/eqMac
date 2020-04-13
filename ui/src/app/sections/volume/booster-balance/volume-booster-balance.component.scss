@@ -1,7 +1,12 @@
-.controls {
-  overflow: hidden;
-  height: 60px;
+:host {
+  display: block;
+  position: relative;
 }
+
+// .controls {
+//   overflow: hidden;
+//   height: 60px;
+// }
 
 .hide {
   height: 0;

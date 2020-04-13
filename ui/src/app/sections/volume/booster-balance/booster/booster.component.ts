@@ -7,6 +7,7 @@ import {
 
 import { BoosterService } from './booster.service'
 import { ApplicationService } from '../../../../services/app.service'
+import { UIService } from '../../../../services/ui.service'
 
 @Component({
   selector: 'eqm-booster',
@@ -15,13 +16,14 @@ import { ApplicationService } from '../../../../services/app.service'
 })
 export class BoosterComponent implements OnInit {
   gain = 1
-
+  replaceKnobWithSlider = false
   @Input() hide = false
 
   constructor (
     public boosterService: BoosterService,
     private app: ApplicationService,
-    private changeRef: ChangeDetectorRef
+    private changeRef: ChangeDetectorRef,
+    private ui: UIService
   ) {}
 
   ngOnInit () {
@@ -30,6 +32,8 @@ export class BoosterComponent implements OnInit {
   }
 
   async sync () {
+    const uiSettings = this.ui.getWebSettings()
+    this.replaceKnobWithSlider = !!uiSettings.replaceKnobsWithSliders
     await Promise.all([
       this.getGain()
     ])
@@ -44,6 +48,7 @@ export class BoosterComponent implements OnInit {
         this.changeRef.detectChanges()
       }
     })
+    this.ui.webSettingsChanged.subscribe(uiSettings => this.replaceKnobWithSlider = !!uiSettings.replaceKnobsWithSliders)
   }
 
   setGain (gain: number) {

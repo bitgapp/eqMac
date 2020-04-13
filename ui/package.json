@@ -2,13 +2,10 @@
   "name": "eqmac",
   "version": "0.0.3",
   "scripts": {
-    "ng": "ng",
     "start": "ng serve",
-    "server": "superstatic dist/eqmac -p 4200",
     "build": "ng build --prod",
     "package": "npm run build && cd dist/ && zip -r -D ../ui.zip * -x '*.DS_Store'",
-    "deploy": "cd ../ && CI_COMMIT_SHA=latest CI_COMMIT_MESSAGE='deploying from VSCode (production) --deploy=ui' CI_COMMIT_REF_NAME=master ./node_modules/.bin/ts-node ./ci/base.ts",
-    "lint": "ng lint"
+    "deploy": "cd ../ && CI_COMMIT_SHA=latest CI_COMMIT_MESSAGE='deploying from VSCode (production) --deploy=ui' CI_COMMIT_REF_NAME=master ./node_modules/.bin/ts-node ./ci/base.ts"
   },
   "private": true,
   "dependencies": {
@@ -27,6 +24,7 @@
     "@angular/service-worker": "~8.2.9",
     "@iconfu/svg-inject": "^1.2.3",
     "core-js": "^3.2.1",
+    "js-cookie": "^2.2.1",
     "ng-click-outside": "^5.1.1",
     "rxjs": "~6.5.3",
     "ui-carousel": "^0.2.0",
@@ -38,6 +36,7 @@
     "@angular/compiler-cli": "^8.2.9",
     "@angular/language-service": "~8.2.9",
     "@types/google.analytics": "0.0.40",
+    "@types/js-cookie": "^2.2.6",
     "@types/node": "~12.7.11",
     "codelyzer": "~5.1.2",
     "ts-node": "~8.4.1",

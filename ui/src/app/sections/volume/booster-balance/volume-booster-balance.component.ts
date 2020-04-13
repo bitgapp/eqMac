@@ -1,5 +1,5 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core'
-import { UtilitiesService } from '../../../services/utilities.service'
+import { UIService } from '../../../services/ui.service'
 
 @Component({
   selector: 'eqm-volume-booster-balance',
@@ -8,10 +8,26 @@ import { UtilitiesService } from '../../../services/utilities.service'
 })
 export class VolumeBoosterBalanceComponent implements OnInit {
   hide = false
+  replaceKnobsWithSliders = false
   @Output() visibilityToggled = new EventEmitter()
-  constructor (private utils: UtilitiesService) { }
+  constructor (
+    private ui: UIService
+  ) { }
 
-  ngOnInit () {
+  async ngOnInit () {
+    this.syncUISettings()
+    this.setupListeners()
+  }
+
+  async syncUISettings () {
+    const uiSettings = this.ui.getWebSettings()
+    this.replaceKnobsWithSliders = !!uiSettings.replaceKnobsWithSliders
+  }
+
+  setupListeners () {
+    this.ui.webSettingsChanged.subscribe(uiSettings => {
+      this.replaceKnobsWithSliders = !!uiSettings.replaceKnobsWithSliders
+    })
   }
 
   async toggleVisibility () {

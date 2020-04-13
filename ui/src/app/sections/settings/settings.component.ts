@@ -19,6 +19,15 @@ export class SettingsComponent implements OnInit {
     value: false,
     toggled: launchOnStartup => this.settingsService.setLaunchOnStartup(launchOnStartup)
   }
+
+  replaceKnobsWithSlidersOption: CheckboxOption = {
+    key: 'replaceKnobsWithSliders',
+    type: 'checkbox',
+    label: 'Replace Knobs with Sliders',
+    value: false,
+    toggled: replaceKnobsWithSliders => this.ui.setWebSettings({ replaceKnobsWithSliders })
+  }
+
   iconModeOption: SelectOption = {
     key: 'iconMode',
     type: 'select',
@@ -34,7 +43,7 @@ export class SettingsComponent implements OnInit {
       label: 'Status Bar'
     }],
     selectedId: IconMode.both,
-    selected: iconMode => this.ui.setSettings({ iconMode: iconMode as IconMode })
+    selected: iconMode => this.ui.setNativeSettings({ iconMode: iconMode as IconMode })
   }
   uninstallOption: ButtonOption = {
     key: 'uninstall',
@@ -58,7 +67,10 @@ export class SettingsComponent implements OnInit {
       this.iconModeOption
     ],
     [
-      this.launchOnStartupOption,
+      this.replaceKnobsWithSlidersOption,
+      this.launchOnStartupOption
+    ],
+    [
       this.uninstallOption
     ]
   ]
@@ -77,7 +89,7 @@ export class SettingsComponent implements OnInit {
   async sync () {
     await Promise.all([
       this.syncLaunchOnStartup(),
-      this.syncIconeMode()
+      this.syncUISettings()
     ])
   }
 
@@ -85,9 +97,11 @@ export class SettingsComponent implements OnInit {
     this.launchOnStartupOption.value = await this.settingsService.getLaunchOnStartup()
   }
 
-  async syncIconeMode () {
-    const uiSettings = await this.ui.getSettings()
-    this.iconModeOption.selectedId = uiSettings.iconMode
+  async syncUISettings () {
+    const webUISettings = this.ui.getWebSettings()
+    this.replaceKnobsWithSlidersOption.value = webUISettings.replaceKnobsWithSliders
+    const nativeUISettings = await this.ui.getNativeSettings()
+    this.iconModeOption.selectedId = nativeUISettings.iconMode
   }
 
   async update () {

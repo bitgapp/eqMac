@@ -8,9 +8,15 @@ export enum IconMode {
   statusBar = 'statusBar'
 }
 export type UIMode = 'window' | 'popover'
-export type UISettings = {
+
+export type WebUISettings = {
+  replaceKnobsWithSliders?: boolean
+}
+
+export type NativeUISettings = {
   iconMode?: IconMode
 }
+
 export interface UIDimensions {
   height?: number
   width?: number
@@ -23,6 +29,7 @@ export interface UIDimensions {
 export class UIService extends DataService {
   route = `${this.route}/ui`
   dimensionsChanged = new Subject<UIDimensions>()
+  webSettingsChanged = new Subject<WebUISettings>()
 
   async getWidth () {
     const { width } = await this.request({ method: 'GET', endpoint: '/width' })
@@ -46,13 +53,25 @@ export class UIService extends DataService {
     return this.request({ method: 'GET', endpoint: '/hide' })
   }
 
-  async getSettings (): Promise<UISettings> {
-    const settings = await this.request({ method: 'GET', endpoint: '/settings' })
-    return settings
+  async getNativeSettings (): Promise<NativeUISettings> {
+    return this.request({ method: 'GET', endpoint: '/settings' })
   }
 
-  setSettings (settings: UISettings) {
-    return this.request({ method: 'POST', endpoint: '/settings', data: settings })
+  async setNativeSettings (settings: NativeUISettings) {
+    await this.request({ method: 'POST', endpoint: '/settings', data: settings })
+  }
+
+  getWebSettings (): WebUISettings {
+    return this.cookies.get('uiSettings')
+  }
+
+  async setWebSettings (settings: Partial<WebUISettings>) {
+    settings = {
+      ...this.cookies.get('uiSettings'),
+      ...settings
+    }
+    this.cookies.set('uiSettings', settings)
+    this.webSettingsChanged.next(settings)
   }
 
   // async getMode () {

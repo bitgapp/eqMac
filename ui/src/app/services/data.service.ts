@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core'
 import { BridgeService } from './bridge.service'
 import { Logger } from './logger.service'
+import { CookiesService } from './cookies.service'
 
 export type JSONEncodable = null | boolean | number | string | JSONData
 export interface JSONData {
@@ -20,7 +21,8 @@ export class DataService {
   route = ''
 
   constructor (
-    public bridge: BridgeService
+    public bridge: BridgeService,
+    public cookies: CookiesService
   ) {}
 
   async request (opts: RequestOptions): Promise<any> {

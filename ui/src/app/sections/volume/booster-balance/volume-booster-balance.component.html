@@ -1,8 +1,11 @@
-<div eqmPositionRelative>
-    <!-- <eqm-icon eqmPositionAbsolute eqmTopRight right="5" (click)="toggleVisibility()" [name]="hide ? 'show' : 'hide'"></eqm-icon> -->
-    <div fxLayout="row" fxFill fxLayoutAlign="space-around stretch">
-        <eqm-booster fxFlex="49%" [hide]="hide"></eqm-booster>
-        <eqm-divider [vertical]="true"></eqm-divider>
-        <eqm-balance fxFlex="49%" [hide]="hide"></eqm-balance>
-    </div>
+<div *ngIf="!replaceKnobsWithSliders" fxLayout="row" fxFill fxLayoutAlign="space-around stretch">
+  <eqm-booster fxFlex="49%" [hide]="hide"></eqm-booster>
+  <eqm-divider [vertical]="true"></eqm-divider>
+  <eqm-balance fxFlex="49%" [hide]="hide"></eqm-balance>
+</div>
+
+<div *ngIf="replaceKnobsWithSliders" fxLayout="column">
+  <eqm-booster [hide]="hide"></eqm-booster>
+  <eqm-divider></eqm-divider>
+  <eqm-balance [hide]="hide"></eqm-balance>
 </div>

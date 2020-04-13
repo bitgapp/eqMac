@@ -33,6 +33,7 @@ export class FlatSliderComponent {
     private sanitizer: DomSanitizer
   ) {}
 
+  @Input() doubleClickToAnimateToMiddle = true
   @Input() min: number = 0
   @Input() max: number = 1
   @Input() animationDuration = 500
@@ -169,7 +170,7 @@ export class FlatSliderComponent {
 
   private doubleclickTimeout = null
   doubleclick () {
-    if (this.enabled) {
+    if (this.enabled && this.doubleClickToAnimateToMiddle) {
       if (this.doubleclickTimeout) {
         clearTimeout(this.doubleclickTimeout)
       }
