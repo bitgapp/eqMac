@@ -1,0 +1,5 @@
+*.css linguist-detectable=false
+*.js linguist-detectable=false
+*.cpp linguist-detectable=false
+*.swift linguist-detectable=true
+*.ts linguist-detectable=true
