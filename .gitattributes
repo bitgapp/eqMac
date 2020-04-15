@@ -1,5 +1,8 @@
 *.css linguist-detectable=false
 *.js linguist-detectable=false
 *.cpp linguist-detectable=false
+*.c linguist-detectable=false
+*.h linguist-detectable=false
+*.html linguist-detectable=false
 *.swift linguist-detectable=true
 *.ts linguist-detectable=true
