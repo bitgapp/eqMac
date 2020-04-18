@@ -1,7 +1,7 @@
 <eqm-label>Balance</eqm-label>
 
 <!-- Knob controls -->
-<div *ngIf="!replaceKnobWithSlider" fxLayout="row" fxLayoutAlign="space-around start"
+<div *ngIf="!uiSettings.replaceKnobsWithSliders" fxLayout="row" fxLayoutAlign="space-around start"
   [class]="'controls' + (hide ? ' hide' : '')">
   <div fxLayout="column" fxLayoutAlign="center center">
     <eqm-label>Left</eqm-label>
@@ -17,9 +17,8 @@
 </div>
 
 <!-- Slider controls -->
-<div *ngIf="replaceKnobWithSlider" fxLayout="row" fxLayoutAlign="space-around start"
-  [class]="'controls' + (hide ? ' hide' : '')">
-  <div fxLayout="column" fxLayoutAlign="center center">
+<div *ngIf="uiSettings.replaceKnobsWithSliders" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px" class="slider-control">
+  <div fxLayout="column" fxLayoutAlign="center center" fxFlex="52px">
     <eqm-label>Left</eqm-label>
     <eqm-value-screen>{{(balance | mapValue:0:1:100:0 | clipValue:0:100 | fixFloat:0:false)}}%</eqm-value-screen>
   </div>
@@ -28,7 +27,7 @@
     [doubleClickToAnimateToMiddle]="true" [animationDuration]="animationDuration" [animationFps]="animationFps"
       [stickToMiddle]="true" (stickedToMiddle)="performHapticFeedback($event)"></eqm-flat-slider>
   </div>
-  <div fxLayout="column" fxLayoutAlign="center center">
+  <div fxLayout="column" fxLayoutAlign="center center" fxFlex="52px">
     <eqm-label>Right</eqm-label>
     <eqm-value-screen>{{(balance | mapValue:0:-1:100:0 | clipValue:0:100 | fixFloat:0:false)}}%</eqm-value-screen>
   </div>

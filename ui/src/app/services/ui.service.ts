@@ -29,7 +29,7 @@ export interface UIDimensions {
 export class UIService extends DataService {
   route = `${this.route}/ui`
   dimensionsChanged = new Subject<UIDimensions>()
-  webSettingsChanged = new Subject<WebUISettings>()
+  settingsChanged = new Subject<WebUISettings>()
 
   async getWidth () {
     const { width } = await this.request({ method: 'GET', endpoint: '/width' })
@@ -61,17 +61,17 @@ export class UIService extends DataService {
     await this.request({ method: 'POST', endpoint: '/settings', data: settings })
   }
 
-  getWebSettings (): WebUISettings {
-    return this.cookies.get('uiSettings')
+  get settings (): WebUISettings {
+    return this.cookies.get('uiSettings') || {}
   }
 
-  async setWebSettings (settings: Partial<WebUISettings>) {
+  async setSettings (settings: Partial<WebUISettings>) {
     settings = {
       ...this.cookies.get('uiSettings'),
       ...settings
     }
     this.cookies.set('uiSettings', settings)
-    this.webSettingsChanged.next(settings)
+    this.settingsChanged.next(settings)
   }
 
   // async getMode () {

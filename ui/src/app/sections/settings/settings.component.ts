@@ -25,7 +25,7 @@ export class SettingsComponent implements OnInit {
     type: 'checkbox',
     label: 'Replace Knobs with Sliders',
     value: false,
-    toggled: replaceKnobsWithSliders => this.ui.setWebSettings({ replaceKnobsWithSliders })
+    toggled: replaceKnobsWithSliders => this.ui.setSettings({ replaceKnobsWithSliders })
   }
 
   iconModeOption: SelectOption = {
@@ -98,7 +98,7 @@ export class SettingsComponent implements OnInit {
   }
 
   async syncUISettings () {
-    const webUISettings = this.ui.getWebSettings()
+    const webUISettings = this.ui.settings
     this.replaceKnobsWithSlidersOption.value = webUISettings.replaceKnobsWithSliders
     const nativeUISettings = await this.ui.getNativeSettings()
     this.iconModeOption.selectedId = nativeUISettings.iconMode

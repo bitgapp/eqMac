@@ -2,9 +2,14 @@
   display: block;
 }
 
-.basic-level {
+.basic-level-knobs {
   padding-bottom: 10px;
   eqm-value-screen {
     margin-top: -10px;
   }
+}
+
+
+.basic-level-sliders {
+  margin: 10px;
 }

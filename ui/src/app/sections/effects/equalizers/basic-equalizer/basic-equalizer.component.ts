@@ -5,6 +5,7 @@ import { EqualizerComponent } from '../equalizer.component'
 import { KnobValueChangedEvent } from '../../../../modules/eqmac-components/components/knob/knob.component'
 import { TransitionService } from '../../../../services/transitions.service'
 import { ApplicationService } from '../../../../services/app.service'
+import { WebUISettings, UIService } from '../../../../services/ui.service'
 
 @Component({
   selector: 'eqm-basic-equalizer',
@@ -19,6 +20,8 @@ export class BasicEqualizerComponent extends EqualizerComponent implements OnIni
     mid: 0,
     treble: 0
   }
+
+  uiSettings: WebUISettings
 
   private _presets: BasicEqualizerPreset[]
   @Output() presetsChange = new EventEmitter<BasicEqualizerPreset[]>()
@@ -41,7 +44,7 @@ export class BasicEqualizerComponent extends EqualizerComponent implements OnIni
   constructor (
     private service: BasicEqualizerService,
     private app: ApplicationService,
-    private bridge: BridgeService,
+    private ui: UIService,
     private change: ChangeDetectorRef,
     private transition: TransitionService
   ) {
@@ -49,6 +52,7 @@ export class BasicEqualizerComponent extends EqualizerComponent implements OnIni
   }
 
   async ngOnInit () {
+    await this.sync()
     this.setupEvents()
   }
 
@@ -60,9 +64,13 @@ export class BasicEqualizerComponent extends EqualizerComponent implements OnIni
       this.selectedPreset = preset
       this.setSelectedPresetsGains()
     })
+    this.ui.settingsChanged.subscribe(uiSettings => {
+      this.uiSettings = uiSettings
+    })
   }
 
   async sync () {
+    this.uiSettings = this.ui.settings
     await Promise.all([
       this.syncPresets()
     ])
