@@ -1,11 +1,12 @@
 {
   "name": "eqmac",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "scripts": {
     "start": "ng serve",
     "build": "ng build --prod",
     "package": "npm run build && cd dist/ && zip -r -D ../ui.zip * -x '*.DS_Store'",
-    "deploy": "cd ../ && CI_COMMIT_SHA=latest CI_COMMIT_MESSAGE='deploying from VSCode (production) --deploy=ui' CI_COMMIT_REF_NAME=master ./node_modules/.bin/ts-node ./ci/base.ts"
+    "deploy": "export $(egrep -v '^#' .env | xargs) && ./scripts/deploy.sh",
+    "purge-cache": "./node_modules/.bin/ts-node -O '{\"module\":\"commonjs\"}' ./scripts/purge-cache.ts"
   },
   "private": true,
   "dependencies": {
@@ -38,7 +39,10 @@
     "@types/google.analytics": "0.0.40",
     "@types/js-cookie": "^2.2.6",
     "@types/node": "~12.7.11",
+    "axios": "^0.19.2",
+    "cloudflare": "^2.7.0",
     "codelyzer": "~5.1.2",
+    "dotenv": "^8.2.0",
     "ts-node": "~8.4.1",
     "tslint": "~5.20.0",
     "tslint-config-standard": "^8.0.1",
