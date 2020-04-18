@@ -1,0 +1,13 @@
+*.css linguist-detectable=false
+*.js linguist-detectable=false
+*.cpp linguist-detectable=false
+*.c linguist-detectable=false
+*.h linguist-detectable=false
+*.html linguist-detectable=false
+*.scss linguist-detectable=false
+*.rb linguist-detectable=false
+*.m linguist-detectable=false
+*.mpp linguist-detectable=false
+*.sh linguist-detectable=false
+*.swift linguist-detectable=true
+*.ts linguist-detectable=true
