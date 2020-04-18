@@ -2,8 +2,8 @@ Pods/
 .DS_Store
 .DS_Store/
 */.DS_Store
-*.xcworkspace/xcuserdata
-*.xcodeproj/xcuserdata
+**/*.xcworkspace/xcuserdata*
+**/*.xcodeproj/xcuserdata*
 native/build
 node_modules
 .env
