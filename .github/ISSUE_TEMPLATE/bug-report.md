@@ -8,7 +8,7 @@ assignees: ''
 ---
 
 **Disclaimer:** 
-Please go through [existing issues](https://github.com/bitgapp/eqMac/issues) to avoid creating duplicates. If you found a similar issue please post a comment there. If you are uncertain your issue is related to others then create the issue. Obvious ignorance of this rule might get you blocked from posting new issues. Please tick the box below to show that you have followed the guideline.
+Please go through [existing issues](https://github.com/bitgapp/eqMac/issues?q=is%3Aopen+is%3Aissue+label%3A%22type%3A+bug%22) to avoid creating duplicates. If you found a similar issue please post a comment there. If you are uncertain your issue is related to others then create the issue. Obvious ignorance of this rule might get you blocked from posting new issues. Please tick the box below to show that you have followed the guideline.
 - [x] I have checked for a similar issue and sure it hasn't been reported before.
 
 **Describe the bug**
