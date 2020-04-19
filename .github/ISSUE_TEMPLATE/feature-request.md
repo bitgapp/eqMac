@@ -12,7 +12,7 @@ Please go through [existing feature requests](https://github.com/bitgapp/eqMac/i
 - [x] I have checked for a similar issue and sure it hasn't been reported before.
 
 **Description:**
-A clear and concise description of what the feature is.
+A clear and concise description of what the feature is and should the developer implement it.
 
 **User flow & interface:**
 A clear and concise description of how the user would interact with the proposed change (User interface, guidance and understanding of the feature)
