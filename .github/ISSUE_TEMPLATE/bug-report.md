@@ -1,15 +1,15 @@
 ---
 name: Bug report
 about: Create a report to help improve eqMac
-title: 'Bug: Something went wrong when using feature (REPLACE THIS)'
-labels: bug
+title: 'Bug: X went wrong when using Y (REPLACE THIS)'
+labels: 'type: bug'
 assignees: ''
 
 ---
 
 **Disclaimer:** 
 Please go through [existing issues](https://github.com/bitgapp/eqMac/issues) to avoid creating duplicates. If you found a similar issue please post a comment there. If you are uncertain your issue is related to others then create the issue. Obvious ignorance of this rule might get you blocked from posting new issues. Please tick the box below to show that you have followed the guideline.
-[ ] - I have checked for a similar issue and sure it hasn't been reported before.
+- [x] I have checked for a similar issue and sure it hasn't been reported before.
 
 **Describe the bug**
 A clear and concise description of what the bug is.
