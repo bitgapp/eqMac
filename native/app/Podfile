@@ -10,7 +10,7 @@ target 'eqMac' do
     use_frameworks!
     
     # Pods for eqMac
-    pod 'AudioKit', '4.7'
+    pod 'AudioKit', '4.9.5'
     pod 'AMCoreAudio', '~> 3.2.1'
     pod 'Criollo', '~> 0.5’
     pod 'WebViewJavascriptBridge', '~> 6.0'
@@ -34,7 +34,7 @@ target 'eqMac' do
     post_install do |installer|
         installer.pods_project.targets.each do |target|
             target.build_configurations.each do |config|
-                version = '5.0'
+                version = '5.2'
                 if swift40Targets.include? target.name
                     version = '4'
                 else

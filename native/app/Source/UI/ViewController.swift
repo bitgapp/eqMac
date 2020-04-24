@@ -48,7 +48,7 @@ class ViewController: NSViewController, WKNavigationDelegate {
   func load () {
     remoteReachable() { reachable in
       if (reachable) {
-        Console.log("Remote UI Reachable")
+        Console.log("Remote UI Reachable, loading \(Constants.UI_ENDPOINT_URL)")
         self.loadRemote()
       } else {
         Console.log("Remote UI Unreachable. Loading Local")
@@ -61,6 +61,7 @@ class ViewController: NSViewController, WKNavigationDelegate {
       
     }
     if Constants.DEBUG {
+      Console.log("Enabling DevTools")
       self.webView.configuration.preferences.setValue(true, forKey: "developerExtrasEnabled")
     }
   }

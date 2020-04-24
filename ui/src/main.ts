@@ -6,7 +6,7 @@ import { environment } from './environments/environment'
 
 if (environment.production) {
   enableProdMode()
-  document.body.setAttribute('oncontextmenu', 'event.preventDefault();')
+  // document.body.setAttribute('oncontextmenu', 'event.preventDefault();')
 }
 
 platformBrowserDynamic()

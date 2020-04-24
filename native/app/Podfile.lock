@@ -1,23 +1,23 @@
 PODS:
   - AMCoreAudio (3.2.1)
-  - AudioKit (4.7):
-    - AudioKit/Core (= 4.7)
-    - AudioKit/UI (= 4.7)
-  - AudioKit/Core (4.7)
-  - AudioKit/UI (4.7):
+  - AudioKit (4.9.5):
+    - AudioKit/Core (= 4.9.5)
+    - AudioKit/UI (= 4.9.5)
+  - AudioKit/Core (4.9.5)
+  - AudioKit/UI (4.9.5):
     - AudioKit/Core
-  - CocoaAsyncSocket (7.6.3)
+  - CocoaAsyncSocket (7.6.4)
   - Criollo (0.5.5):
     - CocoaAsyncSocket (~> 7.6)
   - EmitterKit (5.2.2)
   - KeychainSwift (13.0.0)
   - ReSwift (5.0.0)
-  - Sentry (4.4.0):
-    - Sentry/Core (= 4.4.0)
-  - Sentry/Core (4.4.0)
-  - Sparkle (1.21.3)
+  - Sentry (4.5.0):
+    - Sentry/Core (= 4.5.0)
+  - Sentry/Core (4.5.0)
+  - Sparkle (1.23.0)
   - STPrivilegedTask (1.0.7)
-  - SwiftLint (0.35.0)
+  - SwiftLint (0.39.2)
   - SwiftyJSON (4.3.0)
   - SwiftyUserDefaults (4.0.0)
   - WebViewJavascriptBridge (6.0.3)
@@ -25,7 +25,7 @@ PODS:
 
 DEPENDENCIES:
   - AMCoreAudio (~> 3.2.1)
-  - AudioKit (= 4.7)
+  - AudioKit (= 4.9.5)
   - Criollo (~> 0.5)
   - EmitterKit (~> 5.2)
   - KeychainSwift (~> 13.0)
@@ -40,7 +40,7 @@ DEPENDENCIES:
   - Zip (~> 1.1)
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  https://github.com/CocoaPods/Specs.git:
     - AMCoreAudio
     - AudioKit
     - CocoaAsyncSocket
@@ -68,21 +68,21 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   AMCoreAudio: 7fa6b718dc93acc29f849d60c3ad680ae1bf07b5
-  AudioKit: 8b3c883fb6023d1b30764e40372991c9c66aa022
-  CocoaAsyncSocket: eafaa68a7e0ec99ead0a7b35015e0bf25d2c8987
+  AudioKit: ccf4e39c89ed6e5cbbce5fef58d819db39446437
+  CocoaAsyncSocket: 694058e7c0ed05a9e217d1b3c7ded962f4180845
   Criollo: 617173837c296ca4248b0b058f36ce9b91e5c25b
   EmitterKit: e7a27b37118823d8ad413b8396f75e40d59f8cba
   KeychainSwift: 23d6c16cbc33f20fafa30c3d783241b4b87d998c
   ReSwift: 628f1a9b3ee52e3b3ca2a644435472fd77afafe1
-  Sentry: 26650184fe71eb7476dfd2737acb5ea6cc64b4b1
-  Sparkle: 3f75576db8b0265adef36c43249d747f22d0b708
+  Sentry: ab6c209f23700d1460691dbc90e19ed0a05d496b
+  Sparkle: 55b1a87ba69d56913375a281546b7c82dec95bb0
   STPrivilegedTask: 56c3397238a1ec07720fb877a044898373cd2c68
-  SwiftLint: 5553187048b900c91aa03552807681bb6b027846
+  SwiftLint: 22ccbbe3b8008684be5955693bab135e0ed6a447
   SwiftyJSON: 6faa0040f8b59dead0ee07436cbf76b73c08fd08
   SwiftyUserDefaults: 6a1951df1daa19337862b677dd9a4b9bd4c288cd
   WebViewJavascriptBridge: 7f5bc4d3581e672e8f32bd0f812d54bc69bb8e29
   Zip: 8877eede3dda76bcac281225c20e71c25270774c
 
-PODFILE CHECKSUM: 962f761723cb1dd27b5ae01e3daa668e4804fff4
+PODFILE CHECKSUM: af9609c8cb57f7a692fe492dc72205a4e2ea5b4b
 
-COCOAPODS: 1.5.2
+COCOAPODS: 1.9.1
