@@ -73,7 +73,7 @@ export class AdvancedEqualizerComponent extends EqualizerComponent implements On
     // TODO: Refactor this bollocks
     // Global
     const currentGlobalGain = this.global
-    if (this.global !== currentGlobalGain) {
+    if (this.global !== this.selectedPreset.gains.global) {
       this.stickSlidersToMiddle = false
       this.change.detectChanges()
       this.transition.perform(currentGlobalGain, this.selectedPreset.gains.global, value => {
@@ -141,7 +141,6 @@ export class AdvancedEqualizerComponent extends EqualizerComponent implements On
 
   protected setupEvents () {
     this.service.onPresetsChanged(presets => {
-      console.log(presets)
       if (!presets) return
       this.presets = presets
     })
