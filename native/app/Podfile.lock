@@ -1,5 +1,5 @@
 PODS:
-  - AMCoreAudio (3.2.1)
+  - AMCoreAudio (3.3.1)
   - AudioKit (4.9.5):
     - AudioKit/Core (= 4.9.5)
     - AudioKit/UI (= 4.9.5)
@@ -24,7 +24,7 @@ PODS:
   - Zip (1.1.0)
 
 DEPENDENCIES:
-  - AMCoreAudio (~> 3.2.1)
+  - AMCoreAudio (~> 3.3.1)
   - AudioKit (= 4.9.5)
   - Criollo (~> 0.5)
   - EmitterKit (~> 5.2)
@@ -67,7 +67,7 @@ CHECKOUT OPTIONS:
     :git: https://github.com/sveinbjornt/STPrivilegedTask.git
 
 SPEC CHECKSUMS:
-  AMCoreAudio: 7fa6b718dc93acc29f849d60c3ad680ae1bf07b5
+  AMCoreAudio: 6bf97d548d02ebb75b56c1cbf6b1f87bcfdeb748
   AudioKit: ccf4e39c89ed6e5cbbce5fef58d819db39446437
   CocoaAsyncSocket: 694058e7c0ed05a9e217d1b3c7ded962f4180845
   Criollo: 617173837c296ca4248b0b058f36ce9b91e5c25b
@@ -83,6 +83,6 @@ SPEC CHECKSUMS:
   WebViewJavascriptBridge: 7f5bc4d3581e672e8f32bd0f812d54bc69bb8e29
   Zip: 8877eede3dda76bcac281225c20e71c25270774c
 
-PODFILE CHECKSUM: af9609c8cb57f7a692fe492dc72205a4e2ea5b4b
+PODFILE CHECKSUM: e17cf26c243566da606db59c356b057283ec8836
 
 COCOAPODS: 1.9.1

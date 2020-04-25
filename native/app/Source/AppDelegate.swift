@@ -14,13 +14,6 @@ import ServiceManagement
 class AppDelegate: NSObject, NSApplicationDelegate {
   func applicationDidFinishLaunching(_ aNotification: Notification) {
     Application.start()
-//    print(Driver.latency)
-//    Driver.latency = 1000
-//    print(Driver.latency)
-//
-//    print(Driver.safetyOffset)
-//    Driver.safetyOffset = 1000
-//    print(Driver.safetyOffset)
   }
   
   func applicationWillTerminate(_ aNotification: Notification) {

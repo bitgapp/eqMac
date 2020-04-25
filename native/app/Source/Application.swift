@@ -275,6 +275,11 @@ class Application {
   
   private static func createAudioPipeline () {
     Sources() { sources in
+      let outputSampleRate = selectedDevice.actualSampleRate()!
+      let driverSampleRates = Driver.sampleRates
+      let closestSampleRate = driverSampleRates.min( by: { abs($0 - outputSampleRate) < abs($1 - outputSampleRate) } )!
+      Driver.device!.setNominalSampleRate(closestSampleRate)
+  
       self.sources = sources
       effects = Effects()
       volume = Volume()

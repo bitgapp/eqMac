@@ -53,6 +53,26 @@ class Driver {
     }
   }
   
+  static var sampleRates: [Double] {
+    return [
+      8_000,
+      11_025,
+      12_000,
+      16_000,
+      22_050,
+      24_000,
+      32_000,
+      44_100,
+      48_000,
+      64_000,
+      88_200,
+      96_000,
+      128_000,
+      176_400,
+      192_000
+    ]
+  }
+  
   static func getDeviceIsShown (device: DriverDevice) -> Bool {
     if Driver.device != nil { return true }
     if let pluginId = self.pluginId {

@@ -37,21 +37,7 @@ class Output {
     let abl = UnsafeMutableAudioBufferListPointer(ioData)!
     let output = Unmanaged<Output>.fromOpaque(inRefCon).takeUnretainedValue()
     let engine: Engine! = output.engine!
-    var inTS = AudioTimeStamp()
-    var outTS = AudioTimeStamp()
     let inputDevice = Driver.device!
-
-    if AudioDeviceGetCurrentTime(inputDevice.id, &inTS) != noErr {
-      makeBufferSilent(abl)
-      return noErr
-    }
-
-    if AudioDeviceGetCurrentTime(output.device.id, &outTS) != noErr {
-      makeBufferSilent(abl)
-      return noErr
-    }
-
-    output.varispeed.rate = Float(inTS.mRateScalar / outTS.mRateScalar)
 
     let sampleTime = inTimeStamp.pointee.mSampleTime
     if output.firstOutputTime < 0 {
@@ -93,6 +79,7 @@ class Output {
   var device: AudioDevice!
   var engine: Engine!
   var outputEngine = AVAudioEngine()
+  var format: AVAudioFormat!
   var player = AVAudioPlayerNode()
   var varispeed = AVAudioUnitVarispeed()
   let deviceChanged = EmitterKit.Event<AudioDevice>()
@@ -109,10 +96,14 @@ class Output {
     
     outputEngine.setOutputDevice(device)
 
+    format = outputEngine.outputNode.outputFormat(forBus: 0)
+    varispeed.rate = Float(Driver.device!.actualSampleRate()! / device.actualSampleRate()!)
+
+    Console.log("Varispeed Rate: \(varispeed.rate)")
     outputEngine.attach(player)
     outputEngine.attach(varispeed)
-    outputEngine.connect(player, to: varispeed, format: nil)
-    outputEngine.connect(varispeed, to: outputEngine.mainMixerNode, format: nil)
+    outputEngine.connect(player, to: varispeed, format: format)
+    outputEngine.connect(varispeed, to: outputEngine.mainMixerNode, format: format)
 
     self.setRenderCallback()
     

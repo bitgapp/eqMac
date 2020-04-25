@@ -11,7 +11,7 @@ target 'eqMac' do
     
     # Pods for eqMac
     pod 'AudioKit', '4.9.5'
-    pod 'AMCoreAudio', '~> 3.2.1'
+    pod 'AMCoreAudio', '~> 3.3.1'
     pod 'Criollo', '~> 0.5’
     pod 'WebViewJavascriptBridge', '~> 6.0'
     pod 'ReSwift'

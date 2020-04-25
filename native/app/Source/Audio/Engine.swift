@@ -79,7 +79,7 @@ class Engine {
   
   private func setupBuffer () {
     let framesPerSample = Driver.device!.bufferFrameSize(direction: .playback)
-    ringBuffer = CARingBuffer<Float>(numberOfChannels: 2, capacityFrames: UInt32(framesPerSample * 1024 * 16))
+    ringBuffer = CARingBuffer<Float>(numberOfChannels: 2, capacityFrames: UInt32(framesPerSample * 512))
   }
   
   private func attach () {
@@ -89,8 +89,8 @@ class Engine {
   }
   
   private func attachSource () {
-    format = AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: 44_100, channels: 2, interleaved: false)
     sources.system.setInputDevice(engine: engine)
+    format = engine.inputNode.inputFormat(forBus: 0)
   }
   
   private func attachEffects () {
