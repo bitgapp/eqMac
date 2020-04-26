@@ -22,7 +22,6 @@ import {
 } from './modules/eqmac-components/eqmac-components.module'
 
 import { PipesModule } from './modules/pipes/pipes.module'
-import { ServiceWorkerModule } from '@angular/service-worker'
 
 import {
   CommonModule
@@ -98,8 +97,7 @@ import { OptionsDialogComponent } from './components/options-dialog/options-dial
     EqmacComponentsModule,
     MatDialogModule,
     BrowserModule,
-    ClickOutsideModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+    ClickOutsideModule
   ],
   entryComponents: [
     ConfirmDialogComponent,

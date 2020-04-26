@@ -1,8 +1,12 @@
-.icon {
-  margin: 0 auto;
-  display: block;
-}
 
-.hidden {
-  display: none;
+.container {
+  position: relative;
+  svg {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
 }

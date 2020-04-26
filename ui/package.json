@@ -1,10 +1,9 @@
 {
   "name": "eqmac",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "scripts": {
     "start": "ng serve",
-    "build": "rm -rf dist/ && ng build --prod",
-    "package": "npm run build && cd dist/ && zip -r -D ../ui.zip * -x '*.DS_Store'",
+    "build": "rm -rf dist/ && ng build --prod && cd dist/ && zip -r -D ui.zip * -x '*.DS_Store'",
     "deploy": "export $(egrep -v '^#' .env | xargs) && ./scripts/deploy.sh",
     "purge-cache": "./node_modules/.bin/ts-node -O '{\"module\":\"commonjs\"}' ./scripts/purge-cache.ts"
   },

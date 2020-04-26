@@ -1,1 +1,4 @@
-<ng-content></ng-content>
+<!-- <ng-content></ng-content> -->
+<div class="container" [ngStyle]="style">
+  <img #icon [src]="'assets/icons/' + name + '.svg'" onload="SVGInject(this)"/>
+</div>
