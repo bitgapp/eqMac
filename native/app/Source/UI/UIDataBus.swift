@@ -49,30 +49,19 @@ class UIDataBus: DataBus {
       return "UI Width has been set"
     }
     
-    self.on(.GET, "/settings") { data, _ in
-      return [ "iconMode": self.state.iconMode.rawValue ]
+    self.on(.GET, "/settings") { _, _ in
+      return self.state.settings
     }
     
     self.on(.POST, "/settings") { data, _ in
-      let iconModeRaw = data["iconMode"] as? String
-      if iconModeRaw != nil, let iconMode = IconMode(rawValue: iconModeRaw!) {
-        Application.dispatchAction(UIAction.setIconMode(iconMode))
+      if let newSettings = data {
+        if let settings = try? self.state.settings.merged(with: newSettings) {
+          Application.dispatchAction(UIAction.setSettings(settings))
+          return settings
+        }
       }
-      
-      return "Settings have been set"
+      return self.state.settings
     }
-    
-    //        self.on(.GET, "/mode") { data, _ in
-    //            return[ "mode": Application.store.state.ui.mode.rawValue ])
-    //        }
-    //
-    //        self.on(.POST, "/mode") { data, _ in
-    //            let uiMode: UIMode? = Server.getParamFromRequestBody(req, "mode", UIMode.self)
-    //            if uiMode == nil || !UIMode.allValues.contains(uiMode!.rawValue) {
-    //                throw "Please provide a valid 'uiMode' parameter."
-    //            }
-    //            Application.dispatchAction(UIAction.setMode(uiMode!))
-    //            return "UI Mode has been set")
-    //        }
+
   }
 }

@@ -28,8 +28,9 @@
 		E01B1BBD235E458200CC58E5 /* Driver.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01B1BBC235E458200CC58E5 /* Driver.swift */; };
 		E01F2F5D203391EA005123BE /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01F2F5C203391EA005123BE /* Utilities.swift */; };
 		E01F2F5F2034A188005123BE /* ArrayExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01F2F5E2034A188005123BE /* ArrayExtensions.swift */; };
-		E021BCE722313F1E004921FF /* SettingsRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = E021BCE622313F1E004921FF /* SettingsRoute.swift */; };
+		E021BCE722313F1E004921FF /* SettingsDataBus.swift in Sources */ = {isa = PBXBuildFile; fileRef = E021BCE622313F1E004921FF /* SettingsDataBus.swift */; };
 		E0241AA5225E9FB700748656 /* BasicEqualizerPreset.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0241AA4225E9FB700748656 /* BasicEqualizerPreset.swift */; };
+		E02520C22455F1DD0072F785 /* ui.zip in Resources */ = {isa = PBXBuildFile; fileRef = E02520C12455F1DD0072F785 /* ui.zip */; };
 		E02662F022BC3239006B486C /* NSSavePanelExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E02662EF22BC3239006B486C /* NSSavePanelExtensions.swift */; };
 		E0267AF7218ADD8D00FB2E5A /* uninstall_driver.sh in Resources */ = {isa = PBXBuildFile; fileRef = E0267AF5218ADD6000FB2E5A /* uninstall_driver.sh */; };
 		E0267AFA218ADD9500FB2E5A /* install_driver.sh in Resources */ = {isa = PBXBuildFile; fileRef = E0DDF3FC2189021300B37E77 /* install_driver.sh */; };
@@ -81,7 +82,6 @@
 		E09C17201FEC1969008E65A4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E09C171F1FEC1969008E65A4 /* Main.storyboard */; };
 		E0A3B96120DF8FE500E46908 /* Effects.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A3B96020DF8FE500E46908 /* Effects.swift */; };
 		E0A3B96320DF992600E46908 /* Buffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A3B96220DF992600E46908 /* Buffer.swift */; };
-		E0A4C28D23C08E0F004A8A9A /* ui.zip in Resources */ = {isa = PBXBuildFile; fileRef = E0A4C28C23C08E0F004A8A9A /* ui.zip */; };
 		E0A9A90E22D24A6200EB1E49 /* Window.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A9A90D22D24A6200EB1E49 /* Window.swift */; };
 		E0AD99D52251022700D893F7 /* AdvancedEqualizerDefaultPresets.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0AD99D42251022700D893F7 /* AdvancedEqualizerDefaultPresets.swift */; };
 		E0C5629320A39651000902ED /* Bridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C5629220A39651000902ED /* Bridge.swift */; };
@@ -145,8 +145,9 @@
 		E01B1BBC235E458200CC58E5 /* Driver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Driver.swift; sourceTree = "<group>"; };
 		E01F2F5C203391EA005123BE /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		E01F2F5E2034A188005123BE /* ArrayExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtensions.swift; sourceTree = "<group>"; };
-		E021BCE622313F1E004921FF /* SettingsRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsRoute.swift; sourceTree = "<group>"; };
+		E021BCE622313F1E004921FF /* SettingsDataBus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsDataBus.swift; sourceTree = "<group>"; };
 		E0241AA4225E9FB700748656 /* BasicEqualizerPreset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicEqualizerPreset.swift; sourceTree = "<group>"; };
+		E02520C12455F1DD0072F785 /* ui.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; name = ui.zip; path = ../../../../ui/dist/ui.zip; sourceTree = "<group>"; };
 		E02662EF22BC3239006B486C /* NSSavePanelExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSSavePanelExtensions.swift; sourceTree = "<group>"; };
 		E0267AF5218ADD6000FB2E5A /* uninstall_driver.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = uninstall_driver.sh; sourceTree = "<group>"; };
 		E0267AFC218AE39500FB2E5A /* Script.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Script.swift; sourceTree = "<group>"; };
@@ -203,7 +204,6 @@
 		E0A3B96020DF8FE500E46908 /* Effects.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Effects.swift; sourceTree = "<group>"; };
 		E0A3B96220DF992600E46908 /* Buffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Buffer.swift; sourceTree = "<group>"; };
 		E0A48D6123C5FB6B00700C39 /* eqMac.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = eqMac.entitlements; sourceTree = "<group>"; };
-		E0A4C28C23C08E0F004A8A9A /* ui.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; name = ui.zip; path = ../../../../ui/ui.zip; sourceTree = "<group>"; };
 		E0A9A90D22D24A6200EB1E49 /* Window.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Window.swift; sourceTree = "<group>"; };
 		E0AB8FA223C3D5B900035701 /* LaunchAtLogin.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LaunchAtLogin.framework; path = Carthage/Build/Mac/LaunchAtLogin.framework; sourceTree = "<group>"; };
 		E0AD99D42251022700D893F7 /* AdvancedEqualizerDefaultPresets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedEqualizerDefaultPresets.swift; sourceTree = "<group>"; };
@@ -412,8 +412,8 @@
 		E095BBC12014CDF1003473E9 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				E02520C12455F1DD0072F785 /* ui.zip */,
 				E0C5629220A39651000902ED /* Bridge.swift */,
-				E0A4C28C23C08E0F004A8A9A /* ui.zip */,
 				E0C8F78521D3B6590023B1E5 /* UIDataBus.swift */,
 				E06E98CF21D17E230041DD9C /* UI.swift */,
 				E08300EC23F9964A00C9A12A /* LoadingViewController.swift */,
@@ -491,7 +491,7 @@
 		E0D5F88522DD1BB800499250 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				E021BCE622313F1E004921FF /* SettingsRoute.swift */,
+				E021BCE622313F1E004921FF /* SettingsDataBus.swift */,
 				E057A638227038B80019D13C /* Settings.swift */,
 				E0D5F88622DD20F800499250 /* SettingsState.swift */,
 			);
@@ -678,7 +678,7 @@
 				E0267AFA218ADD9500FB2E5A /* install_driver.sh in Resources */,
 				E086B0021FCCB8E700CF9F0D /* assets.xcassets in Resources */,
 				E09C17201FEC1969008E65A4 /* Main.storyboard in Resources */,
-				E0A4C28D23C08E0F004A8A9A /* ui.zip in Resources */,
+				E02520C22455F1DD0072F785 /* ui.zip in Resources */,
 				E02B922C219843DF00AC130B /* open_privacy_microphone_settings.scpt in Resources */,
 				E0267AF7218ADD8D00FB2E5A /* uninstall_driver.sh in Resources */,
 			);
@@ -916,7 +916,7 @@
 				E0136BB122D9EAB60048D5BC /* WebView.swift in Sources */,
 				E0A3B96120DF8FE500E46908 /* Effects.swift in Sources */,
 				E018710F21696D9500436B68 /* NSObject.swift in Sources */,
-				E021BCE722313F1E004921FF /* SettingsRoute.swift in Sources */,
+				E021BCE722313F1E004921FF /* SettingsDataBus.swift in Sources */,
 				E00C595923BBB8B000C7B8B6 /* RingBufferTimeBounds.swift in Sources */,
 				E017A0091FF055B50019BBF1 /* User.swift in Sources */,
 				E0E8B62F20EEB6A900DE905C /* EffectsState.swift in Sources */,

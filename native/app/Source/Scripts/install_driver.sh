@@ -4,12 +4,20 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # Remove legacy drivers
-(kextunload /System/Library/Extensions/eqMacDriver.kext/ && rm -rf /System/Library/Extensions/eqMacDriver.kext/) || true
-(kextunload /Library/Extensions/eqMacDriver.kext/ && rm -rf /Library/Extensions/eqMacDriver.kext/) || true
-(kextunload /System/Library/Extensions/eqMac2Driver.kext/ && rm -rf /System/Library/Extensions/eqMac2Driver.kext/) || true
-(kextunload /Library/Extensions/eqMac2Driver.kext/ && rm -rf /Library/Extensions/eqMac2Driver.kext/) || true
-touch /System/Library/Extensions
-touch /Library/Extensions
+kextunload /System/Library/Extensions/eqMacDriver.kext/ || true
+rm -rf /System/Library/Extensions/eqMacDriver.kext/ || true
+
+kextunload /Library/Extensions/eqMacDriver.kext/ || true
+rm -rf /Library/Extensions/eqMacDriver.kext/ || true
+
+kextunload /System/Library/Extensions/eqMac2Driver.kext/ || true
+rm -rf /System/Library/Extensions/eqMac2Driver.kext/ || true
+
+kextunload /Library/Extensions/eqMac2Driver.kext/ || true
+rm -rf /Library/Extensions/eqMac2Driver.kext/ || true
+
+touch /System/Library/Extensions || true
+touch /Library/Extensions || true
 
 # Copy driver into Plug-Ins folder
 cp -f -r "$DIR/eqMac.driver" /Library/Audio/Plug-Ins/HAL/ ||

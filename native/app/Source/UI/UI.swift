@@ -99,15 +99,6 @@ class UI: StoreSubscriber {
     }
   }
   
-  static var iconMode: IconMode = .both {
-    didSet {
-      let showDockIcon = self.iconMode == .both || self.iconMode == .dock
-      NSApp.setActivationPolicy(showDockIcon ? .regular : .accessory)
-      let showStatusBarIcon = self.iconMode == .both || self.iconMode == .statusBar
-      UI.statusItem.item.isVisible = showStatusBarIcon
-    }
-  }
-  
   static func toggle () {
     show()
   }
@@ -142,7 +133,6 @@ class UI: StoreSubscriber {
     UI.window.contentView = UI.viewController.view
     
     ({
-      UI.iconMode = Application.store.state.ui.iconMode
       UI.width = Application.store.state.ui.width
       UI.height = Application.store.state.ui.height
     })()
@@ -178,9 +168,6 @@ class UI: StoreSubscriber {
       UI.width = state.width
     }
     
-    if (state.iconMode != UI.iconMode) {
-      UI.iconMode = state.iconMode
-    }
   }
   
   private func setupListeners () {

@@ -36,10 +36,16 @@ class Settings: StoreSubscriber {
     }
     
     func newState(state: SettingsState) {
+      if (state.iconMode != Settings.iconMode) {
+        Settings.iconMode = state.iconMode
+      }
     }
     
     init() {
         self.setupStateListener()
+      ({
+        Settings.iconMode = Application.store.state.settings.iconMode
+      })()
     }
     
     static var launchOnStartup: Bool {
@@ -59,5 +65,14 @@ class Settings: StoreSubscriber {
             LaunchAtLogin.isEnabled = newValue
         }
     }
+  
+  static var iconMode: IconMode = .both {
+    didSet {
+      let showDockIcon = self.iconMode == .both || self.iconMode == .dock
+      NSApp.setActivationPolicy(showDockIcon ? .regular : .accessory)
+      let showStatusBarIcon = self.iconMode == .both || self.iconMode == .statusBar
+      UI.statusItem.item.isVisible = showStatusBarIcon
+    }
+  }
     
 }

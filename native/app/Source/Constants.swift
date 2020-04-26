@@ -14,11 +14,11 @@ struct Constants {
   
   #if DEBUG
   static let UI_ENDPOINT_URL = "http://localhost:4200"
-//  static let UI_ENDPOINT_URL = "https://ui-v000.eqmac.app"
+//  static let UI_ENDPOINT_URL = "https://ui-v0.eqmac.app"
   static let DEBUG = true
   #else
   static let DEBUG = false
-  static let UI_ENDPOINT_URL = "https://ui-v000.eqmac.app"
+  static let UI_ENDPOINT_URL = "https://ui-v0.eqmac.app"
   #endif
   
   static let SENTRY_ENDPOINT = "https://afd95e4c332b4b1da4bb23b9cc66782c@sentry.io/1243254"

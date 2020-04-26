@@ -10,6 +10,11 @@ import Foundation
 import SwiftyJSON
 
 class SettingsDataBus: DataBus {
+  
+  var state: SettingsState {
+    return Application.store.state.settings
+  }
+  
   required init(route: String, bridge: Bridge) {
     super.init(route: route, bridge: bridge)
     
@@ -27,6 +32,32 @@ class SettingsDataBus: DataBus {
       
       return "Launch on Startup has been set"
     }
+    
+    self.on(.GET, "/icon-mode") { data, _ in
+      return [ "mode": self.state.iconMode.rawValue ]
+    }
+    
+    self.on(.POST, "/icon-mode") { data, _ in
+      let iconModeRaw = data["mode"] as? String
+      if iconModeRaw != nil, let iconMode = IconMode(rawValue: iconModeRaw!) {
+        Application.dispatchAction(SettingsAction.setIconMode(iconMode))
+      }
+      
+      return "Settings have been set"
+    }
+    
+    //        self.on(.GET, "/mode") { data, _ in
+    //            return[ "mode": Application.store.state.ui.mode.rawValue ])
+    //        }
+    //
+    //        self.on(.POST, "/mode") { data, _ in
+    //            let uiMode: UIMode? = Server.getParamFromRequestBody(req, "mode", UIMode.self)
+    //            if uiMode == nil || !UIMode.allValues.contains(uiMode!.rawValue) {
+    //                throw "Please provide a valid 'uiMode' parameter."
+    //            }
+    //            Application.dispatchAction(UIAction.setMode(uiMode!))
+    //            return "UI Mode has been set")
+    //        }
     
   }
 }

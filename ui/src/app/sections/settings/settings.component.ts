@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core'
 import { Option, CheckboxOption, ButtonOption, Options, SelectOption } from 'src/app/components/options/options.component'
-import { SettingsService } from './settings.service'
+import { SettingsService, IconMode } from './settings.service'
 import { ApplicationService } from '../../services/app.service'
 import { MatDialog } from '@angular/material'
 import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-dialog.component'
-import { UIService, IconMode } from '../../services/ui.service'
+import { UIService } from '../../services/ui.service'
 
 @Component({
   selector: 'eqm-settings',
@@ -43,7 +43,7 @@ export class SettingsComponent implements OnInit {
       label: 'Status Bar'
     }],
     selectedId: IconMode.both,
-    selected: iconMode => this.ui.setNativeSettings({ iconMode: iconMode as IconMode })
+    selected: iconMode => this.settingsService.setIconMode(iconMode as IconMode)
   }
   uninstallOption: ButtonOption = {
     key: 'uninstall',
@@ -88,20 +88,23 @@ export class SettingsComponent implements OnInit {
 
   async sync () {
     await Promise.all([
-      this.syncLaunchOnStartup(),
-      this.syncUISettings()
+      this.syncSettings()
     ])
   }
 
-  async syncLaunchOnStartup () {
-    this.launchOnStartupOption.value = await this.settingsService.getLaunchOnStartup()
-  }
-
-  async syncUISettings () {
-    const webUISettings = this.ui.settings
-    this.replaceKnobsWithSlidersOption.value = webUISettings.replaceKnobsWithSliders
-    const nativeUISettings = await this.ui.getNativeSettings()
-    this.iconModeOption.selectedId = nativeUISettings.iconMode
+  async syncSettings () {
+    const [
+      launchOnStartup,
+      iconMode,
+      UISettings
+    ] = await Promise.all([
+      this.settingsService.getLaunchOnStartup(),
+      this.settingsService.getIconMode(),
+      this.ui.getSettings()
+    ])
+    this.iconModeOption.selectedId = iconMode
+    this.launchOnStartupOption.value = launchOnStartup
+    this.replaceKnobsWithSlidersOption.value = UISettings.replaceKnobsWithSliders
   }
 
   async update () {

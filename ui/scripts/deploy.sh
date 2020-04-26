@@ -2,7 +2,7 @@
 set -e
 
 UI_VERSION=$(node -e "console.log(require('./package.json').version)")
-SUBDOMAIN_VERSION=$(node -e "const [ major, minor ] = require('./package.json').version.split('.');console.log([major, minor, 0].join(''))")
+SUBDOMAIN_VERSION=$(node -e "const [ major, minor ] = require('./package.json').version.split('.');console.log(major)")
 DOMAIN=ui-v$SUBDOMAIN_VERSION.eqmac.app
 
 echo $UI_VERSION

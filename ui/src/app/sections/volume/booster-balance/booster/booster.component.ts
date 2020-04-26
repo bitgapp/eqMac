@@ -7,7 +7,7 @@ import {
 
 import { BoosterService } from './booster.service'
 import { ApplicationService } from '../../../../services/app.service'
-import { UIService, WebUISettings } from '../../../../services/ui.service'
+import { UIService, UISettings } from '../../../../services/ui.service'
 
 @Component({
   selector: 'eqm-booster',
@@ -16,7 +16,7 @@ import { UIService, WebUISettings } from '../../../../services/ui.service'
 })
 export class BoosterComponent implements OnInit {
   gain = 1
-  uiSettings: WebUISettings
+  replaceKnobsWithSliders = false
   @Input() hide = false
 
   constructor (
@@ -32,9 +32,9 @@ export class BoosterComponent implements OnInit {
   }
 
   async sync () {
-    this.uiSettings = this.ui.settings
     await Promise.all([
-      this.getGain()
+      this.getGain(),
+      this.syncUISettings()
     ])
   }
 
@@ -47,7 +47,14 @@ export class BoosterComponent implements OnInit {
         this.changeRef.detectChanges()
       }
     })
-    this.ui.settingsChanged.subscribe(uiSettings => this.uiSettings = uiSettings)
+    this.ui.settingsChanged.subscribe(uiSettings => {
+      this.replaceKnobsWithSliders = uiSettings.replaceKnobsWithSliders
+    })
+  }
+
+  async syncUISettings () {
+    const uiSettings = await this.ui.getSettings()
+    this.replaceKnobsWithSliders = uiSettings.replaceKnobsWithSliders
   }
 
   setGain (gain: number) {

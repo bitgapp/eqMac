@@ -1,7 +1,7 @@
 <eqm-loading *ngIf="!selectedPreset || !presets"></eqm-loading>
 <div *ngIf="selectedPreset && presets" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="10px">  
   <!-- Knobs -->
-  <div *ngIf="!uiSettings.replaceKnobsWithSliders" class="basic-level-knobs" fxFill fxLayout="row" fxLayoutAlign="space-around center">
+  <div *ngIf="!replaceKnobsWithSliders" class="basic-level-knobs" fxFill fxLayout="row" fxLayoutAlign="space-around center">
     <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="5px">
       <eqm-label>BASS</eqm-label>
       <eqm-knob #bassKnob size="large" [disabled]="!enabled" [min]="-24" [max]="24" [(value)]="gains.bass"
@@ -30,7 +30,7 @@
   </div>
 
   <!-- Sliders -->
-  <div *ngIf="uiSettings.replaceKnobsWithSliders" class="basic-level-sliders" fxFill fxLayoutGap="15px" fxLayout="column" fxLayoutAlign="space-around center">
+  <div *ngIf="replaceKnobsWithSliders" class="basic-level-sliders" fxFill fxLayoutGap="15px" fxLayout="column" fxLayoutAlign="space-around center">
     <div fxLayout="row" fxLayoutAlign="center center" fxFill fxLayoutGap="5px">
       <eqm-label fxFlex="52px">BASS</eqm-label>
       <div fxFlex="70%">

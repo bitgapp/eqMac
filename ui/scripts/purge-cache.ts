@@ -10,7 +10,7 @@ const cf = Cloudflare({
 
 ;(async () => {
   const [ major, minor ] = version.split('.')
-  const domain = `https://ui-v${major}${minor}0.eqmac.app`
+  const domain = `https://ui-v${major}.eqmac.app`
   await cf.zones.purgeCache(process.env.CLOUDFLARE_ZONE_ID, {
     files: [ domain ]
   })

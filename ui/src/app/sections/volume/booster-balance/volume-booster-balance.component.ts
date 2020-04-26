@@ -20,7 +20,7 @@ export class VolumeBoosterBalanceComponent implements OnInit {
   }
 
   async syncUISettings () {
-    const uiSettings = this.ui.settings
+    const uiSettings = await this.ui.getSettings()
     this.replaceKnobsWithSliders = !!uiSettings.replaceKnobsWithSliders
   }
 

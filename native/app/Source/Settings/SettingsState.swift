@@ -12,18 +12,25 @@ import SwiftyUserDefaults
 import ReSwift
 
 struct SettingsState: State {
+  var iconMode: IconMode = .both
+  //    var mode: UIMode = .popover
 }
 
 enum SettingsAction: Action {
+  case setIconMode(IconMode)
+  //    case setMode(UIMode)
 }
 
 func SettingsStateReducer(action: Action, state: SettingsState?) -> SettingsState {
-    let state = state ?? SettingsState()
-    switch action as? SettingsAction {
-    
-    case .none:
-        break
-    }
-    
-    return state
+  var state = state ?? SettingsState()
+  switch action as? SettingsAction {
+  case .setIconMode(let iconMode)?:
+    state.iconMode = iconMode
+    //    case .setMode(let mode)?:
+  //        state.mode = mode
+  case .none:
+    break
+  }
+  
+  return state
 }
