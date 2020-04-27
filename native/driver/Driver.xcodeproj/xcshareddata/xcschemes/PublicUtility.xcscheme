@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1010"
+   LastUpgradeVersion = "1140"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -17,7 +17,7 @@
                BlueprintIdentifier = "2743C9C51D7EF84B0089613B"
                BuildableName = "libPublicUtility.a"
                BlueprintName = "PublicUtility"
-               ReferencedContainer = "container:eqMacAudioDriver.xcodeproj">
+               ReferencedContainer = "container:Driver.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -29,11 +29,9 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
       </Testables>
-      <AdditionalOptions>
-      </AdditionalOptions>
    </TestAction>
    <LaunchAction
-      buildConfiguration = "Release"
+      buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
@@ -42,17 +40,6 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "2743C9C51D7EF84B0089613B"
-            BuildableName = "libPublicUtility.a"
-            BlueprintName = "PublicUtility"
-            ReferencedContainer = "container:eqMacAudioDriver.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
-      <AdditionalOptions>
-      </AdditionalOptions>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -66,7 +53,7 @@
             BlueprintIdentifier = "2743C9C51D7EF84B0089613B"
             BuildableName = "libPublicUtility.a"
             BlueprintName = "PublicUtility"
-            ReferencedContainer = "container:eqMacAudioDriver.xcodeproj">
+            ReferencedContainer = "container:Driver.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

@@ -157,14 +157,14 @@ public:
 	const AudioObjectPropertyAddress*		GetItems() const																		{ return &(*mAddressList.begin()); }
 	AudioObjectPropertyAddress*				GetItems()																				{ return &(*mAddressList.begin()); }
 	
-	bool									HasItem(const AudioObjectPropertyAddress& inAddress) const								{ AddressList::const_iterator theIterator = std::find_if(mAddressList.begin(), mAddressList.end(), std::bind1st(CAPropertyAddress::CongruentEqualTo(), inAddress)); return theIterator != mAddressList.end(); }
-	bool									HasExactItem(const AudioObjectPropertyAddress& inAddress) const							{ AddressList::const_iterator theIterator = std::find_if(mAddressList.begin(), mAddressList.end(), std::bind1st(CAPropertyAddress::EqualTo(), inAddress)); return theIterator != mAddressList.end(); }
+	bool									HasItem(const AudioObjectPropertyAddress& inAddress) const								{ AddressList::const_iterator theIterator = std::find_if(mAddressList.begin(), mAddressList.end(), std::bind(CAPropertyAddress::CongruentEqualTo(), inAddress, std::placeholders::_1)); return theIterator != mAddressList.end(); }
+	bool									HasExactItem(const AudioObjectPropertyAddress& inAddress) const							{ AddressList::const_iterator theIterator = std::find_if(mAddressList.begin(), mAddressList.end(), std::bind(CAPropertyAddress::EqualTo(), inAddress, std::placeholders::_1)); return theIterator != mAddressList.end(); }
 
 	void									AppendItem(const AudioObjectPropertyAddress& inAddress)									{ mAddressList.push_back(inAddress); }
 	void									AppendUniqueItem(const AudioObjectPropertyAddress& inAddress)							{ if(!HasItem(inAddress)) { mAddressList.push_back(inAddress); } }
 	void									AppendUniqueExactItem(const AudioObjectPropertyAddress& inAddress)						{ if(!HasExactItem(inAddress)) { mAddressList.push_back(inAddress); } }
 	void									InsertItemAtIndex(UInt32 inIndex, const AudioObjectPropertyAddress& inAddress)			{ if(inIndex < mAddressList.size()) { AddressList::iterator theIterator = mAddressList.begin(); std::advance(theIterator, static_cast<int>(inIndex)); mAddressList.insert(theIterator, inAddress); } else { mAddressList.push_back(inAddress); } }
-	void									EraseExactItem(const AudioObjectPropertyAddress& inAddress)								{ AddressList::iterator theIterator = std::find_if(mAddressList.begin(), mAddressList.end(), std::bind1st(CAPropertyAddress::EqualTo(), inAddress)); if(theIterator != mAddressList.end()) { mAddressList.erase(theIterator); } }
+	void									EraseExactItem(const AudioObjectPropertyAddress& inAddress)								{ AddressList::iterator theIterator = std::find_if(mAddressList.begin(), mAddressList.end(), std::bind(CAPropertyAddress::EqualTo(), inAddress, std::placeholders::_1)); if(theIterator != mAddressList.end()) { mAddressList.erase(theIterator); } }
 	void									EraseItemAtIndex(UInt32 inIndex)														{ if(inIndex < mAddressList.size()) { AddressList::iterator theIterator = mAddressList.begin(); std::advance(theIterator, static_cast<int>(inIndex)); mAddressList.erase(theIterator); } }
 	void									EraseAllItems()																			{ mAddressList.clear(); }
 
