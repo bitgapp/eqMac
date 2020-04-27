@@ -152,9 +152,9 @@ export class KnobComponent implements OnInit {
         this.dragStartDegr = degrees
         const multiplier = (() => {
           switch (this.size) {
-            case 'large': return 110
+            case 'large': return 250
             case 'medium': return 220
-            case 'small': return 400
+            case 'small': return 600
             default: return 220
           }
         })()

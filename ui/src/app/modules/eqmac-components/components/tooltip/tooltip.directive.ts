@@ -7,7 +7,7 @@ import { TooltipPositionSide } from './tooltip.component'
 })
 export class TooltipDirective implements OnDestroy {
   @Input() eqmTooltip = ''
-  @Input() eqmTooltipDelay = 1000
+  @Input() eqmTooltipDelay = 100
   @Input() eqmTooltipPositionSide: TooltipPositionSide = 'top'
   @Input() eqmTooltipShowArrow: boolean = true
   private id: string

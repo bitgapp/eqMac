@@ -265,6 +265,14 @@ class Application {
     Driver.device!.setVirtualMasterVolume(volume > 1 ? 1 : Float32(volume), direction: .playback)
     Driver.latency = selectedDevice.latency(direction: .playback) ?? 0 // Set driver latency to mimic device
     Driver.safetyOffset = selectedDevice.safetyOffset(direction: .playback) ?? 0 // Set driver latency to mimic device
+    let outputSampleRate = selectedDevice.actualSampleRate()!
+    let driverSampleRates = Driver.sampleRates
+    let closestSampleRate = driverSampleRates.min( by: { abs($0 - outputSampleRate) < abs($1 - outputSampleRate) } )!
+    Driver.device!.setNominalSampleRate(closestSampleRate)
+    
+    Console.log("Driver new Latency: \(Driver.latency)")
+    Console.log("Driver new Safety Offset: \(Driver.safetyOffset)")
+    Console.log("Driver new Sample Rate: \(Driver.device!.actualSampleRate())")
 
     AudioDevice.currentOutputDevice = Driver.device!
     // TODO: Figure out a better way
@@ -274,12 +282,7 @@ class Application {
   }
   
   private static func createAudioPipeline () {
-    Sources() { sources in
-      let outputSampleRate = selectedDevice.actualSampleRate()!
-      let driverSampleRates = Driver.sampleRates
-      let closestSampleRate = driverSampleRates.min( by: { abs($0 - outputSampleRate) < abs($1 - outputSampleRate) } )!
-      Driver.device!.setNominalSampleRate(closestSampleRate)
-  
+    _ = Sources() { sources in
       self.sources = sources
       effects = Effects()
       volume = Volume()

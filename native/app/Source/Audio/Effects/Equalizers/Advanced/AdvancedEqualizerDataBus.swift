@@ -127,27 +127,30 @@ class AdvancedEqualizerDataBus: DataBus {
         }
         
         if let json = try? String(contentsOf: file!) {
-          let presets = JSON(parseJSON: json).arrayObject as! [[String: Any]]
-          for var preset in presets {
-            let bands = preset["gains"] as? [Double]
-            let name = preset["name"] as? String
-            
-            if (bands == nil || bands?.count != 10 || name == nil) {
-              res.error("Invalid import file. Must be an array of objects of type { gains: Double[10], name: String }")
-              return
+          let presets = JSON(parseJSON: json).arrayValue
+          for preset in presets {
+            if let gains = preset["gains"].dictionary, let name = preset["name"].string {
+              let global = gains["global"]?.double
+              if let bands = gains["bands"]?.arrayObject as? [Double] {
+                if preset["id"].string == "manual" {
+                  AdvancedEqualizer.updatePreset(id: "manual", gains: AdvancedEqualizerPresetGains(
+                    global: global ?? 0, bands: bands
+                  ))
+                } else {
+                  _ = AdvancedEqualizer.createPreset(name: name, gains: AdvancedEqualizerPresetGains(
+                    global: global ?? 0, bands: bands
+                  ))
+                }
+                
+              }
             }
-            
-            _ = AdvancedEqualizer.createPreset(name: name!, gains: AdvancedEqualizerPresetGains(
-              global: 0, bands: bands!
-            ))
           }
-          
           res.send("Presets imported.")
         } else {
           res.error("File is not readable format.")
         }
         
-
+        
       }
       return nil
     }

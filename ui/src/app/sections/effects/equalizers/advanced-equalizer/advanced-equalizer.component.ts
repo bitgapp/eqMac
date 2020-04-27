@@ -142,6 +142,7 @@ export class AdvancedEqualizerComponent extends EqualizerComponent implements On
   protected setupEvents () {
     this.service.onPresetsChanged(presets => {
       if (!presets) return
+      console.log('new presets', presets)
       this.presets = presets
     })
     this.service.onSelectedPresetChanged(preset => {

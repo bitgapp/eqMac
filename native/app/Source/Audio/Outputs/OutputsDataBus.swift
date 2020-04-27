@@ -27,11 +27,8 @@ class OutputsDataBus: DataBus {
     self.on(.POST, "/selected") { data, _ in
       if let id = data["id"] as? AudioDeviceID {
         if let device = AudioDevice.lookup(by: id) {
-          if (device.id != Outputs.current) {
             Application.selectOutput(device: device)
             return "Output Selected"
-          }
-          throw "This device is already playing"
         }
         throw "Device with such ID doesn't exist"
       }
