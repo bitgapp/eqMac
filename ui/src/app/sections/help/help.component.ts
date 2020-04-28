@@ -37,11 +37,12 @@ export class HelpComponent implements OnInit {
   async fetchInfo () {
     this.info = await this.app.getMacInfo()
   }
+
   reportBug () {
-    this.app.reportBug()
+    this.app.openURL(this.CONST.BUG_REPORT_URL)
   }
 
   faq () {
-    this.app.faq()
+    this.app.openURL(this.CONST.FAQ_URL)
   }
 }

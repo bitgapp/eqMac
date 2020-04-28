@@ -15,7 +15,7 @@ import WebKit
 import Zip
 //import Swifter
 import Criollo
-import Reachability
+import Alamofire
 
 enum UIMode: String, DefaultsSerializable {
   case window = "window"
@@ -186,51 +186,38 @@ class UI: StoreSubscriber {
   }
   
   private func load () {
-    let reachability = try! Reachability(hostname: Constants.UI_ENDPOINT_URL.absoluteString)
-    
-    reachability.whenReachable = { _ in
-      Console.log("Remote UI reachable, loading: \(Constants.UI_ENDPOINT_URL)")
-      self.loadRemote()
-      reachability.stopNotifier()
-    }
-    
-    reachability.whenUnreachable = { _ in
-      Console.log("Remote UI unreachable, loading local")
-      self.loadLocal()
-      reachability.stopNotifier()
-    }
-    
-    do {
-      try reachability.startNotifier()
-    } catch {
-      self.loadLocal()
-    }
-  }
-  
-  private func loadRemote () {
     UI.viewController.load(Constants.UI_ENDPOINT_URL, { success in
-      if !success {
-        self.loadLocal()
-      } else {
-        Console.log("Remote UI loaded")
-        self.cacheRemoteUI()
-      }
-    })
-  }
-  
-  private func loadLocal () {
-    let port = UI.startLocalServer()
-    let url = URL(string: "http://localhost:\(port)/index.html")!
-    UI.viewController.load(url, { success in
       if success {
-        Console.log("Local UI loaded")
+        Console.log("Remote UI loaded")
+        self.cacheRemote()
       } else {
-        Console.log("Local UI failed to Load")
+        let port = UI.startLocalServer()
+        let url = URL(string: "http://localhost:\(port)/index.html")!
+        UI.viewController.load(url, { success in
+          if success {
+            Console.log("Local UI loaded")
+          } else {
+            Console.log("Local UI failed to Load")
+          }
+        })
       }
     })
   }
   
-  private func cacheRemoteUI () {
-    
+  private func cacheRemote () {
+    // Only download ui.zip when UI endpoint is remote
+    if Constants.UI_ENDPOINT_URL.absoluteString.contains(Constants.DOMAIN) {
+      let destination: DownloadRequest.Destination = { _, _ in
+          let fileURL = Application.supportPath.appendingPathComponent("ui.zip", isDirectory: false)
+          return (fileURL, [.removePreviousFile, .createIntermediateDirectories])
+      }
+      AF.download("\(Constants.UI_ENDPOINT_URL)/ui.zip", to: destination).response { resp in
+        if resp.error == nil {
+          Console.log("Remote UI cached successfuly")
+        } else {
+          Console.log("Failed to cache Remote UI. Error: ", resp.error as Any)
+        }
+      }
+    }
   }
 }

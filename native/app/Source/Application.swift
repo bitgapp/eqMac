@@ -97,6 +97,7 @@ class Application {
     // Create a Sentry client and start crash handler
     do {
       Client.shared = try Client(dsn: Constants.SENTRY_ENDPOINT)
+      Client.shared?.sampleRate = 0.1
       try Client.shared?.startCrashHandler()
     } catch let error {
       Console.log("\(error)")
@@ -423,10 +424,10 @@ class Application {
   }
   
   static func uninstall (_ completion: @escaping (Bool) -> Void) {
-    stopListeners()
-    stopEngines()
-    switchBackToLastKnownDevice()
     Driver.uninstall(started: {
+      self.stopListeners()
+      self.stopEngines()
+      self.switchBackToLastKnownDevice()
       UI.hide()
       Utilities.delay(100) { UI.showLoadingWindow("Uninstalling eqMac") }
     }) { success in

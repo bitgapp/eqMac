@@ -18,12 +18,8 @@ export class ApplicationService extends DataService {
     return this.request({ method: 'GET', endpoint: '/quit' })
   }
 
-  faq () {
-    return this.request({ method: 'GET', endpoint: '/faq' })
-  }
-
-  reportBug () {
-    return this.request({ method: 'POST', endpoint: '/bug' })
+  openURL (url: URL) {
+    return this.request({ method: 'POST', endpoint: '/open-url', data: { url: url.href } })
   }
 
   uninstall () {

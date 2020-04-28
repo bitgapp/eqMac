@@ -10,11 +10,12 @@ target 'eqMac' do
     use_frameworks!
     
     # Pods for eqMac
+    pod 'Alamofire', '~> 5.1'
     pod 'AudioKit', '4.9.5'
     pod 'AMCoreAudio', '~> 3.3.1'
     pod 'Criollo', '~> 0.5’
     pod 'WebViewJavascriptBridge', '~> 6.0'
-    pod 'ReachabilitySwift'
+#    pod 'ReachabilitySwift'
     pod 'ReSwift'
     pod 'SwiftLint'
     pod 'Sparkle'

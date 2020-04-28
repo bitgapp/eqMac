@@ -11,6 +11,7 @@ import { FadeInOutAnimation, FromTopAnimation } from 'src/app/modules/animations
 import { MatDialog } from '@angular/material'
 import { TransitionService } from './services/transitions.service'
 import { AnalyticsService } from './services/analytics.service'
+import { ApplicationService } from './services/app.service'
 
 @Component({
   selector: 'app-root',
@@ -35,7 +36,8 @@ export class AppComponent implements OnInit, AfterContentInit {
     private ui: UIService,
     public matDialog: MatDialog,
     private transitions: TransitionService,
-    private analytics: AnalyticsService
+    private analytics: AnalyticsService,
+    private app: ApplicationService
   ) { }
 
   async ngOnInit () {

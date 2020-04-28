@@ -37,6 +37,16 @@ class ApplicationDataBus: DataBus {
       return "Bug Report Openned"
     }
     
+    self.on(.POST, "/open-url") { data, _ in
+      if let urlString = data["url"] as? String {
+        if let url = URL(string: urlString) {
+          NSWorkspace.shared.open(url)
+          return "Openned"
+        }
+      }
+      throw "Invalid URL"
+    }
+    
     self.on(.GET, "/haptic") { _, _ in
       NSHapticFeedbackManager.defaultPerformer.perform(NSHapticFeedbackManager.FeedbackPattern.alignment, performanceTime: NSHapticFeedbackManager.PerformanceTime.now)
       return "Haptic feedback performed"

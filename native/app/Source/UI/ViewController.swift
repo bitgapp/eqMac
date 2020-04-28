@@ -49,7 +49,7 @@ class ViewController: NSViewController, WKNavigationDelegate {
   var tryingToLoad = false
   var loadFinished = Event<Bool>()
   func load (_ url: URL, _ callback: ((Bool) -> Void)? = nil) {
-    let request = URLRequest(url: url)
+    let request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData)
     
     if callback != nil {
       tryingToLoad = true

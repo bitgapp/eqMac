@@ -606,7 +606,6 @@
 				E0DD0A9E20E95B8D00B14020 /* Run Script - SwiftLint */,
 				E057A635226F9F710019D13C /* Run Script - Kill eqMac (DEBUG) */,
 				E0F4FD9A22888AC300BEB0A6 /* Run Script - LaunchAtLogin copy-helper */,
-				E0D46F8C23C50C840067F83C /* Run Script - Package */,
 				E021BD0422318630004921FF /* CopyFiles */,
 				E0A48D6223C6028F00700C39 /* Run Script - Hardruntime + Sign Sparkle */,
 				E0A48D6323C61CC200700C39 /* Run Script - Hardruntime + Sign LaunchAtLogin */,
@@ -688,12 +687,12 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-eqMac/Pods-eqMac-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/AMCoreAudio/AMCoreAudio.framework",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/CocoaAsyncSocket/CocoaAsyncSocket.framework",
 				"${BUILT_PRODUCTS_DIR}/Criollo/Criollo.framework",
 				"${BUILT_PRODUCTS_DIR}/EmitterKit/EmitterKit.framework",
 				"${BUILT_PRODUCTS_DIR}/KeychainSwift/KeychainSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/ReSwift/ReSwift.framework",
-				"${BUILT_PRODUCTS_DIR}/ReachabilitySwift/Reachability.framework",
 				"${BUILT_PRODUCTS_DIR}/STPrivilegedTask/STPrivilegedTask.framework",
 				"${BUILT_PRODUCTS_DIR}/Sentry/Sentry.framework",
 				"${PODS_ROOT}/Sparkle/Sparkle.framework",
@@ -706,12 +705,12 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AMCoreAudio.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaAsyncSocket.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Criollo.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/EmitterKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KeychainSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReSwift.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Reachability.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/STPrivilegedTask.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Sentry.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Sparkle.framework",
@@ -799,20 +798,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\nLOCATION=\"$BUILT_PRODUCTS_DIR/$CONTENTS_FOLDER_PATH/Library/LoginItems/LaunchAtLoginHelper.app\"\n\n# By default, use the configured code signing identity for the project/target\nIDENTITY=\"${CODE_SIGN_IDENTITY}\"\nif [ \"$IDENTITY\" == \"\" ]\nthen\n# If a code signing identity is not specified, use ad hoc signing\nIDENTITY=\"-\"\nfi\necho \"Hardening Launch At Login Helper with developer identity \\\"$IDENTITY\\\"...\"\ncodesign --verbose --force --deep -o runtime --sign \"$IDENTITY\" \"$LOCATION\"\n";
-		};
-		E0D46F8C23C50C840067F83C /* Run Script - Package */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Run Script - Package";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if [[ $EQMAC_BUILD_ENV != \"Package\" ]]; then exit; fi # Run only on Package\n\n#envs\nBUILD_DIR=\"$PROJECT_DIR/../build\"\nDMG_PATH_WILDCARD=\"$BUILD_DIR/eqMac*.dmg\"\nUPDATE_DIR=\"$PROJECT_DIR/update\"\nrm $DMG_PATH_WILDCARD || true #Remove old DMG files\n\n# Create new DMG\nnpx create-dmg \"$BUILT_PRODUCTS_DIR/$FULL_PRODUCT_NAME\" --overwrite --dmg-title=eqMac $BUILD_DIR\nmv -v $DMG_PATH_WILDCARD \"$UPDATE_DIR/eqMac.dmg\" # Move it to update dir\n\n# Generate Changelog HTML\nnpx showdown makehtml -i \"$UPDATE_DIR/CHANGELOG.md\" -o \"$UPDATE_DIR/eqMac.html\"\n\n# Generate Appcast XML\n\"$UPDATE_DIR/generate_appcast\" \"$UPDATE_DIR\"\n\n";
 		};
 		E0DD0A9E20E95B8D00B14020 /* Run Script - SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1074,67 +1059,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_MODULES_AUTOLINK = NO;
 				CODE_SIGN_ENTITLEMENTS = eqMac.entitlements;
-				CODE_SIGN_IDENTITY = "-";
-				CODE_SIGN_STYLE = Manual;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = "";
-				ENABLE_HARDENED_RUNTIME = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)",
-					"$(PROJECT_DIR)/Carthage/Build/Mac",
-				);
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/AMCoreAudio/AMCoreAudio.framework/Headers\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/AwaitKit/AwaitKit.framework/Headers\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/CocoaAsyncSocket/CocoaAsyncSocket.framework/Headers\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/Criollo/Criollo.framework/Headers\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/EmitterKit/EmitterKit.framework/Headers\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/KeychainSwift/KeychainSwift.framework/Headers\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/PromiseKit/PromiseKit.framework/Headers\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/ReSwift/ReSwift.framework/Headers\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/STPrivilegedTask/STPrivilegedTask.framework/Headers\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/Sentry/Sentry.framework/Headers\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/Swifter/Swifter.framework/Headers\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/SwiftyJSON/SwiftyJSON.framework/Headers\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/SwiftyUserDefaults/SwiftyUserDefaults.framework/Headers\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/WebViewJavascriptBridge/WebViewJavascriptBridge.framework/Headers\"",
-					"$(SRCROOT)/OpenSSL/include",
-				);
-				INFOPLIST_FILE = "$(SRCROOT)/Supporting Files/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
-					"$(PROJECT_DIR)",
-					"$(PROJECT_DIR)/Source/Vendor",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				PRODUCT_BUNDLE_IDENTIFIER = com.bitgapp.eqmac;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				SDKROOT = macosx;
-				SWIFT_COMPILATION_MODE = singlefile;
-				SWIFT_INCLUDE_PATHS = "$(PROJECT_DIR) $(PROJECT_DIR)/Source/Vendor";
-				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/Source/Helpers/ExceptionCatcher.h";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.2;
-				USER_HEADER_SEARCH_PATHS = "";
-			};
-			name = Debug;
-		};
-		E086B00C1FCCB8E700CF9F0D /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = A3D606D740D37C93ABA157E7 /* Pods-eqMac.release.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_MODULES_AUTOLINK = NO;
-				CODE_SIGN_ENTITLEMENTS = eqMac.entitlements;
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 0.1.0;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = JZA6C97KJA;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1170,6 +1098,67 @@
 					"$(PROJECT_DIR)/Source/Vendor",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MARKETING_VERSION = v0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bitgapp.eqmac;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = singlefile;
+				SWIFT_INCLUDE_PATHS = "$(PROJECT_DIR) $(PROJECT_DIR)/Source/Vendor";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/Source/Helpers/ExceptionCatcher.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.2;
+				USER_HEADER_SEARCH_PATHS = "";
+			};
+			name = Debug;
+		};
+		E086B00C1FCCB8E700CF9F0D /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A3D606D740D37C93ABA157E7 /* Pods-eqMac.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_MODULES_AUTOLINK = NO;
+				CODE_SIGN_ENTITLEMENTS = eqMac.entitlements;
+				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_STYLE = Manual;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 0.1.0;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = JZA6C97KJA;
+				ENABLE_HARDENED_RUNTIME = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/AMCoreAudio/AMCoreAudio.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/AwaitKit/AwaitKit.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/CocoaAsyncSocket/CocoaAsyncSocket.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Criollo/Criollo.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/EmitterKit/EmitterKit.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/KeychainSwift/KeychainSwift.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/PromiseKit/PromiseKit.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/ReSwift/ReSwift.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/STPrivilegedTask/STPrivilegedTask.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Sentry/Sentry.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Swifter/Swifter.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SwiftyJSON/SwiftyJSON.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SwiftyUserDefaults/SwiftyUserDefaults.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/WebViewJavascriptBridge/WebViewJavascriptBridge.framework/Headers\"",
+					"$(SRCROOT)/OpenSSL/include",
+				);
+				INFOPLIST_FILE = "$(SRCROOT)/Supporting Files/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Source/Vendor",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MARKETING_VERSION = v0.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bitgapp.eqmac;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
