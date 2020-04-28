@@ -1,6 +1,16 @@
 #!/bin/sh
 set -e
 
+if [ -z "$GCLOUD_ACCOUNT" ]; then
+    echo "Need to set GCLOUD_ACCOUNT"
+    exit 0
+fi
+
+if [ -z "$GCLOUD_PROJECT_ID" ]; then
+    echo "Need to set GCLOUD_PROJECT_ID"
+    exit 0
+fi
+
 UI_VERSION=$(node -e "console.log(require('./package.json').version)")
 SUBDOMAIN_VERSION=$(node -e "const [ major, minor ] = require('./package.json').version.split('.');console.log(major)")
 DOMAIN=ui-v$SUBDOMAIN_VERSION.eqmac.app

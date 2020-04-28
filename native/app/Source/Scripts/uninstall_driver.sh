@@ -1,5 +1,11 @@
 #!/bin/sh
 
+# Dont uninstall if Brew Cask CI
+if [ -n "$CI" ] && [ "$GITHUB_REPOSITORY" == "Homebrew/homebrew-cask" ]; then
+  echo "Brew Cask CI, skipping uninstalling the driver"
+  exit 0
+fi
+
 # Uninstall the new driver
 rm -rf /Library/Audio/Plug-Ins/HAL/eqMac.driver/
 

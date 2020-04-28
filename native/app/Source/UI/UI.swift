@@ -15,6 +15,7 @@ import WebKit
 import Zip
 //import Swifter
 import Criollo
+import Reachability
 
 enum UIMode: String, DefaultsSerializable {
   case window = "window"
@@ -31,9 +32,17 @@ extension UIMode {
 class UI: StoreSubscriber {
   static func unarchiveLocal () {
     // Unpack Archive
-    let uiArchivePath = Bundle.main.url(forResource: "ui", withExtension: "zip")!
+    let file = FileManager.default
     
-    try! Zip.unzipFile(uiArchivePath, destination: localPath, overwrite: true, password: nil) // Unzip
+    let appSupportUIZipPath = Application.supportPath.appendingPathComponent("ui.zip", isDirectory: false)
+    
+    if !file.fileExists(atPath: appSupportUIZipPath.path) {
+      Console.log("\(appSupportUIZipPath.path) doesnt exist")
+      let bundleUIZipPath = Bundle.main.url(forResource: "ui", withExtension: "zip")!
+      try! file.copyItem(at: bundleUIZipPath, to: appSupportUIZipPath)
+    }
+    
+    try! Zip.unzipFile(appSupportUIZipPath, destination: localPath, overwrite: true, password: nil) // Unzip
   }
   
   static var localPath: URL {
@@ -41,8 +50,8 @@ class UI: StoreSubscriber {
   }
   
   static var server: CRHTTPServer?
-
-  static func startLocal () -> UInt {
+  
+  static func startLocalServer () -> UInt {
     unarchiveLocal()
     if (server != nil) {
       server!.stopListening()
@@ -57,7 +66,7 @@ class UI: StoreSubscriber {
   
   static let storyboard = NSStoryboard(name: "Main", bundle: nil)
   static let statusItem = StatusItem(image: NSImage(named: "statusBarIcon")!)
- 
+  
   static let windowController = storyboard.instantiateController(withIdentifier: "EQMWindow") as! NSWindowController
   static let viewController = (windowController.contentViewController as! ViewController)
   static let window = (windowController.window! as! Window)
@@ -144,7 +153,7 @@ class UI: StoreSubscriber {
     setupStateListener()
     setupBridge()
     setupListeners()
-    UI.viewController.load()
+    load()
   }
   
   func setupBridge () {
@@ -174,5 +183,54 @@ class UI: StoreSubscriber {
     statusItemClickedListener = UI.statusItem.clicked.on {_ in
       UI.toggle()
     }
+  }
+  
+  private func load () {
+    let reachability = try! Reachability(hostname: Constants.UI_ENDPOINT_URL.absoluteString)
+    
+    reachability.whenReachable = { _ in
+      Console.log("Remote UI reachable, loading: \(Constants.UI_ENDPOINT_URL)")
+      self.loadRemote()
+      reachability.stopNotifier()
+    }
+    
+    reachability.whenUnreachable = { _ in
+      Console.log("Remote UI unreachable, loading local")
+      self.loadLocal()
+      reachability.stopNotifier()
+    }
+    
+    do {
+      try reachability.startNotifier()
+    } catch {
+      self.loadLocal()
+    }
+  }
+  
+  private func loadRemote () {
+    UI.viewController.load(Constants.UI_ENDPOINT_URL, { success in
+      if !success {
+        self.loadLocal()
+      } else {
+        Console.log("Remote UI loaded")
+        self.cacheRemoteUI()
+      }
+    })
+  }
+  
+  private func loadLocal () {
+    let port = UI.startLocalServer()
+    let url = URL(string: "http://localhost:\(port)/index.html")!
+    UI.viewController.load(url, { success in
+      if success {
+        Console.log("Local UI loaded")
+      } else {
+        Console.log("Local UI failed to Load")
+      }
+    })
+  }
+  
+  private func cacheRemoteUI () {
+    
   }
 }

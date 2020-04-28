@@ -11,6 +11,7 @@ PODS:
     - CocoaAsyncSocket (~> 7.6)
   - EmitterKit (5.2.2)
   - KeychainSwift (13.0.0)
+  - ReachabilitySwift (5.0.0)
   - ReSwift (5.0.0)
   - Sentry (4.5.0):
     - Sentry/Core (= 4.5.0)
@@ -29,6 +30,7 @@ DEPENDENCIES:
   - Criollo (~> 0.5)
   - EmitterKit (~> 5.2)
   - KeychainSwift (~> 13.0)
+  - ReachabilitySwift
   - ReSwift
   - Sentry (~> 4.1)
   - Sparkle
@@ -47,6 +49,7 @@ SPEC REPOS:
     - Criollo
     - EmitterKit
     - KeychainSwift
+    - ReachabilitySwift
     - ReSwift
     - Sentry
     - Sparkle
@@ -73,6 +76,7 @@ SPEC CHECKSUMS:
   Criollo: 617173837c296ca4248b0b058f36ce9b91e5c25b
   EmitterKit: e7a27b37118823d8ad413b8396f75e40d59f8cba
   KeychainSwift: 23d6c16cbc33f20fafa30c3d783241b4b87d998c
+  ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
   ReSwift: 628f1a9b3ee52e3b3ca2a644435472fd77afafe1
   Sentry: ab6c209f23700d1460691dbc90e19ed0a05d496b
   Sparkle: 55b1a87ba69d56913375a281546b7c82dec95bb0
@@ -83,6 +87,6 @@ SPEC CHECKSUMS:
   WebViewJavascriptBridge: 7f5bc4d3581e672e8f32bd0f812d54bc69bb8e29
   Zip: 8877eede3dda76bcac281225c20e71c25270774c
 
-PODFILE CHECKSUM: e17cf26c243566da606db59c356b057283ec8836
+PODFILE CHECKSUM: 6043037b95ad7c53075805e0e6669ba3a90c9e1a
 
 COCOAPODS: 1.9.1

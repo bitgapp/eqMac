@@ -18,7 +18,6 @@
 		E00C596623BBBF3100C7B8B6 /* Atomic.m in Sources */ = {isa = PBXBuildFile; fileRef = E00C596523BBBF3100C7B8B6 /* Atomic.m */; };
 		E012A46E2044BC200029C800 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E012A46D2044BC200029C800 /* StringExtensions.swift */; };
 		E012A4702044C4DA0029C800 /* Sysctl.swift in Sources */ = {isa = PBXBuildFile; fileRef = E012A46F2044C4DA0029C800 /* Sysctl.swift */; };
-		E0136BB122D9EAB60048D5BC /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0136BB022D9EAB60048D5BC /* WebView.swift */; };
 		E0136BB322D9EC920048D5BC /* DraggableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0136BB222D9EC920048D5BC /* DraggableView.swift */; };
 		E017A0091FF055B50019BBF1 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = E017A0081FF055B50019BBF1 /* User.swift */; };
 		E018710F21696D9500436B68 /* NSObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = E018710E21696D9500436B68 /* NSObject.swift */; };
@@ -68,7 +67,6 @@
 		E07A24E61FF3D4E4007AEF20 /* CheckErr.swift in Sources */ = {isa = PBXBuildFile; fileRef = E07A24E51FF3D4E4007AEF20 /* CheckErr.swift */; };
 		E07A6EE122B6BA4E00DE7B16 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = E07A6EE022B6BA4E00DE7B16 /* File.swift */; };
 		E07B45A620FBA4990086AA7E /* Encodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E07B45A520FBA4990086AA7E /* Encodable.swift */; };
-		E07CB5A7218D00380033DA89 /* uninstall_legacy_drivers.sh in Resources */ = {isa = PBXBuildFile; fileRef = E07CB5A6218CFE980033DA89 /* uninstall_legacy_drivers.sh */; };
 		E07CB5B121902F4F0033DA89 /* Output.swift in Sources */ = {isa = PBXBuildFile; fileRef = E07CB5B021902F4F0033DA89 /* Output.swift */; };
 		E08300ED23F9964A00C9A12A /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E08300EC23F9964A00C9A12A /* LoadingViewController.swift */; };
 		E083214720715BBA0038ED1A /* NSOpenPanelExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E083214620715BBA0038ED1A /* NSOpenPanelExtensions.swift */; };
@@ -135,7 +133,6 @@
 		E00C596523BBBF3100C7B8B6 /* Atomic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Atomic.m; sourceTree = "<group>"; };
 		E012A46D2044BC200029C800 /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
 		E012A46F2044C4DA0029C800 /* Sysctl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sysctl.swift; sourceTree = "<group>"; };
-		E0136BB022D9EAB60048D5BC /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		E0136BB222D9EC920048D5BC /* DraggableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DraggableView.swift; sourceTree = "<group>"; };
 		E017A0081FF055B50019BBF1 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		E018710E21696D9500436B68 /* NSObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSObject.swift; sourceTree = "<group>"; };
@@ -186,7 +183,6 @@
 		E07A24E51FF3D4E4007AEF20 /* CheckErr.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckErr.swift; sourceTree = "<group>"; };
 		E07A6EE022B6BA4E00DE7B16 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		E07B45A520FBA4990086AA7E /* Encodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Encodable.swift; sourceTree = "<group>"; };
-		E07CB5A6218CFE980033DA89 /* uninstall_legacy_drivers.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = uninstall_legacy_drivers.sh; sourceTree = "<group>"; };
 		E07CB5B021902F4F0033DA89 /* Output.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Output.swift; sourceTree = "<group>"; };
 		E08300EC23F9964A00C9A12A /* LoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
 		E083214620715BBA0038ED1A /* NSOpenPanelExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSOpenPanelExtensions.swift; sourceTree = "<group>"; };
@@ -423,7 +419,6 @@
 				E0F661851FDDED0C00252923 /* ViewController.swift */,
 				E06E98D121D2E32E0041DD9C /* Popover.swift */,
 				E0A9A90D22D24A6200EB1E49 /* Window.swift */,
-				E0136BB022D9EAB60048D5BC /* WebView.swift */,
 				E0136BB222D9EC920048D5BC /* DraggableView.swift */,
 			);
 			path = UI;
@@ -525,7 +520,6 @@
 				E02B922B219843DA00AC130B /* open_privacy_microphone_settings.scpt */,
 				E0DDF3FC2189021300B37E77 /* install_driver.sh */,
 				E0267AF5218ADD6000FB2E5A /* uninstall_driver.sh */,
-				E07CB5A6218CFE980033DA89 /* uninstall_legacy_drivers.sh */,
 			);
 			path = Scripts;
 			sourceTree = "<group>";
@@ -674,7 +668,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E0F4FD9E22888D5A00BEB0A6 /* eqMac.driver in Resources */,
-				E07CB5A7218D00380033DA89 /* uninstall_legacy_drivers.sh in Resources */,
 				E0267AFA218ADD9500FB2E5A /* install_driver.sh in Resources */,
 				E086B0021FCCB8E700CF9F0D /* assets.xcassets in Resources */,
 				E09C17201FEC1969008E65A4 /* Main.storyboard in Resources */,
@@ -700,6 +693,7 @@
 				"${BUILT_PRODUCTS_DIR}/EmitterKit/EmitterKit.framework",
 				"${BUILT_PRODUCTS_DIR}/KeychainSwift/KeychainSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/ReSwift/ReSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/ReachabilitySwift/Reachability.framework",
 				"${BUILT_PRODUCTS_DIR}/STPrivilegedTask/STPrivilegedTask.framework",
 				"${BUILT_PRODUCTS_DIR}/Sentry/Sentry.framework",
 				"${PODS_ROOT}/Sparkle/Sparkle.framework",
@@ -717,6 +711,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/EmitterKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KeychainSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Reachability.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/STPrivilegedTask.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Sentry.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Sparkle.framework",
@@ -913,7 +908,6 @@
 				E01B1BBD235E458200CC58E5 /* Driver.swift in Sources */,
 				E057A63B22703F590019D13C /* BasicEqualizerDataBus.swift in Sources */,
 				E002178823BCC354006C452A /* CARingBuffer.swift in Sources */,
-				E0136BB122D9EAB60048D5BC /* WebView.swift in Sources */,
 				E0A3B96120DF8FE500E46908 /* Effects.swift in Sources */,
 				E018710F21696D9500436B68 /* NSObject.swift in Sources */,
 				E021BCE722313F1E004921FF /* SettingsDataBus.swift in Sources */,

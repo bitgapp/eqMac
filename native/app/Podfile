@@ -14,6 +14,7 @@ target 'eqMac' do
     pod 'AMCoreAudio', '~> 3.3.1'
     pod 'Criollo', '~> 0.5’
     pod 'WebViewJavascriptBridge', '~> 6.0'
+    pod 'ReachabilitySwift'
     pod 'ReSwift'
     pod 'SwiftLint'
     pod 'Sparkle'

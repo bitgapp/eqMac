@@ -12,7 +12,7 @@ import EmitterKit
 
 class ViewController: NSViewController, WKNavigationDelegate {
   // MARK: - Properties
-  @IBOutlet var webView: EQMWebView!
+  @IBOutlet weak var webView: WKWebView!
   @IBOutlet var draggableView: DraggableView!
   @IBOutlet var loadingView: NSView!
   @IBOutlet var loadingSpinner: NSProgressIndicator!
@@ -45,60 +45,41 @@ class ViewController: NSViewController, WKNavigationDelegate {
     loadingSpinner.startAnimation(nil)
   }
   
-  func load () {
-    remoteReachable() { reachable in
-      if (reachable) {
-        Console.log("Remote UI Reachable, loading \(Constants.UI_ENDPOINT_URL)")
-        self.loadRemote()
-      } else {
-        Console.log("Remote UI Unreachable. Loading Local")
-        self.loadLocal()
+  private var testWebView: WKWebView?
+  var tryingToLoad = false
+  var loadFinished = Event<Bool>()
+  func load (_ url: URL, _ callback: ((Bool) -> Void)? = nil) {
+    let request = URLRequest(url: url)
+    
+    if callback != nil {
+      tryingToLoad = true
+      testWebView = WKWebView()
+      testWebView!.navigationDelegate = self
+      loadFinished.once { success in
+        self.testWebView!.stopLoading()
+        self.testWebView!.removeFromSuperview()
+        self.testWebView!.navigationDelegate = nil
+        self.testWebView = nil
+        callback!(success)
       }
-      Utilities.delay(1000) {
-        self.loadingView.isHidden = true
-        self.loadingSpinner.stopAnimation(nil)
-      }
-      
+      self.testWebView!.load(request)
     }
+  
+    if self.webView.isLoading {
+      self.webView.stopLoading()
+    }
+    self.webView.load(request)
+
+    
+    Utilities.delay(1000) {
+      self.loadingView.isHidden = true
+      self.loadingSpinner.stopAnimation(nil)
+    }
+      
     if Constants.DEBUG {
       Console.log("Enabling DevTools")
       self.webView.configuration.preferences.setValue(true, forKey: "developerExtrasEnabled")
     }
-  }
-  
-  private var isTryingToLoadRemote = false
-  
-  private var remoteReached = Event<Void>()
-  private var remoteUnavailable = Event<Void>()
-  
-  private var testWebView: WKWebView!
-  private func remoteReachable (_ callback: @escaping (Bool) -> Void) {
-    testWebView = WKWebView()
-    testWebView.navigationDelegate = self
-    let url = URL(string: Constants.UI_ENDPOINT_URL)
-    let request = URLRequest(url: url!)
-    isTryingToLoadRemote = true
-    testWebView.load(request)
-    
-    remoteReached.once {
-      callback(true)
-    }
-    remoteUnavailable.once {
-      callback(false)
-    }
-  }
-  
-  private func loadRemote () {
-    let url = URL(string: Constants.UI_ENDPOINT_URL)
-    let request = URLRequest(url: url!)
-    isTryingToLoadRemote = true
-    self.webView.load(request)
-  }
-  
-  private func loadLocal () {
-    let port = UI.startLocal()
-    let request = URLRequest(url: URL(string: "http://localhost:\(port)/index.html")!)
-    self.webView.load(request)
   }
   
   // MARK: - Listeners
@@ -112,14 +93,16 @@ class ViewController: NSViewController, WKNavigationDelegate {
   }
   
   func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
-    if (isTryingToLoadRemote) {
-      remoteUnavailable.emit()
+    if (tryingToLoad) {
+      tryingToLoad = false
+      loadFinished.emit(false)
     }
   }
   
   func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-    if (isTryingToLoadRemote) {
-      remoteReached.emit()
+    if (tryingToLoad) {
+      tryingToLoad = false
+      loadFinished.emit(true)
     }
   }
 }
