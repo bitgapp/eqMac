@@ -51,6 +51,7 @@ target 'eqMac' do
                 print('Setting "', target.name, '" swift version to ', version)
                 puts()
                 config.build_settings['SWIFT_VERSION'] = version
+                config.build_settings['MACOSX_DEPLOYMENT_TARGET'] = '10.12'
             end
         end
     end

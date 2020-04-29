@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A440F8AC660DBCD6D26C37EA /* Pods_eqMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C0FBD24DF0BA400D806B8AC /* Pods_eqMac.framework */; };
 		E002178823BCC354006C452A /* CARingBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E002178723BCC354006C452A /* CARingBuffer.swift */; };
 		E00618E220F14C08003BA0B0 /* UIState.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00618E120F14C08003BA0B0 /* UIState.swift */; };
 		E00618EB20F22BD1003BA0B0 /* Effect.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00618EA20F22BD1003BA0B0 /* Effect.swift */; };
@@ -34,6 +33,7 @@
 		E0267AF7218ADD8D00FB2E5A /* uninstall_driver.sh in Resources */ = {isa = PBXBuildFile; fileRef = E0267AF5218ADD6000FB2E5A /* uninstall_driver.sh */; };
 		E0267AFA218ADD9500FB2E5A /* install_driver.sh in Resources */ = {isa = PBXBuildFile; fileRef = E0DDF3FC2189021300B37E77 /* install_driver.sh */; };
 		E0267AFD218AE39500FB2E5A /* Script.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0267AFC218AE39500FB2E5A /* Script.swift */; };
+		E02ACA982459EF3B00754204 /* Pods_eqMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C0FBD24DF0BA400D806B8AC /* Pods_eqMac.framework */; };
 		E02B922C219843DF00AC130B /* open_privacy_microphone_settings.scpt in Resources */ = {isa = PBXBuildFile; fileRef = E02B922B219843DA00AC130B /* open_privacy_microphone_settings.scpt */; };
 		E02B922E219CBCD800AC130B /* AudioDeviceEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = E02B922D219CBCD800AC130B /* AudioDeviceEvents.swift */; };
 		E02FF91622C7EC6C0051342A /* Transition.swift in Sources */ = {isa = PBXBuildFile; fileRef = E02FF91522C7EC6C0051342A /* Transition.swift */; };
@@ -46,6 +46,9 @@
 		E036BCEC235B2C12001F057B /* EffectsDataBus.swift in Sources */ = {isa = PBXBuildFile; fileRef = E036BCEB235B2C12001F057B /* EffectsDataBus.swift */; };
 		E044AB7621ED27E4000C41A1 /* Equalizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E044AB7521ED27E4000C41A1 /* Equalizer.swift */; };
 		E044AB7821ED2CA9000C41A1 /* NumberExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E044AB7721ED2CA9000C41A1 /* NumberExtensions.swift */; };
+		E0453052245A039500CDB1BF /* LaunchAtLogin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0AFAE9A23C39187007D2D56 /* LaunchAtLogin.framework */; };
+		E0453053245A039500CDB1BF /* LaunchAtLogin.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E0AFAE9A23C39187007D2D56 /* LaunchAtLogin.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E0453056245A03E800CDB1BF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0453055245A03E800CDB1BF /* Foundation.framework */; };
 		E0493D0B21F222D300A8FD3D /* EventInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0493D0A21F222D300A8FD3D /* EventInterceptor.swift */; };
 		E04E256021E21717002DFC2A /* AdvancedEqualizerState.swift in Sources */ = {isa = PBXBuildFile; fileRef = E04E255F21E21717002DFC2A /* AdvancedEqualizerState.swift */; };
 		E04E256221E23CD5002DFC2A /* AdvancedEqualizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E04E256121E23CD5002DFC2A /* AdvancedEqualizer.swift */; };
@@ -103,13 +106,15 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		E021BD0422318630004921FF /* CopyFiles */ = {
+		E0453054245A039500CDB1BF /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = Contents/Library/LoginItems;
-			dstSubfolderSpec = 1;
+			dstPath = "";
+			dstSubfolderSpec = 10;
 			files = (
+				E0453053245A039500CDB1BF /* LaunchAtLogin.framework in Embed Frameworks */,
 			);
+			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -161,6 +166,7 @@
 		E0370EB0200D68AB00DF4DBF /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		E044AB7521ED27E4000C41A1 /* Equalizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Equalizer.swift; sourceTree = "<group>"; };
 		E044AB7721ED2CA9000C41A1 /* NumberExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberExtensions.swift; sourceTree = "<group>"; };
+		E0453055245A03E800CDB1BF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		E0493D0A21F222D300A8FD3D /* EventInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventInterceptor.swift; sourceTree = "<group>"; };
 		E04E255F21E21717002DFC2A /* AdvancedEqualizerState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedEqualizerState.swift; sourceTree = "<group>"; };
 		E04E256121E23CD5002DFC2A /* AdvancedEqualizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedEqualizer.swift; sourceTree = "<group>"; };
@@ -231,8 +237,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E02ACA982459EF3B00754204 /* Pods_eqMac.framework in Frameworks */,
 				E0F661711FDC38BE00252923 /* WebKit.framework in Frameworks */,
-				A440F8AC660DBCD6D26C37EA /* Pods_eqMac.framework in Frameworks */,
+				E0453052245A039500CDB1BF /* LaunchAtLogin.framework in Frameworks */,
+				E0453056245A03E800CDB1BF /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -569,6 +577,7 @@
 		E6BAF3EF1807277C1A4360F7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E0453055245A03E800CDB1BF /* Foundation.framework */,
 				E0AFAE9A23C39187007D2D56 /* LaunchAtLogin.framework */,
 				E0370EB0200D68AB00DF4DBF /* AudioToolbox.framework */,
 				E0F661701FDC38B600252923 /* WebKit.framework */,
@@ -595,20 +604,18 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E086B00A1FCCB8E700CF9F0D /* Build configuration list for PBXNativeTarget "eqMac" */;
 			buildPhases = (
+				E057A635226F9F710019D13C /* Run Script - Kill eqMac (DEBUG) */,
 				AFDFF826F547656CFBBD1F8A /* [CP] Check Pods Manifest.lock */,
 				E00C596723BBBF7500C7B8B6 /* Headers */,
 				E086AFF81FCCB8E700CF9F0D /* Sources */,
 				E086AFFA1FCCB8E700CF9F0D /* Resources */,
 				E086AFF91FCCB8E700CF9F0D /* Frameworks */,
-				896A6D438DAEE15F87C748E4 /* [CP] Embed Pods Frameworks */,
-				E0F4FDA1228ABE0400BEB0A6 /* Run Script - Carthage copy-frameworks */,
-				E07CB5AA21902A080033DA89 /* Run Script - Highlight TODO and FIXME */,
-				E0DD0A9E20E95B8D00B14020 /* Run Script - SwiftLint */,
-				E057A635226F9F710019D13C /* Run Script - Kill eqMac (DEBUG) */,
+				E0453054245A039500CDB1BF /* Embed Frameworks */,
 				E0F4FD9A22888AC300BEB0A6 /* Run Script - LaunchAtLogin copy-helper */,
-				E021BD0422318630004921FF /* CopyFiles */,
+				896A6D438DAEE15F87C748E4 /* [CP] Embed Pods Frameworks */,
 				E0A48D6223C6028F00700C39 /* Run Script - Hardruntime + Sign Sparkle */,
 				E0A48D6323C61CC200700C39 /* Run Script - Hardruntime + Sign LaunchAtLogin */,
+				E06B9AEA2459CAFE00A4D10B /* Run Script - Upload dSYM to Sentry */,
 			);
 			buildRules = (
 			);
@@ -754,22 +761,27 @@
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
+			shellPath = /bin/zsh;
 			shellScript = "if [[ $CONFIGURATION == \"Debug\" ]]; then\n    pkill -f eqMac || true\nfi\n";
 		};
-		E07CB5AA21902A080033DA89 /* Run Script - Highlight TODO and FIXME */ = {
+		E06B9AEA2459CAFE00A4D10B /* Run Script - Upload dSYM to Sentry */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
+			inputFileListPaths = (
 			);
-			name = "Run Script - Highlight TODO and FIXME";
+			inputPaths = (
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
+			);
+			name = "Run Script - Upload dSYM to Sentry";
+			outputFileListPaths = (
+			);
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "TAGS=\"TODO:|FIXME:\"\nSKIPDIRS=\"/Pods\"\nfind \"${SRCROOT}/\" -type f \\( -name \"*.h\" -or -name \"*.m\" -or -name \"*.swift\" \\) -print0 \\\n| xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$\" \\\n| grep -v \"$SKIPDIRS\" \\\n| perl -p -e \"s/($TAGS)/ warning: \\$1/\"\n";
+			shellScript = "if [[ $CONFIGURATION != \"Release\" ]]; then\nexit 0\nfi\n\nif which sentry-cli >/dev/null; then\nsource ~/.bash_profile\nexport SENTRY_ORG=bitgapp\nexport SENTRY_PROJECT=eqmac-swift\nERROR=$(sentry-cli upload-dif \"$DWARF_DSYM_FOLDER_PATH\" --log-level=debug 2>&1 >/dev/null)\nif [ ! $? -eq 0 ]; then\necho \"warning: sentry-cli - $ERROR\"\nexit 1\nfi\nelse\necho \"warning: sentry-cli not installed, download from https://github.com/getsentry/sentry-cli/releases\"\nexit 1\nfi\n";
 		};
 		E0A48D6223C6028F00700C39 /* Run Script - Hardruntime + Sign Sparkle */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -799,20 +811,6 @@
 			shellPath = /bin/sh;
 			shellScript = "\nLOCATION=\"$BUILT_PRODUCTS_DIR/$CONTENTS_FOLDER_PATH/Library/LoginItems/LaunchAtLoginHelper.app\"\n\n# By default, use the configured code signing identity for the project/target\nIDENTITY=\"${CODE_SIGN_IDENTITY}\"\nif [ \"$IDENTITY\" == \"\" ]\nthen\n# If a code signing identity is not specified, use ad hoc signing\nIDENTITY=\"-\"\nfi\necho \"Hardening Launch At Login Helper with developer identity \\\"$IDENTITY\\\"...\"\ncodesign --verbose --force --deep -o runtime --sign \"$IDENTITY\" \"$LOCATION\"\n";
 		};
-		E0DD0A9E20E95B8D00B14020 /* Run Script - SwiftLint */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Run Script - SwiftLint";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# \"${PODS_ROOT}/SwiftLint/swiftlint\"\n";
-		};
 		E0F4FD9A22888AC300BEB0A6 /* Run Script - LaunchAtLogin copy-helper */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -826,24 +824,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PROJECT_DIR}/Carthage/Build/Mac/LaunchAtLogin.framework/Resources/copy-helper.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		E0F4FDA1228ABE0400BEB0A6 /* Run Script - Carthage copy-frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/Mac/LaunchAtLogin.framework",
-			);
-			name = "Run Script - Carthage copy-frameworks";
-			outputPaths = (
-				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/LaunchAtLogin.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks\n\n";
-			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1062,7 +1042,7 @@
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 0.1.0;
+				CURRENT_PROJECT_VERSION = 0.1.1;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = JZA6C97KJA;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1098,7 +1078,7 @@
 					"$(PROJECT_DIR)/Source/Vendor",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				MARKETING_VERSION = v0.1.0;
+				MARKETING_VERSION = v0.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bitgapp.eqmac;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1122,7 +1102,7 @@
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 0.1.0;
+				CURRENT_PROJECT_VERSION = 0.1.1;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = JZA6C97KJA;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1158,7 +1138,7 @@
 					"$(PROJECT_DIR)/Source/Vendor",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				MARKETING_VERSION = v0.1.0;
+				MARKETING_VERSION = v0.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bitgapp.eqmac;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
