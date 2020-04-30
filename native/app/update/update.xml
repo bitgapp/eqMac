@@ -3,9 +3,13 @@
     <channel>
         <title>eqMac</title>
         <item>
-            <title>v0.1.0</title>
-            <pubDate>Tue, 28 Apr 2020 14:45:51 +0000</pubDate>
+            <title>v0.1.1</title>
+            <pubDate>Wed, 29 Apr 2020 20:01:12 +0100</pubDate>
             <description><![CDATA[<h1 id="eqmac-changelog">eqMac Changelog</h1>
+<h2 id="v0-1-1">v0.1.1</h2>
+<ul>
+<li>Fix instant crashed on macOS 10.14 and lower</li>
+</ul>
 <h2 id="v0-1-0">v0.1.0</h2>
 <ul>
 <li>Fixed crashes due to Sample Rate mismatch</li>
@@ -28,7 +32,7 @@
 </ul>
 ]]></description>
             <sparkle:minimumSystemVersion>10.12</sparkle:minimumSystemVersion>
-            <enclosure url="https://update.eqmac.app/eqMac.dmg" sparkle:version="0.1.0" sparkle:shortVersionString="v0.1.0" length="13589472" type="application/octet-stream" sparkle:edSignature="JPLuzbEeMblfq4425BM+y20B/duIf3ZqhETjMvyS2QSvLmtZuXG/cWp76qaCQkCBVA3RICUve2roJLPNG9TZAg=="/>
+            <enclosure url="https://update.eqmac.app/eqMac.dmg" sparkle:version="0.1.1" sparkle:shortVersionString="v0.1.1" length="13415309" type="application/octet-stream" sparkle:edSignature="Uxrl5BE+wKFb/EcYw8gzO22T3ttK6KZUwB5GlvdSM21k7Hb75uxdswRXBYKo2aYW4VqnUav7FocUeLrUycRrCQ=="/>
         </item>
     </channel>
 </rss>

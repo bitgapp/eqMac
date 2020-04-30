@@ -1,5 +1,8 @@
 # eqMac Changelog
 
+## v0.1.1
+* Fix instant crashed on macOS 10.14 and lower
+
 ## v0.1.0
 * Fixed crashes due to Sample Rate mismatch
 * Possibly fixed audio sync/static issue (needs testing)
