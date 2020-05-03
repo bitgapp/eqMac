@@ -9,11 +9,28 @@
 import Cocoa
 import SwiftyJSON
 import ServiceManagement
+import Sparkle
+import EmitterKit
 
 @NSApplicationMain
-class AppDelegate: NSObject, NSApplicationDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate, SUUpdaterDelegate {
+  var updater = SUUpdater(for: Bundle.main)!
+  var updateFound = Event<Void>()
+  var updateNotFound = Event<Void>()
+  var updateCanceled = Event<Void>()
+  
   func applicationDidFinishLaunching(_ aNotification: Notification) {
-    Application.start()
+    updater.delegate = self
+    updateFound.once { _ in
+      self.updateCanceled.once { _ in
+        Application.start()
+      }
+    }
+    
+    updateNotFound.once { _ in
+      Application.start()
+    }
+    updater.checkForUpdatesInBackground()
   }
   
   func applicationWillTerminate(_ aNotification: Notification) {
@@ -31,6 +48,30 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   
   func applicationDidBecomeActive(_ notification: Notification) {
     
+  }
+  
+  func updaterDidNotFindUpdate(_ updater: SUUpdater) {
+    updateNotFound.emit()
+  }
+  
+  func updater(_ updater: SUUpdater, didFindValidUpdate item: SUAppcastItem) {
+    updateFound.emit()
+  }
+  
+  func updater(_ updater: SUUpdater, userDidSkipThisVersion item: SUAppcastItem) {
+    updateCanceled.emit()
+  }
+  
+  func updater(_ updater: SUUpdater, didCancelInstallUpdateOnQuit item: SUAppcastItem) {
+    updateCanceled.emit()
+  }
+  
+  func updater(_ updater: SUUpdater, didDismissUpdateAlertPermanently permanently: Bool, for item: SUAppcastItem) {
+//    updateCanceled.emit()
+  }
+  
+  func userDidCancelDownload(_ updater: SUUpdater) {
+        updateCanceled.emit()
   }
     
 }
