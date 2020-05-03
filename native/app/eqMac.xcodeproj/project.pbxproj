@@ -604,8 +604,8 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E086B00A1FCCB8E700CF9F0D /* Build configuration list for PBXNativeTarget "eqMac" */;
 			buildPhases = (
-				E057A635226F9F710019D13C /* Run Script - Kill eqMac (DEBUG) */,
 				AFDFF826F547656CFBBD1F8A /* [CP] Check Pods Manifest.lock */,
+				E057A635226F9F710019D13C /* Run Script - Kill eqMac (DEBUG) */,
 				E00C596723BBBF7500C7B8B6 /* Headers */,
 				E086AFF81FCCB8E700CF9F0D /* Sources */,
 				E086AFFA1FCCB8E700CF9F0D /* Resources */,

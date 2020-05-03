@@ -21,6 +21,7 @@ class BasicEqualizer: Equalizer, StoreSubscriber {
       id: (name as String).camelCasedString,
       name: name,
       isDefault: true,
+      peakLimiter: false,
       gains: gains
     )
   }
@@ -44,6 +45,7 @@ class BasicEqualizer: Equalizer, StoreSubscriber {
           id: "manual",
           name: "Manual",
           isDefault: true,
+          peakLimiter: false,
           gains: BasicEqualizerPresetGains(bass: 0, mid: 0, treble: 0)
         ))
       }
@@ -57,24 +59,26 @@ class BasicEqualizer: Equalizer, StoreSubscriber {
     return self.presets.first(where: { $0.id == id })
   }
   
-  static func createPreset (name: String, gains: BasicEqualizerPresetGains) -> BasicEqualizerPreset {
+  static func createPreset (name: String, peakLimiter: Bool, gains: BasicEqualizerPresetGains) -> BasicEqualizerPreset {
     let preset = BasicEqualizerPreset(
       id: UUID().uuidString,
       name: name,
       isDefault: false,
+      peakLimiter: peakLimiter,
       gains: gains
     )
     self.userPresets.append(preset)
     return preset
   }
   
-  static func updatePreset (id: String, gains: BasicEqualizerPresetGains) {
+  static func updatePreset (id: String, peakLimiter: Bool, gains: BasicEqualizerPresetGains) {
     var presets = self.userPresets
     if var preset = self.getPreset(id: id) {
       preset = BasicEqualizerPreset(
         id: id, name:
         preset.name,
         isDefault: false,
+        peakLimiter: peakLimiter,
         gains: gains
       )
       presets.removeAll(where: { $0.id == preset.id })
@@ -92,6 +96,8 @@ class BasicEqualizer: Equalizer, StoreSubscriber {
   
   var selectedPreset: BasicEqualizerPreset = BasicEqualizer.getPreset(id: "flat")! {
     didSet {
+      self.peakLimiter = selectedPreset.peakLimiter
+
       if (transition) {
         Transition.perform(from: bassGain, to: selectedPreset.gains.bass) { gain in
           self.bassGain = gain
@@ -144,8 +150,21 @@ class BasicEqualizer: Equalizer, StoreSubscriber {
     }
   }
   
+  var peakLimiter = false
+  
+  
   override func setGain (index: Int, gain: Double) {
     super.setGain(index: index, gain: gain)
+    if (peakLimiter) {
+      let highestGain = gains.max()!
+      if (highestGain > 0) {
+        globalGain = -highestGain
+      } else {
+        globalGain = 0
+      }
+    } else {
+      globalGain = 0
+    }
   }
   
   var selectedPresetId: String? = nil
@@ -178,7 +197,7 @@ class BasicEqualizer: Equalizer, StoreSubscriber {
   
   func newState(state: BasicEqualizerState) {
     if let preset = BasicEqualizer.getPreset(id: state.selectedPresetId) {
-      if (selectedPreset.id != preset.id || selectedPreset.gains != preset.gains) {
+      if (selectedPreset.id != preset.id || selectedPreset.gains != preset.gains || selectedPreset.peakLimiter != preset.peakLimiter ) {
         transition = state.transition
         selectedPreset = preset
       }

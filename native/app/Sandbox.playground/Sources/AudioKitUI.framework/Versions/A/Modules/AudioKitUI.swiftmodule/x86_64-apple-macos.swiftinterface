@@ -1,0 +1,363 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.2.2 (swiftlang-1103.0.32.6 clang-1103.0.32.51)
+// swift-module-flags: -target x86_64-apple-macos10.12 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name AudioKitUI
+import AudioKit
+@_exported import AudioKitUI
+import Cocoa
+import Swift
+@objc @IBDesignable open class AKPropertyControl : AppKit.NSView {
+  @objc override dynamic open func acceptsFirstMouse(for theEvent: AppKit.NSEvent?) -> Swift.Bool
+  @objc @IBInspectable public var value: Swift.Double {
+    @objc get
+    @objc set
+  }
+  public var val: Swift.Double {
+    get
+    set
+  }
+  public var range: Swift.ClosedRange<Swift.Double> {
+    get
+    set
+  }
+  public var taper: Swift.Double
+  @objc @IBInspectable public var property: Swift.String
+  @objc @IBInspectable public var format: Swift.String
+  @objc @IBInspectable public var fontSize: CoreGraphics.CGFloat
+  public var callback: ((Swift.Double) -> Swift.Void)
+  public var discreteValues: [Swift.Double]
+  public var isDragging: Swift.Bool
+  public var lastTouch: CoreGraphics.CGPoint
+  public init(property: Swift.String, value: Swift.Double = 0.0, range: Swift.ClosedRange<Swift.Double> = 0 ... 1, taper: Swift.Double = 1, format: Swift.String = "%0.3f", frame: CoreGraphics.CGRect = CGRect(width: 440, height: 60), callback: @escaping (Swift.Double) -> Swift.Void = { _ in })
+  @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc override dynamic open func prepareForInterfaceBuilder()
+  @objc override dynamic open func mouseDown(with theEvent: AppKit.NSEvent)
+  @objc override dynamic open func mouseDragged(with theEvent: AppKit.NSEvent)
+  @objc override dynamic open func mouseUp(with theEvent: AppKit.NSEvent)
+  public func randomize() -> Swift.Double
+  @objc deinit
+  @objc override dynamic public init(frame frameRect: Foundation.NSRect)
+}
+public typealias AKView = AppKit.NSView
+public typealias AKColor = AppKit.NSColor
+public enum AKTheme {
+  case basic
+  case midnight
+  public static func == (a: AudioKitUI.AKTheme, b: AudioKitUI.AKTheme) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+}
+@_hasMissingDesignatedInitializers public class AKStylist {
+  public static let sharedInstance: AudioKitUI.AKStylist
+  public var bgColor: AudioKitUI.AKColor {
+    get
+  }
+  public var fontColor: AudioKitUI.AKColor {
+    get
+  }
+  public var theme: AudioKitUI.AKTheme
+  public var nextColor: AudioKitUI.AKColor {
+    get
+  }
+  public var colorForTrueValue: AudioKitUI.AKColor {
+    get
+  }
+  public var colorForFalseValue: AudioKitUI.AKColor {
+    get
+  }
+  @objc deinit
+}
+public enum AKButtonStyle {
+  case standard
+  case round
+  public static func == (a: AudioKitUI.AKButtonStyle, b: AudioKitUI.AKButtonStyle) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+}
+@objc @_inheritsConvenienceInitializers @IBDesignable open class AKButton : AudioKitUI.AKView {
+  public var callback: (AudioKitUI.AKButton) -> Swift.Void
+  @objc @IBInspectable open var title: Swift.String {
+    @objc get
+    @objc set
+  }
+  @objc @IBInspectable open var color: AppKit.NSColor {
+    @objc get
+    @objc set
+  }
+  @objc @IBInspectable open var highlightedColor: AppKit.NSColor? {
+    @objc get
+    @objc set
+  }
+  @objc @IBInspectable open var borderColor: AppKit.NSColor? {
+    @objc get
+    @objc set
+  }
+  @objc @IBInspectable open var borderWidth: CoreGraphics.CGFloat {
+    @objc get
+    @objc set
+  }
+  @objc @IBInspectable open var textColor: AppKit.NSColor? {
+    @objc get
+    @objc set
+  }
+  open var style: AudioKitUI.AKButtonStyle {
+    get
+    set
+  }
+  @objc override dynamic open func mouseDown(with event: AppKit.NSEvent)
+  @objc override dynamic open func mouseUp(with event: AppKit.NSEvent)
+  public init(title: Swift.String, color: AudioKitUI.AKColor = AKStylist.sharedInstance.nextColor, frame: CoreGraphics.CGRect = CGRect(width: 440, height: 60), callback: @escaping (AudioKitUI.AKButton) -> Swift.Void)
+  @objc override dynamic public init(frame: CoreGraphics.CGRect)
+  @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc override dynamic open func prepareForInterfaceBuilder()
+  @objc override dynamic open func draw(_ rect: CoreGraphics.CGRect)
+  @objc deinit
+}
+@objc public class AKTableView : AppKit.NSView {
+  public var table: AudioKit.AKTable {
+    get
+    set
+  }
+  public var absmax: Swift.Double
+  public init(_ table: AudioKit.AKTable, frame: CoreGraphics.CGRect = CGRect(width: 440, height: 150))
+  @objc override dynamic public var isFlipped: Swift.Bool {
+    @objc get
+  }
+  @objc required dynamic public init?(coder aDecoder: Foundation.NSCoder)
+  @objc override dynamic public func draw(_ rect: CoreGraphics.CGRect)
+  @objc deinit
+  @objc override dynamic public init(frame frameRect: Foundation.NSRect)
+}
+@objc @_inheritsConvenienceInitializers @IBDesignable open class AKOutputWaveformPlot : AudioKitUI.AKNodeOutputPlot {
+  public static func createView(width: CoreGraphics.CGFloat = 440, height: CoreGraphics.CGFloat = 200.0) -> AudioKitUI.AKView
+  @objc deinit
+  @objc required dynamic public init?(coder aDecoder: Foundation.NSCoder)
+  @objc override public init(_ input: AudioKit.AKNode? = super, frame: CoreGraphics.CGRect = super, bufferSize: Swift.Int = super)
+}
+public enum AKRotaryKnobStyle {
+  case round
+  case polygon(numberOfSides: Swift.Int, curvature: Swift.Double)
+}
+@objc @IBDesignable open class AKRotaryKnob : AudioKitUI.AKPropertyControl {
+  @objc @IBInspectable open var bgColor: AppKit.NSColor?
+  @objc @IBInspectable open var knobBorderColor: AppKit.NSColor?
+  @objc @IBInspectable open var indicatorColor: AppKit.NSColor?
+  @objc @IBInspectable open var knobColor: AppKit.NSColor
+  @objc @IBInspectable open var textColor: AppKit.NSColor?
+  @objc @IBInspectable open var bubbleFontSize: CoreGraphics.CGFloat
+  open var knobStyle: AudioKitUI.AKRotaryKnobStyle
+  @objc @IBInspectable open var knobBorderWidth: CoreGraphics.CGFloat
+  @objc @IBInspectable open var valueBubbleBorderWidth: CoreGraphics.CGFloat
+  @objc @IBInspectable open var numberOfIndicatorPoints: Swift.Int
+  public init(property: Swift.String, value: Swift.Double = 0.0, range: Swift.ClosedRange<Swift.Double> = 0 ... 1, taper: Swift.Double = 1, format: Swift.String = "%0.3f", color: AudioKitUI.AKColor = AKStylist.sharedInstance.nextColor, frame: CoreGraphics.CGRect = CGRect(width: 150, height: 170), callback: @escaping (Swift.Double) -> Swift.Void = { _ in })
+  @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc override dynamic open func mouseDown(with theEvent: AppKit.NSEvent)
+  @objc override dynamic open func mouseDragged(with theEvent: AppKit.NSEvent)
+  @objc override dynamic open func mouseUp(with theEvent: AppKit.NSEvent)
+  open func indicatorColorForTheme() -> AudioKitUI.AKColor
+  open func knobBorderColorForTheme() -> AudioKitUI.AKColor
+  open func textColorForTheme() -> AudioKitUI.AKColor
+  @objc override dynamic open func draw(_ rect: Foundation.NSRect)
+  @objc deinit
+  override public init(property: Swift.String, value: Swift.Double = super, range: Swift.ClosedRange<Swift.Double> = super, taper: Swift.Double = super, format: Swift.String = super, frame: CoreGraphics.CGRect = super, callback: @escaping (Swift.Double) -> Swift.Void = super)
+}
+public typealias ADSRCallback = (Swift.Double, Swift.Double, Swift.Double, Swift.Double) -> Swift.Void
+@objc public class AKADSRView : AppKit.NSView {
+  public var attackDuration: Swift.Double
+  public var decayDuration: Swift.Double
+  public var sustainLevel: Swift.Double
+  public var releaseDuration: Swift.Double
+  public var callback: AudioKitUI.ADSRCallback
+  @objc override dynamic public var isFlipped: Swift.Bool {
+    @objc get
+  }
+  @objc override dynamic public var wantsDefaultClipping: Swift.Bool {
+    @objc get
+  }
+  @objc override dynamic public func mouseDown(with theEvent: AppKit.NSEvent)
+  @objc override dynamic public func mouseDragged(with theEvent: AppKit.NSEvent)
+  public init(frame: CoreGraphics.CGRect = CGRect(width: 440, height: 150), callback: @escaping AudioKitUI.ADSRCallback)
+  @objc required dynamic public init?(coder aDecoder: Foundation.NSCoder)
+  @objc override dynamic public func draw(_ rect: CoreGraphics.CGRect)
+  @objc deinit
+  @objc override dynamic public init(frame frameRect: Foundation.NSRect)
+}
+public enum AKSliderStyle {
+  case roundIndicator
+  case tabIndicator
+  public static func == (a: AudioKitUI.AKSliderStyle, b: AudioKitUI.AKSliderStyle) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+}
+@objc @IBDesignable public class AKSlider : AudioKitUI.AKPropertyControl {
+  @objc @IBInspectable public var bgColor: AppKit.NSColor?
+  @objc @IBInspectable public var sliderBorderColor: AppKit.NSColor?
+  @objc @IBInspectable public var indicatorBorderColor: AppKit.NSColor?
+  @objc @IBInspectable public var color: AppKit.NSColor
+  @objc @IBInspectable public var textColor: AppKit.NSColor?
+  @objc @IBInspectable public var bubbleFontSize: CoreGraphics.CGFloat
+  open var sliderStyle: AudioKitUI.AKSliderStyle
+  @objc @IBInspectable public var sliderBorderWidth: CoreGraphics.CGFloat
+  @objc @IBInspectable public var showsValueBubble: Swift.Bool
+  @objc @IBInspectable public var valueBubbleBorderWidth: CoreGraphics.CGFloat
+  public init(property: Swift.String, value: Swift.Double = 0.0, range: Swift.ClosedRange<Swift.Double> = 0 ... 1, taper: Swift.Double = 1, format: Swift.String = "%0.3f", color: AudioKitUI.AKColor = AKStylist.sharedInstance.nextColor, frame: CoreGraphics.CGRect = CGRect(width: 440, height: 60), callback: @escaping (Swift.Double) -> Swift.Void = { _ in })
+  @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc override dynamic public func mouseDragged(with theEvent: AppKit.NSEvent)
+  @objc override dynamic public func draw(_ rect: Foundation.NSRect)
+  @objc deinit
+  override public init(property: Swift.String, value: Swift.Double = super, range: Swift.ClosedRange<Swift.Double> = super, taper: Swift.Double = super, format: Swift.String = super, frame: CoreGraphics.CGRect = super, callback: @escaping (Swift.Double) -> Swift.Void = super)
+}
+@objc public class AKPlaygroundLoop : ObjectiveC.NSObject {
+  public init(every period: Swift.Double, handler: @escaping () -> Swift.Void)
+  public init(frequency: Swift.Double, handler: @escaping () -> Swift.Void)
+  @objc deinit
+  @objc override dynamic public init()
+}
+@objc @IBDesignable open class AKNodeFFTPlot : AudioKitUI.EZAudioPlot, AudioKit.EZAudioFFTDelegate {
+  public var isConnected: Swift.Bool
+  public var isNotConnected: Swift.Bool {
+    get
+  }
+  @objc open func pause()
+  @objc open func resume()
+  @objc open var node: AudioKit.AKNode? {
+    @objc get
+    @objc set
+  }
+  @objc deinit
+  @objc required dynamic public init?(coder aDecoder: Foundation.NSCoder)
+  @objc public init(_ input: AudioKit.AKNode?, frame: CoreGraphics.CGRect, bufferSize: Swift.Int = 1_024)
+  @objc open func fft(_ fft: AudioKit.EZAudioFFT!, updatedWithFFTData fftData: Swift.UnsafeMutablePointer<Swift.Float>, bufferSize: Accelerate.vDSP_Length)
+  @objc override dynamic public init(frame frameRect: Foundation.NSRect)
+}
+@objc @IBDesignable open class AKNodeOutputPlot : AudioKitUI.EZAudioPlot {
+  public var isConnected: Swift.Bool
+  public var isNotConnected: Swift.Bool {
+    get
+  }
+  @objc open func pause()
+  @objc open func resume()
+  @objc open var node: AudioKit.AKNode? {
+    @objc get
+    @objc set
+  }
+  @objc deinit
+  @objc required dynamic public init?(coder aDecoder: Foundation.NSCoder)
+  @objc public init(_ input: AudioKit.AKNode? = AudioKit.output, frame: CoreGraphics.CGRect = CGRect.zero, bufferSize: Swift.Int = 1_024)
+  @objc override dynamic public init(frame frameRect: Foundation.NSRect)
+}
+@objc public class AKPresetLoaderView : AppKit.NSView {
+  open var bgColor: AudioKitUI.AKColor? {
+    get
+    set
+  }
+  open var textColor: AudioKitUI.AKColor? {
+    get
+    set
+  }
+  open var borderColor: AudioKitUI.AKColor? {
+    get
+    set
+  }
+  open var borderWidth: CoreGraphics.CGFloat {
+    get
+    set
+  }
+  public init(presets: [Swift.String], frame: CoreGraphics.CGRect = CGRect(width: 440, height: 60), callback: @escaping (Swift.String) -> Swift.Void)
+  @objc required dynamic public init?(coder aDecoder: Foundation.NSCoder)
+  @objc override dynamic public func mouseDown(with theEvent: AppKit.NSEvent)
+  @objc override dynamic public func draw(_ rect: CoreGraphics.CGRect)
+  @objc deinit
+  @objc override dynamic public init(frame frameRect: Foundation.NSRect)
+}
+public typealias AKLabel = AppKit.NSTextField
+@objc @_inheritsConvenienceInitializers open class AKLiveViewController : AppKit.NSViewController {
+  @objc override dynamic open func loadView()
+  public func addTitle(_ text: Swift.String)
+  public func addLabel(_ text: Swift.String) -> AudioKitUI.AKLabel
+  public func addView(_ newView: AppKit.NSView)
+  @objc deinit
+  @objc override dynamic public init(nibName nibNameOrNil: AppKit.NSNib.Name?, bundle nibBundleOrNil: Foundation.Bundle?)
+  @objc required dynamic public init?(coder: Foundation.NSCoder)
+}
+@objc @_inheritsConvenienceInitializers public class AKResourcesAudioFileLoaderView : AppKit.NSView {
+  open var bgColor: AudioKitUI.AKColor? {
+    get
+    set
+  }
+  open var textColor: AudioKitUI.AKColor? {
+    get
+    set
+  }
+  open var borderColor: AudioKitUI.AKColor? {
+    get
+    set
+  }
+  open var borderWidth: CoreGraphics.CGFloat {
+    get
+    set
+  }
+  convenience public init(player: AudioKit.AKAudioPlayer, filenames: [Swift.String], frame: CoreGraphics.CGRect = CGRect(width: 440, height: 60))
+  @objc override dynamic public func mouseDown(with theEvent: AppKit.NSEvent)
+  @objc override dynamic public func draw(_ rect: CoreGraphics.CGRect)
+  @objc deinit
+  @objc override dynamic public init(frame frameRect: Foundation.NSRect)
+  @objc required dynamic public init?(coder: Foundation.NSCoder)
+}
+@objc @IBDesignable open class AKRollingOutputPlot : AudioKitUI.AKNodeOutputPlot {
+  @objc public init(frame: CoreGraphics.CGRect, bufferSize: Swift.Int = 1_024)
+  @objc required dynamic public init?(coder aDecoder: Foundation.NSCoder)
+  public static func createView(width: CoreGraphics.CGFloat = 440, height: CoreGraphics.CGFloat = 200.0) -> AudioKitUI.AKView
+  @objc deinit
+  @objc override public init(_ input: AudioKit.AKNode? = super, frame: CoreGraphics.CGRect = super, bufferSize: Swift.Int = super)
+}
+@objc public protocol AKKeyboardDelegate : AnyObject {
+  @objc func noteOn(note: AudioKit.MIDINoteNumber)
+  @objc func noteOff(note: AudioKit.MIDINoteNumber)
+}
+@objc public class AKKeyboardView : AppKit.NSView, AudioKit.AKMIDIListener {
+  @objc override dynamic public var isFlipped: Swift.Bool {
+    @objc get
+  }
+  @objc @IBInspectable open var octaveCount: Swift.Int
+  @objc @IBInspectable open var firstOctave: Swift.Int
+  @objc @IBInspectable open var topKeyHeightRatio: CoreGraphics.CGFloat
+  @objc @IBInspectable open var polyphonicButton: AppKit.NSColor
+  @objc @IBInspectable open var whiteKeyOff: AppKit.NSColor
+  @objc @IBInspectable open var blackKeyOff: AppKit.NSColor
+  @objc @IBInspectable open var keyOnColor: AppKit.NSColor
+  @objc @IBInspectable open var topWhiteKeyOff: AppKit.NSColor
+  weak open var delegate: AudioKitUI.AKKeyboardDelegate?
+  @objc public var polyphonicMode: Swift.Bool {
+    @objc get
+    @objc set
+  }
+  @objc override dynamic public func draw(_ dirtyRect: Foundation.NSRect)
+  @objc public init(width: Swift.Int, height: Swift.Int, firstOctave: Swift.Int = 4, octaveCount: Swift.Int = 3, polyphonic: Swift.Bool = false)
+  @objc required dynamic public init?(coder aDecoder: Foundation.NSCoder)
+  @objc override dynamic open func prepareForInterfaceBuilder()
+  @objc override dynamic open var intrinsicContentSize: CoreGraphics.CGSize {
+    @objc get
+  }
+  public func getNoteName(note: Swift.Int) -> Swift.String
+  @objc override dynamic public func mouseDown(with event: AppKit.NSEvent)
+  @objc override dynamic public func mouseUp(with event: AppKit.NSEvent)
+  @objc override dynamic public func mouseDragged(with event: AppKit.NSEvent)
+  public func receivedMIDINoteOn(noteNumber: AudioKit.MIDINoteNumber, velocity: AudioKit.MIDIVelocity, channel: AudioKit.MIDIChannel)
+  public func receivedMIDINoteOff(noteNumber: AudioKit.MIDINoteNumber, velocity: AudioKit.MIDIVelocity, channel: AudioKit.MIDIChannel)
+  public func receivedMIDIController(_ controller: AudioKit.MIDIByte, value: AudioKit.MIDIByte, channel: AudioKit.MIDIChannel)
+  public func receivedMIDIProgramChange(_ program: AudioKit.MIDIByte, channel: AudioKit.MIDIChannel)
+  @objc deinit
+  @objc override dynamic public init(frame frameRect: Foundation.NSRect)
+}
+extension AudioKitUI.AKTheme : Swift.Equatable {}
+extension AudioKitUI.AKTheme : Swift.Hashable {}
+extension AudioKitUI.AKButtonStyle : Swift.Equatable {}
+extension AudioKitUI.AKButtonStyle : Swift.Hashable {}
+extension AudioKitUI.AKSliderStyle : Swift.Equatable {}
+extension AudioKitUI.AKSliderStyle : Swift.Hashable {}

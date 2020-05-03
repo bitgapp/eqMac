@@ -13,6 +13,7 @@ export type BasicEqualizerBand = keyof BasicEqualizerPresetGains
 
 export interface BasicEqualizerPreset extends EqualizerPreset {
   gains: BasicEqualizerPresetGains
+  peakLimiter: boolean
 }
 
 @Injectable({

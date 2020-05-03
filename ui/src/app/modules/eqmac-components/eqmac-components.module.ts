@@ -45,6 +45,7 @@ import { CheckboxComponent } from './components/checkbox/checkbox.component'
 import { PromptComponent } from './components/prompt/prompt.component'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { CarouselComponent, CarouselItemDirective, CarouselItemElement } from './components/carousel/carousel.component'
+import { QuestionComponent } from './components/question/question.component'
 
 @NgModule({
   imports: [
@@ -81,7 +82,8 @@ import { CarouselComponent, CarouselItemDirective, CarouselItemElement } from '.
     PromptComponent,
     CarouselComponent,
     CarouselItemElement,
-    CarouselItemDirective
+    CarouselItemDirective,
+    QuestionComponent
   ],
   exports: [
     KnobComponent,
@@ -106,7 +108,8 @@ import { CarouselComponent, CarouselItemDirective, CarouselItemElement } from '.
     LoadingComponent,
     CheckboxComponent,
     CarouselComponent,
-    CarouselItemDirective
+    CarouselItemDirective,
+    QuestionComponent
   ],
   providers: [
     UtilitiesService

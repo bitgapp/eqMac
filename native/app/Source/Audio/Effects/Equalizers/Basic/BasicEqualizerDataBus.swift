@@ -24,17 +24,19 @@ class BasicEqualizerDataBus: DataBus {
     
     self.on(.GET, "/presets/selected") { data, _ in
       let preset = BasicEqualizer.getPreset(id: self.state.selectedPresetId)
+      Console.log(preset)
       return JSON(preset!.dictionary)
     }
     
     self.on(.POST, "/presets") { data, _ in
       let gains = try self.getGains(data)
+      let peakLimiter = data["peakLimiter"] as? Bool ?? false
       if let id = data["id"] as? String {
         // Update
         if (BASIC_EQUALIZER_DEFAULT_PRESETS.keys.contains(id)) {
           throw "Default Presets aren't updatable."
         }
-        BasicEqualizer.updatePreset(id: id, gains: gains)
+        BasicEqualizer.updatePreset(id: id, peakLimiter: peakLimiter, gains: gains)
         let select = data["select"] as? Bool
         if select == true {
           let transition = data["transition"] as? Bool
@@ -47,7 +49,7 @@ class BasicEqualizerDataBus: DataBus {
         if (name == nil) {
           throw "Invalid 'name' parameter, must be a String"
         }
-        let preset = BasicEqualizer.createPreset(name: name!, gains: gains)
+        let preset = BasicEqualizer.createPreset(name: name!, peakLimiter: peakLimiter, gains: gains)
         let select = data["select"] as? Bool
         if select == true {
           let transition = data["transition"] as? Bool

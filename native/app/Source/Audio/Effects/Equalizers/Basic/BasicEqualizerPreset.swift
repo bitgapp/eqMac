@@ -13,7 +13,7 @@ struct BasicEqualizerPresetGains: Codable, DefaultsSerializable, Equatable {
   let bass: Double
   let mid: Double
   let treble: Double
-  
+
   static func == (lhs: BasicEqualizerPresetGains, rhs: BasicEqualizerPresetGains) -> Bool {
     return lhs.bass == rhs.bass && lhs.mid == rhs.mid && lhs.treble == rhs.treble
   }
@@ -22,6 +22,7 @@ struct BasicEqualizerPreset: Codable, DefaultsSerializable {
   let id: String
   let name: String
   let isDefault: Bool
+  let peakLimiter: Bool
   let gains: BasicEqualizerPresetGains
 }
 

@@ -1,0 +1,11 @@
+framework module AudioKitUI {
+  umbrella header "AudioKitUI.h"
+
+  export *
+  module * { export * }
+}
+
+module AudioKitUI.Swift {
+    header "AudioKitUI-Swift.h"
+    requires objc
+}
