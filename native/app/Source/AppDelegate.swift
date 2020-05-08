@@ -15,19 +15,11 @@ import EmitterKit
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate, SUUpdaterDelegate {
   var updater = SUUpdater(for: Bundle.main)!
-  var updateFound = Event<Void>()
-  var updateNotFound = Event<Void>()
-  var updateCanceled = Event<Void>()
-  
+  var updateProcessed = Event<Void>()
+  var willBeDownloadingUpdate = false
   func applicationDidFinishLaunching(_ aNotification: Notification) {
     updater.delegate = self
-    updateFound.once { _ in
-      self.updateCanceled.once { _ in
-        Application.start()
-      }
-    }
-    
-    updateNotFound.once { _ in
+    updateProcessed.once { _ in
       Application.start()
     }
     updater.checkForUpdatesInBackground()
@@ -51,29 +43,40 @@ class AppDelegate: NSObject, NSApplicationDelegate, SUUpdaterDelegate {
   }
   
   func updaterDidNotFindUpdate(_ updater: SUUpdater) {
-    updateNotFound.emit()
-  }
-  
-  func updater(_ updater: SUUpdater, didFindValidUpdate item: SUAppcastItem) {
-    updateFound.emit()
+    updateProcessed.emit()
   }
   
   func updater(_ updater: SUUpdater, userDidSkipThisVersion item: SUAppcastItem) {
-    updateCanceled.emit()
+    updateProcessed.emit()
   }
   
   func updater(_ updater: SUUpdater, didCancelInstallUpdateOnQuit item: SUAppcastItem) {
-    updateCanceled.emit()
+    updateProcessed.emit()
+  }
+  
+  func updater(_ updater: SUUpdater, willDownloadUpdate item: SUAppcastItem, with request: NSMutableURLRequest) {
+    willBeDownloadingUpdate = true
   }
   
   func updater(_ updater: SUUpdater, didDismissUpdateAlertPermanently permanently: Bool, for item: SUAppcastItem) {
-//    updateCanceled.emit()
+    Utilities.delay(500, completion: {
+      if !self.willBeDownloadingUpdate {
+        self.updateProcessed.emit()
+      }
+    })
   }
   
   func userDidCancelDownload(_ updater: SUUpdater) {
-        updateCanceled.emit()
+    updateProcessed.emit()
   }
-    
+  
+  func updater(_ updater: SUUpdater, didAbortWithError error: Error) {
+    updateProcessed.emit()
+  }
+  
+  func updater(_ updater: SUUpdater, failedToDownloadUpdate item: SUAppcastItem, error: Error) {
+    updateProcessed.emit()
+  }
 }
 
 

@@ -102,7 +102,7 @@ export class BasicEqualizerComponent extends EqualizerComponent implements OnIni
   setSelectedPresetsGains () {
     // TODO: Refactor this bollocks
     this.peakLimiter = this.selectedPreset.peakLimiter || false
-    console.log(this.selectedPreset.peakLimiter, this.peakLimiter)
+
     for (const [type, gain] of Object.entries(this.selectedPreset.gains)) {
       const currentGain: number = this.gains[type]
       if (currentGain !== gain) {
@@ -161,7 +161,6 @@ export class BasicEqualizerComponent extends EqualizerComponent implements OnIni
   async togglePeakLimiter () {
     this.peakLimiter = !this.peakLimiter
     this.selectedPreset.peakLimiter = this.peakLimiter
-    console.log(this.selectedPreset.peakLimiter)
     await this.service.updatePreset(this.selectedPreset, {
       select: true
     })
