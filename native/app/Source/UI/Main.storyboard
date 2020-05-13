@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="Wg1-es-IGc">
     <dependencies>
         <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="16096"/>
@@ -70,13 +70,18 @@
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="eqMac" systemMenu="apple" id="uQy-DD-JDr">
                                     <items>
-                                        <menuItem title="Hide eqMac" keyEquivalent="h" id="Olw-nP-bQN">
+                                        <menuItem title="Close" keyEquivalent="w" id="Vbd-XB-xjd" userLabel="Close">
                                             <connections>
-                                                <action selector="hide:" target="Ady-hI-5gd" id="PnN-Uc-m68"/>
+                                                <action selector="hide:" target="Ady-hI-5gd" id="UHR-70-CJN"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Hide" keyEquivalent="h" id="Ijq-h7-hwd" userLabel="Hide">
+                                            <connections>
+                                                <action selector="hide:" target="Ady-hI-5gd" id="Bfx-ro-eq3"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="kCx-OE-vgT"/>
-                                        <menuItem title="Quit eqMac" keyEquivalent="q" id="4sb-4s-VLi">
+                                        <menuItem title="Quit" keyEquivalent="q" id="4sb-4s-VLi">
                                             <connections>
                                                 <action selector="terminate:" target="Ady-hI-5gd" id="Te7-pn-YzF"/>
                                             </connections>
@@ -126,18 +131,15 @@
         <scene sceneID="LFk-J6-h8Z">
             <objects>
                 <customObject id="gb2-cM-2ZO" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-                <windowController storyboardIdentifier="EQMWindow" id="eW3-cT-cmJ" sceneMemberID="viewController">
-                    <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="nPg-tC-SwO" customClass="Window" customModule="eqMac" customModuleProvider="target">
+                <windowController storyboardIdentifier="EQMWindowController" id="eW3-cT-cmJ" sceneMemberID="viewController">
+                    <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" titlebarAppearsTransparent="YES" id="nPg-tC-SwO" customClass="Window" customModule="eqMac" customModuleProvider="target">
+                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" fullSizeContentView="YES"/>
                         <rect key="contentRect" x="2447" y="1070" width="400" height="400"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="3008" height="1669"/>
                         <contentBorderThickness minY="22"/>
-                        <connections>
-                            <outlet property="delegate" destination="eW3-cT-cmJ" id="rUA-MP-HvI"/>
-                        </connections>
                     </window>
                     <connections>
-                        <outlet property="window" destination="nPg-tC-SwO" id="LE4-LE-BzQ"/>
-                        <segue destination="Wg1-es-IGc" kind="relationship" relationship="window.shadowedContentViewController" id="PmG-O7-deM"/>
+                        <segue destination="Wg1-es-IGc" kind="relationship" relationship="window.shadowedContentViewController" id="9mM-80-I6E"/>
                     </connections>
                 </windowController>
             </objects>
@@ -147,7 +149,7 @@
         <scene sceneID="wlU-YY-QfK">
             <objects>
                 <customObject id="6Lc-6c-oFU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-                <viewController id="Wg1-es-IGc" customClass="ViewController" customModule="eqMac" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="EQMViewController" id="Wg1-es-IGc" customClass="ViewController" customModule="eqMac" sceneMemberID="viewController">
                     <view key="view" id="eMQ-jC-nnX" customClass="View" customModule="eqMac" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="400" height="400"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

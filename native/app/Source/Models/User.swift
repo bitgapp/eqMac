@@ -10,8 +10,11 @@ import Cocoa
 
 class User: NSObject {
   static public var isFirstLaunch: Bool {
-    let firstLaunch = Storage[.isFirstLaunch] ?? true
+    var firstLaunch = Storage[.isFirstLaunch]
+    if (firstLaunch == nil) {
+      firstLaunch = true
+    }
     Storage[.isFirstLaunch] = false
-    return firstLaunch
+    return firstLaunch!
   }
 }

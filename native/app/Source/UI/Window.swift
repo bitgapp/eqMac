@@ -12,9 +12,24 @@ import Cocoa
 class Window: NSWindow, NSWindowDelegate {
   override init(contentRect: NSRect, styleMask style: NSWindow.StyleMask, backing backingStoreType: NSWindow.BackingStoreType, defer flag: Bool) {
     super.init(contentRect: contentRect, styleMask: style, backing: backingStoreType, defer: flag)
-    self.isHidden = true
-    self.canHide = false
+
     self.isOneShot = true
+    self.titleVisibility = .hidden
+    self.titlebarAppearsTransparent = true
+    self.isMovableByWindowBackground = true
+    
+    Utilities.delay(1000, completion: {
+      for subview in self.contentView!.superview!.subviews {
+        if subview.isKind(of: NSClassFromString("NSTitlebarContainerView")!) {
+          let titleBarView = subview.subviews[0]
+          for button in titleBarView.subviews {
+            if button.isKind(of: NSButton.self) {
+              button.isHidden = true
+            }
+          }
+        }
+      }
+    })
   }
   
   var isShown: Bool {
@@ -87,7 +102,6 @@ class Window: NSWindow, NSWindowDelegate {
   // MARK: -  Public functions
   
   func show() {
-    self.orderOut(self)
     self.makeKeyAndOrderFront(nil)
   }
   

@@ -12,11 +12,12 @@ import EmitterKit
 
 class ViewController: NSViewController, WKNavigationDelegate {
   // MARK: - Properties
-  @IBOutlet weak var webView: WKWebView!
+  @IBOutlet var webView: WKWebView!
   @IBOutlet var draggableView: DraggableView!
   @IBOutlet var loadingView: NSView!
   @IBOutlet var loadingSpinner: NSProgressIndicator!
   
+  var loaded = Event<Void>()
   var height: Double {
     get {
       return Double(webView.frame.size.height)
@@ -43,6 +44,7 @@ class ViewController: NSViewController, WKNavigationDelegate {
   override func viewDidLoad() {
     super.viewDidLoad()
     loadingSpinner.startAnimation(nil)
+    loaded.emit()
   }
   
   private var testWebView: WKWebView?

@@ -16,6 +16,7 @@ struct UIState: State {
   var width: Double = 400
   var windowPosition: NSPoint? = nil
   var settings: JSON = JSON()
+  var mode: UIMode = .window
 }
 
 enum UIAction: Action {
@@ -23,6 +24,7 @@ enum UIAction: Action {
   case setWidth(Double)
   case setWindowPosition(NSPoint)
   case setSettings(JSON)
+  case setMode(UIMode)
 }
 
 func UIStateReducer(action: Action, state: UIState?) -> UIState {
@@ -37,6 +39,8 @@ func UIStateReducer(action: Action, state: UIState?) -> UIState {
     state.windowPosition = point
   case .setSettings(let settings)?:
     state.settings = settings
+  case .setMode(let mode)?:
+    state.mode = mode
   case .none:
     break
   }

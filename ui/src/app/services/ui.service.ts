@@ -12,6 +12,9 @@ export interface UIDimensions {
   heightDiff?: number
   widthDiff?: number
 }
+
+export type UIMode = 'window' | 'popover'
+
 @Injectable({
   providedIn: 'root'
 })
@@ -40,6 +43,19 @@ export class UIService extends DataService {
 
   hide () {
     return this.request({ method: 'GET', endpoint: '/hide' })
+  }
+
+  close () {
+    return this.request({ method: 'GET', endpoint: '/close' })
+  }
+
+  async getMode (): Promise<UIMode> {
+    const { mode } = await this.request({ method: 'GET', endpoint: '/mode' })
+    return mode
+  }
+
+  setMode (mode: UIMode) {
+    return this.request({ method: 'POST', endpoint: '/mode', data: { mode } })
   }
 
   async getSettings (): Promise<UISettings> {

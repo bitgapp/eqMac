@@ -17,6 +17,11 @@ class UIDataBus: DataBus {
   required init(route: String, bridge: Bridge) {
     super.init(route: route, bridge: bridge)
     
+    self.on(.GET, "/close") { _, _  in
+      UI.close()
+      return "Closed"
+    }
+    
     self.on(.GET, "/hide") { _, _  in
       UI.hide()
       return "Hidden"
@@ -41,7 +46,7 @@ class UIDataBus: DataBus {
     
     self.on(.POST, "/width") { data, _ in
       let width = data["width"] as? Double
-
+      
       if width == nil || width! < 0 {
         throw "Please provide a valid 'width' parameter."
       }
@@ -62,6 +67,20 @@ class UIDataBus: DataBus {
       }
       return self.state.settings
     }
-
+    
+    self.on(.GET, "/mode") { data, _ in
+      return [ "mode": Application.store.state.ui.mode.rawValue ]
+    }
+    
+    self.on(.POST, "/mode") { data, _ in
+      let uiModeRaw = data["mode"] as? String
+      
+      if uiModeRaw != nil, let uiMode = UIMode(rawValue: uiModeRaw!) {
+        Application.dispatchAction(UIAction.setMode(uiMode))
+        return "UI Mode has been set"
+      }
+      throw "Please provide a valid 'uiMode' parameter."
+    }
+    
   }
 }

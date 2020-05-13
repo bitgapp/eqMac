@@ -78,7 +78,7 @@ class Engine {
   
   private func setupBuffer () {
     let framesPerSample = Driver.device!.bufferFrameSize(direction: .playback)
-    ringBuffer = CARingBuffer<Float>(numberOfChannels: 2, capacityFrames: UInt32(framesPerSample * 512))
+    ringBuffer = CARingBuffer<Float>(numberOfChannels: 2, capacityFrames: UInt32(framesPerSample * 2048))
   }
   
   private func attach () {

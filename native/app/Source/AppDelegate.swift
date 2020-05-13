@@ -18,6 +18,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, SUUpdaterDelegate {
   var updateProcessed = Event<Void>()
   var willBeDownloadingUpdate = false
   func applicationDidFinishLaunching(_ aNotification: Notification) {
+    NSApplication.shared.windows.first?.close()
     updater.delegate = self
     updateProcessed.once { _ in
       Application.start()

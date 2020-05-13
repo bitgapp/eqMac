@@ -10,7 +10,6 @@ import Foundation
 import Cocoa
 
 class Popover: NSObject, NSPopoverDelegate {
-    var windowController: NSWindowController!
     let popover = NSPopover()
     var popoverTransiencyMonitor: Any?
     private var statusItem: StatusItem!
@@ -60,16 +59,15 @@ class Popover: NSObject, NSPopoverDelegate {
     }
     
     var canHide: Bool {
-        get { return windowController.window!.canHide }
+        get { return true }
         set {
-            windowController.window!.canHide = newValue
+          //
         }
     }
     
-    init (_ statusItem: StatusItem, _ windowController: NSWindowController) {
+    init (_ statusItem: StatusItem, _ viewController: ViewController) {
         self.statusItem = statusItem
-        self.windowController = windowController
-        popover.contentViewController = windowController.contentViewController
+        popover.contentViewController = viewController
         popover.animates = true
         super.init()
         popover.behavior = .transient

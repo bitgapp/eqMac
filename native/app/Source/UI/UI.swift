@@ -17,7 +17,7 @@ import Zip
 import Criollo
 import Alamofire
 
-enum UIMode: String, DefaultsSerializable {
+enum UIMode: String, Codable {
   case window = "window"
   case popover = "popover"
 }
@@ -67,9 +67,12 @@ class UI: StoreSubscriber {
   static let storyboard = NSStoryboard(name: "Main", bundle: nil)
   static let statusItem = StatusItem(image: NSImage(named: "statusBarIcon")!)
   
-  static let windowController = storyboard.instantiateController(withIdentifier: "EQMWindow") as! NSWindowController
-  static let viewController = (windowController.contentViewController as! ViewController)
-  static let window = (windowController.window! as! Window)
+  static var windowController: NSWindowController = (storyboard.instantiateController(withIdentifier: "EQMWindowController") as! NSWindowController)
+  static var window: Window = (windowController.window! as! Window)
+  static var viewController: ViewController = window.contentViewController as! ViewController
+
+  static var popover = Popover(statusItem, viewController)
+
   
   static let loadingWindowController = storyboard.instantiateController(withIdentifier: "LoadingWindow") as! NSWindowController
   static let loadingWindow = loadingWindowController.window!
@@ -78,33 +81,77 @@ class UI: StoreSubscriber {
   
   static var isShown: Bool {
     get {
-      return UI.window.isShown
+      if (mode == .popover) {
+        return popover.isShown
+      } else {
+        return UI.window.isShown
+      }
     }
   }
   static var height: Double {
     get {
-      return UI.window.height
+      if (mode == .popover) {
+        return popover.height
+      } else {
+        return UI.window.height
+      }
     }
     set {
-      UI.window.height = newValue
+      if (mode == .popover) {
+        UI.popover.height = newValue
+      } else {
+        UI.window.height = newValue
+      }
     }
   }
   
   static var width: Double {
     get {
-      return UI.window.width
+      if (mode == .popover) {
+        return popover.width
+      } else {
+        return UI.window.width
+      }
     }
     set {
-      UI.window.width = newValue
+      if (mode == .popover) {
+        UI.popover.width = newValue
+      } else {
+        UI.window.width = newValue
+      }
+    }
+  }
+  
+  static var mode: UIMode = .window {
+    willSet {
+      if (newValue == .popover) {
+        window.close()
+        window.contentViewController = nil
+        popover.popover.contentViewController = viewController
+        popover.show()
+      } else {
+        popover.hide()
+        popover.popover.contentViewController = nil
+        window.contentViewController = viewController
+        window.show()
+      }
     }
   }
   
   static var canHide: Bool {
     get {
-      return UI.window.canHide
+      if (mode == .popover) {
+        return popover.canHide
+      } else {
+        return UI.window.canHide
+      }
     }
     set {
-      UI.window.canHide = newValue
+      if (mode == .popover) {
+        UI.popover.canHide = newValue
+      } else {
+        UI.window.canHide = newValue
+      }
     }
   }
   
@@ -113,13 +160,29 @@ class UI: StoreSubscriber {
   }
   
   static func show () {
-    UI.window.show()
+    if (mode == .popover) {
+      popover.show()
+    } else {
+      UI.window.show()
+    }
     NSApp.activate(ignoringOtherApps: true)
   }
   
-  static func hide () {
-    UI.window.hide()
+  static func close () {
+    if (mode == .popover) {
+      popover.hide()
+    } else {
+      UI.window.close()
+    }
     NSApp.hide(self)
+  }
+
+  static func hide () {
+    if (mode == .popover) {
+      popover.hide()
+    } else {
+      UI.window.performMiniaturize(nil)
+    }
   }
   
   static func showLoadingWindow (_ text: String) {
@@ -140,8 +203,9 @@ class UI: StoreSubscriber {
   
   init () {
     UI.window.contentView = UI.viewController.view
-    
+
     ({
+      UI.mode = Application.store.state.ui.mode
       UI.width = Application.store.state.ui.width
       UI.height = Application.store.state.ui.height
     })()
@@ -176,7 +240,9 @@ class UI: StoreSubscriber {
     if (state.width != UI.width) {
       UI.width = state.width
     }
-    
+    if (state.mode != UI.mode) {
+      UI.mode = state.mode
+    }
   }
   
   private func setupListeners () {

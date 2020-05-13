@@ -35,6 +35,7 @@ class Application {
   static var selectedDevice: AudioDevice!
   static var selectedDeviceIsAliveListener: EventListener<AudioDevice>?
   static var selectedDeviceVolumeChangedListener: EventListener<AudioDevice>?
+  static var selectedDeviceSampleRateChangedListener: EventListener<AudioDevice>?
   static var justChangedSelectedDeviceVolume = false
   
   static let audioPipelineIsRunning = EmitterKit.Event<Void>()
@@ -83,6 +84,7 @@ class Application {
         if (User.isFirstLaunch || Constants.DEBUG) {
           UI.show()
         }
+        
       }
       setupAudio()
     }
@@ -116,7 +118,6 @@ class Application {
           UI.showLoadingWindow("Installing eqMac audio driver")
         }) { success in
           if (success) {
-            print("Driver script ran")
             UI.hideLoadingWindow()
             completion()
           } else {
@@ -266,20 +267,24 @@ class Application {
     Driver.device!.setVirtualMasterVolume(volume > 1 ? 1 : Float32(volume), direction: .playback)
     Driver.latency = selectedDevice.latency(direction: .playback) ?? 0 // Set driver latency to mimic device
     Driver.safetyOffset = selectedDevice.safetyOffset(direction: .playback) ?? 0 // Set driver latency to mimic device
-    let outputSampleRate = selectedDevice.actualSampleRate()!
-    let driverSampleRates = Driver.sampleRates
-    let closestSampleRate = driverSampleRates.min( by: { abs($0 - outputSampleRate) < abs($1 - outputSampleRate) } )!
-    Driver.device!.setNominalSampleRate(closestSampleRate)
+    self.matchDriverSampleRateToOutput()
     
     Console.log("Driver new Latency: \(Driver.latency)")
     Console.log("Driver new Safety Offset: \(Driver.safetyOffset)")
     Console.log("Driver new Sample Rate: \(Driver.device!.actualSampleRate())")
-
+    
     AudioDevice.currentOutputDevice = Driver.device!
     // TODO: Figure out a better way
     Utilities.delay(500) {
       self.createAudioPipeline()
     }
+  }
+  
+  private static func matchDriverSampleRateToOutput () {
+    let outputSampleRate = selectedDevice.actualSampleRate()!
+    let driverSampleRates = Driver.sampleRates
+    let closestSampleRate = driverSampleRates.min( by: { abs($0 - outputSampleRate) < abs($1 - outputSampleRate) } )!
+    Driver.device!.setNominalSampleRate(closestSampleRate)
   }
   
   private static func createAudioPipeline () {
@@ -304,6 +309,18 @@ class Application {
           Console.log("Current device dies so switching to built it")
           selectOutput(device: AudioDevice.builtInOutputDevice)
         }
+      }
+      
+      selectedDeviceSampleRateChangedListener = AudioDeviceEvents.on(
+        .nominalSampleRateChanged,
+        onDevice: selectedDevice,
+        retain: false
+      ) {
+        //        selectOutput(device: selectedDevice)
+        stopListeners()
+        stopEngines()
+        self.matchDriverSampleRateToOutput()
+        createAudioPipeline()
       }
       
       selectedDeviceVolumeChangedListener = AudioDeviceEvents.on(
@@ -433,7 +450,6 @@ class Application {
     }) { success in
       completion(success)
       if (success) {
-        print("Finished uninstalling driver")
         UI.hideLoadingWindow()
         try! FileManager.default.removeItem(atPath: Bundle.main.bundlePath)
         NSApp.terminate(nil)
@@ -448,9 +464,12 @@ class Application {
     
     audioPipelineIsRunningListener?.isListening = false
     audioPipelineIsRunningListener = nil
-
+    
     selectedDeviceVolumeChangedListener?.isListening = false
     selectedDeviceVolumeChangedListener = nil
+    
+    selectedDeviceSampleRateChangedListener?.isListening = false
+    selectedDeviceSampleRateChangedListener = nil
   }
 }
 
