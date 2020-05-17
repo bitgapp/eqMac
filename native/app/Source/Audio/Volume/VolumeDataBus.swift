@@ -48,6 +48,19 @@ class VolumeDataBus: DataBus {
       return "Volume Balance has been set"
     }
     
+    self.on(.GET, "/muted") { _, _ in
+      return [ "muted": self.state.muted ]
+    }
+    
+    self.on(.POST, "/muted") { data, _ in
+      let muted = data["muted"] as? Bool
+      if (muted == nil) {
+        throw "Invalid 'muted' value, must be a boolean"
+      }
+      Application.dispatchAction(VolumeAction.setMuted(muted!))
+      return "Volume mute has been set"
+    }
+    
     gainChangedListener = Application.volume.gainChanged.on { gain in
       self.send(to: "/gain", data: JSON([ "gain": gain ]))
     }

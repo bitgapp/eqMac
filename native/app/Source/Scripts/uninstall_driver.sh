@@ -7,7 +7,7 @@ if [ -n "$CI" ] && [ "$GITHUB_REPOSITORY" == "Homebrew/homebrew-cask" ]; then
 fi
 
 # Uninstall the new driver
-rm -rf /Library/Audio/Plug-Ins/HAL/eqMac.driver/
+rm -rf /Library/Audio/Plug-Ins/HAL/eqMac.driver/ &>/dev/null || true
 
 # Restart CoreAudio
 coreaudiod_plist="/System/Library/LaunchDaemons/com.apple.audio.coreaudiod.plist"

@@ -147,6 +147,7 @@ export class BasicEqualizerComponent extends EqualizerComponent implements OnIni
       manualPreset.gains = { ...this.selectedPreset.gains }
     }
     manualPreset.gains[band] = event.value
+    manualPreset.peakLimiter = !!this.selectedPreset.peakLimiter
     this.selectedPreset = manualPreset
 
     if (!event.transition) {

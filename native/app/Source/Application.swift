@@ -194,6 +194,8 @@ class Application {
     }
   }
   
+  static var ignoreNextVolumeEvent = false
+
   private static func setupDeviceEvents () {
     AudioDeviceEvents.on(.outputChanged) { device in
       if device.isHardware {
@@ -218,7 +220,7 @@ class Application {
       }
     }
     AudioDeviceEvents.on(.muteChanged, onDevice: Driver.device!) {
-      selectedDevice.mute = Driver.device!.mute
+      Application.dispatchAction(VolumeAction.setMuted(Driver.device!.mute))
     }
     
     AudioDeviceEvents.onDeviceListChanged { list in
@@ -390,9 +392,7 @@ class Application {
       Application.dispatchAction(VolumeAction.setGain(newGain, false))
     }
   }
-  
-  static var ignoreNextVolumeEvent = false
-  
+    
   private static func killEngine () {
     engine = nil
   }

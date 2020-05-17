@@ -16,7 +16,8 @@ class Volume: StoreSubscriber {
   // MARK: - Events
   var gainChanged = EmitterKit.Event<Double>()
   var balanceChanged = EmitterKit.Event<Double>()
-  
+  var mutedChanged = EmitterKit.Event<Bool>()
+
   // MARK: - Properties
   var gain: Double = 1 {
     didSet {
@@ -71,7 +72,7 @@ class Volume: StoreSubscriber {
             newRightGain = gain * Utilities.mapValue(value: Double(balance), inMin: 0, inMax: -1, outMin: 1, outMax: 0)
           }
         }
-        
+                
         Driver.device!.setVirtualMasterVolume(Float32(gain), direction: .playback)
       }
       
@@ -80,6 +81,18 @@ class Volume: StoreSubscriber {
       Driver.device!.mute = false
       gainChanged.emit(gain)
       
+    }
+  }
+  
+  var muted: Bool = false {
+    didSet {
+      if (muted) {
+        leftGain = 0
+        rightGain = 0
+      } else {
+        (gain = gain)
+      }
+      mutedChanged.emit(muted)
     }
   }
   
@@ -135,6 +148,10 @@ class Volume: StoreSubscriber {
       } else {
         gain = state.gain
       }
+    }
+    
+    if (state.muted != muted) {
+      muted = state.muted
     }
   }
   

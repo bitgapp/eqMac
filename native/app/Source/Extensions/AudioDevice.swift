@@ -5,6 +5,15 @@ import CoreFoundation
 import EmitterKit
 
 extension AudioDevice {
+  
+  var stashedVolume: Double {
+    get {
+      return Storage.double(forKey: "stashedVolume:\(self.id)")
+    }
+    set {
+      Storage.set(newValue, forKey: "stashedVolume:\(self.id)")
+    }
+  }
   var json: [String: AnyObject] {
     return AudioDevice.toJSON(self)
   }

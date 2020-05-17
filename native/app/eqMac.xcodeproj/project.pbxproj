@@ -100,7 +100,6 @@
 		E0F4FD9E22888D5A00BEB0A6 /* eqMac.driver in Resources */ = {isa = PBXBuildFile; fileRef = E0F4FD9D22888D5A00BEB0A6 /* eqMac.driver */; };
 		E0F661711FDC38BE00252923 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0F661701FDC38B600252923 /* WebKit.framework */; };
 		E0F661861FDDED0C00252923 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0F661851FDDED0C00252923 /* ViewController.swift */; };
-		E0F6A112220D573C00D16624 /* AUGraphOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0F6A111220D573C00D16624 /* AUGraphOutput.swift */; };
 		E0FFB703200119060003EC9E /* StatusItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0FFB702200119060003EC9E /* StatusItem.swift */; };
 		E0FFB705200679DD0003EC9E /* Engine.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0FFB704200679DD0003EC9E /* Engine.swift */; };
 /* End PBXBuildFile section */
@@ -227,7 +226,6 @@
 		E0F4FD9D22888D5A00BEB0A6 /* eqMac.driver */ = {isa = PBXFileReference; lastKnownFileType = folder; name = eqMac.driver; path = ../build/eqMac/Build/Products/Release/eqMac.driver; sourceTree = "<group>"; };
 		E0F661701FDC38B600252923 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		E0F661851FDDED0C00252923 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		E0F6A111220D573C00D16624 /* AUGraphOutput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AUGraphOutput.swift; sourceTree = "<group>"; };
 		E0FFB702200119060003EC9E /* StatusItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusItem.swift; sourceTree = "<group>"; };
 		E0FFB704200679DD0003EC9E /* Engine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -435,10 +433,10 @@
 		E095BBC22014CE19003473E9 /* Audio */ = {
 			isa = PBXGroup;
 			children = (
-				E00C595723BBB84900C7B8B6 /* RingBuffer */,
-				E0AD99DA225114C600D893F7 /* Volume */,
 				E01B1BB3235E449000CC58E5 /* Sources */,
+				E0AD99DA225114C600D893F7 /* Volume */,
 				E090AD5B20A9F13E003BE5FF /* Effects */,
+				E00C595723BBB84900C7B8B6 /* RingBuffer */,
 				E0AD99DB2251151F00D893F7 /* Outputs */,
 				E02B922D219CBCD800AC130B /* AudioDeviceEvents.swift */,
 				E057A636227032EC0019D13C /* EngineDataBus.swift */,
@@ -483,7 +481,6 @@
 		E0AD99DB2251151F00D893F7 /* Outputs */ = {
 			isa = PBXGroup;
 			children = (
-				E0F6A111220D573C00D16624 /* AUGraphOutput.swift */,
 				E07CB5B021902F4F0033DA89 /* Output.swift */,
 				E057A6502271A7DC0019D13C /* OutputsDataBus.swift */,
 				E031E9CD23700DDF00BA6DD8 /* Outputs.swift */,
@@ -883,7 +880,6 @@
 				E01B1BB9235E454500CC58E5 /* InputSource.swift in Sources */,
 				E06E98D221D2E32E0041DD9C /* Popover.swift in Sources */,
 				E07B45A620FBA4990086AA7E /* Encodable.swift in Sources */,
-				E0F6A112220D573C00D16624 /* AUGraphOutput.swift in Sources */,
 				E0241AA5225E9FB700748656 /* BasicEqualizerPreset.swift in Sources */,
 				E057A639227038B80019D13C /* Settings.swift in Sources */,
 				E0C5629920A75BAD000902ED /* Storage.swift in Sources */,

@@ -1,5 +1,13 @@
 # eqMac Changelog
 
+## v0.2.0
+* Added optional Peak Limiter to Basic EQ
+* Added Popover / Window mode switch
+* Improved Window UX to match native macOS behaviour
+* Checking for updates before app launches to allow people to update in case eqMac always crashed
+* Allow muting on HDMI/DisplayPort devices
+* Potential fix for users that don't get any sound on macOS Catalina
+
 ## v0.1.1
 * Fix instant crashed on macOS 10.14 and lower
 
