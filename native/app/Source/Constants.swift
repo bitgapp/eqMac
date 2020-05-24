@@ -52,6 +52,7 @@ struct Constants {
     TransportType.pci,
     TransportType.thunderbolt,
     TransportType.usb,
+    TransportType.aggregate
   ]
 }
 
