@@ -12,6 +12,7 @@ import { MatDialog } from '@angular/material'
 import { TransitionService } from './services/transitions.service'
 import { AnalyticsService } from './services/analytics.service'
 import { ApplicationService } from './services/app.service'
+import { SettingsService, IconMode } from './sections/settings/settings.service'
 
 @Component({
   selector: 'app-root',
@@ -37,11 +38,13 @@ export class AppComponent implements OnInit, AfterContentInit {
     public matDialog: MatDialog,
     private transitions: TransitionService,
     private analytics: AnalyticsService,
-    private app: ApplicationService
+    private app: ApplicationService,
+    private settings: SettingsService
   ) { }
 
   async ngOnInit () {
-    this.sync()
+    await this.sync()
+    await this.fixUIMode()
     this.analytics.send()
   }
 
@@ -105,6 +108,17 @@ export class AppComponent implements OnInit, AfterContentInit {
   toggleDropdownSection (section: string) {
     for (const key in this.showDropdownSections) {
       this.showDropdownSections[key] = key === section ? !this.showDropdownSections[key] : false
+    }
+  }
+
+  async fixUIMode () {
+    const [ mode, iconMode ] = await Promise.all([
+      this.ui.getMode(),
+      this.settings.getIconMode()
+    ])
+
+    if (mode === 'popover' && iconMode === IconMode.dock) {
+      await this.ui.setMode('window')
     }
   }
 

@@ -4,6 +4,7 @@ import { UIService, UIMode } from 'src/app/services/ui.service'
 import { FadeInOutAnimation } from 'src/app/modules/animations'
 import { MatDialog } from '@angular/material'
 import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-dialog.component'
+import { SettingsService, IconMode } from '../settings/settings.service'
 
 @Component({
   selector: 'eqm-header',
@@ -22,7 +23,8 @@ export class HeaderComponent implements OnInit {
   constructor (
     private app: ApplicationService,
     private ui: UIService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private settings: SettingsService
     ) { }
 
   async ngOnInit () {
@@ -92,6 +94,10 @@ export class HeaderComponent implements OnInit {
 
   async toggleUIMode () {
     this.uiMode = this.uiMode === 'window' ? 'popover' : 'window'
+    const iconMode = await this.settings.getIconMode()
+    if (this.uiMode === 'popover' && iconMode === IconMode.dock) {
+      await this.settings.setIconMode(IconMode.both)
+    }
     await this.ui.setMode(this.uiMode)
   }
   // toggleMode () {

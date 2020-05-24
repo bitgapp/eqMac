@@ -54,7 +54,7 @@ export class UIService extends DataService {
     return mode
   }
 
-  setMode (mode: UIMode) {
+  async setMode (mode: UIMode) {
     return this.request({ method: 'POST', endpoint: '/mode', data: { mode } })
   }
 

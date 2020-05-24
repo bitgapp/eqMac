@@ -6,7 +6,6 @@ export enum IconMode {
   dock = 'dock',
   statusBar = 'statusBar'
 }
-export type UIMode = 'window' | 'popover'
 
 @Injectable({
   providedIn: 'root'

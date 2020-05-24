@@ -43,7 +43,13 @@ export class SettingsComponent implements OnInit {
       label: 'Status Bar'
     }],
     selectedId: IconMode.both,
-    selected: iconMode => this.settingsService.setIconMode(iconMode as IconMode)
+    selected: async iconMode => {
+      const uiMode = await this.ui.getMode()
+      if (iconMode === IconMode.dock && uiMode === 'popover') {
+        await this.ui.setMode('window')
+      }
+      await this.settingsService.setIconMode(iconMode as IconMode)
+    }
   }
   uninstallOption: ButtonOption = {
     key: 'uninstall',
