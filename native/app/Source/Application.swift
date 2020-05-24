@@ -111,7 +111,7 @@ class Application {
     if !Driver.isInstalled || Driver.isOutdated {
       if Alert.confirm(
         title: "Audio Driver Installation",
-        message: "eqMac needs to install an Audio Driver. \nIn order to do that we will ask for your System Password. \nPlease pause any playing audio if possible, otherwise audio might break.",
+        message: "eqMac needs to install an Audio Driver. \nIn order to do that we will ask for your System Password. \nPlease close any apps playing audio (Spotify, YouTube etc.) otherwise installation might fail.",
         cancelText: "Quit eqMac"
         ) {
         Driver.install(started: {
