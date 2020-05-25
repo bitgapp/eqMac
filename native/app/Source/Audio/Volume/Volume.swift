@@ -79,6 +79,7 @@ class Volume: StoreSubscriber {
       leftGain = newLeftGain
       rightGain = newRightGain
       Driver.device!.mute = false
+      device.mute = false
       gainChanged.emit(gain)
       
     }
