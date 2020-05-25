@@ -28,7 +28,6 @@
 		E01F2F5F2034A188005123BE /* ArrayExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01F2F5E2034A188005123BE /* ArrayExtensions.swift */; };
 		E021BCE722313F1E004921FF /* SettingsDataBus.swift in Sources */ = {isa = PBXBuildFile; fileRef = E021BCE622313F1E004921FF /* SettingsDataBus.swift */; };
 		E0241AA5225E9FB700748656 /* BasicEqualizerPreset.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0241AA4225E9FB700748656 /* BasicEqualizerPreset.swift */; };
-		E02520C22455F1DD0072F785 /* ui.zip in Resources */ = {isa = PBXBuildFile; fileRef = E02520C12455F1DD0072F785 /* ui.zip */; };
 		E02662F022BC3239006B486C /* NSSavePanelExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E02662EF22BC3239006B486C /* NSSavePanelExtensions.swift */; };
 		E0267AF7218ADD8D00FB2E5A /* uninstall_driver.sh in Resources */ = {isa = PBXBuildFile; fileRef = E0267AF5218ADD6000FB2E5A /* uninstall_driver.sh */; };
 		E0267AFA218ADD9500FB2E5A /* install_driver.sh in Resources */ = {isa = PBXBuildFile; fileRef = E0DDF3FC2189021300B37E77 /* install_driver.sh */; };
@@ -149,7 +148,6 @@
 		E01F2F5E2034A188005123BE /* ArrayExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtensions.swift; sourceTree = "<group>"; };
 		E021BCE622313F1E004921FF /* SettingsDataBus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsDataBus.swift; sourceTree = "<group>"; };
 		E0241AA4225E9FB700748656 /* BasicEqualizerPreset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicEqualizerPreset.swift; sourceTree = "<group>"; };
-		E02520C12455F1DD0072F785 /* ui.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; name = ui.zip; path = ../../../../ui/dist/ui.zip; sourceTree = "<group>"; };
 		E02662EF22BC3239006B486C /* NSSavePanelExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSSavePanelExtensions.swift; sourceTree = "<group>"; };
 		E0267AF5218ADD6000FB2E5A /* uninstall_driver.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = uninstall_driver.sh; sourceTree = "<group>"; };
 		E0267AFC218AE39500FB2E5A /* Script.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Script.swift; sourceTree = "<group>"; };
@@ -424,7 +422,6 @@
 		E095BBC12014CDF1003473E9 /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				E02520C12455F1DD0072F785 /* ui.zip */,
 				E0C5629220A39651000902ED /* Bridge.swift */,
 				E0C8F78521D3B6590023B1E5 /* UIDataBus.swift */,
 				E06E98CF21D17E230041DD9C /* UI.swift */,
@@ -675,7 +672,6 @@
 				E04E7AB9247C67C1006A2AC3 /* eqMac.driver in Resources */,
 				E086B0021FCCB8E700CF9F0D /* assets.xcassets in Resources */,
 				E09C17201FEC1969008E65A4 /* Main.storyboard in Resources */,
-				E02520C22455F1DD0072F785 /* ui.zip in Resources */,
 				E04E7ABB247C690B006A2AC3 /* ui.zip in Resources */,
 				E02B922C219843DF00AC130B /* open_privacy_microphone_settings.scpt in Resources */,
 				E0267AF7218ADD8D00FB2E5A /* uninstall_driver.sh in Resources */,
