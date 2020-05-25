@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:/Users/romanskisils/Programming/Bitgapp/eqmac/native/app/eqMac.xcodeproj">
+      location = "group:app/eqMac.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:driver/Driver.xcodeproj">
