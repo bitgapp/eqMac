@@ -52,6 +52,8 @@
 		E0493D0B21F222D300A8FD3D /* EventInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0493D0A21F222D300A8FD3D /* EventInterceptor.swift */; };
 		E04E256021E21717002DFC2A /* AdvancedEqualizerState.swift in Sources */ = {isa = PBXBuildFile; fileRef = E04E255F21E21717002DFC2A /* AdvancedEqualizerState.swift */; };
 		E04E256221E23CD5002DFC2A /* AdvancedEqualizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E04E256121E23CD5002DFC2A /* AdvancedEqualizer.swift */; };
+		E04E7AB9247C67C1006A2AC3 /* eqMac.driver in Resources */ = {isa = PBXBuildFile; fileRef = E04E7AB8247C67C1006A2AC3 /* eqMac.driver */; };
+		E04E7ABB247C690B006A2AC3 /* ui.zip in Resources */ = {isa = PBXBuildFile; fileRef = E04E7ABA247C690B006A2AC3 /* ui.zip */; };
 		E05559851FF64CF6009EE4B7 /* BitOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = E05559841FF64CF6009EE4B7 /* BitOperations.swift */; };
 		E057A637227032EC0019D13C /* EngineDataBus.swift in Sources */ = {isa = PBXBuildFile; fileRef = E057A636227032EC0019D13C /* EngineDataBus.swift */; };
 		E057A639227038B80019D13C /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = E057A638227038B80019D13C /* Settings.swift */; };
@@ -97,7 +99,6 @@
 		E0E8B63420EEB6A900DE905C /* VolumeState.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E8B62C20EEB6A900DE905C /* VolumeState.swift */; };
 		E0E8B63620EEB6A900DE905C /* ApplicationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E8B62E20EEB6A900DE905C /* ApplicationState.swift */; };
 		E0ECA88B23B8B8DD002AFBF0 /* AVAudioEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0ECA88A23B8B8DD002AFBF0 /* AVAudioEngine.swift */; };
-		E0F4FD9E22888D5A00BEB0A6 /* eqMac.driver in Resources */ = {isa = PBXBuildFile; fileRef = E0F4FD9D22888D5A00BEB0A6 /* eqMac.driver */; };
 		E0F661711FDC38BE00252923 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0F661701FDC38B600252923 /* WebKit.framework */; };
 		E0F661861FDDED0C00252923 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0F661851FDDED0C00252923 /* ViewController.swift */; };
 		E0FFB703200119060003EC9E /* StatusItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0FFB702200119060003EC9E /* StatusItem.swift */; };
@@ -169,6 +170,8 @@
 		E0493D0A21F222D300A8FD3D /* EventInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventInterceptor.swift; sourceTree = "<group>"; };
 		E04E255F21E21717002DFC2A /* AdvancedEqualizerState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedEqualizerState.swift; sourceTree = "<group>"; };
 		E04E256121E23CD5002DFC2A /* AdvancedEqualizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedEqualizer.swift; sourceTree = "<group>"; };
+		E04E7AB8247C67C1006A2AC3 /* eqMac.driver */ = {isa = PBXFileReference; lastKnownFileType = folder; path = eqMac.driver; sourceTree = "<group>"; };
+		E04E7ABA247C690B006A2AC3 /* ui.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = ui.zip; sourceTree = "<group>"; };
 		E05559841FF64CF6009EE4B7 /* BitOperations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitOperations.swift; sourceTree = "<group>"; };
 		E057A636227032EC0019D13C /* EngineDataBus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EngineDataBus.swift; sourceTree = "<group>"; };
 		E057A638227038B80019D13C /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
@@ -206,7 +209,6 @@
 		E0A3B96220DF992600E46908 /* Buffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Buffer.swift; sourceTree = "<group>"; };
 		E0A48D6123C5FB6B00700C39 /* eqMac.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = eqMac.entitlements; sourceTree = "<group>"; };
 		E0A9A90D22D24A6200EB1E49 /* Window.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Window.swift; sourceTree = "<group>"; };
-		E0AB8FA223C3D5B900035701 /* LaunchAtLogin.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LaunchAtLogin.framework; path = Carthage/Build/Mac/LaunchAtLogin.framework; sourceTree = "<group>"; };
 		E0AD99D42251022700D893F7 /* AdvancedEqualizerDefaultPresets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedEqualizerDefaultPresets.swift; sourceTree = "<group>"; };
 		E0AFAE9A23C39187007D2D56 /* LaunchAtLogin.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LaunchAtLogin.framework; path = Carthage/Build/Mac/LaunchAtLogin.framework; sourceTree = "<group>"; };
 		E0C5629220A39651000902ED /* Bridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bridge.swift; sourceTree = "<group>"; };
@@ -223,7 +225,6 @@
 		E0E8B62E20EEB6A900DE905C /* ApplicationState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApplicationState.swift; sourceTree = "<group>"; };
 		E0ECA88923B7F816002AFBF0 /* ExceptionCatcher.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExceptionCatcher.h; sourceTree = "<group>"; };
 		E0ECA88A23B8B8DD002AFBF0 /* AVAudioEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVAudioEngine.swift; sourceTree = "<group>"; };
-		E0F4FD9D22888D5A00BEB0A6 /* eqMac.driver */ = {isa = PBXFileReference; lastKnownFileType = folder; name = eqMac.driver; path = ../build/eqMac/Build/Products/Release/eqMac.driver; sourceTree = "<group>"; };
 		E0F661701FDC38B600252923 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		E0F661851FDDED0C00252923 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		E0FFB702200119060003EC9E /* StatusItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusItem.swift; sourceTree = "<group>"; };
@@ -356,13 +357,22 @@
 			path = DataBus;
 			sourceTree = "<group>";
 		};
+		E04E7AB7247C3FAF006A2AC3 /* Embedded */ = {
+			isa = PBXGroup;
+			children = (
+				E04E7ABA247C690B006A2AC3 /* ui.zip */,
+				E04E7AB8247C67C1006A2AC3 /* eqMac.driver */,
+			);
+			path = Embedded;
+			sourceTree = "<group>";
+		};
 		E086AFF31FCCB8E700CF9F0D = {
 			isa = PBXGroup;
 			children = (
 				E0A48D6123C5FB6B00700C39 /* eqMac.entitlements */,
 				E05901ED2221F21E006B93A5 /* Sandbox.playground */,
 				E0F661751FDCA05F00252923 /* Source */,
-				E0F4FD9C22888D1100BEB0A6 /* Embedded */,
+				E04E7AB7247C3FAF006A2AC3 /* Embedded */,
 				E0F661741FDCA01F00252923 /* Supporting Files */,
 				E086AFFD1FCCB8E700CF9F0D /* Products */,
 				A433E835860EBA2247574C67 /* Pods */,
@@ -529,15 +539,6 @@
 			path = Scripts;
 			sourceTree = "<group>";
 		};
-		E0F4FD9C22888D1100BEB0A6 /* Embedded */ = {
-			isa = PBXGroup;
-			children = (
-				E0AB8FA223C3D5B900035701 /* LaunchAtLogin.framework */,
-				E0F4FD9D22888D5A00BEB0A6 /* eqMac.driver */,
-			);
-			name = Embedded;
-			sourceTree = "<group>";
-		};
 		E0F661741FDCA01F00252923 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
@@ -670,11 +671,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E0F4FD9E22888D5A00BEB0A6 /* eqMac.driver in Resources */,
 				E0267AFA218ADD9500FB2E5A /* install_driver.sh in Resources */,
+				E04E7AB9247C67C1006A2AC3 /* eqMac.driver in Resources */,
 				E086B0021FCCB8E700CF9F0D /* assets.xcassets in Resources */,
 				E09C17201FEC1969008E65A4 /* Main.storyboard in Resources */,
 				E02520C22455F1DD0072F785 /* ui.zip in Resources */,
+				E04E7ABB247C690B006A2AC3 /* ui.zip in Resources */,
 				E02B922C219843DF00AC130B /* open_privacy_microphone_settings.scpt in Resources */,
 				E0267AF7218ADD8D00FB2E5A /* uninstall_driver.sh in Resources */,
 			);

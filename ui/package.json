@@ -3,7 +3,7 @@
   "version": "1.0.1",
   "scripts": {
     "start": "ng serve",
-    "build": "rm -rf dist/ && ng build --prod && cd dist/ && zip -r -D ui.zip * -x '*.DS_Store'",
+    "build": "rm -rf dist/ && ng build --prod && cd dist/ && zip -r -D ui.zip * -x '*.DS_Store' && cp ui.zip ../../native/app/Embedded",
     "deploy": "export $(egrep -v '^#' .env | xargs) && ./scripts/deploy.sh",
     "purge-cache": "./node_modules/.bin/ts-node -O '{\"module\":\"commonjs\"}' ./scripts/purge-cache.ts"
   },
