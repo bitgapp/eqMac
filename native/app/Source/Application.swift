@@ -109,24 +109,26 @@ class Application {
   
   private static func installDriver (_ completion: @escaping() -> Void) {
     if !Driver.isInstalled || Driver.isOutdated {
-      if Alert.confirm(
-        title: "Audio Driver Installation",
-        message: "eqMac needs to install an Audio Driver. \nIn order to do that we will ask for your System Password. \nPlease close any apps playing audio (Spotify, YouTube etc.) otherwise installation might fail.",
-        cancelText: "Quit eqMac"
-        ) {
-        Driver.install(started: {
-          UI.showLoadingWindow("Installing eqMac audio driver")
-        }) { success in
-          if (success) {
-            UI.hideLoadingWindow()
-            completion()
-          } else {
-            driverFailedToInstallPrompt()
+      Alert.confirm(
+      title: "Audio Driver Installation",
+      message: "eqMac needs to install an Audio Driver. \nIn order to do that we will ask for your System Password. \nPlease close any apps playing audio (Spotify, YouTube etc.) otherwise installation might fail.",
+      cancelText: "Quit eqMac"
+      ) { install in
+        if install {
+          Driver.install(started: {
+            UI.showLoadingWindow("Installing eqMac audio driver")
+          }) { success in
+            if (success) {
+              UI.hideLoadingWindow()
+              completion()
+            } else {
+              driverFailedToInstallPrompt()
+            }
           }
+          
+        } else {
+          quit()
         }
-        
-      } else {
-        quit()
       }
     } else {
       completion()
@@ -135,11 +137,13 @@ class Application {
   
   private static func driverFailedToInstallPrompt () {
     UI.hideLoadingWindow()
-    if Alert.confirm(
-      title: "Driver failed to install", message: "Unfortunately the audio driver has failed to install. You can restart eqMac and try again or quit.", okText: "Try again", cancelText: "Quit") {
-      return restart()
-    } else {
-      return quit()
+    Alert.confirm(
+    title: "Driver failed to install", message: "Unfortunately the audio driver has failed to install. You can restart eqMac and try again or quit.", okText: "Try again", cancelText: "Quit") { restart in
+      if restart {
+        return self.restart()
+      } else {
+        return self.quit()
+      }
     }
   }
   
@@ -186,11 +190,13 @@ class Application {
   }
   
   private static func passthroughDeviceFailedToActivatePrompt () {
-    if Alert.confirm(
-      title: "Driver failed to activate", message: "Unfortunately the audio driver has failed to active. You can restart eqMac and try again or quit.", okText: "Try again", cancelText: "Quit") {
-      return restart()
-    } else {
-      return quit()
+    Alert.confirm(
+    title: "Driver failed to activate", message: "Unfortunately the audio driver has failed to active. You can restart eqMac and try again or quit.", okText: "Try again", cancelText: "Quit") { restart in
+      if restart {
+        return self.restart()
+      } else {
+        return self.quit()
+      }
     }
   }
   
