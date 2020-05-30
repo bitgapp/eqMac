@@ -98,10 +98,7 @@ class Engine {
   
   private func attachEqualizers () {
     equalizerNodes = []
-    for eq in effects.equalizers.active.eqs {
-      engine.attach(eq)
-      equalizerNodes.append(eq)
-    }
+    engine.attach(effects.equalizers.active.eq)
   }
   
   private func detachEqualizers () {
@@ -134,26 +131,20 @@ class Engine {
   }
   
   private func chainVolumeToEffects () {
-    engine.connect(volume.booster.avAudioNode, to: effects.equalizers.active.eqs.first!, format: format)
+    engine.connect(volume.booster.avAudioNode, to: effects.equalizers.active.eq, format: format)
   }
   
   private func chainEffects () {
     Console.log("Chaining Effects")
-    for (i, eq) in effects.equalizers.active.eqs.enumerated() {
-      let nextIndex = i + 1
-      if (nextIndex < effects.equalizers.active.eqs.count) {
-        engine.connect(eq, to: effects.equalizers.active.eqs[nextIndex], format: format)
-      }
-    }
   }
   
   private func chainEffectsToSink () {
-    engine.connect(effects.equalizers.active.eqs.last!, to: engine.mainMixerNode, format: format)
+    engine.connect(effects.equalizers.active.eq, to: engine.mainMixerNode, format: format)
   }
   
   private func setupRenderCallback () {
     Console.log("Setting up Input Render Callback")
-    let lastAVUnit = effects.equalizers.active.eqs.last! as AVAudioUnit
+    let lastAVUnit = effects.equalizers.active.eq as AVAudioUnit
     if let err = checkErr(AudioUnitAddRenderNotify(lastAVUnit.audioUnit,
                                                    inputRenderedNotification,
                                                    UnsafeMutableRawPointer(Unmanaged<Engine>.passUnretained(self).toOpaque()))) {

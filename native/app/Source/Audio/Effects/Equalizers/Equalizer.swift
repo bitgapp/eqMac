@@ -10,74 +10,53 @@ import Foundation
 import AVFoundation
 
 class Equalizer: Effect {
-  let numberOfBands: Int!
-  var eqs: [AVAudioUnitEQ] = []
+  var eq: AVAudioUnitEQ
   var globalGain: Double {
     get {
-      return Double(eqs[0].globalGain)
+      return Double(eq.globalGain)
     }
     set {
-      eqs[0].globalGain = Float(newValue)
+      eq.globalGain = Float(newValue)
     }
   }
   
   var gains: [Double] {
     var gains: [Double] = []
-    for eq in eqs {
-      for band in eq.bands {
-        gains.append(Double(band.gain))
-      }
+    for band in eq.bands {
+      gains.append(Double(band.gain))
     }
     return gains
   }
   
   init (numberOfBands: Int) {
-    self.numberOfBands = numberOfBands
-    let numberOfEQs = Int(ceil(Double(numberOfBands) / 16))
-    let remainder = numberOfBands % 16
-    for i in 1...numberOfEQs {
-      let eq = AVAudioUnitEQ(numberOfBands: i == numberOfEQs ? remainder : 16)
-      eq.globalGain = 0
-      for band in eq.bands {
-        band.filterType = .parametric
-        band.bandwidth = 0.5
-        band.bypass = false
-      }
-      eqs.append(eq)
+    eq = AVAudioUnitEQ(numberOfBands: numberOfBands)
+    eq.globalGain = 0
+    for band in eq.bands {
+      band.filterType = .parametric
+      band.bandwidth = 0.5
+      band.bypass = false
     }
   }
   
   func getFrequency (index: Int) -> Double {
-    return Double(getBandFromIndex(index: index)!.frequency)
+    return Double(eq.bands[index].frequency)
   }
   
   func setFrequency (index: Int, frequency: Double) {
-    let band = getBandFromIndex(index: index)
-    band!.frequency = Float(frequency)
+    let band = eq.bands[index]
+    band.frequency = Float(frequency)
   }
   
   func getGain (index: Int) -> Double {
-    return Double(getBandFromIndex(index: index)!.gain)
+    return Double(eq.bands[index].gain)
   }
   
   func setGain (index: Int, gain: Double) {
-    let band = getBandFromIndex(index: index)
-    band!.gain = Float(gain)
+    let band = eq.bands[index]
+    band.gain = Float(gain)
   }
   
   override func enabledDidSet() {
-    for eq in eqs {
-      eq.bypass = !enabled
-    }
-  }
-  
-  private func getBandFromIndex (index: Int) -> AVAudioUnitEQFilterParameters? {
-    if (index >= numberOfBands) {
-      Console.log("Trying to get out of bounds AppleEqualizer Band")
-      return nil
-    }
-    let eqIndex = Int(floor(Double(index / 16)))
-    let bandIndex = index % 16
-    return eqs[eqIndex].bands[bandIndex]
+    eq.bypass = !enabled
   }
 }
