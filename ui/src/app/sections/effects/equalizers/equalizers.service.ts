@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core'
 import { EffectService } from '../effect.service'
 
-export const EqualizersTypes = ['Basic', 'Advanced', 'Expert'] as const
+export const EqualizersTypes = [
+  'Basic',
+  'Advanced'
+] as const
 export type EqualizerType = typeof EqualizersTypes[number]
 
 @Injectable({

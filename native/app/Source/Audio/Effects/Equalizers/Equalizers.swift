@@ -23,13 +23,11 @@ import SwiftyUserDefaults
 enum EqualizerType : String, Codable {
   case basic = "Basic"
   case advanced = "Advanced"
-  case expert = "Expert"
 }
 
 let AllEqualizerTypes = [
   EqualizerType.basic.rawValue,
-  EqualizerType.advanced.rawValue,
-  EqualizerType.expert.rawValue
+  EqualizerType.advanced.rawValue
 ]
 
 class Equalizers: Effect, StoreSubscriber {

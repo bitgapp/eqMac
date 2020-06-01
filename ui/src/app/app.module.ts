@@ -68,9 +68,6 @@ import {
   AdvancedEqualizerComponent
 } from './sections/effects/equalizers/advanced-equalizer/advanced-equalizer.component'
 import {
-  ExpertEqualizerComponent
-} from './sections/effects/equalizers/expert-equalizer/expert-equalizer.component'
-import {
   VolumeBoosterBalanceComponent
 } from './sections/volume/booster-balance/volume-booster-balance.component'
 import {
@@ -119,7 +116,6 @@ import { OptionsDialogComponent } from './components/options-dialog/options-dial
     SystemComponent,
     BasicEqualizerComponent,
     AdvancedEqualizerComponent,
-    ExpertEqualizerComponent,
     VolumeBoosterBalanceComponent,
     VolumeMixerComponent,
     SettingsComponent,

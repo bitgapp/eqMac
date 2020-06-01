@@ -44,10 +44,7 @@ class EqualizersDataBus: DataBus {
         if (type == EqualizerType.advanced.rawValue) {
           eqType = .advanced
         }
-        if (type == EqualizerType.expert.rawValue) {
-          eqType = .expert
-        }
-        
+
         Application.dispatchAction(EqualizersAction.setType(eqType))
         return "Equalizer Type has been set"
       } else {

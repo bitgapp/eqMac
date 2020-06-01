@@ -24,7 +24,6 @@ export class EqualizersComponent implements OnInit {
   @ViewChild('equalizersCarousel', { static: false }) equalizersCarousel: CarouselComponent
   @ViewChild('basicEqualizer', { static: false }) basicEqualizer: BasicEqualizerComponent
   @ViewChild('advancedEqualizer', { static: false }) advancedEqualizer: AdvancedEqualizerComponent
-  // @ViewChild('expertEqualizer') expertEqualizer: BasicEqualizerComponent
 
   loaded = false
   enabled = true
