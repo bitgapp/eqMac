@@ -325,10 +325,13 @@ class Application {
         retain: false
       ) {
         //        selectOutput(device: selectedDevice)
-        stopListeners()
-        stopEngines()
-        self.matchDriverSampleRateToOutput()
-        createAudioPipeline()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            // need a delay, because emitter should finish it's work at first
+            stopListeners()
+            stopEngines()
+            self.matchDriverSampleRateToOutput()
+            createAudioPipeline()
+        }
       }
       
       selectedDeviceVolumeChangedListener = AudioDeviceEvents.on(
