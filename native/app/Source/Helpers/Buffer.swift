@@ -19,5 +19,5 @@ func bufferSilencePercent (_ ioData: UnsafeMutablePointer<AudioBufferList>) -> D
   let audioBufferListPtr = UnsafeMutableAudioBufferListPointer(ioData).unsafeMutablePointer.pointee
   let data = Data(bytes: audioBufferListPtr.mBuffers.mData!, count: Int(audioBufferListPtr.mBuffers.mDataByteSize))
   let base64 = data.base64EncodedString()
-  return Double(base64.filter { $0 == "A" }.count / base64.count * 100)
+  return Double(100 * base64.filter { $0 == "A" }.count / (base64.count - 1))
 }
