@@ -43,10 +43,10 @@ class AudioDeviceEvents: EventSubscriber {
   // Per Device
   let isJackConnectedChangedEvent = EmitterKit.Event<AudioDevice>()
   let isRunningSomewhereChangedEvent = EmitterKit.Event<AudioDevice>()
-  let volumeChangedEvent = EmitterKit.Event<AudioDevice>()
+  var volumeChangedEvent = EmitterKit.Event<AudioDevice>()
   let muteChangedEvent = EmitterKit.Event<AudioDevice>()
-  let isAliveChangedEvent = EmitterKit.Event<AudioDevice>()
-  let nominalSampleRateChangedEvent = EmitterKit.Event<AudioDevice>()
+  var isAliveChangedEvent = EmitterKit.Event<AudioDevice>()
+  var nominalSampleRateChangedEvent = EmitterKit.Event<AudioDevice>()
   let availableNominalSampleRatesChangedEvent = EmitterKit.Event<AudioDevice>()
   let clockSourceChangedEvent = EmitterKit.Event<AudioDevice>()
   let nameChangedEvent = EmitterKit.Event<AudioDevice>()
@@ -98,6 +98,24 @@ class AudioDeviceEvents: EventSubscriber {
       let device = AudioDeviceEvents.getDeviceFromEvent(event)
       emitter.emit(device)
     default: return
+    }
+  }
+    
+  static func recreateEventEmitters(_ eventsToRecreate: [AudioDeviceEventType]) throws {
+    for event in eventsToRecreate {
+      switch event {
+      case .isAliveChanged:
+        events.isAliveChangedEvent = EmitterKit.Event<AudioDevice>()
+        break
+      case .volumeChanged:
+        events.volumeChangedEvent = EmitterKit.Event<AudioDevice>()
+        break
+      case .nominalSampleRateChanged:
+        events.nominalSampleRateChangedEvent = EmitterKit.Event<AudioDevice>()
+        break
+      default:
+        throw "This event can't be recreated, or change this code"
+      }
     }
   }
   
