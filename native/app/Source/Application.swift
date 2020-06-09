@@ -275,7 +275,7 @@ class Application {
     Driver.device!.setVirtualMasterVolume(volume > 1 ? 1 : Float32(volume), direction: .playback)
     Driver.latency = selectedDevice.latency(direction: .playback) ?? 0 // Set driver latency to mimic device
     Driver.safetyOffset = selectedDevice.safetyOffset(direction: .playback) ?? 0 // Set driver latency to mimic device
-    self.matchDriverSampleRateToOutput()
+    self.matchDriverSampleRateTo48000()
     
     Console.log("Driver new Latency: \(Driver.latency)")
     Console.log("Driver new Safety Offset: \(Driver.safetyOffset)")
@@ -286,6 +286,11 @@ class Application {
     Utilities.delay(500) {
       self.createAudioPipeline()
     }
+  }
+  
+  private static func matchDriverSampleRateTo48000 () {
+    // Makes correct processing of EQ for different Input formats
+    Driver.device!.setNominalSampleRate(48_000)
   }
   
   private static func matchDriverSampleRateToOutput () {
@@ -325,11 +330,10 @@ class Application {
         retain: false
       ) {
         //        selectOutput(device: selectedDevice)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+        Utilities.delay(100) {
             // need a delay, because emitter should finish it's work at first
-            stopListeners()
+            try! AudioDeviceEvents.recreateEventEmitters([.isAliveChanged, .volumeChanged, .nominalSampleRateChanged])
             stopEngines()
-            self.matchDriverSampleRateToOutput()
             createAudioPipeline()
         }
       }

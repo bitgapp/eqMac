@@ -79,7 +79,6 @@ class Output {
   var device: AudioDevice!
   var engine: Engine!
   var outputEngine = AVAudioEngine()
-  var format: AVAudioFormat!
   var player = AVAudioPlayerNode()
   var varispeed = AVAudioUnitVarispeed()
   let deviceChanged = EmitterKit.Event<AudioDevice>()
@@ -96,14 +95,16 @@ class Output {
     
     outputEngine.setOutputDevice(device)
 
-    format = outputEngine.outputNode.outputFormat(forBus: 0)
-    varispeed.rate = Float(Driver.device!.actualSampleRate()! / device.actualSampleRate()!)
-
+    let driverSampleRate = Driver.device!.actualSampleRate()!
+    let varispeedInputFormat = varispeed.inputFormat(forBus: 0)
+    let mainMixerSampleRate = outputEngine.mainMixerNode.outputFormat(forBus: 0).sampleRate
+    varispeed.rate = Float(driverSampleRate / mainMixerSampleRate)
+    
     Console.log("Varispeed Rate: \(varispeed.rate)")
     outputEngine.attach(player)
     outputEngine.attach(varispeed)
-    outputEngine.connect(player, to: varispeed, format: format)
-    outputEngine.connect(varispeed, to: outputEngine.mainMixerNode, format: format)
+    outputEngine.connect(player, to: varispeed, format: varispeedInputFormat)
+    outputEngine.connect(varispeed, to: outputEngine.mainMixerNode, format: nil)
 
     self.setRenderCallback()
     
