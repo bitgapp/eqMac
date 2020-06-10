@@ -16,7 +16,7 @@
 
 ### Roadmap
 Idea is to become the ultimate Audio toolbox for macOS (some features might not be open sourced)
-* Expert EQ - Ultimited bands
+* Expert EQ - Ultimited bands + Spectrum analyzer
 * Reverb - Spatial audio enchancement
 * Volume mixer - Apply different volume levels per each application
 * Input audio source - Apply effects to any device: guitar, microphone etc.
@@ -24,7 +24,6 @@ Idea is to become the ultimate Audio toolbox for macOS (some features might not 
 * File playback and rendering - Apply effects to audio files and instantly render them
 * Remote control from your phone
 * Hide unused effects / elements of the UI
-* Spectrum analyzer
 * and more...
 
 ## User support
