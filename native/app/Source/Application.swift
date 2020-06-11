@@ -110,9 +110,9 @@ class Application {
   private static func installDriver (_ completion: @escaping() -> Void) {
     if !Driver.isInstalled || Driver.isOutdated {
       Alert.confirm(
-      title: "Audio Driver Installation",
-      message: "eqMac needs to install an Audio Driver. \nIn order to do that we will ask for your System Password. \nPlease close any apps playing audio (Spotify, YouTube etc.) otherwise installation might fail.",
-      cancelText: "Quit eqMac"
+        title: "Audio Driver Installation",
+        message: "eqMac needs to install an Audio Driver. \nIn order to do that we will ask for your System Password. \nPlease close any apps playing audio (Spotify, YouTube etc.) otherwise installation might fail.",
+        cancelText: "Quit eqMac"
       ) { install in
         if install {
           Driver.install(started: {
@@ -201,32 +201,13 @@ class Application {
   }
   
   static var ignoreNextVolumeEvent = false
-
+  
   private static func setupDeviceEvents () {
     AudioDeviceEvents.on(.outputChanged) { device in
       if device.isHardware {
         Console.log("outputChanged: ", device, " starting PlayThrough")
         startPassthrough()
       }
-    }
-    AudioDeviceEvents.on(.volumeChanged, onDevice: Driver.device!) {
-      if ignoreNextVolumeEvent {
-        ignoreNextVolumeEvent = false
-        return
-      }
-      if (overrideNextVolumeEvent) {
-        overrideNextVolumeEvent = false
-        ignoreNextVolumeEvent = true
-        Driver.device!.setVirtualMasterVolume(1, direction: .playback)
-        return
-      }
-      let gain = Double(Driver.device!.virtualMasterVolume(direction: .playback)!)
-      if (gain <= 1 && gain != Application.store.state.effects.volume.gain) {
-        Application.dispatchAction(VolumeAction.setGain(gain, false))
-      }
-    }
-    AudioDeviceEvents.on(.muteChanged, onDevice: Driver.device!) {
-      Application.dispatchAction(VolumeAction.setMuted(Driver.device!.mute))
     }
     
     AudioDeviceEvents.onDeviceListChanged { list in
@@ -252,6 +233,30 @@ class Application {
         selectOutput(device: device)
       }
     }
+    
+    setupDriverDeviceEvents()
+  }
+  
+  private static func setupDriverDeviceEvents () {
+    AudioDeviceEvents.on(.volumeChanged, onDevice: Driver.device!) {
+      if ignoreNextVolumeEvent {
+        ignoreNextVolumeEvent = false
+        return
+      }
+      if (overrideNextVolumeEvent) {
+        overrideNextVolumeEvent = false
+        ignoreNextVolumeEvent = true
+        Driver.device!.setVirtualMasterVolume(1, direction: .playback)
+        return
+      }
+      let gain = Double(Driver.device!.virtualMasterVolume(direction: .playback)!)
+      if (gain <= 1 && gain != Application.store.state.effects.volume.gain) {
+        Application.dispatchAction(VolumeAction.setGain(gain, false))
+      }
+    }
+    AudioDeviceEvents.on(.muteChanged, onDevice: Driver.device!) {
+      Application.dispatchAction(VolumeAction.setMuted(Driver.device!.mute))
+    }
   }
   
   static func selectOutput (device: AudioDevice) {
@@ -275,7 +280,7 @@ class Application {
     Driver.device!.setVirtualMasterVolume(volume > 1 ? 1 : Float32(volume), direction: .playback)
     Driver.latency = selectedDevice.latency(direction: .playback) ?? 0 // Set driver latency to mimic device
     Driver.safetyOffset = selectedDevice.safetyOffset(direction: .playback) ?? 0 // Set driver latency to mimic device
-    self.matchDriverSampleRateToOutput()
+    self.matchDriverSampleRateTo48000()
     
     Console.log("Driver new Latency: \(Driver.latency)")
     Console.log("Driver new Safety Offset: \(Driver.safetyOffset)")
@@ -286,6 +291,11 @@ class Application {
     Utilities.delay(500) {
       self.createAudioPipeline()
     }
+  }
+  
+  private static func matchDriverSampleRateTo48000 () {
+    // Makes correct processing of EQ for different Input formats
+    Driver.device!.setNominalSampleRate(48_000)
   }
   
   private static func matchDriverSampleRateToOutput () {
@@ -325,12 +335,12 @@ class Application {
         retain: false
       ) {
         //        selectOutput(device: selectedDevice)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            // need a delay, because emitter should finish it's work at first
-            stopListeners()
-            stopEngines()
-            self.matchDriverSampleRateToOutput()
-            createAudioPipeline()
+        Utilities.delay(100) {
+          // need a delay, because emitter should finish it's work at first
+          try! AudioDeviceEvents.recreateEventEmitters([.isAliveChanged, .volumeChanged, .nominalSampleRateChanged])
+          self.setupDriverDeviceEvents()
+          stopEngines()
+          createAudioPipeline()
         }
       }
       
@@ -401,7 +411,7 @@ class Application {
       Application.dispatchAction(VolumeAction.setGain(newGain, false))
     }
   }
-    
+  
   private static func killEngine () {
     engine = nil
   }
