@@ -13,6 +13,10 @@ import EmitterKit
 import AVFoundation
 
 class Output {
+  static func isDeviceAllowed(_ device: AudioDevice) -> Bool {
+    return device.transportType != nil && Constants.SUPPORTED_TRANSPORT_TYPES.contains(device.transportType!) && !device.isInputOnlyDevice()
+  }
+  
   static var allowedDevices: [AudioDevice] {
     return AudioDevice.allOutputDevices()
       .filter({ device in
@@ -21,7 +25,7 @@ class Output {
             return false
           }
         }
-        return device.transportType != nil && Constants.SUPPORTED_TRANSPORT_TYPES.contains(device.transportType!)
+        return isDeviceAllowed(device)
       })
   }
 

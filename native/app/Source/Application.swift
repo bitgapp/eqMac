@@ -214,14 +214,28 @@ class Application {
       Console.log("listChanged", list)
       
       if list.added.count > 0 {
-        let added = list.added[0]
-        selectOutput(device: added)
+        for added in list.added {
+          if Output.isDeviceAllowed(added) {
+            selectOutput(device: added)
+            break
+          }
+        }
       } else if (list.removed.count > 0) {
-        let removed = list.removed[0]
-        if (removed.id != selectedDevice.id) {
-          stopEngines()
+        
+        var currentDeviceRemoved = false
+        for removed in list.removed {
+          if removed.id == selectedDevice.id {
+            currentDeviceRemoved = true
+            break
+          }
+        }
+        
+        stopEngines()
+        if (!currentDeviceRemoved) {
+          try! AudioDeviceEvents.recreateEventEmitters([.isAliveChanged, .volumeChanged, .nominalSampleRateChanged])
+          self.setupDriverDeviceEvents()
           Utilities.delay(500) {
-            createAudioPipeline()
+              createAudioPipeline()
           }
         }
       }
