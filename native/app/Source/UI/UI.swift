@@ -257,8 +257,8 @@ class UI: StoreSubscriber {
         Console.log("Remote UI loaded")
         self.cacheRemote()
       } else {
-        let port = UI.startLocalServer()
-        let url = URL(string: "http://localhost:\(port)/index.html")!
+//        let port = UI.startLocalServer()
+        let url = URL(string: "file:///Users/romanskisils/Programming/Bitgapp/eqmac/ui/dist/index.html")!
         UI.viewController.load(url, { success in
           if success {
             Console.log("Local UI loaded")

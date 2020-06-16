@@ -2,21 +2,22 @@ import {
   Component,
   OnInit,
   Input,
-  ElementRef,
-  ViewChild
+  ViewEncapsulation
 } from '@angular/core'
+import { svgs } from './icons'
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser'
 
 @Component({
   selector: 'eqm-icon',
   templateUrl: './icon.component.html',
-  styleUrls: ['./icon.component.scss']
+  styleUrls: ['./icon.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class IconComponent implements OnInit {
   @Input() width = 20
   @Input() height = 20
-
-  @ViewChild('icon', { static: true }) iconRef: ElementRef
-
+  svg: SafeHtml
+  icons = svgs
   @Input() set size (newSize) {
     this.width = newSize
     this.height = newSize
@@ -54,11 +55,13 @@ export class IconComponent implements OnInit {
   @Input()
   set name (iconName: string) {
     this._name = iconName
+    this.svg = this.sanitizer.bypassSecurityTrustHtml(this.icons[this.name])
   }
   get name () { return this._name }
 
   @Input() stroke: number = 0
 
+  constructor (private sanitizer: DomSanitizer) {}
   ngOnInit () {
   }
 
