@@ -13,8 +13,6 @@ import EmitterKit
 import SwiftyUserDefaults
 import WebKit
 import Zip
-//import Swifter
-import Criollo
 import Alamofire
 
 enum UIMode: String, Codable {
@@ -30,12 +28,11 @@ extension UIMode {
 }
 
 class UI: StoreSubscriber {
+  static var domain = Constants.UI_ENDPOINT_URL.host!
   static func unarchiveLocal () {
     // Unpack Archive
     let file = FileManager.default
-    
-    let appSupportUIZipPath = Application.supportPath.appendingPathComponent("ui.zip", isDirectory: false)
-    
+        
     if !file.fileExists(atPath: appSupportUIZipPath.path) {
       Console.log("\(appSupportUIZipPath.path) doesnt exist")
       let bundleUIZipPath = Bundle.main.url(forResource: "ui", withExtension: "zip")!
@@ -45,23 +42,14 @@ class UI: StoreSubscriber {
     try! Zip.unzipFile(appSupportUIZipPath, destination: localPath, overwrite: true, password: nil) // Unzip
   }
   
+  static var appSupportUIZipPath: URL {
+    return Application.supportPath.appendingPathComponent(
+      "ui-\(Application.version).zip",
+      isDirectory: false
+    )
+  }
   static var localPath: URL {
     return Application.supportPath.appendingPathComponent("ui")
-  }
-  
-  static var server: CRHTTPServer?
-  
-  static func startLocalServer () -> UInt {
-    unarchiveLocal()
-    if (server != nil) {
-      server!.stopListening()
-    }
-    server = CRHTTPServer()
-    let port = Networking.getAvailabilePort(Constants.UI_SERVER_PREFERRED_PORT)
-    server!.mount("/", directoryAtPath: localPath.path, options: .autoIndex)
-    server!.startListening(nil, portNumber: port)
-    Console.log("Started UI Local server on port: \(port). Sharing files: \(localPath.path)")
-    return port
   }
   
   static let storyboard = NSStoryboard(name: "Main", bundle: nil)
@@ -252,30 +240,26 @@ class UI: StoreSubscriber {
   }
   
   private func load () {
-    UI.viewController.load(Constants.UI_ENDPOINT_URL, { success in
-      if success {
-        Console.log("Remote UI loaded")
+    Networking.isReachable(UI.domain) { reachable in
+      if reachable {
+        Console.log("Loading Remote UI")
+        UI.viewController.load(Constants.UI_ENDPOINT_URL)
         self.cacheRemote()
       } else {
-//        let port = UI.startLocalServer()
-        let url = URL(string: "file:///Users/romanskisils/Programming/Bitgapp/eqmac/ui/dist/index.html")!
-        UI.viewController.load(url, { success in
-          if success {
-            Console.log("Local UI loaded")
-          } else {
-            Console.log("Local UI failed to Load")
-          }
-        })
+        Console.log("Loading Local UI")
+        UI.unarchiveLocal()
+        let url = URL(string: "\(UI.localPath)/index.html")!
+        UI.viewController.load(url)
       }
-    })
+    }
+    
   }
   
   private func cacheRemote () {
     // Only download ui.zip when UI endpoint is remote
     if Constants.UI_ENDPOINT_URL.absoluteString.contains(Constants.DOMAIN) {
       let destination: DownloadRequest.Destination = { _, _ in
-          let fileURL = Application.supportPath.appendingPathComponent("ui.zip", isDirectory: false)
-          return (fileURL, [.removePreviousFile, .createIntermediateDirectories])
+        return (UI.appSupportUIZipPath, [.removePreviousFile, .createIntermediateDirectories])
       }
       AF.download("\(Constants.UI_ENDPOINT_URL)/ui.zip", to: destination).response { resp in
         if resp.error == nil {

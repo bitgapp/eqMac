@@ -85,6 +85,7 @@
 		E0A3B96120DF8FE500E46908 /* Effects.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A3B96020DF8FE500E46908 /* Effects.swift */; };
 		E0A3B96320DF992600E46908 /* Buffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A3B96220DF992600E46908 /* Buffer.swift */; };
 		E0A9A90E22D24A6200EB1E49 /* Window.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A9A90D22D24A6200EB1E49 /* Window.swift */; };
+		E0AAD9DA249C109000D58099 /* SwiftyPing.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0AAD9D9249C109000D58099 /* SwiftyPing.swift */; };
 		E0AD99D52251022700D893F7 /* AdvancedEqualizerDefaultPresets.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0AD99D42251022700D893F7 /* AdvancedEqualizerDefaultPresets.swift */; };
 		E0C5629320A39651000902ED /* Bridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C5629220A39651000902ED /* Bridge.swift */; };
 		E0C5629920A75BAD000902ED /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C5629820A75BAD000902ED /* Storage.swift */; };
@@ -207,6 +208,7 @@
 		E0A3B96220DF992600E46908 /* Buffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Buffer.swift; sourceTree = "<group>"; };
 		E0A48D6123C5FB6B00700C39 /* eqMac.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = eqMac.entitlements; sourceTree = "<group>"; };
 		E0A9A90D22D24A6200EB1E49 /* Window.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Window.swift; sourceTree = "<group>"; };
+		E0AAD9D9249C109000D58099 /* SwiftyPing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftyPing.swift; sourceTree = "<group>"; };
 		E0AD99D42251022700D893F7 /* AdvancedEqualizerDefaultPresets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedEqualizerDefaultPresets.swift; sourceTree = "<group>"; };
 		E0AFAE9A23C39187007D2D56 /* LaunchAtLogin.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LaunchAtLogin.framework; path = Carthage/Build/Mac/LaunchAtLogin.framework; sourceTree = "<group>"; };
 		E0C5629220A39651000902ED /* Bridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bridge.swift; sourceTree = "<group>"; };
@@ -415,6 +417,7 @@
 				E07A6EE022B6BA4E00DE7B16 /* File.swift */,
 				E02FF91722C8E87D0051342A /* Time.swift */,
 				E0ECA88923B7F816002AFBF0 /* ExceptionCatcher.h */,
+				E0AAD9D9249C109000D58099 /* SwiftyPing.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -690,11 +693,10 @@
 				"${PODS_ROOT}/Target Support Files/Pods-eqMac/Pods-eqMac-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/AMCoreAudio/AMCoreAudio.framework",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
-				"${BUILT_PRODUCTS_DIR}/CocoaAsyncSocket/CocoaAsyncSocket.framework",
-				"${BUILT_PRODUCTS_DIR}/Criollo/Criollo.framework",
 				"${BUILT_PRODUCTS_DIR}/EmitterKit/EmitterKit.framework",
 				"${BUILT_PRODUCTS_DIR}/KeychainSwift/KeychainSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/ReSwift/ReSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/ReachabilitySwift/Reachability.framework",
 				"${BUILT_PRODUCTS_DIR}/STPrivilegedTask/STPrivilegedTask.framework",
 				"${BUILT_PRODUCTS_DIR}/Sentry/Sentry.framework",
 				"${PODS_ROOT}/Sparkle/Sparkle.framework",
@@ -708,11 +710,10 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AMCoreAudio.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaAsyncSocket.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Criollo.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/EmitterKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KeychainSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Reachability.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/STPrivilegedTask.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Sentry.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Sparkle.framework",
@@ -830,6 +831,7 @@
 				E00C596623BBBF3100C7B8B6 /* Atomic.m in Sources */,
 				E089AC492095E0B1005B72E5 /* Console.swift in Sources */,
 				E030FDB4211F766100BA524E /* AKWorkingEqualizerFilter.swift in Sources */,
+				E0AAD9DA249C109000D58099 /* SwiftyPing.swift in Sources */,
 				E090AD5820A9725F003BE5FF /* Volume.swift in Sources */,
 				E073727D20167E7600874CC6 /* Application.swift in Sources */,
 				E02FF91622C7EC6C0051342A /* Transition.swift in Sources */,

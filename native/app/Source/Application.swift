@@ -504,5 +504,9 @@ class Application {
     selectedDeviceSampleRateChangedListener?.isListening = false
     selectedDeviceSampleRateChangedListener = nil
   }
+  
+  static var version: String {
+    return Bundle.main.infoDictionary!["CFBundleVersion"] as! String
+  }
 }
 

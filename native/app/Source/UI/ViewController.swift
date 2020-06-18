@@ -47,25 +47,8 @@ class ViewController: NSViewController, WKNavigationDelegate {
     loaded.emit()
   }
   
-  private var testWebView: WKWebView?
-  var tryingToLoad = false
-  var loadFinished = Event<Bool>()
-  func load (_ url: URL, _ callback: ((Bool) -> Void)? = nil) {
+  func load (_ url: URL) {
     let request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData)
-    
-    if callback != nil {
-      tryingToLoad = true
-      testWebView = WKWebView()
-      testWebView!.navigationDelegate = self
-      loadFinished.once { success in
-        self.testWebView!.stopLoading()
-        self.testWebView!.removeFromSuperview()
-        self.testWebView!.navigationDelegate = nil
-        self.testWebView = nil
-        callback!(success)
-      }
-      self.testWebView!.load(request)
-    }
   
     if self.webView.isLoading {
       self.webView.stopLoading()
@@ -94,19 +77,6 @@ class ViewController: NSViewController, WKNavigationDelegate {
     completionHandler(.useCredential, cred)
   }
   
-  func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
-    if (tryingToLoad) {
-      tryingToLoad = false
-      loadFinished.emit(false)
-    }
-  }
-  
-  func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-    if (tryingToLoad) {
-      tryingToLoad = false
-      loadFinished.emit(true)
-    }
-  }
 }
 
 class View: NSView {

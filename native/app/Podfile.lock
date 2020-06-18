@@ -7,11 +7,9 @@ PODS:
   - AudioKit/Core (4.9.5)
   - AudioKit/UI (4.9.5):
     - AudioKit/Core
-  - CocoaAsyncSocket (7.6.4)
-  - Criollo (0.5.5):
-    - CocoaAsyncSocket (~> 7.6)
   - EmitterKit (5.2.2)
   - KeychainSwift (13.0.0)
+  - ReachabilitySwift (5.0.0)
   - ReSwift (5.0.0)
   - Sentry (4.5.0):
     - Sentry/Core (= 4.5.0)
@@ -28,9 +26,9 @@ DEPENDENCIES:
   - Alamofire (~> 5.1)
   - AMCoreAudio (~> 3.3.1)
   - AudioKit (= 4.9.5)
-  - Criollo (~> 0.5)
   - EmitterKit (~> 5.2)
   - KeychainSwift (~> 13.0)
+  - ReachabilitySwift
   - ReSwift
   - Sentry (~> 4.1)
   - Sparkle
@@ -46,10 +44,9 @@ SPEC REPOS:
     - Alamofire
     - AMCoreAudio
     - AudioKit
-    - CocoaAsyncSocket
-    - Criollo
     - EmitterKit
     - KeychainSwift
+    - ReachabilitySwift
     - ReSwift
     - Sentry
     - Sparkle
@@ -73,10 +70,9 @@ SPEC CHECKSUMS:
   Alamofire: 9d5c5f602928e512395b30950c5984eca840093c
   AMCoreAudio: 6bf97d548d02ebb75b56c1cbf6b1f87bcfdeb748
   AudioKit: ccf4e39c89ed6e5cbbce5fef58d819db39446437
-  CocoaAsyncSocket: 694058e7c0ed05a9e217d1b3c7ded962f4180845
-  Criollo: 617173837c296ca4248b0b058f36ce9b91e5c25b
   EmitterKit: e7a27b37118823d8ad413b8396f75e40d59f8cba
   KeychainSwift: 23d6c16cbc33f20fafa30c3d783241b4b87d998c
+  ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
   ReSwift: 628f1a9b3ee52e3b3ca2a644435472fd77afafe1
   Sentry: ab6c209f23700d1460691dbc90e19ed0a05d496b
   Sparkle: 55b1a87ba69d56913375a281546b7c82dec95bb0
@@ -87,6 +83,6 @@ SPEC CHECKSUMS:
   WebViewJavascriptBridge: 7f5bc4d3581e672e8f32bd0f812d54bc69bb8e29
   Zip: 8877eede3dda76bcac281225c20e71c25270774c
 
-PODFILE CHECKSUM: 4c8e6a3107661defb97470cd7ccc392808ba9b23
+PODFILE CHECKSUM: 3850edcd366592498848f4adaf654cc1d56c6dc8
 
 COCOAPODS: 1.9.1
