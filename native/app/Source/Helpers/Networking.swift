@@ -11,16 +11,19 @@ import Reachability
 
 class Networking {
   static func isReachable (_ host: String, _ callback: @escaping (Bool) -> Void) {
-    let ping = try! SwiftyPing(
+    if let ping = try? SwiftyPing(
       host: host,
       configuration: PingConfiguration(interval: 0.1, with: 5),
       queue: DispatchQueue.global()
-    )
-    ping.observer = { (response) in
-      callback(response.error == nil)
+      ) {
+      ping.observer = { (response) in
+        callback(response.error == nil)
+        ping.stopPinging()
+      }
+      ping.startPinging()
+    } else {
+      callback(false)
     }
-    ping.targetCount = 1
-    ping.startPinging()
   }
 
   static func tcpPortIsAvailable(_ port: UInt) -> Bool {

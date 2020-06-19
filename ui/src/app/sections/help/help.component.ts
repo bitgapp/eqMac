@@ -3,6 +3,7 @@ import { Option, Options } from 'src/app/components/options/options.component'
 import { ApplicationService, MacInfo } from 'src/app/services/app.service'
 import { ConstantsService } from 'src/app/services/constants.service'
 import { version } from '../../../../package.json'
+import { UIService } from '../../services/ui.service.js'
 
 @Component({
   selector: 'eqm-help',
@@ -26,9 +27,13 @@ export class HelpComponent implements OnInit {
     ]
   ]
 
-  constructor (public app: ApplicationService, public CONST: ConstantsService) {}
+  constructor (
+    public app: ApplicationService,
+    public CONST: ConstantsService,
+    private ui: UIService
+  ) {}
 
-  uiVersion = version
+  uiVersion = `${version} (${this.ui.isLocal ? 'Local' : 'Remote'})`
   info: MacInfo
   ngOnInit () {
     this.fetchInfo()

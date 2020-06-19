@@ -23,6 +23,14 @@ export class UIService extends DataService {
   dimensionsChanged = new Subject<UIDimensions>()
   settingsChanged = new Subject<UISettings>()
 
+  get isLocal () {
+    return window.location.href.includes('file://')
+  }
+
+  get isRemote () {
+    return !this.isLocal
+  }
+
   async getWidth () {
     const { width } = await this.request({ method: 'GET', endpoint: '/width' })
     return width

@@ -29,22 +29,33 @@ extension UIMode {
 
 class UI: StoreSubscriber {
   static var domain = Constants.UI_ENDPOINT_URL.host!
-  static func unarchiveLocal () {
+
+  static func unarchiveZip () {
     // Unpack Archive
     let file = FileManager.default
-        
-    if !file.fileExists(atPath: appSupportUIZipPath.path) {
-      Console.log("\(appSupportUIZipPath.path) doesnt exist")
-      let bundleUIZipPath = Bundle.main.url(forResource: "ui", withExtension: "zip")!
-      try! file.copyItem(at: bundleUIZipPath, to: appSupportUIZipPath)
-    }
     
-    try! Zip.unzipFile(appSupportUIZipPath, destination: localPath, overwrite: true, password: nil) // Unzip
+    if file.fileExists(atPath: remoteZipPath.path) {
+      try! Zip.unzipFile(remoteZipPath, destination: localPath, overwrite: true, password: nil) // Unzip
+    } else {
+      if !file.fileExists(atPath: localZipPath.path) {
+        Console.log("\(localZipPath.path) doesnt exist")
+        let bundleUIZipPath = Bundle.main.url(forResource: "ui", withExtension: "zip")!
+        try! file.copyItem(at: bundleUIZipPath, to: localZipPath)
+      }
+      try! Zip.unzipFile(localZipPath, destination: localPath, overwrite: true, password: nil) // Unzip
+    }
   }
   
-  static var appSupportUIZipPath: URL {
+  static var localZipPath: URL {
     return Application.supportPath.appendingPathComponent(
-      "ui-\(Application.version).zip",
+      "ui-\(Application.version) (Local).zip",
+      isDirectory: false
+    )
+  }
+  
+  static var remoteZipPath: URL {
+    return Application.supportPath.appendingPathComponent(
+      "ui-\(Application.version) (Remote).zip",
       isDirectory: false
     )
   }
@@ -247,7 +258,7 @@ class UI: StoreSubscriber {
         self.cacheRemote()
       } else {
         Console.log("Loading Local UI")
-        UI.unarchiveLocal()
+        UI.unarchiveZip()
         let url = URL(string: "\(UI.localPath)/index.html")!
         UI.viewController.load(url)
       }
@@ -259,7 +270,7 @@ class UI: StoreSubscriber {
     // Only download ui.zip when UI endpoint is remote
     if Constants.UI_ENDPOINT_URL.absoluteString.contains(Constants.DOMAIN) {
       let destination: DownloadRequest.Destination = { _, _ in
-        return (UI.appSupportUIZipPath, [.removePreviousFile, .createIntermediateDirectories])
+        return (UI.remoteZipPath, [.removePreviousFile, .createIntermediateDirectories])
       }
       AF.download("\(Constants.UI_ENDPOINT_URL)/ui.zip", to: destination).response { resp in
         if resp.error == nil {
