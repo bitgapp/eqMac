@@ -1,4 +1,3 @@
-import '@iconfu/svg-inject'
 import {
   Component,
   OnInit,
