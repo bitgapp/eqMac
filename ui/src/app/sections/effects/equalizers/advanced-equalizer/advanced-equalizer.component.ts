@@ -41,17 +41,16 @@ export class AdvancedEqualizerComponent extends EqualizerComponent implements On
     }
   ], [
     this.ShowDefaultPresetsCheckbox
-    // {
-    //   key: 'import-legacy-presets',
-    //   type: 'button',
-    //   label: 'Import eqMac2 Presets',
-    //   action: () => {}
-    // }
   ]]
   private _presets: AdvancedEqualizerPreset[]
   @Output() presetsChange = new EventEmitter<AdvancedEqualizerPreset[]>()
   set presets (newPresets: AdvancedEqualizerPreset[]) {
-    this._presets = newPresets
+    this._presets =
+    [
+      newPresets.find(p => p.id === 'manual'),
+      newPresets.find(p => p.id === 'flat'),
+      ...newPresets.filter(p => !['manual', 'flat'].includes(p.id)).sort((a, b) => a.name > b.name ? 1 : -1)
+    ]
     this.presetsChange.emit(this.presets)
   }
   get presets () { return this._presets }
@@ -105,7 +104,10 @@ export class AdvancedEqualizerComponent extends EqualizerComponent implements On
     private transition: TransitionService,
     private change: ChangeDetectorRef,
     private app: ApplicationService
-    ) { super() }
+    ) {
+    super()
+    this.getImportLegacyAvailable()
+  }
 
   async ngOnInit () {
     await this.sync()
@@ -119,6 +121,23 @@ export class AdvancedEqualizerComponent extends EqualizerComponent implements On
     ])
   }
 
+  private async getImportLegacyAvailable () {
+    if (await this.service.getImportLegacyAvailable()) {
+      this.settings[1].push(
+        {
+          key: 'import-legacy-presets',
+          type: 'button',
+          label: 'Import eqMac2 Presets',
+          action: async () => {
+            await this.service.importLegacy()
+            if (this.settingsDialog) {
+              this.settingsDialog.close()
+            }
+          }
+        }
+      )
+    }
+  }
   private async syncPresets () {
     const [ presets, selectedPreset ] = await Promise.all([
       this.service.getPresets(),

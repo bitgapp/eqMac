@@ -47,6 +47,22 @@ export class AdvancedEqualizerService extends EqualizersService {
     return this.request({ method: 'DELETE', endpoint: `/presets`, data: { ...preset } })
   }
 
+  async getImportLegacyAvailable () {
+    return new Promise(async (resolve) => {
+      setTimeout(() => resolve(false), 1000)
+      try {
+        await this.request({ method: 'GET', endpoint: '/presets/import-legacy/available' })
+        resolve(true)
+      } catch (err) {
+        resolve(false)
+      }
+    })
+  }
+
+  async importLegacy () {
+    return this.request({ method: 'GET', endpoint: '/presets/import-legacy' })
+  }
+
   importPresets () {
     return this.request({ method: 'GET', endpoint: '/presets/import' })
   }

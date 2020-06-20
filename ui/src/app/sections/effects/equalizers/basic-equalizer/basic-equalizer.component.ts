@@ -27,7 +27,12 @@ export class BasicEqualizerComponent extends EqualizerComponent implements OnIni
   private _presets: BasicEqualizerPreset[]
   @Output() presetsChange = new EventEmitter<BasicEqualizerPreset[]>()
   set presets (newPresets: BasicEqualizerPreset[]) {
-    this._presets = newPresets
+    this._presets =
+    [
+      newPresets.find(p => p.id === 'manual'),
+      newPresets.find(p => p.id === 'flat'),
+      ...newPresets.filter(p => !['manual', 'flat'].includes(p.id)).sort((a, b) => a.name > b.name ? 1 : -1)
+    ]
     this.presetsChange.emit(this.presets)
   }
   get presets () { return this._presets }

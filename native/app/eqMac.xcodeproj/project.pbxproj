@@ -90,6 +90,7 @@
 		E0C5629320A39651000902ED /* Bridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C5629220A39651000902ED /* Bridge.swift */; };
 		E0C5629920A75BAD000902ED /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C5629820A75BAD000902ED /* Storage.swift */; };
 		E0C8F78621D3B6590023B1E5 /* UIDataBus.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C8F78521D3B6590023B1E5 /* UIDataBus.swift */; };
+		E0D1A0DA249E191700BBC742 /* eqMac2.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D1A0D9249E191700BBC742 /* eqMac2.swift */; };
 		E0D5F88722DD20F800499250 /* SettingsState.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D5F88622DD20F800499250 /* SettingsState.swift */; };
 		E0DDF3FA2188390300B37E77 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0DDF3F92188390300B37E77 /* Alert.swift */; };
 		E0E2CFF72104EA7A002DC989 /* Equalizers.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E2CFF62104EA7A002DC989 /* Equalizers.swift */; };
@@ -214,6 +215,7 @@
 		E0C5629220A39651000902ED /* Bridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bridge.swift; sourceTree = "<group>"; };
 		E0C5629820A75BAD000902ED /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
 		E0C8F78521D3B6590023B1E5 /* UIDataBus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDataBus.swift; sourceTree = "<group>"; };
+		E0D1A0D9249E191700BBC742 /* eqMac2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = eqMac2.swift; sourceTree = "<group>"; };
 		E0D5F88622DD20F800499250 /* SettingsState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsState.swift; sourceTree = "<group>"; };
 		E0DDF3F92188390300B37E77 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		E0DDF3FC2189021300B37E77 /* install_driver.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = install_driver.sh; sourceTree = "<group>"; };
@@ -418,6 +420,7 @@
 				E02FF91722C8E87D0051342A /* Time.swift */,
 				E0ECA88923B7F816002AFBF0 /* ExceptionCatcher.h */,
 				E0AAD9D9249C109000D58099 /* SwiftyPing.swift */,
+				E0D1A0D9249E191700BBC742 /* eqMac2.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -875,6 +878,7 @@
 				E021BCE722313F1E004921FF /* SettingsDataBus.swift in Sources */,
 				E00C595923BBB8B000C7B8B6 /* RingBufferTimeBounds.swift in Sources */,
 				E017A0091FF055B50019BBF1 /* User.swift in Sources */,
+				E0D1A0DA249E191700BBC742 /* eqMac2.swift in Sources */,
 				E0E8B62F20EEB6A900DE905C /* EffectsState.swift in Sources */,
 				E0D5F88722DD20F800499250 /* SettingsState.swift in Sources */,
 				E01B1BB9235E454500CC58E5 /* InputSource.swift in Sources */,

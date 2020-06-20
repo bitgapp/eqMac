@@ -54,10 +54,12 @@
     [enabled]="enabled" class="equalizer" 
     (presetsChange)="presets = $event" (selectedPresetChange)="selectedPreset = $event" 
     [animationDuration]="animationDuration" [animationFps]="animationFps"
+    [settingsDialog]="settingsDialog"
   ></eqm-basic-equalizer>
   <eqm-advanced-equalizer #advancedEqualizer *eqmCarouselItem="'Advanced'"
     [enabled]="enabled" class="equalizer"
     (presetsChange)="presets = $event" (selectedPresetChange)="selectedPreset = $event"
     [animationDuration]="animationDuration" [animationFps]="animationFps"
+    [settingsDialog]="settingsDialog"
   ></eqm-advanced-equalizer>
 </eqm-carousel>

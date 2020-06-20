@@ -155,8 +155,15 @@ class AdvancedEqualizerDataBus: DataBus {
       return nil
     }
     
+    self.on(.GET, "/presets/import-legacy/available") { data, _ in
+      return "Yes"
+    }
+
     self.on(.GET, "/presets/import-legacy") { data, _ in
-      // TODO: Implement
+      let presets = eqMac2.get10BandPresets()
+      for preset in presets {
+        _ = AdvancedEqualizer.createPreset(name: preset.name, gains: preset.gains)
+      }
       return "Imported"
     }
     
