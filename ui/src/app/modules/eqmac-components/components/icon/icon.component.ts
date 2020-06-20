@@ -11,7 +11,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser'
   selector: 'eqm-icon',
   templateUrl: './icon.component.html',
   styleUrls: ['./icon.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.ShadowDom
 })
 export class IconComponent implements OnInit {
   @Input() width = 20

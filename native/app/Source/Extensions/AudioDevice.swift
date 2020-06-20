@@ -60,7 +60,6 @@ extension AudioDevice {
       if (self.canMuteVirtualMasterChannel(direction: .playback)) {
         self.setMute(newValue, channel: 0, direction: .playback)
       } else {
-        Console.log(self.channels(direction: .playback).intValue)
         let channels = self.channels(direction: .playback).intValue
         if channels >= 1 {
           for channel in 1...self.channels(direction: .playback).intValue {

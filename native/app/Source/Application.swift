@@ -251,6 +251,7 @@ class Application {
     setupDriverDeviceEvents()
   }
   
+  private static var ignoreNextDriverMuteEvent = false
   private static func setupDriverDeviceEvents () {
     AudioDeviceEvents.on(.volumeChanged, onDevice: Driver.device!) {
       if ignoreNextVolumeEvent {
@@ -264,11 +265,17 @@ class Application {
         return
       }
       let gain = Double(Driver.device!.virtualMasterVolume(direction: .playback)!)
+      Console.log(gain)
       if (gain <= 1 && gain != Application.store.state.effects.volume.gain) {
         Application.dispatchAction(VolumeAction.setGain(gain, false))
       }
     }
+  
     AudioDeviceEvents.on(.muteChanged, onDevice: Driver.device!) {
+      if (ignoreNextDriverMuteEvent) {
+        ignoreNextDriverMuteEvent = false
+        return
+      }
       Application.dispatchAction(VolumeAction.setMuted(Driver.device!.mute))
     }
   }
@@ -395,6 +402,12 @@ class Application {
   
   static var overrideNextVolumeEvent = false
   static func volumeChangeButtonPressed (direction: VolumeChangeDirection, quarterStep: Bool = false) {
+    if direction == .UP {
+      ignoreNextDriverMuteEvent = true
+      Utilities.delay(100) {
+        ignoreNextDriverMuteEvent = false
+      }
+    }
     let gain = volume.gain
     if (gain >= 1) {
       if direction == .DOWN {
@@ -424,6 +437,10 @@ class Application {
       }
       Application.dispatchAction(VolumeAction.setGain(newGain, false))
     }
+  }
+  
+  static func muteButtonPressed () {
+    ignoreNextDriverMuteEvent = false
   }
   
   private static func killEngine () {

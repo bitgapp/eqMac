@@ -28,7 +28,7 @@ class EventInterceptor: NSApplication {
           Application.volumeChangeButtonPressed(direction: .DOWN, quarterStep: shiftPressed(event: event) && optionPressed(event: event))
           return
         case NX_KEYTYPE_MUTE:
-//          Application.toggleMute()
+          Application.muteButtonPressed()
           return
         default: break
         }
