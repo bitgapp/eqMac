@@ -22,7 +22,7 @@
 
 // TODO: Change these and the other defines to const strings?
 #define kEQMDriverBundleID           "com.bitgapp.eqmac.driver"
-#define kEQMAppBundleID              "com.bitgapp.eqMacAudio"
+#define kEQMAppBundleID              "com.bitgapp.eqmac"
 #define kEQMXPCHelperBundleID        "com.bitgapp.eqmac.xpc"
 
 #define kEQMDeviceUID                "EQMDevice"

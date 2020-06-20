@@ -38,7 +38,6 @@
 		E02FF91622C7EC6C0051342A /* Transition.swift in Sources */ = {isa = PBXBuildFile; fileRef = E02FF91522C7EC6C0051342A /* Transition.swift */; };
 		E02FF91822C8E87D0051342A /* Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = E02FF91722C8E87D0051342A /* Time.swift */; };
 		E02FF91A22C95B310051342A /* TransitionDataBus.swift in Sources */ = {isa = PBXBuildFile; fileRef = E02FF91922C95B310051342A /* TransitionDataBus.swift */; };
-		E030FDB4211F766100BA524E /* AKWorkingEqualizerFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E030FDB3211F766100BA524E /* AKWorkingEqualizerFilter.swift */; };
 		E031E9CE23700DDF00BA6DD8 /* Outputs.swift in Sources */ = {isa = PBXBuildFile; fileRef = E031E9CD23700DDF00BA6DD8 /* Outputs.swift */; };
 		E036BCE723598772001F057B /* DataBus.swift in Sources */ = {isa = PBXBuildFile; fileRef = E036BCE623598772001F057B /* DataBus.swift */; };
 		E036BCEA235B1171001F057B /* ApplicationDataBus.swift in Sources */ = {isa = PBXBuildFile; fileRef = E036BCE9235B1171001F057B /* ApplicationDataBus.swift */; };
@@ -158,7 +157,6 @@
 		E02FF91522C7EC6C0051342A /* Transition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transition.swift; sourceTree = "<group>"; };
 		E02FF91722C8E87D0051342A /* Time.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Time.swift; sourceTree = "<group>"; };
 		E02FF91922C95B310051342A /* TransitionDataBus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitionDataBus.swift; sourceTree = "<group>"; };
-		E030FDB3211F766100BA524E /* AKWorkingEqualizerFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AKWorkingEqualizerFilter.swift; sourceTree = "<group>"; };
 		E031E9CD23700DDF00BA6DD8 /* Outputs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Outputs.swift; sourceTree = "<group>"; };
 		E036BCE623598772001F057B /* DataBus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBus.swift; sourceTree = "<group>"; };
 		E036BCE9235B1171001F057B /* ApplicationDataBus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationDataBus.swift; sourceTree = "<group>"; };
@@ -263,7 +261,6 @@
 			isa = PBXGroup;
 			children = (
 				E00C595C23BBBB6C00C7B8B6 /* UnsafeMutableAudioBufferListPointer.swift */,
-				E030FDB3211F766100BA524E /* AKWorkingEqualizerFilter.swift */,
 				E01F2F5E2034A188005123BE /* ArrayExtensions.swift */,
 				E07A24E31FF3D49F007AEF20 /* AudioDevice.swift */,
 				E07B45A520FBA4990086AA7E /* Encodable.swift */,
@@ -833,7 +830,6 @@
 			files = (
 				E00C596623BBBF3100C7B8B6 /* Atomic.m in Sources */,
 				E089AC492095E0B1005B72E5 /* Console.swift in Sources */,
-				E030FDB4211F766100BA524E /* AKWorkingEqualizerFilter.swift in Sources */,
 				E0AAD9DA249C109000D58099 /* SwiftyPing.swift in Sources */,
 				E090AD5820A9725F003BE5FF /* Volume.swift in Sources */,
 				E073727D20167E7600874CC6 /* Application.swift in Sources */,

@@ -55,10 +55,10 @@ void    EQM_Clients::AddClient(EQM_Client inClient)
     mClientMap.AddClient(inClient);
     
     // If we're adding EQMApp, update our local copy of its client ID
-    if(inClient.mBundleID.IsValid() && inClient.mBundleID == kEQMAppBundleID)
-    {
-        mEQMAppClientID = inClient.mClientID;
-    }
+//    if(inClient.mBundleID.IsValid() && inClient.mBundleID == kEQMAppBundleID)
+//    {
+//        mEQMAppClientID = inClient.mClientID;
+//    }
 }
 
 void    EQM_Clients::RemoveClient(const UInt32 inClientID)

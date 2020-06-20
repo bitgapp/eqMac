@@ -27,7 +27,7 @@ touch /Library/Extensions &>/dev/null || true
 
 # Copy driver into Plug-Ins folder
 cp -f -r "$DIR/eqMac.driver" /Library/Audio/Plug-Ins/HAL/ ||
-  cp -f -r "../../../build/eqMac/Build/Products/Release/eqMac.driver" /Library/Audio/Plug-Ins/HAL/ # if running from terminal
+  cp -f -r "../../Embedded/eqMac.driver" /Library/Audio/Plug-Ins/HAL/ # if running from terminal
 
 # Restart CoreAudio
 coreaudiod_plist="/System/Library/LaunchDaemons/com.apple.audio.coreaudiod.plist"

@@ -65,6 +65,7 @@ public:
 private:
     void                                SendIORunningNotifications(bool sendIsRunningNotification, bool sendIsRunningSomewhereOtherThanEQMAppNotification) const;
 public:
+    EQM_ClientMap                       mClientMap;
     bool                                IsEQMApp(UInt32 inClientID) const { return inClientID == mEQMAppClientID; }
     bool                                EQMAppHasClientRegistered() const { return mEQMAppClientID != -1; }
     
@@ -96,7 +97,6 @@ public:
     
 private:
     AudioObjectID                       mOwnerDeviceID;
-    EQM_ClientMap                       mClientMap;
     
     // Counters for the number of clients that are doing IO. These are used to tell whether any clients
     // are currently doing IO without having to check every client's mDoingIO.

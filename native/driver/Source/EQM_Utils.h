@@ -175,6 +175,8 @@ namespace EQM_Utils
                                      const char* callerName,
                                      const std::function<void(void)>& function);
     
+    bool process_at_path_running (const char *path);
+
     // Log unexpected exceptions and continue.
     //
     // Generally, you don't want to use this unless the alternative is to crash. And even then

@@ -76,6 +76,7 @@ extension AudioDevice {
                                                      mElement: kAudioObjectPropertyElementMaster)
     var value = AudioValueRange(mMinimum: 0, mMaximum: 0)
     // Try master first
+
     if checkErr(AudioDevice.getPropertyData(self.id, address: propertyAddress, andValue: &value)) != nil {
       propertyAddress.mElement = 1
       // Try single channel

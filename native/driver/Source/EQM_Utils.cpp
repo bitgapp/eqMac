@@ -14,7 +14,13 @@
 #include <MacTypes.h>
 #include <mach/mach_error.h>
 #include <CoreFoundation/CoreFoundation.h>  // For kCFCoreFoundationVersionNumber
-
+#include <libproc.h>
+#include <stdio.h>
+#include <string.h>
+#include <sys/sysctl.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <Carbon/Carbon.h>
 
 #pragma clang assume_nonnull begin
 
@@ -51,6 +57,22 @@ namespace EQM_Utils
                                             const char* __nullable message,
                                             bool expected,
                                             const std::function<void(void)>& function);
+
+bool process_at_path_running (const char *path) {
+  pid_t pids[2048];
+  int bytes = proc_listpids(PROC_ALL_PIDS, 0, pids, sizeof(pids));
+  unsigned long n_proc = (unsigned long)(bytes) / sizeof(pids[0]);
+  for (int i = 0; i < (int)n_proc; i++) {
+    char proc_path[MAXPATHLEN+1] = {0};
+    proc_pidinfo(pids[i], PROC_PIDPATHINFO, 0,
+                         &proc_path, sizeof(proc_path));
+    if (strcmp(path, proc_path) == 0) {
+      return true;
+    }
+  }
+  
+  return false;
+}
 
 #pragma mark Exception utils
     
