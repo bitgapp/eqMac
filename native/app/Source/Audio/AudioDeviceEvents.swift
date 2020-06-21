@@ -36,10 +36,10 @@ enum AudioDeviceEventType {
 
 class AudioDeviceEvents: EventSubscriber {
   static var events = AudioDeviceEvents()
+  static var listeners: [EmitterKit.EventListener<AudioDevice>] = [] as! [EmitterKit.EventListener<AudioDevice>]
 
   var hashValue: Int = 1
-  static var listeners: [EmitterKit.EventListener<AudioDevice>] = [] as! [EmitterKit.EventListener<AudioDevice>]
-  
+  var subscribed = false
   // Per Device
   let isJackConnectedChangedEvent = EmitterKit.Event<AudioDevice>()
   let isRunningSomewhereChangedEvent = EmitterKit.Event<AudioDevice>()
@@ -63,17 +63,34 @@ class AudioDeviceEvents: EventSubscriber {
   let inputChangedEvent = EmitterKit.Event<AudioDevice>()
   let systemDeviceChangedEvent = EmitterKit.Event<AudioDevice>()
 
-  init () {
-    NotificationCenter.defaultCenter.subscribe(
-      self,
-      eventType: AudioHardwareEvent.self,
-      dispatchQueue: DispatchQueue.main
-    )
-    NotificationCenter.defaultCenter.subscribe(
-      self,
-      eventType: AudioDeviceEvent.self,
-      dispatchQueue: DispatchQueue.main
-    )
+  func subscribe () {
+    if !subscribed {
+      NotificationCenter.defaultCenter.subscribe(
+        self,
+        eventType: AudioHardwareEvent.self,
+        dispatchQueue: DispatchQueue.main
+      )
+      NotificationCenter.defaultCenter.subscribe(
+        self,
+        eventType: AudioDeviceEvent.self,
+        dispatchQueue: DispatchQueue.main
+      )
+      subscribed = true
+    }
+  }
+  
+  func unsubscribe () {
+    NotificationCenter.defaultCenter.unsubscribe(self, eventType: AudioHardwareEvent.self)
+    NotificationCenter.defaultCenter.unsubscribe(self, eventType: AudioDeviceEvent.self)
+    subscribed = false
+  }
+  
+  static func subscribe () {
+    events.subscribe()
+  }
+  
+  static func unsubscribe () {
+    events.unsubscribe()
   }
   
   internal func eventReceiver(_ event: AMCoreAudio.Event) {
@@ -102,6 +119,7 @@ class AudioDeviceEvents: EventSubscriber {
   }
     
   static func recreateEventEmitters(_ eventsToRecreate: [AudioDeviceEventType]) throws {
+    subscribe()
     for event in eventsToRecreate {
       switch event {
       case .isAliveChanged:
@@ -184,6 +202,7 @@ class AudioDeviceEvents: EventSubscriber {
   
   @discardableResult
   static func on (_ event: AudioDeviceEventType, retain: Bool = true, _ handler: @escaping (AudioDevice) -> Void) -> EmitterKit.EventListener<AudioDevice> {
+    events.subscribe()
     let emitter = getEventEmitterFromEventType(event)
     let listener: EmitterKit.EventListener<AudioDevice> = emitter.on(handler)
     if (retain) {
@@ -199,6 +218,7 @@ class AudioDeviceEvents: EventSubscriber {
   
   @discardableResult
   static func once (_ event: AudioDeviceEventType, _ handler: @escaping (AudioDevice) -> Void) -> EmitterKit.EventListener<AudioDevice> {
+    events.subscribe()
     let emitter = getEventEmitterFromEventType(event)
     let listener: EmitterKit.EventListener<AudioDevice> = emitter.once(handler: handler)
     return listener
@@ -223,12 +243,14 @@ class AudioDeviceEvents: EventSubscriber {
   }
   
   static func start () {
+    subscribe()
     for listener in listeners {
       listener.isListening = true
     }
   }
   
   static func stop () {
+    unsubscribe()
     for listener in listeners {
       listener.isListening = false
     }

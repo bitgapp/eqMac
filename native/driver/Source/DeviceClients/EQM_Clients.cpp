@@ -72,6 +72,7 @@ void    EQM_Clients::RemoveClient(const UInt32 inClientID)
     {
         mEQMAppClientID = -1;
     }
+  
 }
 
 #pragma mark IO Status

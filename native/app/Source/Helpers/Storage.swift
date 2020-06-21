@@ -27,6 +27,7 @@ extension DefaultsKeys {
   // Effects - Equalizer - Advanced
   static let advancedEqualizerPresets = DefaultsKey<[AdvancedEqualizerPreset]?>("advancedEqualizerPresets")
   static let lastInstalledDriverVersion = DefaultsKey<String?>("lastInstalledDriverVersion")
+  static let lastSkippedDriverVersion = DefaultsKey<String?>("lastSkippedDriverVersion")
 }
 
 let Storage = Defaults

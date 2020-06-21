@@ -23,7 +23,8 @@ class ApplicationDataBus: DataBus {
       return [
         "name": host.localizedName as AnyObject,
         "model": Sysctl.model as String,
-        "version": Bundle.main.infoDictionary?["CFBundleVersion"] as Any
+        "version": Bundle.main.infoDictionary?["CFBundleVersion"] as Any,
+        "driverVersion": Driver.lastInstalledVersion
       ]
     }
     
@@ -55,6 +56,17 @@ class ApplicationDataBus: DataBus {
     self.on(.GET, "/uninstall") { _, res in
       Application.uninstall() { success in
         res.send([ "uninstalled": success ])
+      }
+      return nil
+    }
+    
+    self.on(.GET, "/driver/reinstall/available") { _, res in
+      return "Yes"
+    }
+    
+    self.on(.GET, "/driver/reinstall") { _, res in
+      Application.reinstallDriver { success in
+        res.send([ "reinstalled": success ])
       }
       return nil
     }

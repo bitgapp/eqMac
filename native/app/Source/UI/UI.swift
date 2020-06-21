@@ -219,6 +219,10 @@ class UI: StoreSubscriber {
     load()
   }
   
+  static func reload () {
+    viewController.webView.reload()
+  }
+  
   func setupBridge () {
     bridge = Bridge(webView: UI.viewController.webView)
   }
@@ -251,7 +255,7 @@ class UI: StoreSubscriber {
   }
   
   private func load () {
-    Networking.isReachable(UI.domain) { reachable in
+    remoteIsReachable() { reachable in
       if reachable {
         Console.log("Loading Remote UI")
         UI.viewController.load(Constants.UI_ENDPOINT_URL)
@@ -263,7 +267,33 @@ class UI: StoreSubscriber {
         UI.viewController.load(url)
       }
     }
+  }
+  
+  private func remoteIsReachable (_ completion: @escaping (Bool) -> Void) {
+    var returned = false
+    AF.request(Constants.UI_ENDPOINT_URL)
+    .responseData { response in
+        switch response.result {
+        case .success:
+          if !returned {
+            returned = true
+            completion(true)
+          }
+        case .failure:
+          Console.log("Failed to load \(Constants.UI_ENDPOINT_URL)", response)
+          if !returned {
+            returned = true
+            completion(false)
+          }
+        }
+    }
     
+    Utilities.delay(1000) {
+      if (!returned) {
+        returned = true
+        completion(false)
+      }
+    }
   }
   
   private func cacheRemote () {

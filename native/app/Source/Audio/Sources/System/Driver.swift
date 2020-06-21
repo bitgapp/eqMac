@@ -64,6 +64,24 @@ class Driver {
     return info["CFBundleVersion"] as! String
   }
   
+  static var lastSkippedDriverVersion: String? {
+    get {
+      return Storage[.lastSkippedDriverVersion]
+    }
+    set {
+      Storage[.lastSkippedDriverVersion] = newValue
+    }
+  }
+  
+  static var skipCurrentVersion: Bool {
+    get {
+      return lastSkippedDriverVersion == bundledVersion
+    }
+    set {
+      lastSkippedDriverVersion = newValue ? bundledVersion : nil
+    }
+  }
+  
   static var isOutdated: Bool {
     get {
       return bundledVersion != lastInstalledVersion

@@ -5,6 +5,7 @@ export interface MacInfo {
   name: string
   model: string
   version: string
+  driverVersion?: string
 }
 @Injectable({
   providedIn: 'root'
@@ -32,5 +33,21 @@ export class ApplicationService extends DataService {
 
   update () {
     return this.request({ method: 'GET', endpoint: '/update' })
+  }
+
+  async getDriverReinstallAvailable () {
+    return new Promise(async (resolve) => {
+      setTimeout(() => resolve(false), 1000)
+      try {
+        await this.request({ method: 'GET', endpoint: '/driver/reinstall/available' })
+        resolve(true)
+      } catch (err) {
+        resolve(false)
+      }
+    })
+  }
+
+  reinstallDriver () {
+    return this.request({ method: 'GET', endpoint: '/driver/reinstall' })
   }
 }

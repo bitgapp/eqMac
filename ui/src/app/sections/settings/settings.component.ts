@@ -65,6 +65,14 @@ export class SettingsComponent implements OnInit {
     label: 'Check for Updates',
     action: this.update.bind(this)
   }
+
+  reinstallDriverOption: ButtonOption = {
+    key: 'reinstall-driver',
+    type: 'button',
+    label: 'Reinstall Driver',
+    action: this.reinstallDriver.bind(this)
+  }
+
   settings: Options = [
     [
       this.updateOption
@@ -86,10 +94,22 @@ export class SettingsComponent implements OnInit {
     public app: ApplicationService,
     public dialog: MatDialog,
     private ui: UIService
-  ) {}
+  ) {
+    this.getDriverReinstallAvailable()
+  }
 
   ngOnInit () {
     this.sync()
+  }
+
+  async getDriverReinstallAvailable () {
+    if (await this.app.getDriverReinstallAvailable()) {
+      this.settings[3].unshift(this.reinstallDriverOption)
+    }
+  }
+
+  async reinstallDriver () {
+    this.app.reinstallDriver()
   }
 
   async sync () {

@@ -18,6 +18,7 @@ import SwiftyJSON
 import ServiceManagement
 import ReSwift
 import Sparkle
+import AudioKit
 
 enum VolumeChangeDirection: String {
   case UP = "UP"
@@ -71,6 +72,14 @@ class Application {
   
   
   static public func start () {
+    // AudioKit Engine fucks with Driver installation, eqMac doesn't use it's engine anyway
+    try? AudioKit.stop()
+    try? AudioKit.shutdown()
+    AKSettings.audioInputEnabled = false
+    AKSettings.enableRouteChangeHandling = false
+    AKSettings.notificationsEnabled = false
+    AudioKit.engine.stop()
+
     setupSettings()
     
     if (!Constants.DEBUG) {
@@ -117,7 +126,7 @@ class Application {
       ) { install in
         if install {
           Driver.install(started: {
-            UI.showLoadingWindow("Installing eqMac audio driver")
+            UI.showLoadingWindow("Installing eqMac audio driver\nIf this process takes too long, please restart your Mac")
           }) { success in
             if (success) {
               UI.hideLoadingWindow()
@@ -131,16 +140,16 @@ class Application {
           quit()
         }
       }
-    } else if (Driver.isOutdated) {
+    } else if (Driver.isOutdated && Driver.skipCurrentVersion) {
       Alert.confirm(
         title: "Audio Driver Update",
         message: "There is an optional Audio Driver update that should improve user experience. \nIn order to update eqMac will ask for your System Password. \nPlease close any apps playing audio (Spotify, YouTube etc.) otherwise installation might fail.",
         okText: "Update Driver",
-        cancelText: "Skip update"
+        cancelText: "Skip Driver update"
       ) { update in
         if update {
           Driver.install(started: {
-            UI.showLoadingWindow("Updating eqMac audio driver")
+            UI.showLoadingWindow("Updating eqMac audio driver\nIf this process takes too long, please restart your Mac")
           }) { success in
             if (success) {
               UI.hideLoadingWindow()
@@ -150,6 +159,7 @@ class Application {
             }
           }
         } else {
+          Driver.skipCurrentVersion = true
           completion()
         }
       }
@@ -161,7 +171,7 @@ class Application {
   private static func driverFailedToInstallPrompt () {
     UI.hideLoadingWindow()
     Alert.confirm(
-    title: "Driver failed to install", message: "Unfortunately the audio driver has failed to install. You can restart eqMac and try again or quit.", okText: "Try again", cancelText: "Quit") { restart in
+    title: "Driver failed to install", message: "Unfortunately the audio driver has failed to install. You can restart eqMac and try again or quit. Alternatively, please try to restart your Mac and running eqMac again.", okText: "Try again", cancelText: "Quit") { restart in
       if restart {
         return self.restart()
       } else {
@@ -258,7 +268,7 @@ class Application {
           try! AudioDeviceEvents.recreateEventEmitters([.isAliveChanged, .volumeChanged, .nominalSampleRateChanged])
           self.setupDriverDeviceEvents()
           Utilities.delay(500) {
-              createAudioPipeline()
+            createAudioPipeline()
           }
         }
       }
@@ -288,12 +298,12 @@ class Application {
         return
       }
       let gain = Double(Driver.device!.virtualMasterVolume(direction: .playback)!)
-      Console.log(gain)
       if (gain <= 1 && gain != Application.store.state.effects.volume.gain) {
         Application.dispatchAction(VolumeAction.setGain(gain, false))
       }
+      
     }
-  
+    
     AudioDeviceEvents.on(.muteChanged, onDevice: Driver.device!) {
       if (ignoreNextDriverMuteEvent) {
         ignoreNextDriverMuteEvent = false
@@ -513,29 +523,30 @@ class Application {
     updater.checkForUpdates(nil)
   }
   
-  static func reinstallDriver (_ completion: @escaping () -> Void) {
+  static func reinstallDriver (_ completion: @escaping (Bool) -> Void) {
     Alert.confirm(
       title: "Audio Driver Reinstall",
-      message: "\nIn order to reinstall the driver eqMac we will ask for your System Password. \nPlease close any apps playing audio (Spotify, YouTube etc.) otherwise installation might fail.",
+      message: "\nIn order to reinstall the driver eqMac we will ask for your System Password. \nPlease close any apps playing audio (Spotify, YouTube etc.) otherwise installation might fail. eqMac will restart after this.",
       cancelText: "Cancel"
     ) { reinstall in
       if reinstall {
         Driver.install(started: {
-          UI.showLoadingWindow("Installing eqMac audio driver")
           self.stopListeners()
           self.stopEngines()
           self.switchBackToLastKnownDevice()
+          UI.close()
+          Utilities.delay(100) { UI.showLoadingWindow("Reinstalling eqMac driver\nIf this process takes too long, please restart your Mac") }
         }) { success in
           if (success) {
             UI.hideLoadingWindow()
-            setupAudio()
-            completion()
+            completion(true)
+            Application.restart()
           } else {
             driverFailedToInstallPrompt()
           }
         }
       } else {
-        completion()
+        completion(false)
       }
     }
     
@@ -546,8 +557,8 @@ class Application {
       self.stopListeners()
       self.stopEngines()
       self.switchBackToLastKnownDevice()
-      UI.hide()
-      Utilities.delay(100) { UI.showLoadingWindow("Uninstalling eqMac") }
+      UI.close()
+      Utilities.delay(100) { UI.showLoadingWindow("Uninstalling eqMac\nIf this process takes too long, please restart your Mac") }
     }) { success in
       completion(success)
       if (success) {

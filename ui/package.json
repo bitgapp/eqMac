@@ -1,6 +1,6 @@
 {
   "name": "eqmac",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "scripts": {
     "start": "ng serve",
     "build": "rm -rf dist/ && ng build --prod && cd dist/ && zip -r -D ui.zip * -x '*.DS_Store' && cp ui.zip ../../native/app/Embedded",
