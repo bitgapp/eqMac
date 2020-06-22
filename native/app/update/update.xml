@@ -4,9 +4,14 @@
         <title>eqMac</title>
         <item>
             <title>v0.3</title>
-            <pubDate>Sun, 22 June 2020 00:58:36 +0100</pubDate>
+            <pubDate>Mon, 22 June 2020 12:29:36 +0100</pubDate>
             <description><![CDATA[
 <h1 id="eqmac-changelog">eqMac Changelog</h1>
+<h2 id="v0-3-1">v0.3.1</h2>
+<ul>
+<li>Fixed UI not loading when Internet is disabled</li>
+<li>Device switching improvements</li>
+</ul>
 <h2 id="v0-3">v0.3</h2>
 <ul>
 <li>Updated Driver now doesn&#39;t show up if eqMac is not running (optional update)</li>
@@ -53,7 +58,7 @@
 </ul>
 ]]></description>
             <sparkle:minimumSystemVersion>10.12</sparkle:minimumSystemVersion>
-            <enclosure url="https://update.eqmac.app/eqMac.dmg" sparkle:version="0.3" sparkle:shortVersionString="v0.3" length="13462483" type="application/octet-stream" sparkle:edSignature="/2hyrw+JjlQDLYXrSBDkIp0ByD58K+FTSGNkzR4wmDMDHslrWVQm9rNuL4qhfYZhOgftuiMS4uGNihgn+7oTDw=="/>
+            <enclosure url="https://update.eqmac.app/eqMac.dmg" sparkle:version="0.3.1" sparkle:shortVersionString="v0.3.1" length="13478155" type="application/octet-stream" sparkle:edSignature="WtiN36xAioERTIN71CjhL+iv/VPQ0ufnr93BceVQcFCXeSQ5KVyxLiAmuMXOuVDjHLykqo/YnVsSFDxegzABBQ=="/>
         </item>
     </channel>
 </rss>
