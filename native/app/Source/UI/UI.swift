@@ -271,22 +271,29 @@ class UI: StoreSubscriber {
   
   private func remoteIsReachable (_ completion: @escaping (Bool) -> Void) {
     var returned = false
-    AF.request(Constants.UI_ENDPOINT_URL)
-    .responseData { response in
-        switch response.result {
-        case .success:
-          if !returned {
-            returned = true
-            completion(true)
+    Networking.isReachable(UI.domain) { reachable in
+      if (!reachable) {
+        returned = true
+        return completion(false)
+      }
+      AF.request(Constants.UI_ENDPOINT_URL)
+      .responseData { response in
+          switch response.result {
+          case .success:
+            if !returned {
+              returned = true
+              completion(true)
+            }
+          case .failure:
+            Console.log("Failed to load \(Constants.UI_ENDPOINT_URL)", response)
+            if !returned {
+              returned = true
+              completion(false)
+            }
           }
-        case .failure:
-          Console.log("Failed to load \(Constants.UI_ENDPOINT_URL)", response)
-          if !returned {
-            returned = true
-            completion(false)
-          }
-        }
+      }
     }
+    
     
     Utilities.delay(1000) {
       if (!returned) {

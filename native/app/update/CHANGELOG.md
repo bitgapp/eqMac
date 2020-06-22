@@ -1,5 +1,19 @@
 # eqMac Changelog
 
+## v0.3.1
+* Fixed UI not loading when Internet is disabled
+* Device switching improvements
+
+## v0.3
+* Updated Driver now doesn't show up if eqMac is not running (optional update)
+* Fixed no sound on some devices due so Sample Rate issues. Thanks @virtustilus
+* Fixed crashes during device changes. Thanks @virtustilus
+* Improved Volume handling
+* Fixed UI not loading for some users that have eqMac blocked from accessing network
+* Fixed Window showing up after first launch
+* Improved Driver installation/update experience
+* Added support for aggregate/multi-output devices
+
 ## v0.2.0
 * Added optional Peak Limiter to Basic EQ
 * Added Popover / Window mode switch

@@ -248,7 +248,7 @@ class Application {
       
       if list.added.count > 0 {
         for added in list.added {
-          if Output.isDeviceAllowed(added) {
+          if Output.autoSelect(added) {
             selectOutput(device: added)
             break
           }

@@ -13,8 +13,14 @@ import EmitterKit
 import AVFoundation
 
 class Output {
+  
   static func isDeviceAllowed(_ device: AudioDevice) -> Bool {
     return device.transportType != nil && Constants.SUPPORTED_TRANSPORT_TYPES.contains(device.transportType!) && !device.isInputOnlyDevice()
+  }
+  
+  static func autoSelect (_ device: AudioDevice) -> Bool {
+    let types: [TransportType] = [.bluetooth, .bluetoothLE, .builtIn]
+    return Output.isDeviceAllowed(device) && types.contains(device.transportType!)
   }
   
   static var allowedDevices: [AudioDevice] {

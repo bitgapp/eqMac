@@ -10,22 +10,41 @@ import Foundation
 import Reachability
 
 class Networking {
+  //  static func isReachable (_ host: String, _ callback: @escaping (Bool) -> Void) {
+  //    if let ping = try? SwiftyPing(
+  //      host: host,
+  //      configuration: PingConfiguration(interval: 0.1, with: 5),
+  //      queue: DispatchQueue.global()
+  //      ) {
+  //      ping.observer = { (response) in
+  //        callback(response.error == nil)
+  //        ping.stopPinging()
+  //      }
+  //      ping.startPinging()
+  //    } else {
+  //      callback(false)
+  //    }
+  //  }
+  
   static func isReachable (_ host: String, _ callback: @escaping (Bool) -> Void) {
-    if let ping = try? SwiftyPing(
-      host: host,
-      configuration: PingConfiguration(interval: 0.1, with: 5),
-      queue: DispatchQueue.global()
-      ) {
-      ping.observer = { (response) in
-        callback(response.error == nil)
-        ping.stopPinging()
-      }
-      ping.startPinging()
-    } else {
+    let reachability = try! Reachability(hostname: host)
+    
+    reachability.whenReachable = { reachability in
+      reachability.stopNotifier()
+      callback(true)
+    }
+    reachability.whenUnreachable = { _ in
+      reachability.stopNotifier()
+      callback(false)
+    }
+    
+    do {
+      try reachability.startNotifier()
+    } catch {
       callback(false)
     }
   }
-
+  
   static func tcpPortIsAvailable(_ port: UInt) -> Bool {
     
     let socketFileDescriptor = socket(AF_INET, SOCK_STREAM, 0)

@@ -3,10 +3,21 @@
     <channel>
         <title>eqMac</title>
         <item>
-            <title>v0.2.0</title>
-            <pubDate>Sun, 17 May 2020 21:53:36 +0100</pubDate>
+            <title>v0.3</title>
+            <pubDate>Sun, 22 June 2020 00:58:36 +0100</pubDate>
             <description><![CDATA[
 <h1 id="eqmac-changelog">eqMac Changelog</h1>
+<h2 id="v0-3">v0.3</h2>
+<ul>
+<li>Updated Driver now doesn&#39;t show up if eqMac is not running (optional update)</li>
+<li>Fixed no sound on some devices due so Sample Rate issues. Thanks @virtustilus</li>
+<li>Fixed crashes during device changes. Thanks @virtustilus</li>
+<li>Improved Volume handling</li>
+<li>Fixed UI not loading for some users that have eqMac blocked from accessing network</li>
+<li>Fixed Window showing up after first launch</li>
+<li>Improved Driver installation/update experience</li>
+<li>Added support for aggregate/multi-output devices</li>
+</ul>
 <h2 id="v0-2-0">v0.2.0</h2>
 <ul>
 <li>Added optional Peak Limiter to Basic EQ</li>
@@ -42,7 +53,7 @@
 </ul>
 ]]></description>
             <sparkle:minimumSystemVersion>10.12</sparkle:minimumSystemVersion>
-            <enclosure url="https://update.eqmac.app/eqMac.dmg" sparkle:version="0.2.0" sparkle:shortVersionString="v0.2.0" length="13449798" type="application/octet-stream" sparkle:edSignature="cV4hR+rcSaqk9oWBSSpv2X6IUj4xd4pJ4IOt8e9KnVAxrgd7We2UdCTenBRhGEFIwjGngv7KS20Iiqq0pKVzBA=="/>
+            <enclosure url="https://update.eqmac.app/eqMac.dmg" sparkle:version="0.3" sparkle:shortVersionString="v0.3" length="13462483" type="application/octet-stream" sparkle:edSignature="/2hyrw+JjlQDLYXrSBDkIp0ByD58K+FTSGNkzR4wmDMDHslrWVQm9rNuL4qhfYZhOgftuiMS4uGNihgn+7oTDw=="/>
         </item>
     </channel>
 </rss>
