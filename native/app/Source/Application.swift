@@ -126,7 +126,7 @@ class Application {
       ) { install in
         if install {
           Driver.install(started: {
-            UI.showLoadingWindow("Installing eqMac audio driver\nIf this process takes too long, please restart your Mac")
+            UI.showLoadingWindow("Installing eqMac audio driver\nIf this process takes too long,\nplease restart your Mac")
           }) { success in
             if (success) {
               UI.hideLoadingWindow()
@@ -140,16 +140,16 @@ class Application {
           quit()
         }
       }
-    } else if (Driver.isOutdated && Driver.skipCurrentVersion) {
+    } else if (Driver.isOutdated && !Driver.skipCurrentVersion) {
       Alert.confirm(
         title: "Audio Driver Update",
-        message: "There is an optional Audio Driver update that should improve user experience. \nIn order to update eqMac will ask for your System Password. \nPlease close any apps playing audio (Spotify, YouTube etc.) otherwise installation might fail.",
+        message: "There is an optional Audio Driver update that should improve user experience. \nIn order to update eqMac will ask for your System Password. \nPlease close any apps playing audio (Spotify, YouTube etc.) otherwise installation might fail.\nVersion change: \(Driver.lastInstalledVersion ?? "1.0.0") -> \(Driver.bundledVersion)",
         okText: "Update Driver",
         cancelText: "Skip Driver update"
       ) { update in
         if update {
           Driver.install(started: {
-            UI.showLoadingWindow("Updating eqMac audio driver\nIf this process takes too long, please restart your Mac")
+            UI.showLoadingWindow("Updating eqMac audio driver\nIf this process takes too long,\nplease restart your Mac")
           }) { success in
             if (success) {
               UI.hideLoadingWindow()
@@ -535,7 +535,7 @@ class Application {
           self.stopEngines()
           self.switchBackToLastKnownDevice()
           UI.close()
-          Utilities.delay(100) { UI.showLoadingWindow("Reinstalling eqMac driver\nIf this process takes too long, please restart your Mac") }
+          Utilities.delay(100) { UI.showLoadingWindow("Reinstalling eqMac driver\nIf this process takes too long,\nplease restart your Mac") }
         }) { success in
           if (success) {
             UI.hideLoadingWindow()
@@ -558,7 +558,7 @@ class Application {
       self.stopEngines()
       self.switchBackToLastKnownDevice()
       UI.close()
-      Utilities.delay(100) { UI.showLoadingWindow("Uninstalling eqMac\nIf this process takes too long, please restart your Mac") }
+      Utilities.delay(100) { UI.showLoadingWindow("Uninstalling eqMac\nIf this process takes too long,\nplease restart your Mac") }
     }) { success in
       completion(success)
       if (success) {

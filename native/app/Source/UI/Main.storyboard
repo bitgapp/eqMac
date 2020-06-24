@@ -38,7 +38,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="G6Y-R8-Z81">
-                                <rect key="frame" x="-2" y="14" width="272" height="35"/>
+                                <rect key="frame" x="-2" y="0.0" width="272" height="54"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <textFieldCell key="cell" lineBreakMode="truncatingTail" alignment="center" title="Installing Driver" id="3Xg-7Y-udV">
                                     <font key="font" usesAppearanceFont="YES"/>

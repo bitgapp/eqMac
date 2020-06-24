@@ -66,12 +66,14 @@ void	EQM_Device::StaticInitializer()
                                kObjectID_Stream_Output,
                                kObjectID_Volume_Output_Master,
                                kObjectID_Mute_Output_Master);
+    sInstance->Activate();
+    
     if (
-        EQM_Utils::process_at_path_running("/Applications/eqMac.app/Contents/MacOS/eqMac")
-        || EQM_Utils::process_at_path_running("/Applications/Xcode.app/Contents/MacOS/Xcode")
+        !EQM_Utils::process_at_path_running("/Applications/eqMac.app/Contents/MacOS/eqMac")
+        && !EQM_Utils::process_at_path_running("/Applications/Xcode.app/Contents/MacOS/Xcode")
     ) {
       // Activate the Driver only if eqMac or Xcode are running from /Application folder
-      sInstance->Activate();
+      sInstance->Deactivate();
     } else {
     }
         
