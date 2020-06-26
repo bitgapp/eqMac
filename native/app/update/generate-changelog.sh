@@ -1,2 +1,2 @@
 #!/bin/sh
-markdown CHANGELOG.md > eqMac.html
+markdown CHANGELOG.md > update.html

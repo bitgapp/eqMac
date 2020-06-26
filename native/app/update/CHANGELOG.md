@@ -1,5 +1,9 @@
 # eqMac Changelog
 
+## v0.3.2
+* Fixed driver not activating on some systems
+* !!! Fixed static audio issue #224 Thanks @darrenw2112
+
 ## v0.3.1
 * Fixed UI not loading when Internet is disabled
 * Device switching improvements

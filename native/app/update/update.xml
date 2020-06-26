@@ -3,10 +3,15 @@
     <channel>
         <title>eqMac</title>
         <item>
-            <title>v0.3</title>
-            <pubDate>Mon, 22 June 2020 12:29:36 +0100</pubDate>
+            <title>v0.3.2</title>
+            <pubDate>Wed, 24 Jun 2020 20:01:27 +0100</pubDate>
             <description><![CDATA[
 <h1 id="eqmac-changelog">eqMac Changelog</h1>
+<h2 id="v0-3-2">v0.3.2</h2>
+<ul>
+<li>Fixed driver not activating on some systems</li>
+<li>!!! Fixed static audio issue #224 Thanks @darrenw2112</li>
+</ul>
 <h2 id="v0-3-1">v0.3.1</h2>
 <ul>
 <li>Fixed UI not loading when Internet is disabled</li>
@@ -58,7 +63,7 @@
 </ul>
 ]]></description>
             <sparkle:minimumSystemVersion>10.12</sparkle:minimumSystemVersion>
-            <enclosure url="https://update.eqmac.app/eqMac.dmg" sparkle:version="0.3.1" sparkle:shortVersionString="v0.3.1" length="13478155" type="application/octet-stream" sparkle:edSignature="WtiN36xAioERTIN71CjhL+iv/VPQ0ufnr93BceVQcFCXeSQ5KVyxLiAmuMXOuVDjHLykqo/YnVsSFDxegzABBQ=="/>
+            <enclosure url="https://update.eqmac.app/eqMac.dmg" sparkle:version="0.3.1" sparkle:shortVersionString="v0.3.1" length="13478733" type="application/octet-stream" sparkle:edSignature="WgHepLBVbvi0lgcx7WpYf4ktq0jnWnEgCGYVQujJCtFXICxE5Q9GCIubSbe5nq248+9Ej/GnFJqFdMWvUhh2CQ=="/>
         </item>
     </channel>
 </rss>
