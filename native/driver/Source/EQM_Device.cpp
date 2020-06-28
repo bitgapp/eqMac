@@ -68,14 +68,14 @@ void	EQM_Device::StaticInitializer()
                                kObjectID_Mute_Output_Master);
     sInstance->Activate();
     
-    if (
-        !EQM_Utils::process_at_path_running("/Applications/eqMac.app/Contents/MacOS/eqMac")
-        && !EQM_Utils::process_at_path_running("/Applications/Xcode.app/Contents/MacOS/Xcode")
-    ) {
-      // Activate the Driver only if eqMac or Xcode are running from /Application folder
-      sInstance->Deactivate();
-    } else {
-    }
+//    if (
+//        !EQM_Utils::process_at_path_running("/Applications/eqMac.app/Contents/MacOS/eqMac")
+//        && !EQM_Utils::process_at_path_running("/Applications/Xcode.app/Contents/MacOS/Xcode")
+//    ) {
+//      // Activate the Driver only if eqMac or Xcode are running from /Application folder
+//      sInstance->Deactivate();
+//    } else {
+//    }
         
     // The instance for system (UI) sounds.
     sUISoundsInstance = new EQM_Device(kObjectID_Device_UI_Sounds,
@@ -139,6 +139,7 @@ mMuteControl(inOutputMuteControlID, GetObjectID(), kAudioObjectPropertyScopeOutp
   SetSampleRate(kSampleRateDefault);
   SetSafetyOffset(kSafetyOffsetDefault);
   SetLatency(kLatencyDefault);
+  SetShown(kShownDefault);
 }
 
 EQM_Device::~EQM_Device()
@@ -323,6 +324,7 @@ bool	EQM_Device::Device_HasProperty(AudioObjectID inObjectID, pid_t inClientPID,
     case kAudioDevicePropertySafetyOffset:
     case kAudioDeviceCustomPropertyLatency:
     case kAudioDeviceCustomPropertySafetyOffset:
+    case kAudioDeviceCustomPropertyShown:
       theAnswer = true;
       break;
       
@@ -368,6 +370,7 @@ bool	EQM_Device::Device_IsPropertySettable(AudioObjectID inObjectID, pid_t inCli
     case kAudioDeviceCustomPropertyEnabledOutputControls:
     case kAudioDeviceCustomPropertyLatency:
     case kAudioDeviceCustomPropertySafetyOffset:
+    case kAudioDeviceCustomPropertyShown:
       theAnswer = true;
       break;
       
@@ -454,7 +457,7 @@ UInt32	EQM_Device::Device_GetPropertyDataSize(AudioObjectID inObjectID, pid_t in
       break;
       
     case kAudioObjectPropertyCustomPropertyInfoList:
-      theAnswer = sizeof(AudioServerPlugInCustomPropertyInfo) * 8;
+      theAnswer = sizeof(AudioServerPlugInCustomPropertyInfo) * 9;
       break;
       
     case kAudioDeviceCustomPropertyDeviceAudibleState:
@@ -486,6 +489,10 @@ UInt32	EQM_Device::Device_GetPropertyDataSize(AudioObjectID inObjectID, pid_t in
       
     case kAudioDeviceCustomPropertySafetyOffset:
       theAnswer = sizeof(CFNumberRef);
+      break;
+      
+    case kAudioDeviceCustomPropertyShown:
+      theAnswer = sizeof(CFBooleanRef);
       break;
       
     default:
@@ -675,7 +682,7 @@ void	EQM_Device::Device_GetPropertyData(AudioObjectID inObjectID, pid_t inClient
               "kAudioDevicePropertyDeviceCanBeDefaultDevice for the device");
       // TODO: Add a field for this and set it in EQM_Device::StaticInitializer so we don't
       //       have to handle a specific instance differently here.
-      *reinterpret_cast<UInt32*>(outData) = (GetObjectID() == kObjectID_Device_UI_Sounds ? 0 : 1);
+      *reinterpret_cast<UInt32*>(outData) = mShown ? 1 : 0;
       outDataSize = sizeof(UInt32);
       break;
       
@@ -903,9 +910,9 @@ void	EQM_Device::Device_GetPropertyData(AudioObjectID inObjectID, pid_t inClient
       theNumberItemsToFetch = inDataSize / sizeof(AudioServerPlugInCustomPropertyInfo);
       
       //	clamp it to the number of items we have
-      if(theNumberItemsToFetch > 8)
+      if(theNumberItemsToFetch > 9)
       {
-        theNumberItemsToFetch = 8;
+        theNumberItemsToFetch = 9;
       }
       
       if(theNumberItemsToFetch > 0)
@@ -954,6 +961,13 @@ void	EQM_Device::Device_GetPropertyData(AudioObjectID inObjectID, pid_t inClient
       if(theNumberItemsToFetch > 7)
       {
         ((AudioServerPlugInCustomPropertyInfo*)outData)[6].mSelector = kAudioDeviceCustomPropertySafetyOffset;
+        ((AudioServerPlugInCustomPropertyInfo*)outData)[6].mPropertyDataType = kAudioServerPlugInCustomPropertyDataTypeCFPropertyList;
+        ((AudioServerPlugInCustomPropertyInfo*)outData)[6].mQualifierDataType = kAudioServerPlugInCustomPropertyDataTypeNone;
+      }
+      
+      if(theNumberItemsToFetch > 8)
+      {
+        ((AudioServerPlugInCustomPropertyInfo*)outData)[6].mSelector = kAudioDeviceCustomPropertyShown;
         ((AudioServerPlugInCustomPropertyInfo*)outData)[6].mPropertyDataType = kAudioServerPlugInCustomPropertyDataTypeCFPropertyList;
         ((AudioServerPlugInCustomPropertyInfo*)outData)[6].mQualifierDataType = kAudioServerPlugInCustomPropertyDataTypeNone;
       }
@@ -1061,6 +1075,17 @@ void	EQM_Device::Device_SetPropertyData(AudioObjectID inObjectID, pid_t inClient
               CAException(kAudioHardwareIllegalOperationError),
               "EQM_Device::Device_SetPropertyData: kAudioDeviceCustomPropertySafetyOffset cannot be lower than 0");
       SetSafetyOffset(safetyOffset);
+      break;
+    }
+      
+    case kAudioDeviceCustomPropertyShown:
+    {
+      ThrowIf(inDataSize < sizeof(CFBooleanRef),
+              CAException(kAudioHardwareBadPropertySizeError),
+              "EQM_Device::Device_SetPropertyData: wrong size for the data for kAudioDeviceCustomPropertyShown");
+      CFBooleanRef shownRef = *reinterpret_cast<const CFBooleanRef*>(inData);
+      bool shown = CFBooleanGetValue(shownRef);
+      SetShown(shown);
       break;
     }
       
@@ -1844,6 +1869,12 @@ void  EQM_Device::SetLatency(UInt32 inLatency)
   CAMutex::Locker theStateLocker(mStateMutex);
   
   mLatency = inLatency;
+}
+
+void  EQM_Device::SetShown(bool shown)
+{
+  CAMutex::Locker theStateLocker(mStateMutex);
+  mShown = shown;
 }
 
 bool    EQM_Device::IsStreamID(AudioObjectID inObjectID) const noexcept

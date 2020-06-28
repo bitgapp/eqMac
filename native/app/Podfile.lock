@@ -26,7 +26,7 @@ DEPENDENCIES:
   - Alamofire (~> 5.1)
   - AMCoreAudio (~> 3.3.1)
   - AudioKit (= 4.9.5)
-  - EmitterKit (~> 5.2)
+  - EmitterKit (~> 5.2.2)
   - KeychainSwift (~> 13.0)
   - ReachabilitySwift
   - ReSwift
@@ -83,6 +83,6 @@ SPEC CHECKSUMS:
   WebViewJavascriptBridge: 7f5bc4d3581e672e8f32bd0f812d54bc69bb8e29
   Zip: 8877eede3dda76bcac281225c20e71c25270774c
 
-PODFILE CHECKSUM: 3850edcd366592498848f4adaf654cc1d56c6dc8
+PODFILE CHECKSUM: c1a005dd8338743c78b678ca45a079aaeb33bdbc
 
-COCOAPODS: 1.9.1
+COCOAPODS: 1.9.3

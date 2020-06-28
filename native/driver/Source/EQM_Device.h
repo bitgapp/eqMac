@@ -156,6 +156,7 @@ private:
   void                        SetSampleRate(Float64 inNewSampleRate, bool force = false);
   void                        SetSafetyOffset(UInt32 inNewSafetyOffset);
   void                        SetLatency(UInt32 inNewLatency);
+  void                        SetShown(bool shown);
 
   /*! @return True if inObjectID is the ID of one of this device's streams. */
   inline bool                 IsStreamID(AudioObjectID inObjectID) const noexcept;
@@ -214,6 +215,7 @@ private:
   const Float64               kSampleRateDefault = 44100.0;
   const UInt32               kSafetyOffsetDefault = 0;
   const UInt32               kLatencyDefault = 0;
+  const bool               kShownDefault = false;
   // Before we can change sample rate, the host has to stop the device. The new sample rate is
   // stored here while it does.
   Float64                     mPendingSampleRate;
@@ -228,6 +230,7 @@ private:
   Float64                     mLoopbackSampleRate;
   UInt32                      mSafetyOffset;
   UInt32                      mLatency;
+  bool                        mShown;
   Float32						mLoopbackRingBuffer[kLoopbackRingBufferFrameSize * 2];
   // TODO: a comment explaining why we need a clock for loopback-only mode
   struct {

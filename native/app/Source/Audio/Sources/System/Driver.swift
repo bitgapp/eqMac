@@ -24,6 +24,7 @@ enum DriverDeviceIsActiveProperty: String {
 enum CustomProperties: String {
   case kAudioDeviceCustomPropertyLatency = "cltc"
   case kAudioDeviceCustomPropertySafetyOffset = "csfo"
+  case kAudioDeviceCustomPropertyShown = "shwn"
 }
 
 class Driver {
@@ -108,7 +109,7 @@ class Driver {
     ]
   }
   
-  static func getDeviceIsShown (device: DriverDevice) -> Bool {
+  static func getDeviceIsActive (device: DriverDevice) -> Bool {
     if Driver.device != nil { return true }
     if let pluginId = self.pluginId {
       var address = AudioObjectPropertyAddress(
@@ -125,26 +126,6 @@ class Driver {
       return CFBooleanGetValue(active)
     }
     return false
-  }
-  
-  static func getDeviceIsHidden (device: DriverDevice) -> Bool {
-    return !getDeviceIsShown(device: device)
-  }
-  
-  static func hideDevice (device: DriverDevice) {
-    return setDeviceIsHidden(device: device, true)
-  }
-  
-  static func showDevice (device: DriverDevice) {
-    return setDeviceIsShown(device: device, true)
-  }
-  
-  static func setDeviceIsShown (device: DriverDevice, _ shown: Bool) {
-    return setDeviceIsHidden(device: device, !shown)
-  }
-  
-  static func setDeviceIsHidden (device: DriverDevice, _ hidden: Bool) {
-    return setDeviceIsActive(device: device, !hidden)
   }
   
   private static func setDeviceIsActive (device: DriverDevice, _ active: Bool) {
@@ -223,6 +204,43 @@ class Driver {
       
       checkErr(AudioObjectSetPropertyData(Driver.device!.id, &address, 0, nil, size, &safetyOffset))
     }
+  }
+  
+  static var shown: Bool {
+    get {
+      if Driver.device == nil { return false }
+      var address = AudioObjectPropertyAddress(
+        mSelector: getPropertySelectorFromString(CustomProperties.kAudioDeviceCustomPropertyShown.rawValue),
+        mScope: kAudioObjectPropertyScopeGlobal,
+        mElement: kAudioObjectPropertyElementMaster
+      )
+      
+      var size: UInt32 = UInt32(MemoryLayout<CFBoolean>.size)
+      
+      var shown = kCFBooleanFalse
+      
+      checkErr(AudioObjectGetPropertyData(Driver.device!.id, &address, 0, nil, &size, &shown))
+      return CFBooleanGetValue(shown!)
+    }
+    set {
+      if Driver.device == nil { return }
+
+      var address = AudioObjectPropertyAddress(
+        mSelector: getPropertySelectorFromString(CustomProperties.kAudioDeviceCustomPropertyShown.rawValue),
+        mScope: kAudioObjectPropertyScopeGlobal,
+        mElement: kAudioObjectPropertyElementMaster
+      )
+      
+      let size: UInt32 = UInt32(MemoryLayout<CFBoolean>.size)
+      var shown: CFBoolean = newValue.cfBooleanValue
+      
+      checkErr(AudioObjectSetPropertyData(Driver.device!.id, &address, 0, nil, size, &shown))
+    }
+  }
+  
+  static var hidden: Bool {
+    get { return !shown }
+    set { shown = !newValue }
   }
   
   static var device: AudioDevice? {

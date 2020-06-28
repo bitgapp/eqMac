@@ -105,7 +105,8 @@ enum
   // by default. This property is settable. See the array indices below for more info.
   kAudioDeviceCustomPropertyEnabledOutputControls                   = 'bgct',
   kAudioDeviceCustomPropertyLatency                                 = 'cltc',
-  kAudioDeviceCustomPropertySafetyOffset                            = 'csfo'
+  kAudioDeviceCustomPropertySafetyOffset                            = 'csfo',
+  kAudioDeviceCustomPropertyShown                                   = 'shwn'
 };
 
 // The number of silent/audible frames before EQMDriver will change kAudioDeviceCustomPropertyDeviceAudibleState

@@ -20,7 +20,7 @@ target 'eqMac' do
     pod 'SwiftLint'
     pod 'Sparkle'
     pod 'Sentry', '~> 4.1'
-    pod 'EmitterKit', '~> 5.2'
+    pod 'EmitterKit', '~> 5.2.2'
     pod 'SwiftyJSON', '~> 4.2'
     pod 'SwiftyUserDefaults', '4.0'
 #    pod 'Swifter', '~> 1.4'

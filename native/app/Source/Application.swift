@@ -75,6 +75,7 @@ class Application {
     // AudioKit Engine fucks with Driver installation, eqMac doesn't use it's engine anyway
     try? AudioKit.stop()
     try? AudioKit.shutdown()
+
     AKSettings.audioInputEnabled = false
     AKSettings.enableRouteChangeHandling = false
     AKSettings.notificationsEnabled = false
@@ -195,9 +196,8 @@ class Application {
   private static var showPasshtroughDeviceChecks: Int = 0
   private static var showPassthroughDeviceCheckQueue: DispatchQueue?
   private static func showPassthroughDevice (_ completion: @escaping() -> Void) {
-    let driverIsHidden = Driver.getDeviceIsHidden(device: .passthrough)
-    if (driverIsHidden) {
-      Driver.showDevice(device: .passthrough)
+    if (Driver.hidden) {
+      Driver.shown = true
       showPasshtroughDeviceChecks = 0
       showPassthroughDeviceCheckQueue = DispatchQueue(label: "check-driver-shown", qos: .userInteractive)
       showPassthroughDeviceCheckQueue!.asyncAfter(deadline: .now() + .milliseconds(500)) {
@@ -504,7 +504,7 @@ class Application {
     stopListeners()
     stopEngines()
     switchBackToLastKnownDevice()
-    Driver.hideDevice(device: .passthrough)
+    Driver.hidden = true
     Storage.synchronize()
     NSApp.terminate(nil)
   }
