@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		784AE7D624AAAD5700A8A5D1 /* AudioKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 784AE7D524AAAD5700A8A5D1 /* AudioKit.framework */; };
+		784AE7D724AAAD5700A8A5D1 /* AudioKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 784AE7D524AAAD5700A8A5D1 /* AudioKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		7858FBC224A9630800637941 /* restart_mac.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 7858FBC124A9630800637941 /* restart_mac.scpt */; };
 		E002178823BCC354006C452A /* CARingBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E002178723BCC354006C452A /* CARingBuffer.swift */; };
 		E00618E220F14C08003BA0B0 /* UIState.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00618E120F14C08003BA0B0 /* UIState.swift */; };
 		E00618EB20F22BD1003BA0B0 /* Effect.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00618EA20F22BD1003BA0B0 /* Effect.swift */; };
@@ -112,6 +115,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				784AE7D724AAAD5700A8A5D1 /* AudioKit.framework in Embed Frameworks */,
 				E0453053245A039500CDB1BF /* LaunchAtLogin.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -122,6 +126,8 @@
 /* Begin PBXFileReference section */
 		20D88D3EA39797A9F428F0E3 /* Pods-eqMacAudio.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-eqMacAudio.debug.xcconfig"; path = "Pods/Target Support Files/Pods-eqMacAudio/Pods-eqMacAudio.debug.xcconfig"; sourceTree = "<group>"; };
 		454077A0596E209B8ABF4043 /* Pods-eqMac.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-eqMac.debug.xcconfig"; path = "Pods/Target Support Files/Pods-eqMac/Pods-eqMac.debug.xcconfig"; sourceTree = "<group>"; };
+		784AE7D524AAAD5700A8A5D1 /* AudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioKit.framework; path = Frameworks/AudioKit.framework; sourceTree = "<group>"; };
+		7858FBC124A9630800637941 /* restart_mac.scpt */ = {isa = PBXFileReference; lastKnownFileType = file; path = restart_mac.scpt; sourceTree = "<group>"; };
 		9659E2C2598F04A2CD8229EF /* Pods_eqMac_Audio.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_eqMac_Audio.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C0FBD24DF0BA400D806B8AC /* Pods_eqMac.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_eqMac.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3D606D740D37C93ABA157E7 /* Pods-eqMac.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-eqMac.release.xcconfig"; path = "Pods/Target Support Files/Pods-eqMac/Pods-eqMac.release.xcconfig"; sourceTree = "<group>"; };
@@ -239,6 +245,7 @@
 				E02ACA982459EF3B00754204 /* Pods_eqMac.framework in Frameworks */,
 				E0F661711FDC38BE00252923 /* WebKit.framework in Frameworks */,
 				E0453052245A039500CDB1BF /* LaunchAtLogin.framework in Frameworks */,
+				784AE7D624AAAD5700A8A5D1 /* AudioKit.framework in Frameworks */,
 				E0453056245A03E800CDB1BF /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -246,6 +253,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		784AE7D324AAA06000A8A5D1 /* Booster */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Booster;
+			sourceTree = "<group>";
+		};
+		784AE7D424AAA0F700A8A5D1 /* AudioKit */ = {
+			isa = PBXGroup;
+			children = (
+				784AE7D324AAA06000A8A5D1 /* Booster */,
+			);
+			path = AudioKit;
+			sourceTree = "<group>";
+		};
 		A433E835860EBA2247574C67 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -443,6 +465,7 @@
 		E095BBC22014CE19003473E9 /* Audio */ = {
 			isa = PBXGroup;
 			children = (
+				784AE7D424AAA0F700A8A5D1 /* AudioKit */,
 				E01B1BB3235E449000CC58E5 /* Sources */,
 				E0AD99DA225114C600D893F7 /* Volume */,
 				E090AD5B20A9F13E003BE5FF /* Effects */,
@@ -533,6 +556,7 @@
 			isa = PBXGroup;
 			children = (
 				E02B922B219843DA00AC130B /* open_privacy_microphone_settings.scpt */,
+				7858FBC124A9630800637941 /* restart_mac.scpt */,
 				E0DDF3FC2189021300B37E77 /* install_driver.sh */,
 				E0267AF5218ADD6000FB2E5A /* uninstall_driver.sh */,
 			);
@@ -575,6 +599,7 @@
 		E6BAF3EF1807277C1A4360F7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				784AE7D524AAAD5700A8A5D1 /* AudioKit.framework */,
 				E0453055245A03E800CDB1BF /* Foundation.framework */,
 				E0AFAE9A23C39187007D2D56 /* LaunchAtLogin.framework */,
 				E0370EB0200D68AB00DF4DBF /* AudioToolbox.framework */,
@@ -676,6 +701,7 @@
 				E086B0021FCCB8E700CF9F0D /* assets.xcassets in Resources */,
 				E09C17201FEC1969008E65A4 /* Main.storyboard in Resources */,
 				E04E7ABB247C690B006A2AC3 /* ui.zip in Resources */,
+				7858FBC224A9630800637941 /* restart_mac.scpt in Resources */,
 				E02B922C219843DF00AC130B /* open_privacy_microphone_settings.scpt in Resources */,
 				E0267AF7218ADD8D00FB2E5A /* uninstall_driver.sh in Resources */,
 			);
@@ -1046,6 +1072,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
+					"$(PROJECT_DIR)/Frameworks",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1106,6 +1133,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
+					"$(PROJECT_DIR)/Frameworks",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",

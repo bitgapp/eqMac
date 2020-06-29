@@ -1,12 +1,6 @@
 PODS:
   - Alamofire (5.1.0)
   - AMCoreAudio (3.3.1)
-  - AudioKit (4.9.5):
-    - AudioKit/Core (= 4.9.5)
-    - AudioKit/UI (= 4.9.5)
-  - AudioKit/Core (4.9.5)
-  - AudioKit/UI (4.9.5):
-    - AudioKit/Core
   - EmitterKit (5.2.2)
   - KeychainSwift (13.0.0)
   - ReachabilitySwift (5.0.0)
@@ -25,7 +19,6 @@ PODS:
 DEPENDENCIES:
   - Alamofire (~> 5.1)
   - AMCoreAudio (~> 3.3.1)
-  - AudioKit (= 4.9.5)
   - EmitterKit (~> 5.2.2)
   - KeychainSwift (~> 13.0)
   - ReachabilitySwift
@@ -43,7 +36,6 @@ SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
     - Alamofire
     - AMCoreAudio
-    - AudioKit
     - EmitterKit
     - KeychainSwift
     - ReachabilitySwift
@@ -69,7 +61,6 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   Alamofire: 9d5c5f602928e512395b30950c5984eca840093c
   AMCoreAudio: 6bf97d548d02ebb75b56c1cbf6b1f87bcfdeb748
-  AudioKit: ccf4e39c89ed6e5cbbce5fef58d819db39446437
   EmitterKit: e7a27b37118823d8ad413b8396f75e40d59f8cba
   KeychainSwift: 23d6c16cbc33f20fafa30c3d783241b4b87d998c
   ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
@@ -83,6 +74,6 @@ SPEC CHECKSUMS:
   WebViewJavascriptBridge: 7f5bc4d3581e672e8f32bd0f812d54bc69bb8e29
   Zip: 8877eede3dda76bcac281225c20e71c25270774c
 
-PODFILE CHECKSUM: c1a005dd8338743c78b678ca45a079aaeb33bdbc
+PODFILE CHECKSUM: 4d007e92f3c9d8b87d9820c4d08c27b16941b1a3
 
 COCOAPODS: 1.9.3

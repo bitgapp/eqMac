@@ -72,15 +72,6 @@ class Application {
   
   
   static public func start () {
-    // AudioKit Engine fucks with Driver installation, eqMac doesn't use it's engine anyway
-    try? AudioKit.stop()
-    try? AudioKit.shutdown()
-
-    AKSettings.audioInputEnabled = false
-    AKSettings.enableRouteChangeHandling = false
-    AKSettings.notificationsEnabled = false
-    AudioKit.engine.stop()
-
     setupSettings()
     
     if (!Constants.DEBUG) {
