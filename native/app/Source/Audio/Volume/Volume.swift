@@ -10,14 +10,18 @@ import Foundation
 import ReSwift
 import EmitterKit
 import AMCoreAudio
-import AudioKit
+import AVFoundation
 
 class Volume: StoreSubscriber {
   // MARK: - Events
   var gainChanged = EmitterKit.Event<Double>()
   var balanceChanged = EmitterKit.Event<Double>()
   var mutedChanged = EmitterKit.Event<Bool>()
-  
+  var leftInput = AVAudioMixerNode()
+  var rightInput = AVAudioMixerNode()
+  var mixer = AVAudioMixerNode()
+  var output = AVAudioUnitEQ()
+
   // MARK: - Properties
   var gain: Double = 1 {
     didSet {
@@ -124,17 +128,17 @@ class Volume: StoreSubscriber {
   // MARK: - Private Properties
   private var leftGain: Double = 1 {
     didSet {
-      booster.leftGain = leftGain
+      leftInput.outputVolume = Float(leftGain)
     }
   }
   
   private var rightGain: Double = 1 {
     didSet {
-      booster.rightGain = rightGain
+      rightInput.outputVolume = Float(rightGain)
     }
   }
   
-  var booster: AKBooster!
+//  var booster: AKBooster!
   
   // MARK: - State
   typealias StoreSubscriberStateType = VolumeState
@@ -168,8 +172,10 @@ class Volume: StoreSubscriber {
   // MARK: - Initialization
   init () {
     Console.log("Creating Volume")
-    booster = AKBooster()
-    booster.detach()
+//    booster = AKBooster()
+//    booster.detach()
+    leftInput.pan = -100
+    rightInput.pan = 100
     
     setupStateListener()
   }

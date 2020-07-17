@@ -1,7 +1,6 @@
 import AVFoundation
 import PlaygroundSupport
 import AMCoreAudio
-import AudioKit
 import Foundation
 import STPrivilegedTask
 

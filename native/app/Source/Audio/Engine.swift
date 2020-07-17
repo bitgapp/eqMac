@@ -114,7 +114,14 @@ class Engine {
   }
   
   private func attachVolume () {
-    engine.attach(volume.booster.avAudioNode)
+//    engine.attach(volume.booster.avAudioNode)
+    engine.attach(volume.leftInput)
+    engine.attach(volume.rightInput)
+    engine.attach(volume.mixer)
+    engine.attach(volume.output)
+    engine.connect(volume.leftInput, to: volume.mixer, format: format)
+    engine.connect(volume.rightInput, to: volume.mixer, format: format)
+    engine.connect(volume.mixer, to: volume.output, format: format)
   }
   
   private func chain () {
@@ -127,11 +134,12 @@ class Engine {
   
   private func chainSourceToVolume () {
     Console.log("Chaining Source to Volume")
-    engine.connect(engine.inputNode, to: volume.booster.avAudioNode, format: format)
+    engine.connect(engine.inputNode, to: volume.leftInput, format: format)
+    engine.connect(engine.inputNode, to: volume.rightInput, format: format)
   }
   
   private func chainVolumeToEffects () {
-    engine.connect(volume.booster.avAudioNode, to: effects.equalizers.active.eq, format: format)
+    engine.connect(volume.output, to: effects.equalizers.active.eq, format: format)
   }
   
   private func chainEffects () {

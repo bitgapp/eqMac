@@ -19,7 +19,7 @@ launchctl kill -15 system/com.apple.audio.coreaudiod &>/dev/null || \
 (launchctl unload "$coreaudiod_plist" &>/dev/null && \
 launchctl load "$coreaudiod_plist" &>/dev/null) || \
 killall coreaudiod &>/dev/null) && \
-sleep 2
+sleep 5
 
 # Wait until coreaudiod has restarted and device is ready to use.
 retries=5

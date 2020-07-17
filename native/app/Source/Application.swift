@@ -18,7 +18,6 @@ import SwiftyJSON
 import ServiceManagement
 import ReSwift
 import Sparkle
-import AudioKit
 
 enum VolumeChangeDirection: String {
   case UP = "UP"
@@ -79,6 +78,7 @@ class Application {
     }
     
     installDriver {
+      AudioDevice.register = true
       audioPipelineIsRunningListener = audioPipelineIsRunning.once {
         self.setupUI()
         if (User.isFirstLaunch || Constants.DEBUG) {

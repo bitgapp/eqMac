@@ -1,7 +1,7 @@
 #!/bin/sh
 # Type a script or drag a script file from your workspace to insert its path.
 if [ "${CONFIGURATION}" = "Release" ]; then
-    cp -r "$BUILT_PRODUCTS_DIR/$FULL_PRODUCT_NAME" "$SRCROOT/../app/Embedded/"
+    cp -r "$BUILT_PRODUCTS_DIR/$FULL_PRODUCT_NAME" "$SRCROOT/../driver-installer/Embedded/"
 fi
 
 if [ "${CONFIGURATION}" = "Debug" ]; then

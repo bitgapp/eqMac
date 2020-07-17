@@ -8,10 +8,10 @@
 
 import Foundation
 import EmitterKit
-import AudioKit
+import AVFoundation
 
 class Effect {
-  var node: AKToggleable!
+  var node: AVAudioNode!
   var enabledChanged = Event<Bool>()
   var name: String {
     return String(describing: self)
@@ -26,9 +26,9 @@ class Effect {
   
   func enabledDidSet () {
     if (enabled) {
-      node.start()
+//      node.
     } else {
-      node.stop()
+//      node.stop()
     }
   }
   

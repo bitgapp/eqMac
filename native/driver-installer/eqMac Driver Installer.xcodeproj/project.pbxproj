@@ -1,0 +1,469 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 51;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		78E243F324B65E2E003C1FBC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E243F224B65E2E003C1FBC /* AppDelegate.swift */; };
+		78E243F524B65E2E003C1FBC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E243F424B65E2E003C1FBC /* ContentView.swift */; };
+		78E243FA24B65E30003C1FBC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 78E243F924B65E30003C1FBC /* Preview Assets.xcassets */; };
+		78E243FD24B65E30003C1FBC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 78E243FB24B65E30003C1FBC /* Main.storyboard */; };
+		78E2440724B65F11003C1FBC /* install_driver.sh in Resources */ = {isa = PBXBuildFile; fileRef = 78E2440624B65F11003C1FBC /* install_driver.sh */; };
+		78E2440D24B65FC7003C1FBC /* eqMac.driver in Resources */ = {isa = PBXBuildFile; fileRef = 78E2440924B65F6E003C1FBC /* eqMac.driver */; };
+		78E2441024B660DE003C1FBC /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E2440F24B660DE003C1FBC /* Alert.swift */; };
+		78E2441224B660F2003C1FBC /* Script.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E2441124B660F1003C1FBC /* Script.swift */; };
+		78E2441724B66620003C1FBC /* assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 78E2441624B66620003C1FBC /* assets.xcassets */; };
+		B42C86D18C58DC274E74A9BD /* Pods_eqMac_Driver_Installer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1B594CA73103FD575390E85 /* Pods_eqMac_Driver_Installer.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		78E243EF24B65E2E003C1FBC /* eqMac Driver Installer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "eqMac Driver Installer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		78E243F224B65E2E003C1FBC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		78E243F424B65E2E003C1FBC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		78E243F924B65E30003C1FBC /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		78E243FC24B65E30003C1FBC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		78E243FE24B65E30003C1FBC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = Source/Info.plist; sourceTree = "<group>"; };
+		78E243FF24B65E30003C1FBC /* eqMac_Driver_Installer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = eqMac_Driver_Installer.entitlements; path = Source/eqMac_Driver_Installer.entitlements; sourceTree = "<group>"; };
+		78E2440624B65F11003C1FBC /* install_driver.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = install_driver.sh; sourceTree = "<group>"; };
+		78E2440924B65F6E003C1FBC /* eqMac.driver */ = {isa = PBXFileReference; lastKnownFileType = folder; path = eqMac.driver; sourceTree = "<group>"; };
+		78E2440F24B660DE003C1FBC /* Alert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Alert.swift; path = ../../app/Source/Helpers/Alert.swift; sourceTree = "<group>"; };
+		78E2441124B660F1003C1FBC /* Script.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Script.swift; path = ../../app/Source/Helpers/Script.swift; sourceTree = "<group>"; };
+		78E2441624B66620003C1FBC /* assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = assets.xcassets; path = ../shared/assets.xcassets; sourceTree = "<group>"; };
+		BAA529E32FAEF954E64901E8 /* Pods-eqMac Driver Installer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-eqMac Driver Installer.release.xcconfig"; path = "Target Support Files/Pods-eqMac Driver Installer/Pods-eqMac Driver Installer.release.xcconfig"; sourceTree = "<group>"; };
+		C1B594CA73103FD575390E85 /* Pods_eqMac_Driver_Installer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_eqMac_Driver_Installer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CED229C92AF5B8AF551C1D30 /* Pods-eqMac Driver Installer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-eqMac Driver Installer.debug.xcconfig"; path = "Target Support Files/Pods-eqMac Driver Installer/Pods-eqMac Driver Installer.debug.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		78E243EC24B65E2E003C1FBC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B42C86D18C58DC274E74A9BD /* Pods_eqMac_Driver_Installer.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1ED185B34AB925AD7CBA58ED /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C1B594CA73103FD575390E85 /* Pods_eqMac_Driver_Installer.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		347E30F34DCBF012874BBD11 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				CED229C92AF5B8AF551C1D30 /* Pods-eqMac Driver Installer.debug.xcconfig */,
+				BAA529E32FAEF954E64901E8 /* Pods-eqMac Driver Installer.release.xcconfig */,
+			);
+			name = Pods;
+			path = ../Pods;
+			sourceTree = "<group>";
+		};
+		78E243E624B65E2E003C1FBC = {
+			isa = PBXGroup;
+			children = (
+				78E243F124B65E2E003C1FBC /* Source */,
+				78E2441524B665FC003C1FBC /* Supporting Files */,
+				78E2440A24B65F6E003C1FBC /* Embedded */,
+				78E243F024B65E2E003C1FBC /* Products */,
+				347E30F34DCBF012874BBD11 /* Pods */,
+				1ED185B34AB925AD7CBA58ED /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		78E243F024B65E2E003C1FBC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				78E243EF24B65E2E003C1FBC /* eqMac Driver Installer.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		78E243F124B65E2E003C1FBC /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				78E2440E24B660D0003C1FBC /* Helpers */,
+				78E2440524B65F01003C1FBC /* Scripts */,
+				78E243F224B65E2E003C1FBC /* AppDelegate.swift */,
+				78E243F424B65E2E003C1FBC /* ContentView.swift */,
+				78E243FB24B65E30003C1FBC /* Main.storyboard */,
+				78E243F824B65E30003C1FBC /* Preview Content */,
+			);
+			path = Source;
+			sourceTree = "<group>";
+		};
+		78E243F824B65E30003C1FBC /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				78E243F924B65E30003C1FBC /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		78E2440524B65F01003C1FBC /* Scripts */ = {
+			isa = PBXGroup;
+			children = (
+				78E2440624B65F11003C1FBC /* install_driver.sh */,
+			);
+			path = Scripts;
+			sourceTree = "<group>";
+		};
+		78E2440A24B65F6E003C1FBC /* Embedded */ = {
+			isa = PBXGroup;
+			children = (
+				78E2440924B65F6E003C1FBC /* eqMac.driver */,
+			);
+			path = Embedded;
+			sourceTree = "<group>";
+		};
+		78E2440E24B660D0003C1FBC /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				78E2441124B660F1003C1FBC /* Script.swift */,
+				78E2440F24B660DE003C1FBC /* Alert.swift */,
+			);
+			name = Helpers;
+			sourceTree = "<group>";
+		};
+		78E2441524B665FC003C1FBC /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				78E243FE24B65E30003C1FBC /* Info.plist */,
+				78E2441624B66620003C1FBC /* assets.xcassets */,
+				78E243FF24B65E30003C1FBC /* eqMac_Driver_Installer.entitlements */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		78E243EE24B65E2E003C1FBC /* eqMac Driver Installer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 78E2440224B65E30003C1FBC /* Build configuration list for PBXNativeTarget "eqMac Driver Installer" */;
+			buildPhases = (
+				3EDE763734FD3CB6F99C8C62 /* [CP] Check Pods Manifest.lock */,
+				78E243EB24B65E2E003C1FBC /* Sources */,
+				78E243EC24B65E2E003C1FBC /* Frameworks */,
+				78E243ED24B65E2E003C1FBC /* Resources */,
+				ED4A6EEB2396DBE38B465898 /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "eqMac Driver Installer";
+			productName = "eqMac Driver Installer";
+			productReference = 78E243EF24B65E2E003C1FBC /* eqMac Driver Installer.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		78E243E724B65E2E003C1FBC /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1150;
+				LastUpgradeCheck = 1150;
+				ORGANIZATIONNAME = Bitgapp;
+				TargetAttributes = {
+					78E243EE24B65E2E003C1FBC = {
+						CreatedOnToolsVersion = 11.5;
+					};
+				};
+			};
+			buildConfigurationList = 78E243EA24B65E2E003C1FBC /* Build configuration list for PBXProject "eqMac Driver Installer" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 78E243E624B65E2E003C1FBC;
+			productRefGroup = 78E243F024B65E2E003C1FBC /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				78E243EE24B65E2E003C1FBC /* eqMac Driver Installer */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		78E243ED24B65E2E003C1FBC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				78E2440724B65F11003C1FBC /* install_driver.sh in Resources */,
+				78E243FD24B65E30003C1FBC /* Main.storyboard in Resources */,
+				78E243FA24B65E30003C1FBC /* Preview Assets.xcassets in Resources */,
+				78E2441724B66620003C1FBC /* assets.xcassets in Resources */,
+				78E2440D24B65FC7003C1FBC /* eqMac.driver in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		3EDE763734FD3CB6F99C8C62 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-eqMac Driver Installer-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		ED4A6EEB2396DBE38B465898 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-eqMac Driver Installer/Pods-eqMac Driver Installer-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-eqMac Driver Installer/Pods-eqMac Driver Installer-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-eqMac Driver Installer/Pods-eqMac Driver Installer-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		78E243EB24B65E2E003C1FBC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				78E2441224B660F2003C1FBC /* Script.swift in Sources */,
+				78E2441024B660DE003C1FBC /* Alert.swift in Sources */,
+				78E243F524B65E2E003C1FBC /* ContentView.swift in Sources */,
+				78E243F324B65E2E003C1FBC /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		78E243FB24B65E30003C1FBC /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				78E243FC24B65E30003C1FBC /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		78E2440024B65E30003C1FBC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		78E2440124B65E30003C1FBC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		78E2440324B65E30003C1FBC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = CED229C92AF5B8AF551C1D30 /* Pods-eqMac Driver Installer.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Source/eqMac_Driver_Installer.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_ASSET_PATHS = "\"Source/Preview Content\"";
+				DEVELOPMENT_TEAM = JZA6C97KJA;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/Source/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.bitgapp.eqMac-Driver-Installer";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		78E2440424B65E30003C1FBC /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BAA529E32FAEF954E64901E8 /* Pods-eqMac Driver Installer.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Source/eqMac_Driver_Installer.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_ASSET_PATHS = "\"Source/Preview Content\"";
+				DEVELOPMENT_TEAM = JZA6C97KJA;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/Source/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.bitgapp.eqMac-Driver-Installer";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		78E243EA24B65E2E003C1FBC /* Build configuration list for PBXProject "eqMac Driver Installer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				78E2440024B65E30003C1FBC /* Debug */,
+				78E2440124B65E30003C1FBC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		78E2440224B65E30003C1FBC /* Build configuration list for PBXNativeTarget "eqMac Driver Installer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				78E2440324B65E30003C1FBC /* Debug */,
+				78E2440424B65E30003C1FBC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 78E243E724B65E2E003C1FBC /* Project object */;
+}

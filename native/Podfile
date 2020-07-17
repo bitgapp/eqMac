@@ -1,0 +1,41 @@
+source 'https://github.com/AudioKit/Specs.git'
+source 'https://github.com/CocoaPods/Specs.git'
+
+# Uncomment the next line to define a global platform for your project
+platform :osx, '10.12'
+workspace 'eqMac.xcworkspace'
+use_frameworks!
+
+# ignore all warnings from all pods
+inhibit_all_warnings!
+
+def shared_pods
+  pod 'STPrivilegedTask', :git => 'https://github.com/sveinbjornt/STPrivilegedTask.git', :commit => 'fdca677c77adb166a2be4c5ea9c7580a738c49c9'
+end
+
+project 'app/eqMac.xcodeproj'
+project 'driver-installer/eqMac Driver Installer.xcodeproj'
+
+target 'eqMac' do
+  project 'app/eqMac.xcodeproj'
+  
+  pod 'Alamofire', '~> 5.1'
+  pod 'AMCoreAudio', :git => 'https://github.com/bitgapp/AMCoreAudio.git', :commit => 'ae7b9dc5df204b8f703f19b1fb7af1bf6475074f'
+  pod 'WebViewJavascriptBridge', '~> 6.0'
+  pod 'ReachabilitySwift'
+  pod 'ReSwift'
+  pod 'SwiftLint'
+  pod 'Sparkle'
+  pod 'Sentry', '~> 4.1'
+  pod 'EmitterKit', '~> 5.2.2'
+  pod 'SwiftyJSON', '~> 4.2'
+  pod 'SwiftyUserDefaults', '4.0'
+  pod 'KeychainSwift', '~> 13.0'
+  pod 'Zip', '~> 1.1'
+  shared_pods
+end
+
+target 'eqMac Driver Installer' do
+  project 'driver-installer/eqMac Driver Installer.xcodeproj'
+  shared_pods
+end
