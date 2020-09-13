@@ -78,7 +78,7 @@ class Application {
     }
     
     installDriver {
-      AudioDevice.register = true
+//      AudioDevice.register = true
       audioPipelineIsRunningListener = audioPipelineIsRunning.once {
         self.setupUI()
         if (User.isFirstLaunch || Constants.DEBUG) {
@@ -508,6 +508,10 @@ class Application {
     task.arguments = [path]
     task.launch()
     quit()
+  }
+  
+  static func restartMac () {
+    Script.apple("restart_mac")
   }
   
   static func checkForUpdates () {

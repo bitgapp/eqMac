@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		7858FBC224A9630800637941 /* restart_mac.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 7858FBC124A9630800637941 /* restart_mac.scpt */; };
+		789F83CF250E20A8004F871D /* restart_coreaudio.sh in Resources */ = {isa = PBXBuildFile; fileRef = 789F83CE250E20A8004F871D /* restart_coreaudio.sh */; };
+		789F83D1250E20DD004F871D /* place_driver.sh in Resources */ = {isa = PBXBuildFile; fileRef = 789F83D0250E20DD004F871D /* place_driver.sh */; };
+		789F83D3250E2164004F871D /* check_driver_installed.sh in Resources */ = {isa = PBXBuildFile; fileRef = 789F83D2250E2164004F871D /* check_driver_installed.sh */; };
+		789F83D5250E21BD004F871D /* check_driver_uninstalled.sh in Resources */ = {isa = PBXBuildFile; fileRef = 789F83D4250E21BD004F871D /* check_driver_uninstalled.sh */; };
+		789F83D7250E220C004F871D /* remove_driver.sh in Resources */ = {isa = PBXBuildFile; fileRef = 789F83D6250E220C004F871D /* remove_driver.sh */; };
 		78E2441424B661C3003C1FBC /* Embedded in Resources */ = {isa = PBXBuildFile; fileRef = 78E2441324B661C3003C1FBC /* Embedded */; };
 		E002178823BCC354006C452A /* CARingBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E002178723BCC354006C452A /* CARingBuffer.swift */; };
 		E00618E220F14C08003BA0B0 /* UIState.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00618E120F14C08003BA0B0 /* UIState.swift */; };
@@ -123,6 +128,11 @@
 		20D88D3EA39797A9F428F0E3 /* Pods-eqMacAudio.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-eqMacAudio.debug.xcconfig"; path = "Pods/Target Support Files/Pods-eqMacAudio/Pods-eqMacAudio.debug.xcconfig"; sourceTree = "<group>"; };
 		454077A0596E209B8ABF4043 /* Pods-eqMac.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-eqMac.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-eqMac/Pods-eqMac.debug.xcconfig"; sourceTree = "<group>"; };
 		7858FBC124A9630800637941 /* restart_mac.scpt */ = {isa = PBXFileReference; lastKnownFileType = file; path = restart_mac.scpt; sourceTree = "<group>"; };
+		789F83CE250E20A8004F871D /* restart_coreaudio.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = restart_coreaudio.sh; sourceTree = "<group>"; };
+		789F83D0250E20DD004F871D /* place_driver.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = place_driver.sh; sourceTree = "<group>"; };
+		789F83D2250E2164004F871D /* check_driver_installed.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = check_driver_installed.sh; sourceTree = "<group>"; };
+		789F83D4250E21BD004F871D /* check_driver_uninstalled.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = check_driver_uninstalled.sh; sourceTree = "<group>"; };
+		789F83D6250E220C004F871D /* remove_driver.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = remove_driver.sh; sourceTree = "<group>"; };
 		78E2441324B661C3003C1FBC /* Embedded */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Embedded; sourceTree = "<group>"; };
 		9659E2C2598F04A2CD8229EF /* Pods_eqMac_Audio.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_eqMac_Audio.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C0FBD24DF0BA400D806B8AC /* Pods_eqMac.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_eqMac.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -527,6 +537,11 @@
 				7858FBC124A9630800637941 /* restart_mac.scpt */,
 				E0DDF3FC2189021300B37E77 /* install_driver.sh */,
 				E0267AF5218ADD6000FB2E5A /* uninstall_driver.sh */,
+				789F83CE250E20A8004F871D /* restart_coreaudio.sh */,
+				789F83D0250E20DD004F871D /* place_driver.sh */,
+				789F83D6250E220C004F871D /* remove_driver.sh */,
+				789F83D2250E2164004F871D /* check_driver_installed.sh */,
+				789F83D4250E21BD004F871D /* check_driver_uninstalled.sh */,
 			);
 			path = Scripts;
 			sourceTree = "<group>";
@@ -665,10 +680,15 @@
 			files = (
 				E0267AFA218ADD9500FB2E5A /* install_driver.sh in Resources */,
 				E086B0021FCCB8E700CF9F0D /* assets.xcassets in Resources */,
+				789F83D1250E20DD004F871D /* place_driver.sh in Resources */,
 				E09C17201FEC1969008E65A4 /* Main.storyboard in Resources */,
 				78E2441424B661C3003C1FBC /* Embedded in Resources */,
+				789F83CF250E20A8004F871D /* restart_coreaudio.sh in Resources */,
+				789F83D5250E21BD004F871D /* check_driver_uninstalled.sh in Resources */,
+				789F83D3250E2164004F871D /* check_driver_installed.sh in Resources */,
 				7858FBC224A9630800637941 /* restart_mac.scpt in Resources */,
 				E02B922C219843DF00AC130B /* open_privacy_microphone_settings.scpt in Resources */,
+				789F83D7250E220C004F871D /* remove_driver.sh in Resources */,
 				E0267AF7218ADD8D00FB2E5A /* uninstall_driver.sh in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

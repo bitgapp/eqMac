@@ -34,8 +34,3 @@ target 'eqMac' do
   pod 'Zip', '~> 1.1'
   shared_pods
 end
-
-target 'eqMac Driver Installer' do
-  project 'driver-installer/eqMac Driver Installer.xcodeproj'
-  shared_pods
-end
