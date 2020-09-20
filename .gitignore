@@ -5,6 +5,7 @@ Pods/
 **/*.xcworkspace/xcuserdata*
 **/*.xcodeproj/xcuserdata*
 native/build
+native/build_debug
 node_modules
 .env
 dist
