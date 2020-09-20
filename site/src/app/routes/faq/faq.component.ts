@@ -37,7 +37,7 @@ export class FAQComponent implements OnInit {
     <br>That will run a script to uninstall the app and the driver properly.
     <br>If for whatever reason you cannot run eqMac, to uninstall the driver you can run this command in Terminal: 
     <br><br>
-    <div class="terminal-command">sudo rm -rf /Library/Audio/Plug-Ins/HAL/eqMac.driver/ && launchctl kickstart -k system/com.apple.audio.coreaudiod &>/dev/null</div>`
+    <div class="terminal-command">sudo rm -rf /Library/Audio/Plug-Ins/HAL/eqMac.driver/ && sudo launchctl kickstart -k system/com.apple.audio.coreaudiod &>/dev/null</div>`
   }]
   // tslint:enable:max-line-length
 
