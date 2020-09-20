@@ -9,6 +9,12 @@
 			<array>
 				<dict>
 					<key>APPLICATION_ID</key>
+					<string>com.apple.audio.AudioMIDISetup</string>
+					<key>STATE</key>
+					<true/>
+				</dict>
+				<dict>
+					<key>APPLICATION_ID</key>
 					<string>com.apple.Music</string>
 					<key>STATE</key>
 					<true/>
@@ -28,6 +34,12 @@
 				<dict>
 					<key>APPLICATION_ID</key>
 					<string>com.bitgapp.eqMac</string>
+					<key>STATE</key>
+					<true/>
+				</dict>
+				<dict>
+					<key>APPLICATION_ID</key>
+					<string>com.bitgapp.eqMac2</string>
 					<key>STATE</key>
 					<true/>
 				</dict>
@@ -507,7 +519,7 @@
 				<key>POSTINSTALL_PATH</key>
 				<dict>
 					<key>PATH</key>
-					<string>app/Source/Scripts/place_driver.sh</string>
+					<string>pkg/postinstall.sh</string>
 					<key>PATH_TYPE</key>
 					<integer>1</integer>
 				</dict>
@@ -541,7 +553,7 @@
 				<key>AUTHENTICATION</key>
 				<integer>1</integer>
 				<key>CONCLUSION_ACTION</key>
-				<integer>2</integer>
+				<integer>0</integer>
 				<key>FOLLOW_SYMBOLIC_LINKS</key>
 				<false/>
 				<key>IDENTIFIER</key>
