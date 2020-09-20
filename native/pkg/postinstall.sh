@@ -13,15 +13,14 @@ if [ "$CURRENT_DRIVER_VERSION" != "$NEEDED_DRIVER_VERSION" ]; then
   # Copy driver into Plug-Ins folder
   cp -f -r "$DIR/eqMac.driver" /Library/Audio/Plug-Ins/HAL/ &>/dev/null
 
-  msg="It is recommended you restart your Mac for the eqMac Audio Driver to function properly."
   if osascript <<EOT
     tell application id "com.apple.systemuiserver"
-        display alert "Warning" \
-            message "$msg" \
-            buttons {"Skip restart", "Restart Mac"} \
-            default button "Restart Mac" \
-            cancel button "Skip restart" \
-            as warning
+        display dialog \
+          "It is recommended you restart your Mac for the eqMac Audio Driver to function properly." \
+          buttons {"Skip restart", "Restart Mac"} \
+          default button "Restart Mac" \
+          cancel button "Skip restart" \
+          with icon POSIX file "/Applications/eqMac.app/Contents/Resources/AppIcon.icns"
     end tell
 EOT
         then
