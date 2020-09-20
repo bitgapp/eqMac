@@ -39,7 +39,7 @@ class UI: StoreSubscriber {
     } else {
       if !file.fileExists(atPath: localZipPath.path) {
         Console.log("\(localZipPath.path) doesnt exist")
-        let bundleUIZipPath = Bundle.main.url(forResource: "ui", withExtension: "zip")!
+        let bundleUIZipPath = Bundle.main.url(forResource: "ui", withExtension: "zip", subdirectory: "Embedded")!
         try! file.copyItem(at: bundleUIZipPath, to: localZipPath)
       }
       try! Zip.unzipFile(localZipPath, destination: localPath, overwrite: true, password: nil) // Unzip

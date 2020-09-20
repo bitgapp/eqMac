@@ -58,7 +58,7 @@ class Driver {
   }
   
   static var info: Dictionary<String, Any> {
-    return NSDictionary(contentsOfFile: Bundle.main.path(forResource: "Info", ofType: "plist", inDirectory: "eqMac.driver/Contents")!) as! Dictionary<String, Any>
+    return NSDictionary(contentsOfFile: Bundle.main.path(forResource: "Info", ofType: "plist", inDirectory: "Embedded/eqMac.driver/Contents")!) as! Dictionary<String, Any>
   }
   
   static var bundledVersion: String {

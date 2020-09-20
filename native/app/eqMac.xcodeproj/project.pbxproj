@@ -125,7 +125,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		20D88D3EA39797A9F428F0E3 /* Pods-eqMacAudio.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-eqMacAudio.debug.xcconfig"; path = "Pods/Target Support Files/Pods-eqMacAudio/Pods-eqMacAudio.debug.xcconfig"; sourceTree = "<group>"; };
 		454077A0596E209B8ABF4043 /* Pods-eqMac.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-eqMac.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-eqMac/Pods-eqMac.debug.xcconfig"; sourceTree = "<group>"; };
 		7858FBC124A9630800637941 /* restart_mac.scpt */ = {isa = PBXFileReference; lastKnownFileType = file; path = restart_mac.scpt; sourceTree = "<group>"; };
 		789F83CE250E20A8004F871D /* restart_coreaudio.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = restart_coreaudio.sh; sourceTree = "<group>"; };
@@ -134,10 +133,8 @@
 		789F83D4250E21BD004F871D /* check_driver_uninstalled.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = check_driver_uninstalled.sh; sourceTree = "<group>"; };
 		789F83D6250E220C004F871D /* remove_driver.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = remove_driver.sh; sourceTree = "<group>"; };
 		78E2441324B661C3003C1FBC /* Embedded */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Embedded; sourceTree = "<group>"; };
-		9659E2C2598F04A2CD8229EF /* Pods_eqMac_Audio.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_eqMac_Audio.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C0FBD24DF0BA400D806B8AC /* Pods_eqMac.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_eqMac.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3D606D740D37C93ABA157E7 /* Pods-eqMac.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-eqMac.release.xcconfig"; path = "../Pods/Target Support Files/Pods-eqMac/Pods-eqMac.release.xcconfig"; sourceTree = "<group>"; };
-		A676AD8DA8974C2CCC183A30 /* Pods-eqMacAudio.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-eqMacAudio.release.xcconfig"; path = "Pods/Target Support Files/Pods-eqMacAudio/Pods-eqMacAudio.release.xcconfig"; sourceTree = "<group>"; };
 		E002178623BBC069006C452A /* module.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		E002178723BCC354006C452A /* CARingBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CARingBuffer.swift; sourceTree = "<group>"; };
 		E00618E120F14C08003BA0B0 /* UIState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIState.swift; sourceTree = "<group>"; };
@@ -259,8 +256,6 @@
 		A433E835860EBA2247574C67 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				20D88D3EA39797A9F428F0E3 /* Pods-eqMacAudio.debug.xcconfig */,
-				A676AD8DA8974C2CCC183A30 /* Pods-eqMacAudio.release.xcconfig */,
 				454077A0596E209B8ABF4043 /* Pods-eqMac.debug.xcconfig */,
 				A3D606D740D37C93ABA157E7 /* Pods-eqMac.release.xcconfig */,
 			);
@@ -586,7 +581,6 @@
 				E0AFAE9A23C39187007D2D56 /* LaunchAtLogin.framework */,
 				E0370EB0200D68AB00DF4DBF /* AudioToolbox.framework */,
 				E0F661701FDC38B600252923 /* WebKit.framework */,
-				9659E2C2598F04A2CD8229EF /* Pods_eqMac_Audio.framework */,
 				9C0FBD24DF0BA400D806B8AC /* Pods_eqMac.framework */,
 			);
 			name = Frameworks;
@@ -789,7 +783,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [[ $CONFIGURATION != \"Release\" ]]; then\nexit 0\nfi\n\nif which sentry-cli >/dev/null; then\nsource ~/.bash_profile\nexport SENTRY_ORG=bitgapp\nexport SENTRY_PROJECT=eqmac-swift\nERROR=$(sentry-cli upload-dif \"$DWARF_DSYM_FOLDER_PATH\" --log-level=debug 2>&1 >/dev/null)\nif [ ! $? -eq 0 ]; then\necho \"warning: sentry-cli - $ERROR\"\nexit 1\nfi\nelse\necho \"warning: sentry-cli not installed, download from https://github.com/getsentry/sentry-cli/releases\"\nexit 1\nfi\n";
+			shellScript = "if [[ $CONFIGURATION != \"Release\" ]]; then\nexit 0\nfi\n\nif which sentry-cli >/dev/null; then\nsource ~/.zshrc\nexport SENTRY_ORG=bitgapp\nexport SENTRY_PROJECT=eqmac-swift\nERROR=$(sentry-cli upload-dif \"$DWARF_DSYM_FOLDER_PATH\" --log-level=debug 2>&1 >/dev/null)\nif [ ! $? -eq 0 ]; then\necho \"warning: sentry-cli - $ERROR\"\nexit 1\nfi\nelse\necho \"warning: sentry-cli not installed, download from https://github.com/getsentry/sentry-cli/releases\"\nexit 1\nfi\n";
 		};
 		E0A48D6223C6028F00700C39 /* Run Script - Hardruntime + Sign Sparkle */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1050,7 +1044,7 @@
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 0.3.2;
+				CURRENT_PROJECT_VERSION = 0.3.4;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = JZA6C97KJA;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1087,7 +1081,7 @@
 					"$(PROJECT_DIR)/Source/Vendor",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				MARKETING_VERSION = v0.3.2;
+				MARKETING_VERSION = v0.3.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bitgapp.eqmac;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1111,7 +1105,7 @@
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 0.3.2;
+				CURRENT_PROJECT_VERSION = 0.3.4;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = JZA6C97KJA;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1148,7 +1142,7 @@
 					"$(PROJECT_DIR)/Source/Vendor",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				MARKETING_VERSION = v0.3.2;
+				MARKETING_VERSION = v0.3.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bitgapp.eqmac;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
