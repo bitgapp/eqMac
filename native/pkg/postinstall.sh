@@ -25,6 +25,8 @@ if [ "$CURRENT_DRIVER_VERSION" != "$NEEDED_DRIVER_VERSION" ]; then
 EOT
         then
             echo "RESTART"
+            open /Applications/eqMac.app
+            
             osascript <<EOT
               ignoring application responses
                 tell application "System Events" to restart 
@@ -64,6 +66,8 @@ EOT
               fi
             done
             echo "Device became active"
+
+            open /Applications/eqMac.app
         fi
 fi
 

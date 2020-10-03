@@ -571,7 +571,7 @@
 				<key>RELOCATABLE</key>
 				<false/>
 				<key>USE_HFS+_COMPRESSION</key>
-				<false/>
+				<true/>
 				<key>VERSION</key>
 				<string>1.0</string>
 			</dict>
