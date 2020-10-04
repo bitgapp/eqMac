@@ -132,29 +132,6 @@ class Application {
           quit()
         }
       }
-    } else if (Driver.isOutdated && !Driver.skipCurrentVersion) {
-      Alert.confirm(
-        title: "Audio Driver Update",
-        message: "There is an optional Audio Driver update that should improve user experience. \nIn order to update eqMac will ask for your System Password. \nPlease close any apps playing audio (Spotify, YouTube etc.) otherwise installation might fail.\nVersion change: \(Driver.lastInstalledVersion ?? "1.0.0") -> \(Driver.bundledVersion)",
-        okText: "Update Driver",
-        cancelText: "Skip Driver update"
-      ) { update in
-        if update {
-          Driver.install(started: {
-            UI.showLoadingWindow("Updating eqMac audio driver\nIf this process takes too long,\nplease restart your Mac")
-          }) { success in
-            if (success) {
-              UI.hideLoadingWindow()
-              completion()
-            } else {
-              driverFailedToInstallPrompt()
-            }
-          }
-        } else {
-          Driver.skipCurrentVersion = true
-          completion()
-        }
-      }
     } else {
       completion()
     }

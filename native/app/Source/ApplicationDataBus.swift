@@ -24,7 +24,7 @@ class ApplicationDataBus: DataBus {
         "name": host.localizedName as AnyObject,
         "model": Sysctl.model as String,
         "version": Bundle.main.infoDictionary?["CFBundleVersion"] as Any,
-        "driverVersion": Driver.lastInstalledVersion
+//        "driverVersion": Driver.bundledVersion
       ]
     }
     
@@ -61,16 +61,16 @@ class ApplicationDataBus: DataBus {
     }
     
     self.on(.GET, "/driver/reinstall/available") { _, res in
-      return "Yes"
+      return false
     }
     
-    self.on(.GET, "/driver/reinstall") { _, res in
-      Application.reinstallDriver { success in
-        res.send([ "reinstalled": success ])
-      }
-      return nil
-    }
-    
+//    self.on(.GET, "/driver/reinstall") { _, res in
+//      Application.reinstallDriver { success in
+//        res.send([ "reinstalled": success ])
+//      }
+//      return nil
+//    }
+//
     self.on(.GET, "/update") { _, _ in
       Application.checkForUpdates()
       return "Checking for updates."

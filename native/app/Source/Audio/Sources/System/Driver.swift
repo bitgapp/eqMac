@@ -28,25 +28,16 @@ enum CustomProperties: String {
 }
 
 class Driver {
-  static var legacyIsInstalled: Bool {
-    get {
-      for legacyDriverUID in Constants.LEGACY_DRIVER_UIDS {
-        let device = AudioDevice.getOutputDeviceFromUID(UID: legacyDriverUID)
-        if (device != nil) { return true }
-      }
-      return false
-    }
-  }
-  
-  static var lastInstalledVersion: String? {
-    get {
-      return Storage[.lastInstalledDriverVersion]
-    }
-    set {
-      Storage[.lastInstalledDriverVersion] = newValue
-    }
-  }
-  
+//  static var legacyIsInstalled: Bool {
+//    get {
+//      for legacyDriverUID in Constants.LEGACY_DRIVER_UIDS {
+//        let device = AudioDevice.getOutputDeviceFromUID(UID: legacyDriverUID)
+//        if (device != nil) { return true }
+//      }
+//      return false
+//    }
+//  }
+//
   static var pluginId: AudioObjectID? {
     return AudioDevice.lookupIDByPluginBundleID(by: Constants.DRIVER_BUNDLE_ID)
   }
@@ -56,39 +47,21 @@ class Driver {
       return self.device != nil || self.pluginId != nil
     }
   }
-  
-  static var info: Dictionary<String, Any> {
-    return NSDictionary(contentsOfFile: Bundle.main.path(forResource: "Info", ofType: "plist", inDirectory: "Embedded/eqMac.driver/Contents")!) as! Dictionary<String, Any>
-  }
-  
-  static var bundledVersion: String {
-    return info["CFBundleVersion"] as! String
-  }
-  
-  static var lastSkippedDriverVersion: String? {
-    get {
-      return Storage[.lastSkippedDriverVersion]
-    }
-    set {
-      Storage[.lastSkippedDriverVersion] = newValue
-    }
-  }
-  
-  static var skipCurrentVersion: Bool {
-    get {
-      return lastSkippedDriverVersion == bundledVersion
-    }
-    set {
-      lastSkippedDriverVersion = newValue ? bundledVersion : nil
-    }
-  }
-  
-  static var isOutdated: Bool {
-    get {
-      return bundledVersion != lastInstalledVersion
-    }
-  }
-  
+//
+//  static var info: Dictionary<String, Any> {
+//    return NSDictionary(contentsOfFile: Bundle.main.path(forResource: "Info", ofType: "plist", inDirectory: "Embedded/eqMac.driver/Contents")!) as! Dictionary<String, Any>
+//  }
+//
+//  static var bundledVersion: String {
+//    return info["CFBundleVersion"] as! String
+//  }
+//
+//  static var isOutdated: Bool {
+//    get {
+//      return bundledVersion != lastInstalledVersion
+//    }
+//  }
+//
   static var sampleRates: [Double] {
     return [
       8_000,
@@ -249,18 +222,12 @@ class Driver {
   
   static func install (started: (() -> Void)? = nil, _ finished: @escaping (Bool) -> Void) {
     Script.sudo("install_driver", started: started, { success in
-      if (success) {
-        lastInstalledVersion = bundledVersion
-      }
       finished(success)
     })
   }
   
   static func uninstall (started: (() -> Void)? = nil, _ finished: @escaping (Bool) -> Void) {
     Script.sudo("uninstall_driver", started: started, { success in
-      if (success) {
-        lastInstalledVersion = nil
-      }
       finished(success)
     })
   }

@@ -1,0 +1,11 @@
+**/*.xcworkspace/xcuserdata*
+**/*.xcodeproj/xcuserdata*
+build
+build_debug
+DerivedData
+Pods/
+update/*.pkg
+update/*.dmg
+update/*.app
+update/*.zip
+update/update-test.xml
