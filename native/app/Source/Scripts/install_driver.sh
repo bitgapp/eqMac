@@ -8,26 +8,24 @@ fi
 
 # Get current directory path
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-
-# Remove legacy drivers
-kextunload /System/Library/Extensions/eqMacDriver.kext/ &>/dev/null || true
-rm -rf /System/Library/Extensions/eqMacDriver.kext/ &>/dev/null || true
-
-kextunload /Library/Extensions/eqMacDriver.kext/ &>/dev/null || true
-rm -rf /Library/Extensions/eqMacDriver.kext/ &>/dev/null || true
-
-kextunload /System/Library/Extensions/eqMac2Driver.kext/ &>/dev/null || true
-rm -rf /System/Library/Extensions/eqMac2Driver.kext/ &>/dev/null || true
-
-kextunload /Library/Extensions/eqMac2Driver.kext/ &>/dev/null || true
-rm -rf /Library/Extensions/eqMac2Driver.kext/ &>/dev/null || true
+SCRIPT_DIR="$(cd "$(dirname "$0")"; pwd -P)"
 
 touch /System/Library/Extensions &>/dev/null || true
 touch /Library/Extensions &>/dev/null || true
 
+if [ -d "/Library/Audio/Plug-Ins/HAL/eqMac.driver" ]; then
+  # updating driver
+  echo "Updating old driver..."
+  ${SCRIPT_DIR}/uninstall_driver.sh
+  echo "Old driver has been uninstalled, installing new..."
+fi
+
 # Copy driver into Plug-Ins folder
-cp -f -r "$DIR/eqMac.driver" /Library/Audio/Plug-Ins/HAL/ ||
+if [ -d "$DIR/eqMac.driver" ]; then
+  cp -f -r "$DIR/eqMac.driver" /Library/Audio/Plug-Ins/HAL/
+else
   cp -f -r "../../Embedded/eqMac.driver" /Library/Audio/Plug-Ins/HAL/ # if running from terminal
+fi
 
 # Restart CoreAudio
 coreaudiod_plist="/System/Library/LaunchDaemons/com.apple.audio.coreaudiod.plist"

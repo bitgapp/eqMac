@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5CDAFB29252FC86200B3B0FC /* uninstall_legacy_driver.sh in Resources */ = {isa = PBXBuildFile; fileRef = 5CDAFB28252FBC1E00B3B0FC /* uninstall_legacy_driver.sh */; };
 		E002178823BCC354006C452A /* CARingBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E002178723BCC354006C452A /* CARingBuffer.swift */; };
 		E00618E220F14C08003BA0B0 /* UIState.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00618E120F14C08003BA0B0 /* UIState.swift */; };
 		E00618EB20F22BD1003BA0B0 /* Effect.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00618EA20F22BD1003BA0B0 /* Effect.swift */; };
@@ -122,6 +123,7 @@
 /* Begin PBXFileReference section */
 		20D88D3EA39797A9F428F0E3 /* Pods-eqMacAudio.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-eqMacAudio.debug.xcconfig"; path = "Pods/Target Support Files/Pods-eqMacAudio/Pods-eqMacAudio.debug.xcconfig"; sourceTree = "<group>"; };
 		454077A0596E209B8ABF4043 /* Pods-eqMac.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-eqMac.debug.xcconfig"; path = "Pods/Target Support Files/Pods-eqMac/Pods-eqMac.debug.xcconfig"; sourceTree = "<group>"; };
+		5CDAFB28252FBC1E00B3B0FC /* uninstall_legacy_driver.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = uninstall_legacy_driver.sh; sourceTree = "<group>"; };
 		9659E2C2598F04A2CD8229EF /* Pods_eqMac_Audio.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_eqMac_Audio.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C0FBD24DF0BA400D806B8AC /* Pods_eqMac.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_eqMac.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3D606D740D37C93ABA157E7 /* Pods-eqMac.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-eqMac.release.xcconfig"; path = "Pods/Target Support Files/Pods-eqMac/Pods-eqMac.release.xcconfig"; sourceTree = "<group>"; };
@@ -534,6 +536,7 @@
 			children = (
 				E02B922B219843DA00AC130B /* open_privacy_microphone_settings.scpt */,
 				E0DDF3FC2189021300B37E77 /* install_driver.sh */,
+				5CDAFB28252FBC1E00B3B0FC /* uninstall_legacy_driver.sh */,
 				E0267AF5218ADD6000FB2E5A /* uninstall_driver.sh */,
 			);
 			path = Scripts;
@@ -671,6 +674,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5CDAFB29252FC86200B3B0FC /* uninstall_legacy_driver.sh in Resources */,
 				E0267AFA218ADD9500FB2E5A /* install_driver.sh in Resources */,
 				E04E7AB9247C67C1006A2AC3 /* eqMac.driver in Resources */,
 				E086B0021FCCB8E700CF9F0D /* assets.xcassets in Resources */,

@@ -87,6 +87,7 @@ class Application {
     }
     
     installDriver {
+      stopEngines()
       audioPipelineIsRunningListener = audioPipelineIsRunning.once {
         self.setupUI()
         if (User.isFirstLaunch || Constants.DEBUG) {
@@ -118,6 +119,32 @@ class Application {
   }
   
   private static func installDriver (_ completion: @escaping() -> Void) {
+    let fileManager = FileManager.default
+    if fileManager.fileExists(atPath: "/System/Library/Extensions/eqMac2Driver.kext")
+      || fileManager.fileExists(atPath: "/System/Library/Extensions/eqMacDriver.kext") {
+      Alert.confirm(
+        title: "Audio Driver Installation",
+        message: "eqMac detected old legacy drivers from old eqMac2 and it needs to be removed at first.",
+        cancelText: "Quit eqMac"
+      ) { removeLegacy in
+        if removeLegacy {
+          Driver.uninstallLegacy(started: {
+            UI.showLoadingWindow("Removing old driver\nIf this process takes too long,\nplease restart your Mac")
+          }) { success in
+            if (success) {
+              UI.hideLoadingWindow()
+              installDriver(completion)
+            } else {
+              driverFailedToInstallPrompt()
+            }
+          }
+        } else {
+          quit()
+        }
+      }
+      return
+    }
+    
     if !Driver.isInstalled {
       Alert.confirm(
         title: "Audio Driver Installation",

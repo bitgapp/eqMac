@@ -247,5 +247,11 @@ class Driver {
     })
   }
   
+  static func uninstallLegacy (started: (() -> Void)? = nil, _ finished: @escaping (Bool) -> Void) {
+    Script.sudo("uninstall_legacy_driver", started: started, { success in
+      finished(success)
+    })
+  }
+  
 }
 
