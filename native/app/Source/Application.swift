@@ -285,7 +285,7 @@ class Application {
     
     AudioDevice.currentOutputDevice = Driver.device!
     // TODO: Figure out a better way
-    Utilities.delay(500) {
+    Utilities.delay(1000) {
       self.createAudioPipeline()
     }
   }
@@ -378,6 +378,9 @@ class Application {
   
   static var overrideNextVolumeEvent = false
   static func volumeChangeButtonPressed (direction: VolumeChangeDirection, quarterStep: Bool = false) {
+    if volume == nil || engine == nil {
+      return
+    }
     if direction == .UP {
       ignoreNextDriverMuteEvent = true
       Utilities.delay(100) {
