@@ -160,7 +160,7 @@ class Output {
     let  format = outputEngine.outputNode.outputFormat(forBus: 0)
     
     outputEngine.connect(player, to: varispeed, format: format)
-    outputEngine.connect(varispeed, to: outputEngine.mainMixerNode, format: format)
+    outputEngine.connect(varispeed, to: outputEngine.mainMixerNode, format: nil)
     initialOffset = 0;
     self.setRenderCallback()
     
