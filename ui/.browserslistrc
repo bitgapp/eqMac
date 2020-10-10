@@ -1,0 +1,8 @@
+# For IE 9-11 support, please uncomment the last line of the file and adjust as needed
+> 0.5%
+last 2 versions
+Firefox ESR
+safari 12.1
+safari 12
+not dead
+# IE 9-11
