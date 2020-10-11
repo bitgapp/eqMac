@@ -145,25 +145,21 @@ class Output {
     self.engine = engine
     
     computeThruOffset(inputDevice: Driver.device!, outputDevice: device)
-    
     outputEngine.setOutputDevice(device)
-    //Rates did not match what is set for in / out always used 44.1 (mainMixerNode)
-    //Perhaps set the mainMixerNode to match the output?
-    //Used old way you had except moved the format to after things are attached which seems
-    //to prevent the occaional crash
-    // let driverSampleRate = Driver.device!.actualSampleRate()!
-    // let varispeedInputFormat = varispeed.inputFormat(forBus: 0)
-    // let mainMixerSampleRate = outputEngine.mainMixerNode.outputFormat(forBus: 0).sampleRate
-    // varispeed.rate = Float(driverSampleRate / mainMixerSampleRate)
-    varispeed.rate = Float(Driver.device!.actualSampleRate()! / device.actualSampleRate()!)
+    
+    let outputSampleRate = device.actualSampleRate()!
+    let channels = device.channels(direction: Direction.playback)
+    let format = AVAudioFormat.init(standardFormatWithSampleRate: outputSampleRate, channels: channels)!
+    
+    varispeed.rate = Float(Driver.device!.actualSampleRate()! / outputSampleRate)
     intialCalcRate = varispeed.rate;
     Console.log("Varispeed Rate: \(varispeed.rate)")
+    
     outputEngine.attach(player)
     outputEngine.attach(varispeed)
-    let  format = outputEngine.outputNode.outputFormat(forBus: 0)
-    
     outputEngine.connect(player, to: varispeed, format: format)
-    outputEngine.connect(varispeed, to: outputEngine.mainMixerNode, format: nil)
+    outputEngine.connect(varispeed, to: outputEngine.mainMixerNode, format: format)
+    
     initialOffset = 0;
     self.setRenderCallback()
     
