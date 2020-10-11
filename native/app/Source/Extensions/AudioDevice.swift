@@ -187,15 +187,9 @@ extension AudioDevice {
   
   static public var builtInOutputDevice: AudioDevice {
     get {
-      var device: AudioDevice? = AudioDevice.allOutputDevices().first( where: { (device) -> Bool in
+      let device: AudioDevice? = AudioDevice.allOutputDevices().first( where: { (device) -> Bool in
         device.transportType == TransportType.builtIn
       })
-      if device == nil {
-        sleep(4)
-        device = AudioDevice.allOutputDevices().first( where: { (device) -> Bool in
-            device.transportType == TransportType.builtIn
-        })
-      }
       return device!
     }
   }
