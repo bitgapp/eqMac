@@ -7,7 +7,7 @@
 		<string>com.bitgapp.eqmac.xpc</string>
 	</array>
 	<key>BuildMachineOSBuild</key>
-	<string>20A5354i</string>
+	<string>19G2021</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
@@ -45,17 +45,19 @@
 	<key>DTCompiler</key>
 	<string>com.apple.compilers.llvm.clang.1_0</string>
 	<key>DTPlatformBuild</key>
-	<string>11E708</string>
+	<string>12A7300</string>
+	<key>DTPlatformName</key>
+	<string>macosx</string>
 	<key>DTPlatformVersion</key>
-	<string>GM</string>
+	<string>10.15.6</string>
 	<key>DTSDKBuild</key>
 	<string>19G68</string>
 	<key>DTSDKName</key>
 	<string>macosx10.15</string>
 	<key>DTXcode</key>
-	<string>1160</string>
+	<string>1201</string>
 	<key>DTXcodeBuild</key>
-	<string>11E708</string>
+	<string>12A7300</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>10.9</string>
 	<key>NSHumanReadableCopyright</key>

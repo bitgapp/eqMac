@@ -15,7 +15,10 @@ import AVFoundation
 class Output {
   
   static func isDeviceAllowed(_ device: AudioDevice) -> Bool {
-    return device.transportType != nil && Constants.SUPPORTED_TRANSPORT_TYPES.contains(device.transportType!) && !device.isInputOnlyDevice()
+    return device.transportType != nil
+      && Constants.SUPPORTED_TRANSPORT_TYPES.contains(device.transportType!)
+      && !device.isInputOnlyDevice()
+      && !device.name.contains("CADefaultDeviceAggregate")
   }
   
   static func autoSelect (_ device: AudioDevice) -> Bool {

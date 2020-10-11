@@ -110,15 +110,27 @@ class Application {
   }
   
   private static func checkDriver (_ completion: @escaping() -> Void) {
-    if !Driver.isInstalled {
-      Alert.confirm(
-      title: "The eqMac Audio Driver is not installed", message: "For unknown reason the Audio Driver needed for eqMac to work corrently is not installed. Please try re-installing eqMac from our website.", okText: "Re-install eqMac", cancelText: "Quit") { restart in
-        if restart {
-          NSWorkspace.shared.open(Constants.WEBSITE_URL)
-          return
-        } else {
-          return self.quit()
+    if !Driver.isInstalled || Driver.isMismatched {
+      let isJustMismatched = Driver.isInstalled && Driver.isMismatched
+      let message = isJustMismatched ?
+        "For unknown reason the version of Audio Driver needed for eqMac to work corrently is not correct. Try restarting your computer and run eqMac again. In that doesn't work, try re-installing eqMac from our website."
+        : "For unknown reason the Audio Driver needed for eqMac to work corrently is not installed. Try restarting your computer and run eqMac again. In that doesn't work, try re-installing eqMac from our website."
+      let title = isJustMismatched ? "The eqMac Audio Driver is Outdated" : "The eqMac Audio Driver is not installed"
+      Alert.withButtons(
+        title: title,
+        message: message,
+        buttons: ["Restart Mac", "Re-install eqMac", "Quit"]
+      ) { buttonPressed in
+        Console.log(buttonPressed)
+        switch NSApplication.ModalResponse(buttonPressed) {
+          case .alertFirstButtonReturn:
+            self.restartMac()
+            break
+          case .alertSecondButtonReturn:
+            NSWorkspace.shared.open(Constants.WEBSITE_URL)
+          default: break
         }
+        return self.quit()
       }
     } else {
       completion()

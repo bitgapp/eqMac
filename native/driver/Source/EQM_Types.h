@@ -106,7 +106,8 @@ enum
   kAudioDeviceCustomPropertyEnabledOutputControls                   = 'bgct',
   kAudioDeviceCustomPropertyLatency                                 = 'cltc',
   kAudioDeviceCustomPropertySafetyOffset                            = 'csfo',
-  kAudioDeviceCustomPropertyShown                                   = 'shwn'
+  kAudioDeviceCustomPropertyShown                                   = 'shwn',
+  kAudioDeviceCustomPropertyVersion                                 = 'vrsn'
 };
 
 // The number of silent/audible frames before EQMDriver will change kAudioDeviceCustomPropertyDeviceAudibleState

@@ -325,6 +325,7 @@ bool	EQM_Device::Device_HasProperty(AudioObjectID inObjectID, pid_t inClientPID,
     case kAudioDeviceCustomPropertyLatency:
     case kAudioDeviceCustomPropertySafetyOffset:
     case kAudioDeviceCustomPropertyShown:
+    case kAudioDeviceCustomPropertyVersion:
       theAnswer = true;
       break;
       
@@ -360,6 +361,7 @@ bool	EQM_Device::Device_IsPropertySettable(AudioObjectID inObjectID, pid_t inCli
     case kAudioObjectPropertyCustomPropertyInfoList:
     case kAudioDeviceCustomPropertyDeviceAudibleState:
     case kAudioDeviceCustomPropertyDeviceIsRunningSomewhereOtherThanEQMApp:
+    case kAudioDeviceCustomPropertyVersion:
       theAnswer = false;
       break;
       
@@ -457,7 +459,7 @@ UInt32	EQM_Device::Device_GetPropertyDataSize(AudioObjectID inObjectID, pid_t in
       break;
       
     case kAudioObjectPropertyCustomPropertyInfoList:
-      theAnswer = sizeof(AudioServerPlugInCustomPropertyInfo) * 9;
+      theAnswer = sizeof(AudioServerPlugInCustomPropertyInfo) * 10;
       break;
       
     case kAudioDeviceCustomPropertyDeviceAudibleState:
@@ -493,6 +495,10 @@ UInt32	EQM_Device::Device_GetPropertyDataSize(AudioObjectID inObjectID, pid_t in
       
     case kAudioDeviceCustomPropertyShown:
       theAnswer = sizeof(CFBooleanRef);
+      break;
+      
+    case kAudioDeviceCustomPropertyVersion:
+      theAnswer = sizeof(CFStringRef);
       break;
       
     default:
@@ -910,9 +916,9 @@ void	EQM_Device::Device_GetPropertyData(AudioObjectID inObjectID, pid_t inClient
       theNumberItemsToFetch = inDataSize / sizeof(AudioServerPlugInCustomPropertyInfo);
       
       //	clamp it to the number of items we have
-      if(theNumberItemsToFetch > 9)
+      if(theNumberItemsToFetch > 10)
       {
-        theNumberItemsToFetch = 9;
+        theNumberItemsToFetch = 10;
       }
       
       if(theNumberItemsToFetch > 0)
@@ -972,6 +978,13 @@ void	EQM_Device::Device_GetPropertyData(AudioObjectID inObjectID, pid_t inClient
         ((AudioServerPlugInCustomPropertyInfo*)outData)[6].mQualifierDataType = kAudioServerPlugInCustomPropertyDataTypeNone;
       }
       
+      if(theNumberItemsToFetch > 9)
+      {
+        ((AudioServerPlugInCustomPropertyInfo*)outData)[7].mSelector = kAudioDeviceCustomPropertyVersion;
+        ((AudioServerPlugInCustomPropertyInfo*)outData)[7].mPropertyDataType = kAudioServerPlugInCustomPropertyDataTypeCFString;
+        ((AudioServerPlugInCustomPropertyInfo*)outData)[7].mQualifierDataType = kAudioServerPlugInCustomPropertyDataTypeNone;
+      }
+      
       outDataSize = theNumberItemsToFetch * sizeof(AudioServerPlugInCustomPropertyInfo);
       break;
       
@@ -1002,6 +1015,23 @@ void	EQM_Device::Device_GetPropertyData(AudioObjectID inObjectID, pid_t inClient
       ThrowIf(inDataSize < sizeof(CFStringRef), CAException(kAudioHardwareBadPropertySizeError), "EQM_Device::Device_GetPropertyData: not enough space for the return value of kAudioDeviceCustomPropertyMusicPlayerBundleID for the device");
       CAMutex::Locker theStateLocker(mStateMutex);
       *reinterpret_cast<CFStringRef*>(outData) = mClients.CopyMusicPlayerBundleIDProperty();
+      outDataSize = sizeof(CFStringRef);
+    }
+      break;
+      
+    case kAudioDeviceCustomPropertyVersion:
+    {
+      ThrowIf(inDataSize < sizeof(CFStringRef), CAException(kAudioHardwareBadPropertySizeError), "EQM_Device::Device_GetPropertyData: not enough space for the return value of kAudioDeviceCustomPropertyVersion for the device");
+      CAMutex::Locker theStateLocker(mStateMutex);
+      
+      CFStringRef version = CFCopyDescription(
+                                              CFBundleGetValueForInfoDictionaryKey(
+                                                                                   CFBundleGetBundleWithIdentifier(CFSTR(kEQMDriverBundleID)),
+                                                                                   kCFBundleVersionKey
+                                                                                   )
+                                              );
+//      DebugMsg("EQM_LOG: %s", CFStringGetCStringPtr(CFCopyDescription(CFBundleGetMainBundle()), kCFStringEncodingMacRoman));
+      *reinterpret_cast<CFStringRef*>(outData) = version;
       outDataSize = sizeof(CFStringRef);
     }
       break;

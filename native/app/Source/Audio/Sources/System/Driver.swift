@@ -25,6 +25,7 @@ enum CustomProperties: String {
   case kAudioDeviceCustomPropertyLatency = "cltc"
   case kAudioDeviceCustomPropertySafetyOffset = "csfo"
   case kAudioDeviceCustomPropertyShown = "shwn"
+  case kAudioDeviceCustomPropertyVersion = "vrsn"
 }
 
 class Driver {
@@ -55,13 +56,7 @@ class Driver {
   static var bundledVersion: String {
     return info["CFBundleVersion"] as! String
   }
-//
-//  static var isOutdated: Bool {
-//    get {
-//      return bundledVersion != lastInstalledVersion
-//    }
-//  }
-//
+
   static var sampleRates: [Double] {
     return [
       8_000,
@@ -190,10 +185,10 @@ class Driver {
       
       var size: UInt32 = UInt32(MemoryLayout<CFBoolean>.size)
       
-      var shown = kCFBooleanFalse
+      var shownBool = kCFBooleanFalse
       
-      checkErr(AudioObjectGetPropertyData(Driver.device!.id, &address, 0, nil, &size, &shown))
-      return CFBooleanGetValue(shown!)
+      checkErr(AudioObjectGetPropertyData(Driver.device!.id, &address, 0, nil, &size, &shownBool))
+      return CFBooleanGetValue(shownBool!)
     }
     set {
       if Driver.device == nil { return }
@@ -205,10 +200,30 @@ class Driver {
       )
       
       let size: UInt32 = UInt32(MemoryLayout<CFBoolean>.size)
-      var shown: CFBoolean = newValue.cfBooleanValue
+      var shownBool: CFBoolean = newValue.cfBooleanValue
       
-      checkErr(AudioObjectSetPropertyData(Driver.device!.id, &address, 0, nil, size, &shown))
+      checkErr(AudioObjectSetPropertyData(Driver.device!.id, &address, 0, nil, size, &shownBool))
     }
+  }
+  
+  static var installedVersion: String? {
+    if Driver.device == nil { return nil }
+    var address = AudioObjectPropertyAddress(
+      mSelector: getPropertySelectorFromString(CustomProperties.kAudioDeviceCustomPropertyVersion.rawValue),
+      mScope: kAudioObjectPropertyScopeGlobal,
+      mElement: kAudioObjectPropertyElementMaster
+    )
+    
+    var size: UInt32 = UInt32(MemoryLayout<CFString>.size)
+    
+    var version: CFString? = nil
+    
+    checkErr(AudioObjectGetPropertyData(Driver.device!.id, &address, 0, nil, &size, &version))
+    return version as String?
+  }
+  
+  static var isMismatched: Bool {
+    return bundledVersion != installedVersion
   }
   
   static var hidden: Bool {

@@ -25,11 +25,8 @@ class Alert {
     cancelText: String = "Cancel",
     callback: @escaping (Bool) -> Void
   ) {
-    DispatchQueue.main.async {
-      let alert = getAlert(title, message)
-      alert.addButton(withTitle: okText)
-      alert.addButton(withTitle: cancelText)
-      let result = alert.runModal() == .alertFirstButtonReturn
+    withButtons(title: title, message: message, buttons: [okText, cancelText]) { buttonPressed in
+      let result = NSApplication.ModalResponse(buttonPressed) == .alertFirstButtonReturn
       callback(result)
     }
   }
@@ -53,6 +50,23 @@ class Alert {
         callback(input.stringValue == "" ? nil : input.stringValue)
       }
       callback(nil)
+    }
+    
+  }
+  
+  static func withButtons (
+    title: String,
+    message: String,
+    buttons: [String],
+    callback: @escaping (Int) -> Void
+  ) {
+    DispatchQueue.main.async {
+      let alert = getAlert(title, message)
+      for text in buttons {
+        alert.addButton(withTitle: text)
+      }
+      let result = alert.runModal()
+      callback(result.rawValue)
     }
     
   }
