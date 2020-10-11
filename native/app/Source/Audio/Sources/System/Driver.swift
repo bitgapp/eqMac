@@ -47,14 +47,14 @@ class Driver {
       return self.device != nil || self.pluginId != nil
     }
   }
-//
-//  static var info: Dictionary<String, Any> {
-//    return NSDictionary(contentsOfFile: Bundle.main.path(forResource: "Info", ofType: "plist", inDirectory: "Embedded/eqMac.driver/Contents")!) as! Dictionary<String, Any>
-//  }
-//
-//  static var bundledVersion: String {
-//    return info["CFBundleVersion"] as! String
-//  }
+
+  static var info: Dictionary<String, Any> {
+    return NSDictionary(contentsOfFile: Bundle.main.path(forResource: "Info", ofType: "plist", inDirectory: "Embedded/eqMac.driver/Contents")!) as! Dictionary<String, Any>
+  }
+
+  static var bundledVersion: String {
+    return info["CFBundleVersion"] as! String
+  }
 //
 //  static var isOutdated: Bool {
 //    get {

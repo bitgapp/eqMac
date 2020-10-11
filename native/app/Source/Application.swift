@@ -78,7 +78,7 @@ class Application {
     }
     
     checkDriver {
-//      AudioDevice.register = true
+      AudioDevice.register = true
       audioPipelineIsRunningListener = audioPipelineIsRunning.once {
         self.setupUI()
         if (User.isFirstLaunch || Constants.DEBUG) {
@@ -112,9 +112,10 @@ class Application {
   private static func checkDriver (_ completion: @escaping() -> Void) {
     if !Driver.isInstalled {
       Alert.confirm(
-      title: "Driver failed to install", message: "Unfortunately the audio driver has failed to install. You can restart eqMac and try again or quit. Alternatively, please try to restart your Mac and running eqMac again.", okText: "Try again", cancelText: "Quit") { restart in
+      title: "The eqMac Audio Driver is not installed", message: "For unknown reason the Audio Driver needed for eqMac to work corrently is not installed. Please try re-installing eqMac from our website.", okText: "Re-install eqMac", cancelText: "Quit") { restart in
         if restart {
-          return self.restart()
+          NSWorkspace.shared.open(Constants.WEBSITE_URL)
+          return
         } else {
           return self.quit()
         }

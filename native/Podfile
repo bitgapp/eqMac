@@ -20,7 +20,7 @@ target 'eqMac' do
   project 'app/eqMac.xcodeproj'
   
   pod 'Alamofire', '~> 5.1'
-  pod 'AMCoreAudio', :git => 'https://github.com/bitgapp/AMCoreAudio.git', :commit => 'ae7b9dc5df204b8f703f19b1fb7af1bf6475074f'
+  pod 'AMCoreAudio', :git => 'https://github.com/bitgapp/AMCoreAudio.git', :commit => 'f02015b7dfbaeb9b5f70b658e860afe94f85df9c'
   pod 'WebViewJavascriptBridge', '~> 6.0'
   pod 'ReachabilitySwift'
   pod 'ReSwift'

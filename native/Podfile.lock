@@ -18,7 +18,7 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire (~> 5.1)
-  - AMCoreAudio (from `https://github.com/bitgapp/AMCoreAudio.git`, commit `ae7b9dc5df204b8f703f19b1fb7af1bf6475074f`)
+  - AMCoreAudio (from `https://github.com/bitgapp/AMCoreAudio.git`, commit `f02015b7dfbaeb9b5f70b658e860afe94f85df9c`)
   - EmitterKit (~> 5.2.2)
   - KeychainSwift (~> 13.0)
   - ReachabilitySwift
@@ -49,7 +49,7 @@ SPEC REPOS:
 
 EXTERNAL SOURCES:
   AMCoreAudio:
-    :commit: ae7b9dc5df204b8f703f19b1fb7af1bf6475074f
+    :commit: f02015b7dfbaeb9b5f70b658e860afe94f85df9c
     :git: https://github.com/bitgapp/AMCoreAudio.git
   STPrivilegedTask:
     :commit: fdca677c77adb166a2be4c5ea9c7580a738c49c9
@@ -57,7 +57,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   AMCoreAudio:
-    :commit: ae7b9dc5df204b8f703f19b1fb7af1bf6475074f
+    :commit: f02015b7dfbaeb9b5f70b658e860afe94f85df9c
     :git: https://github.com/bitgapp/AMCoreAudio.git
   STPrivilegedTask:
     :commit: fdca677c77adb166a2be4c5ea9c7580a738c49c9
@@ -79,6 +79,6 @@ SPEC CHECKSUMS:
   WebViewJavascriptBridge: 7f5bc4d3581e672e8f32bd0f812d54bc69bb8e29
   Zip: 8877eede3dda76bcac281225c20e71c25270774c
 
-PODFILE CHECKSUM: a4fdf35b1dcec9414bd0137d36ff00e0ba6eaf99
+PODFILE CHECKSUM: 2cbcc04b4e48bbf45f935ec051c2a1bef52d85cf
 
 COCOAPODS: 1.9.3
