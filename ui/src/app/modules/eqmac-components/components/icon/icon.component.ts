@@ -4,7 +4,7 @@ import {
   Input,
   ViewEncapsulation
 } from '@angular/core'
-import { svgs } from './icons'
+import { svgs, IconName } from './icons'
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser'
 
 @Component({
@@ -53,7 +53,7 @@ export class IconComponent implements OnInit {
 
   _name = null
   @Input()
-  set name (iconName: string) {
+  set name (iconName: IconName) {
     this._name = iconName
     this.svg = this.sanitizer.bypassSecurityTrustHtml(this.icons[this.name])
   }

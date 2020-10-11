@@ -22,7 +22,8 @@ export class OutputsComponent implements OnInit {
   }
 
   async syncOutputs () {
-    const outputs = await this.service.getDevices()
+    let outputs = await this.service.getDevices()
+    outputs = outputs.filter(output => !output.name.includes('CADefaultDeviceAggregate'))
     for (const output of outputs) {
       output.icon = (() => {
         switch (output.transportType) {

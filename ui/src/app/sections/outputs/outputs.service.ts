@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core'
 import { DataService } from 'src/app/services/data.service'
+import { IconName } from '../../modules/eqmac-components/components/icon/icons'
 
 export type DeviceTransportType =
 'airPlay' |
@@ -11,13 +12,14 @@ export type DeviceTransportType =
 'hdmi' |
 'pci' |
 'thunderbolt' |
-'usb'
+'usb' |
+'aggregate'
 
 export interface Output {
   id: number
   name: string
   transportType: DeviceTransportType,
-  icon?: string
+  icon?: IconName
 }
 @Injectable({
   providedIn: 'root'

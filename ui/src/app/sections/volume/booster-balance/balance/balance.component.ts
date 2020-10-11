@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core'
 import { BalanceService } from './balance.service'
 import { ApplicationService } from '../../../../services/app.service'
 import { KnobValueChangedEvent } from '../../../../modules/eqmac-components/components/knob/knob.component'
+import { FlatSliderValueChangedEvent } from '../../../../modules/eqmac-components/components/flat-slider/flat-slider.component'
 import { UIService, UISettings } from '../../../../services/ui.service'
 
 @Component({
@@ -52,7 +53,7 @@ export class BalanceComponent implements OnInit {
     this.balance = await this.balanceService.getBalance()
   }
 
-  async setBalance (event: KnobValueChangedEvent) {
+  async setBalance (event: KnobValueChangedEvent | FlatSliderValueChangedEvent) {
     this.balanceService.setBalance(event.value, event.transition)
   }
 

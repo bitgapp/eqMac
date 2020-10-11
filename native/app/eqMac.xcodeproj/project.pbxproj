@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		7858FBC224A9630800637941 /* restart_mac.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 7858FBC124A9630800637941 /* restart_mac.scpt */; };
+		787474A925336D9200FF4A95 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 787474A825336D9200FF4A95 /* CoreFoundation.framework */; };
 		789F83CF250E20A8004F871D /* restart_coreaudio.sh in Resources */ = {isa = PBXBuildFile; fileRef = 789F83CE250E20A8004F871D /* restart_coreaudio.sh */; };
 		789F83D1250E20DD004F871D /* place_driver.sh in Resources */ = {isa = PBXBuildFile; fileRef = 789F83D0250E20DD004F871D /* place_driver.sh */; };
 		789F83D3250E2164004F871D /* check_driver_installed.sh in Resources */ = {isa = PBXBuildFile; fileRef = 789F83D2250E2164004F871D /* check_driver_installed.sh */; };
@@ -127,6 +128,7 @@
 /* Begin PBXFileReference section */
 		454077A0596E209B8ABF4043 /* Pods-eqMac.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-eqMac.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-eqMac/Pods-eqMac.debug.xcconfig"; sourceTree = "<group>"; };
 		7858FBC124A9630800637941 /* restart_mac.scpt */ = {isa = PBXFileReference; lastKnownFileType = file; path = restart_mac.scpt; sourceTree = "<group>"; };
+		787474A825336D9200FF4A95 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		789F83CE250E20A8004F871D /* restart_coreaudio.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = restart_coreaudio.sh; sourceTree = "<group>"; };
 		789F83D0250E20DD004F871D /* place_driver.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = place_driver.sh; sourceTree = "<group>"; };
 		789F83D2250E2164004F871D /* check_driver_installed.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = check_driver_installed.sh; sourceTree = "<group>"; };
@@ -243,6 +245,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				787474A925336D9200FF4A95 /* CoreFoundation.framework in Frameworks */,
 				E02ACA982459EF3B00754204 /* Pods_eqMac.framework in Frameworks */,
 				E0F661711FDC38BE00252923 /* WebKit.framework in Frameworks */,
 				E0453052245A039500CDB1BF /* LaunchAtLogin.framework in Frameworks */,
@@ -577,6 +580,7 @@
 		E6BAF3EF1807277C1A4360F7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				787474A825336D9200FF4A95 /* CoreFoundation.framework */,
 				E0453055245A03E800CDB1BF /* Foundation.framework */,
 				E0AFAE9A23C39187007D2D56 /* LaunchAtLogin.framework */,
 				E0370EB0200D68AB00DF4DBF /* AudioToolbox.framework */,
