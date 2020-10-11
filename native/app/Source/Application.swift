@@ -473,35 +473,6 @@ class Application {
     updater.checkForUpdates(nil)
   }
   
-  static func reinstallDriver (_ completion: @escaping (Bool) -> Void) {
-    Alert.confirm(
-      title: "Audio Driver Reinstall",
-      message: "\nIn order to reinstall the driver eqMac we will ask for your System Password. \nPlease close any apps playing audio (Spotify, YouTube etc.) otherwise installation might fail. eqMac will restart after this.",
-      cancelText: "Cancel"
-    ) { reinstall in
-      if reinstall {
-        Driver.install(started: {
-          self.stopListeners()
-          self.stopEngines()
-          self.switchBackToLastKnownDevice()
-          UI.close()
-          Utilities.delay(100) { UI.showLoadingWindow("Reinstalling eqMac driver\nIf this process takes too long,\nplease restart your Mac") }
-        }) { success in
-          if (success) {
-            UI.hideLoadingWindow()
-            completion(true)
-            Application.restart()
-          } else {
-            driverFailedToInstallPrompt()
-          }
-        }
-      } else {
-        completion(false)
-      }
-    }
-    
-  }
-  
   static func uninstall (_ completion: @escaping (Bool) -> Void) {
     Driver.uninstall(started: {
       self.stopListeners()
