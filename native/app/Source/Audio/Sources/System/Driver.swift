@@ -8,6 +8,7 @@
 
 import Foundation
 import AMCoreAudio
+import CoreFoundation
 
 enum DriverDevice {
   case passthrough
