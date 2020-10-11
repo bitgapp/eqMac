@@ -1,2 +1,2 @@
 #!/bin/sh
-markdown CHANGELOG.md > update.html
+md2html CHANGELOG.md > update.html

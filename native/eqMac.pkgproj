@@ -33,7 +33,7 @@
 				</dict>
 				<dict>
 					<key>APPLICATION_ID</key>
-					<string>com.bitgapp.eqMac</string>
+					<string>com.bitgapp.eqmac</string>
 					<key>STATE</key>
 					<true/>
 				</dict>
@@ -93,7 +93,7 @@
 									<key>GID</key>
 									<integer>80</integer>
 									<key>PATH</key>
-									<string>build/eqMac/Build/Products/Release/eqMac.app</string>
+									<string>update/eqMac.app</string>
 									<key>PATH_TYPE</key>
 									<integer>1</integer>
 									<key>PERMISSIONS</key>
@@ -531,12 +531,14 @@
 				<key>RESOURCES</key>
 				<array>
 					<dict>
+						<key>BUNDLE_CAN_DOWNGRADE</key>
+						<false/>
 						<key>CHILDREN</key>
 						<array/>
 						<key>GID</key>
 						<integer>0</integer>
 						<key>PATH</key>
-						<string>app/Embedded/eqMac.driver</string>
+						<string>update/eqMac.app/Contents/Resources/Embedded/eqMac.driver</string>
 						<key>PATH_TYPE</key>
 						<integer>1</integer>
 						<key>PERMISSIONS</key>
@@ -557,7 +559,7 @@
 				<key>FOLLOW_SYMBOLIC_LINKS</key>
 				<false/>
 				<key>IDENTIFIER</key>
-				<string>com.bitgapp.pkg.eqMac</string>
+				<string>com.bitgapp.eqmac.pkg</string>
 				<key>LOCATION</key>
 				<integer>0</integer>
 				<key>NAME</key>
@@ -573,7 +575,7 @@
 				<key>USE_HFS+_COMPRESSION</key>
 				<true/>
 				<key>VERSION</key>
-				<string>1.0</string>
+				<string>0.3.4</string>
 			</dict>
 			<key>TYPE</key>
 			<integer>0</integer>

@@ -1,5 +1,11 @@
 # eqMac Changelog
 
+# v0.3.4
+* Moved away from .dmg distribution to .pkg with Driver installation during Install.
+* General improvements to the Audio Driver
+* Fixed many crashes of the app
+* Fixed miscellaneous CADefaultDeviceAggregate device appearing in output selection
+
 ## v0.3.2
 * Fixed driver not activating on some systems
 * !!! Fixed static audio issue #224 Thanks @darrenw2112
