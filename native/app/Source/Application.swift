@@ -77,7 +77,7 @@ class Application {
       setupCrashReporting()
     }
     
-    installDriver {
+    checkDriver {
 //      AudioDevice.register = true
       audioPipelineIsRunningListener = audioPipelineIsRunning.once {
         self.setupUI()
