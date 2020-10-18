@@ -11,8 +11,8 @@ import { FadeInOutAnimation } from 'src/app/modules/animations'
   animations: [ FadeInOutAnimation ]
 })
 export class DropdownComponent implements OnInit {
-  constructor (private utils: UtilitiesService, private zone: NgZone) { }
-  private _items: any[] = []
+  constructor (public utils: UtilitiesService, public zone: NgZone) { }
+  public _items: any[] = []
   hasSelection = false
   @Input() editable = false
   @Input()
@@ -40,7 +40,7 @@ export class DropdownComponent implements OnInit {
   shown = false
   yCoordinate = 0
   direction: 'down' | 'up' = 'down'
-  private padding = 5
+  public padding = 5
 
   async ngOnInit () {
     if (!this.items) this.items = []

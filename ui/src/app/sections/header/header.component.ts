@@ -21,10 +21,10 @@ export class HeaderComponent implements OnInit {
   @Output() helpToggled = new EventEmitter()
   // mode: UIMode = 'popover'
   constructor (
-    private app: ApplicationService,
-    private ui: UIService,
-    private dialog: MatDialog,
-    private settings: SettingsService
+    public app: ApplicationService,
+    public ui: UIService,
+    public dialog: MatDialog,
+    public settings: SettingsService
     ) { }
 
   async ngOnInit () {

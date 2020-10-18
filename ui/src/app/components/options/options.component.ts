@@ -41,7 +41,16 @@ export class OptionsComponent {
   @Input() options: Options = []
   @Output() checkboxToggled = new EventEmitter<CheckboxOption>()
 
-  constructor (private ref: ChangeDetectorRef) {}
+  constructor (public ref: ChangeDetectorRef) {}
+
+  getOptionStyle (type: Option['type']) {
+    let style: any = {}
+    if (type === 'button') {
+      style.width = '100%'
+    }
+
+    return style
+  }
 
   toggleCheckbox (checkbox: CheckboxOption) {
     checkbox.value = !checkbox.value

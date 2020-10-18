@@ -7,15 +7,6 @@
   transition-duration: 0.5s;
 }
 
-.arrows {
-  width: 20px;
-  display: inline-flex;
-  flex-direction: column;
-  text-align: center;
-  position: absolute;
-  right: 0px;
-}
-
 .container {
   z-index: 3;
   width: 100%;
@@ -26,6 +17,16 @@
   align-items: center;
   position: relative;
   transform: translateX(-2px);
+}
+
+.arrows {
+  width: 20px;
+  display: inline-flex;
+  flex-direction: column;
+  text-align: center;
+  position: absolute;
+  right: 0px;
+  top: calc(50% - 16px/2);
 }
 
 $animation-duration: .2s;

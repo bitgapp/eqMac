@@ -27,15 +27,15 @@ export class FileComponent implements OnInit, OnDestroy {
     name: null,
     duration: 0
   }
-  private syncedOnce = false
-  private progressProjectionInterval = null
-  private progressSetDebouncer = null
+  public syncedOnce = false
+  public progressProjectionInterval = null
+  public progressSetDebouncer = null
   selected = false
   meta: FileMeta = null
   playing = false
   progress = 0
 
-  constructor (private fileService: FileService, public utils: UtilitiesService, private app: ApplicationService) {
+  constructor (public fileService: FileService, public utils: UtilitiesService, public app: ApplicationService) {
     this.setDefaultMeta()
   }
 
@@ -50,11 +50,11 @@ export class FileComponent implements OnInit, OnDestroy {
     }
   }
 
-  private setDefaultMeta () {
+  public setDefaultMeta () {
     this.meta = this.utils.deepCloneJSON(this.defaultMeta)
   }
 
-  private setProgressProjection () {
+  public setProgressProjection () {
     const refreshFPS = 30
 
     if (this.progressProjectionInterval) {

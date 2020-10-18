@@ -1,4 +1,4 @@
-<div fxLayout="row" [style.padding.px]="5" fxLayoutAlign="space-between start" fxFill>
+<div fxLayout="row" [style.padding.px]="5" [style.width.%]="100" fxLayoutAlign="space-between start" >
 
     <div fxFlex="20" fxLayoutAlign="start center">
         <eqm-toggle class="on-off" [(state)]="enabled" (stateChange)="setEnabled()"></eqm-toggle>
@@ -29,7 +29,7 @@
         <!-- <eqm-icon (click)="toggleVisibility()" [name]="hide ? 'show' : 'hide'"></eqm-icon> -->
     </div>
 </div>
-<div fxFill fxLayout="row">
+<div [style.width.%]="100" fxLayout="row">
   <eqm-equalizer-presets 
     [disabled]="!enabled"
     class="presets"

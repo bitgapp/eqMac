@@ -1,27 +1,45 @@
-import { Component, OnInit, Input, ElementRef } from '@angular/core'
+import { Component, OnInit, Input, ElementRef, HostBinding } from '@angular/core'
 
 @Component({
   selector: 'eqm-divider',
   templateUrl: './divider.component.html',
   styleUrls: ['./divider.component.scss']
 })
-export class DividerComponent implements OnInit {
+export class DividerComponent {
+  @Input() orientation: 'vertical' | 'horizontal' = 'horizontal'
 
-  constructor (private elRef: ElementRef) { }
-  _horizontal = true
-  _vertical = false
-  @Input()
-  set horizontal (isHorizontal) {
-    this._horizontal = isHorizontal
-    this._vertical = !isHorizontal
+  constructor (
+    public elem: ElementRef
+  ) {}
+
+  @HostBinding('style.width')
+  get width () {
+    return this.orientation === 'vertical' ? '1px' : `${this.elem.nativeElement.parentElement.offsetWidth}`
   }
 
-  @Input()
-  set vertical (isVertical) {
-    this._vertical = isVertical
-    this._horizontal = !isVertical
+  @HostBinding('style.height')
+  get height () {
+    return this.orientation === 'vertical' ? `${this.elem.nativeElement.parentElement.offsetHeight}` : '1px'
   }
-  ngOnInit () {
+
+  @HostBinding('style.border-left')
+  get leftBorder () {
+    return this.orientation === 'vertical' ? '1px solid rgb(58, 59, 61)' : undefined
+  }
+
+  @HostBinding('style.border-right')
+  get rightBorder () {
+    return this.orientation === 'vertical' ? '1px solid rgb(96, 97, 101)' : undefined
+  }
+
+  @HostBinding('style.border-top')
+  get topBorder () {
+    return this.orientation === 'horizontal' ? '1px solid rgb(58, 59, 61)' : undefined
+  }
+
+  @HostBinding('style.border-bottom')
+  get bottomtBorder () {
+    return this.orientation === 'horizontal' ? '1px solid rgb(96, 97, 101)' : undefined
   }
 
 }

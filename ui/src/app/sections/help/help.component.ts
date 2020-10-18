@@ -30,7 +30,7 @@ export class HelpComponent implements OnInit {
   constructor (
     public app: ApplicationService,
     public CONST: ConstantsService,
-    private ui: UIService
+    public ui: UIService
   ) {}
 
   uiVersion = `${version} (${this.ui.isLocal ? 'Local' : 'Remote'})`

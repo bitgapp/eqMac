@@ -42,7 +42,7 @@ export class IconComponent implements OnInit {
     }
   }
 
-  private _rotate = 0
+  public _rotate = 0
   @Input()
   get rotate () {
     return this._rotate
@@ -61,7 +61,7 @@ export class IconComponent implements OnInit {
 
   @Input() stroke: number = 0
 
-  constructor (private sanitizer: DomSanitizer) {}
+  constructor (public sanitizer: DomSanitizer) {}
   ngOnInit () {
   }
 

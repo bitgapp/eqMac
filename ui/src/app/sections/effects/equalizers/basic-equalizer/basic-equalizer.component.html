@@ -2,7 +2,7 @@
 <div *ngIf="selectedPreset && presets" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="10px">
   <div fxLayout="row">
     <div fxLayout="column">
-      <div fxLayout="row" fxLayoutAlign="center center" fxFill fxLayoutGap="10px" (click)="togglePeakLimiter()">
+      <div fxLayout="row" fxLayoutAlign="center center" style="width: 100%;" fxLayoutGap="10px" (click)="togglePeakLimiter()">
         <eqm-checkbox [interactive]="false" [checked]="peakLimiter"></eqm-checkbox>
         <eqm-label>Peak Limiter</eqm-label>
         <eqm-question
@@ -17,7 +17,7 @@ Then increase the overall volume to compensate'
   </div>
 
   <!-- Knobs -->
-  <div *ngIf="!replaceKnobsWithSliders" class="basic-level-knobs" fxFill fxLayout="row"
+  <div *ngIf="!replaceKnobsWithSliders" class="basic-level-knobs"  style="width: 100%;" fxLayout="row"
     fxLayoutAlign="space-around center">
     <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="5px">
       <eqm-label>BASS</eqm-label>

@@ -9,7 +9,7 @@ import { OutputsService, Output } from './outputs.service'
 export class OutputsComponent implements OnInit {
   outputs: Output[]
   selected: Output
-  constructor (private service: OutputsService) { }
+  constructor (public service: OutputsService) { }
 
   async ngOnInit () {
     await this.sync()

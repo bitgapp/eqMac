@@ -25,7 +25,7 @@ export interface SkeuomorphSliderValueChangedEvent {
 })
 export class SkeuomorphSliderComponent implements OnInit {
 
-  constructor (private utils: UtilitiesService, private elRef: ElementRef) {}
+  constructor (public utils: UtilitiesService, public elRef: ElementRef) {}
 
   @Input() min: number = 0
   @Input() max: number = 1
@@ -40,8 +40,8 @@ export class SkeuomorphSliderComponent implements OnInit {
     return typeof this.middle === 'number' ? this.middle : (this.min + this.max) / 2
   }
 
-  private dragging = false
-  private doubleclickTimeout = null
+  public dragging = false
+  public doubleclickTimeout = null
 
   @ViewChild('notches', { static: true }) notches
   @Output() userChangedValue = new EventEmitter<SkeuomorphSliderValueChangedEvent>()
@@ -50,7 +50,7 @@ export class SkeuomorphSliderComponent implements OnInit {
 
   @HostBinding('class.disabled') @Input() disabled = false
 
-  private _value = .5
+  public _value = .5
   @Input()
   set value (newValue) {
     let value = this.clampValue(newValue)
@@ -86,7 +86,7 @@ export class SkeuomorphSliderComponent implements OnInit {
     }
   }
 
-  private getValueFromMouseEvent (event) {
+  public getValueFromMouseEvent (event) {
     const coords = this.utils.getCoordinatesInsideElementFromEvent(event, this.elRef.nativeElement)
     const y = coords.y
     const height = this.elRef.nativeElement.offsetHeight
@@ -95,7 +95,7 @@ export class SkeuomorphSliderComponent implements OnInit {
     return value
   }
 
-  private clampValue (value) {
+  public clampValue (value) {
     if (value < this.min) {
       return this.min
     } else if (value > this.max) {

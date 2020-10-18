@@ -28,7 +28,7 @@ export class EqualizersComponent implements OnInit {
   loaded = false
   enabled = true
   hide = false
-  activeEqualizer: EqualizerComponent
+  activeEqualizer: EqualizerComponent = this.getEqualizerFromType('Basic')
 
   presets: EqualizerPreset[] = []
   selectedPreset: EqualizerPreset
@@ -48,11 +48,11 @@ export class EqualizersComponent implements OnInit {
     this.equalizersService.setType(newType)
   }
 
-  private settingsDialog: MatDialogRef<OptionsDialogComponent>
+  public settingsDialog: MatDialogRef<OptionsDialogComponent>
 
   constructor (
-    private equalizersService: EqualizersService,
-    private dialog: MatDialog,
+    public equalizersService: EqualizersService,
+    public dialog: MatDialog,
     protected ui: UIService
     ) { }
 
@@ -108,7 +108,7 @@ export class EqualizersComponent implements OnInit {
     this.ui.dimensionsChanged.next({ heightDiff })
   }
 
-  private getEqualizerFromType (type: EqualizerType): EqualizerComponent {
+  public getEqualizerFromType (type: EqualizerType): EqualizerComponent {
     switch (type) {
       case 'Basic': return this.basicEqualizer
       case 'Advanced': return this.advancedEqualizer

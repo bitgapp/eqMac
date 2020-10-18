@@ -3,8 +3,7 @@ import {
   OnInit,
   Input,
   ElementRef,
-  ViewChild,
-  HostBinding
+  ViewChild
 } from '@angular/core'
 import { UtilitiesService } from '../../services/utilities.service'
 import { SafeStyle, DomSanitizer } from '@angular/platform-browser'
@@ -20,7 +19,7 @@ export class TooltipComponent implements OnInit {
   @Input() parent?: any
   @Input() positionSide: TooltipPositionSide = 'top'
   @Input() showArrow: Boolean = true
-  private padding = 10
+  public padding = 10
 
   @ViewChild('arrow', {
     read: ElementRef,
@@ -33,24 +32,23 @@ export class TooltipComponent implements OnInit {
   }) tooltip
 
   constructor (
-    private elem: ElementRef,
-    private utils: UtilitiesService,
-    private sanitizer: DomSanitizer
+    public elem: ElementRef,
+    public utils: UtilitiesService,
+    public sanitizer: DomSanitizer
   ) {}
 
   async ngOnInit () {
     await this.utils.delay(0)
   }
 
-  @HostBinding('style')
-  get style (): SafeStyle {
+  get style () {
     let x = -999
     let y = -999
     const body = document.body
     const html = document.documentElement
     const viewHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight)
     const viewWidth = Math.max(body.scrollWidth, body.offsetWidth, html.clientWidth, html.scrollWidth, html.offsetWidth)
-    const tooltipEl = this.elem.nativeElement
+    const tooltipEl = this.tooltip.nativeElement
     const tooltipWidth = tooltipEl.offsetWidth + 3
     const tooltipHeight = tooltipEl.offsetHeight + 2
     const parentEl = this.parent.nativeElement
@@ -86,7 +84,10 @@ export class TooltipComponent implements OnInit {
 
     const minY = this.padding
     if (y < minY) y = minY
-    return this.sanitizer.bypassSecurityTrustStyle(`left: ${x}px; top: ${y}px`)
+    return {
+      left: `${x}px`,
+      top: `${y}px`
+    }
   }
 
   get arrowStyle () {
@@ -96,9 +97,9 @@ export class TooltipComponent implements OnInit {
     let y = 0
     let angle = 0
     const style: { [style: string]: string } = {}
-    const tooltipEl = this.elem.nativeElement
-    const tooltipWidth = tooltipEl.offsetWidth + 3
-    const tooltipHeight = tooltipEl.offsetHeight + 2
+    const tooltipEl = this.tooltip.nativeElement
+    const tooltipWidth = tooltipEl.offsetWidth
+    const tooltipHeight = tooltipEl.offsetHeight
     const tooltipPosition = this.utils.getElementPosition(tooltipEl)
 
     const parentEl = this.parent.nativeElement
@@ -106,9 +107,9 @@ export class TooltipComponent implements OnInit {
     const parentWidth = parentEl.offsetWidth
     const parentHeight = parentEl.offsetHeight
 
-    x = parentPosition.x + parentWidth / 2 - tooltipPosition.x - arrowSize / 2
+    x = parentPosition.x + parentWidth / 2 - tooltipPosition.x - arrowSize / 2 + 3
     if (this.positionSide === 'top') {
-      y = tooltipHeight - arrowSize / 2 - 3
+      y = tooltipHeight - arrowSize / 2 + 4
     }
 
     if (this.positionSide === 'top') {
@@ -116,7 +117,7 @@ export class TooltipComponent implements OnInit {
     }
 
     if (this.positionSide === 'bottom') {
-      y = -arrowSize / 2 + 2
+      y = -arrowSize / 2 + 3
     }
 
     style.top = `${y}px`

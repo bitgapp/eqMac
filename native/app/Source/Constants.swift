@@ -13,7 +13,7 @@ import AMCoreAudio
 struct Constants {
   
   #if DEBUG
-  static let UI_ENDPOINT_URL = URL(string: "http://localhost:4200")!
+  static let UI_ENDPOINT_URL = URL(string: "http://localhost:8080")!
 //  static let UI_ENDPOINT_URL = URL(string: "https://ui-v1.eqmac.app")!
   static let DEBUG = true
   #else

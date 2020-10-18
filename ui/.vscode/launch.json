@@ -8,7 +8,7 @@
       "name": "Launch Client",
       "type": "chrome",
       "request": "launch",
-      "url": "http://localhost:4200/#",
+      "url": "http://localhost:8080/#",
       "port": 9223,
       "sourceMaps": true,
       "diagnosticLogging": true,
@@ -24,7 +24,7 @@
     "type": "chrome",
     "request": "attach",
     "port": 9000,
-    "url": "http://localhost:4200/#",
+    "url": "http://localhost:8080/#",
     "webRoot": "${workspaceRoot}/src"
 }, {
   "name": "Deploy (production)",

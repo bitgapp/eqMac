@@ -22,7 +22,7 @@ export class ReverbComponent implements OnInit {
 
   @Output() visibilityToggled = new EventEmitter()
 
-  constructor (private reverbService: ReverbService) {}
+  constructor (public reverbService: ReverbService) {}
 
   ngOnInit () {
     this.getPresets()

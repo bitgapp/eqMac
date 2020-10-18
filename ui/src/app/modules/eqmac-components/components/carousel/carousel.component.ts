@@ -43,9 +43,9 @@ export class CarouselComponent implements AfterViewInit, OnDestroy {
   }
   @Output() heightDiff = new EventEmitter<number>()
   @Output() heightChange = new EventEmitter<number>()
-  private recalculateHeightTimer
+  public recalculateHeightTimer
 
-  private _selectedItemId: string
+  public _selectedItemId: string
   @Input() set selectedItemId (newSelectedItemId: string) {
     if (this._selectedItemId !== newSelectedItemId) {
       this._selectedItemId = newSelectedItemId
@@ -60,8 +60,16 @@ export class CarouselComponent implements AfterViewInit, OnDestroy {
 
   @Output() itemCameIntoView = new EventEmitter<string>()
   constructor (
-    private builder: AnimationBuilder
+    public builder: AnimationBuilder
   ) {
+  }
+
+  get wrapperStyle () {
+    return {
+      height: `${this.height}px`,
+      transitionDuration: `${this.animationDuration}ms`,
+      width: `${this.items.length * 100}%`
+    }
   }
 
   ngAfterViewInit () {
@@ -104,21 +112,21 @@ export class CarouselComponent implements AfterViewInit, OnDestroy {
     this.selectedItemIdChange.emit(this.selectedItemId)
   }
 
-  private animate () {
+  public animate () {
     const myAnimation: AnimationFactory = this.animation
     const player = myAnimation.create(this.wrapper.nativeElement)
     player.play()
     setTimeout(() => this.animationCompleted.emit(), this.animationDuration)
   }
 
-  private get animation () {
+  public get animation () {
     const offset = this.currentIndex * 100 / this.items.length
     return this.builder.build([
       animate(`${this.animationDuration}ms ease-in`, style({ transform: `translateX(-${offset}%)` }))
     ])
   }
 
-  private recalculateHeight () {
+  public recalculateHeight () {
     const itemEl = this.itemElems && this.itemElems.toArray()[this.currentIndex].nativeElement.nextElementSibling
     itemEl && itemEl.offsetHeight && (this.height = itemEl.offsetHeight)
   }

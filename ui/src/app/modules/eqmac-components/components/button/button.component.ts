@@ -20,6 +20,13 @@ export class ButtonComponent implements OnInit {
   ngOnInit () {
   }
 
+  get style () {
+    return {
+      width: `${this.width}px`,
+      height: `${this.height}px`
+    }
+  }
+
   computeClass () {
     let className = 'button'
     className += ` ${this.type}`

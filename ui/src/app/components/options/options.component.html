@@ -1,6 +1,6 @@
 <div fxLayout="column" fxLayoutAlign="space-around start" fxLayoutGap="10px">
-  <div *ngFor="let row of options" fxLayout="row" fxFill fxLayoutGap="10px" fxLayoutAlign="space-between center">
-    <div *ngFor="let option of row" [fxFlex]="100 / row.length" [style.width.%]="option.type === 'button' ? 100 : undefined">
+  <div *ngFor="let row of options" fxLayout="row" style="width: 100%" fxLayoutGap="10px" fxLayoutAlign="space-between center">
+    <div *ngFor="let option of row" [fxFlex]="100 / row.length" [ngStyle]="getOptionStyle(option.type)">
         <div *ngIf="option.type === 'checkbox'" 
         fxLayout="row" fxLayoutAlign="center center" fxFill fxLayoutGap="10px"
         (click)="toggleCheckbox(option)">

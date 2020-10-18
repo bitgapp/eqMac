@@ -32,13 +32,13 @@ export class AppComponent implements OnInit, AfterContentInit {
   }
 
   constructor (
-    private utils: UtilitiesService,
-    private ui: UIService,
+    public utils: UtilitiesService,
+    public ui: UIService,
     public matDialog: MatDialog,
-    private transitions: TransitionService,
-    private analytics: AnalyticsService,
-    private app: ApplicationService,
-    private settings: SettingsService
+    public transitions: TransitionService,
+    public analytics: AnalyticsService,
+    public app: ApplicationService,
+    public settings: SettingsService
   ) { }
 
   async ngOnInit () {

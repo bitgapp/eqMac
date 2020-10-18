@@ -24,7 +24,7 @@ export class BasicEqualizerComponent extends EqualizerComponent implements OnIni
 
   replaceKnobsWithSliders = false
 
-  private _presets: BasicEqualizerPreset[]
+  public _presets: BasicEqualizerPreset[]
   @Output() presetsChange = new EventEmitter<BasicEqualizerPreset[]>()
   set presets (newPresets: BasicEqualizerPreset[]) {
     this._presets =
@@ -37,7 +37,7 @@ export class BasicEqualizerComponent extends EqualizerComponent implements OnIni
   }
   get presets () { return this._presets }
 
-  private _selectedPreset: BasicEqualizerPreset
+  public _selectedPreset: BasicEqualizerPreset
   @Output() selectedPresetChange = new EventEmitter<BasicEqualizerPreset>()
   set selectedPreset (newSelectedPreset: BasicEqualizerPreset) {
     this._selectedPreset = newSelectedPreset
@@ -48,11 +48,11 @@ export class BasicEqualizerComponent extends EqualizerComponent implements OnIni
   settings = []
 
   constructor (
-    private service: BasicEqualizerService,
-    private app: ApplicationService,
-    private ui: UIService,
-    private change: ChangeDetectorRef,
-    private transition: TransitionService
+    public service: BasicEqualizerService,
+    public app: ApplicationService,
+    public ui: UIService,
+    public change: ChangeDetectorRef,
+    public transition: TransitionService
   ) {
     super()
   }

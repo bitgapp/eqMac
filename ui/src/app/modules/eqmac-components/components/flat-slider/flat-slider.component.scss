@@ -1,24 +1,18 @@
 
 :host {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: block;
+  padding: 2px;
 }
 
 :host.disabled {
   filter: grayscale(80%);
 }
 
+.container {
+  position: relative;
 
-.groove {
-  position: absolute;
+  * {
+    position: absolute;
+  }
 }
 
-.groove-filling {
-  position: absolute;
-}
-
-.thumb {
-  position: absolute;
-}

@@ -1,0 +1,6 @@
+You will be guided through the steps necessary to install eqMac.
+
+⚠️ WARNING ⚠️
+If the Installer will need to install/update the Audio Driver (required for eqMac to work correctly), by the end of the installation:
+⚠️YOU MIGHT BE LOGGED OUT OF YOUR CURRENT USER SESSION
+so please save any work progress you might have!

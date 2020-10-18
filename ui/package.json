@@ -2,7 +2,7 @@
   "name": "eqmac",
   "version": "1.2.1",
   "scripts": {
-    "start": "ng serve",
+    "start": "ng serve --port 8080",
     "build": "rm -rf dist/ && ng build --prod && cd dist/ && zip -r -D ui.zip * -x '*.DS_Store' && cp ui.zip ../../native/app/Embedded",
     "deploy": "export $(egrep -v '^#' .env | xargs) && ./scripts/deploy.sh",
     "purge-cache": "./node_modules/.bin/ts-node -O '{\"module\":\"commonjs\"}' ./scripts/purge-cache.ts"
@@ -22,11 +22,13 @@
     "@angular/pwa": "^0.803.8",
     "@angular/router": "~8.2.9",
     "@angular/service-worker": "~8.2.9",
+    "@webcomponents/custom-elements": "^1.4.2",
     "core-js": "^3.2.1",
     "js-cookie": "^2.2.1",
     "ng-click-outside": "^5.1.1",
     "rxjs": "~6.5.3",
     "ui-carousel": "^0.2.0",
+    "web-animations-js": "^2.3.2",
     "zone.js": "~0.10.2"
   },
   "devDependencies": {

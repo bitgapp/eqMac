@@ -30,10 +30,10 @@ interface JSBridge {
   providedIn: 'root'
 })
 export class BridgeService {
-  private static bridgeLoadTimeout = 10000
-  private static bridgeLoadPromise: Promise<JSBridge> = null
+  public static bridgeLoadTimeout = 10000
+  public static bridgeLoadPromise: Promise<JSBridge> = null
 
-  private get bridge () {
+  public get bridge () {
     if (BridgeService.bridgeLoadPromise) {
       return BridgeService.bridgeLoadPromise
     }

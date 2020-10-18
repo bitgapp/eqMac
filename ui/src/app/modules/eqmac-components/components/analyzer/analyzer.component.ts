@@ -16,14 +16,14 @@ export class AnalyzerComponent implements OnInit {
   @ViewChild('container', {
     read: ElementRef,
     static: true
-}) container
+  }) container
 
   height = 0
   width = 0
   halfHeight = 0
   halfWidth = 0
 
-  constructor (private elRef: ElementRef) {}
+  constructor (public elRef: ElementRef) {}
 
   ngOnInit () {
   }

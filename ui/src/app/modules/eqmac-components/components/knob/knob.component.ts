@@ -25,11 +25,11 @@ export class KnobComponent implements OnInit {
   @Input() size: 'large' | 'medium' | 'small' = 'medium'
   @Input() showScale = true
   id = uuid()
-  private _min = -1
+  public _min = -1
   @Input() set min (newMin) { this._min = newMin; this.calculateMiddleValue() }
   get min () { return this._min }
 
-  private _max = 1
+  public _max = 1
   @Input() set max (newMax) { this._max = newMax; this.calculateMiddleValue() }
   get max () { return this._max }
 
@@ -43,15 +43,15 @@ export class KnobComponent implements OnInit {
   @Input() stickToMiddle = false
   @Output() stickedToMiddle = new EventEmitter()
 
-  private dragging = false
-  private setDraggingFalseTimeout: any = null
-  private continueAnimation = false
-  private dragStartDegr = 0
+  public dragging = false
+  public setDraggingFalseTimeout: any = null
+  public continueAnimation = false
+  public dragStartDegr = 0
 
   @ViewChild('container', { static: true }) containerRef: ElementRef
   container: HTMLDivElement
 
-  private _value = 0
+  public _value = 0
   @Output() valueChange = new EventEmitter<number>()
   @Output() userChangedValue = new EventEmitter<KnobValueChangedEvent>()
   @Input()
@@ -82,12 +82,12 @@ export class KnobComponent implements OnInit {
   }
 
   middleValue: number = this.calculateMiddleValue()
-  private calculateMiddleValue () {
+  public calculateMiddleValue () {
     this.middleValue = (this.min + this.max) / 2
     return this.middleValue
   }
 
-  constructor (private utils: UtilitiesService) {}
+  constructor (public utils: UtilitiesService) {}
 
   async ngOnInit () {
     this.container = this.containerRef.nativeElement
@@ -239,7 +239,7 @@ export class KnobComponent implements OnInit {
     return
   }
 
-  private getDegreesFromEvent (event) {
+  public getDegreesFromEvent (event) {
     const coords = this.utils.getCoordinatesInsideElementFromEvent(event, this.container)
     const knobCenterX = (this.container.clientWidth) / 2
     const knobCenterY = (this.container.clientHeight) / 2
@@ -247,7 +247,7 @@ export class KnobComponent implements OnInit {
     return rads * 100
   }
 
-  private getDistanceFromCenterOfElementAndEvent (event) {
+  public getDistanceFromCenterOfElementAndEvent (event) {
     const coords = this.utils.getCoordinatesInsideElementFromEvent(event, this.container)
     const knobCenterX = (this.container.clientWidth) / 2
     const knobCenterY = (this.container.clientHeight) / 2
@@ -256,7 +256,7 @@ export class KnobComponent implements OnInit {
     return Math.sqrt(w * w + h * h)
   }
 
-  private clampValue (value) {
+  public clampValue (value) {
     if (value > this.max) {
       value = this.max
     }

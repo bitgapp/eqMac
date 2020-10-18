@@ -11,7 +11,7 @@ export class VolumeBoosterBalanceComponent implements OnInit {
   replaceKnobsWithSliders = false
   @Output() visibilityToggled = new EventEmitter()
   constructor (
-    private ui: UIService
+    public ui: UIService
   ) { }
 
   async ngOnInit () {

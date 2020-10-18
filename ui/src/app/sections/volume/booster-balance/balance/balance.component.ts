@@ -19,8 +19,8 @@ export class BalanceComponent implements OnInit {
 
   constructor (
     public balanceService: BalanceService,
-    private app: ApplicationService,
-    private ui: UIService
+    public app: ApplicationService,
+    public ui: UIService
   ) { }
 
   ngOnInit () {

@@ -8,11 +8,11 @@ import { version } from '../../../package.json'
 })
 export class AnalyticsService {
   constructor (
-    private utils: UtilitiesService,
-    private app: ApplicationService
+    public utils: UtilitiesService,
+    public app: ApplicationService
   ) {}
 
-  private async load () {
+  public async load () {
     await this.utils.waitForProperty(window, 'ga')
     await this.utils.delay(1000)
     await this.utils.waitForProperty(ga, 'getAll')

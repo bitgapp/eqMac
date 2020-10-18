@@ -8,7 +8,7 @@ import { environment } from '../../environments/environment'
 })
 export class CookiesService {
   constructor (
-    private CONST: ConstantsService
+    public CONST: ConstantsService
   ) {}
   set (key: string, value: any) {
     if (typeof value !== 'string') {

@@ -9,7 +9,7 @@ import { SourceService, SourceType } from './source.service'
 export class SourceComponent implements OnInit {
 
   source: SourceType = 'File'
-  constructor (private sourceService: SourceService) { }
+  constructor (public sourceService: SourceService) { }
 
   ngOnInit () {
     this.setupEvents()

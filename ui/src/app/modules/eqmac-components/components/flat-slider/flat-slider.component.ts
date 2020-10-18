@@ -28,9 +28,9 @@ export interface FlatSliderValueChangedEvent {
 })
 export class FlatSliderComponent {
   constructor (
-    private utils: UtilitiesService,
-    private elem: ElementRef,
-    private sanitizer: DomSanitizer
+    public utils: UtilitiesService,
+    public elem: ElementRef,
+    public sanitizer: DomSanitizer
   ) {}
 
   @Input() doubleClickToAnimateToMiddle = true
@@ -44,12 +44,14 @@ export class FlatSliderComponent {
   @Input() thickness = 2
   @Input() orientation: 'vertical' | 'horizontal' = 'horizontal'
   @Output() stickedToMiddle = new EventEmitter()
+  @ViewChild('container', { static: true }) containerRef: ElementRef
+
   get middleValue () {
     return typeof this.middle === 'number' ? this.middle : (this.min + this.max) / 2
   }
 
-  private defaultColor = '#4f8d71'
-  private _enabled = true
+  public defaultColor = '#4f8d71'
+  public _enabled = true
 
   @HostBinding('class.disabled') get disabled () { return !this.enabled }
   @Input()
@@ -59,7 +61,7 @@ export class FlatSliderComponent {
   }
   get enabled () { return this._enabled }
 
-  private _color = this.defaultColor
+  public _color = this.defaultColor
   @Input()
   set color (newColor) {
     this.defaultColor = newColor
@@ -78,10 +80,10 @@ export class FlatSliderComponent {
     return hex
   }
 
-  private dragging = false
-  private knobRadius = 4
+  public dragging = false
+  public knobRadius = 4
 
-  private _value = .5
+  public _value = .5
   @Input()
   set value (newValue) {
     let value = this.clampValue(newValue)
@@ -112,13 +114,13 @@ export class FlatSliderComponent {
   @Output() userChangedValue = new EventEmitter<FlatSliderValueChangedEvent>()
 
   get height () {
-    return this.elem.nativeElement.offsetHeight
+    return this.containerRef.nativeElement.offsetHeight
   }
 
   get width () {
-    return this.elem.nativeElement.offsetWidth
+    return this.containerRef.nativeElement.offsetWidth
   }
-  private clampValue (value) {
+  public clampValue (value) {
     if (value < this.min) return this.min
     if (value > this.max) return this.max
     return value
@@ -133,7 +135,7 @@ export class FlatSliderComponent {
     }
   }
 
-  private getValueFromMouseEvent (event: MouseEvent) {
+  public getValueFromMouseEvent (event: MouseEvent) {
     const coords = this.utils.getCoordinatesInsideElementFromEvent(event, this.elem.nativeElement)
     const progress = this.orientation === 'vertical' ? coords.y : coords.x
     const value = this.utils.mapValue(progress, this.knobRadius, (this.orientation === 'vertical' ? this.height : this.width) - this.knobRadius, this.min, this.max)
@@ -157,7 +159,7 @@ export class FlatSliderComponent {
     }
   }
 
-  private mouseInside = false
+  public mouseInside = false
   @HostListener('mouseenter')
   onMouseEnter (): void {
     this.mouseInside = true
@@ -168,7 +170,7 @@ export class FlatSliderComponent {
     this.dragging = false
   }
 
-  private doubleclickTimeout = null
+  public doubleclickTimeout = null
   doubleclick () {
     if (this.enabled && this.doubleClickToAnimateToMiddle) {
       if (this.doubleclickTimeout) {
@@ -211,34 +213,30 @@ export class FlatSliderComponent {
     return this.utils.mapValue(this.value, this.min, this.max, 0, 1)
   }
 
-  @HostBinding('style')
-  get style (): SafeStyle {
+  get containerStyle () {
     const styles: { [style: string]: string } = {}
-    const thickness = this.knobRadius * 2 + 2
+    const height = this.knobRadius * 2 + 2
     if (this.orientation === 'horizontal') {
       styles.width = `100%`
-      styles.height = `${thickness}px`
-      styles.flexDirection = 'column'
+      styles.height = `${height}px`
     } else {
       styles.height = `100%`
-      styles.width = `${thickness}px`
-      styles.flexDirection = 'row'
+      styles.width = `${height}px`
     }
 
-    const style = Object.entries(styles)
-    .map(([ key, value ]) => `${key}: ${value}`)
-    .join('; ')
-    return this.sanitizer.bypassSecurityTrustStyle(style)
+    return styles
   }
 
   get grooveStyle () {
     const style: { [style: string]: string | number } = {}
     if (this.orientation === 'horizontal') {
       style.left = `${this.knobRadius}px`
+      style.top = `calc(50% - ${this.thickness}px / 2)`
       style.width = `calc(100% - ${this.knobRadius * 2}px)`
       style.height = `${this.thickness}px`
     } else {
-      style.bottom = `${this.knobRadius}px`
+      style.top = `${this.knobRadius}px`
+      style.left = `calc(50% - ${this.thickness}px / 2)`
       style.height = `calc(100% - ${this.knobRadius * 2}px)`
       style.width = `${this.thickness}px`
     }
@@ -250,10 +248,12 @@ export class FlatSliderComponent {
     const style: { [style: string]: string } = {}
     if (this.orientation === 'horizontal') {
       style.left = `${this.knobRadius}px`
+      style.top = `calc(50% - ${this.thickness}px / 2)`
       style.width = `calc(${this.progress * 100}% - ${this.knobRadius}px)`
       style.height = `${this.thickness}px`
     } else {
-      style.bottom = `${this.knobRadius}px`
+      style.top = `${this.knobRadius}px`
+      style.left = `calc(50% - ${this.thickness}px / 2)`
       style.height = `calc(${this.progress * 100}% - ${this.knobRadius * 2}px)`
       style.width = `${this.thickness}px`
     }
@@ -268,11 +268,9 @@ export class FlatSliderComponent {
     style.backgroundColor = this.value >= this.middleValue ? this.color : this.darkerColor
 
     style.borderRadius = '100%'
-    if (this.orientation === 'horizontal') {
-      style.left = `${this.utils.mapValue(this.middleValue, this.min, this.max, 0, this.width)}px`
-    } else {
-      style.bottom = `${this.utils.mapValue(this.middleValue, this.min, this.max, 0, this.height)}px`
-    }
+    const center = `calc(50% - ${this.knobRadius}px)`
+    style.left = center
+    style.top = center
 
     return style
   }

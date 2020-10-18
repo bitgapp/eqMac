@@ -20,7 +20,7 @@ import { ApplicationService } from '../../../../services/app.service'
 export class AdvancedEqualizerComponent extends EqualizerComponent implements OnInit {
   @Input() enabled = true
 
-  private ShowDefaultPresetsCheckbox: CheckboxOption = {
+  public ShowDefaultPresetsCheckbox: CheckboxOption = {
     key: 'show-default-presets',
     type: 'checkbox',
     label: 'Show Default Presets',
@@ -42,7 +42,7 @@ export class AdvancedEqualizerComponent extends EqualizerComponent implements On
   ], [
     this.ShowDefaultPresetsCheckbox
   ]]
-  private _presets: AdvancedEqualizerPreset[]
+  public _presets: AdvancedEqualizerPreset[]
   @Output() presetsChange = new EventEmitter<AdvancedEqualizerPreset[]>()
   set presets (newPresets: AdvancedEqualizerPreset[]) {
     this._presets =
@@ -55,7 +55,7 @@ export class AdvancedEqualizerComponent extends EqualizerComponent implements On
   }
   get presets () { return this._presets }
 
-  private _selectedPreset: AdvancedEqualizerPreset
+  public _selectedPreset: AdvancedEqualizerPreset
   @Output() selectedPresetChange = new EventEmitter<AdvancedEqualizerPreset>()
   set selectedPreset (newSelectedPreset: AdvancedEqualizerPreset) {
     this._selectedPreset = newSelectedPreset
@@ -100,10 +100,10 @@ export class AdvancedEqualizerComponent extends EqualizerComponent implements On
   }
 
   constructor (
-    private service: AdvancedEqualizerService,
-    private transition: TransitionService,
-    private change: ChangeDetectorRef,
-    private app: ApplicationService
+    public service: AdvancedEqualizerService,
+    public transition: TransitionService,
+    public change: ChangeDetectorRef,
+    public app: ApplicationService
     ) {
     super()
     this.getImportLegacyAvailable()
@@ -121,7 +121,7 @@ export class AdvancedEqualizerComponent extends EqualizerComponent implements On
     ])
   }
 
-  private async getImportLegacyAvailable () {
+  public async getImportLegacyAvailable () {
     if (await this.service.getImportLegacyAvailable()) {
       this.settings[1].push(
         {
@@ -138,7 +138,7 @@ export class AdvancedEqualizerComponent extends EqualizerComponent implements On
       )
     }
   }
-  private async syncPresets () {
+  public async syncPresets () {
     const [ presets, selectedPreset ] = await Promise.all([
       this.service.getPresets(),
       this.service.getSelectedPreset()
@@ -148,13 +148,13 @@ export class AdvancedEqualizerComponent extends EqualizerComponent implements On
     this.setSelectedPresetsGains()
   }
 
-  private async syncSettings () {
+  public async syncSettings () {
     return Promise.all([
       this.syncShowDefaultPresets()
     ])
   }
 
-  private async syncShowDefaultPresets () {
+  public async syncShowDefaultPresets () {
     this.ShowDefaultPresetsCheckbox.value = await this.service.getShowDefaultPresets()
   }
 

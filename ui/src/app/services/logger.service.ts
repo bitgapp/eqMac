@@ -5,7 +5,7 @@ export class Logger {
     this.console('log', ...something)
   }
 
-  private static console (func: 'log' , ...something: any[]) {
+  public static console (func: 'log' , ...something: any[]) {
     if (!environment.production) {
       console[func](...something)
     }

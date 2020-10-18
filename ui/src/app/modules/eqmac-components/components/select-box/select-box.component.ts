@@ -21,7 +21,7 @@ export class SelectBoxComponent implements OnInit {
   @Input() selectedItem = null
   @Output() itemSelected = new EventEmitter()
   @ViewChild('container', { read: ElementRef, static: true }) container
-  private _nVisibleItems: number = 6
+  public _nVisibleItems: number = 6
   @Input()
   set numberOfVisibleItems (value: number) {
     if (!isNaN(parseInt(value.toString(), 10))) {
@@ -39,24 +39,24 @@ export class SelectBoxComponent implements OnInit {
   hidden = true
   itemHeight = 25
 
-  constructor (private host: ElementRef) { }
+  constructor (public host: ElementRef) { }
 
   ngOnInit () {
     this.setDimensions()
   }
 
-  private setDimensions () {
+  public setDimensions () {
     this.setHeight()
     this.setWidth()
   }
 
-  private setHeight () {
+  public setHeight () {
     const lowest = Math.min(this._nVisibleItems, this.items.length)
     this.height = lowest * this.itemHeight + (this.numberOfVisibleItems < this.items.length ? this.itemHeight / 2 : 0)
     this.host.nativeElement.style.height = `${this.height}px`
   }
 
-  private setWidth () {
+  public setWidth () {
     if (this.width) {
       this.host.nativeElement.style.height = `${this.height}px`
     }

@@ -23,7 +23,7 @@ export class EqualizerPresetsComponent implements OnInit {
   @Output() presetDeleted = new EventEmitter()
 
   constructor (
-    private dialog: MatDialog
+    public dialog: MatDialog
   ) { }
 
   ngOnInit () {

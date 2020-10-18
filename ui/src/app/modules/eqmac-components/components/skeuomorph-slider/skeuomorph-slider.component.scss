@@ -11,6 +11,14 @@
   transition-duration: .5s;
 }
 
+.notches {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
+
 .groove {
   width: 7px;
   height: 89%;
@@ -29,6 +37,7 @@
   justify-content: center;
   align-items: center;
   top: 0;
+  left: calc(50% - 21px / 2);
   width: 21px;
   height: 25px;
   background-color: rgb(56, 57, 61);
@@ -55,12 +64,6 @@
       $third-line-color 3px
     )
   }
-}
-
-.notches {
-  position: absolute;
-  height: 100%;
-  width: 100%;
 }
 
 :host.disabled {

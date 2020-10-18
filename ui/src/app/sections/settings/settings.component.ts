@@ -93,7 +93,7 @@ export class SettingsComponent implements OnInit {
     public settingsService: SettingsService,
     public app: ApplicationService,
     public dialog: MatDialog,
-    private ui: UIService
+    public ui: UIService
   ) {
     this.getDriverReinstallAvailable()
   }

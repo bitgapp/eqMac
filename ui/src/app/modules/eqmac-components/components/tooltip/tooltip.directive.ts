@@ -10,9 +10,9 @@ export class TooltipDirective implements OnDestroy {
   @Input() eqmTooltipDelay = 100
   @Input() eqmTooltipPositionSide: TooltipPositionSide = 'top'
   @Input() eqmTooltipShowArrow: boolean = true
-  private id: string
-  private left: boolean
-  constructor (private tooltipService: TooltipService, private element: ElementRef) { }
+  public id: string
+  public left: boolean
+  constructor (public tooltipService: TooltipService, public element: ElementRef) { }
 
   @HostListener('mouseenter')
   onMouseEnter (): void {

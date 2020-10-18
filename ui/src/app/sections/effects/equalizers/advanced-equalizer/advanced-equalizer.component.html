@@ -1,8 +1,8 @@
 <eqm-loading *ngIf="!selectedPreset || !presets"></eqm-loading>
 <div *ngIf="selectedPreset && presets" fxLayoutAlign="start center" fxLayout="column" fxLayoutGap="10px" fxFill>
-  <div fxLayout="row" [style.width.%]="95" fxLayoutAlign="space-around center" fxLayoutGap="10px">
+  <div fxLayout="row" style="width: 95%" fxLayoutAlign="space-around center" fxLayoutGap="10px">
     <eqm-value-screen [disabled]="!enabled">Global:</eqm-value-screen>
-    <div [style.width.%]="90">
+    <div style="width: 90%">
       <eqm-flat-slider [enabled]="enabled" [min]="-24" [max]="24" [(value)]="global"
         (userChangedValue)="setGain('global', $event)" [stickToMiddle]="stickSlidersToMiddle"
         (stickedToMiddle)="performHapticFeedback()" orientation="horizontal">

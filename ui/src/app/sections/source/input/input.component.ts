@@ -14,7 +14,7 @@ export interface InputDevice {
 })
 export class InputComponent implements OnInit {
 
-  constructor (private inputService: InputService) { }
+  constructor (public inputService: InputService) { }
 
   devices: InputDevice[] = []
   selectedDevice: InputDevice = null

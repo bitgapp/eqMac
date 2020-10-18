@@ -21,9 +21,9 @@ export class BoosterComponent implements OnInit {
 
   constructor (
     public boosterService: BoosterService,
-    private app: ApplicationService,
-    private changeRef: ChangeDetectorRef,
-    private ui: UIService
+    public app: ApplicationService,
+    public changeRef: ChangeDetectorRef,
+    public ui: UIService
   ) {}
 
   ngOnInit () {
@@ -38,8 +38,8 @@ export class BoosterComponent implements OnInit {
     ])
   }
 
-  private ignoreUpdates = false
-  private ignoreUpdatesDebouncer: NodeJS.Timer
+  public ignoreUpdates = false
+  public ignoreUpdatesDebouncer: NodeJS.Timer
   protected setupEvents () {
     this.boosterService.onGainChanged(gain => {
       if (!this.ignoreUpdates) {
