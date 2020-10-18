@@ -197,8 +197,8 @@ export class KnobComponent implements OnInit {
 
   get largeCapBodyStyle () {
     return {
-      'clip-path': `url(#large-knob-cap-clip-path-${this.id})`,
-      '-webkit-clip-path': `url(#large-knob-cap-clip-path-${this.id})`
+      // 'clip-path': `url(#large-knob-cap-clip-path-${this.id})`,
+      // '-webkit-clip-path': `url(#large-knob-cap-clip-path-${this.id})`
     }
   }
 

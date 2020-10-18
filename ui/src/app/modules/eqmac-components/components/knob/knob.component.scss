@@ -74,6 +74,7 @@
       .cap-body {
         @include center();
         @include size(58px);
+        @include circle();
         // @include shadow(2px, 0px);
 
         background-image: linear-gradient(to bottom, #51555A, #3C4045);
