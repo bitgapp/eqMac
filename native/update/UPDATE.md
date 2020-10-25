@@ -24,7 +24,7 @@ https://www.davidebarranca.com/2019/04/notarizing-installers-for-macos-catalina/
 
 * Check codesign with: `pkgutil --check-signature eqMac.pkg` (also for the sparkle_interactive.pkg)
 
-* Send pkg for notarization: `xcrun altool --username "APPLE_EMAIL" --password "APPLE_APP_PASSWORD" --notarize-app --primary-bundle-id "com.bitgapp.eqmac.pkg" --file "~/Programming/Bitgapp/eqMac/native/update/eqMac.pkg" --asc-provider "JZA6C97KJA"`
+* Send pkg for notarization: `xcrun altool --notarize-app --primary-bundle-id "com.bitgapp.eqmac.pkg" --file "~/Programming/Bitgapp/eqMac/native/update/eqMac.pkg" --asc-provider "JZA6C97KJA" --username "APPLE_EMAIL" --password "APPLE_APP_PASSWORD"`
 Copy the RequestUUID!!
 
 * Keep checking for notarization status with until Package Approved: `xcrun altool --username "APPLE_EMAIL" --password "APPLE_APP_PASSWORD" --notarization-info COPIED_RequestUUID`

@@ -3,10 +3,12 @@
     <channel>
         <title>eqMac</title>
         <item>
-            <title>v0.3.2</title>
-            <pubDate>Wed, 24 Jun 2020 20:01:27 +0100</pubDate>
+            <title>v0.3.5</title>
+            <pubDate>Sun, 25 Oct 2020 21:01:27 +0100</pubDate>
             <description><![CDATA[
 <h1>eqMac Changelog</h1>
+<h1>v0.3.5</h1>
+<ul><li>Improvements to the Audio pipeline</li><li>Minor bug fixes to installation process</li></ul>
 <h1>v0.3.4</h1>
 <ul><li>Moved away from .dmg distribution to .pkg with Driver installation during Install.</li><li>General improvements to the Audio Driver</li><li>Fixed many crashes of the app</li><li>Fixed miscellaneous CADefaultDeviceAggregate device appearing in output selection</li></ul>
 <h2>v0.3.2</h2>
@@ -27,7 +29,7 @@
 <ul><li>Initial release of eqMac in beta</li></ul>
 ]]></description>
             <sparkle:minimumSystemVersion>10.12</sparkle:minimumSystemVersion>
-            <enclosure url="https://update.eqmac.app/eqMac.dmg" sparkle:version="0.3.1" sparkle:shortVersionString="v0.3.1" length="13478733" type="application/octet-stream" sparkle:edSignature="WgHepLBVbvi0lgcx7WpYf4ktq0jnWnEgCGYVQujJCtFXICxE5Q9GCIubSbe5nq248+9Ej/GnFJqFdMWvUhh2CQ=="/>
+            <enclosure url="https://update.eqmac.app/eqMac.zip" sparkle:version="0.3.5" sparkle:shortVersionString="v0.3.5" type="application/octet-stream" sparkle:edSignature="ZTYRBG3O5s4xcVJuy6psnNqrbEmfzyRMHEMPQaW/FFjSspgh1vxooc/tlW0in7lK5uK757MenOqO/rJ6FOMIBw==" length="12162250"/>
         </item>
     </channel>
 </rss>

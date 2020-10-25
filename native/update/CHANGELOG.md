@@ -1,5 +1,9 @@
 # eqMac Changelog
 
+# v0.3.5
+* Improvements to the Audio pipeline
+* Minor bug fixes to installation process
+
 # v0.3.4
 * Moved away from .dmg distribution to .pkg with Driver installation during Install.
 * General improvements to the Audio Driver
