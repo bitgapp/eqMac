@@ -5,6 +5,9 @@
       location = "group:app/eqMac.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:uninstaller/eqMac Uninstaller.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:driver/Driver.xcodeproj">
    </FileRef>
    <FileRef

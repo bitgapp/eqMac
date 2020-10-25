@@ -1,0 +1,5 @@
+You will be guided through the steps necessary to install eqMac.
+
+⚠️ WARNING ⚠️
+YOU MIGHT BE ASKED TO RESTART YOUR COMPUTER
+after the installation has finished, so please save any work progress you might have!
