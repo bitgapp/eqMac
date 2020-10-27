@@ -3,10 +3,12 @@
     <channel>
         <title>eqMac</title>
         <item>
-            <title>v0.3.5</title>
-            <pubDate>Sun, 25 Oct 2020 21:01:27 +0100</pubDate>
+            <title>v0.3.6</title>
+            <pubDate>Wed, 28 Oct 2020 01:22:27 +0100</pubDate>
             <description><![CDATA[
 <h1>eqMac Changelog</h1>
+<h1>v0.3.6</h1>
+<ul><li>Fixed Dependency issues breaking the app from running on macOS version less than 10.15</li></ul>
 <h1>v0.3.5</h1>
 <ul><li>Improvements to the Audio pipeline</li><li>Minor bug fixes to installation process</li></ul>
 <h1>v0.3.4</h1>
@@ -29,7 +31,7 @@
 <ul><li>Initial release of eqMac in beta</li></ul>
 ]]></description>
             <sparkle:minimumSystemVersion>10.12</sparkle:minimumSystemVersion>
-            <enclosure url="https://update.eqmac.app/eqMac.zip" sparkle:version="0.3.5" sparkle:shortVersionString="v0.3.5" type="application/octet-stream" sparkle:edSignature="ZTYRBG3O5s4xcVJuy6psnNqrbEmfzyRMHEMPQaW/FFjSspgh1vxooc/tlW0in7lK5uK757MenOqO/rJ6FOMIBw==" length="12162250"/>
+            <enclosure url="https://update.eqmac.app/eqMac.zip" sparkle:version="0.3.6" sparkle:shortVersionString="v0.3.6" type="application/octet-stream" sparkle:edSignature="k4szMDFuwD17PdVdVJBsD+WKqNijxdMfQyob7FHnW6pTQMbXHopynxjt46JHs/hPu7lNpVWekRRSykJWejv4DA==" length="12043135"/>
         </item>
     </channel>
 </rss>

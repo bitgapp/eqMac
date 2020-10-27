@@ -89,6 +89,7 @@ EOT
 fi
 
 open /Applications/eqMac.app
+sleep 2
 ## Launch the app 2nd time to open the window
 open /Applications/eqMac.app
 

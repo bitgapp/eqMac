@@ -1,5 +1,8 @@
 # eqMac Changelog
 
+# v0.3.6
+* Fixed Dependency issues breaking the app from running on macOS version less than 10.15
+
 # v0.3.5
 * Improvements to the Audio pipeline
 * Minor bug fixes to installation process
