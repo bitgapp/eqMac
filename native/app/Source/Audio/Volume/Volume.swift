@@ -77,19 +77,25 @@ class Volume: StoreSubscriber {
           }
         }
         
-        Driver.device!.setVirtualMasterVolume(Float32(gain), direction: .playback)
+        if let driverDevice = Driver.device {
+            driverDevice.setVirtualMasterVolume(Float32(gain), direction: .playback)
+        }
       }
       
       leftGain = newLeftGain
       rightGain = newRightGain
       
       if (!volumeSupported) {
-        Driver.device!.mute = false
+        if let driverDevice = Driver.device {
+          driverDevice.mute = false
+        }
         device.mute = false
       }
       
       let shouldMute = gain == 0.0
-      Driver.device!.mute = shouldMute
+      if let driverDevice = Driver.device {
+        driverDevice.mute = shouldMute
+      }
       device.mute = shouldMute
       
       
