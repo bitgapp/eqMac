@@ -80,12 +80,13 @@ class Popover: NSObject, NSPopoverDelegate {
     }
     
     func show() {
-        popover.show(relativeTo: NSZeroRect, of: statusItem.button, preferredEdge: .minY)
         NSApp.activate(ignoringOtherApps: true)
+        popover.show(relativeTo: NSZeroRect, of: statusItem.button, preferredEdge: .minY)
         popover.becomeFirstResponder()
     }
     
     func hide() {
+        popover.resignFirstResponder()
         popover.close()
         statusItem.highlighted = false
     }
