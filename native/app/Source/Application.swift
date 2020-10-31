@@ -242,7 +242,8 @@ class Application {
   
   private static var ignoreNextDriverMuteEvent = false
   private static func setupDriverDeviceEvents () {
-    AudioDeviceEvents.on(.volumeChanged, onDevice: Driver.device!) {
+    guard let driverDevice = Driver.device else { return }
+    AudioDeviceEvents.on(.volumeChanged, onDevice: driverDevice) {
       if ignoreNextVolumeEvent {
         ignoreNextVolumeEvent = false
         return
@@ -250,14 +251,13 @@ class Application {
       if (overrideNextVolumeEvent) {
         overrideNextVolumeEvent = false
         ignoreNextVolumeEvent = true
-        Driver.device!.setVirtualMasterVolume(1, direction: .playback)
+        driverDevice.setVirtualMasterVolume(1, direction: .playback)
         return
       }
-      let gain = Double(Driver.device!.virtualMasterVolume(direction: .playback)!)
+      let gain = Double(driverDevice.virtualMasterVolume(direction: .playback)!)
       if (gain <= 1 && gain != Application.store.state.effects.volume.gain) {
         Application.dispatchAction(VolumeAction.setGain(gain, false))
       }
-      
     }
     
     AudioDeviceEvents.on(.muteChanged, onDevice: Driver.device!) {
@@ -265,7 +265,7 @@ class Application {
         ignoreNextDriverMuteEvent = false
         return
       }
-      Application.dispatchAction(VolumeAction.setMuted(Driver.device!.mute))
+      Application.dispatchAction(VolumeAction.setMuted(driverDevice.mute))
     }
   }
   
