@@ -9,7 +9,6 @@ PODS:
   - Sentry/Core (6.0.9)
   - Sparkle (1.24.0)
   - STPrivilegedTask (1.0.7)
-  - SwiftHash (2.0.2)
   - SwiftHTTP (3.0.1)
   - SwiftLint (0.39.2)
   - SwiftyJSON (4.3.0)
@@ -26,7 +25,6 @@ DEPENDENCIES:
   - Sentry (~> 6.0)
   - Sparkle (~> 1.24)
   - STPrivilegedTask (from `https://github.com/sveinbjornt/STPrivilegedTask.git`, commit `fdca677c77adb166a2be4c5ea9c7580a738c49c9`)
-  - SwiftHash
   - SwiftHTTP (~> 3.0)
   - SwiftLint
   - SwiftyJSON (~> 4.2)
@@ -42,7 +40,6 @@ SPEC REPOS:
     - ReSwift
     - Sentry
     - Sparkle
-    - SwiftHash
     - SwiftHTTP
     - SwiftLint
     - SwiftyJSON
@@ -75,7 +72,6 @@ SPEC CHECKSUMS:
   Sentry: 388c9dc093b2fd3a264466a5c5b21e25959610a9
   Sparkle: 270cd27377bf04e9c128af06e3a22d0f572d6ee3
   STPrivilegedTask: 56c3397238a1ec07720fb877a044898373cd2c68
-  SwiftHash: 6d312abe61c8359bdef8d0093642f3a70b1c17ba
   SwiftHTTP: e94f1aa8cde58637dcc0100f6349de31a3337fde
   SwiftLint: 22ccbbe3b8008684be5955693bab135e0ed6a447
   SwiftyJSON: 6faa0040f8b59dead0ee07436cbf76b73c08fd08
@@ -83,6 +79,6 @@ SPEC CHECKSUMS:
   WebViewJavascriptBridge: 7f5bc4d3581e672e8f32bd0f812d54bc69bb8e29
   Zip: 8877eede3dda76bcac281225c20e71c25270774c
 
-PODFILE CHECKSUM: 5871be69946cef309e01543dc90a72d487dfd5a8
+PODFILE CHECKSUM: f0af85f9b8677a916122f0489aaabf1ac78ea2da
 
 COCOAPODS: 1.9.3
