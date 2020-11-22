@@ -126,7 +126,11 @@ class Window: NSWindow, NSWindowDelegate {
   }
   
   override func performDrag(with event: NSEvent) {
-    super.performDrag(with: event)
+    if #available(OSX 10.11, *) {
+      super.performDrag(with: event)
+    } else {
+      // Fallback on earlier versions
+    }
     Application.dispatchAction(UIAction.setWindowPosition(position))
   }
   

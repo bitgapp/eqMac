@@ -49,7 +49,9 @@ class ApplicationDataBus: DataBus {
     }
     
     self.on(.GET, "/haptic") { _, _ in
-      NSHapticFeedbackManager.defaultPerformer.perform(NSHapticFeedbackManager.FeedbackPattern.alignment, performanceTime: NSHapticFeedbackManager.PerformanceTime.now)
+      if #available(macOS 10.11, *) {
+        NSHapticFeedbackManager.defaultPerformer.perform(NSHapticFeedbackManager.FeedbackPattern.alignment, performanceTime: NSHapticFeedbackManager.PerformanceTime.now)
+      }
       return "Haptic feedback performed"
     }
     

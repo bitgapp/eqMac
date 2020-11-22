@@ -11,6 +11,7 @@ import AMCoreAudio
 import SwiftyUserDefaults
 import EmitterKit
 import AVFoundation
+import AudioToolbox
 
 class Output {
   

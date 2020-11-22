@@ -99,13 +99,9 @@ class Application {
   
   private static func setupCrashReporting () {
     // Create a Sentry client and start crash handler
-    do {
-      Client.shared = try Client(dsn: Constants.SENTRY_ENDPOINT)
-      Client.shared?.sampleRate = 0.1
-      try Client.shared?.startCrashHandler()
-    } catch let error {
-      Console.log("\(error)")
-      // Wrong DSN or KSCrash not installed
+    SentrySDK.start { options in
+      options.dsn = Constants.SENTRY_ENDPOINT
+      options.sampleRate = 0.1
     }
   }
   

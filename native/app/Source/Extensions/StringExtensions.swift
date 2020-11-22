@@ -28,6 +28,9 @@ extension String {
     var byteArray: [UInt8] {
         return Array(self.utf8)
     }
+  func trim() -> String {
+    return self.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+  }
 }
 
 extension String: Error {}

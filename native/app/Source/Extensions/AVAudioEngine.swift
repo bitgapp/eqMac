@@ -9,6 +9,7 @@
 import Foundation
 import AVFoundation
 import AMCoreAudio
+import AudioToolbox
 
 extension AVAudioEngine {
   func setInputDevice (_ device: AudioDevice) {
