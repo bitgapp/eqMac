@@ -33,7 +33,7 @@ I'm notoriously known for lacking in communication with users due to lack of tim
 eqMac was built using these technologies:
 * [Driver](https://github.com/bitgapp/eqMac/tree/master/native/driver) - System Audio loopback/passthrough device based on [BackgroundMusic](https://github.com/kyleneideck/BackgroundMusic) project. The driver grabs the system audio stream and sends it to the input channels. eqMac can grab this stream, process it and send to the appropriate audio device. Still very low level C++ code although the driver runs in User space instead of Kernel like the previous drivers, which means it's much more secure and stable.
 * [App](https://github.com/bitgapp/eqMac/tree/master/native/app) - Native backend to the whole app. Responsible for audio processing, filesystem access, window management, API and general lifecycle of eqMac. Written in Swift and uses Apple's more modern [AVAudioEngine API](https://developer.apple.com/documentation/avfoundation/avaudioengine), unlike the previous version that used a deprecated AUGraph API.
-* [UI](https://github.com/bitgapp/eqMac/tree/master/ui) - Web based user interface that is hosted remotely and thus allows for over the air updates & bug fixes. Written in Angular 8 and uses is cached for offline availability.
+* [UI](https://github.com/bitgapp/eqMac/tree/master/ui) - Web based user interface that is hosted remotely and thus allows for over the air updates & bug fixes. Written in Angular 8 and is cached for offline availability.
 * [Site](https://github.com/bitgapp/eqMac/tree/master/site) - Source code for https://eqmac.app website. Written in Angular 8 and server side rendered using [Angular Universal](https://github.com/angular/universal)
 
 ## Contribution
@@ -64,14 +64,11 @@ Install [Node.js](https://nodejs.org/en/) LTS version preferrably using [NVM](ht
 
 1. Download [Xcode](https://apps.apple.com/us/app/xcode/id497799835?mt=12)
 2. Install [CocoaPods](https://cocoapods.org/) by `sudo gem install cocoapods`
-3. Install [Carthage](https://github.com/Carthage/Carthage#installing-carthage) by `brew update && brew install carthage`
 
 #### Building and running the App
 
-1. Go into the native/app directory from root of the repo by: `cd native/app/`
+1. Go into the native/app directory from root of the repo by: `cd native/`
 2. Install Cocoapod dependencies: `pod install`
-3. Install Carthage dependencies: `carthage update`
-4. Go back to the native/ directory: `cd ../`
-5. Open the Xcode workspace: `open eqMac.xcworkspace`
-6. Launch eqMac in debug mode by running the **App - Debug** Scheme:
+3. Open the Xcode workspace: `open eqMac.xcworkspace`
+4. Launch eqMac in debug mode by running the **App - Debug** Scheme:
 <img width="512" src="https://user-images.githubusercontent.com/8472525/83069640-279c1100-a062-11ea-85a7-45aa5253771b.png"/>
