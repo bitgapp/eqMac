@@ -31,6 +31,7 @@ class Volume: StoreSubscriber {
       
       var newLeftGain: Double = gain
       var newRightGain: Double = gain
+      
       if (gain > 1) {
         if (volumeSupported) {
           device.setVirtualMasterVolume(1.0, direction: .playback)
@@ -92,9 +93,10 @@ class Volume: StoreSubscriber {
       Driver.device!.mute = shouldMute
       device.mute = shouldMute
       
-      
       gainChanged.emit(gain)
       
+      Application.ignoreNextVolumeEvent = false
+      Application.ignoreNextDriverMuteEvent = false
     }
   }
   
@@ -143,29 +145,43 @@ class Volume: StoreSubscriber {
   // MARK: - State
   typealias StoreSubscriberStateType = VolumeState
   
+  private let changeGainThread = DispatchQueue(label: "change-volume", qos: .userInteractive)
+  private var latestChangeGainTask: DispatchWorkItem?
+  private func performOnChangeGainThread (_ code: @escaping () -> Void) {
+    latestChangeGainTask?.cancel()
+    latestChangeGainTask = DispatchWorkItem(block: code)
+    changeGainThread.async(execute: latestChangeGainTask!)
+  }
+
   func newState(state: VolumeState) {
     if (state.balance != balance) {
-      if (state.transition) {
-        Transition.perform(from: balance, to: state.balance) { balance in
-          self.balance = balance
+      performOnChangeGainThread {
+        if (state.transition) {
+          Transition.perform(from: self.balance, to: state.balance) { balance in
+            self.balance = balance
+          }
+        } else {
+          self.balance = state.balance
         }
-      } else {
-        balance = state.balance
       }
     }
     
     if (state.gain != gain) {
-      if (state.transition) {
-        Transition.perform(from: gain, to: state.gain) { gain in
-          self.gain = gain
+      performOnChangeGainThread {
+        if (state.transition) {
+          Transition.perform(from: self.gain, to: state.gain) { gain in
+            self.gain = gain
+          }
+        } else {
+          self.gain = state.gain
         }
-      } else {
-        gain = state.gain
       }
     }
     
     if (state.muted != muted) {
-      muted = state.muted
+      performOnChangeGainThread {
+        self.muted = state.muted
+      }
     }
   }
   

@@ -11,7 +11,9 @@ import Foundation
 class Console {
   static func log (_ somethings: Any..., fileAbsolutePath: String = #file, line: Int = #line) {
     let file = fileAbsolutePath[fileAbsolutePath.range(of: "/app/")!.upperBound...]
-    print("eqMac (\(file):\(line)) \(somethings.map { ($0 as AnyObject).debugDescription }.joined(separator: " "))")
+    let dataFormatter = DateFormatter()
+    dataFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss.SSSS"
+    print("\(dataFormatter.string(from: Date())) eqMac (\(file):\(line)) \(somethings.map { ($0 as AnyObject).debugDescription }.joined(separator: " "))")
   }
 }
 
