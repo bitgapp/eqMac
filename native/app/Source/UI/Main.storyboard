@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="Wg1-es-IGc">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="Wg1-es-IGc">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="16097"/>
-        <plugIn identifier="com.apple.WebKit2IBPlugin" version="16097"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17506"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -154,14 +153,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="400" height="400"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <wkWebView wantsLayer="YES" canDrawConcurrently="YES" fixedFrame="YES" allowsLinkPreview="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YrH-po-2VL">
-                                <rect key="frame" x="0.0" y="0.0" width="400" height="400"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <wkWebViewConfiguration key="configuration" suppressesIncrementalRendering="YES">
-                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
-                                    <wkPreferences key="preferences" javaScriptCanOpenWindowsAutomatically="NO"/>
-                                </wkWebViewConfiguration>
-                            </wkWebView>
                             <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RBl-OJ-pth" userLabel="Loading View">
                                 <rect key="frame" x="0.0" y="0.0" width="400" height="400"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -172,7 +163,7 @@
                                     </progressIndicator>
                                 </subviews>
                             </customView>
-                            <customView autoresizesSubviews="NO" wantsLayer="YES" canDrawConcurrently="YES" appearanceType="darkAqua" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bLB-gh-lJZ" customClass="DraggableView" customModule="eqMac" customModuleProvider="target">
+                            <customView autoresizesSubviews="NO" wantsLayer="YES" appearanceType="darkAqua" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bLB-gh-lJZ" customClass="DraggableView" customModule="eqMac" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="372" width="400" height="28"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                             </customView>
@@ -183,7 +174,6 @@
                         <outlet property="loadingSpinner" destination="cyp-ij-N0e" id="ZwC-yt-JeR"/>
                         <outlet property="loadingView" destination="RBl-OJ-pth" id="TVK-E1-Dbz"/>
                         <outlet property="view" destination="eMQ-jC-nnX" id="XuJ-1w-qES"/>
-                        <outlet property="webView" destination="YrH-po-2VL" id="O5h-Pl-UoS"/>
                     </connections>
                 </viewController>
             </objects>

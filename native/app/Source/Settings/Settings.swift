@@ -71,7 +71,9 @@ class Settings: StoreSubscriber {
       let showDockIcon = self.iconMode == .both || self.iconMode == .dock
       NSApp.setActivationPolicy(showDockIcon ? .regular : .accessory)
       let showStatusBarIcon = self.iconMode == .both || self.iconMode == .statusBar
-      UI.statusItem.item.isVisible = showStatusBarIcon
+      if #available(macOS 10.12, *) {
+        UI.statusItem.item.isVisible = showStatusBarIcon
+      }
     }
   }
     

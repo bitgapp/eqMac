@@ -12,7 +12,7 @@ import EmitterKit
 
 class ViewController: NSViewController, WKNavigationDelegate {
   // MARK: - Properties
-  @IBOutlet var webView: WKWebView!
+  var webView: WKWebView!
   @IBOutlet var draggableView: DraggableView!
   @IBOutlet var loadingView: NSView!
   @IBOutlet var loadingSpinner: NSProgressIndicator!
@@ -43,13 +43,15 @@ class ViewController: NSViewController, WKNavigationDelegate {
   // MARK: - Initialization
   override func viewDidLoad() {
     super.viewDidLoad()
+    webView = WKWebView(frame: view.frame)
+    webView.autoresizingMask = [.height, .width]
+    view.addSubview(webView, positioned: .below, relativeTo: loadingView)
     loadingSpinner.startAnimation(nil)
     loaded.emit()
   }
   
   func load (_ url: URL) {
     let request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData)
-  
     if self.webView.isLoading {
       self.webView.stopLoading()
     }

@@ -12,7 +12,7 @@ export class BoosterService extends VolumeService {
   }
 
   setGain (gain: number, transition?: boolean) {
-    return this.request({ method: 'POST', data: { gain, transition } })
+    this.request({ method: 'POST', data: { gain, transition } })
   }
 
   onGainChanged (callback: (gain: number) => void) {

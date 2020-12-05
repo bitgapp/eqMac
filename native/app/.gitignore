@@ -6,7 +6,6 @@ eqMacAudio.xcworkspace/xcuserdata/
 eqMacAudio.xcodeproj/xcuserdata
 eqMacAudioDriver.xcodeproj/xcuserdata
 eqMacAudio.xcworkspace/xcuserdata
-Carthage/
 
 OpenSSL/*
 !OpenSSL/.gitkeep

@@ -13,7 +13,7 @@ import EmitterKit
 import SwiftyUserDefaults
 import WebKit
 import Zip
-import Alamofire
+import SwiftHTTP
 
 enum UIMode: String, Codable {
   case window = "window"
@@ -32,15 +32,15 @@ class UI: StoreSubscriber {
 
   static func unarchiveZip () {
     // Unpack Archive
-    let file = FileManager.default
+    let fs = FileManager.default
     
-    if file.fileExists(atPath: remoteZipPath.path) {
+    if fs.fileExists(atPath: remoteZipPath.path) {
       try! Zip.unzipFile(remoteZipPath, destination: localPath, overwrite: true, password: nil) // Unzip
     } else {
-      if !file.fileExists(atPath: localZipPath.path) {
+      if !fs.fileExists(atPath: localZipPath.path) {
         Console.log("\(localZipPath.path) doesnt exist")
         let bundleUIZipPath = Bundle.main.url(forResource: "ui", withExtension: "zip", subdirectory: "Embedded")!
-        try! file.copyItem(at: bundleUIZipPath, to: localZipPath)
+        try! fs.copyItem(at: bundleUIZipPath, to: localZipPath)
       }
       try! Zip.unzipFile(localZipPath, destination: localPath, overwrite: true, password: nil) // Unzip
     }
@@ -255,17 +255,41 @@ class UI: StoreSubscriber {
   }
   
   private func load () {
+    func startUILoad (_ url: URL) {
+      DispatchQueue.main.async {
+        UI.viewController.load(url)
+      }
+    }
     remoteIsReachable() { reachable in
       if reachable {
         Console.log("Loading Remote UI")
-        UI.viewController.load(Constants.UI_ENDPOINT_URL)
-        self.cacheRemote()
+        startUILoad(Constants.UI_ENDPOINT_URL)
+        self.getRemoteVersion { remoteVersion in
+          if remoteVersion != nil {
+            let fs = FileManager.default
+            if fs.fileExists(atPath: UI.remoteZipPath.path) {
+              UI.unarchiveZip()
+              let currentVersion = try? String(contentsOf: UI.localPath.appendingPathComponent("version.txt"))
+              if (currentVersion?.trim() != remoteVersion?.trim()) {
+                self.cacheRemote()
+              }
+            } else {
+              self.cacheRemote()
+            }
+          }
+        }
       } else {
         Console.log("Loading Local UI")
         UI.unarchiveZip()
         let url = URL(string: "\(UI.localPath)/index.html")!
-        UI.viewController.load(url)
+        startUILoad(url)
       }
+    }
+  }
+  
+  private func getRemoteVersion (_ completion: @escaping (String?) -> Void) {
+    HTTP.GET("\(Constants.UI_ENDPOINT_URL)/version.txt") { resp in
+      completion(resp.error != nil ? nil : resp.text?.trim())
     }
   }
   
@@ -276,24 +300,12 @@ class UI: StoreSubscriber {
         returned = true
         return completion(false)
       }
-      AF.request(Constants.UI_ENDPOINT_URL)
-      .responseData { response in
-          switch response.result {
-          case .success:
-            if !returned {
-              returned = true
-              completion(true)
-            }
-          case .failure:
-            Console.log("Failed to load \(Constants.UI_ENDPOINT_URL)", response)
-            if !returned {
-              returned = true
-              completion(false)
-            }
-          }
+
+      HTTP.GET(Constants.UI_ENDPOINT_URL.absoluteString) { response in
+        returned = true
+        completion(response.error == nil)
       }
     }
-    
     
     Utilities.delay(1000) {
       if (!returned) {
@@ -306,16 +318,21 @@ class UI: StoreSubscriber {
   private func cacheRemote () {
     // Only download ui.zip when UI endpoint is remote
     if Constants.UI_ENDPOINT_URL.absoluteString.contains(Constants.DOMAIN) {
-      let destination: DownloadRequest.Destination = { _, _ in
-        return (UI.remoteZipPath, [.removePreviousFile, .createIntermediateDirectories])
-      }
-      AF.download("\(Constants.UI_ENDPOINT_URL)/ui.zip", to: destination).response { resp in
+      let remoteZipUrl = "\(Constants.UI_ENDPOINT_URL)/ui.zip"
+      Console.log("Caching Remote UI from \(remoteZipUrl)")
+      let download = HTTP(URLRequest(urlString: remoteZipUrl)!)
+      
+      download.run() { resp in
+        Console.log("Finished caching Remote UI")
         if resp.error == nil {
-          Console.log("Remote UI cached successfuly")
-        } else {
-          Console.log("Failed to cache Remote UI. Error: ", resp.error as Any)
+          do {
+            try resp.data.write(to: UI.remoteZipPath, options: .atomic)
+          } catch {
+            print(error)
+          }
         }
       }
+
     }
   }
 }

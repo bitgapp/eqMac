@@ -11,6 +11,8 @@ import Cocoa
 
 class DraggableView: NSView {
     override func mouseDragged(with event: NSEvent) {
+      if #available(macOS 10.11, *) {
         event.window?.performDrag(with: event)
+      }
     }
 }

@@ -64,7 +64,7 @@ export class BoosterComponent implements OnInit {
       this.getGain()
       this.ignoreUpdates = false
     }, 500)
-    return this.boosterService.setGain(gain)
+    this.boosterService.setGain(gain)
   }
 
   async getGain () {

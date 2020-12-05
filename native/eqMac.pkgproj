@@ -573,7 +573,7 @@
 				<key>USE_HFS+_COMPRESSION</key>
 				<true/>
 				<key>VERSION</key>
-				<string>0.3.4</string>
+				<string>0.3.7</string>
 			</dict>
 			<key>TYPE</key>
 			<integer>0</integer>

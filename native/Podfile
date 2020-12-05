@@ -2,14 +2,14 @@ source 'https://github.com/AudioKit/Specs.git'
 source 'https://github.com/CocoaPods/Specs.git'
 
 # Uncomment the next line to define a global platform for your project
-platform :osx, '10.12'
+platform :osx, '10.10'
 workspace 'eqMac.xcworkspace'
 use_frameworks!
 
 post_install do |installer|
   installer.pods_project.targets.each do |target|
     target.build_configurations.each do |config|
-      config.build_settings['MACOSX_DEPLOYMENT_TARGET'] = '10.12'
+      config.build_settings['MACOSX_DEPLOYMENT_TARGET'] = '10.10'
     end
   end
 end
@@ -27,14 +27,14 @@ project 'driver-installer/eqMac Driver Installer.xcodeproj'
 target 'eqMac' do
   project 'app/eqMac.xcodeproj'
   
-  pod 'Alamofire', '~> 5.1'
+  pod 'SwiftHTTP', '~> 3.0'
   pod 'AMCoreAudio', :git => 'https://github.com/bitgapp/AMCoreAudio.git', :commit => 'f02015b7dfbaeb9b5f70b658e860afe94f85df9c'
   pod 'WebViewJavascriptBridge', '~> 6.0'
   pod 'ReachabilitySwift'
   pod 'ReSwift'
   pod 'SwiftLint'
-  pod 'Sparkle'
-  pod 'Sentry', '~> 4.1'
+  pod 'Sparkle', '~> 1.24'
+  pod 'Sentry', '~> 6.0'
   pod 'EmitterKit', '~> 5.2.2'
   pod 'SwiftyJSON', '~> 4.2'
   pod 'SwiftyUserDefaults', '4.0'

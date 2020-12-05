@@ -61,10 +61,17 @@ class Application {
     return appDirectory
   }
   
+  static private let dispatchActionQueue = DispatchQueue(label: "dispatchActionQueue", qos: .userInitiated)
   // Custom dispatch function. Need to execute all dispatches on the main thread
-  static func dispatchAction(_ action: Action) {
-    DispatchQueue.main.async {
-      store.dispatch(action)
+  static func dispatchAction(_ action: Action, onMainThread: Bool = true) {
+    if (onMainThread) {
+      DispatchQueue.main.async {
+        store.dispatch(action)
+      }
+    } else {
+      dispatchActionQueue.async {
+        store.dispatch(action)
+      }
     }
   }
   static let store: Store = Store(reducer: ApplicationStateReducer, state: Storage[.state] ?? ApplicationState(), middleware: [])
@@ -99,13 +106,9 @@ class Application {
   
   private static func setupCrashReporting () {
     // Create a Sentry client and start crash handler
-    do {
-      Client.shared = try Client(dsn: Constants.SENTRY_ENDPOINT)
-      Client.shared?.sampleRate = 0.1
-      try Client.shared?.startCrashHandler()
-    } catch let error {
-      Console.log("\(error)")
-      // Wrong DSN or KSCrash not installed
+    SentrySDK.start { options in
+      options.dsn = Constants.SENTRY_ENDPOINT
+      options.sampleRate = 0.1
     }
   }
   
@@ -240,7 +243,7 @@ class Application {
     setupDriverDeviceEvents()
   }
   
-  private static var ignoreNextDriverMuteEvent = false
+  static var ignoreNextDriverMuteEvent = false
   private static func setupDriverDeviceEvents () {
     AudioDeviceEvents.on(.volumeChanged, onDevice: Driver.device!) {
       if ignoreNextVolumeEvent {
@@ -257,7 +260,7 @@ class Application {
       if (gain <= 1 && gain != Application.store.state.effects.volume.gain) {
         Application.dispatchAction(VolumeAction.setGain(gain, false))
       }
-      
+
     }
     
     AudioDeviceEvents.on(.muteChanged, onDevice: Driver.device!) {
