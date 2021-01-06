@@ -39,7 +39,7 @@
     "@types/google.analytics": "0.0.40",
     "@types/js-cookie": "^2.2.6",
     "@types/node": "~12.7.11",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "cloudflare": "^2.7.0",
     "codelyzer": "~5.1.2",
     "dotenv": "^8.2.0",
