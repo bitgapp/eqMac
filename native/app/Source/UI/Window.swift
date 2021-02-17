@@ -102,7 +102,7 @@ class Window: NSWindow, NSWindowDelegate {
   // MARK: -  Public functions
   
   func show() {
-    self.makeKeyAndOrderFront(nil)
+    self.makeKeyAndOrderFront(UI.viewController.webView)
   }
   
   func hide() {
@@ -114,7 +114,7 @@ class Window: NSWindow, NSWindowDelegate {
   }
   
   override var isMainWindow: Bool {
-    return super.isMainWindow || (self.parent?.isMainWindow ?? false)
+    return super.isMainWindow || (self.parent?.isMainWindow ?? true)
   }
   
   override var canBecomeKey: Bool {
@@ -122,7 +122,7 @@ class Window: NSWindow, NSWindowDelegate {
   }
   
   override var isKeyWindow: Bool {
-    return super.isKeyWindow || (self.parent?.isKeyWindow ?? false)
+    return super.isKeyWindow || (self.parent?.isKeyWindow ?? true)
   }
   
   override func performDrag(with event: NSEvent) {

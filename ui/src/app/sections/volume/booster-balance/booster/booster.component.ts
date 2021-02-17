@@ -63,7 +63,7 @@ export class BoosterComponent implements OnInit {
     this.ignoreUpdatesDebouncer = setTimeout(() => {
       this.getGain()
       this.ignoreUpdates = false
-    }, 500)
+    }, 1000)
     this.boosterService.setGain(gain)
   }
 

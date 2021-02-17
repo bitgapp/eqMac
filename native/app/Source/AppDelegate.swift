@@ -41,7 +41,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, SUUpdaterDelegate {
   }
   
   func applicationDidBecomeActive(_ notification: Notification) {
-    
+    UI.show()
   }
   
   func updaterDidNotFindUpdate(_ updater: SUUpdater) {
