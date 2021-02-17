@@ -9,6 +9,6 @@ fi
 # Get current directory path
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-./remove_driver.sh
-./restart_coreaudio.sh
-./check_driver_uninstalled.sh
+$DIR/remove_driver.sh
+$DIR/restart_coreaudio.sh
+$DIR/check_driver_uninstalled.sh
