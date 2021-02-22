@@ -22,8 +22,6 @@
 		E00618E220F14C08003BA0B0 /* UIState.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00618E120F14C08003BA0B0 /* UIState.swift */; };
 		E00618EB20F22BD1003BA0B0 /* Effect.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00618EA20F22BD1003BA0B0 /* Effect.swift */; };
 		E00618ED20F292B9003BA0B0 /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00618EC20F292B9003BA0B0 /* Networking.swift */; };
-		E00C595923BBB8B000C7B8B6 /* RingBufferTimeBounds.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00C595823BBB8B000C7B8B6 /* RingBufferTimeBounds.swift */; };
-		E00C595B23BBB96100C7B8B6 /* RingBufferOffsets.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00C595A23BBB96100C7B8B6 /* RingBufferOffsets.swift */; };
 		E00C595D23BBBB6C00C7B8B6 /* UnsafeMutableAudioBufferListPointer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00C595C23BBBB6C00C7B8B6 /* UnsafeMutableAudioBufferListPointer.swift */; };
 		E00C596623BBBF3100C7B8B6 /* Atomic.m in Sources */ = {isa = PBXBuildFile; fileRef = E00C596523BBBF3100C7B8B6 /* Atomic.m */; };
 		E012A46E2044BC200029C800 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E012A46D2044BC200029C800 /* StringExtensions.swift */; };
@@ -85,7 +83,6 @@
 		E089AC492095E0B1005B72E5 /* Console.swift in Sources */ = {isa = PBXBuildFile; fileRef = E089AC482095E0B1005B72E5 /* Console.swift */; };
 		E090AD5820A9725F003BE5FF /* Volume.swift in Sources */ = {isa = PBXBuildFile; fileRef = E090AD5720A9725F003BE5FF /* Volume.swift */; };
 		E090AD5A20A972DE003BE5FF /* BasicEqualizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E090AD5920A972DE003BE5FF /* BasicEqualizer.swift */; };
-		E095BBC42014D999003473E9 /* RingBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E095BBC32014D999003473E9 /* RingBuffer.swift */; };
 		E095BBC62014E4A1003473E9 /* NumericTypesConversions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E095BBC52014E4A1003473E9 /* NumericTypesConversions.swift */; };
 		E09C17201FEC1969008E65A4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E09C171F1FEC1969008E65A4 /* Main.storyboard */; };
 		E0A3B96120DF8FE500E46908 /* Effects.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A3B96020DF8FE500E46908 /* Effects.swift */; };
@@ -143,8 +140,6 @@
 		E00618E120F14C08003BA0B0 /* UIState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIState.swift; sourceTree = "<group>"; };
 		E00618EA20F22BD1003BA0B0 /* Effect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Effect.swift; sourceTree = "<group>"; };
 		E00618EC20F292B9003BA0B0 /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
-		E00C595823BBB8B000C7B8B6 /* RingBufferTimeBounds.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingBufferTimeBounds.swift; sourceTree = "<group>"; };
-		E00C595A23BBB96100C7B8B6 /* RingBufferOffsets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingBufferOffsets.swift; sourceTree = "<group>"; };
 		E00C595C23BBBB6C00C7B8B6 /* UnsafeMutableAudioBufferListPointer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnsafeMutableAudioBufferListPointer.swift; sourceTree = "<group>"; };
 		E00C596423BBBF3100C7B8B6 /* Atomic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Atomic.h; sourceTree = "<group>"; };
 		E00C596523BBBF3100C7B8B6 /* Atomic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Atomic.m; sourceTree = "<group>"; };
@@ -210,7 +205,6 @@
 		E089AC482095E0B1005B72E5 /* Console.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Console.swift; sourceTree = "<group>"; };
 		E090AD5720A9725F003BE5FF /* Volume.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Volume.swift; sourceTree = "<group>"; };
 		E090AD5920A972DE003BE5FF /* BasicEqualizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicEqualizer.swift; sourceTree = "<group>"; };
-		E095BBC32014D999003473E9 /* RingBuffer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RingBuffer.swift; sourceTree = "<group>"; };
 		E095BBC52014E4A1003473E9 /* NumericTypesConversions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumericTypesConversions.swift; sourceTree = "<group>"; };
 		E09C171F1FEC1969008E65A4 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		E0A3B96020DF8FE500E46908 /* Effects.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Effects.swift; sourceTree = "<group>"; };
@@ -283,16 +277,6 @@
 				E072856A23F84A5500EDE8AC /* BoolExtensions.swift */,
 			);
 			path = Extensions;
-			sourceTree = "<group>";
-		};
-		E00C595723BBB84900C7B8B6 /* RingBuffer */ = {
-			isa = PBXGroup;
-			children = (
-				E095BBC32014D999003473E9 /* RingBuffer.swift */,
-				E00C595823BBB8B000C7B8B6 /* RingBufferTimeBounds.swift */,
-				E00C595A23BBB96100C7B8B6 /* RingBufferOffsets.swift */,
-			);
-			path = RingBuffer;
 			sourceTree = "<group>";
 		};
 		E00C596123BBBEA800C7B8B6 /* Vendor */ = {
@@ -447,7 +431,6 @@
 				E01B1BB3235E449000CC58E5 /* Sources */,
 				E0AD99DA225114C600D893F7 /* Volume */,
 				E090AD5B20A9F13E003BE5FF /* Effects */,
-				E00C595723BBB84900C7B8B6 /* RingBuffer */,
 				E0AD99DB2251151F00D893F7 /* Outputs */,
 				E02B922D219CBCD800AC130B /* AudioDeviceEvents.swift */,
 				E057A636227032EC0019D13C /* EngineDataBus.swift */,
@@ -839,14 +822,12 @@
 				E06E98D021D17E230041DD9C /* UI.swift in Sources */,
 				E057A64922710F2B0019D13C /* AdvancedEqualizerDataBus.swift in Sources */,
 				E07CB5B121902F4F0033DA89 /* Output.swift in Sources */,
-				E00C595B23BBB96100C7B8B6 /* RingBufferOffsets.swift in Sources */,
 				E0267AFD218AE39500FB2E5A /* Script.swift in Sources */,
 				E0F661861FDDED0C00252923 /* ViewController.swift in Sources */,
 				E02FF91822C8E87D0051342A /* Time.swift in Sources */,
 				E083214720715BBA0038ED1A /* NSOpenPanelExtensions.swift in Sources */,
 				E01F2F5D203391EA005123BE /* Utilities.swift in Sources */,
 				E0E2CFF72104EA7A002DC989 /* Equalizers.swift in Sources */,
-				E095BBC42014D999003473E9 /* RingBuffer.swift in Sources */,
 				E07A24E61FF3D4E4007AEF20 /* CheckErr.swift in Sources */,
 				E012A46E2044BC200029C800 /* StringExtensions.swift in Sources */,
 				E0C8F78621D3B6590023B1E5 /* UIDataBus.swift in Sources */,
@@ -863,7 +844,6 @@
 				E0A3B96120DF8FE500E46908 /* Effects.swift in Sources */,
 				E018710F21696D9500436B68 /* NSObject.swift in Sources */,
 				E021BCE722313F1E004921FF /* SettingsDataBus.swift in Sources */,
-				E00C595923BBB8B000C7B8B6 /* RingBufferTimeBounds.swift in Sources */,
 				E017A0091FF055B50019BBF1 /* User.swift in Sources */,
 				E0D1A0DA249E191700BBC742 /* eqMac2.swift in Sources */,
 				E0E8B62F20EEB6A900DE905C /* EffectsState.swift in Sources */,

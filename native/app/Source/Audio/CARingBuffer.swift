@@ -19,6 +19,7 @@ fileprivate func nextPowerOfTwo(_ value: UInt32) -> UInt32 {
   }
   return power
 }
+public typealias SampleTime = Int64
 
 fileprivate let kGeneralRingTimeBoundsQueueSize: UInt32 = 32
 fileprivate let kGeneralRingTimeBoundsQueueMask: Int32 = Int32(kGeneralRingTimeBoundsQueueSize) - 1
