@@ -32,4 +32,12 @@ class Effect {
     }
   }
   
+  func attachedTo (engine: AVAudioEngine) {
+    
+  }
+  
+  func detachedFrom (engine: AVAudioEngine) {
+    
+  }
+  
 }
