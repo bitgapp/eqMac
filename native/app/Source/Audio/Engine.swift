@@ -39,7 +39,7 @@ class Engine {
       
       let sampleTime = inTimeStamp.pointee.mSampleTime
       
-      Console.log("Writing: ", inNumberFrames, sampleTime)
+//      Console.log("Writing: ", inNumberFrames, sampleTime)
 
       if engine.ringBuffer.store(ioData!, framesToWrite: inNumberFrames, startWrite: sampleTime.int64Value) != .noError {
         return OSStatus()
