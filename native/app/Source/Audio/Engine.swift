@@ -39,7 +39,7 @@ class Engine {
       
       let sampleTime = inTimeStamp.pointee.mSampleTime
       
-//      Console.log("Writing: ", inNumberFrames, sampleTime)
+      Console.log("Writing: ", inNumberFrames, sampleTime)
 
       if engine.ringBuffer.store(ioData!, framesToWrite: inNumberFrames, startWrite: sampleTime.int64Value) != .noError {
         return OSStatus()
@@ -100,13 +100,13 @@ class Engine {
   private func attachEqualizer () {
     engine.attach(effects.equalizers.active.eq)
     attachedEqualizer = effects.equalizers.active
-    effects.equalizers.active.attachedTo(engine: engine)
+    effects.equalizers.active.wasAttachedTo(engine: self)
   }
   
   private func detachEqualizer () {
     if attachedEqualizer != nil {
       engine.detach(attachedEqualizer!.eq)
-      attachedEqualizer?.detachedFrom(engine: engine)
+      attachedEqualizer?.wasDetachedFrom(engine: self)
       attachedEqualizer = nil
     }
   }
