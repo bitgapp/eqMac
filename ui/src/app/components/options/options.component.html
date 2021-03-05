@@ -1,14 +1,19 @@
 <div fxLayout="column" fxLayoutAlign="space-around start" fxLayoutGap="10px">
   <div *ngFor="let row of options" fxLayout="row" style="width: 100%" fxLayoutGap="10px" fxLayoutAlign="space-between center">
     <div *ngFor="let option of row" [fxFlex]="100 / row.length" [ngStyle]="getOptionStyle(option.type)">
+        <!-- Checkbox -->
         <div *ngIf="option.type === 'checkbox'" 
         fxLayout="row" fxLayoutAlign="center center" fxFill fxLayoutGap="10px"
         (click)="toggleCheckbox(option)">
           <eqm-checkbox [interactive]="false" [checked]="option.value"></eqm-checkbox><eqm-label>{{option.label}}</eqm-label>
         </div> 
+
+        <!-- Button -->
         <eqm-button *ngIf="option.type === 'button'" fxFill type="narrow" (pressed)="option.action()" [hoverable]="option.hasOwnProperty('hoverable') ? option.hoverable : true">
           <eqm-label>{{option.label}}</eqm-label>
         </eqm-button>
+
+        <!-- Select -->
         <div *ngIf="option.type === 'select'" fxLayout="row" fxFill fxLayoutGap="10px" fxLayoutAlign="center center">
           <eqm-label>{{option.label}}</eqm-label>
           <div fxLayout="row" fxLayoutGap="5px" fxFlex>
@@ -19,6 +24,16 @@
               <eqm-label>{{selectOption.label}}</eqm-label>
             </eqm-button>
           </div>
+        </div>
+
+        <!-- Divider -->
+        <div *ngIf="option.type === 'divider'">
+          <eqm-divider [orientation]="option.orientation"></eqm-divider>
+        </div>
+
+        <!-- Label -->
+        <div *ngIf="option.type === 'label'">
+          <eqm-label>{{option.label}}</eqm-label>
         </div>
     </div>
   </div>

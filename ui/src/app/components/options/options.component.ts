@@ -12,6 +12,18 @@ export interface ButtonOption extends BaseOptions {
   action: () => any
 }
 
+export interface DividerOption extends BaseOptions {
+  type: 'divider'
+  orientation: 'horizontal' | 'vertical'
+  label: never
+  key: never
+}
+
+export interface LabelOption extends BaseOptions {
+  type: 'label'
+  key: never
+}
+
 export interface CheckboxOption extends BaseOptions {
   type: 'checkbox'
   value: boolean
@@ -29,7 +41,7 @@ export interface SelectOption extends BaseOptions {
   selected?: (id: string) => any
 }
 
-export type Option = ButtonOption | CheckboxOption | SelectOption
+export type Option = ButtonOption | CheckboxOption | SelectOption | DividerOption | LabelOption
 
 export type Options = Option[][]
 @Component({
