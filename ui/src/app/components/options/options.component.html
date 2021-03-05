@@ -1,6 +1,6 @@
 <div fxLayout="column" fxLayoutAlign="space-around start" fxLayoutGap="10px">
   <div *ngFor="let row of options" fxLayout="row" style="width: 100%" fxLayoutGap="10px" fxLayoutAlign="space-between center">
-    <div *ngFor="let option of row" [fxFlex]="100 / row.length" [ngStyle]="getOptionStyle(option.type)">
+    <div *ngFor="let option of row" [fxFlex]="100 / row.length" [ngStyle]="getOptionStyle(option)">
         <!-- Checkbox -->
         <div *ngIf="option.type === 'checkbox'" 
         fxLayout="row" fxLayoutAlign="center center" fxFill fxLayoutGap="10px"
@@ -9,7 +9,10 @@
         </div> 
 
         <!-- Button -->
-        <eqm-button *ngIf="option.type === 'button'" fxFill type="narrow" (pressed)="option.action()" [hoverable]="option.hasOwnProperty('hoverable') ? option.hoverable : true">
+        <eqm-button *ngIf="option.type === 'button'" 
+        fxFill type="narrow" 
+        [disabled]="!!option.isEnabled && option.isEnabled() === false"
+        (pressed)="option.action()" [hoverable]="option.hasOwnProperty('hoverable') ? option.hoverable : true">
           <eqm-label>{{option.label}}</eqm-label>
         </eqm-button>
 
@@ -19,6 +22,7 @@
           <div fxLayout="row" fxLayoutGap="5px" fxFlex>
             <eqm-button *ngFor="let selectOption of option.options" 
             [fxFlex]="100 / option.options.length"
+            [disabled]="!!option.isEnabled && option.isEnabled() === false"
             [depressable]="false" [toggle]="true" type="narrow" [state]="option.selectedId === selectOption.id" (pressed)="selectedOption(option, selectOption)"
             >
               <eqm-label>{{selectOption.label}}</eqm-label>

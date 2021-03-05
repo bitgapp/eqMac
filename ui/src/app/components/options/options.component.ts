@@ -4,6 +4,7 @@ interface BaseOptions {
   key: string
   type: string
   label: string
+  isEnabled?: () => boolean
 }
 
 export interface ButtonOption extends BaseOptions {
@@ -12,16 +13,13 @@ export interface ButtonOption extends BaseOptions {
   action: () => any
 }
 
-export interface DividerOption extends BaseOptions {
+export interface DividerOption extends Omit<BaseOptions, 'key' | 'label'> {
   type: 'divider'
   orientation: 'horizontal' | 'vertical'
-  label: never
-  key: never
 }
 
-export interface LabelOption extends BaseOptions {
+export interface LabelOption extends Omit<BaseOptions, 'key'> {
   type: 'label'
-  key: never
 }
 
 export interface CheckboxOption extends BaseOptions {
@@ -55,22 +53,32 @@ export class OptionsComponent {
 
   constructor (public ref: ChangeDetectorRef) {}
 
-  getOptionStyle (type: Option['type']) {
+  getOptionStyle (option: Option) {
     let style: any = {}
-    if (type === 'button') {
+    if (option.type === 'button') {
       style.width = '100%'
+    }
+
+    if (!!option.isEnabled && option.isEnabled() === false) {
+      style.filter = 'grayscale(1)'
     }
 
     return style
   }
 
   toggleCheckbox (checkbox: CheckboxOption) {
+    if (!!checkbox.isEnabled && checkbox.isEnabled() === false) {
+      return
+    }
     checkbox.value = !checkbox.value
     if (checkbox.toggled) checkbox.toggled(checkbox.value)
     this.checkboxToggled.emit(checkbox)
   }
 
   selectedOption (option: SelectOption, selectOption: SelectOptionOption) {
+    if (!!option.isEnabled && option.isEnabled() === false) {
+      return
+    }
     if (option.selectedId !== selectOption.id) {
       option.selectedId = selectOption.id
       this.ref.detectChanges()
