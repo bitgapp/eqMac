@@ -78,7 +78,7 @@ class Sources: NSObject {
           if proceed {
             InputSource.requestPermission() { allowed in
               if !InputSource.hasPermission {
-                Script.apple("open_privacy_microphone_settings")
+                NSWorkspace.shared.open(URL(string:"x-apple.systempreferences:com.apple.preference.security?Privacy_Microphone")!)
                 Utilities.delay(1000) {
                   
                   Alert.confirm(
