@@ -78,6 +78,8 @@ class UI: StoreSubscriber {
   static let loadingViewController = (loadingWindowController.contentViewController as! LoadingViewController)
   //    var popover: Popover!
   
+  static var cachedIsShown: Bool = false
+  static var isShownChanged = Event<Bool>()
   static var isShown: Bool {
     get {
       if (mode == .popover) {
@@ -217,6 +219,17 @@ class UI: StoreSubscriber {
     setupBridge()
     setupListeners()
     load()
+    
+    func checkIfVisible () {
+      let shown = UI.isShown
+      if (UI.cachedIsShown != shown) {
+        UI.cachedIsShown = shown
+        UI.isShownChanged.emit(shown)
+      }
+      DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: checkIfVisible)
+    }
+    
+    checkIfVisible()
   }
   
   static func reload () {

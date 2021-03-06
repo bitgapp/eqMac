@@ -13,6 +13,7 @@ class Window: NSWindow, NSWindowDelegate {
   override init(contentRect: NSRect, styleMask style: NSWindow.StyleMask, backing backingStoreType: NSWindow.BackingStoreType, defer flag: Bool) {
     super.init(contentRect: contentRect, styleMask: style, backing: backingStoreType, defer: flag)
     
+    self.delegate = self
     self.isOneShot = false
     self.titleVisibility = .hidden
     self.titlebarAppearsTransparent = true
@@ -32,9 +33,12 @@ class Window: NSWindow, NSWindowDelegate {
     })
   }
   
+  func windowDidChangeOcclusionState(_ notification: Notification) {
+    // occlusionState.contains(.visible)
+  }
   var isShown: Bool {
     get {
-      return self.isVisible
+      return self.isVisible && self.occlusionState.contains(.visible)
     }
     set {
       let show = newValue
