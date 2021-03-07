@@ -134,7 +134,16 @@ export class BasicEqualizerComponent extends EqualizerComponent implements OnIni
 
   async savePreset (name: string) {
     const { gains, peakLimiter } = this.selectedPreset
-    await this.service.createPreset({ name, gains, peakLimiter }, true)
+    const existingUserPreset = this.presets.filter(p => !p.isDefault).find(p => p.name === name)
+    if (existingUserPreset) {
+      // Overwrite
+      await this.service.updatePreset({ id: existingUserPreset.id, name, gains, peakLimiter }, {
+        select: true
+      })
+    } else {
+      // Create
+      await this.service.createPreset({ name, gains, peakLimiter }, true)
+    }
     await this.syncPresets()
   }
 

@@ -211,7 +211,18 @@ export class AdvancedEqualizerComponent extends EqualizerComponent implements On
 
   async savePreset (name: string) {
     const { gains } = this.selectedPreset
-    this.selectedPreset = await this.service.createPreset({ name, gains }, true)
+    const existingUserPreset = this.presets.filter(p => !p.isDefault).find(p => p.name === name)
+    if (existingUserPreset) {
+      // Overwrite
+      await this.service.updatePreset({ id: existingUserPreset.id, name, gains }, {
+        select: true
+      })
+      this.selectedPreset = existingUserPreset
+    } else {
+      // Create
+      this.selectedPreset = await this.service.createPreset({ name, gains }, true)
+    }
+    await this.syncPresets()
   }
 
   async deletePreset () {

@@ -24,7 +24,6 @@ class BasicEqualizerDataBus: DataBus {
     
     self.on(.GET, "/presets/selected") { data, _ in
       let preset = BasicEqualizer.getPreset(id: self.state.selectedPresetId)
-      Console.log(preset)
       return JSON(preset!.dictionary)
     }
     

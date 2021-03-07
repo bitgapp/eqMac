@@ -9,7 +9,7 @@ export abstract class EqualizerComponent {
   @Input() animationFps = 30
   @Input() settingsDialog: MatDialogRef<OptionsDialogComponent, any>
   abstract settings: Options
-  abstract async sync ()
+  abstract sync (): Promise<any>
   async selected () {
     await this.sync()
   }
