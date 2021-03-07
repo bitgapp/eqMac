@@ -99,6 +99,11 @@ export class EqualizersComponent implements OnInit {
     this.equalizersCarousel.next()
   }
 
+  setType (type: EqualizerType) {
+    this.type = type
+    this.typeSwitched(type)
+  }
+
   equalizerCameIntoView (type: EqualizerType) {
     const equalizer = this.getEqualizerFromType(type)
     equalizer && equalizer.selected()

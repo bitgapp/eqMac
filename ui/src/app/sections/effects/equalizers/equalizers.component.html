@@ -1,21 +1,23 @@
-<div fxLayout="row" [style.padding.px]="5" [style.width.%]="100" fxLayoutAlign="space-between start" >
+<div fxLayout="row" [style.padding.px]="5" [style.width.%]="100" fxLayoutAlign="space-between center" >
 
     <div fxFlex="20" fxLayoutAlign="start center">
         <eqm-toggle class="on-off" [(state)]="enabled" (stateChange)="setEnabled()"></eqm-toggle>
     </div>
 
-    <div fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="5px">
-      <eqm-button type="transparent" (pressed)="previousType()" [disabled]="!enabled || type === 'Basic'">
-          <eqm-icon name="triangle" color="#4f8d71" rotate="180" size="15"></eqm-icon>
-      </eqm-button>
-      <div style="width: 110px;" fxLayout="row" fxLayoutAlign="center center">
-        <eqm-label>{{type}}</eqm-label>
-        &nbsp;
-        <eqm-label>Equalizer</eqm-label>
-      </div>
-      <eqm-button type="transparent" (pressed)="nextType()" [disabled]="!enabled || type === 'Advanced'">
-        <eqm-icon name="triangle" color="#4f8d71" size="15"></eqm-icon>
-      </eqm-button>
+    <div fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="20px">
+      <eqm-label>Equalizer: </eqm-label>
+      <eqm-label 
+        [color]="type === 'Basic' ? ui.colors.accent : ui.colors.light"
+        (click)="setType('Basic')"
+      >
+        Basic
+      </eqm-label>
+      <eqm-label 
+        [color]="type === 'Advanced' ? ui.colors.accent : ui.colors.light"
+        (click)="setType('Advanced')"
+      >
+        Advanced
+      </eqm-label>
     </div>
 
     <div fxFlex="20" fxLayoutAlign="end start">
@@ -29,6 +31,7 @@
         <!-- <eqm-icon (click)="toggleVisibility()" [name]="hide ? 'show' : 'hide'"></eqm-icon> -->
     </div>
 </div>
+
 <div [style.width.%]="100" fxLayout="row">
   <eqm-equalizer-presets 
     [disabled]="!enabled"
@@ -38,11 +41,6 @@
     (presetSaved)="savePreset($event)"
     (presetDeleted)="deletePreset()"
   ></eqm-equalizer-presets> 
-  <!-- <div fxLayout="column" fxLayoutAlign="start center">
-    <eqm-label>Global</eqm-label>
-    <eqm-knob size="small"></eqm-knob>
-    <eqm-value-screen></eqm-value-screen>
-  </div> -->
 </div>
 <eqm-loading *ngIf="!loaded"></eqm-loading>
 <eqm-carousel class="equalizers" #equalizersCarousel [hidden]="!loaded" 
