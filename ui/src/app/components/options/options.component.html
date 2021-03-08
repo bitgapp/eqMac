@@ -39,6 +39,23 @@
         <div *ngIf="option.type === 'label'">
           <eqm-label>{{option.label}}</eqm-label>
         </div>
+
+        <!-- HTML -->
+        <div *ngIf="option.type === 'html'" [innerHTML]="option.html"></div>
+
+        <!-- Dropdown -->
+        <div *ngIf="option.type === 'dropdown'">
+          <eqm-dropdown
+            [items]="option.items"
+            [labelParam]="option.labelParam"
+            [label]="option.label"
+            [selectedItem]="option.selectedItem"
+            [numberOfVisibleItems]="option.numberOfVisibleItems"
+            [placeholder]="option.placeholder"
+            [noItemsPlaceholder]="option.noItemsPlaceholder"
+            (itemSelected)="option.itemSelected($event)"
+            ></eqm-dropdown>
+        </div>
     </div>
   </div>
 </div>

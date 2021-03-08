@@ -22,6 +22,23 @@ export interface LabelOption extends Omit<BaseOptions, 'key'> {
   type: 'label'
 }
 
+export interface HTMLOption extends Omit<BaseOptions, 'key' | 'label'> {
+  type: 'html'
+  html: string
+}
+
+export interface DropdownOption extends Omit<BaseOptions, 'label'> {
+  type: 'dropdown'
+  items: any[]
+  labelParam: string
+  label?: string
+  selectedItem?: any
+  numberOfVisibleItems?: number
+  placeholder?: string
+  noItemsPlaceholder?: string
+  itemSelected: (item: any) => void | Promise<void>
+}
+
 export interface CheckboxOption extends BaseOptions {
   type: 'checkbox'
   value: boolean
