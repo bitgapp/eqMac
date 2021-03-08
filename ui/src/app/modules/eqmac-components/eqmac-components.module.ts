@@ -20,7 +20,6 @@ import {
 import {
   ToggleComponent
 } from './components/toggle/toggle.component'
-import { ClickOutsideModule } from 'ng-click-outside'
 import { ContainerComponent } from './components/container/container.component'
 import { InputFieldComponent } from './components/input-field/input-field.component'
 import { FormsModule } from '@angular/forms'
@@ -46,11 +45,11 @@ import { PromptComponent } from './components/prompt/prompt.component'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { CarouselComponent, CarouselItemDirective, CarouselItemElement } from './components/carousel/carousel.component'
 import { QuestionComponent } from './components/question/question.component'
+import { ClickedOutsideComponent } from './components/clicked-outside.component'
 
 @NgModule({
   imports: [
     CommonModule,
-    ClickOutsideModule,
     FormsModule,
     HttpClientModule,
     PipesModule,

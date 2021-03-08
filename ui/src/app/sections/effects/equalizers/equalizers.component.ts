@@ -5,7 +5,7 @@ import { AdvancedEqualizerComponent } from './advanced-equalizer/advanced-equali
 import { EqualizerComponent } from './equalizer.component'
 import { CarouselComponent } from 'src/app/modules/eqmac-components/components/carousel/carousel.component'
 import { FadeInOutAnimation } from 'src/app/modules/animations'
-import { MatDialog, MatDialogRef } from '@angular/material'
+import { MatDialog, MatDialogRef } from '@angular/material/dialog'
 import { OptionsDialogComponent } from '../../../components/options-dialog/options-dialog.component'
 import { EqualizerPreset } from './presets/equalizer-presets.component'
 import { UIService } from '../../../services/ui.service'
@@ -53,7 +53,7 @@ export class EqualizersComponent implements OnInit {
   constructor (
     public equalizersService: EqualizersService,
     public dialog: MatDialog,
-    protected ui: UIService
+    public ui: UIService
     ) { }
 
   async ngOnInit () {

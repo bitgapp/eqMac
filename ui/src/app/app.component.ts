@@ -7,7 +7,7 @@ import {
 import { UtilitiesService } from './services/utilities.service'
 import { UIService, UIDimensions } from './services/ui.service'
 import { FadeInOutAnimation, FromTopAnimation } from 'src/app/modules/animations'
-import { MatDialog } from '@angular/material'
+import { MatDialog } from '@angular/material/dialog'
 import { TransitionService } from './services/transitions.service'
 import { AnalyticsService } from './services/analytics.service'
 import { ApplicationService } from './services/app.service'

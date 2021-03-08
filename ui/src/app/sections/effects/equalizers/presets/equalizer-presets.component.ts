@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
-import { MatDialog } from '@angular/material'
+import { MatDialog } from '@angular/material/dialog'
 import { PromptDialogComponent } from 'src/app/components/prompt-dialog/prompt-dialog.component'
 import { ConfirmDialogComponent } from 'src/app/components/confirm-dialog/confirm-dialog.component'
 import { IconName } from '../../../../modules/eqmac-components/components/icon/icons'

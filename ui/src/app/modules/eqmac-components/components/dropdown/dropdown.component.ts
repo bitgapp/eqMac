@@ -3,6 +3,7 @@ import { SelectBoxComponent } from '../select-box/select-box.component'
 import { UtilitiesService } from '../../services/utilities.service'
 import { InputFieldComponent } from '../input-field/input-field.component'
 import { FadeInOutAnimation } from 'src/app/modules/animations'
+import { ClickedOutsideComponent } from '../clicked-outside.component'
 
 @Component({
   selector: 'eqm-dropdown',
@@ -10,8 +11,10 @@ import { FadeInOutAnimation } from 'src/app/modules/animations'
   styleUrls: ['./dropdown.component.scss'],
   animations: [ FadeInOutAnimation ]
 })
-export class DropdownComponent implements OnInit {
-  constructor (public utils: UtilitiesService, public zone: NgZone) { }
+export class DropdownComponent extends ClickedOutsideComponent implements OnInit {
+  constructor (public utils: UtilitiesService, public zone: NgZone) {
+    super()
+  }
   public _items: any[] = []
   hasSelection = false
   @Input() editable = false

@@ -2,16 +2,17 @@ import { Component, OnInit } from '@angular/core'
 import { Option, CheckboxOption, ButtonOption, Options, SelectOption } from 'src/app/components/options/options.component'
 import { SettingsService, IconMode } from './settings.service'
 import { ApplicationService } from '../../services/app.service'
-import { MatDialog } from '@angular/material'
+import { MatDialog } from '@angular/material/dialog'
 import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-dialog.component'
 import { UIService } from '../../services/ui.service'
+import { ClickedOutsideComponent } from '../../modules/eqmac-components/components/clicked-outside.component'
 
 @Component({
   selector: 'eqm-settings',
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.scss']
 })
-export class SettingsComponent implements OnInit {
+export class SettingsComponent extends ClickedOutsideComponent implements OnInit {
   launchOnStartupOption: CheckboxOption = {
     key: 'launchOnStartup',
     type: 'checkbox',
@@ -95,6 +96,7 @@ export class SettingsComponent implements OnInit {
     public dialog: MatDialog,
     public ui: UIService
   ) {
+    super()
     this.getDriverReinstallAvailable()
   }
 

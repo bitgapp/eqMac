@@ -13,6 +13,6 @@
     </eqm-icon>
   </div>
 </eqm-container>
-<eqm-select-box [numberOfVisibleItems]="numberOfVisibleItems" (clickOutside)="close()" #box [hidden]="!shown"
+<eqm-select-box [numberOfVisibleItems]="numberOfVisibleItems" (clickedOutside)="close()" #box [hidden]="!shown"
   [class]="'items-select-box' + (direction === 'down' ? ' down' : ' up')" [items]="items" [labelParam]="labelParam"
   [selectedItem]="selectedItem" (itemSelected)="selectItem($event)" [style.top.px]="yCoordinate"></eqm-select-box>

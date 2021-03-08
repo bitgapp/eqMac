@@ -1,6 +1,6 @@
 import { Component, Input, Inject } from '@angular/core'
 import { ConfirmDialogComponent, ConfirmDialogData } from '../confirm-dialog/confirm-dialog.component'
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material'
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
 
 export interface PromptDialogData extends ConfirmDialogData {
   prompt?: string

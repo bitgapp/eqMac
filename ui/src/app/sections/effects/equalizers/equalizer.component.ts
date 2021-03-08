@@ -1,7 +1,7 @@
 import { Option, Options } from 'src/app/components/options/options.component'
 import { AdditionalPresetOption, EqualizerPreset } from './presets/equalizer-presets.component'
 import { Input } from '@angular/core'
-import { MatDialogRef } from '@angular/material'
+import { MatDialogRef } from '@angular/material/dialog'
 import { OptionsDialogComponent } from '../../../components/options-dialog/options-dialog.component'
 
 export abstract class EqualizerComponent {
