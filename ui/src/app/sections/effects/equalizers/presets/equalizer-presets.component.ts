@@ -13,6 +13,7 @@ export interface EqualizerPreset {
 export interface AdditionalPresetOption {
   tooltip: string
   icon: IconName
+  iconSize?: number
   action: () => void | Promise<void>
 }
 
