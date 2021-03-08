@@ -56,7 +56,7 @@ export interface SelectOption extends BaseOptions {
   selected?: (id: string) => any
 }
 
-export type Option = ButtonOption | CheckboxOption | SelectOption | DividerOption | LabelOption
+export type Option = ButtonOption | CheckboxOption | SelectOption | DividerOption | LabelOption | HTMLOption | DropdownOption
 
 export type Options = Option[][]
 @Component({
