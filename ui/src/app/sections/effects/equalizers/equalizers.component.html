@@ -40,7 +40,9 @@
     (presetSelected)="selectPreset($event)"
     (presetSaved)="savePreset($event)"
     (presetDeleted)="deletePreset()"
-  ></eqm-equalizer-presets> 
+    [additionalLeftOption]="activeEqualizer.additionalPresetOptionLeft"
+    [additionalLeftOption]="activeEqualizer.additionalPresetOptionRight"
+  ></eqm-equalizer-presets>
 </div>
 <eqm-loading *ngIf="!loaded"></eqm-loading>
 <eqm-carousel class="equalizers" #equalizersCarousel [hidden]="!loaded" 

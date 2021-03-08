@@ -2,11 +2,18 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
 import { MatDialog } from '@angular/material'
 import { PromptDialogComponent } from 'src/app/components/prompt-dialog/prompt-dialog.component'
 import { ConfirmDialogComponent } from 'src/app/components/confirm-dialog/confirm-dialog.component'
+import { IconName } from '../../../../modules/eqmac-components/components/icon/icons'
 
 export interface EqualizerPreset {
   id?: string
   name: string
   isDefault?: boolean
+}
+
+export interface AdditionalPresetOption {
+  tooltip: string
+  icon: IconName
+  action: () => void | Promise<void>
 }
 
 @Component({
@@ -21,6 +28,8 @@ export class EqualizerPresetsComponent implements OnInit {
   @Output() presetSelected = new EventEmitter<EqualizerPreset>()
   @Output() presetSaved = new EventEmitter<string>()
   @Output() presetDeleted = new EventEmitter()
+  @Input() additionalLeftOption?: AdditionalPresetOption
+  @Input() additionalRightOption?: AdditionalPresetOption
 
   constructor (
     public dialog: MatDialog

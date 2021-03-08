@@ -1,12 +1,15 @@
 <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px">
     <!-- Left buttons -->
-    <!-- <div class="button-container">
-      <eqm-button *ngIf="false" 
-        size="square" [height]="20" [width]="20"
-        eqmTooltip="Export Presets">
-        <eqm-icon name="minus" [width]="10" [height]="10" [stroke]="2"></eqm-icon>
+
+    <div class="button-container" *ngIf="additionalLeftOption">
+      <eqm-button 
+        size="square" [height]="20" [width]="20" [disabled]="disabled"
+        (pressed)="additionalLeftOption.action()"
+        [eqmTooltip]="additionalLeftOption.tooltip">
+        <eqm-icon [name]="additionalLeftOption.icon" [width]="10" [height]="10" [stroke]="2"></eqm-icon>
       </eqm-button>
-    </div> -->
+    </div>
+
     <div class="button-container">
       <eqm-button 
         size="square" [height]="20" [width]="20" [disabled]="disabled || selectedPreset?.isDefault"
@@ -32,10 +35,14 @@
         <eqm-icon name="cross" [width]="10" [height]="10" [stroke]="5" [rotate]="45"></eqm-icon>
       </eqm-button>
     </div>
-    <!-- <div class="button-container">
-      <eqm-button *ngIf="false" size="square" [height]="20" [width]="20"
-      eqmTooltip="Import Presets">
-        <eqm-icon name="cross" [width]="10" [height]="10" [stroke]="5" [rotate]="45"></eqm-icon>
+
+    <div class="button-container" *ngIf="additionalRightOption">
+      <eqm-button 
+        size="square" [height]="20" [width]="20" [disabled]="disabled"
+        (pressed)="additionalRightOption.action()"
+        [eqmTooltip]="additionalRightOption.tooltip">
+        <eqm-icon [name]="additionalRightOption.icon" [width]="10" [height]="10" [stroke]="2"></eqm-icon>
       </eqm-button>
-    </div> -->
+    </div>
+
 </div>

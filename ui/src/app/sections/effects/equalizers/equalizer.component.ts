@@ -1,5 +1,5 @@
 import { Option, Options } from 'src/app/components/options/options.component'
-import { EqualizerPreset } from './presets/equalizer-presets.component'
+import { AdditionalPresetOption, EqualizerPreset } from './presets/equalizer-presets.component'
 import { Input } from '@angular/core'
 import { MatDialogRef } from '@angular/material'
 import { OptionsDialogComponent } from '../../../components/options-dialog/options-dialog.component'
@@ -13,6 +13,9 @@ export abstract class EqualizerComponent {
   async selected () {
     await this.sync()
   }
+
+  additionalPresetOptionLeft?: AdditionalPresetOption
+  additionalPresetOptionRight?: AdditionalPresetOption
 
   abstract selectPreset (preset: EqualizerPreset)
   abstract deletePreset ()
