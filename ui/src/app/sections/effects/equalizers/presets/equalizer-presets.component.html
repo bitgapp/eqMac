@@ -3,10 +3,10 @@
 
     <div class="button-container" *ngIf="additionalLeftOption">
       <eqm-button 
-        size="square" [height]="additionalLeftOption.iconSize || 20" [width]="additionalLeftOption.iconSize || 20" [disabled]="disabled"
+        size="square" [height]="20" [width]="20" [disabled]="disabled"
         (pressed)="additionalLeftOption.action()"
         [eqmTooltip]="additionalLeftOption.tooltip">
-        <eqm-icon [name]="additionalLeftOption.icon" [width]="10" [height]="10" [stroke]="2"></eqm-icon>
+        <eqm-icon [name]="additionalLeftOption.icon" [width]="additionalLeftOption.iconSize || 10" [height]="additionalLeftOption.iconSize || 10" [stroke]="2"></eqm-icon>
       </eqm-button>
     </div>
 
@@ -38,10 +38,10 @@
 
     <div class="button-container" *ngIf="additionalRightOption">
       <eqm-button 
-        size="square" [height]="additionalRightOption.iconSize || 20" [width]="additionalRightOption.iconSize || 20" [disabled]="disabled"
+        size="square" [height]="20" [width]="20" [disabled]="disabled"
         (pressed)="additionalRightOption.action()"
         [eqmTooltip]="additionalRightOption.tooltip">
-        <eqm-icon [name]="additionalRightOption.icon" [width]="10" [height]="10" [stroke]="2"></eqm-icon>
+        <eqm-icon [name]="additionalRightOption.icon" [width]="additionalRightOption.iconSize || 10" [height]="additionalRightOption.iconSize || 10" [stroke]="2"></eqm-icon>
       </eqm-button>
     </div>
 
