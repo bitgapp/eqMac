@@ -46,7 +46,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { CarouselComponent, CarouselItemDirective, CarouselItemElement } from './components/carousel/carousel.component'
 import { QuestionComponent } from './components/question/question.component'
 import { ClickedOutsideDirective } from './directives/clicked-outside.directive'
-import { ScrollingModule } from '@angular/cdk/scrolling'
+import { ScrollingModule } from '@angular/cdk/scrolling';
+import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component'
 
 @NgModule({
   imports: [
@@ -85,7 +86,8 @@ import { ScrollingModule } from '@angular/cdk/scrolling'
     CarouselComponent,
     CarouselItemElement,
     CarouselItemDirective,
-    QuestionComponent
+    QuestionComponent,
+    BreadcrumbsComponent
   ],
   exports: [
     ClickedOutsideDirective,
@@ -112,7 +114,8 @@ import { ScrollingModule } from '@angular/cdk/scrolling'
     CheckboxComponent,
     CarouselComponent,
     CarouselItemDirective,
-    QuestionComponent
+    QuestionComponent,
+    BreadcrumbsComponent
   ],
   providers: [
     UtilitiesService

@@ -39,9 +39,10 @@
         <div *ngIf="option.type === 'label'" 
           [class]="option.url ? 'clickable' : ''" 
           (click)="openUrl(option.url)"
-          [eqmTooltip]="option.tooltip"
+          fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="center center"
         >
           <eqm-label>{{option.label}}</eqm-label>
+          <eqm-question *ngIf="option.tooltip" [eqmTooltip]="option.tooltip"></eqm-question>
         </div>
 
         <!-- HTML -->
@@ -59,6 +60,10 @@
             [noItemsPlaceholder]="option.noItemsPlaceholder"
             (itemSelected)="option.itemSelected($event)"
             ></eqm-dropdown>
+        </div>
+
+        <div *ngIf="option.type === 'breadcrumbs'">
+          <eqm-breadcrumbs [crumbs]="option.crumbs" (crumbClicked)="option.crumbClicked($event)"></eqm-breadcrumbs>
         </div>
     </div>
   </div>

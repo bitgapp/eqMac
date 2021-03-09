@@ -1,0 +1,6 @@
+<div fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="center center">
+  <div *ngFor="let crumb of crumbs; index as i" fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="center center">
+    <eqm-icon *ngIf="i !== 0" name="triangle" [rotate]="90"></eqm-icon>
+    <eqm-label (click)="crumbClicked.emit({ crumb: crumb, index: index })">{{crumb}}</eqm-label>
+  </div>
+</div>

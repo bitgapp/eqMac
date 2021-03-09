@@ -59,7 +59,15 @@ export interface SelectOption extends BaseOptions {
   selected?: (id: string) => any
 }
 
-export type Option = ButtonOption | CheckboxOption | SelectOption | DividerOption | LabelOption | HTMLOption | DropdownOption
+export interface BreadcrumbsOption extends Omit<BaseOptions, 'key' | 'label'> {
+  type: 'breadcrumbs'
+  crumbs: string[]
+  crumbClicked: (event: { crumb: string, index: number }) => void | Promise<void>
+}
+
+export type Option = ButtonOption | CheckboxOption | SelectOption 
+| DividerOption | LabelOption | HTMLOption | DropdownOption
+| BreadcrumbsOption
 
 export type Options = Option[][]
 @Component({
