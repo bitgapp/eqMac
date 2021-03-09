@@ -45,7 +45,7 @@ import { PromptComponent } from './components/prompt/prompt.component'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { CarouselComponent, CarouselItemDirective, CarouselItemElement } from './components/carousel/carousel.component'
 import { QuestionComponent } from './components/question/question.component'
-import { ClickedOutsideComponent } from './components/clicked-outside.component'
+import { ClickedOutsideDirective } from './directives/clicked-outside.directive'
 
 @NgModule({
   imports: [
@@ -56,6 +56,7 @@ import { ClickedOutsideComponent } from './components/clicked-outside.component'
     BrowserAnimationsModule
   ],
   declarations: [
+    ClickedOutsideDirective,
     KnobComponent,
     MouseWheelDirective,
     ValueScreenComponent,
@@ -85,6 +86,7 @@ import { ClickedOutsideComponent } from './components/clicked-outside.component'
     QuestionComponent
   ],
   exports: [
+    ClickedOutsideDirective,
     KnobComponent,
     ValueScreenComponent,
     ButtonComponent,

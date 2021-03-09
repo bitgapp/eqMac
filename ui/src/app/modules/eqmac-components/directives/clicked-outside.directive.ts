@@ -1,10 +1,7 @@
-import { Component, EventEmitter, HostListener, Output } from "@angular/core";
+import { Component, Directive, EventEmitter, HostListener, Output } from "@angular/core";
 
-
-// @Component({
-//   template: ``
-// })
-export class ClickedOutsideComponent {
+@Directive({ selector: `[clickedOutside]` })
+export class ClickedOutsideDirective {
   @Output() clickedOutside = new EventEmitter()
 
   private inside = false

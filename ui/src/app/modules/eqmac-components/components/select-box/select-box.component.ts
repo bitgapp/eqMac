@@ -1,12 +1,11 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core'
-import { ClickedOutsideComponent } from '../clicked-outside.component'
 
 @Component({
   selector: 'eqm-select-box',
   templateUrl: './select-box.component.html',
   styleUrls: ['./select-box.component.scss']
 })
-export class SelectBoxComponent extends ClickedOutsideComponent implements OnInit {
+export class SelectBoxComponent implements OnInit {
 
   _items: any[] = []
   @Input()
@@ -41,7 +40,6 @@ export class SelectBoxComponent extends ClickedOutsideComponent implements OnIni
   itemHeight = 25
 
   constructor (public host: ElementRef) {
-    super()
   }
 
   ngOnInit () {
