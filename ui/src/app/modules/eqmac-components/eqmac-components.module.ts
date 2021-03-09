@@ -46,6 +46,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { CarouselComponent, CarouselItemDirective, CarouselItemElement } from './components/carousel/carousel.component'
 import { QuestionComponent } from './components/question/question.component'
 import { ClickedOutsideDirective } from './directives/clicked-outside.directive'
+import { ScrollingModule } from '@angular/cdk/scrolling'
 
 @NgModule({
   imports: [
@@ -53,7 +54,8 @@ import { ClickedOutsideDirective } from './directives/clicked-outside.directive'
     FormsModule,
     HttpClientModule,
     PipesModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    ScrollingModule
   ],
   declarations: [
     ClickedOutsideDirective,

@@ -1,5 +1,7 @@
-  <eqm-container class="container" #container>
-    <div *ngFor="let item of items" [class]="'item' + (item == selectedItem ? ' selected' : '')" (click)="selectItem(item)" [style.height.px]="itemHeight - 6">
+<eqm-container class="container" #container>
+  <cdk-virtual-scroll-viewport [itemSize]="itemHeight" style="height: 100%; width: 100%" >
+    <div *cdkVirtualFor="let item of items" [class]="'item' + (item == selectedItem ? ' selected' : '')" (click)="selectItem(item)" [style.height.px]="itemHeight - 6">
       <eqm-icon *ngIf="item.icon" [name]="item.icon" class="icon"></eqm-icon><eqm-label>{{item[labelParam]}}</eqm-label>
     </div>
-  </eqm-container>
+  </cdk-virtual-scroll-viewport>
+</eqm-container>
