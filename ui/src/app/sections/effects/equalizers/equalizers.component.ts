@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output, ViewChild, Input } from '@angular/core'
+import { Component, OnInit, EventEmitter, Output, ViewChild, Input, ChangeDetectorRef } from '@angular/core'
 import { EqualizersService, EqualizerType } from './equalizers.service'
 import { BasicEqualizerComponent } from './basic-equalizer/basic-equalizer.component'
 import { AdvancedEqualizerComponent } from './advanced-equalizer/advanced-equalizer.component'
@@ -35,6 +35,7 @@ export class EqualizersComponent implements OnInit {
   set type (newType: EqualizerType) {
     if (this._type === newType) return
     this._type = newType
+    this.changeRef.detectChanges()
     this.activeEqualizer = this.getEqualizerFromType(this.type)
   }
   get type () { return this._type }
@@ -46,13 +47,16 @@ export class EqualizersComponent implements OnInit {
   constructor (
     public equalizersService: EqualizersService,
     public dialog: MatDialog,
-    public ui: UIService
+    public ui: UIService,
+    private changeRef: ChangeDetectorRef
     ) { }
 
   async ngOnInit () {
     await this.sync()
     this.setupEvents()
     this.loaded = true
+    this.changeRef.detectChanges()
+    this.activeEqualizer = this.getEqualizerFromType(this.type)
   }
 
   protected sync () {
