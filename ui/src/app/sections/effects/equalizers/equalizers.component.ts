@@ -3,7 +3,6 @@ import { EqualizersService, EqualizerType } from './equalizers.service'
 import { BasicEqualizerComponent } from './basic-equalizer/basic-equalizer.component'
 import { AdvancedEqualizerComponent } from './advanced-equalizer/advanced-equalizer.component'
 import { EqualizerComponent } from './equalizer.component'
-import { CarouselComponent } from 'src/app/modules/eqmac-components/components/carousel/carousel.component'
 import { FadeInOutAnimation } from 'src/app/modules/animations'
 import { MatDialog, MatDialogRef } from '@angular/material/dialog'
 import { OptionsDialogComponent } from '../../../components/options-dialog/options-dialog.component'
@@ -21,7 +20,6 @@ export class EqualizersComponent implements OnInit {
   @Input() animationFps = 30
 
   @Output() visibilityToggled = new EventEmitter()
-  @ViewChild('equalizersCarousel', { static: false }) equalizersCarousel: CarouselComponent
   @ViewChild('basicEqualizer', { static: false }) basicEqualizer: BasicEqualizerComponent
   @ViewChild('advancedEqualizer', { static: false }) advancedEqualizer: AdvancedEqualizerComponent
 
@@ -42,11 +40,6 @@ export class EqualizersComponent implements OnInit {
   get type () { return this._type }
 
   gain: number = 0
-
-  typeSwitched (newType: EqualizerType) {
-    this.type = newType
-    this.equalizersService.setType(newType)
-  }
 
   public settingsDialog: MatDialogRef<OptionsDialogComponent>
 
@@ -91,26 +84,10 @@ export class EqualizersComponent implements OnInit {
     this.equalizersService.setEnabled(this.enabled)
   }
 
-  previousType () {
-    this.equalizersCarousel.prev()
-  }
-
-  nextType () {
-    this.equalizersCarousel.next()
-  }
-
-  setType (type: EqualizerType) {
+  async setType (type: EqualizerType) {
     this.type = type
-    this.typeSwitched(type)
-  }
-
-  equalizerCameIntoView (type: EqualizerType) {
-    const equalizer = this.getEqualizerFromType(type)
-    equalizer && equalizer.selected()
-  }
-
-  carouselHeightChanged (heightDiff: number) {
-    this.ui.dimensionsChanged.next({ heightDiff })
+    await this.equalizersService.setType(type)
+    this.ui.dimensionsChanged.next()
   }
 
   public getEqualizerFromType (type: EqualizerType): EqualizerComponent {
