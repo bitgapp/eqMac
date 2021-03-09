@@ -36,7 +36,11 @@
         </div>
 
         <!-- Label -->
-        <div *ngIf="option.type === 'label'">
+        <div *ngIf="option.type === 'label'" 
+          [class]="option.url ? 'clickable' : ''" 
+          (click)="openUrl(option.url)"
+          [eqmTooltip]="option.tooltip"
+        >
           <eqm-label>{{option.label}}</eqm-label>
         </div>
 

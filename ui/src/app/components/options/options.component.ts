@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectorRef } from '@angular/core'
+import { ApplicationService } from '../../services/app.service'
 
 interface BaseOptions {
   key: string
@@ -20,6 +21,8 @@ export interface DividerOption extends Omit<BaseOptions, 'key' | 'label'> {
 
 export interface LabelOption extends Omit<BaseOptions, 'key'> {
   type: 'label'
+  url?: string
+  tooltip?: string
 }
 
 export interface HTMLOption extends Omit<BaseOptions, 'key' | 'label'> {
@@ -68,7 +71,10 @@ export class OptionsComponent {
   @Input() options: Options = []
   @Output() checkboxToggled = new EventEmitter<CheckboxOption>()
 
-  constructor (public ref: ChangeDetectorRef) {}
+  constructor (
+    public app: ApplicationService,
+    public ref: ChangeDetectorRef
+    ) {}
 
   getOptionStyle (option: Option) {
     let style: any = {}
@@ -101,5 +107,10 @@ export class OptionsComponent {
       this.ref.detectChanges()
       option.selected(selectOption.id)
     }
+  }
+
+  openUrl (url?: string) {
+    if (!url) return
+    this.app.openURL(new URL(url))
   }
 }
