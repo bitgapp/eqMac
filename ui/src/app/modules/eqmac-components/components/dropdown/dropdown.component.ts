@@ -28,7 +28,6 @@ export class DropdownComponent implements OnInit {
     this.zone.run(() => this.hasSelection = hasSelection)
   }
   @HostBinding('class.disabled') @Input() disabled = false
-  @Input() label: string = null
   @Input() selectedItem = null
   @Input() labelParam = 'text'
   @Input() numberOfVisibleItems = 6
@@ -48,10 +47,6 @@ export class DropdownComponent implements OnInit {
 
   async ngOnInit () {
     if (!this.items) this.items = []
-    if (!this.selectedItem && this.items.length > 0) {
-      this.selectedItem = this.items[0]
-      this.label = null
-    }
     this.setDimensions()
     this.calculateYCoordinate()
     for (let _ in [...Array(3)]) {
@@ -119,7 +114,6 @@ export class DropdownComponent implements OnInit {
 
   selectItem (item) {
     this.selectedItem = item
-    this.label = null
     this.itemSelected.emit(item)
     this.close()
   }

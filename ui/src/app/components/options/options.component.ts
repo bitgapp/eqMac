@@ -34,7 +34,6 @@ export interface DropdownOption extends Omit<BaseOptions, 'label'> {
   type: 'dropdown'
   items: any[]
   labelParam: string
-  label?: string
   selectedItem?: any
   numberOfVisibleItems?: number
   placeholder?: string

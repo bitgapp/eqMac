@@ -3,7 +3,7 @@
   <div class="item">
 
     <eqm-icon *ngIf="selectedItem && selectedItem.icon" [name]="selectedItem.icon" class="icon" color="#4f8d71"></eqm-icon>
-    <eqm-label color="#4f8d71"> {{label || (items.length ? (selectedItem ? selectedItem[labelParam] : placeholder) : noItemsPlaceholder)}} </eqm-label>
+    <eqm-label color="#4f8d71"> {{(items.length ? (selectedItem ? selectedItem[labelParam] : placeholder) : noItemsPlaceholder)}} </eqm-label>
   </div>
 
   <div class="arrows" (click)="editable ? toggle($event) : undefined">
