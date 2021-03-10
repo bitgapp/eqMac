@@ -41,7 +41,9 @@ export class DropdownComponent implements OnInit {
   @ViewChild('box', { static: true }) boxComponent: SelectBoxComponent
   shown = false
   yCoordinate = 0
+  @Input() forceDirection: 'down' | 'up'
   direction: 'down' | 'up' = 'down'
+
   public padding = 5
 
   async ngOnInit () {
@@ -86,7 +88,7 @@ export class DropdownComponent implements OnInit {
     const upY = inputPosition.top - boxHeight - this.padding
     const upSpaceLeft = upY
 
-    this.direction = downSpaceLeft > upSpaceLeft ? 'down' : 'up'
+    this.direction = this.forceDirection ?? (downSpaceLeft > upSpaceLeft ? 'down' : 'up')
     let y = this.direction === 'down' ? downY : upY
 
     this.yCoordinate = y

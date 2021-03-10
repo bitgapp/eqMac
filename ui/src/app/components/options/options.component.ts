@@ -39,6 +39,7 @@ export interface DropdownOption extends Omit<BaseOptions, 'label'> {
   numberOfVisibleItems?: number
   placeholder?: string
   noItemsPlaceholder?: string
+  forceDirection?: 'up' | 'down'
   itemSelected: (item: any) => void | Promise<void>
 }
 
