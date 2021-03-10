@@ -4,8 +4,8 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
+}
 
-  &> * {
-    margin-right: 5px;
-  }
+.crumb-part {
+  margin-right: 5px;
 }

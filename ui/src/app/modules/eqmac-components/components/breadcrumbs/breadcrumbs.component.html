@@ -1,6 +1,6 @@
 <div class="row">
   <div *ngFor="let crumb of crumbs; index as i" class="row">
-    <eqm-icon *ngIf="i !== 0" name="triangle" [rotate]="0" [width]="5" [height]="5"></eqm-icon>
-    <eqm-label (click)="crumbClicked.emit({ crumb: crumb, index: index })">{{crumb}}</eqm-label>
+    <eqm-icon class="crumb-part" *ngIf="i !== 0" name="triangle" [rotate]="0" [width]="8" [height]="8"></eqm-icon>
+    <eqm-label class="crumb-part" (click)="crumbClicked.emit({ crumb: crumb, index: index })">{{crumb}}</eqm-label>
   </div>
 </div>
