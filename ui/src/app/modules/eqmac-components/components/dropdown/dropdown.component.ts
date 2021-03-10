@@ -11,11 +11,14 @@ import { FadeInOutAnimation } from 'src/app/modules/animations'
   animations: [ FadeInOutAnimation ]
 })
 export class DropdownComponent implements OnInit {
-  constructor (public utils: UtilitiesService, public zone: NgZone) {
+  constructor (
+    public utils: UtilitiesService, 
+    public zone: NgZone,
+    public ref: ElementRef
+  ) {
   }
   
   public _items: any[] = []
-  hasSelection = false
   @Input() editable = false
   @Input()
   get items () {
@@ -24,15 +27,15 @@ export class DropdownComponent implements OnInit {
   set items (newItems) {
     if (!newItems || !Array.isArray(newItems)) return
     this._items = newItems
-    const hasSelection = newItems.length > 1
-    this.zone.run(() => this.hasSelection = hasSelection)
   }
+  @Output() refChanged = new EventEmitter<DropdownComponent>()
   @HostBinding('class.disabled') @Input() disabled = false
   @Input() selectedItem = null
   @Input() labelParam = 'text'
   @Input() numberOfVisibleItems = 6
   @Input() placeholder = 'Select item'
   @Input() noItemsPlaceholder = 'No items'
+  @Input() closeOnSelect = true
   @Output() itemSelected = new EventEmitter()
 
   @ViewChild('container', { read: ElementRef, static: true }) container: ElementRef
@@ -53,6 +56,7 @@ export class DropdownComponent implements OnInit {
       await this.utils.delay(100)
       this.calculateYCoordinate()
     }
+    this.refChanged.emit(this)
   }
 
   setDimensions () {
@@ -115,6 +119,8 @@ export class DropdownComponent implements OnInit {
   selectItem (item) {
     this.selectedItem = item
     this.itemSelected.emit(item)
-    this.close()
+    if (this.closeOnSelect) {
+      this.close()
+    }
   }
 }

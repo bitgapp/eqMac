@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectorRef } from '@angular/core'
+import { DropdownComponent } from '../../modules/eqmac-components/components/dropdown/dropdown.component'
 import { ApplicationService } from '../../services/app.service'
 
 interface BaseOptions {
@@ -39,6 +40,8 @@ export interface DropdownOption extends Omit<BaseOptions, 'label'> {
   placeholder?: string
   noItemsPlaceholder?: string
   forceDirection?: 'up' | 'down'
+  closeOnSelect?: boolean
+  refChanged?: (ref: DropdownComponent) => void
   itemSelected: (item: any) => void | Promise<void>
 }
 
