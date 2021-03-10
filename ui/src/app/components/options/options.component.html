@@ -59,7 +59,7 @@
             [noItemsPlaceholder]="option.noItemsPlaceholder"
             (itemSelected)="option.itemSelected($event)"
             [forceDirection]="option.forceDirection"
-            [closeOnSelect]="option.closeOnSelect"
+            [closeOnSelect]="!!option.closeOnSelect"
             (refChanged)="option.refChanged && option.refChanged($event)"
             ></eqm-dropdown>
         </div>
