@@ -15,6 +15,11 @@
   transition-property: filter;
   transition-duration: .5s;
   border-radius: 3px; // font-size: 20px;
+  cursor: pointer !important;
+
+  & * {
+    cursor: pointer !important;
+  }
 }
 
 .transparent {
@@ -65,4 +70,9 @@
 .disabled {
   // box-shadow: 0 0 0 1px black, 0 0 0 1px rgba(gray, .1) inset, 0 0 15px 10px rgba(black, .3) inset;
   filter: grayscale(80%) brightness(80%);
+  cursor: default !important;
+
+  & * {
+    cursor: default !important;
+  }
 }

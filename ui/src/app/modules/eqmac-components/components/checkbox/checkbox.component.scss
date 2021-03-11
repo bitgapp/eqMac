@@ -2,4 +2,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: default;
+  filter: grayscale(80%)
+}
+
+:host.enabled {
+  filter: none;
+  cursor: pointer;
 }

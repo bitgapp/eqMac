@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
+import { Component, OnInit, Input, Output, EventEmitter, HostBinding } from '@angular/core'
 
 @Component({
   selector: 'eqm-checkbox',
@@ -9,11 +9,12 @@ export class CheckboxComponent {
   @Input() interactive: boolean = true
   @Input() checked: boolean = false
   @Output() checkedChanged = new EventEmitter<boolean>()
+  @HostBinding('class.enabled') @Input() enabled = true
 
   toggle () {
-    if (this.interactive) {
+    if (this.interactive && this.enabled) {
       this.checked = !this.checked
-      this.checkedChanged.emit()
+      this.checkedChanged.emit(this.checked)
     }
   }
 }

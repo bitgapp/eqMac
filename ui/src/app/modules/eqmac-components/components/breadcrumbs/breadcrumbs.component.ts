@@ -7,6 +7,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 })
 export class BreadcrumbsComponent implements OnInit {
   @Input() crumbs: string[]
+  @Input() underline = true
   @Output() crumbClicked = new EventEmitter<{ crumb: string, index: number }>()
   constructor() { }
 

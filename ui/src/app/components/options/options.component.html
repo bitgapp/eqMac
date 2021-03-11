@@ -4,8 +4,9 @@
         <!-- Checkbox -->
         <div *ngIf="option.type === 'checkbox'" 
         fxLayout="row" fxLayoutAlign="center center" fxFill fxLayoutGap="10px"
+        class="pointer"
         (click)="toggleCheckbox(option)">
-          <eqm-checkbox [interactive]="false" [checked]="option.value"></eqm-checkbox><eqm-label>{{option.label}}</eqm-label>
+          <eqm-checkbox [interactive]="false" [checked]="option.value"></eqm-checkbox><eqm-label [clickable]="true">{{option.label}}</eqm-label>
         </div> 
 
         <!-- Button -->
@@ -13,7 +14,7 @@
         fxFill type="narrow" 
         [disabled]="!!option.isEnabled && option.isEnabled() === false"
         (pressed)="option.action()" [hoverable]="option.hasOwnProperty('hoverable') ? option.hoverable : true">
-          <eqm-label>{{option.label}}</eqm-label>
+          <eqm-label [clickable]="true">{{option.label}}</eqm-label>
         </eqm-button>
 
         <!-- Select -->
@@ -25,7 +26,7 @@
             [disabled]="!!option.isEnabled && option.isEnabled() === false"
             [depressable]="false" [toggle]="true" type="narrow" [state]="option.selectedId === selectOption.id" (pressed)="selectedOption(option, selectOption)"
             >
-              <eqm-label>{{selectOption.label}}</eqm-label>
+              <eqm-label [clickable]="true">{{selectOption.label}}</eqm-label>
             </eqm-button>
           </div>
         </div>
@@ -37,11 +38,10 @@
 
         <!-- Label -->
         <div *ngIf="option.type === 'label'" 
-          [class]="option.url ? 'clickable' : ''" 
           (click)="openUrl(option.url)"
           fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="center center"
         >
-          <eqm-label>{{option.label}}</eqm-label>
+          <eqm-label [clickable]="!!option.url" [class]="option.url ? 'clickable' : ''">{{option.label}}</eqm-label>
           <eqm-question *ngIf="option.tooltip" [eqmTooltip]="option.tooltip"></eqm-question>
         </div>
 

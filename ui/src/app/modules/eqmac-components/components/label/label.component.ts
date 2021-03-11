@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core'
+import { Component, OnInit, Input, HostBinding } from '@angular/core'
 
 @Component({
   selector: 'eqm-label',
@@ -8,12 +8,18 @@ import { Component, OnInit, Input } from '@angular/core'
 export class LabelComponent {
   @Input() fontSize: number
   @Input() color: string
+  @Input() clickable = false
   constructor () { }
 
   get style () {
     return {
       ...(this.color && { color: this.color }),
-      ...(this.fontSize && { fontSize: `${this.fontSize}px` })
+      ...(this.fontSize && { fontSize: `${this.fontSize}px` }),
+      ...(this.clickable && { cursor: 'pointer' })
     }
+  }
+
+  @HostBinding('style.cursor') get cursor () {
+    return this.clickable ? 'pointer' : 'inherit'
   }
 }

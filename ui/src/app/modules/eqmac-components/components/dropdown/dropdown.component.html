@@ -3,16 +3,19 @@
   <div class="item">
 
     <eqm-icon *ngIf="selectedItem && selectedItem.icon" [name]="selectedItem.icon" class="icon" color="#4f8d71"></eqm-icon>
-    <eqm-label color="#4f8d71"> {{(items.length ? (selectedItem ? selectedItem[labelParam] : placeholder) : noItemsPlaceholder)}} </eqm-label>
+    <eqm-label color="#4f8d71"> {{(searchText || (items.length ? (selectedItem ? selectedItem[labelParam] : placeholder) : noItemsPlaceholder))}} </eqm-label>
   </div>
 
-  <div class="arrows" (click)="editable ? toggle($event) : undefined">
+  <div class="right" *ngIf="searchText" (click)="searchText = null">
+    <eqm-icon [name]="'cross'" [height]="16" [width]="16" color="#4f8d71"></eqm-icon>
+  </div>
+  <div class="right" *ngIf="!searchText" (click)="editable ? toggle($event) : undefined">
     <eqm-icon [name]="'triangle'" [height]="8" [width]="8" [color]="items.length ? '#4f8d71' : '#555'" rotate="-90">
     </eqm-icon>
     <eqm-icon [name]="'triangle'" [height]="8" [width]="8" [color]="items.length ? '#4f8d71' : '#555'" rotate="90">
     </eqm-icon>
   </div>
 </eqm-container>
-<eqm-select-box [numberOfVisibleItems]="numberOfVisibleItems" (clickedOutside)="close()" #box [hidden]="!shown"
-  [class]="'items-select-box' + (direction === 'down' ? ' down' : ' up')" [items]="items" [labelParam]="labelParam"
+<eqm-select-box [numberOfVisibleItems]="numberOfVisibleItems" (clickedOutside)="close()" #box [hidden]="!shown || (filteredItems.length === 0)"
+  [class]="'items-select-box' + (direction === 'down' ? ' down' : ' up')" [items]="filteredItems" [labelParam]="labelParam"
   [selectedItem]="selectedItem" (itemSelected)="selectItem($event)" [style.top.px]="yCoordinate"></eqm-select-box>

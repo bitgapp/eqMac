@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, ElementRef, EventEmitter, Output, NgZone, HostBinding } from '@angular/core'
+import { Component, OnInit, Input, ViewChild, ElementRef, EventEmitter, Output, NgZone, HostBinding, HostListener } from '@angular/core'
 import { SelectBoxComponent } from '../select-box/select-box.component'
 import { UtilitiesService } from '../../services/utilities.service'
 import { InputFieldComponent } from '../input-field/input-field.component'
@@ -26,6 +26,7 @@ export class DropdownComponent implements OnInit {
   }
   set items (newItems) {
     if (!newItems || !Array.isArray(newItems)) return
+    this.searchText = null
     this._items = newItems
   }
   @Output() refChanged = new EventEmitter<DropdownComponent>()
@@ -36,6 +37,7 @@ export class DropdownComponent implements OnInit {
   @Input() placeholder = 'Select item'
   @Input() noItemsPlaceholder = 'No items'
   @Input() closeOnSelect = true
+  @Input() searchable = true
   @Output() itemSelected = new EventEmitter()
 
   @ViewChild('container', { read: ElementRef, static: true }) container: ElementRef
@@ -103,7 +105,7 @@ export class DropdownComponent implements OnInit {
   }
 
   async open () {
-    if (!this.disabled && !this.shown && this.items.length > 1) {
+    if (!this.disabled && !this.shown && this.items.length) {
       this.calculateYCoordinate()
       this.setDimensions()
       this.shown = true
@@ -113,6 +115,7 @@ export class DropdownComponent implements OnInit {
   async close () {
     if (!this.disabled && this.shown) {
       this.shown = false
+      this.searchText = null
     }
   }
 
@@ -121,6 +124,41 @@ export class DropdownComponent implements OnInit {
     this.itemSelected.emit(item)
     if (this.closeOnSelect) {
       this.close()
+    }
+  }
+
+  searchText: string
+  @HostListener('document:keypress', ['$event'])
+  keypress (event: KeyboardEvent) {
+    if (!this.disabled && this.shown && this.searchable) {
+      switch (event.key) {
+        case 'Backspace': {
+          if (this.searchText.length) {
+            this.searchText = this.searchText.slice(0, this.searchText.length - 1)
+          }
+          break
+        }
+        case 'Escape': {
+          this.close()
+          break
+        }
+        case 'Enter': {
+          break
+        }
+        default: {
+          if (/^[+a-zA-Z0-9_.-\s]$/.test(event.key)) {
+            this.searchText = (this.searchText ?? '') + event.key
+          }
+        }
+      }
+    }
+  }
+
+  get filteredItems () {
+    if (this.searchable && this.searchText) {
+      return this.items.filter(item => item[this.labelParam].toLowerCase().includes(this.searchText.toLowerCase()))
+    } else {
+      return this.items
     }
   }
 }
