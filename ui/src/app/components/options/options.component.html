@@ -78,9 +78,9 @@
 
         <!-- Flat Slider -->
         <eqm-flat-slider *ngIf="option.type === 'flat-slider'" [enabled]="!option.isEnabled || option.isEnabled() === true"
-          [orientation]="option.orientation" [thickness]="option.thickness" [color]="option.color"
+          [orientation]="option.orientation"
           [value]="option.value" [min]="option.min" [middle]="option.middle" [max]="option.max"
-          [doubleClickToAnimateToMiddle]="option.doubleClickToAnimateToMiddle"
+          [doubleClickToAnimateToMiddle]="option.doubleClickToAnimateToMiddle" [showMiddleNotch]="option.showMiddleNotch"
           [animationDuration]="option.animationDuration" [animationFps]="option.animationFps"
           [scrollEnabled]="option.scrollEnabled" [stickToMiddle]="option.stickToMiddle"
           (valueChange)="option.changed && option.changed($event)"

@@ -97,9 +97,8 @@ interface SliderOption extends BaseOptions {
 
 export interface FlatSliderOption extends SliderOption {
   type: 'flat-slider'
-  thickness?: number
   orientation?: 'vertical' | 'horizontal'
-  color?: string
+  showMiddleNotch?: boolean
   doubleClickToAnimateToMiddle?: boolean
   userChangedValue?: (event: FlatSliderValueChangedEvent) => any
 }
