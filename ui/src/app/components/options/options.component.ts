@@ -111,6 +111,7 @@ export interface SkeuomorphSliderOption extends SliderOption {
 export interface ValueScreenOption extends BaseOptions {
   type: 'value-screen'
   value: string
+  tooltip?: string
   clicked?: () => any
 }
 

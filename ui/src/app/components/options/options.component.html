@@ -102,6 +102,7 @@
         <eqm-value-screen *ngIf="option.type === 'value-screen'" 
           [disabled]="!!option.isEnabled && option.isEnabled() === false" 
           (click)="option.clicked && option.clicked()"
+          [eqmTooltip]="option.tooltip"
         >
           {{option.value}}
         </eqm-value-screen>
