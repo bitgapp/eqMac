@@ -33,6 +33,7 @@ export class FlatSliderComponent {
     public sanitizer: DomSanitizer
   ) {}
 
+  @Input() scale: 'logarithmic' | 'linear' = 'linear'
   @Input() doubleClickToAnimateToMiddle = true
   @Input() showMiddleNotch = true
   @Input() min: number = 0
@@ -96,7 +97,13 @@ export class FlatSliderComponent {
       if (diffFromMiddle < 0) {
         diffFromMiddle *= -1
       }
-      const percFromMiddle = this.utils.mapValue(diffFromMiddle, 0, this.max - middleValue, 0, 100)
+      const percFromMiddle = this.mapValue({
+        value: diffFromMiddle, 
+        inMin: 0, 
+        inMax: this.max - middleValue, 
+        outMin: 0, 
+        outMax: 100
+      })
       if ((this._value).toFixed(2) === (middleValue).toFixed(2) && percFromMiddle < 5) {
         value = middleValue
       } else if ((this._value < middleValue && newValue > this._value) || (this._value > middleValue && newValue < this._value)) {
@@ -139,7 +146,16 @@ export class FlatSliderComponent {
   public getValueFromMouseEvent (event: MouseEvent) {
     const coords = this.utils.getCoordinatesInsideElementFromEvent(event, this.elem.nativeElement)
     const progress = this.orientation === 'vertical' ? coords.y : coords.x
-    const value = this.utils.mapValue(progress, this.knobRadius, (this.orientation === 'vertical' ? this.height : this.width) - this.knobRadius, this.min, this.max)
+    const value = (() => {
+      const inMin = this.knobRadius
+      const inMax = (this.orientation === 'vertical' ? this.height : this.width) - this.knobRadius
+      return this.mapValue({
+        value: progress,
+        inMin, inMax,
+        outMin: this.min,
+        outMax: this.max
+      })
+    })()
     return value
   }
 
@@ -211,7 +227,13 @@ export class FlatSliderComponent {
   }
 
   get progress () {
-    return this.utils.mapValue(this.value, this.min, this.max, 0, 1)
+    return this.mapValue({
+      value: this.value,
+      inMin: this.min,
+      inMax: this.max,
+      outMin: 0,
+      outMax: 1
+    })
   }
 
   get containerStyle () {
@@ -276,6 +298,15 @@ export class FlatSliderComponent {
     return style
   }
 
+  private mapValue ({ value, inMin, inMax, outMin, outMax }: {
+    [param in 'value' | 'inMin' | 'inMax' | 'outMin' | 'outMax']: number
+  }) {
+    switch (this.scale) {
+      case 'linear': return this.utils.mapValue(value, inMin, inMax, outMin, outMax)
+      case 'logarithmic': return this.utils.logMapValue({ value, inMin, inMax, outMin, outMax })
+    }
+  }
+
   get thumbStyle () {
     const style: { [style: string]: number | string } = {}
     style.width = `${this.knobRadius * 2}px`
@@ -285,9 +316,21 @@ export class FlatSliderComponent {
 
     style.borderRadius = '100%'
     if (this.orientation === 'horizontal') {
-      style.left = `${this.utils.mapValue(this.value, this.min, this.max, 0, this.width - this.knobRadius * 2)}px`
+      style.left = `${this.mapValue({
+        value: this.value, 
+        inMin: this.min, 
+        inMax: this.max, 
+        outMin: 0, 
+        outMax: this.width - this.knobRadius * 2
+      })}px`
     } else {
-      style.bottom = `${this.utils.mapValue(this.value, this.min, this.max, 0, this.height - this.knobRadius * 2)}px`
+      style.bottom = `${this.mapValue({
+        value: this.value, 
+        inMin: this.min, 
+        inMax: this.max, 
+        outMin: 0, 
+        outMax: this.height - this.knobRadius * 2
+      })}px`
     }
     return style
   }

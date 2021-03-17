@@ -90,7 +90,7 @@ interface SliderOption extends BaseOptions {
   max?: number
   animationDuration?: number
   animationFps?: number
-  scrollEnabled?: number
+  scrollEnabled?: boolean
   stickToMiddle?: boolean
   stickedToMiddle?: () => any
   changed?: (value: number) => any
@@ -98,6 +98,7 @@ interface SliderOption extends BaseOptions {
 
 export interface FlatSliderOption extends SliderOption {
   type: 'flat-slider'
+  scale?: 'linear' | 'logarithmic'
   orientation?: 'vertical' | 'horizontal'
   showMiddleNotch?: boolean
   doubleClickToAnimateToMiddle?: boolean
