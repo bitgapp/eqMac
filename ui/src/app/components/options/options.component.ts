@@ -136,8 +136,11 @@ export class OptionsComponent {
     public ref: ChangeDetectorRef
     ) {}
 
-  getOptionStyle (option: Option) {
+  getOptionStyle (option: Option, row: Option[]) {
     let style = option.style || {}
+    if (!style.width) {
+      style.width = `${100 / row.length}%`
+    }
     if (option.type === 'button') {
       style.width = '100%'
     }
