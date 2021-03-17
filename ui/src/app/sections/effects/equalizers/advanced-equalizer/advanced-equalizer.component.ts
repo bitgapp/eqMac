@@ -21,7 +21,6 @@ export class AdvancedEqualizerComponent extends EqualizerComponent implements On
   @Input() enabled = true
 
   public ShowDefaultPresetsCheckbox: CheckboxOption = {
-    key: 'show-default-presets',
     type: 'checkbox',
     label: 'Show Default Presets',
     value: false,
@@ -29,12 +28,10 @@ export class AdvancedEqualizerComponent extends EqualizerComponent implements On
   }
   settings: Options = [[
     {
-      key: 'import-presets',
       type: 'button',
       label: 'Import Presets',
       action: () => this.service.importPresets()
     }, {
-      key: 'export-presets',
       type: 'button',
       label: 'Export Presets',
       action: () => this.service.exportPresets()
@@ -125,7 +122,6 @@ export class AdvancedEqualizerComponent extends EqualizerComponent implements On
     if (await this.service.getImportLegacyAvailable()) {
       this.settings[1].push(
         {
-          key: 'import-legacy-presets',
           type: 'button',
           label: 'Import eqMac2 Presets',
           action: async () => {

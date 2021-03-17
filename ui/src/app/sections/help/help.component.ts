@@ -14,12 +14,10 @@ export class HelpComponent implements OnInit {
   options: Options = [
     [
       {
-        key: 'faq',
         type: 'button',
         label: 'FAQ',
         action: this.faq.bind(this)
       }, {
-        key: 'report-bug',
         type: 'button',
         label: 'Report a Bug',
         action: this.reportBug.bind(this)

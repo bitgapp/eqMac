@@ -49,24 +49,54 @@
         <div *ngIf="option.type === 'html'" [innerHTML]="option.html"></div>
 
         <!-- Dropdown -->
-        <div *ngIf="option.type === 'dropdown'">
-          <eqm-dropdown
-            [items]="option.items"
-            [labelParam]="option.labelParam"
-            [selectedItem]="option.selectedItem"
-            [numberOfVisibleItems]="option.numberOfVisibleItems"
-            [placeholder]="option.placeholder"
-            [noItemsPlaceholder]="option.noItemsPlaceholder"
-            (itemSelected)="option.itemSelected($event)"
-            [forceDirection]="option.forceDirection"
-            [closeOnSelect]="!!option.closeOnSelect"
-            (refChanged)="option.refChanged && option.refChanged($event)"
-            ></eqm-dropdown>
-        </div>
+        <eqm-dropdown *ngIf="option.type === 'dropdown'"
+          [items]="option.items"
+          [labelParam]="option.labelParam"
+          [selectedItem]="option.selectedItem"
+          [numberOfVisibleItems]="option.numberOfVisibleItems"
+          [placeholder]="option.placeholder"
+          [noItemsPlaceholder]="option.noItemsPlaceholder"
+          (itemSelected)="option.itemSelected($event)"
+          [forceDirection]="option.forceDirection"
+          [closeOnSelect]="!!option.closeOnSelect"
+          (refChanged)="option.refChanged && option.refChanged($event)"
+        ></eqm-dropdown>
 
-        <div *ngIf="option.type === 'breadcrumbs'">
-          <eqm-breadcrumbs [crumbs]="option.crumbs" (crumbClicked)="option.crumbClicked($event)"></eqm-breadcrumbs>
-        </div>
+        <!-- Breadcrumbs -->
+        <eqm-breadcrumbs *ngIf="option.type === 'breadcrumbs'" 
+          [crumbs]="option.crumbs" (crumbClicked)="option.crumbClicked($event)"
+        ></eqm-breadcrumbs>
+
+        <!-- Input -->
+        <eqm-input-field *ngIf="option.type === 'input'"
+          [text]="option.value" (textChange)="option.changed && option.changed($event)"
+          (enter)="option.enter && option.enter()"
+          [placeholder]="option.placeholder"
+          [editable]="option.editable" [fontSize]="option.fontSize"
+          [disabled]="!!option.isEnabled && option.isEnabled() === false"
+        ></eqm-input-field>
+
+        <!-- Flat Slider -->
+        <eqm-flat-slider *ngIf="option.type === 'flat-slider'" [enabled]="!option.isEnabled || option.isEnabled() === true"
+          [orientation]="option.orientation" [thickness]="option.thickness" [color]="option.color"
+          [value]="option.value" [min]="option.min" [middle]="option.middle" [max]="option.max"
+          [doubleClickToAnimateToMiddle]="option.doubleClickToAnimateToMiddle"
+          [animationDuration]="option.animationDuration" [animationFps]="option.animationFps"
+          [scrollEnabled]="option.scrollEnabled" [stickToMiddle]="option.stickToMiddle"
+          (valueChange)="option.changed && option.changed($event)"
+          (userChangedValue)="option.userChangedValue && option.userChangedValue($event)"
+          (stickedToMiddle)="option.stickedToMiddle && option.stickedToMiddle()"
+        ></eqm-flat-slider>
+
+        <!-- Skeuomorph Slider -->
+        <eqm-skeuomorph-slider *ngIf="option.type === 'skeuomorph-slider'" [disabled]="!!option.isEnabled && option.isEnabled() === false"
+          [value]="option.value" [min]="option.min" [middle]="option.middle" [max]="option.max"
+          [animationDuration]="option.animationDuration" [animationFps]="option.animationFps"
+          [scrollEnabled]="option.scrollEnabled" [stickToMiddle]="option.stickToMiddle"
+          (valueChange)="option.changed && option.changed($event)"
+          (userChangedValue)="option.userChangedValue && option.userChangedValue($event)"
+          (stickedToMiddle)="option.stickedToMiddle && option.stickedToMiddle()"
+        ></eqm-skeuomorph-slider>
     </div>
   </div>
 </div>

@@ -13,7 +13,6 @@ import { UIService } from '../../services/ui.service'
 })
 export class SettingsComponent implements OnInit {
   launchOnStartupOption: CheckboxOption = {
-    key: 'launchOnStartup',
     type: 'checkbox',
     label: 'Launch on start-up',
     value: false,
@@ -21,7 +20,6 @@ export class SettingsComponent implements OnInit {
   }
 
   replaceKnobsWithSlidersOption: CheckboxOption = {
-    key: 'replaceKnobsWithSliders',
     type: 'checkbox',
     label: 'Replace Knobs with Sliders',
     value: false,
@@ -29,7 +27,6 @@ export class SettingsComponent implements OnInit {
   }
 
   iconModeOption: SelectOption = {
-    key: 'iconMode',
     type: 'select',
     label: 'Show Icon',
     options: [{
@@ -52,7 +49,6 @@ export class SettingsComponent implements OnInit {
     }
   }
   uninstallOption: ButtonOption = {
-    key: 'uninstall',
     type: 'button',
     label: 'Uninstall eqMac',
     hoverable: false,
@@ -60,14 +56,12 @@ export class SettingsComponent implements OnInit {
   }
 
   updateOption: ButtonOption = {
-    key: 'update',
     type: 'button',
     label: 'Check for Updates',
     action: this.update.bind(this)
   }
 
   reinstallDriverOption: ButtonOption = {
-    key: 'reinstall-driver',
     type: 'button',
     label: 'Reinstall Driver',
     action: this.reinstallDriver.bind(this)

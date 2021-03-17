@@ -1,37 +1,39 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectorRef } from '@angular/core'
 import { DropdownComponent } from '../../modules/eqmac-components/components/dropdown/dropdown.component'
+import { FlatSliderValueChangedEvent } from '../../modules/eqmac-components/components/flat-slider/flat-slider.component'
+import { SkeuomorphSliderValueChangedEvent } from '../../modules/eqmac-components/components/skeuomorph-slider/skeuomorph-slider.component'
 import { ApplicationService } from '../../services/app.service'
 
 interface BaseOptions {
-  key: string
   type: string
-  label: string
   isEnabled?: () => boolean
 }
 
 export interface ButtonOption extends BaseOptions {
   type: 'button'
+  label: string
   hoverable?: boolean
   action: () => any
 }
 
-export interface DividerOption extends Omit<BaseOptions, 'key' | 'label'> {
+export interface DividerOption extends BaseOptions {
   type: 'divider'
   orientation: 'horizontal' | 'vertical'
 }
 
-export interface LabelOption extends Omit<BaseOptions, 'key'> {
+export interface LabelOption extends BaseOptions {
   type: 'label'
+  label: string
   url?: string
   tooltip?: string
 }
 
-export interface HTMLOption extends Omit<BaseOptions, 'key' | 'label'> {
+export interface HTMLOption extends BaseOptions {
   type: 'html'
   html: string
 }
 
-export interface DropdownOption extends Omit<BaseOptions, 'label'> {
+export interface DropdownOption extends BaseOptions {
   type: 'dropdown'
   items: any[]
   labelParam: string
@@ -42,11 +44,12 @@ export interface DropdownOption extends Omit<BaseOptions, 'label'> {
   forceDirection?: 'up' | 'down'
   closeOnSelect?: boolean
   refChanged?: (ref: DropdownComponent) => void
-  itemSelected: (item: any) => void | Promise<void>
+  itemSelected: (item: any) => any
 }
 
 export interface CheckboxOption extends BaseOptions {
   type: 'checkbox'
+  label: string
   value: boolean
   toggled?: (value: boolean) => any
 }
@@ -57,20 +60,58 @@ export interface SelectOptionOption {
 }
 export interface SelectOption extends BaseOptions {
   type: 'select'
+  label: string
   options: SelectOptionOption[]
   selectedId: string
   selected?: (id: string) => any
 }
 
-export interface BreadcrumbsOption extends Omit<BaseOptions, 'key' | 'label'> {
+export interface BreadcrumbsOption extends BaseOptions {
   type: 'breadcrumbs'
   crumbs: string[]
-  crumbClicked: (event: { crumb: string, index: number }) => void | Promise<void>
+  crumbClicked: (event: { crumb: string, index: number }) => any
+}
+
+export interface InputOption extends BaseOptions {
+  type: 'input',
+  value?: string,
+  placeholder?: string
+  changed?: (value: string) => any
+  enter?: () => any
+  editable?: boolean
+  fontSize?: number
+}
+
+interface SliderOption extends BaseOptions {
+  value: number
+  min?: number
+  midle?: number
+  max?: number
+  animationDuration?: number
+  animationFps: number
+  scrollEnabled?: number
+  stickToMiddle?: boolean
+  stickedToMiddle?: () => any
+  changed?: (value: number) => any
+}
+
+export interface FlatSliderOption extends SliderOption {
+  type: 'flat-slider'
+  thickness?: number
+  orientation?: 'vertical' | 'horizontal'
+  color?: string
+  doubleClickToAnimateToMiddle?: boolean
+  userChangedValue?: (event: FlatSliderValueChangedEvent) => any
+}
+
+export interface SkeuomorphSliderOption extends SliderOption {
+  type: 'skeuomorph-slider'
+  userChangedValue?: (event: SkeuomorphSliderValueChangedEvent) => any
 }
 
 export type Option = ButtonOption | CheckboxOption | SelectOption 
 | DividerOption | LabelOption | HTMLOption | DropdownOption
-| BreadcrumbsOption
+| BreadcrumbsOption | InputOption | FlatSliderOption | SkeuomorphSliderOption
 
 export type Options = Option[][]
 @Component({
