@@ -34,6 +34,7 @@ export class FlatSliderComponent {
   ) {}
 
   @Input() doubleClickToAnimateToMiddle = true
+  @Input() showMiddleNotch = true
   @Input() min: number = 0
   @Input() max: number = 1
   @Input() animationDuration = 500

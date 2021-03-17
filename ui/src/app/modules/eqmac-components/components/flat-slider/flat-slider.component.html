@@ -2,6 +2,6 @@
 <div class="container" #container [ngStyle]="containerStyle">
   <div class="groove" [ngStyle]="grooveStyle"></div>
   <div class="groove-filling" [ngStyle]="grooveFillingStyle"></div>
-  <div class="thumbNotch" [ngStyle]="thumbNotchStyle"></div>
+  <div class="thumbNotch" *ngIf="showMiddleNotch" [ngStyle]="thumbNotchStyle"></div>
   <div class="thumb" [ngStyle]="thumbStyle" (dblclick)="doubleclick()"></div>
 </div>
