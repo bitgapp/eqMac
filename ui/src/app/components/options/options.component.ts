@@ -108,9 +108,16 @@ export interface SkeuomorphSliderOption extends SliderOption {
   userChangedValue?: (event: SkeuomorphSliderValueChangedEvent) => any
 }
 
+export interface ValueScreenOption extends BaseOptions {
+  type: 'value-screen'
+  value: string
+  clicked?: () => any
+}
+
 export type Option = ButtonOption | CheckboxOption | SelectOption 
 | DividerOption | LabelOption | HTMLOption | DropdownOption
 | BreadcrumbsOption | InputOption | FlatSliderOption | SkeuomorphSliderOption
+| ValueScreenOption
 
 export type Options = Option[][]
 @Component({

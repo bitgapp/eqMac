@@ -97,6 +97,14 @@
           (userChangedValue)="option.userChangedValue && option.userChangedValue($event)"
           (stickedToMiddle)="option.stickedToMiddle && option.stickedToMiddle()"
         ></eqm-skeuomorph-slider>
+
+        <!-- Value Screen -->
+        <eqm-value-screen *ngIf="option.type === 'value-screen'" 
+          [disabled]="!!option.isEnabled && option.isEnabled() === false" 
+          (click)="option.clicked && option.clicked()"
+        >
+          {{option.value}}
+        </eqm-value-screen>
     </div>
   </div>
 </div>
