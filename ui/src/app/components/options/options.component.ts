@@ -88,7 +88,7 @@ interface SliderOption extends BaseOptions {
   midle?: number
   max?: number
   animationDuration?: number
-  animationFps: number
+  animationFps?: number
   scrollEnabled?: number
   stickToMiddle?: boolean
   stickedToMiddle?: () => any
