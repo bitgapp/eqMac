@@ -7,6 +7,7 @@ import { ApplicationService } from '../../services/app.service'
 interface BaseOptions {
   type: string
   isEnabled?: () => boolean
+  style?: { [style: string]: string | number }
 }
 
 export interface ButtonOption extends BaseOptions {
@@ -136,7 +137,7 @@ export class OptionsComponent {
     ) {}
 
   getOptionStyle (option: Option) {
-    let style: any = {}
+    let style = option.style || {}
     if (option.type === 'button') {
       style.width = '100%'
     }
