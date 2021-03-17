@@ -69,7 +69,7 @@
 
         <!-- Input -->
         <eqm-input-field *ngIf="option.type === 'input'"
-          [text]="option.value" (textChange)="option.changed && option.changed($event)"
+          [(text)]="option.value" (textChange)="option.changed && option.changed($event)"
           (enter)="option.enter && option.enter()"
           [placeholder]="option.placeholder"
           [editable]="option.editable" [fontSize]="option.fontSize"
@@ -79,7 +79,7 @@
         <!-- Flat Slider -->
         <eqm-flat-slider *ngIf="option.type === 'flat-slider'" [enabled]="!option.isEnabled || option.isEnabled() === true"
           [orientation]="option.orientation"
-          [value]="option.value" [min]="option.min" [middle]="option.middle" [max]="option.max"
+          [(value)]="option.value" [min]="option.min" [middle]="option.middle" [max]="option.max"
           [doubleClickToAnimateToMiddle]="option.doubleClickToAnimateToMiddle" [showMiddleNotch]="option.showMiddleNotch"
           [animationDuration]="option.animationDuration" [animationFps]="option.animationFps"
           [scrollEnabled]="option.scrollEnabled" [stickToMiddle]="option.stickToMiddle"
@@ -90,7 +90,7 @@
 
         <!-- Skeuomorph Slider -->
         <eqm-skeuomorph-slider *ngIf="option.type === 'skeuomorph-slider'" [disabled]="!!option.isEnabled && option.isEnabled() === false"
-          [value]="option.value" [min]="option.min" [middle]="option.middle" [max]="option.max"
+          [(value)]="option.value" [min]="option.min" [middle]="option.middle" [max]="option.max"
           [animationDuration]="option.animationDuration" [animationFps]="option.animationFps"
           [scrollEnabled]="option.scrollEnabled" [stickToMiddle]="option.stickToMiddle"
           (valueChange)="option.changed && option.changed($event)"
