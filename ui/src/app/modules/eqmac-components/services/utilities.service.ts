@@ -17,6 +17,15 @@ export class UtilitiesService {
     return Math.exp(outMin + scale * (value - inMin))
   }
 
+  logMapValueInverse ({ value, inMin, inMax, outMin, outMax }: {
+    value: number, inMin: number, inMax: number, outMin: number, outMax: number
+  }) {
+    outMin = Math.log(outMin)
+    outMax = Math.log(outMax)
+    const scale = (outMax - outMin) / (inMax - inMin)
+    return (Math.log(value) - outMin) / scale + inMin
+  }
+
   getImageFromSrcWhenLoaded (src) {
     return new Promise<HTMLImageElement>((resolve, reject) => {
       const image = new Image()
