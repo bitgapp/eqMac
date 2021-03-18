@@ -137,8 +137,20 @@ export class FlatSliderComponent {
   @HostListener('mousewheel', ['$event'])
   mouseWheel (event: MouseWheelEvent) {
     if (this.enabled && this.scrollEnabled) {
-      const multiplier = (this.max - this.min) / 1000
-      this.value = this._value + (-event.deltaY * multiplier)
+      // const multiplier = (this.max - this.min) / 1000
+      let progress = this.progress
+      progress += -event.deltaY / 1000
+      if (progress < 0) progress = 0
+      if (progress > 1) progress = 1
+      progress = Math.round(progress * 1000)
+      this.value = this.mapValue({
+        value: progress,
+        inMin: 0,
+        inMax: 1000,
+        outMin: this.min,
+        outMax: this.max,
+        logInverse: false
+      })
       this.userChangedValue.emit({ value: this._value })
     }
   }
@@ -229,13 +241,18 @@ export class FlatSliderComponent {
   }
 
   get progress () {
-    return this.mapValue({
+    const factor = 10000
+    let progress = this.mapValue({
       value: this.value,
       inMin: this.min,
       inMax: this.max,
       outMin: 0,
-      outMax: 1
+      outMax: factor,
+      logInverse: true
     })
+
+    progress /= factor
+    return progress
   }
 
   get containerStyle () {
@@ -294,12 +311,7 @@ export class FlatSliderComponent {
 
     style.borderRadius = '100%'
     const center = `calc(50% - ${this.thumbRadius}px)`
-    // const centerOffset = `calc(50% - ${this.thumbRadius * 2}px)`
-    // if (this.orientation === 'horizontal') {
-    //   style.left = centerOffset
-    // } else {
-    //   style.top = centerOffset
-    // }
+
     style.top = center
     style.left = center
 
