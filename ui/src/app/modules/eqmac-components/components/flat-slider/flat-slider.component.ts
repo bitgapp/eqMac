@@ -316,7 +316,7 @@ export class FlatSliderComponent {
 
     style.borderRadius = '100%'
     if (this.orientation === 'horizontal') {
-      style.left = `${this.utils.logMapValueInverse({
+      style.left = `${this.mapValue({
         value: this.value, 
         inMin: this.min, 
         inMax: this.max, 
@@ -324,7 +324,7 @@ export class FlatSliderComponent {
         outMax: this.width - this.knobRadius * 2
       })}px`
     } else {
-      style.bottom = `${this.utils.logMapValueInverse({
+      style.bottom = `${this.mapValue({
         value: this.value, 
         inMin: this.min, 
         inMax: this.max, 
