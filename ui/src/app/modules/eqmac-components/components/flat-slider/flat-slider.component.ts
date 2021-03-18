@@ -83,7 +83,7 @@ export class FlatSliderComponent {
   }
 
   public dragging = false
-  public knobRadius = 4
+  public thumbRadius = 4
 
   public _value = .5
   @Input()
@@ -144,11 +144,13 @@ export class FlatSliderComponent {
   }
 
   public getValueFromMouseEvent (event: MouseEvent) {
-    const coords = this.utils.getCoordinatesInsideElementFromEvent(event, this.elem.nativeElement)
-    const progress = this.orientation === 'vertical' ? coords.y : coords.x
+    const coords = this.utils.getCoordinatesInsideElementFromEvent(event, this.containerRef.nativeElement)
+    let progress = this.orientation === 'vertical' ? coords.y : coords.x
     const value = (() => {
-      const inMin = this.knobRadius
-      const inMax = (this.orientation === 'vertical' ? this.height : this.width) - this.knobRadius
+      const inMin = this.thumbRadius
+      const inMax = (this.orientation === 'vertical' ? this.height : this.width) - this.thumbRadius * 2
+      if (progress < inMin) progress = inMin
+      if (progress > inMax) progress = inMax
       return this.mapValue({
         value: progress,
         inMin, inMax,
@@ -238,13 +240,13 @@ export class FlatSliderComponent {
 
   get containerStyle () {
     const styles: { [style: string]: string } = {}
-    const height = this.knobRadius * 2 + 2
+    const narrow = this.thumbRadius * 2 + 2
     if (this.orientation === 'horizontal') {
       styles.width = `100%`
-      styles.height = `${height}px`
+      styles.height = `${narrow}px`
     } else {
       styles.height = `100%`
-      styles.width = `${height}px`
+      styles.width = `${narrow}px`
     }
 
     return styles
@@ -253,14 +255,14 @@ export class FlatSliderComponent {
   get grooveStyle () {
     const style: { [style: string]: string | number } = {}
     if (this.orientation === 'horizontal') {
-      style.left = `${this.knobRadius}px`
+      style.left = `${this.thumbRadius}px`
       style.top = `calc(50% - ${this.thickness}px / 2)`
-      style.width = `calc(100% - ${this.knobRadius * 2}px)`
+      style.width = `calc(100% - ${this.thumbRadius * 2}px)`
       style.height = `${this.thickness}px`
     } else {
-      style.top = `${this.knobRadius}px`
+      style.top = `${this.thumbRadius}px`
       style.left = `calc(50% - ${this.thickness}px / 2)`
-      style.height = `calc(100% - ${this.knobRadius * 2}px)`
+      style.height = `calc(100% - ${this.thumbRadius * 2}px)`
       style.width = `${this.thickness}px`
     }
     style.backgroundColor = this.darkerColor
@@ -270,14 +272,14 @@ export class FlatSliderComponent {
   get grooveFillingStyle () {
     const style: { [style: string]: string } = {}
     if (this.orientation === 'horizontal') {
-      style.left = `${this.knobRadius}px`
+      style.left = `${this.thumbRadius}px`
       style.top = `calc(50% - ${this.thickness}px / 2)`
-      style.width = `calc(${this.progress * 100}% - ${this.knobRadius}px)`
+      style.width = `calc(${this.progress * 100}% - ${this.thumbRadius}px)`
       style.height = `${this.thickness}px`
     } else {
-      style.top = `${this.knobRadius}px`
+      style.top = `${this.thumbRadius}px`
       style.left = `calc(50% - ${this.thickness}px / 2)`
-      style.height = `calc(${this.progress * 100}% - ${this.knobRadius * 2}px)`
+      style.height = `calc(${this.progress * 100}% - ${this.thumbRadius * 2}px)`
       style.width = `${this.thickness}px`
     }
     style.backgroundColor = this.color
@@ -286,52 +288,64 @@ export class FlatSliderComponent {
 
   get thumbNotchStyle () {
     const style: { [style: string]: string | number } = {}
-    style.width = `${this.knobRadius * 2}px`
+    style.width = `${this.thumbRadius * 2}px`
     style.height = style.width
     style.backgroundColor = this.value >= this.middleValue ? this.color : this.darkerColor
 
     style.borderRadius = '100%'
-    const center = `calc(50% - ${this.knobRadius}px)`
-    style.left = center
+    const center = `calc(50% - ${this.thumbRadius}px)`
+    // const centerOffset = `calc(50% - ${this.thumbRadius * 2}px)`
+    // if (this.orientation === 'horizontal') {
+    //   style.left = centerOffset
+    // } else {
+    //   style.top = centerOffset
+    // }
     style.top = center
+    style.left = center
 
     return style
   }
 
-  private mapValue ({ value, inMin, inMax, outMin, outMax }: {
-    [param in 'value' | 'inMin' | 'inMax' | 'outMin' | 'outMax']: number
-  }) {
-    switch (this.scale) {
-      case 'linear': return this.utils.mapValue(value, inMin, inMax, outMin, outMax)
-      case 'logarithmic': return this.utils.logMapValue({ value, inMin, inMax, outMin, outMax })
-    }
-  }
-
   get thumbStyle () {
     const style: { [style: string]: number | string } = {}
-    style.width = `${this.knobRadius * 2}px`
+    style.width = `${this.thumbRadius * 2}px`
     style.height = style.width
-    style.border = '1px solid black'
+    const borderSize = 1
+    style.border = `${borderSize}px solid black`
     style.backgroundColor = this.color
 
     style.borderRadius = '100%'
     if (this.orientation === 'horizontal') {
-      style.left = `${this.mapValue({
+      const left = this.mapValue({
         value: this.value, 
         inMin: this.min, 
         inMax: this.max, 
-        outMin: 0, 
-        outMax: this.width - this.knobRadius * 2
-      })}px`
+        outMin: -borderSize, 
+        outMax: this.width - this.thumbRadius * 2 - borderSize,
+        logInverse: true
+      })
+      style.left = `${left}px`
     } else {
       style.bottom = `${this.mapValue({
         value: this.value, 
         inMin: this.min, 
         inMax: this.max, 
-        outMin: 0, 
-        outMax: this.height - this.knobRadius * 2
+        outMin: -borderSize, 
+        outMax: this.height - this.thumbRadius * 2 - borderSize,
+        logInverse: true
       })}px`
     }
     return style
+  }
+
+  private mapValue ({ value, inMin, inMax, outMin, outMax, logInverse }: {
+    value: number, inMin: number, inMax: number, outMin: number, outMax: number
+    logInverse?: boolean
+  }) {
+    switch (this.scale) {
+      case 'linear': return this.utils.mapValue(value, inMin, inMax, outMin, outMax)
+      case 'logarithmic': return (logInverse ? this.utils.logMapValueInverse : this.utils.logMapValue)
+        ({ value, inMin, inMax, outMin, outMax })
+    }
   }
 }
