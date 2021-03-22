@@ -14,7 +14,7 @@
     "target": "es2015",
     "resolveJsonModule": true,
     "skipLibCheck": true,
-    "strict": true,
+    "strict": false,
     "typeRoots": [
       "node_modules/@types"
     ],
