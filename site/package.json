@@ -2,12 +2,10 @@
   "name": "eqmac-site",
   "version": "0.0.0",
   "scripts": {
-    "start": "./node_modules/.bin/ng serve",
-    "build": "./node_modules/.bin/ng build",
+    "start": "ng run eqmac-site:serve-ssr",
+    "build": "ng build --prod && ng run eqmac-site:server:production",
     "deploy": "export $(tr -d '\\r' < .env | xargs) && ./scripts/deploy.sh",
-    "dev:ssr": "ng run eqmac-site:serve-ssr",
-    "serve:ssr": "node dist/server/main.js",
-    "build:ssr": "ng build --prod && ng run eqmac-site:server:production",
+    "serve": "node dist/server/main.js",
     "prerender": "ng run eqmac-site:prerender"
   },
   "private": true,

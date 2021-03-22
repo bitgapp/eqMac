@@ -53,7 +53,6 @@ const routes: Routes = [{
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
     FlexLayoutModule,
-    FlexLayoutServerModule,
     RouterModule.forRoot(routes),
     BrowserAnimationsModule,
     HttpClientModule,

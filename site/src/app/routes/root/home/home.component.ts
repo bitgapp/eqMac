@@ -13,8 +13,8 @@ export class HomeComponent {
     return elem.scrollIntoView({ behavior: 'smooth' })
   }
 
-  async download (urlPresent) {
-    if (urlPresent) return
+  async download (urlPressed: boolean) {
+    if (urlPressed) return
     const url = await this.github.getLatestDownloadUrl()
     const link = document.createElement('a')
     link.download = 'eqmac.dmg'

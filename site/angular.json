@@ -30,6 +30,9 @@
         },
         "@schematics/angular:service": {
           "spec": false
+        },
+        "@schematics/angular:application": {
+          "strict": false
         }
       },
       "architect": {
@@ -62,7 +65,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -81,8 +83,7 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "eqmac-site:build",
-            "port": 4300
+            "browserTarget": "eqmac-site:build"
           },
           "configurations": {
             "production": {

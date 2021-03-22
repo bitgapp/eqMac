@@ -12,7 +12,7 @@ export class GithubService {
   async getLatestDownloadUrl () {
     const release = await this.getLatestRelease()
     const { assets } = release
-    const binary = assets.find(a => a.name.includes('.pkg'))
+    const binary = assets.find((a: any) => a.name.includes('.pkg'))
     const downloadUrl = binary.browser_download_url
     return downloadUrl
   }

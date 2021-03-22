@@ -12,7 +12,7 @@ export class RootComponent implements OnInit {
 
   scrollTo (id: string) {
     const elem = document.getElementById(id)
-    elem.scrollIntoView({ behavior: 'smooth' })
+    elem?.scrollIntoView({ behavior: 'smooth' })
   }
 
 

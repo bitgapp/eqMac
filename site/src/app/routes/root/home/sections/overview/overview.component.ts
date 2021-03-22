@@ -9,7 +9,7 @@ import { GithubService } from 'src/app/services/github.service'
 export class OverviewComponent implements OnInit {
   @Output() downloadPressed = new EventEmitter()
   @Output() takeATourPressed = new EventEmitter()
-  url: string
+  url?: string
   constructor (private github: GithubService) {}
 
   ngOnInit () {
