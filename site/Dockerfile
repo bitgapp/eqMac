@@ -7,5 +7,5 @@ WORKDIR ${APP_DIR}
 COPY . .
 RUN npm install
 RUN ls -la
-RUN npm run build:ssr
-CMD ["npm", "run", "serve:ssr"]
+RUN npm run build
+CMD ["npm", "run", "serve"]
