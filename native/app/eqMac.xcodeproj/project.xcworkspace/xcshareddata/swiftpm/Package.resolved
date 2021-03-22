@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "LaunchAtLogin",
+        "repositoryURL": "https://github.com/bitgapp/LaunchAtLogin",
+        "state": {
+          "branch": null,
+          "revision": "3f18355f492993c2fd5c571d97e524697d16d572",
+          "version": "4.0.1"
+        }
+      }
+    ]
+  },
+  "version": 1
+}

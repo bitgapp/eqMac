@@ -2,36 +2,42 @@ import { BrowserModule } from '@angular/platform-browser'
 import { NgModule } from '@angular/core'
 
 import { HttpClientModule } from '@angular/common/http'
-import { SiteComponent } from './site.component'
+import { HomeComponent } from './routes/root/home/home.component'
 import { ButtonComponent } from './components/button/button.component'
 import { RootComponent } from './routes/root/root.component'
 import { FlexLayoutModule } from '@angular/flex-layout'
-import { OverviewComponent } from './routes/root/sections/overview/overview.component'
-import { FeaturesComponent } from './routes/root/sections/features/features.component'
+import { OverviewComponent } from './routes/root/home/sections/overview/overview.component'
+import { FeaturesComponent } from './routes/root/home/sections/features/features.component'
 import { HeaderComponent } from './components/header/header.component'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
-import { HelpComponent } from './routes/root/sections/help/help.component'
+import { HelpComponent } from './routes/root/home/sections/help/help.component'
 import { FooterComponent } from './components/footer/footer.component'
 import { Routes, RouterModule } from '@angular/router'
-import { TermsAndConditionsComponent } from './routes/terms/terms.component'
-import { FAQComponent } from './routes/faq/faq.component'
+import { TermsAndConditionsComponent } from './routes/root/terms/terms.component'
+import { FAQComponent } from './routes/root/faq/faq.component'
 import { MatExpansionModule } from '@angular/material/expansion'
 import { GithubStatsComponent } from './components/github-stats/github-stats.component'
+import { SiteComponent } from './site.component'
 
 const routes: Routes = [{
   path: '',
-  component: RootComponent
-}, {
-  path: 'terms',
-  component: TermsAndConditionsComponent
-}, {
-  path: 'faq',
-  component: FAQComponent
+  component: RootComponent,
+  children: [{
+    path: '',
+    component: HomeComponent
+  }, {
+    path: 'terms',
+    component: TermsAndConditionsComponent
+  }, {
+    path: 'faq',
+    component: FAQComponent
+  }]
 }]
 
 @NgModule({
   declarations: [
     SiteComponent,
+    HomeComponent,
     ButtonComponent,
     RootComponent,
     OverviewComponent,

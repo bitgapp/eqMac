@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core'
 import { ServerModule } from '@angular/platform-server'
 
 import { SiteModule } from './site.module'
-import { SiteComponent } from './site.component'
 import { ModuleMapLoaderModule } from '@nguniversal/module-map-ngfactory-loader'
+import { SiteComponent } from './site.component'
 
 @NgModule({
   imports: [
@@ -13,4 +13,4 @@ import { ModuleMapLoaderModule } from '@nguniversal/module-map-ngfactory-loader'
   ],
   bootstrap: [SiteComponent],
 })
-export class AppServerModule {}
+export class SiteServerModule {}

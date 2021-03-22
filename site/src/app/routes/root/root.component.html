@@ -1,4 +1,4 @@
-<eqm-overview class="overview" (downloadPressed)="download($event)" (takeATourPressed)="scrollTo(features)"></eqm-overview>
-<div #features id="features"><eqm-features></eqm-features></div>
-<eqm-faq></eqm-faq>
-<!-- <eqm-help></eqm-help> -->
+<eqm-header (sectionClicked)="scrollTo($event)"></eqm-header>
+<router-outlet></router-outlet>
+<eqm-footer></eqm-footer>
+
