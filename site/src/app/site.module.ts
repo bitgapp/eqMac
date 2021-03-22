@@ -6,6 +6,7 @@ import { HomeComponent } from './routes/root/home/home.component'
 import { ButtonComponent } from './components/button/button.component'
 import { RootComponent } from './routes/root/root.component'
 import { FlexLayoutModule } from '@angular/flex-layout'
+import { FlexLayoutServerModule } from '@angular/flex-layout/server'
 import { OverviewComponent } from './routes/root/home/sections/overview/overview.component'
 import { FeaturesComponent } from './routes/root/home/sections/features/features.component'
 import { HeaderComponent } from './components/header/header.component'
@@ -52,6 +53,7 @@ const routes: Routes = [{
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
     FlexLayoutModule,
+    FlexLayoutServerModule,
     RouterModule.forRoot(routes),
     BrowserAnimationsModule,
     HttpClientModule,

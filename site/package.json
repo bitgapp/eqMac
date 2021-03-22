@@ -4,11 +4,11 @@
   "scripts": {
     "start": "./node_modules/.bin/ng serve",
     "build": "./node_modules/.bin/ng build",
-    "compile:server": "./node_modules/.bin/webpack --config webpack.server.config.js --progress --colors",
-    "serve:ssr": "node dist/server",
-    "build:ssr": "npm run build:client-and-server-bundles && npm run compile:server",
-    "build:client-and-server-bundles": "./node_modules/.bin/ng build --prod && ng run eqmac-site:server:production --bundleDependencies all",
-    "deploy": "export $(tr -d '\\r' < .env | xargs) && ./scripts/deploy.sh"
+    "deploy": "export $(tr -d '\\r' < .env | xargs) && ./scripts/deploy.sh",
+    "dev:ssr": "ng run eqmac-site:serve-ssr",
+    "serve:ssr": "node dist/server/main.js",
+    "build:ssr": "ng build --prod && ng run eqmac-site:server:production",
+    "prerender": "ng run eqmac-site:prerender"
   },
   "private": true,
   "dependencies": {
@@ -26,7 +26,6 @@
     "@angular/platform-server": "~11.2.6",
     "@angular/router": "~11.2.6",
     "@nguniversal/express-engine": "^11.2.1",
-    "@nguniversal/module-map-ngfactory-loader": "8.1.1",
     "core-js": "^3.9.1",
     "express": "^4.17.1",
     "normalize.css": "^8.0.1",
@@ -39,6 +38,8 @@
     "@angular/cli": "~11.2.5",
     "@angular/compiler-cli": "~11.2.6",
     "@angular/language-service": "~11.2.6",
+    "@nguniversal/builders": "^11.2.1",
+    "@types/express": "^4.17.0",
     "@types/jasmine": "~3.6.7",
     "@types/jasminewd2": "~2.0.8",
     "@types/node": "~14.14.35",

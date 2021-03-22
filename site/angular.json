@@ -130,7 +130,7 @@
           "builder": "@angular-devkit/build-angular:server",
           "options": {
             "outputPath": "dist/server",
-            "main": "src/main.server.ts",
+            "main": "src/server.ts",
             "tsConfig": "src/tsconfig.server.json"
           },
           "configurations": {
@@ -147,6 +147,32 @@
                 "styles": true
               }
             }
+          }
+        },
+        "serve-ssr": {
+          "builder": "@nguniversal/builders:ssr-dev-server",
+          "options": {
+            "browserTarget": "eqmac-site:build",
+            "serverTarget": "eqmac-site:server"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "eqmac-site:build:production",
+              "serverTarget": "eqmac-site:server:production"
+            }
+          }
+        },
+        "prerender": {
+          "builder": "@nguniversal/builders:prerender",
+          "options": {
+            "browserTarget": "eqmac-site:build:production",
+            "serverTarget": "eqmac-site:server:production",
+            "routes": [
+              "/"
+            ]
+          },
+          "configurations": {
+            "production": {}
           }
         }
       }
