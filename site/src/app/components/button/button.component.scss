@@ -1,10 +1,7 @@
 @import "../../styles/colors.scss";
 
 :host {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: row;
+  display: inline-block;
   padding: 10px;
   border: 1px solid $dark;
   border-radius: 5px;

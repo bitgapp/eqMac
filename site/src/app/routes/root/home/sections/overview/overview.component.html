@@ -1,4 +1,4 @@
-<div fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="center center" fxLayoutGap="200px" fxLayoutGap.lt-md="0px">
+<div fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="center center">
   <div fxLayout="column" fxLayoutAlign="space-around center" class="info">
     <img width="144" height="144" src="assets/icon.svg">
     <div style="position: relative;">
@@ -6,15 +6,15 @@
     </div>
     <h3>Free Audio Equalizer for macOS</h3>
     <div fxLayout="row" fxFill="100%" fxLayoutAlign="center center" fxLayoutGap="20px">
-      <a *ngIf="url" [href]="url" fxFlex="80%" download="eqmac.dmg">
-        <eqm-button class="icon-gradient-middle-bg dark">
+      <a *ngIf="url" [href]="url" fxFlex="40%" download="eqmac.dmg">
+        <eqm-button fxFlex="100%" class="icon-gradient-middle-bg dark">
             Download
         </eqm-button>
       </a>
-      <eqm-button *ngIf="!url" fxFlex="80%" class="icon-gradient-middle-bg dark" (pressed)="downloadPressed.emit()">
+      <eqm-button *ngIf="!url" fxFlex="40%" class="icon-gradient-middle-bg dark" (pressed)="downloadPressed.emit()">
         Download
       </eqm-button>
-      <eqm-button fxFlex="80%" (pressed)="takeATourPressed.emit()">
+      <eqm-button fxFlex="40%" (pressed)="takeATourPressed.emit()">
           Take a tour
       </eqm-button>
     </div>
