@@ -2,6 +2,7 @@
   "name": "eqmac",
   "version": "1.3.0",
   "scripts": {
+    "lint": "npx eslint .",
     "start": "ng serve --port 8080",
     "build": "rm -rf dist/ && ng build --prod && node -e \"console.log(require('./package.json').version)\" > dist/version.txt && cd dist/ && zip -r -D ui.zip * -x '*.DS_Store' && cp ui.zip ../../native/app/Embedded",
     "deploy": "export $(egrep -v '^#' .env | xargs) && ./scripts/deploy.sh",
