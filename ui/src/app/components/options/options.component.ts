@@ -86,7 +86,7 @@ export interface InputOption extends BaseOptions {
 interface SliderOption extends BaseOptions {
   value: number
   min?: number
-  midle?: number
+  middle?: number
   max?: number
   animationDuration?: number
   animationFps?: number

@@ -33,6 +33,7 @@ export class DropdownComponent implements OnInit {
   @Output() refChanged = new EventEmitter<DropdownComponent>()
   @HostBinding('class.disabled') @Input() disabled = false
   @Input() selectedItem = null
+  @Output() selectedItemChange = new EventEmitter<any>()
   @Input() labelParam = 'text'
   @Input() numberOfVisibleItems = 6
   @Input() placeholder = 'Select item'
@@ -123,6 +124,7 @@ export class DropdownComponent implements OnInit {
 
   selectItem (item) {
     this.selectedItem = item
+    this.selectedItemChange.emit(item)
     this.itemSelected.emit(item)
     if (this.closeOnSelect) {
       this.close()

@@ -25,7 +25,7 @@
       [disabled]="!enabled"
       *ngIf="activeEqualizer && activeEqualizer.settings.length"
       eqmTooltip="Settings" eqmTooltipPositionSide="bottom">
-        <eqm-icon name="cog" color="#8E8E93" width="14" height="14"></eqm-icon>
+        <eqm-icon name="cog" color="#8E8E93" [width]="14" [height]="14"></eqm-icon>
       </eqm-button>
         
         <!-- <eqm-icon (click)="toggleVisibility()" [name]="hide ? 'show' : 'hide'"></eqm-icon> -->

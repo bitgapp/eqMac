@@ -10,9 +10,9 @@
     <eqm-icon [name]="'cross'" [height]="16" [width]="16" color="#4f8d71"></eqm-icon>
   </div>
   <div class="right" *ngIf="!searchText" (click)="editable ? toggle($event) : undefined">
-    <eqm-icon [name]="'triangle'" [height]="8" [width]="8" [color]="items.length ? '#4f8d71' : '#555'" rotate="-90">
+    <eqm-icon [name]="'triangle'" [height]="8" [width]="8" [color]="items.length ? '#4f8d71' : '#555'" [rotate]="-90">
     </eqm-icon>
-    <eqm-icon [name]="'triangle'" [height]="8" [width]="8" [color]="items.length ? '#4f8d71' : '#555'" rotate="90">
+    <eqm-icon [name]="'triangle'" [height]="8" [width]="8" [color]="items.length ? '#4f8d71' : '#555'" [rotate]="90">
     </eqm-icon>
   </div>
 </eqm-container>
