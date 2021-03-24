@@ -10,6 +10,8 @@ module.exports = {
     files: ['*.ts'],
     rules: {
       radix: 'off',
+      'no-unused-vars': 'off',
+      '@typescript-eslint/no-unused-vars': 'off',
       'accessor-pairs': 'off',
       'return-undefined': 'off',
       'no-throw-literal': 'off',
@@ -20,7 +22,6 @@ module.exports = {
       '@typescript-eslint/no-empty-interface': 'off',
       '@typescript-eslint/no-extraneous-class': 'off',
       '@typescript-eslint/no-floating-promises': 'off',
-      '@typescript-eslint/no-unused-vars': [2, { args: 'none' }],
       '@typescript-eslint/require-await': 'off',
       '@typescript-eslint/restrict-template-expressions': 'off',
       '@typescript-eslint/promise-function-async': 'off',
@@ -33,8 +34,5 @@ module.exports = {
       'no-async-promise-executor': 'off',
       '@typescript-eslint/no-dynamic-delete': 'off'
     }
-  }],
-  env: {
-    node: true
-  }
+  }]
 }
