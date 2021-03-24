@@ -1,5 +1,5 @@
-import { Component, ContentChildren, QueryList, Directive, ViewChild, ElementRef, Input, TemplateRef, ViewContainerRef, AfterViewInit, Output, EventEmitter, HostBinding, ViewChildren, OnDestroy } from '@angular/core'
-import { AnimationPlayer, AnimationFactory, animate, style, AnimationBuilder } from '@angular/animations'
+import { Component, ContentChildren, QueryList, Directive, ViewChild, ElementRef, Input, TemplateRef, AfterViewInit, Output, EventEmitter, ViewChildren, OnDestroy } from '@angular/core'
+import { AnimationFactory, animate, style, AnimationBuilder } from '@angular/animations'
 
 @Directive({
   selector: '[eqmCarouselItem]'
@@ -23,7 +23,7 @@ export class CarouselItemElement {
 @Component({
   selector: 'eqm-carousel',
   templateUrl: './carousel.component.html',
-  styleUrls: ['./carousel.component.scss']
+  styleUrls: [ './carousel.component.scss' ]
 })
 export class CarouselComponent implements AfterViewInit, OnDestroy {
   @ContentChildren(CarouselItemDirective) items: QueryList<CarouselItemDirective>
@@ -41,6 +41,7 @@ export class CarouselComponent implements AfterViewInit, OnDestroy {
       this.heightDiff.emit(diff)
     }
   }
+
   @Output() heightDiff = new EventEmitter<number>()
   @Output() heightChange = new EventEmitter<number>()
   public recalculateHeightTimer
@@ -54,6 +55,7 @@ export class CarouselComponent implements AfterViewInit, OnDestroy {
     this.recalculateHeight()
     this.itemCameIntoView.emit(this.selectedItemId)
   }
+
   get selectedItemId () { return this._selectedItemId }
   @Output() selectedItemIdChange = new EventEmitter<string>()
   @Output() animationCompleted = new EventEmitter<string>()
@@ -75,13 +77,13 @@ export class CarouselComponent implements AfterViewInit, OnDestroy {
   ngAfterViewInit () {
     for (const item of this.items.toArray()) {
       if (!item.eqmCarouselItem || typeof item.eqmCarouselItem !== 'string') {
-        throw new Error(`eqmCarouselItem directive was not provided an item ID`)
+        throw new Error('eqmCarouselItem directive was not provided an item ID')
       }
     }
 
     this.animate()
     this.recalculateHeight()
-    this.recalculateHeightTimer = setInterval(this.recalculateHeight.bind(this), 1000)
+    this.recalculateHeightTimer = setInterval(() => this.recalculateHeight(), 1000)
   }
 
   ngOnDestroy () {
@@ -127,8 +129,7 @@ export class CarouselComponent implements AfterViewInit, OnDestroy {
   }
 
   public recalculateHeight () {
-    const itemEl = this.itemElems && this.itemElems.toArray()[this.currentIndex].nativeElement.nextElementSibling
-    itemEl && itemEl.offsetHeight && (this.height = itemEl.offsetHeight)
+    const itemEl = this.itemElems?.toArray()[this.currentIndex].nativeElement.nextElementSibling
+    itemEl?.offsetHeight && (this.height = itemEl.offsetHeight)
   }
-
 }

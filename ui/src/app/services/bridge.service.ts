@@ -47,7 +47,7 @@ export class BridgeService {
       if (window[bridgeCallbacksKey]) {
         return window[bridgeCallbacksKey].push(resolve)
       }
-      window[bridgeCallbacksKey] = [resolve]
+      window[bridgeCallbacksKey] = [ resolve ]
 
       const WVJBIframe = document.createElement('iframe')
       WVJBIframe.style.display = 'none'
@@ -78,6 +78,7 @@ export class BridgeService {
     bridge.registerHandler(event, async (data, cb) => {
       const handleError = (err: string | Error) => {
         console.error(err)
+        // eslint-disable-next-line @typescript-eslint/no-base-to-string
         cb({ error: err.toString() })
       }
       try {

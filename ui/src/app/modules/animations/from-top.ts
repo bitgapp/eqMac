@@ -11,11 +11,11 @@ const END_FRAME_STATE = {
 }
 
 export const FromTopAnimation = trigger('FromTop', [
-  transition(':enter', [   // :enter is alias to 'void => *'
+  transition(':enter', [ // :enter is alias to 'void => *'
     style(INITIAL_STATE),
     animate(DURATION, style(END_FRAME_STATE))
   ]),
-  transition(':leave', [   // :leave is alias to '* => void'
+  transition(':leave', [ // :leave is alias to '* => void'
     animate(DURATION, style(INITIAL_STATE))
   ])
 ])

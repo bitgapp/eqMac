@@ -1,6 +1,6 @@
-import { Component, Directive, EventEmitter, HostListener, Output } from "@angular/core";
+import { Directive, EventEmitter, HostListener, Output } from '@angular/core'
 
-@Directive({ selector: `[clickedOutside]` })
+@Directive({ selector: '[clickedOutside]' })
 export class ClickedOutsideDirective {
   @Output() clickedOutside = new EventEmitter()
 
@@ -9,6 +9,7 @@ export class ClickedOutsideDirective {
   insideClick () {
     this.inside = true
   }
+
   @HostListener('document:click')
   outsideClick () {
     if (!this.inside) {

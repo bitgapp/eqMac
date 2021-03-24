@@ -20,7 +20,7 @@ export interface AdditionalPresetOption {
 @Component({
   selector: 'eqm-equalizer-presets',
   templateUrl: './equalizer-presets.component.html',
-  styleUrls: ['./equalizer-presets.component.scss']
+  styleUrls: [ './equalizer-presets.component.scss' ]
 })
 export class EqualizerPresetsComponent implements OnInit {
   @Input() presets: EqualizerPreset[]
@@ -62,7 +62,7 @@ export class EqualizerPresetsComponent implements OnInit {
             data: {
               confirmText: 'Yes, save',
               cancelText: 'No, cancel',
-              text: `A Default preset with this name already exists. Would you like to use this name anyway? You might see Duplicate names in the Preset list.`
+              text: 'A Default preset with this name already exists. Would you like to use this name anyway? You might see Duplicate names in the Preset list.'
             }
           }).afterClosed().toPromise()
           if (!saveAnyway) return this.savePreset(presetName)
@@ -73,7 +73,7 @@ export class EqualizerPresetsComponent implements OnInit {
             data: {
               confirmText: 'Yes, overwrite',
               cancelText: 'No, cancel',
-              text: `A preset with this name already exists. Would you like to overwrite it?`
+              text: 'A preset with this name already exists. Would you like to overwrite it?'
             }
           }).afterClosed().toPromise()
           if (!overwrite) return this.savePreset(presetName)
@@ -90,7 +90,7 @@ export class EqualizerPresetsComponent implements OnInit {
       data: {
         confirmText: 'Yes, remove',
         cancelText: 'No, cancel',
-        text: `Are you sure you want to remove this Preset?`
+        text: 'Are you sure you want to remove this Preset?'
       }
     }).afterClosed().toPromise()
 
@@ -98,5 +98,4 @@ export class EqualizerPresetsComponent implements OnInit {
       this.presetDeleted.emit()
     }
   }
-
 }

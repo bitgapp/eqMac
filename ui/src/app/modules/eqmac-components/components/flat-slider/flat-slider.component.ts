@@ -1,6 +1,5 @@
 import {
   Component,
-  OnInit,
   ViewChild,
   Input,
   Output,
@@ -13,7 +12,7 @@ import {
   UtilitiesService
 } from '../../services/utilities.service'
 import { FadeInOutAnimation } from '../../../animations'
-import { SafeStyle, DomSanitizer } from '@angular/platform-browser'
+import { DomSanitizer } from '@angular/platform-browser'
 
 export interface FlatSliderValueChangedEvent {
   value: number
@@ -23,8 +22,8 @@ export interface FlatSliderValueChangedEvent {
 @Component({
   selector: 'eqm-flat-slider',
   templateUrl: './flat-slider.component.html',
-  styleUrls: ['./flat-slider.component.scss'],
-  animations: [FadeInOutAnimation]
+  styleUrls: [ './flat-slider.component.scss' ],
+  animations: [ FadeInOutAnimation ]
 })
 export class FlatSliderComponent {
   constructor (
@@ -61,6 +60,7 @@ export class FlatSliderComponent {
     this._enabled = shouldBeEnabled
     this._color = this._enabled ? this.defaultColor : '#777'
   }
+
   get enabled () { return this._enabled }
 
   public _color = this.defaultColor
@@ -69,6 +69,7 @@ export class FlatSliderComponent {
     this.defaultColor = newColor
     this._color = this._enabled ? this.defaultColor : '#777'
   }
+
   get color () {
     return this._color
   }
@@ -85,7 +86,7 @@ export class FlatSliderComponent {
   public dragging = false
   public thumbRadius = 4
 
-  public _value = .5
+  public _value = 0.5
   @Input()
   set value (newValue) {
     let value = this.clampValue(newValue)
@@ -98,10 +99,10 @@ export class FlatSliderComponent {
         diffFromMiddle *= -1
       }
       const percFromMiddle = this.mapValue({
-        value: diffFromMiddle, 
-        inMin: 0, 
-        inMax: this.max - middleValue, 
-        outMin: 0, 
+        value: diffFromMiddle,
+        inMin: 0,
+        inMax: this.max - middleValue,
+        outMin: 0,
         outMax: 100
       })
       if ((this._value).toFixed(2) === (middleValue).toFixed(2) && percFromMiddle < 5) {
@@ -116,6 +117,7 @@ export class FlatSliderComponent {
     this._value = this.clampValue(value)
     this.valueChange.emit(this._value)
   }
+
   get value () { return this._value }
 
   @Output() valueChange = new EventEmitter()
@@ -128,13 +130,14 @@ export class FlatSliderComponent {
   get width () {
     return this.containerRef.nativeElement.offsetWidth
   }
+
   public clampValue (value) {
     if (value < this.min) return this.min
     if (value > this.max) return this.max
     return value
   }
 
-  @HostListener('mousewheel', ['$event'])
+  @HostListener('mousewheel', [ '$event' ])
   mouseWheel (event: MouseWheelEvent) {
     if (this.enabled && this.scrollEnabled) {
       // const multiplier = (this.max - this.min) / 1000
@@ -165,7 +168,8 @@ export class FlatSliderComponent {
       if (progress > inMax) progress = inMax
       return this.mapValue({
         value: progress,
-        inMin, inMax,
+        inMin,
+        inMax,
         outMin: this.min,
         outMax: this.max
       })
@@ -173,7 +177,7 @@ export class FlatSliderComponent {
     return value
   }
 
-  @HostListener('mousedown', ['$event'])
+  @HostListener('mousedown', [ '$event' ])
   mousedown (event: MouseEvent) {
     if (this.enabled) {
       this.dragging = true
@@ -182,7 +186,7 @@ export class FlatSliderComponent {
     }
   }
 
-  @HostListener('mousemove', ['$event'])
+  @HostListener('mousemove', [ '$event' ])
   mousemove (event: MouseEvent) {
     if (this.enabled && this.dragging) {
       this.value = this.getValueFromMouseEvent(event)
@@ -195,6 +199,7 @@ export class FlatSliderComponent {
   onMouseEnter (): void {
     this.mouseInside = true
   }
+
   @HostListener('mouseleave')
   onMouseLeave (): void {
     this.mouseInside = false
@@ -229,13 +234,13 @@ export class FlatSliderComponent {
       value += step
       this.value = value
     }
-    return
   }
 
-  @HostListener('mouseup', ['$event'])
+  @HostListener('mouseup', [ '$event' ])
   onMouseUp () {
     this.dragging = false
   }
+
   mouseup (event) {
     this.dragging = false
   }
@@ -259,10 +264,10 @@ export class FlatSliderComponent {
     const styles: { [style: string]: string } = {}
     const narrow = this.thumbRadius * 2 + 2
     if (this.orientation === 'horizontal') {
-      styles.width = `100%`
+      styles.width = '100%'
       styles.height = `${narrow}px`
     } else {
-      styles.height = `100%`
+      styles.height = '100%'
       styles.width = `${narrow}px`
     }
 
@@ -329,20 +334,20 @@ export class FlatSliderComponent {
     style.borderRadius = '100%'
     if (this.orientation === 'horizontal') {
       const left = this.mapValue({
-        value: this.value, 
-        inMin: this.min, 
-        inMax: this.max, 
-        outMin: -borderSize, 
+        value: this.value,
+        inMin: this.min,
+        inMax: this.max,
+        outMin: -borderSize,
         outMax: this.width - this.thumbRadius * 2 - borderSize,
         logInverse: true
       })
       style.left = `${left}px`
     } else {
       style.bottom = `${this.mapValue({
-        value: this.value, 
-        inMin: this.min, 
-        inMax: this.max, 
-        outMin: -borderSize, 
+        value: this.value,
+        inMin: this.min,
+        inMax: this.max,
+        outMin: -borderSize,
         outMax: this.height - this.thumbRadius * 2 - borderSize,
         logInverse: true
       })}px`
@@ -351,13 +356,16 @@ export class FlatSliderComponent {
   }
 
   private mapValue ({ value, inMin, inMax, outMin, outMax, logInverse }: {
-    value: number, inMin: number, inMax: number, outMin: number, outMax: number
+    value: number
+    inMin: number
+    inMax: number
+    outMin: number
+    outMax: number
     logInverse?: boolean
   }) {
     switch (this.scale) {
       case 'linear': return this.utils.mapValue(value, inMin, inMax, outMin, outMax)
-      case 'logarithmic': return (logInverse ? this.utils.logMapValueInverse : this.utils.logMapValue)
-        ({ value, inMin, inMax, outMin, outMax })
+      case 'logarithmic': return (logInverse ? this.utils.logMapValueInverse : this.utils.logMapValue)({ value, inMin, inMax, outMin, outMax })
     }
   }
 }

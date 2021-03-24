@@ -12,7 +12,7 @@ import { UIService } from '../../../services/ui.service'
 @Component({
   selector: 'eqm-equalizers',
   templateUrl: './equalizers.component.html',
-  styleUrls: ['./equalizers.component.scss'],
+  styleUrls: [ './equalizers.component.scss' ],
   animations: [ FadeInOutAnimation ]
 })
 export class EqualizersComponent implements OnInit {
@@ -38,6 +38,7 @@ export class EqualizersComponent implements OnInit {
     this.changeRef.detectChanges()
     this.activeEqualizer = this.getEqualizerFromType(this.type)
   }
+
   get type () { return this._type }
 
   gain: number = 0
@@ -48,8 +49,8 @@ export class EqualizersComponent implements OnInit {
     public equalizersService: EqualizersService,
     public dialog: MatDialog,
     public ui: UIService,
-    private changeRef: ChangeDetectorRef
-    ) { }
+    private readonly changeRef: ChangeDetectorRef
+  ) { }
 
   async ngOnInit () {
     await this.sync()
@@ -132,5 +133,4 @@ export class EqualizersComponent implements OnInit {
   selectPreset (preset: EqualizerPreset) {
     return this.activeEqualizer.selectPreset(preset)
   }
-
 }

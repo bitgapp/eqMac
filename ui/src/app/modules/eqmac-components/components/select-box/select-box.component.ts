@@ -3,16 +3,16 @@ import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef }
 @Component({
   selector: 'eqm-select-box',
   templateUrl: './select-box.component.html',
-  styleUrls: ['./select-box.component.scss']
+  styleUrls: [ './select-box.component.scss' ]
 })
 export class SelectBoxComponent implements OnInit {
-
   _items: any[] = []
   @Input()
   set items (newItems: any[]) {
     this._items = newItems
     this.setHeight()
   }
+
   get items () {
     return this._items
   }
@@ -67,5 +67,4 @@ export class SelectBoxComponent implements OnInit {
     this.selectedItem = item
     this.itemSelected.emit(item)
   }
-
 }

@@ -46,10 +46,10 @@ export class FileService extends SourceService {
   }
 
   onPlayingChanged (callback: (playing: boolean) => void) {
-    this.on(`/playing`, ({ playing }) => callback(playing))
+    this.on('/playing', ({ playing }) => callback(playing))
   }
 
   onProgressChanged (callback: (progress: number) => void) {
-    this.on(`/progress`, ({ progress }) => callback(progress))
+    this.on('/progress', ({ progress }) => callback(progress))
   }
 }

@@ -1,9 +1,10 @@
-import { Option, Options } from 'src/app/components/options/options.component'
+import { Options } from 'src/app/components/options/options.component'
 import { AdditionalPresetOption, EqualizerPreset } from './presets/equalizer-presets.component'
-import { Input } from '@angular/core'
+import { Component, Input } from '@angular/core'
 import { MatDialogRef } from '@angular/material/dialog'
 import { OptionsDialogComponent } from '../../../components/options-dialog/options-dialog.component'
 
+@Component({ template: '' })
 export abstract class EqualizerComponent {
   @Input() animationDuration = 500
   @Input() animationFps = 30

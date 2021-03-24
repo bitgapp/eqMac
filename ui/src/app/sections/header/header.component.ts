@@ -9,7 +9,7 @@ import { SettingsService, IconMode } from '../settings/settings.service'
 @Component({
   selector: 'eqm-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss'],
+  styleUrls: [ './header.component.scss' ],
   animations: [ FadeInOutAnimation ]
 })
 export class HeaderComponent implements OnInit {
@@ -25,7 +25,7 @@ export class HeaderComponent implements OnInit {
     public ui: UIService,
     public dialog: MatDialog,
     public settings: SettingsService
-    ) { }
+  ) { }
 
   async ngOnInit () {
     await this.sync()
@@ -41,8 +41,8 @@ export class HeaderComponent implements OnInit {
     this.uiMode = await this.ui.getMode()
   }
 
-  setShowBoolean (name, bool) {
-    if (this.showBooleanDebouncers.hasOwnProperty(name)) {
+  setShowBoolean (name: string, bool: boolean) {
+    if (name in this.showBooleanDebouncers) {
       clearTimeout(this.showBooleanDebouncers[name])
       delete this.showBooleanDebouncers[name]
       this[name] = bool
@@ -104,5 +104,4 @@ export class HeaderComponent implements OnInit {
   //   this.mode = this.mode === 'window' ? 'popover' : 'window'
   //   return this.ui.setMode(this.mode)
   // }
-
 }

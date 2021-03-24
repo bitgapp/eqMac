@@ -3,12 +3,12 @@ import { BalanceService } from './balance.service'
 import { ApplicationService } from '../../../../services/app.service'
 import { KnobValueChangedEvent } from '../../../../modules/eqmac-components/components/knob/knob.component'
 import { FlatSliderValueChangedEvent } from '../../../../modules/eqmac-components/components/flat-slider/flat-slider.component'
-import { UIService, UISettings } from '../../../../services/ui.service'
+import { UIService } from '../../../../services/ui.service'
 
 @Component({
   selector: 'eqm-balance',
   templateUrl: './balance.component.html',
-  styleUrls: ['./balance.component.scss']
+  styleUrls: [ './balance.component.scss' ]
 })
 export class BalanceComponent implements OnInit {
   balance = 0

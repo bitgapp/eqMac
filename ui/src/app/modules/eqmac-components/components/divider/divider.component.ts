@@ -1,9 +1,9 @@
-import { Component, OnInit, Input, ElementRef, HostBinding } from '@angular/core'
+import { Component, Input, ElementRef, HostBinding } from '@angular/core'
 
 @Component({
   selector: 'eqm-divider',
   templateUrl: './divider.component.html',
-  styleUrls: ['./divider.component.scss']
+  styleUrls: [ './divider.component.scss' ]
 })
 export class DividerComponent {
   @Input() orientation: 'vertical' | 'horizontal' = 'horizontal'
@@ -41,5 +41,4 @@ export class DividerComponent {
   get bottomtBorder () {
     return this.orientation === 'horizontal' ? '1px solid rgb(96, 97, 101)' : undefined
   }
-
 }

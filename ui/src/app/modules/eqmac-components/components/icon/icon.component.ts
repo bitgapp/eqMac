@@ -10,7 +10,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser'
 @Component({
   selector: 'eqm-icon',
   templateUrl: './icon.component.html',
-  styleUrls: ['./icon.component.scss'],
+  styleUrls: [ './icon.component.scss' ],
   encapsulation: ViewEncapsulation.ShadowDom
 })
 export class IconComponent implements OnInit {
@@ -18,10 +18,12 @@ export class IconComponent implements OnInit {
   @Input() height = 20
   svg: SafeHtml
   icons = svgs
+
   @Input() set size (newSize) {
     this.width = newSize
     this.height = newSize
   }
+
   _color = '#979aa0'
   @Input()
   set color (newColor) {
@@ -47,6 +49,7 @@ export class IconComponent implements OnInit {
   get rotate () {
     return this._rotate
   }
+
   set rotate (angle: number) {
     this._rotate = angle
   }
@@ -57,6 +60,7 @@ export class IconComponent implements OnInit {
     this._name = iconName
     this.svg = this.sanitizer.bypassSecurityTrustHtml(this.icons[this.name])
   }
+
   get name () { return this._name }
 
   @Input() stroke: number = 0

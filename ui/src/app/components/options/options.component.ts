@@ -74,8 +74,8 @@ export interface BreadcrumbsOption extends BaseOptions {
 }
 
 export interface InputOption extends BaseOptions {
-  type: 'input',
-  value?: string,
+  type: 'input'
+  value?: string
   placeholder?: string
   changed?: (value: string) => any
   enter?: () => any
@@ -117,7 +117,7 @@ export interface ValueScreenOption extends BaseOptions {
   clicked?: () => any
 }
 
-export type Option = ButtonOption | CheckboxOption | SelectOption 
+export type Option = ButtonOption | CheckboxOption | SelectOption
 | DividerOption | LabelOption | HTMLOption | DropdownOption
 | BreadcrumbsOption | InputOption | FlatSliderOption | SkeuomorphSliderOption
 | ValueScreenOption
@@ -126,7 +126,7 @@ export type Options = Option[][]
 @Component({
   selector: 'eqm-options',
   templateUrl: './options.component.html',
-  styleUrls: ['./options.component.scss']
+  styleUrls: [ './options.component.scss' ]
 })
 export class OptionsComponent {
   @Input() options: Options = []
@@ -135,10 +135,10 @@ export class OptionsComponent {
   constructor (
     public app: ApplicationService,
     public ref: ChangeDetectorRef
-    ) {}
+  ) {}
 
   getOptionStyle (option: Option, row: Option[]) {
-    let style = option.style || {}
+    const style = option.style || {}
     if (!style.width) {
       style.width = `${100 / row.length}%`
     }
@@ -146,7 +146,7 @@ export class OptionsComponent {
       style.width = '100%'
     }
 
-    if (!!option.isEnabled && option.isEnabled() === false) {
+    if (!!option.isEnabled && !option.isEnabled()) {
       style.filter = 'grayscale(1)'
     }
 
@@ -154,7 +154,7 @@ export class OptionsComponent {
   }
 
   toggleCheckbox (checkbox: CheckboxOption) {
-    if (!!checkbox.isEnabled && checkbox.isEnabled() === false) {
+    if (!!checkbox.isEnabled && !checkbox.isEnabled()) {
       return
     }
     checkbox.value = !checkbox.value
@@ -163,7 +163,7 @@ export class OptionsComponent {
   }
 
   selectedOption (option: SelectOption, selectOption: SelectOptionOption) {
-    if (!!option.isEnabled && option.isEnabled() === false) {
+    if (!!option.isEnabled && !option.isEnabled()) {
       return
     }
     if (option.selectedId !== selectOption.id) {

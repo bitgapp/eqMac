@@ -1,8 +1,8 @@
-import { Injectable, EventEmitter } from '@angular/core'
+import { Injectable } from '@angular/core'
 import { DataService } from './data.service'
-import { Observable, Subject } from 'rxjs'
+import { Subject } from 'rxjs'
 
-export type UISettings = {
+export interface UISettings {
   replaceKnobsWithSliders?: boolean
 }
 
@@ -24,12 +24,12 @@ export class UIService extends DataService {
   settingsChanged = new Subject<UISettings>()
 
   readonly colors = {
-    'accent': '#4f8d71',
-    'warning': '#e80415',
+    accent: '#4f8d71',
+    warning: '#e80415',
     'gradient-start': '#5a5b5f',
     'gradient-end': '#2c2c2e',
-    'light': '#c9cdd0',
-    'dark': '#16191c'
+    light: '#c9cdd0',
+    dark: '#16191c'
   }
 
   get isLocal () {
@@ -84,5 +84,4 @@ export class UIService extends DataService {
     settings = await this.request({ method: 'POST', endpoint: '/settings', data: settings })
     this.settingsChanged.next(settings)
   }
-
 }

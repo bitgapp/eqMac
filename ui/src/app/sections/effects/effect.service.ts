@@ -17,6 +17,6 @@ export class EffectService extends DataService {
   }
 
   onEnabledChanged (callback: (enabled: boolean) => void) {
-    this.on(`/enabled`, ({ enabled }) => callback(enabled))
+    this.on('/enabled', ({ enabled }) => callback(enabled))
   }
 }

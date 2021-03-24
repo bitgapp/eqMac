@@ -9,7 +9,7 @@ export interface OptionsDialogData {
 @Component({
   selector: 'eqm-options-dialog',
   templateUrl: './options-dialog.component.html',
-  styleUrls: ['./options-dialog.component.scss']
+  styleUrls: [ './options-dialog.component.scss' ]
 })
 export class OptionsDialogComponent implements OnInit {
   @Input() options: Options
@@ -22,10 +22,9 @@ export class OptionsDialogComponent implements OnInit {
 
   ngOnInit () {
     if (this.data) {
-      for (const [key, value] of Object.entries(this.data)) {
+      for (const [ key, value ] of Object.entries(this.data)) {
         this[key] = value || this[key]
       }
     }
   }
-
 }

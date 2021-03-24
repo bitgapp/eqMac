@@ -11,7 +11,7 @@ import {
 @Component({
   selector: 'eqm-reverb',
   templateUrl: './reverb.component.html',
-  styleUrls: ['./reverb.component.scss']
+  styleUrls: [ './reverb.component.scss' ]
 })
 export class ReverbComponent implements OnInit {
   presets = []
@@ -51,7 +51,6 @@ export class ReverbComponent implements OnInit {
     this.getSelectedPreset()
     this.getMix()
     this.getEnabled()
-
   }
 
   async getPresets () {
@@ -87,5 +86,4 @@ export class ReverbComponent implements OnInit {
     this.hide = !this.hide
     this.visibilityToggled.emit()
   }
-
 }

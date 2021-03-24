@@ -24,27 +24,27 @@ export class AdvancedEqualizerService extends EqualizersService {
   }
 
   createPreset (preset: AdvancedEqualizerPreset, select: boolean = false) {
-    return this.request({ method: 'POST', endpoint: `/presets`, data: { ...preset, select } })
+    return this.request({ method: 'POST', endpoint: '/presets', data: { ...preset, select } })
   }
 
   updatePreset (preset: AdvancedEqualizerPreset, opts?: { select?: boolean, transition?: boolean }) {
     return this.request({
       method: 'POST',
-      endpoint: `/presets`,
+      endpoint: '/presets',
       data: {
-        ...preset,
-        select: opts && opts.select,
-        transition: opts && opts.transition
+        // ...preset,
+        select: opts?.select,
+        transition: opts?.transition
       }
     })
   }
 
   selectPreset (preset: AdvancedEqualizerPreset) {
-    return this.request({ method: 'POST', endpoint: `/presets/select`, data: { ...preset } })
+    return this.request({ method: 'POST', endpoint: '/presets/select', data: { ...preset } })
   }
 
   deletePreset (preset: AdvancedEqualizerPreset) {
-    return this.request({ method: 'DELETE', endpoint: `/presets`, data: { ...preset } })
+    return this.request({ method: 'DELETE', endpoint: '/presets', data: { ...preset } })
   }
 
   async getImportLegacyAvailable () {
@@ -81,10 +81,10 @@ export class AdvancedEqualizerService extends EqualizersService {
   }
 
   onPresetsChanged (callback: (presets: AdvancedEqualizerPreset[]) => void) {
-    this.on(`/presets`, (presets) => callback(presets))
+    this.on('/presets', (presets) => callback(presets))
   }
 
   onSelectedPresetChanged (callback: (preset: AdvancedEqualizerPreset) => void) {
-    this.on(`/presets/selected`, (preset) => callback(preset))
+    this.on('/presets/selected', (preset) => callback(preset))
   }
 }

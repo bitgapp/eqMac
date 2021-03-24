@@ -19,7 +19,7 @@ export interface KnobValueChangedEvent {
 @Component({
   selector: 'eqm-knob',
   templateUrl: './knob.component.html',
-  styleUrls: ['./knob.component.scss']
+  styleUrls: [ './knob.component.scss' ]
 })
 export class KnobComponent implements OnInit {
   @Input() size: 'large' | 'medium' | 'small' = 'medium'
@@ -59,7 +59,6 @@ export class KnobComponent implements OnInit {
     if (this._value === newValue || typeof newValue !== 'number') return
     let value = newValue
     if (this.stickToMiddle) {
-
       let diffFromMiddle = this.middleValue - value
       if (diffFromMiddle < 0) {
         diffFromMiddle *= -1
@@ -77,6 +76,7 @@ export class KnobComponent implements OnInit {
     this._value = this.clampValue(value)
     this.valueChange.emit(this._value)
   }
+
   get value () {
     return this._value
   }
@@ -116,7 +116,7 @@ export class KnobComponent implements OnInit {
     this.dragging = false
   }
 
-  @HostListener('gesturechange', ['$event'])
+  @HostListener('gesturechange', [ '$event' ])
   onGestureChange (event) {
     if (!this.disabled) {
       try {
@@ -133,7 +133,6 @@ export class KnobComponent implements OnInit {
 
   mousemove (event) {
     if (!this.disabled) {
-
       if (this.setDraggingFalseTimeout) {
         window.clearTimeout(this.setDraggingFalseTimeout)
       }
@@ -236,7 +235,6 @@ export class KnobComponent implements OnInit {
       }
     }
     this.continueAnimation = false
-    return
   }
 
   public getDegreesFromEvent (event) {

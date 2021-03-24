@@ -1,9 +1,9 @@
-import { Component, OnInit, Input, Output, EventEmitter, HostBinding } from '@angular/core'
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core'
 
 @Component({
   selector: 'eqm-checkbox',
   templateUrl: './checkbox.component.html',
-  styleUrls: ['./checkbox.component.scss']
+  styleUrls: [ './checkbox.component.scss' ]
 })
 export class CheckboxComponent {
   @Input() interactive: boolean = true

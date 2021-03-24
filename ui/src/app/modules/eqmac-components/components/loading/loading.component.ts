@@ -1,15 +1,16 @@
-import { Component, ViewChild, ElementRef, OnInit, AfterViewInit } from '@angular/core'
+import { Component, ViewChild, ElementRef, AfterViewInit } from '@angular/core'
 
 @Component({
   selector: 'eqm-loading',
   templateUrl: './loading.component.html',
-  styleUrls: ['./loading.component.scss']
+  styleUrls: [ './loading.component.scss' ]
 })
 export class LoadingComponent implements AfterViewInit {
   @ViewChild('wave', { static: true }) wave: ElementRef
 
   ngAfterViewInit () {
     const path = this.wave.nativeElement
+    // eslint-disable-next-line no-loss-of-precision
     const m = 0.512286623256592433
     const w = 90
     const h = 60

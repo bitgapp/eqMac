@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core'
 import { BridgeService } from './bridge.service'
-import { Logger } from './logger.service'
 import { CookiesService } from './cookies.service'
 
 export type JSONEncodable = null | boolean | number | string | JSONData
@@ -27,7 +26,7 @@ export class DataService {
 
   async request (opts: RequestOptions): Promise<any> {
     if (opts.endpoint && opts.endpoint[0] !== '/') opts.endpoint = `/${opts.endpoint}`
-    const args: [string, any?] = [`${opts.method} ${this.route}${opts.endpoint || ''}`, opts.data]
+    const args: [string, any?] = [ `${opts.method} ${this.route}${opts.endpoint || ''}`, opts.data ]
     const resp = await this.bridge.call(...args)
     return resp
   }

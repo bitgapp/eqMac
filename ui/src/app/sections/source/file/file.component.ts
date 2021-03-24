@@ -19,7 +19,7 @@ interface FileMeta {
 @Component({
   selector: 'eqm-file',
   templateUrl: './file.component.html',
-  styleUrls: ['./file.component.scss']
+  styleUrls: [ './file.component.scss' ]
 })
 
 export class FileComponent implements OnInit, OnDestroy {
@@ -27,6 +27,7 @@ export class FileComponent implements OnInit, OnDestroy {
     name: null,
     duration: 0
   }
+
   public syncedOnce = false
   public progressProjectionInterval = null
   public progressSetDebouncer = null
@@ -95,14 +96,13 @@ export class FileComponent implements OnInit, OnDestroy {
     ]
     if (this.selected || !this.syncedOnce) {
       thingsToSync.push(
-          this.getFile(),
-          this.getProgress(),
-          this.getPlaybackState()
-        )
+        this.getFile(),
+        this.getProgress(),
+        this.getPlaybackState()
+      )
     }
     await Promise.all(thingsToSync)
     this.syncedOnce = true
-
   }
 
   async getSelected () {
@@ -112,6 +112,7 @@ export class FileComponent implements OnInit, OnDestroy {
       this.selected = false
     }
   }
+
   async getFile () {
     try {
       this.meta = await this.fileService.getMeta()

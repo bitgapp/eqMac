@@ -51,5 +51,4 @@ export class TooltipDirective implements OnDestroy {
   destroy (): void {
     this.tooltipService.components = []
   }
-
 }

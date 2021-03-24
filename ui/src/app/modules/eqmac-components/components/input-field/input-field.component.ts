@@ -3,7 +3,7 @@ import { Component, OnInit, Input, EventEmitter, Output, ViewChild, HostBinding 
 @Component({
   selector: 'eqm-input-field',
   templateUrl: './input-field.component.html',
-  styleUrls: ['./input-field.component.scss']
+  styleUrls: [ './input-field.component.scss' ]
 })
 export class InputFieldComponent implements OnInit {
   @Input() text: string
@@ -14,7 +14,6 @@ export class InputFieldComponent implements OnInit {
   @HostBinding('class.disabled') @Input() disabled = false
   @Input() fontSize = 12
   @ViewChild('container', { static: true }) container
-  constructor () { }
 
   ngOnInit () {
   }
@@ -26,5 +25,4 @@ export class InputFieldComponent implements OnInit {
   enterPressed () {
     this.enter.emit()
   }
-
 }

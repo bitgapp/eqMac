@@ -16,8 +16,8 @@ import { SettingsService, IconMode } from './sections/settings/settings.service'
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
-  animations: [FadeInOutAnimation, FromTopAnimation]
+  styleUrls: [ './app.component.scss' ],
+  animations: [ FadeInOutAnimation, FromTopAnimation ]
 })
 
 export class AppComponent implements OnInit, AfterContentInit {
@@ -75,7 +75,7 @@ export class AppComponent implements OnInit, AfterContentInit {
 
   async syncHeight (dimensions?: UIDimensions) {
     await this.utils.delay(10)
-    let height = this.container.nativeElement.offsetHeight
+    let height: number = this.container.nativeElement.offsetHeight
     if (dimensions) {
       if (dimensions.heightDiff) {
         height += dimensions.heightDiff
@@ -88,7 +88,7 @@ export class AppComponent implements OnInit, AfterContentInit {
 
   async syncWidth (dimensions?: UIDimensions) {
     await this.utils.delay(10)
-    let width = this.container.nativeElement.offsetWidth
+    let width: number = this.container.nativeElement.offsetWidth
     if (dimensions) {
       if (dimensions.widthDiff) {
         width += dimensions.widthDiff
@@ -100,8 +100,8 @@ export class AppComponent implements OnInit, AfterContentInit {
   }
 
   startDimensionsSync () {
-    this.ui.dimensionsChanged.subscribe(dimensions => this.syncDimensions(dimensions))
-    setInterval(() => this.syncDimensions(), 1000)
+    this.ui.dimensionsChanged.subscribe(async dimensions => await this.syncDimensions(dimensions))
+    setInterval(async () => await this.syncDimensions(), 1000)
   }
 
   toggleDropdownSection (section: string) {
@@ -123,7 +123,7 @@ export class AppComponent implements OnInit, AfterContentInit {
 
   closeDropdownSection (section: string, event?: any) {
     // if (event && event.target && ['backdrop', 'mat-dialog'].some(e => event.target.className.includes(e))) return
-    if (this.matDialog.openDialogs.length) return
+    if (this.matDialog.openDialogs.length > 0) return
     if (section in this.showDropdownSections) {
       this.showDropdownSections[section] = false
     }

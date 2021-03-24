@@ -21,10 +21,9 @@ export interface SkeuomorphSliderValueChangedEvent {
 @Component({
   selector: 'eqm-skeuomorph-slider',
   templateUrl: './skeuomorph-slider.component.html',
-  styleUrls: ['./skeuomorph-slider.component.scss']
+  styleUrls: [ './skeuomorph-slider.component.scss' ]
 })
 export class SkeuomorphSliderComponent implements OnInit {
-
   constructor (public utils: UtilitiesService, public elRef: ElementRef) {}
 
   @Input() min: number = 0
@@ -50,7 +49,7 @@ export class SkeuomorphSliderComponent implements OnInit {
 
   @HostBinding('class.disabled') @Input() disabled = false
 
-  public _value = .5
+  public _value = 0.5
   @Input()
   set value (newValue) {
     let value = this.clampValue(newValue)
@@ -74,11 +73,11 @@ export class SkeuomorphSliderComponent implements OnInit {
     }
     this._value = this.clampValue(value)
     this.valueChange.emit(this._value)
-
   }
+
   get value () { return this._value }
 
-  @HostListener('mousewheel', ['$event'])
+  @HostListener('mousewheel', [ '$event' ])
   onMouseWheel (event): void {
     if (!this.disabled && this.scrollEnabled) {
       this.value += -event.deltaY / 100
@@ -105,7 +104,7 @@ export class SkeuomorphSliderComponent implements OnInit {
     }
   }
 
-  @HostListener('mousedown', ['$event'])
+  @HostListener('mousedown', [ '$event' ])
   onMouseDown (event) {
     if (!this.disabled) {
       this.dragging = true
@@ -119,7 +118,7 @@ export class SkeuomorphSliderComponent implements OnInit {
     }
   }
 
-  @HostListener('mousemove', ['$event'])
+  @HostListener('mousemove', [ '$event' ])
   onMouseMove (event) {
     if (!this.disabled && this.dragging) {
       this.value = this.getValueFromMouseEvent(event)
@@ -127,7 +126,7 @@ export class SkeuomorphSliderComponent implements OnInit {
     }
   }
 
-  @HostListener('mouseup', ['$event'])
+  @HostListener('mouseup', [ '$event' ])
   onMouseUp () {
     this.dragging = false
   }
@@ -154,7 +153,7 @@ export class SkeuomorphSliderComponent implements OnInit {
   ngOnInit () {
     if (this.showNotches) {
       this.drawNotches()
-      setTimeout(this.drawNotches.bind(this))
+      setTimeout(() => this.drawNotches())
     }
   }
 
@@ -171,7 +170,6 @@ export class SkeuomorphSliderComponent implements OnInit {
       value += step
       this.value = value
     }
-    return
   }
 
   @HostListener('window:resize')
@@ -186,9 +184,9 @@ export class SkeuomorphSliderComponent implements OnInit {
     const gap = (height - padding * 2) / 10
     ctx.strokeStyle = '#559e7d'
     for (let i = 0; i <= 10; i++) {
-      const y = Math.round(padding + gap * i) - .5
+      const y = Math.round(padding + gap * i) - 0.5
       ctx.beginPath()
-      const lineWidth = [0, 5, 10].includes(i) ? width : (width * 0.9)
+      const lineWidth = [ 0, 5, 10 ].includes(i) ? width : (width * 0.9)
       ctx.moveTo((width - lineWidth) / 1, y)
       ctx.lineTo(lineWidth, y)
       ctx.stroke()
@@ -198,6 +196,6 @@ export class SkeuomorphSliderComponent implements OnInit {
   }
 
   calculateTop () {
-    return this.utils.mapValue(this._value, this.min, this.max, this.elRef.nativeElement.offsetHeight - 25, 0) + 'px'
+    return `${this.utils.mapValue(this._value, this.min, this.max, parseInt(this.elRef.nativeElement.offsetHeight) - 25, 0)}px`
   }
 }

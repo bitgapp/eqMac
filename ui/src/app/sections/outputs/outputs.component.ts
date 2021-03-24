@@ -4,7 +4,7 @@ import { OutputsService, Output } from './outputs.service'
 @Component({
   selector: 'eqm-outputs',
   templateUrl: './outputs.component.html',
-  styleUrls: ['./outputs.component.scss']
+  styleUrls: [ './outputs.component.scss' ]
 })
 export class OutputsComponent implements OnInit {
   outputs: Output[]

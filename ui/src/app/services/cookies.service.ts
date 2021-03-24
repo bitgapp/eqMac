@@ -10,6 +10,7 @@ export class CookiesService {
   constructor (
     public CONST: ConstantsService
   ) {}
+
   set (key: string, value: any) {
     if (typeof value !== 'string') {
       value = JSON.stringify(value)

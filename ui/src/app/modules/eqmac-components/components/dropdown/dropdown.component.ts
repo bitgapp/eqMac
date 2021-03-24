@@ -1,34 +1,35 @@
 import { Component, OnInit, Input, ViewChild, ElementRef, EventEmitter, Output, NgZone, HostBinding, HostListener } from '@angular/core'
 import { SelectBoxComponent } from '../select-box/select-box.component'
 import { UtilitiesService } from '../../services/utilities.service'
-import { InputFieldComponent } from '../input-field/input-field.component'
 import { FadeInOutAnimation } from 'src/app/modules/animations'
 
 @Component({
   selector: 'eqm-dropdown',
   templateUrl: './dropdown.component.html',
-  styleUrls: ['./dropdown.component.scss'],
+  styleUrls: [ './dropdown.component.scss' ],
   animations: [ FadeInOutAnimation ]
 })
 export class DropdownComponent implements OnInit {
   constructor (
-    public utils: UtilitiesService, 
+    public utils: UtilitiesService,
     public zone: NgZone,
     public ref: ElementRef
   ) {
   }
-  
+
   public _items: any[] = []
   @Input() editable = false
   @Input()
   get items () {
     return this._items
   }
+
   set items (newItems) {
     if (!newItems || !Array.isArray(newItems)) return
     this.searchText = null
     this._items = newItems
   }
+
   @Output() refChanged = new EventEmitter<DropdownComponent>()
   @HostBinding('class.disabled') @Input() disabled = false
   @Input() selectedItem = null
@@ -54,7 +55,8 @@ export class DropdownComponent implements OnInit {
     if (!this.items) this.items = []
     this.setDimensions()
     this.calculateYCoordinate()
-    for (let _ in [...Array(3)]) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    for (const _ of [ ...Array(3) ]) {
       await this.utils.delay(100)
       this.calculateYCoordinate()
     }
@@ -78,19 +80,19 @@ export class DropdownComponent implements OnInit {
     this.direction = preferredDirection
     const inputEl = this.container.nativeElement
 
-    const inputHeight = inputEl.offsetHeight
+    const inputHeight = parseInt(inputEl.offsetHeight)
     const inputPosition = inputEl.getBoundingClientRect()
 
     const boxHeight = this.boxComponent.height
 
-    const downY = inputPosition.y + inputHeight + this.padding / 2
+    const downY = parseInt(inputPosition.y) + inputHeight + this.padding / 2
     const downSpaceLeft = viewHeight - (downY + boxHeight)
 
     const upY = inputPosition.top - boxHeight - this.padding
     const upSpaceLeft = upY
 
     this.direction = this.forceDirection ?? (downSpaceLeft > upSpaceLeft ? 'down' : 'up')
-    let y = this.direction === 'down' ? downY : upY
+    const y = this.direction === 'down' ? downY : upY
 
     this.yCoordinate = y
   }
@@ -128,7 +130,7 @@ export class DropdownComponent implements OnInit {
   }
 
   searchText: string
-  @HostListener('document:keypress', ['$event'])
+  @HostListener('document:keypress', [ '$event' ])
   keypress (event: KeyboardEvent) {
     if (!this.disabled && this.shown && this.searchable) {
       switch (event.key) {

@@ -7,12 +7,12 @@ import {
 
 import { BoosterService } from './booster.service'
 import { ApplicationService } from '../../../../services/app.service'
-import { UIService, UISettings } from '../../../../services/ui.service'
+import { UIService } from '../../../../services/ui.service'
 
 @Component({
   selector: 'eqm-booster',
   templateUrl: './booster.component.html',
-  styleUrls: ['./booster.component.scss']
+  styleUrls: [ './booster.component.scss' ]
 })
 export class BoosterComponent implements OnInit {
   gain = 1

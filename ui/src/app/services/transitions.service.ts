@@ -36,9 +36,9 @@ export class TransitionService extends DataService {
   perform (from: number, to: number, cb: (value: number) => any) {
     const distance = to - from
     const step = distance / this.FRAME_COUNT
-    const frames = [...Array(this.FRAME_COUNT)].map((_, i) => i + 1)
+    const frames = [ ...Array(this.FRAME_COUNT) ].map((_, i) => i + 1)
     for (const frame of frames) {
-      let delay = Math.round(this.FRAME_DURATION * frame)
+      const delay = Math.round(this.FRAME_DURATION * frame)
       setTimeout(() => {
         cb(from + step * frame)
       }, delay)

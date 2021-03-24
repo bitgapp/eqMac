@@ -10,7 +10,7 @@ export interface PromptDialogData extends ConfirmDialogData {
 @Component({
   selector: 'eqm-prompt-dialog',
   templateUrl: './prompt-dialog.component.html',
-  styleUrls: ['./prompt-dialog.component.scss']
+  styleUrls: [ './prompt-dialog.component.scss' ]
 })
 export class PromptDialogComponent extends ConfirmDialogComponent {
   @Input() prompt

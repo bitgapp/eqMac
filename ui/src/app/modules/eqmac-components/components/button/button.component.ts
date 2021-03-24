@@ -3,7 +3,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
 @Component({
   selector: 'eqm-button',
   templateUrl: './button.component.html',
-  styleUrls: ['./button.component.scss']
+  styleUrls: [ './button.component.scss' ]
 })
 export class ButtonComponent implements OnInit {
   @Input() type: 'large' | 'narrow' | 'square' | 'circle' | 'transparent' = 'large'
@@ -15,7 +15,6 @@ export class ButtonComponent implements OnInit {
   @Input() hoverable = true
   @Input() disabled = false
   @Output() pressed = new EventEmitter()
-  constructor () { }
 
   ngOnInit () {
   }
@@ -55,5 +54,4 @@ export class ButtonComponent implements OnInit {
       this.pressed.emit()
     }
   }
-
 }

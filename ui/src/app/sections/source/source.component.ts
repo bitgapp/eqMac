@@ -4,10 +4,9 @@ import { SourceService, SourceType } from './source.service'
 @Component({
   selector: 'eqm-source',
   templateUrl: './source.component.html',
-  styleUrls: ['./source.component.scss']
+  styleUrls: [ './source.component.scss' ]
 })
 export class SourceComponent implements OnInit {
-
   source: SourceType = 'File'
   constructor (public sourceService: SourceService) { }
 
@@ -27,5 +26,4 @@ export class SourceComponent implements OnInit {
       this.sourceService.setSource(this.source)
     }
   }
-
 }

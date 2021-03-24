@@ -18,7 +18,7 @@ export type DeviceTransportType =
 export interface Output {
   id: number
   name: string
-  transportType: DeviceTransportType,
+  transportType: DeviceTransportType
   icon?: IconName
 }
 @Injectable({

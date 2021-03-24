@@ -6,13 +6,13 @@ import {
   ViewChild
 } from '@angular/core'
 import { UtilitiesService } from '../../services/utilities.service'
-import { SafeStyle, DomSanitizer } from '@angular/platform-browser'
+import { DomSanitizer } from '@angular/platform-browser'
 
 export type TooltipPositionSide = 'top' | 'bottom' | 'left' | 'right'
 @Component({
   selector: 'eqm-tooltip',
   templateUrl: './tooltip.component.html',
-  styleUrls: ['./tooltip.component.scss']
+  styleUrls: [ './tooltip.component.scss' ]
 })
 export class TooltipComponent implements OnInit {
   @Input() text: string
@@ -49,12 +49,11 @@ export class TooltipComponent implements OnInit {
     const viewHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight)
     const viewWidth = Math.max(body.scrollWidth, body.offsetWidth, html.clientWidth, html.scrollWidth, html.offsetWidth)
     const tooltipEl = this.tooltip.nativeElement
-    const tooltipWidth = tooltipEl.offsetWidth + 3
-    const tooltipHeight = tooltipEl.offsetHeight + 2
+    const tooltipWidth = parseInt(tooltipEl.offsetWidth) + 3
+    const tooltipHeight = parseInt(tooltipEl.offsetHeight) + 2
     const parentEl = this.parent.nativeElement
     const parentPosition = this.utils.getElementPosition(parentEl)
-    const parentWidth = parentEl.offsetWidth
-    const parentHeight = parentEl.offsetHeight
+    const parentHeight = parseInt(parentEl.offsetHeight)
 
     x = parentPosition.x
     y = parentPosition.y
@@ -98,14 +97,12 @@ export class TooltipComponent implements OnInit {
     let angle = 0
     const style: { [style: string]: string } = {}
     const tooltipEl = this.tooltip.nativeElement
-    const tooltipWidth = tooltipEl.offsetWidth
     const tooltipHeight = tooltipEl.offsetHeight
     const tooltipPosition = this.utils.getElementPosition(tooltipEl)
 
     const parentEl = this.parent.nativeElement
     const parentPosition = this.utils.getElementPosition(parentEl)
     const parentWidth = parentEl.offsetWidth
-    const parentHeight = parentEl.offsetHeight
 
     x = parentPosition.x + parentWidth / 2 - tooltipPosition.x - arrowSize / 2 + 3
     if (this.positionSide === 'top') {
@@ -126,5 +123,4 @@ export class TooltipComponent implements OnInit {
 
     return style
   }
-
 }

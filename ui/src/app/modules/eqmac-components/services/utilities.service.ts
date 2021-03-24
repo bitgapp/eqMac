@@ -2,14 +2,16 @@ import { Injectable } from '@angular/core'
 
 @Injectable()
 export class UtilitiesService {
-  constructor () { }
-
   mapValue (value: number, inMin: number, inMax: number, outMin: number, outMax: number): number {
     return (value - inMin) * (outMax - outMin) / (inMax - inMin) + outMin
   }
 
   logMapValue ({ value, inMin, inMax, outMin, outMax }: {
-    value: number, inMin: number, inMax: number, outMin: number, outMax: number
+    value: number
+    inMin: number
+    inMax: number
+    outMin: number
+    outMax: number
   }) {
     outMin = Math.log(outMin)
     outMax = Math.log(outMax)
@@ -18,7 +20,11 @@ export class UtilitiesService {
   }
 
   logMapValueInverse ({ value, inMin, inMax, outMin, outMax }: {
-    value: number, inMin: number, inMax: number, outMin: number, outMax: number
+    value: number
+    inMin: number
+    inMax: number
+    outMin: number
+    outMax: number
   }) {
     inMin = Math.log(inMin || 1)
     inMax = Math.log(inMax)
@@ -31,7 +37,7 @@ export class UtilitiesService {
   getImageFromSrcWhenLoaded (src) {
     return new Promise<HTMLImageElement>((resolve, reject) => {
       const image = new Image()
-      image.crossOrigin = 'anonymous'  // This enables CORS
+      image.crossOrigin = 'anonymous' // This enables CORS
       image.onload = () => resolve(image)
       image.onerror = () => reject(image)
       image.src = src
@@ -52,12 +58,12 @@ export class UtilitiesService {
     return this.getImageFromSrcWhenLoaded(this.getBackgroundImageSrcFromClass(className))
   }
 
-  getRandomFloatInRange (min, max) {
+  getRandomFloatInRange (min: number, max: number) {
     return (Math.random() * (max - min) + min)
   }
 
   getCoordinatesInsideElementFromEvent (event: MouseEvent, element?) {
-    let el = element || event.target
+    const el = element || event.target
     const rect = el.getBoundingClientRect()
     return {
       x: event.clientX - rect.left,
@@ -75,7 +81,7 @@ export class UtilitiesService {
     const rect = el.getBoundingClientRect()
     const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop
-    return { y: rect.top + scrollTop, x: rect.left + scrollLeft }
+    return { y: parseInt(rect.top) + scrollTop, x: parseInt(rect.left) + scrollLeft }
   }
 
   hexToRgb (hex: string) {
@@ -86,7 +92,7 @@ export class UtilitiesService {
         g: result[2],
         b: result[3]
       }
-      for (const [color, hex] of Object.entries(rgb)) {
+      for (const [ color, hex ] of Object.entries(rgb)) {
         if ((hex as string).length < 2) rgb[color] = `${hex}${hex}`
         rgb[color] = parseInt(rgb[color], 16)
       }
@@ -99,5 +105,4 @@ export class UtilitiesService {
   rgbToHex ({ r, g, b }: { r: number, g: number, b: number }) {
     return '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)
   }
-
 }

@@ -10,10 +10,9 @@ export interface InputDevice {
 @Component({
   selector: 'eqm-input',
   templateUrl: './input.component.html',
-  styleUrls: ['./input.component.scss']
+  styleUrls: [ './input.component.scss' ]
 })
 export class InputComponent implements OnInit {
-
   constructor (public inputService: InputService) { }
 
   devices: InputDevice[] = []
@@ -36,7 +35,7 @@ export class InputComponent implements OnInit {
   }
 
   async syncSelectedDevice () {
-    const selectedDevice = await this.inputService.getDevice()
+    await this.inputService.getDevice()
   }
 
   protected setupEvents () {

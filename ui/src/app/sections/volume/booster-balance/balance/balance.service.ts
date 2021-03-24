@@ -5,7 +5,6 @@ import { VolumeService } from '../../../../services/volume.service'
   providedIn: 'root'
 })
 export class BalanceService extends VolumeService {
-
   async getBalance () {
     const resp = await this.request({ method: 'GET', endpoint: '/balance' })
     return resp.balance

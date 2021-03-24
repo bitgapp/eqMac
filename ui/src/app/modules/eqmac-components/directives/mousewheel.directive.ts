@@ -4,21 +4,20 @@ import { Directive, Output, HostListener, EventEmitter } from '@angular/core'
 export class MouseWheelDirective {
   @Output() mouseWheel = new EventEmitter()
 
-  @HostListener('mousewheel', ['$event']) onMouseWheelChrome (event: any) {
+  @HostListener('mousewheel', [ '$event' ]) onMouseWheelChrome (event: any) {
     this.mouseWheelFunc(event)
   }
 
-  @HostListener('DOMMouseScroll', ['$event']) onMouseWheelFirefox (event: any) {
+  @HostListener('DOMMouseScroll', [ '$event' ]) onMouseWheelFirefox (event: any) {
     this.mouseWheelFunc(event)
   }
 
-  @HostListener('onmousewheel', ['$event']) onMouseWheelIE (event: any) {
+  @HostListener('onmousewheel', [ '$event' ]) onMouseWheelIE (event: any) {
     this.mouseWheelFunc(event)
   }
 
   mouseWheelFunc (event: any) {
     event = window.event || event // old IE support
-    const delta = Math.max(-1, Math.min(1, (event.wheelDelta || -event.detail)))
     this.mouseWheel.emit(event)
     // for IE
     event.returnValue = false
@@ -27,5 +26,4 @@ export class MouseWheelDirective {
       event.preventDefault()
     }
   }
-
 }

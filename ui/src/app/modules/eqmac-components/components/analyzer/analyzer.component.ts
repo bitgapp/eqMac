@@ -8,7 +8,7 @@ import {
 @Component({
   selector: 'eqm-analyzer',
   templateUrl: './analyzer.component.html',
-  styleUrls: ['./analyzer.component.scss']
+  styleUrls: [ './analyzer.component.scss' ]
 })
 
 export class AnalyzerComponent implements OnInit {
@@ -32,8 +32,8 @@ export class AnalyzerComponent implements OnInit {
     // Get canvas context
     const gridCanvas: HTMLCanvasElement = this.gridCanvas.nativeElement
 
-    gridCanvas.style.height = this.container.nativeElement.offsetHeight + 'px'
-    gridCanvas.style.width = this.container.nativeElement.offsetWidth + 'px'
+    gridCanvas.style.height = `${parseInt(this.container.nativeElement.offsetHeight)}px`
+    gridCanvas.style.width = `${parseInt(this.container.nativeElement.offsetWidth)}px`
 
     this.width = gridCanvas.offsetWidth
     this.height = gridCanvas.offsetHeight

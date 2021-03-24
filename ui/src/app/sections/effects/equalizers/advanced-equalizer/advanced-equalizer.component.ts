@@ -15,7 +15,7 @@ import { ApplicationService } from '../../../../services/app.service'
 @Component({
   selector: 'eqm-advanced-equalizer',
   templateUrl: './advanced-equalizer.component.html',
-  styleUrls: ['./advanced-equalizer.component.scss']
+  styleUrls: [ './advanced-equalizer.component.scss' ]
 })
 export class AdvancedEqualizerComponent extends EqualizerComponent implements OnInit {
   @Input() enabled = true
@@ -26,7 +26,8 @@ export class AdvancedEqualizerComponent extends EqualizerComponent implements On
     value: false,
     toggled: (show) => this.service.setShowDefaultPresets(show)
   }
-  settings: Options = [[
+
+  settings: Options = [ [
     {
       type: 'button',
       label: 'Import Presets',
@@ -38,7 +39,8 @@ export class AdvancedEqualizerComponent extends EqualizerComponent implements On
     }
   ], [
     this.ShowDefaultPresetsCheckbox
-  ]]
+  ] ]
+
   public _presets: AdvancedEqualizerPreset[]
   @Output() presetsChange = new EventEmitter<AdvancedEqualizerPreset[]>()
   set presets (newPresets: AdvancedEqualizerPreset[]) {
@@ -46,10 +48,11 @@ export class AdvancedEqualizerComponent extends EqualizerComponent implements On
     [
       newPresets.find(p => p.id === 'manual'),
       newPresets.find(p => p.id === 'flat'),
-      ...newPresets.filter(p => !['manual', 'flat'].includes(p.id)).sort((a, b) => a.name > b.name ? 1 : -1)
+      ...newPresets.filter(p => ![ 'manual', 'flat' ].includes(p.id)).sort((a, b) => a.name > b.name ? 1 : -1)
     ]
     this.presetsChange.emit(this.presets)
   }
+
   get presets () { return this._presets }
 
   public _selectedPreset: AdvancedEqualizerPreset
@@ -58,10 +61,11 @@ export class AdvancedEqualizerComponent extends EqualizerComponent implements On
     this._selectedPreset = newSelectedPreset
     this.selectedPresetChange.emit(this.selectedPreset)
   }
-  get selectedPreset () { return this._selectedPreset }
-  bandFrequencyLabels = ['32', '64', '125', '250', '500', '1K', '2K', '4K', '8K', '16K']
 
-  bands = [...Array(10)].map(() => 0)
+  get selectedPreset () { return this._selectedPreset }
+  bandFrequencyLabels = [ '32', '64', '125', '250', '500', '1K', '2K', '4K', '8K', '16K' ]
+
+  bands = [ ...Array(10) ].map(() => 0)
   global = 0
 
   stickSlidersToMiddle = true
@@ -80,7 +84,7 @@ export class AdvancedEqualizerComponent extends EqualizerComponent implements On
         this.change.detectChanges()
       })
     }
-    for (const [i, gain] of this.selectedPreset.gains.bands.entries()) {
+    for (const [ i, gain ] of this.selectedPreset.gains.bands.entries()) {
       const currentGain = this.bands[i]
       if (currentGain !== gain) {
         this.stickSlidersToMiddle = false
@@ -101,7 +105,7 @@ export class AdvancedEqualizerComponent extends EqualizerComponent implements On
     public transition: TransitionService,
     public change: ChangeDetectorRef,
     public app: ApplicationService
-    ) {
+  ) {
     super()
     this.getImportLegacyAvailable()
   }
@@ -134,6 +138,7 @@ export class AdvancedEqualizerComponent extends EqualizerComponent implements On
       )
     }
   }
+
   public async syncPresets () {
     const [ presets, selectedPreset ] = await Promise.all([
       this.service.getPresets(),

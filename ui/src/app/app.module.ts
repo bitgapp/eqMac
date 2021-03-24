@@ -10,10 +10,6 @@ import {
 } from './app.component'
 
 import {
-  environment
-} from '../environments/environment'
-
-import {
   FlexLayoutModule
 } from '@angular/flex-layout'
 
@@ -70,9 +66,6 @@ import {
 import {
   VolumeBoosterBalanceComponent
 } from './sections/volume/booster-balance/volume-booster-balance.component'
-import {
-  VolumeMixerComponent
-} from './sections/volume/volume-mixer/volume-mixer.component'
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { SettingsComponent } from './sections/settings/settings.component'
@@ -115,7 +108,6 @@ import { OptionsDialogComponent } from './components/options-dialog/options-dial
     BasicEqualizerComponent,
     AdvancedEqualizerComponent,
     VolumeBoosterBalanceComponent,
-    VolumeMixerComponent,
     SettingsComponent,
     OptionsComponent,
     HelpComponent,
@@ -125,6 +117,6 @@ import { OptionsDialogComponent } from './components/options-dialog/options-dial
     OptionsDialogComponent
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [ AppComponent ]
 })
 export class AppModule {}
