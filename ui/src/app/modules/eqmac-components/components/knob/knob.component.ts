@@ -9,7 +9,6 @@ import {
   HostBinding,
   ElementRef
 } from '@angular/core'
-import * as uuid from 'uuid/v4'
 import { UtilitiesService } from '../../services/utilities.service'
 
 export interface KnobValueChangedEvent {
@@ -24,7 +23,6 @@ export interface KnobValueChangedEvent {
 export class KnobComponent implements OnInit {
   @Input() size: 'large' | 'medium' | 'small' = 'medium'
   @Input() showScale = true
-  id = uuid()
   public _min = -1
   @Input() set min (newMin) { this._min = newMin; this.calculateMiddleValue() }
   get min () { return this._min }
