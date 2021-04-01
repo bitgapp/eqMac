@@ -18,7 +18,13 @@ export class SourceService extends DataService {
     return this.request({ method: 'POST', endpoint: '', data: { source } })
   }
 
-  onSourceChanged (callback: (source: SourceType) => void) {
-    this.on(({ source }) => callback(source))
+  onSourceChanged (callback: SourceChangedEventCallback) {
+    this.on(callback)
+  }
+
+  offSourceChanged (callback: SourceChangedEventCallback) {
+    this.off(callback)
   }
 }
+
+export type SourceChangedEventCallback = (data: { source: SourceType }) => void

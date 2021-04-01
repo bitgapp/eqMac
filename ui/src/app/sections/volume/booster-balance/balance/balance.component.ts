@@ -1,16 +1,17 @@
-import { Component, OnInit, Input } from '@angular/core'
-import { BalanceService } from './balance.service'
+import { Component, OnInit, Input, OnDestroy } from '@angular/core'
+import { BalanceChangedEventCallback, BalanceService } from './balance.service'
 import { ApplicationService } from '../../../../services/app.service'
 import { KnobValueChangedEvent } from '../../../../modules/eqmac-components/components/knob/knob.component'
 import { FlatSliderValueChangedEvent } from '../../../../modules/eqmac-components/components/flat-slider/flat-slider.component'
 import { UIService } from '../../../../services/ui.service'
+import { Subscription } from 'rxjs'
 
 @Component({
   selector: 'eqm-balance',
   templateUrl: './balance.component.html',
   styleUrls: [ './balance.component.scss' ]
 })
-export class BalanceComponent implements OnInit {
+export class BalanceComponent implements OnInit, OnDestroy {
   balance = 0
   @Input() animationDuration = 500
   @Input() animationFps = 30
@@ -40,13 +41,22 @@ export class BalanceComponent implements OnInit {
     this.replaceKnobsWithSliders = uiSettings.replaceKnobsWithSliders
   }
 
+  private onBalanceChangedEventCallback: BalanceChangedEventCallback
+  private onUISettingsChangedSubscription: Subscription
   protected setupEvents () {
-    this.balanceService.onBalanceChanged((balance) => {
+    this.onBalanceChangedEventCallback = ({ balance }) => {
       this.balance = balance
-    })
-    this.ui.settingsChanged.subscribe(uiSettings => {
+    }
+    this.balanceService.onBalanceChanged(this.onBalanceChangedEventCallback)
+
+    this.onUISettingsChangedSubscription = this.ui.settingsChanged.subscribe(uiSettings => {
       this.replaceKnobsWithSliders = uiSettings.replaceKnobsWithSliders
     })
+  }
+
+  protected destroyEvents () {
+    this.balanceService.offBalanceChanged(this.onBalanceChangedEventCallback)
+    this.onUISettingsChangedSubscription?.unsubscribe()
   }
 
   async getBalance () {
@@ -61,5 +71,9 @@ export class BalanceComponent implements OnInit {
     if (!animating) {
       this.app.haptic()
     }
+  }
+
+  ngOnDestroy () {
+    this.destroyEvents()
   }
 }

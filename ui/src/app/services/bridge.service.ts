@@ -17,9 +17,12 @@ type CallHandlerCallback = (data?: BridgeResponseData) => void
 type RegisterHandler = (handler: string, cb: RegisterHandlerCallback) => void
 type RegisterHandlerCallback = (data: JSONData, cb: (data?: BridgeResponseData) => void) => void
 
+type EventHandler = (data: JSONData, res: BridgeResponse) => void | Promise<void>
+
 interface JSBridge {
   callHandler: CallHandler
   registerHandler: RegisterHandler
+  disableJavscriptAlertBoxSafetyTimeout: () => void
 }
 
 /**
@@ -32,6 +35,10 @@ interface JSBridge {
 export class BridgeService {
   public static bridgeLoadTimeout = 10000
   public static bridgeLoadPromise: Promise<JSBridge> = null
+  private static didSpeedUp = false
+  private static readonly handlers: {
+    [event: string]: EventHandler[]
+  } = {}
 
   public get bridge () {
     if (BridgeService.bridgeLoadPromise) {
@@ -66,6 +73,10 @@ export class BridgeService {
   async call (handler: string, data?: JSONData): Promise<any> {
     return new Promise(async (resolve, reject) => {
       const bridge = await this.bridge
+      if (!BridgeService.didSpeedUp) {
+        BridgeService.didSpeedUp = true
+        bridge.disableJavscriptAlertBoxSafetyTimeout()
+      }
       bridge.callHandler(handler, data, res => {
         const err = res.error
         return err ? reject(new Error(err)) : resolve(res.data)
@@ -73,22 +84,48 @@ export class BridgeService {
     })
   }
 
-  async on (event: string, handler: (data: JSONData, res: BridgeResponse) => void | Promise<void>) {
+  async on (event: string, handler: EventHandler) {
     const bridge = await this.bridge
-    bridge.registerHandler(event, async (data, cb) => {
-      const handleError = (err: string | Error) => {
-        console.error(err)
-        // eslint-disable-next-line @typescript-eslint/no-base-to-string
-        cb({ error: err.toString() })
-      }
-      try {
-        await handler(data, {
-          send: (data) => cb({ data }),
-          error: (err) => handleError(err)
-        })
-      } catch (err) {
-        handleError(err)
-      }
-    })
+    let shouldRegister = false
+    if (!(event in BridgeService.handlers)) {
+      BridgeService.handlers[event] = []
+      shouldRegister = true
+    }
+
+    BridgeService.handlers[event].push(handler)
+
+    if (shouldRegister) {
+      bridge.registerHandler(event, async (data, cb) => {
+        const handleError = (err: string | Error) => {
+          console.error(err)
+          // eslint-disable-next-line @typescript-eslint/no-base-to-string
+          cb({ error: err.toString() })
+        }
+
+        for (const handler of BridgeService.handlers[event]) {
+          try {
+            await handler(data, {
+              send: (data) => cb({ data }),
+              error: (err) => handleError(err)
+            })
+          } catch (err) {
+            handleError(err)
+          }
+        }
+      })
+    }
+  }
+
+  async off (event: string, handler: EventHandler) {
+    if (!BridgeService.handlers[event]?.length) {
+      console.error(`Trying to unsubscribe from event: "${event}" when there are no handlers registered`)
+      return
+    }
+    const index = BridgeService.handlers[event]?.indexOf(handler)
+    if (index > -1) {
+      BridgeService.handlers[event].splice(index, 1)
+    } else {
+      console.error(`Trying to unsubscribe from event: "${event}" with a handler that is not registered`)
+    }
   }
 }

@@ -39,9 +39,6 @@ import {
   EqualizersComponent
 } from './sections/effects/equalizers/equalizers.component'
 import {
-  ReverbComponent
-} from './sections/effects/reverb/reverb.component'
-import {
   RecorderComponent
 } from './sections/recorder/recorder.component'
 import {
@@ -101,7 +98,6 @@ import { MatSnackBarModule } from '@angular/material/snack-bar'
     BoosterComponent,
     BalanceComponent,
     EqualizersComponent,
-    ReverbComponent,
     RecorderComponent,
     OutputsComponent,
     InputComponent,

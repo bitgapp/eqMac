@@ -14,7 +14,13 @@ export class BalanceService extends VolumeService {
     return this.request({ method: 'POST', endpoint: '/balance', data: { balance, transition } })
   }
 
-  onBalanceChanged (callback: (balance: number) => void) {
-    this.on(({ balance }) => callback(balance))
+  onBalanceChanged (callback: BalanceChangedEventCallback) {
+    this.on(callback)
+  }
+
+  offBalanceChanged (callback: BalanceChangedEventCallback) {
+    this.off(callback)
   }
 }
+
+export type BalanceChangedEventCallback = (data: { balance: number }) => void

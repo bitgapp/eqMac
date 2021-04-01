@@ -31,11 +31,23 @@ export class DataService {
     return resp
   }
 
+  private normalizeEventCallback (eventOrCallback: string | EventCallback, callback?: EventCallback) {
+    const event = typeof eventOrCallback === 'string' ? eventOrCallback : ''
+    callback = typeof eventOrCallback === 'function' ? eventOrCallback : callback
+    return { event, callback }
+  }
+
   async on (callback: EventCallback)
   async on (event: string, callback: EventCallback)
-  async on (eventOrCallback: string | EventCallback, callback?: EventCallback) {
-    const eventName = typeof eventOrCallback === 'string' ? eventOrCallback : ''
-    callback = typeof eventOrCallback === 'function' ? eventOrCallback : callback
-    this.bridge.on(`${this.route}${eventName}`, callback)
+  async on (eventOrCallback: string | EventCallback, cb?: EventCallback) {
+    const { event, callback } = this.normalizeEventCallback(eventOrCallback, cb)
+    this.bridge.on(`${this.route}${event}`, callback)
+  }
+
+  async off (callback: EventCallback)
+  async off (event: string, callback: EventCallback)
+  async off (eventOrCallback: string | EventCallback, cb?: EventCallback) {
+    const { event, callback } = this.normalizeEventCallback(eventOrCallback, cb)
+    this.bridge.off(`${this.route}${event}`, callback)
   }
 }

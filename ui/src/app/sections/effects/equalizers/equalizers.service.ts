@@ -22,7 +22,13 @@ export class EqualizersService extends EffectService {
     return this.request({ method: 'POST', endpoint: '/type', data: { type } })
   }
 
-  onTypeChanged (callback: (type: EqualizerType) => void) {
-    this.on('/type', ({ type }) => callback(type))
+  onTypeChanged (callback: EqualizersTypeChangedEventCallback) {
+    this.on('/type', callback)
+  }
+
+  offTypeChanged (callback: EqualizersTypeChangedEventCallback) {
+    this.off('/type', callback)
   }
 }
+
+export type EqualizersTypeChangedEventCallback = (data: { type: EqualizerType }) => void

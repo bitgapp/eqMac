@@ -53,11 +53,22 @@ export class BasicEqualizerService extends EqualizersService {
     return this.request({ method: 'DELETE', endpoint: '/presets', data: { ...preset } as any })
   }
 
-  onPresetsChanged (callback: (presets: BasicEqualizerPreset[]) => void) {
-    this.on('/presets', (presets) => callback(presets))
+  onPresetsChanged (callback: BasicEqualizerPresetsChangedEventCallback) {
+    this.on('/presets', callback)
   }
 
-  onSelectedPresetChanged (callback: (preset: BasicEqualizerPreset) => void) {
-    this.on('/presets/selected', (preset) => callback(preset))
+  offPresetsChanged (callback: BasicEqualizerPresetsChangedEventCallback) {
+    this.off('/presets', callback)
+  }
+
+  onSelectedPresetChanged (callback: BasicEqualizerSelectedPresetChangedEventCallback) {
+    this.on('/presets/selected', callback)
+  }
+
+  offSelectedPresetChanged (callback: BasicEqualizerSelectedPresetChangedEventCallback) {
+    this.off('/presets/selected', callback)
   }
 }
+
+export type BasicEqualizerPresetsChangedEventCallback = (presets: BasicEqualizerPreset[]) => void
+export type BasicEqualizerSelectedPresetChangedEventCallback = (preset: BasicEqualizerPreset) => void

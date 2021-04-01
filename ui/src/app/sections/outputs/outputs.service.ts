@@ -40,11 +40,22 @@ export class OutputsService extends DataService {
     return this.request({ method: 'POST', endpoint: '/selected', data: { ...output } })
   }
 
-  onChanged (callback: (id: number) => void) {
-    this.on('/selected', ({ id }) => callback(id))
+  onSelectedChanged (callback: OutputsSelectedChangedEventCallback) {
+    this.on('/selected', callback)
   }
 
-  onDevicesChanged (callback: (devices: Output[]) => void) {
-    this.on('/devices', devices => callback(devices))
+  offSelectedChanged (callback: OutputsSelectedChangedEventCallback) {
+    this.off('/selected', callback)
+  }
+
+  onDevicesChanged (callback: OutputsDevicesChangedEventCallback) {
+    this.on('/devices', callback)
+  }
+
+  offDevicesChanged (callback: OutputsDevicesChangedEventCallback) {
+    this.off('/devices', callback)
   }
 }
+
+export type OutputsSelectedChangedEventCallback = (data: { id: number }) => void
+export type OutputsDevicesChangedEventCallback = (devices: Output[]) => void

@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core'
-import { SourceService, SourceType } from './source.service'
+import { Component, OnDestroy, OnInit } from '@angular/core'
+import { SourceChangedEventCallback, SourceService, SourceType } from './source.service'
 
 @Component({
   selector: 'eqm-source',
   templateUrl: './source.component.html',
   styleUrls: [ './source.component.scss' ]
 })
-export class SourceComponent implements OnInit {
+export class SourceComponent implements OnInit, OnDestroy {
   source: SourceType = 'File'
   constructor (public sourceService: SourceService) { }
 
@@ -14,10 +14,16 @@ export class SourceComponent implements OnInit {
     this.setupEvents()
   }
 
+  private onSourceChangedEventCallback: SourceChangedEventCallback
   protected setupEvents () {
-    this.sourceService.onSourceChanged(source => {
+    this.onSourceChangedEventCallback = ({ source }) => {
       this.source = source
-    })
+    }
+    this.sourceService.onSourceChanged(this.onSourceChangedEventCallback)
+  }
+
+  private destroyEvents () {
+    this.sourceService.offSourceChanged(this.onSourceChangedEventCallback)
   }
 
   async setSource (source: SourceType) {
@@ -25,5 +31,9 @@ export class SourceComponent implements OnInit {
       this.source = source
       this.sourceService.setSource(this.source)
     }
+  }
+
+  ngOnDestroy () {
+    this.destroyEvents()
   }
 }

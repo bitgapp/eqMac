@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, AfterViewInit } from '@angular/core'
+import { Component, ViewChild, ElementRef, AfterViewInit, Input } from '@angular/core'
 
 @Component({
   selector: 'eqm-loading',
@@ -7,6 +7,8 @@ import { Component, ViewChild, ElementRef, AfterViewInit } from '@angular/core'
 })
 export class LoadingComponent implements AfterViewInit {
   @ViewChild('wave', { static: true }) wave: ElementRef
+  @Input() text?: string
+  @Input() showText = true
 
   ngAfterViewInit () {
     const path = this.wave.nativeElement

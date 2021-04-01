@@ -10,4 +10,4 @@
     </path>
   </svg>
 </div>
-<eqm-label>Loading</eqm-label>
+<eqm-label *ngIf="showText">{{text || 'Loading'}}</eqm-label>

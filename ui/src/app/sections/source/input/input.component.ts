@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core'
-import { InputService } from './input.service'
+import { Component, OnDestroy, OnInit } from '@angular/core'
+import { InputDeviceChangedEventCallback, InputService } from './input.service'
 
 export interface InputDevice {
   deviceId: number
@@ -12,7 +12,7 @@ export interface InputDevice {
   templateUrl: './input.component.html',
   styleUrls: [ './input.component.scss' ]
 })
-export class InputComponent implements OnInit {
+export class InputComponent implements OnInit, OnDestroy {
   constructor (public inputService: InputService) { }
 
   devices: InputDevice[] = []
@@ -38,10 +38,16 @@ export class InputComponent implements OnInit {
     await this.inputService.getDevice()
   }
 
+  private onDeviceChangedEventCallback: InputDeviceChangedEventCallback
   protected setupEvents () {
-    this.inputService.onDeviceChanged((deviceId) => {
+    this.onDeviceChangedEventCallback = ({ deviceId }) => {
       this.setDeviceById(deviceId)
-    })
+    }
+    this.inputService.onDeviceChanged(this.onDeviceChangedEventCallback)
+  }
+
+  private destroyEvents () {
+    this.inputService.offDeviceChanged(this.onDeviceChangedEventCallback)
   }
 
   deviceSelected (device) {
@@ -60,5 +66,9 @@ export class InputComponent implements OnInit {
       return this.setDeviceById(deviceId)
     }
     this.selectedDevice = device
+  }
+
+  ngOnDestroy () {
+    this.destroyEvents()
   }
 }

@@ -50,7 +50,12 @@ export class OutputsComponent implements OnInit {
   }
 
   setupEventListeners () {
-    this.service.onChanged(() => this.sync())
-    this.service.onDevicesChanged(() => this.sync())
+    this.service.onSelectedChanged(this.sync.bind(this))
+    this.service.onDevicesChanged(this.sync.bind(this))
+  }
+
+  destroyEvents () {
+    this.service.offSelectedChanged(this.sync)
+    this.service.offDevicesChanged(this.sync)
   }
 }

@@ -42,6 +42,11 @@ export class TooltipComponent implements OnInit {
   }
 
   get style () {
+    if (!this.text?.length) {
+      return {
+        display: 'none'
+      }
+    }
     let x = -999
     let y = -999
     const body = document.body

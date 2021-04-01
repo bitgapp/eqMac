@@ -1,5 +1,5 @@
-import { Component, OnInit, EventEmitter, Output, ViewChild, Input, ChangeDetectorRef } from '@angular/core'
-import { EqualizersService, EqualizerType } from './equalizers.service'
+import { Component, OnInit, EventEmitter, Output, ViewChild, Input, ChangeDetectorRef, OnDestroy } from '@angular/core'
+import { EqualizersService, EqualizersTypeChangedEventCallback, EqualizerType } from './equalizers.service'
 import { BasicEqualizerComponent } from './basic-equalizer/basic-equalizer.component'
 import { AdvancedEqualizerComponent } from './advanced-equalizer/advanced-equalizer.component'
 import { EqualizerComponent } from './equalizer.component'
@@ -8,6 +8,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog'
 import { OptionsDialogComponent } from '../../../components/options-dialog/options-dialog.component'
 import { EqualizerPreset } from './presets/equalizer-presets.component'
 import { UIService } from '../../../services/ui.service'
+import { EffectEnabledChangedEventCallback } from '../effect.service'
 
 @Component({
   selector: 'eqm-equalizers',
@@ -15,7 +16,7 @@ import { UIService } from '../../../services/ui.service'
   styleUrls: [ './equalizers.component.scss' ],
   animations: [ FadeInOutAnimation ]
 })
-export class EqualizersComponent implements OnInit {
+export class EqualizersComponent implements OnInit, OnDestroy {
   @Input() animationDuration = 500
   @Input() animationFps = 30
 
@@ -75,14 +76,23 @@ export class EqualizersComponent implements OnInit {
     this.enabled = await this.equalizersService.getEnabled()
   }
 
+  private onEnabledChangedEventCallback: EffectEnabledChangedEventCallback
+  private onTypeChangedEventCallback: EqualizersTypeChangedEventCallback
   protected setupEvents () {
-    this.equalizersService.onEnabledChanged(enabled => {
+    this.onEnabledChangedEventCallback = ({ enabled }) => {
       this.enabled = enabled
-    })
+    }
+    this.equalizersService.onEnabledChanged(this.onEnabledChangedEventCallback)
 
-    this.equalizersService.onTypeChanged(type => {
+    this.onTypeChangedEventCallback = ({ type }) => {
       this.type = type
-    })
+    }
+    this.equalizersService.onTypeChanged(this.onTypeChangedEventCallback)
+  }
+
+  private destroyEvents () {
+    this.equalizersService.offEnabledChanged(this.onEnabledChangedEventCallback)
+    this.equalizersService.offTypeChanged(this.onTypeChangedEventCallback)
   }
 
   setEnabled () {
@@ -132,5 +142,9 @@ export class EqualizersComponent implements OnInit {
 
   selectPreset (preset: EqualizerPreset) {
     return this.activeEqualizer.selectPreset(preset)
+  }
+
+  ngOnDestroy () {
+    this.destroyEvents()
   }
 }

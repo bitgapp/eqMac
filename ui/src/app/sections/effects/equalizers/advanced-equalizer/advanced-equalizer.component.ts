@@ -4,9 +4,10 @@ import {
   Input,
   EventEmitter,
   Output,
-  ChangeDetectorRef
+  ChangeDetectorRef,
+  OnDestroy
 } from '@angular/core'
-import { AdvancedEqualizerService, AdvancedEqualizerPreset } from 'src/app/sections/effects/equalizers/advanced-equalizer/advanced-equalizer.service'
+import { AdvancedEqualizerService, AdvancedEqualizerPreset, AdvancedEqualizerPresetsChangedEventCallback, AdvancedEqualizerSelectedPresetChangedEventCallback } from 'src/app/sections/effects/equalizers/advanced-equalizer/advanced-equalizer.service'
 import { EqualizerComponent } from '../equalizer.component'
 import { Options, CheckboxOption } from 'src/app/components/options/options.component'
 import { TransitionService } from '../../../../services/transitions.service'
@@ -17,7 +18,7 @@ import { ApplicationService } from '../../../../services/app.service'
   templateUrl: './advanced-equalizer.component.html',
   styleUrls: [ './advanced-equalizer.component.scss' ]
 })
-export class AdvancedEqualizerComponent extends EqualizerComponent implements OnInit {
+export class AdvancedEqualizerComponent extends EqualizerComponent implements OnInit, OnDestroy {
   @Input() enabled = true
 
   public ShowDefaultPresetsCheckbox: CheckboxOption = {
@@ -159,15 +160,25 @@ export class AdvancedEqualizerComponent extends EqualizerComponent implements On
     this.ShowDefaultPresetsCheckbox.value = await this.service.getShowDefaultPresets()
   }
 
+  private onPresetsChangedEventCallback: AdvancedEqualizerPresetsChangedEventCallback
+  private onSelectedPresetChangedEventCallback: AdvancedEqualizerSelectedPresetChangedEventCallback
   protected setupEvents () {
-    this.service.onPresetsChanged(presets => {
+    this.onPresetsChangedEventCallback = presets => {
       if (!presets) return
       this.presets = presets
-    })
-    this.service.onSelectedPresetChanged(preset => {
+    }
+    this.service.onPresetsChanged(this.onPresetsChangedEventCallback)
+
+    this.onSelectedPresetChangedEventCallback = preset => {
       this.selectedPreset = preset
       this.setSelectedPresetsGains()
-    })
+    }
+    this.service.onSelectedPresetChanged(this.onSelectedPresetChangedEventCallback)
+  }
+
+  private destroyEvents () {
+    this.service.offPresetsChanged(this.onPresetsChangedEventCallback)
+    this.service.offSelectedPresetChanged(this.onSelectedPresetChangedEventCallback)
   }
 
   async selectPreset (preset: AdvancedEqualizerPreset) {
@@ -247,5 +258,9 @@ export class AdvancedEqualizerComponent extends EqualizerComponent implements On
 
   get globalGainScreenValue () {
     return `${this.selectedPreset.gains.global > 0 ? '+' : ''}${(this.selectedPreset.gains.global.toFixed(1))}dB`
+  }
+
+  ngOnDestroy () {
+    this.destroyEvents()
   }
 }

@@ -2,19 +2,21 @@ import {
   Component,
   OnInit,
   Input,
-  ChangeDetectorRef
+  ChangeDetectorRef,
+  OnDestroy
 } from '@angular/core'
 
-import { BoosterService } from './booster.service'
+import { BoosterGainChangedEventCallback, BoosterService } from './booster.service'
 import { ApplicationService } from '../../../../services/app.service'
-import { UIService } from '../../../../services/ui.service'
+import { UIService, UISettings } from '../../../../services/ui.service'
+import { Subscription } from 'rxjs'
 
 @Component({
   selector: 'eqm-booster',
   templateUrl: './booster.component.html',
   styleUrls: [ './booster.component.scss' ]
 })
-export class BoosterComponent implements OnInit {
+export class BoosterComponent implements OnInit, OnDestroy {
   gain = 1
   replaceKnobsWithSliders = false
   @Input() hide = false
@@ -40,16 +42,25 @@ export class BoosterComponent implements OnInit {
 
   public ignoreUpdates = false
   public ignoreUpdatesDebouncer: NodeJS.Timer
+  private onGainChangedEventCallback: BoosterGainChangedEventCallback
+  private onUISettingsChangedEventSubscription: Subscription
   protected setupEvents () {
-    this.boosterService.onGainChanged(gain => {
+    this.onGainChangedEventCallback = ({ gain }) => {
       if (!this.ignoreUpdates) {
         this.gain = gain
         this.changeRef.detectChanges()
       }
-    })
-    this.ui.settingsChanged.subscribe(uiSettings => {
+    }
+    this.boosterService.onGainChanged(this.onGainChangedEventCallback)
+
+    this.onUISettingsChangedEventSubscription = this.ui.settingsChanged.subscribe(uiSettings => {
       this.replaceKnobsWithSliders = uiSettings.replaceKnobsWithSliders
     })
+  }
+
+  protected destroyEvents () {
+    this.boosterService.offGainChanged(this.onGainChangedEventCallback)
+    this.onUISettingsChangedEventSubscription.unsubscribe()
   }
 
   async syncUISettings () {
@@ -75,5 +86,9 @@ export class BoosterComponent implements OnInit {
     if (!animating) {
       this.app.haptic()
     }
+  }
+
+  ngOnDestroy () {
+    this.destroyEvents()
   }
 }
