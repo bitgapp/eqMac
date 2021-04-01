@@ -39,7 +39,9 @@ export class AppComponent implements OnInit, AfterContentInit {
     public analytics: AnalyticsService,
     public app: ApplicationService,
     public settings: SettingsService
-  ) { }
+  ) {
+    this.app.ref = this
+  }
 
   async ngOnInit () {
     await this.sync()

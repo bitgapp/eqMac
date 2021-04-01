@@ -76,6 +76,7 @@ import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dial
 import { EqualizerPresetsComponent } from './sections/effects/equalizers/presets/equalizer-presets.component'
 import { PromptDialogComponent } from './components/prompt-dialog/prompt-dialog.component'
 import { OptionsDialogComponent } from './components/options-dialog/options-dialog.component'
+import { MatSnackBarModule } from '@angular/material/snack-bar'
 
 @NgModule({
   imports: [
@@ -85,6 +86,7 @@ import { OptionsDialogComponent } from './components/options-dialog/options-dial
     PipesModule,
     EqmacComponentsModule,
     MatDialogModule,
+    MatSnackBarModule,
     BrowserModule
   ],
   entryComponents: [
