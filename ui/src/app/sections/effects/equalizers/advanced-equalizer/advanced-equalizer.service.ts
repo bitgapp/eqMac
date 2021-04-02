@@ -32,7 +32,7 @@ export class AdvancedEqualizerService extends EqualizersService {
       method: 'POST',
       endpoint: '/presets',
       data: {
-        // ...preset,
+        ...preset,
         select: opts?.select,
         transition: opts?.transition
       }
