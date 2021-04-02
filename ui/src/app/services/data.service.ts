@@ -18,10 +18,6 @@ type EventCallback = (data?: any) => void
 export class DataService {
   route = ''
 
-  constructor (
-    public bridge: Bridge
-  ) {}
-
   async request (opts: RequestOptions): Promise<any> {
     if (opts.endpoint && opts.endpoint[0] !== '/') opts.endpoint = `/${opts.endpoint}`
     const args: [string, any?] = [ `${opts.method} ${this.route}${opts.endpoint || ''}`, opts.data ]
