@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core'
-import { BridgeService } from './bridge.service'
-import { CookiesService } from './cookies.service'
+import { Bridge } from './bridge.service'
 
 export type JSONEncodable = null | boolean | number | string | JSONData
 export interface JSONData {
@@ -20,14 +19,13 @@ export class DataService {
   route = ''
 
   constructor (
-    public bridge: BridgeService,
-    public cookies: CookiesService
+    public bridge: Bridge
   ) {}
 
   async request (opts: RequestOptions): Promise<any> {
     if (opts.endpoint && opts.endpoint[0] !== '/') opts.endpoint = `/${opts.endpoint}`
     const args: [string, any?] = [ `${opts.method} ${this.route}${opts.endpoint || ''}`, opts.data ]
-    const resp = await this.bridge.call(...args)
+    const resp = await Bridge.call(...args)
     return resp
   }
 
@@ -41,13 +39,13 @@ export class DataService {
   async on (event: string, callback: EventCallback)
   async on (eventOrCallback: string | EventCallback, cb?: EventCallback) {
     const { event, callback } = this.normalizeEventCallback(eventOrCallback, cb)
-    this.bridge.on(`${this.route}${event}`, callback)
+    Bridge.on(`${this.route}${event}`, callback)
   }
 
   async off (callback: EventCallback)
   async off (event: string, callback: EventCallback)
   async off (eventOrCallback: string | EventCallback, cb?: EventCallback) {
     const { event, callback } = this.normalizeEventCallback(eventOrCallback, cb)
-    this.bridge.off(`${this.route}${event}`, callback)
+    Bridge.off(`${this.route}${event}`, callback)
   }
 }

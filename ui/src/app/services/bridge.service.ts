@@ -29,22 +29,19 @@ interface JSBridge {
  * Class Bridge class that connect JavaScript runtime to Swift if page is rendered in WKWebView<br>
  * Under the hood uses [WebViewJavascriptBridge](https://github.com/marcuswestin/WebViewJavascriptBridge)
  */
-@Injectable({
-  providedIn: 'root'
-})
-export class BridgeService {
-  public static bridgeLoadTimeout = 10000
-  public static bridgeLoadPromise: Promise<JSBridge> = null
+export class Bridge {
+  public static loadTimeout = 10000
+  public static loadPromise: Promise<JSBridge> = null
   private static didSpeedUp = false
   private static readonly handlers: {
     [event: string]: EventHandler[]
   } = {}
 
-  public get bridge () {
-    if (BridgeService.bridgeLoadPromise) {
-      return BridgeService.bridgeLoadPromise
+  public static get bridge () {
+    if (Bridge.loadPromise) {
+      return Bridge.loadPromise
     }
-    BridgeService.bridgeLoadPromise = new Promise(async (resolve, reject) => {
+    Bridge.loadPromise = new Promise(async (resolve, reject) => {
       const bridgeKey = 'WebViewJavascriptBridge'
       if (window[bridgeKey]) {
         return resolve(window[bridgeKey])
@@ -64,17 +61,17 @@ export class BridgeService {
 
       setTimeout(() => {
         reject(new Error('Bridge loading timed out'))
-      }, BridgeService.bridgeLoadTimeout)
+      }, Bridge.loadTimeout)
     })
 
-    return BridgeService.bridgeLoadPromise
+    return Bridge.loadPromise
   }
 
-  async call (handler: string, data?: JSONData): Promise<any> {
+  static async call (handler: string, data?: JSONData): Promise<any> {
     return new Promise(async (resolve, reject) => {
       const bridge = await this.bridge
-      if (!BridgeService.didSpeedUp) {
-        BridgeService.didSpeedUp = true
+      if (!Bridge.didSpeedUp) {
+        Bridge.didSpeedUp = true
         bridge.disableJavscriptAlertBoxSafetyTimeout()
       }
       bridge.callHandler(handler, data, res => {
@@ -84,15 +81,15 @@ export class BridgeService {
     })
   }
 
-  async on (event: string, handler: EventHandler) {
+  static async on (event: string, handler: EventHandler) {
     const bridge = await this.bridge
     let shouldRegister = false
-    if (!(event in BridgeService.handlers)) {
-      BridgeService.handlers[event] = []
+    if (!(event in Bridge.handlers)) {
+      Bridge.handlers[event] = []
       shouldRegister = true
     }
 
-    BridgeService.handlers[event].push(handler)
+    Bridge.handlers[event].push(handler)
 
     if (shouldRegister) {
       bridge.registerHandler(event, async (data, cb) => {
@@ -102,7 +99,7 @@ export class BridgeService {
           cb({ error: err.toString() })
         }
 
-        for (const handler of BridgeService.handlers[event]) {
+        for (const handler of Bridge.handlers[event]) {
           try {
             await handler(data, {
               send: (data) => cb({ data }),
@@ -116,14 +113,14 @@ export class BridgeService {
     }
   }
 
-  async off (event: string, handler: EventHandler) {
-    if (!BridgeService.handlers[event]?.length) {
+  static async off (event: string, handler: EventHandler) {
+    if (!Bridge.handlers[event]?.length) {
       console.error(`Trying to unsubscribe from event: "${event}" when there are no handlers registered`)
       return
     }
-    const index = BridgeService.handlers[event]?.indexOf(handler)
+    const index = Bridge.handlers[event]?.indexOf(handler)
     if (index > -1) {
-      BridgeService.handlers[event].splice(index, 1)
+      Bridge.handlers[event].splice(index, 1)
     } else {
       console.error(`Trying to unsubscribe from event: "${event}" with a handler that is not registered`)
     }
