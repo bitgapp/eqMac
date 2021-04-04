@@ -250,6 +250,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7811AEF6261A6B86005BDAE3 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				E00618EC20F292B9003BA0B0 /* Networking.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
 		A433E835860EBA2247574C67 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -389,18 +397,17 @@
 				E05559841FF64CF6009EE4B7 /* BitOperations.swift */,
 				E0A3B96220DF992600E46908 /* Buffer.swift */,
 				E07A24E51FF3D4E4007AEF20 /* CheckErr.swift */,
-				E00618EC20F292B9003BA0B0 /* Networking.swift */,
-				E095BBC52014E4A1003473E9 /* NumericTypesConversions.swift */,
 				E089AC482095E0B1005B72E5 /* Console.swift */,
+				E0D1A0D9249E191700BBC742 /* eqMac2.swift */,
+				E0ECA88923B7F816002AFBF0 /* ExceptionCatcher.h */,
+				E07A6EE022B6BA4E00DE7B16 /* File.swift */,
+				E095BBC52014E4A1003473E9 /* NumericTypesConversions.swift */,
 				E0267AFC218AE39500FB2E5A /* Script.swift */,
 				E0C5629820A75BAD000902ED /* Storage.swift */,
-				E012A46F2044C4DA0029C800 /* Sysctl.swift */,
-				E01F2F5C203391EA005123BE /* Utilities.swift */,
-				E07A6EE022B6BA4E00DE7B16 /* File.swift */,
-				E02FF91722C8E87D0051342A /* Time.swift */,
-				E0ECA88923B7F816002AFBF0 /* ExceptionCatcher.h */,
 				E0AAD9D9249C109000D58099 /* SwiftyPing.swift */,
-				E0D1A0D9249E191700BBC742 /* eqMac2.swift */,
+				E012A46F2044C4DA0029C800 /* Sysctl.swift */,
+				E02FF91722C8E87D0051342A /* Time.swift */,
+				E01F2F5C203391EA005123BE /* Utilities.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -490,12 +497,12 @@
 			path = Settings;
 			sourceTree = "<group>";
 		};
-		E0DD0A8220E58C0900B14020 /* Models */ = {
+		E0DD0A8220E58C0900B14020 /* User */ = {
 			isa = PBXGroup;
 			children = (
 				E017A0081FF055B50019BBF1 /* User.swift */,
 			);
-			path = Models;
+			path = User;
 			sourceTree = "<group>";
 		};
 		E0DD0A9920E7FF2D00B14020 /* Equalizers */ = {
@@ -549,7 +556,8 @@
 				E036BCE8235B09CB001F057B /* DataBus */,
 				E004A8F3209D08AF00A878AA /* Extensions */,
 				E095BBC02014CDAD003473E9 /* Helpers */,
-				E0DD0A8220E58C0900B14020 /* Models */,
+				E0DD0A8220E58C0900B14020 /* User */,
+				7811AEF6261A6B86005BDAE3 /* Networking */,
 				E0D5F88522DD1BB800499250 /* Settings */,
 				E0DDF3FB218901E700B37E77 /* Scripts */,
 				E01B5C862356E07600E1A675 /* Transition */,
