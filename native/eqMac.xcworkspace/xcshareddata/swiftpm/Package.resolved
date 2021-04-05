@@ -2,6 +2,15 @@
   "object": {
     "pins": [
       {
+        "package": "Connectivity",
+        "repositoryURL": "https://github.com/rwbutler/connectivity",
+        "state": {
+          "branch": null,
+          "revision": "19f08ea4f25efe44cceea2ed5c52a0ca1bb567b5",
+          "version": "5.0.1"
+        }
+      },
+      {
         "package": "LaunchAtLogin",
         "repositoryURL": "https://github.com/bitgapp/LaunchAtLogin",
         "state": {
