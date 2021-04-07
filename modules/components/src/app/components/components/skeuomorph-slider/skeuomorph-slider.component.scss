@@ -1,0 +1,71 @@
+:host {
+  width: 31px;
+  height: 100%;
+  min-height: 100px;
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  transition-property: filter;
+  transition-duration: .5s;
+}
+
+.notches {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.groove {
+  width: 7px;
+  height: 89%;
+  background-color: rgb(41, 41, 43);
+  border-radius: 3px;
+  box-shadow: 
+  0     0     0     1px  rgb(69, 73, 77) inset,
+  0     2px   5px     1px black inset,
+  -1px     -1px     0     1px  rgb(49, 50, 52) inset,
+  1px     1px     0     1px   rgb(14, 14, 14) inset;
+}
+
+.thumb {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  left: calc(50% - 21px / 2);
+  width: 21px;
+  height: 25px;
+  background-color: rgb(56, 57, 61);
+  border-radius: 3px;
+  box-shadow: 
+  0     0     0     1px  rgb(31, 32, 36) inset,
+  1px     1px     0     1px  rgb(76, 79, 82) inset,
+  -1px    -1px     0     1px   rgb(49, 52, 55) inset,
+  0     3px     10px     -2px  black;
+
+  .line-group {
+    width: calc(100% - 2px);
+    height: 3px;
+    $first-line-color: rgb(26, 43, 36);
+    $second-line-color: #559e7d;
+    $third-line-color: rgb(70, 109, 102);
+    background: linear-gradient(
+      to bottom,
+      $first-line-color,
+      $first-line-color 1px,
+      $second-line-color 1px,
+      $second-line-color 2px,
+      $third-line-color 2px,
+      $third-line-color 3px
+    )
+  }
+}
+
+:host.disabled {
+  filter: grayscale(80%);
+}

@@ -1,0 +1,62 @@
+@import "../../styles/colors";
+
+.container {
+  height: 18px;
+  width: 42px;
+  background-color: $text-medium;
+  border-radius: 9px;
+  position: relative;
+  cursor: pointer;
+  
+  box-shadow: 
+  0     0     0     1px  rgb(70, 74, 77) inset,
+  // 0     0     0     3px   rgba(43, 44, 48, .5) inset,
+  1px     1px     2px     1px   black inset;
+
+  .indicator {
+    position: absolute;
+    top: 4px;
+    height: 10px;
+    display: inline-block;
+    width: 10px;
+    border-radius: 5px;
+  }
+
+  .right {
+    right: 4px;
+    background-color: $warning;
+  }
+
+  .left {
+    left: 4px;
+    background-color:$accent;
+  }
+
+  .switch {
+    position: absolute;
+    height: 14px;
+    width: 14px;
+    left: 1px;
+    border-radius: 8px;
+    background-color: rgb(69, 72, 75);
+    border: 1px solid black;
+    // z-index: 2;
+    top: 1px;
+    transition-property: all;
+    transition-duration: 0.2s; 
+    -webkit-transition-property: all;
+    -webkit-transition-duration: 0.2s; 
+
+    box-shadow: 
+    -3px     -3px     3px     3px  rgb(51, 52, 54) inset,
+    1px     1px     3px     0px   rgba(black, 0.5);
+  }
+
+  .on {
+    transform: translateX(24px);
+  }
+
+  .off {
+    transform: translateX(0px);
+  }
+}

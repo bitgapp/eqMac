@@ -1,0 +1,30 @@
+@import "../../styles/colors";
+
+:host {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.loader {
+  height: 60px;
+  width: 80px;
+  #wave {
+    stroke-dasharray: 0 16 101 16;
+    animation: animateWave 2400ms linear infinite;  
+  }
+}
+
+
+
+@keyframes animateWave {
+  0% { 
+    stroke-dashoffset: 0; 
+    transform: translate3d(0, 0, 0);
+  }
+  100% { 
+    stroke-dashoffset: -133;
+    transform: translate3d(-90px, 0, 0);
+  }
+}

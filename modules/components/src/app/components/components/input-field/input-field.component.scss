@@ -1,0 +1,34 @@
+@import "../../styles/colors";
+@import "../../styles/font";
+
+:host {
+  display: block;
+  width: 100%;
+}
+.container{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  
+  .input-field {
+    font-family: 'SF Pro Text';
+    color: $accent;
+    background: none;
+    border: none;
+    flex-grow: 4;
+    text-align: center;
+    margin: 4px;
+    &:focus{
+      outline: none;
+    }
+    &:invalid{
+    }
+  }
+}
+
+:host.disabled {
+  filter: grayscale(80%);
+}

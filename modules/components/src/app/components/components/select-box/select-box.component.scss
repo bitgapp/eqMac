@@ -1,0 +1,47 @@
+@import "../../styles/colors";
+
+:host {
+  overflow-x: visible;
+  border-radius: 2px;
+}
+.container {
+  text-align: center;
+  width: calc(100% - 2px);
+  height: 100%;
+  overflow-y: scroll;
+  
+  .selected {
+    border-color: $accent !important;
+  }
+  .item {
+    border-color: transparent;
+    padding: 2px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+
+    border-width: 1px;
+    border-style: solid;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    .icon {
+      margin-right: 10px;
+      display: inline-block;
+    }
+
+    &:first-child {
+      border-radius: 3px 3px 0px 0px;
+    }
+
+    &:last-child {
+      border-radius: 0px 0px 3px 3px;
+    }
+
+    &:hover {
+      border-color: darken($color: $accent, $amount: 20);
+    }
+  }
+}

@@ -1,0 +1,20 @@
+
+:host {
+  width: 100%;
+  overflow: hidden;
+  min-width: 100px;
+  overflow: hidden;
+
+  .wrapper {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    transition-property: height;
+    transition-timing-function: ease-in-out; 
+
+    .item {
+      width: 100%
+    }
+  }
+}
