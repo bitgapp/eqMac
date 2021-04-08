@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { DataService } from 'src/app/services/data.service'
-import { IconName } from '../../modules/eqmac-components/components/icon/icons'
+import { IconName } from '@eqmac/components/components/icon/icons'
 
 export type DeviceTransportType =
 'airPlay' |

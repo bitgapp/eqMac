@@ -3,7 +3,7 @@ import { EqualizersService, EqualizersTypeChangedEventCallback, EqualizerType } 
 import { BasicEqualizerComponent } from './basic-equalizer/basic-equalizer.component'
 import { AdvancedEqualizerComponent } from './advanced-equalizer/advanced-equalizer.component'
 import { EqualizerComponent } from './equalizer.component'
-import { FadeInOutAnimation } from 'src/app/modules/animations'
+import { FadeInOutAnimation } from '@eqmac/components'
 import { MatDialog, MatDialogRef } from '@angular/material/dialog'
 import { OptionsDialogComponent } from '../../../components/options-dialog/options-dialog.component'
 import { EqualizerPreset } from './presets/equalizer-presets.component'

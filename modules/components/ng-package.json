@@ -1,8 +1,6 @@
 {
   "$schema": "./node_modules/ng-packagr/package.schema.json",
-  "ngPackage": {
-    "lib": {
-      "entryFile": "src/app/components/index.ts"
-    }
-  }  
+  "lib": {
+    "entryFile": "src/app/components/index.ts"
+  }
 }

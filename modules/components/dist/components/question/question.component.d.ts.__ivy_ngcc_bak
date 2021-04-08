@@ -1,0 +1,4 @@
+import { OnInit } from '@angular/core';
+export declare class QuestionComponent implements OnInit {
+    ngOnInit(): void;
+}

@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef } from '@angular/core'
 import { BasicEqualizerService, BasicEqualizerPreset, BasicEqualizerBand, BasicEqualizerPresetGains } from './basic-equalizer.service'
 import { EqualizerComponent } from '../equalizer.component'
-import { KnobValueChangedEvent } from '../../../../modules/eqmac-components/components/knob/knob.component'
+import { KnobValueChangedEvent } from '@eqmac/components'
 import { TransitionService } from '../../../../services/transitions.service'
 import { ApplicationService } from '../../../../services/app.service'
 import { UIService } from '../../../../services/ui.service'

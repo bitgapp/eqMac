@@ -14,8 +14,8 @@ import {
 } from '@angular/flex-layout'
 
 import {
-  EqmacComponentsModule
-} from './modules/eqmac-components/eqmac-components.module'
+  ComponentsModule
+} from '@eqmac/components'
 
 import { PipesModule } from './modules/pipes/pipes.module'
 
@@ -81,7 +81,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar'
     BrowserAnimationsModule,
     FlexLayoutModule,
     PipesModule,
-    EqmacComponentsModule,
+    ComponentsModule,
     MatDialogModule,
     MatSnackBarModule,
     BrowserModule

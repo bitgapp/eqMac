@@ -238,7 +238,7 @@ export class FlatSliderComponent {
   }
 
   @HostListener('mouseup', [ '$event' ])
-  onMouseUp () {
+  onMouseUp (event: MouseEvent) {
     this.dragging = false
   }
 

@@ -1,0 +1,8 @@
+import { EventEmitter } from '@angular/core';
+export declare class CheckboxComponent {
+    interactive: boolean;
+    checked: boolean;
+    checkedChanged: EventEmitter<boolean>;
+    enabled: boolean;
+    toggle(): void;
+}

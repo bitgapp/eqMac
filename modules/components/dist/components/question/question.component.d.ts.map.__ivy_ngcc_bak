@@ -1,0 +1,1 @@
+{"version":3,"file":"question.component.d.ts","sources":["question.component.d.ts"],"names":[],"mappings":"AAAA;;AACA;AACA;;;AACA","sourcesContent":["import { OnInit } from '@angular/core';\nexport declare class QuestionComponent implements OnInit {\n    ngOnInit(): void;\n}\n"]}

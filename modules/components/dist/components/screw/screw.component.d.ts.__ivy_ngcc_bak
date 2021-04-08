@@ -1,0 +1,4 @@
+import { OnInit } from '@angular/core';
+export declare class ScrewComponent implements OnInit {
+    ngOnInit(): void;
+}

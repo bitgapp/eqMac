@@ -1,7 +1,5 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectorRef } from '@angular/core'
-import { DropdownComponent } from '../../modules/eqmac-components/components/dropdown/dropdown.component'
-import { FlatSliderValueChangedEvent } from '../../modules/eqmac-components/components/flat-slider/flat-slider.component'
-import { SkeuomorphSliderValueChangedEvent } from '../../modules/eqmac-components/components/skeuomorph-slider/skeuomorph-slider.component'
+import { DropdownComponent, FlatSliderValueChangedEvent, SkeuomorphSliderValueChangedEvent } from '@eqmac/components'
 import { ApplicationService } from '../../services/app.service'
 
 interface BaseOptions {

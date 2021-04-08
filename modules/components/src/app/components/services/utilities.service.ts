@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core'
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class UtilitiesService {
   mapValue (value: number, inMin: number, inMax: number, outMin: number, outMax: number): number {
     return (value - inMin) * (outMax - outMin) / (inMax - inMin) + outMin

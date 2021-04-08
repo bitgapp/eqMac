@@ -1,0 +1,19 @@
+import { OnInit, EventEmitter } from '@angular/core';
+export declare class ButtonComponent implements OnInit {
+    type: 'large' | 'narrow' | 'square' | 'circle' | 'transparent';
+    height: any;
+    width: any;
+    state: boolean;
+    toggle: boolean;
+    depressable: boolean;
+    hoverable: boolean;
+    disabled: boolean;
+    pressed: EventEmitter<any>;
+    ngOnInit(): void;
+    get style(): {
+        width: string;
+        height: string;
+    };
+    computeClass(): string;
+    click(): void;
+}

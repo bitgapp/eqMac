@@ -1,0 +1,1 @@
+{"version":3,"file":"container.component.d.ts","sources":["container.component.d.ts"],"names":[],"mappings":"AAAA;;AACA;AACA;AACA;;;AACA","sourcesContent":["import { OnInit } from '@angular/core';\nexport declare class ContainerComponent implements OnInit {\n    disabled: boolean;\n    ngOnInit(): void;\n}\n"]}

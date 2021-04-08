@@ -1,8 +1,7 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core'
 import { BalanceChangedEventCallback, BalanceService } from './balance.service'
 import { ApplicationService } from '../../../../services/app.service'
-import { KnobValueChangedEvent } from '../../../../modules/eqmac-components/components/knob/knob.component'
-import { FlatSliderValueChangedEvent } from '../../../../modules/eqmac-components/components/flat-slider/flat-slider.component'
+import { KnobValueChangedEvent, FlatSliderValueChangedEvent } from '@eqmac/components'
 import { UIService } from '../../../../services/ui.service'
 import { Subscription } from 'rxjs'
 

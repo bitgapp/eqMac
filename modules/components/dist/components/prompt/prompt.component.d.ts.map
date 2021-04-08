@@ -1,0 +1,1 @@
+{"version":3,"file":"prompt.component.d.ts","sources":["prompt.component.d.ts"],"names":[],"mappings":"AAAA;;AACA;AAAA;;;AACA,AACA","sourcesContent":["import { OnInit } from '@angular/core';\nexport declare class PromptComponent implements OnInit {\n    ngOnInit(): void;\n}\n"]}

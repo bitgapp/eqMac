@@ -1,0 +1,7 @@
+import { ElementRef, AfterViewInit } from '@angular/core';
+export declare class LoadingComponent implements AfterViewInit {
+    wave: ElementRef;
+    text?: string;
+    showText: boolean;
+    ngAfterViewInit(): void;
+}

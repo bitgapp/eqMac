@@ -126,7 +126,7 @@ export class SkeuomorphSliderComponent implements OnInit {
     }
   }
 
-  @HostListener('mouseup', [ '$event' ])
+  @HostListener('mouseup')
   onMouseUp () {
     this.dragging = false
   }
