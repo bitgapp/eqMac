@@ -17,16 +17,21 @@ class AppDelegate: NSObject, NSApplicationDelegate, SUUpdaterDelegate {
   var updater = SUUpdater(for: Bundle.main)!
   var updateProcessed = EmitterKit.Event<Void>()
   var willBeDownloadingUpdate = false
-  var applicationStarted = false
   
   func applicationDidFinishLaunching(_ aNotification: Notification) {
     NSApplication.shared.windows.first?.close()
     updater.delegate = self
     updateProcessed.once { _ in
-      self.applicationStarted = true
       Application.start()
     }
-    updater.checkForUpdatesInBackground()
+    
+    Networking.isConnected { connected in
+      if (connected) {
+        self.updater.checkForUpdatesInBackground()
+      } else {
+        self.updateProcessed.emit()
+      }
+    }
     Utilities.delay(2000) {
       self.updateProcessed.emit()
     }

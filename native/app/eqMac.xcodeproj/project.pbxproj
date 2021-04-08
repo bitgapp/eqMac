@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		78242E96261A8AEE00058ADE /* Connectivity in Frameworks */ = {isa = PBXBuildFile; productRef = 78242E95261A8AEE00058ADE /* Connectivity */; };
 		7858FBC224A9630800637941 /* restart_mac.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 7858FBC124A9630800637941 /* restart_mac.scpt */; };
 		787474A925336D9200FF4A95 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 787474A825336D9200FF4A95 /* CoreFoundation.framework */; };
 		789F83CF250E20A8004F871D /* restart_coreaudio.sh in Resources */ = {isa = PBXBuildFile; fileRef = 789F83CE250E20A8004F871D /* restart_coreaudio.sh */; };
@@ -240,6 +241,7 @@
 				787474A925336D9200FF4A95 /* CoreFoundation.framework in Frameworks */,
 				E02ACA982459EF3B00754204 /* Pods_eqMac.framework in Frameworks */,
 				E0F661711FDC38BE00252923 /* WebKit.framework in Frameworks */,
+				78242E96261A8AEE00058ADE /* Connectivity in Frameworks */,
 				78D8C3322569B2910084739C /* LaunchAtLogin in Frameworks */,
 				E0453056245A03E800CDB1BF /* Foundation.framework in Frameworks */,
 				78D8C3332569B3000084739C /* AudioToolbox.framework in Frameworks */,
@@ -617,6 +619,7 @@
 			name = eqMac;
 			packageProductDependencies = (
 				78D8C3312569B2910084739C /* LaunchAtLogin */,
+				78242E95261A8AEE00058ADE /* Connectivity */,
 			);
 			productName = eqMacAudio;
 			productReference = E086AFFC1FCCB8E700CF9F0D /* eqMac.app */;
@@ -657,6 +660,7 @@
 			mainGroup = E086AFF31FCCB8E700CF9F0D;
 			packageReferences = (
 				78D8C3302569B2910084739C /* XCRemoteSwiftPackageReference "LaunchAtLogin" */,
+				78242E94261A8AEE00058ADE /* XCRemoteSwiftPackageReference "connectivity" */,
 			);
 			productRefGroup = E086AFFD1FCCB8E700CF9F0D /* Products */;
 			projectDirPath = "";
@@ -1155,6 +1159,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		78242E94261A8AEE00058ADE /* XCRemoteSwiftPackageReference "connectivity" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/rwbutler/connectivity";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.1;
+			};
+		};
 		78D8C3302569B2910084739C /* XCRemoteSwiftPackageReference "LaunchAtLogin" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/bitgapp/LaunchAtLogin";
@@ -1166,6 +1178,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		78242E95261A8AEE00058ADE /* Connectivity */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 78242E94261A8AEE00058ADE /* XCRemoteSwiftPackageReference "connectivity" */;
+			productName = Connectivity;
+		};
 		78D8C3312569B2910084739C /* LaunchAtLogin */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 78D8C3302569B2910084739C /* XCRemoteSwiftPackageReference "LaunchAtLogin" */;

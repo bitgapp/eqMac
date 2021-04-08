@@ -308,7 +308,7 @@ class UI: StoreSubscriber {
   
   private func remoteIsReachable (_ completion: @escaping (Bool) -> Void) {
     var returned = false
-    Networking.isReachable(UI.domain) { reachable in
+    Networking.isConnected { reachable in
       if (!reachable) {
         returned = true
         return completion(false)

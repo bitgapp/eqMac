@@ -30,7 +30,7 @@ target 'eqMac' do
   pod 'SwiftHTTP', '~> 3.0'
   pod 'AMCoreAudio', :git => 'https://github.com/bitgapp/AMCoreAudio.git', :commit => 'f02015b7dfbaeb9b5f70b658e860afe94f85df9c'
   pod 'WebViewJavascriptBridge', '~> 6.0'
-  pod 'ReachabilitySwift'
+#  pod 'ReachabilitySwift'
   pod 'ReSwift'
   pod 'SwiftLint'
   pod 'Sparkle', '~> 1.24'

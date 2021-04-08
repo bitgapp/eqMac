@@ -79,7 +79,8 @@ class Application {
   
   static public func start () {
     setupSettings()
-    
+    Networking.startMonitor()
+
     if (!Constants.DEBUG) {
       setupCrashReporting()
     }
