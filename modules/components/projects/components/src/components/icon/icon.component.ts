@@ -91,3 +91,5 @@ export class IconComponent implements OnInit {
     return style
   }
 }
+
+export * from './icons'
