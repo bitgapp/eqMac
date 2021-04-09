@@ -1,4 +1,0 @@
-import { OnInit } from '@angular/core';
-export declare class VentComponent implements OnInit {
-    ngOnInit(): void;
-}

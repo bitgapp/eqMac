@@ -1,1 +1,0 @@
-{"version":3,"file":"value-screen.component.d.ts","sources":["value-screen.component.d.ts"],"names":[],"mappings":"AAAA;;AACA;AAAA;AACA;AACA;;;AACA,AACA","sourcesContent":["import { OnInit } from '@angular/core';\nexport declare class ValueScreenComponent implements OnInit {\n    fontSize: number;\n    disabled: boolean;\n    ngOnInit(): void;\n}\n"]}

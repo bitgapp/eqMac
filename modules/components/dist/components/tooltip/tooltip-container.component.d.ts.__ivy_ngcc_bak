@@ -1,5 +1,0 @@
-import { TooltipService } from './tooltip.service';
-export declare class TooltipContainerComponent {
-    tooltipService: TooltipService;
-    constructor(tooltipService: TooltipService);
-}

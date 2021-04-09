@@ -5,6 +5,5 @@
 node_modules
 .env
 dist
-!modules/**/dist
 
 native/app/Embedded/*
