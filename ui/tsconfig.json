@@ -13,11 +13,15 @@
     "resolveJsonModule": true,
     "target": "es5",
     "typeRoots": [
-      "node_modules/@types"
+      "node_modules/@types",
+      "../node_modules/@types"
     ],
     "lib": [
       "es2018",
       "dom"
     ],
+    "paths": {
+      "@eqmac/components": ["../modules/components/dist/components"]
+    }
   }
 }

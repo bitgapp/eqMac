@@ -54,10 +54,12 @@ If you want to run the web based User Interface locally then you need to follow 
 #### Prerequisites
 Install [Node.js](https://nodejs.org/en/) LTS version preferrably using [NVM](https://github.com/nvm-sh/nvm#installing-and-updating)
 
+Install [Yarn](https://classic.yarnpkg.com/en/) v1 globally: `npm i -g yarn` (this is needed because the project uses [Yarn Workspaces](https://classic.yarnpkg.com/en/docs/workspaces/))
+
 #### Building and running the Web UI
-1. Go into the ui/ directory by `cd ui/`
-2. Install Node dependencies with `npm install`
-3. Start local development server with `npm start`
+1. Run `yarn` from the root directory of the Monorepo
+2. Go into the ui/ directory by `cd ui/`
+3. Start local development server with `yarn start`
 
 ### Native app + driver
 #### Prerequisites

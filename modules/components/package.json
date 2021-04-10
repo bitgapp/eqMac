@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng build components --watch",
-    "build": "ng build components && cd dist/components && npm pack && mv eqmac-components-$(node -e \"console.log(require('./package.json').version)\").tgz ../../package.tgz"
+    "build": "ng build components"
   },
   "private": true,
   "dependencies": {

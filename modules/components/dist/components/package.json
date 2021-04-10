@@ -1,0 +1,21 @@
+{
+  "name": "@eqmac/components",
+  "version": "1.0.0",
+  "peerDependencies": {
+    "@angular/common": "^11.2.9",
+    "@angular/core": "^11.2.9"
+  },
+  "dependencies": {
+    "tslib": "^2.0.0"
+  },
+  "main": "bundles/eqmac-components.umd.js",
+  "module": "fesm2015/eqmac-components.js",
+  "es2015": "fesm2015/eqmac-components.js",
+  "esm2015": "esm2015/eqmac-components.js",
+  "fesm2015": "fesm2015/eqmac-components.js",
+  "typings": "eqmac-components.d.ts",
+  "sideEffects": false,
+  "scripts": {
+    "prepublishOnly": "node --eval \"console.error('ERROR: Trying to publish a package that has been compiled by Ivy. This is not allowed.\\nPlease delete and rebuild the package, without compiling with Ivy, before attempting to publish.\\n')\" && exit 1"
+  }
+}
