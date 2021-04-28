@@ -33,6 +33,7 @@ export declare const svgs: {
     mail: string;
     login: string;
     wifi: string;
+    copy: string;
 };
 export declare type IconName = keyof typeof svgs;
 //# sourceMappingURL=icons.d.ts.map

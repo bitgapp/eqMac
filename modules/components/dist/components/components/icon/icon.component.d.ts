@@ -42,6 +42,7 @@ export declare class IconComponent implements OnInit {
         mail: string;
         login: string;
         wifi: string;
+        copy: string;
     };
     set size(newSize: number);
     _color: string;
