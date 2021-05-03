@@ -1,0 +1,11 @@
+export declare class LabelComponent {
+    fontSize?: number;
+    color?: string;
+    clickable: boolean;
+    get style(): {
+        cursor: string;
+        fontSize: string;
+        color: string;
+    };
+    get cursor(): "inherit" | "pointer";
+}

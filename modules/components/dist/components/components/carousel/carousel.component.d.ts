@@ -1,16 +1,16 @@
 import { QueryList, ElementRef, TemplateRef, AfterViewInit, EventEmitter, OnDestroy } from '@angular/core';
 import { AnimationFactory, AnimationBuilder } from '@angular/animations';
-import * as i0 from "@angular/core";
+import * as ɵngcc0 from '@angular/core';
 export declare class CarouselItemDirective {
     template: TemplateRef<any>;
     eqmCarouselItem?: string;
     constructor(template: TemplateRef<any>);
-    static ɵfac: i0.ɵɵFactoryDef<CarouselItemDirective, never>;
-    static ɵdir: i0.ɵɵDirectiveDefWithMeta<CarouselItemDirective, "[eqmCarouselItem]", never, { "eqmCarouselItem": "eqmCarouselItem"; }, {}, never>;
+    static ɵfac: ɵngcc0.ɵɵFactoryDef<CarouselItemDirective, never>;
+    static ɵdir: ɵngcc0.ɵɵDirectiveDefWithMeta<CarouselItemDirective, "[eqmCarouselItem]", never, { "eqmCarouselItem": "eqmCarouselItem"; }, {}, never>;
 }
 export declare class CarouselItemElement {
-    static ɵfac: i0.ɵɵFactoryDef<CarouselItemElement, never>;
-    static ɵdir: i0.ɵɵDirectiveDefWithMeta<CarouselItemElement, ".item", never, {}, {}, never>;
+    static ɵfac: ɵngcc0.ɵɵFactoryDef<CarouselItemElement, never>;
+    static ɵdir: ɵngcc0.ɵɵDirectiveDefWithMeta<CarouselItemElement, ".item", never, {}, {}, never>;
 }
 export declare class CarouselComponent implements AfterViewInit, OnDestroy {
     builder: AnimationBuilder;
@@ -45,7 +45,8 @@ export declare class CarouselComponent implements AfterViewInit, OnDestroy {
     animate(): void;
     get animation(): AnimationFactory;
     recalculateHeight(): void;
-    static ɵfac: i0.ɵɵFactoryDef<CarouselComponent, never>;
-    static ɵcmp: i0.ɵɵComponentDefWithMeta<CarouselComponent, "eqm-carousel", never, { "loop": "loop"; "animationDuration": "animationDuration"; "selectedItemId": "selectedItemId"; }, { "heightDiff": "heightDiff"; "heightChange": "heightChange"; "selectedItemIdChange": "selectedItemIdChange"; "animationCompleted": "animationCompleted"; "itemCameIntoView": "itemCameIntoView"; }, ["items"], never>;
+    static ɵfac: ɵngcc0.ɵɵFactoryDef<CarouselComponent, never>;
+    static ɵcmp: ɵngcc0.ɵɵComponentDefWithMeta<CarouselComponent, "eqm-carousel", never, { "loop": "loop"; "animationDuration": "animationDuration"; "selectedItemId": "selectedItemId"; }, { "heightDiff": "heightDiff"; "heightChange": "heightChange"; "selectedItemIdChange": "selectedItemIdChange"; "animationCompleted": "animationCompleted"; "itemCameIntoView": "itemCameIntoView"; }, ["items"], never>;
 }
+
 //# sourceMappingURL=carousel.component.d.ts.map

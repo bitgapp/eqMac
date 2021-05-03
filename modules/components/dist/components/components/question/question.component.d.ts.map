@@ -1,1 +1,1 @@
-{"version":3,"file":"question.component.d.ts","sourceRoot":"","sources":["../../../../projects/components/src/components/question/question.component.ts"],"names":[],"mappings":"AAAA,OAAO,EAAa,MAAM,EAAE,MAAM,eAAe,CAAA;;AAEjD,qBAKa,iBAAkB,YAAW,MAAM;IAC9C,QAAQ;iCADG,iBAAiB;2CAAjB,iBAAiB;CAG7B"}
+{"version":3,"file":"question.component.d.ts","sources":["question.component.d.ts"],"names":[],"mappings":"AAAA;;AACA;AACA;;;AACA","sourcesContent":["import { OnInit } from '@angular/core';\nexport declare class QuestionComponent implements OnInit {\n    ngOnInit(): void;\n}\n"]}

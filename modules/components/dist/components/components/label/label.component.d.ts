@@ -1,4 +1,4 @@
-import * as i0 from "@angular/core";
+import * as ɵngcc0 from '@angular/core';
 export declare class LabelComponent {
     fontSize?: number;
     color?: string;
@@ -9,7 +9,8 @@ export declare class LabelComponent {
         color: string;
     };
     get cursor(): "inherit" | "pointer";
-    static ɵfac: i0.ɵɵFactoryDef<LabelComponent, never>;
-    static ɵcmp: i0.ɵɵComponentDefWithMeta<LabelComponent, "eqm-label", never, { "fontSize": "fontSize"; "color": "color"; "clickable": "clickable"; }, {}, never, ["*"]>;
+    static ɵfac: ɵngcc0.ɵɵFactoryDef<LabelComponent, never>;
+    static ɵcmp: ɵngcc0.ɵɵComponentDefWithMeta<LabelComponent, "eqm-label", never, { "clickable": "clickable"; "fontSize": "fontSize"; "color": "color"; }, {}, never, ["*"]>;
 }
+
 //# sourceMappingURL=label.component.d.ts.map

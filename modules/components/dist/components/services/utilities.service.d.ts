@@ -1,4 +1,4 @@
-import * as i0 from "@angular/core";
+import * as ɵngcc0 from '@angular/core';
 export declare class UtilitiesService {
     mapValue(value: number, inMin: number, inMax: number, outMin: number, outMax: number): number;
     logMapValue({ value, inMin, inMax, outMin, outMax }: {
@@ -38,7 +38,7 @@ export declare class UtilitiesService {
         g: number;
         b: number;
     }): string;
-    static ɵfac: i0.ɵɵFactoryDef<UtilitiesService, never>;
-    static ɵprov: i0.ɵɵInjectableDef<UtilitiesService>;
+    static ɵfac: ɵngcc0.ɵɵFactoryDef<UtilitiesService, never>;
 }
+
 //# sourceMappingURL=utilities.service.d.ts.map

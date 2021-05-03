@@ -8,8 +8,9 @@
 .button {
   transform: translate(-1px, -1px);
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
+  align-items: center;
   text-align: center;
   background-color: rgb(62, 65, 70);
   transition-property: filter;

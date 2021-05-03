@@ -1,0 +1,11 @@
+import { ColorsService } from '../../services/colors.service';
+export declare class ProComponent {
+    colors: ColorsService;
+    color: string;
+    backgroundColor: string;
+    fontSize: number;
+    constructor(colors: ColorsService);
+    style: {
+        [name: string]: any;
+    };
+}

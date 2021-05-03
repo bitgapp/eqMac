@@ -1,7 +1,7 @@
 import { OnInit, ElementRef } from '@angular/core';
 import { UtilitiesService } from '../../services/utilities.service';
 import { DomSanitizer } from '@angular/platform-browser';
-import * as i0 from "@angular/core";
+import * as ɵngcc0 from '@angular/core';
 export declare type TooltipPositionSide = 'top' | 'bottom' | 'left' | 'right';
 export declare class TooltipComponent implements OnInit {
     elem: ElementRef;
@@ -28,7 +28,8 @@ export declare class TooltipComponent implements OnInit {
     get arrowStyle(): {
         [style: string]: string;
     };
-    static ɵfac: i0.ɵɵFactoryDef<TooltipComponent, never>;
-    static ɵcmp: i0.ɵɵComponentDefWithMeta<TooltipComponent, "eqm-tooltip", never, { "text": "text"; "parent": "parent"; "positionSide": "positionSide"; "showArrow": "showArrow"; }, {}, never, ["*"]>;
+    static ɵfac: ɵngcc0.ɵɵFactoryDef<TooltipComponent, never>;
+    static ɵcmp: ɵngcc0.ɵɵComponentDefWithMeta<TooltipComponent, "eqm-tooltip", never, { "positionSide": "positionSide"; "showArrow": "showArrow"; "text": "text"; "parent": "parent"; }, {}, never, ["*"]>;
 }
+
 //# sourceMappingURL=tooltip.component.d.ts.map

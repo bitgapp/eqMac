@@ -1,1 +1,1 @@
-{"version":3,"file":"prompt.component.d.ts","sourceRoot":"","sources":["../../../../projects/components/src/components/prompt/prompt.component.ts"],"names":[],"mappings":"AAAA,OAAO,EAAa,MAAM,EAAE,MAAM,eAAe,CAAA;;AAEjD,qBAKa,eAAgB,YAAW,MAAM;IAC5C,QAAQ;iCADG,eAAe;2CAAf,eAAe;CAG3B"}
+{"version":3,"file":"prompt.component.d.ts","sources":["prompt.component.d.ts"],"names":[],"mappings":"AAAA;;AACA;AACA;;;AACA","sourcesContent":["import { OnInit } from '@angular/core';\nexport declare class PromptComponent implements OnInit {\n    ngOnInit(): void;\n}\n"]}

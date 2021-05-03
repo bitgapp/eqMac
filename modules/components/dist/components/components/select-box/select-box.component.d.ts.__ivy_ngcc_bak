@@ -1,0 +1,24 @@
+import { OnInit, EventEmitter, ElementRef } from '@angular/core';
+export declare class SelectBoxComponent implements OnInit {
+    host: ElementRef;
+    _items: any[];
+    set items(newItems: any[]);
+    get items(): any[];
+    labelParam: string;
+    selectedItem: any;
+    itemSelected: EventEmitter<any>;
+    container: ElementRef;
+    _nVisibleItems: number;
+    set numberOfVisibleItems(value: number);
+    get numberOfVisibleItems(): number;
+    height: number;
+    width?: number;
+    hidden: boolean;
+    itemHeight: number;
+    constructor(host: ElementRef);
+    ngOnInit(): void;
+    setDimensions(): void;
+    setHeight(): void;
+    setWidth(): void;
+    selectItem(item: any): void;
+}

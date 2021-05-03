@@ -1,1 +1,1 @@
-{"version":3,"file":"screw.component.d.ts","sourceRoot":"","sources":["../../../../projects/components/src/components/screw/screw.component.ts"],"names":[],"mappings":"AAAA,OAAO,EAAa,MAAM,EAAE,MAAM,eAAe,CAAA;;AAEjD,qBAKa,cAAe,YAAW,MAAM;IAC3C,QAAQ;iCADG,cAAc;2CAAd,cAAc;CAG1B"}
+{"version":3,"file":"screw.component.d.ts","sources":["screw.component.d.ts"],"names":[],"mappings":"AAAA;;AACA;AACA;;;AACA","sourcesContent":["import { OnInit } from '@angular/core';\nexport declare class ScrewComponent implements OnInit {\n    ngOnInit(): void;\n}\n"]}

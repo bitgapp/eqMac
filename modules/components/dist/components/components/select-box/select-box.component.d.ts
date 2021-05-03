@@ -1,5 +1,5 @@
 import { OnInit, EventEmitter, ElementRef } from '@angular/core';
-import * as i0 from "@angular/core";
+import * as ɵngcc0 from '@angular/core';
 export declare class SelectBoxComponent implements OnInit {
     host: ElementRef;
     _items: any[];
@@ -22,7 +22,8 @@ export declare class SelectBoxComponent implements OnInit {
     setHeight(): void;
     setWidth(): void;
     selectItem(item: any): void;
-    static ɵfac: i0.ɵɵFactoryDef<SelectBoxComponent, never>;
-    static ɵcmp: i0.ɵɵComponentDefWithMeta<SelectBoxComponent, "eqm-select-box", never, { "items": "items"; "labelParam": "labelParam"; "selectedItem": "selectedItem"; "numberOfVisibleItems": "numberOfVisibleItems"; "width": "width"; }, { "itemSelected": "itemSelected"; }, never, never>;
+    static ɵfac: ɵngcc0.ɵɵFactoryDef<SelectBoxComponent, never>;
+    static ɵcmp: ɵngcc0.ɵɵComponentDefWithMeta<SelectBoxComponent, "eqm-select-box", never, { "labelParam": "labelParam"; "selectedItem": "selectedItem"; "items": "items"; "numberOfVisibleItems": "numberOfVisibleItems"; "width": "width"; }, { "itemSelected": "itemSelected"; }, never, never>;
 }
+
 //# sourceMappingURL=select-box.component.d.ts.map

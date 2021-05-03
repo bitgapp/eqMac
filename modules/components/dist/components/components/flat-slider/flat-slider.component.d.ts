@@ -1,7 +1,7 @@
 import { EventEmitter, ElementRef } from '@angular/core';
 import { UtilitiesService } from '../../services/utilities.service';
 import { DomSanitizer } from '@angular/platform-browser';
-import * as i0 from "@angular/core";
+import * as ɵngcc0 from '@angular/core';
 export interface FlatSliderValueChangedEvent {
     value: number;
     transition?: boolean;
@@ -23,6 +23,9 @@ export declare class FlatSliderComponent {
     stickToMiddle: boolean;
     thickness: number;
     orientation: 'vertical' | 'horizontal';
+    notches: number[];
+    thumbRadius: number;
+    thumbBorderSize: number;
     stickedToMiddle: EventEmitter<any>;
     containerRef: ElementRef;
     get middleValue(): number;
@@ -36,7 +39,6 @@ export declare class FlatSliderComponent {
     get color(): string;
     get darkerColor(): string;
     dragging: boolean;
-    thumbRadius: number;
     _value: number;
     set value(newValue: number);
     get value(): number;
@@ -58,6 +60,7 @@ export declare class FlatSliderComponent {
     onMouseUp(event: MouseEvent): void;
     mouseup(event: MouseEvent): void;
     get progress(): number;
+    getProgress(value: number): number;
     get containerStyle(): {
         [style: string]: string;
     };
@@ -70,11 +73,15 @@ export declare class FlatSliderComponent {
     get thumbNotchStyle(): {
         [style: string]: string | number;
     };
+    getNotchStyle(index: number): {
+        [style: string]: string | number;
+    };
     get thumbStyle(): {
         [style: string]: string | number;
     };
     private mapValue;
-    static ɵfac: i0.ɵɵFactoryDef<FlatSliderComponent, never>;
-    static ɵcmp: i0.ɵɵComponentDefWithMeta<FlatSliderComponent, "eqm-flat-slider", never, { "scale": "scale"; "doubleClickToAnimateToMiddle": "doubleClickToAnimateToMiddle"; "showMiddleNotch": "showMiddleNotch"; "min": "min"; "max": "max"; "animationDuration": "animationDuration"; "animationFps": "animationFps"; "scrollEnabled": "scrollEnabled"; "middle": "middle"; "stickToMiddle": "stickToMiddle"; "thickness": "thickness"; "orientation": "orientation"; "enabled": "enabled"; "color": "color"; "value": "value"; }, { "stickedToMiddle": "stickedToMiddle"; "valueChange": "valueChange"; "userChangedValue": "userChangedValue"; }, never, never>;
+    static ɵfac: ɵngcc0.ɵɵFactoryDef<FlatSliderComponent, never>;
+    static ɵcmp: ɵngcc0.ɵɵComponentDefWithMeta<FlatSliderComponent, "eqm-flat-slider", never, { "scale": "scale"; "doubleClickToAnimateToMiddle": "doubleClickToAnimateToMiddle"; "showMiddleNotch": "showMiddleNotch"; "min": "min"; "max": "max"; "animationDuration": "animationDuration"; "animationFps": "animationFps"; "scrollEnabled": "scrollEnabled"; "stickToMiddle": "stickToMiddle"; "thickness": "thickness"; "orientation": "orientation"; "thumbRadius": "thumbRadius"; "thumbBorderSize": "thumbBorderSize"; "enabled": "enabled"; "color": "color"; "value": "value"; "middle": "middle"; "notches": "notches"; }, { "stickedToMiddle": "stickedToMiddle"; "valueChange": "valueChange"; "userChangedValue": "userChangedValue"; }, never, never>;
 }
+
 //# sourceMappingURL=flat-slider.component.d.ts.map

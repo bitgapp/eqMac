@@ -1,1 +1,1 @@
-{"version":3,"file":"tooltip.service.d.ts","sourceRoot":"","sources":["../../../../projects/components/src/components/tooltip/tooltip.service.ts"],"names":[],"mappings":";AAEA,qBAGa,cAAc;IACzB,UAAU,EAAE,GAAG,EAAE,CAAK;iCADX,cAAc;qCAAd,cAAc;CAE1B"}
+{"version":3,"file":"tooltip.service.d.ts","sources":["tooltip.service.d.ts"],"names":[],"mappings":";AAAA;AACA;;AACA","sourcesContent":["export declare class TooltipService {\n    components: any[];\n}\n"]}

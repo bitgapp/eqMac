@@ -1,6 +1,6 @@
 import { OnInit, EventEmitter, ElementRef } from '@angular/core';
 import { UtilitiesService } from '../../services/utilities.service';
-import * as i0 from "@angular/core";
+import * as ɵngcc0 from '@angular/core';
 export interface KnobValueChangedEvent {
     value: number;
     transition?: boolean;
@@ -65,7 +65,8 @@ export declare class KnobComponent implements OnInit {
     getDegreesFromEvent(event: MouseEvent): number;
     getDistanceFromCenterOfElementAndEvent(event: MouseEvent): number;
     clampValue(value: number): number;
-    static ɵfac: i0.ɵɵFactoryDef<KnobComponent, never>;
-    static ɵcmp: i0.ɵɵComponentDefWithMeta<KnobComponent, "eqm-knob", never, { "size": "size"; "showScale": "showScale"; "min": "min"; "max": "max"; "disabled": "disabled"; "doubleClickToAnimateToMiddle": "doubleClickToAnimateToMiddle"; "animationDuration": "animationDuration"; "animationFps": "animationFps"; "stickToMiddle": "stickToMiddle"; "value": "value"; }, { "animatingToMiddle": "animatingToMiddle"; "stickedToMiddle": "stickedToMiddle"; "valueChange": "valueChange"; "userChangedValue": "userChangedValue"; }, never, never>;
+    static ɵfac: ɵngcc0.ɵɵFactoryDef<KnobComponent, never>;
+    static ɵcmp: ɵngcc0.ɵɵComponentDefWithMeta<KnobComponent, "eqm-knob", never, { "size": "size"; "showScale": "showScale"; "disabled": "disabled"; "doubleClickToAnimateToMiddle": "doubleClickToAnimateToMiddle"; "animationDuration": "animationDuration"; "animationFps": "animationFps"; "stickToMiddle": "stickToMiddle"; "min": "min"; "max": "max"; "value": "value"; }, { "animatingToMiddle": "animatingToMiddle"; "stickedToMiddle": "stickedToMiddle"; "valueChange": "valueChange"; "userChangedValue": "userChangedValue"; }, never, never>;
 }
+
 //# sourceMappingURL=knob.component.d.ts.map

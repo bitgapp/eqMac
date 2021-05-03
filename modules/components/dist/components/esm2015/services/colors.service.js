@@ -1,0 +1,35 @@
+import { Injectable } from '@angular/core';
+import * as i0 from "@angular/core";
+export class ColorsService {
+    constructor() {
+        this.accent = ColorsService.accent;
+        this.accentLight = ColorsService.accentLight;
+        this.warning = ColorsService.warning;
+        this.caution = ColorsService.caution;
+        this.gradientStart = ColorsService.gradientStart;
+        this.gradientEnd = ColorsService.gradientEnd;
+        this.iconGradientStart = ColorsService.iconGradientStart;
+        this.iconGradientMiddle = ColorsService.iconGradientMiddle;
+        this.iconGradientEnd = ColorsService.iconGradientEnd;
+        this.light = ColorsService.light;
+        this.dark = ColorsService.dark;
+    }
+}
+ColorsService.accent = '#4f8d71';
+ColorsService.accentLight = '#4DAD82';
+ColorsService.warning = '#eb3f42';
+ColorsService.caution = '#FFD500';
+ColorsService.gradientStart = '#5a5b5f';
+ColorsService.gradientEnd = '#2c2c2e';
+ColorsService.iconGradientStart = '#05FF71';
+ColorsService.iconGradientMiddle = '#03F193';
+ColorsService.iconGradientEnd = '#04E2B5';
+ColorsService.light = '#c9cdd0';
+ColorsService.dark = '#16191c';
+ColorsService.ɵprov = i0.ɵɵdefineInjectable({ factory: function ColorsService_Factory() { return new ColorsService(); }, token: ColorsService, providedIn: "root" });
+ColorsService.decorators = [
+    { type: Injectable, args: [{
+                providedIn: 'root'
+            },] }
+];
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiY29sb3JzLnNlcnZpY2UuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIuLi8uLi8uLi8uLi9wcm9qZWN0cy9jb21wb25lbnRzL3NyYy9zZXJ2aWNlcy9jb2xvcnMuc2VydmljZS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQSxPQUFPLEVBQUUsVUFBVSxFQUFFLE1BQU0sZUFBZSxDQUFBOztBQUsxQyxNQUFNLE9BQU8sYUFBYTtJQUgxQjtRQWdCVyxXQUFNLEdBQUcsYUFBYSxDQUFDLE1BQU0sQ0FBQTtRQUM3QixnQkFBVyxHQUFHLGFBQWEsQ0FBQyxXQUFXLENBQUE7UUFDdkMsWUFBTyxHQUFHLGFBQWEsQ0FBQyxPQUFPLENBQUE7UUFDL0IsWUFBTyxHQUFHLGFBQWEsQ0FBQyxPQUFPLENBQUE7UUFDL0Isa0JBQWEsR0FBRyxhQUFhLENBQUMsYUFBYSxDQUFBO1FBQzNDLGdCQUFXLEdBQUcsYUFBYSxDQUFDLFdBQVcsQ0FBQTtRQUN2QyxzQkFBaUIsR0FBRyxhQUFhLENBQUMsaUJBQWlCLENBQUE7UUFDbkQsdUJBQWtCLEdBQUcsYUFBYSxDQUFDLGtCQUFrQixDQUFBO1FBQ3JELG9CQUFlLEdBQUcsYUFBYSxDQUFDLGVBQWUsQ0FBQTtRQUMvQyxVQUFLLEdBQUcsYUFBYSxDQUFDLEtBQUssQ0FBQTtRQUMzQixTQUFJLEdBQUcsYUFBYSxDQUFDLElBQUksQ0FBQTtLQUNuQzs7QUF2QmlCLG9CQUFNLEdBQUcsU0FBUyxDQUFBO0FBQ2xCLHlCQUFXLEdBQUcsU0FBUyxDQUFBO0FBQ3ZCLHFCQUFPLEdBQUcsU0FBUyxDQUFBO0FBQ25CLHFCQUFPLEdBQUcsU0FBUyxDQUFBO0FBQ25CLDJCQUFhLEdBQUcsU0FBUyxDQUFBO0FBQ3pCLHlCQUFXLEdBQUcsU0FBUyxDQUFBO0FBQ3ZCLCtCQUFpQixHQUFHLFNBQVMsQ0FBQTtBQUM3QixnQ0FBa0IsR0FBRyxTQUFTLENBQUE7QUFDOUIsNkJBQWUsR0FBRyxTQUFTLENBQUE7QUFDM0IsbUJBQUssR0FBRyxTQUFTLENBQUE7QUFDakIsa0JBQUksR0FBRyxTQUFTLENBQUE7OztZQWRqQyxVQUFVLFNBQUM7Z0JBQ1YsVUFBVSxFQUFFLE1BQU07YUFDbkIiLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyBJbmplY3RhYmxlIH0gZnJvbSAnQGFuZ3VsYXIvY29yZSdcblxuQEluamVjdGFibGUoe1xuICBwcm92aWRlZEluOiAncm9vdCdcbn0pXG5leHBvcnQgY2xhc3MgQ29sb3JzU2VydmljZSB7XG4gIHN0YXRpYyByZWFkb25seSBhY2NlbnQgPSAnIzRmOGQ3MSdcbiAgc3RhdGljIHJlYWRvbmx5IGFjY2VudExpZ2h0ID0gJyM0REFEODInXG4gIHN0YXRpYyByZWFkb25seSB3YXJuaW5nID0gJyNlYjNmNDInXG4gIHN0YXRpYyByZWFkb25seSBjYXV0aW9uID0gJyNGRkQ1MDAnXG4gIHN0YXRpYyByZWFkb25seSBncmFkaWVudFN0YXJ0ID0gJyM1YTViNWYnXG4gIHN0YXRpYyByZWFkb25seSBncmFkaWVudEVuZCA9ICcjMmMyYzJlJ1xuICBzdGF0aWMgcmVhZG9ubHkgaWNvbkdyYWRpZW50U3RhcnQgPSAnIzA1RkY3MSdcbiAgc3RhdGljIHJlYWRvbmx5IGljb25HcmFkaWVudE1pZGRsZSA9ICcjMDNGMTkzJ1xuICBzdGF0aWMgcmVhZG9ubHkgaWNvbkdyYWRpZW50RW5kID0gJyMwNEUyQjUnXG4gIHN0YXRpYyByZWFkb25seSBsaWdodCA9ICcjYzljZGQwJ1xuICBzdGF0aWMgcmVhZG9ubHkgZGFyayA9ICcjMTYxOTFjJ1xuXG4gIHJlYWRvbmx5IGFjY2VudCA9IENvbG9yc1NlcnZpY2UuYWNjZW50XG4gIHJlYWRvbmx5IGFjY2VudExpZ2h0ID0gQ29sb3JzU2VydmljZS5hY2NlbnRMaWdodFxuICByZWFkb25seSB3YXJuaW5nID0gQ29sb3JzU2VydmljZS53YXJuaW5nXG4gIHJlYWRvbmx5IGNhdXRpb24gPSBDb2xvcnNTZXJ2aWNlLmNhdXRpb25cbiAgcmVhZG9ubHkgZ3JhZGllbnRTdGFydCA9IENvbG9yc1NlcnZpY2UuZ3JhZGllbnRTdGFydFxuICByZWFkb25seSBncmFkaWVudEVuZCA9IENvbG9yc1NlcnZpY2UuZ3JhZGllbnRFbmRcbiAgcmVhZG9ubHkgaWNvbkdyYWRpZW50U3RhcnQgPSBDb2xvcnNTZXJ2aWNlLmljb25HcmFkaWVudFN0YXJ0XG4gIHJlYWRvbmx5IGljb25HcmFkaWVudE1pZGRsZSA9IENvbG9yc1NlcnZpY2UuaWNvbkdyYWRpZW50TWlkZGxlXG4gIHJlYWRvbmx5IGljb25HcmFkaWVudEVuZCA9IENvbG9yc1NlcnZpY2UuaWNvbkdyYWRpZW50RW5kXG4gIHJlYWRvbmx5IGxpZ2h0ID0gQ29sb3JzU2VydmljZS5saWdodFxuICByZWFkb25seSBkYXJrID0gQ29sb3JzU2VydmljZS5kYXJrXG59XG4iXX0=

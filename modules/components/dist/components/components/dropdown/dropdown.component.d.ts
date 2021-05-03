@@ -1,7 +1,7 @@
 import { OnInit, ElementRef, EventEmitter, NgZone } from '@angular/core';
 import { SelectBoxComponent } from '../select-box/select-box.component';
 import { UtilitiesService } from '../../services/utilities.service';
-import * as i0 from "@angular/core";
+import * as ɵngcc0 from '@angular/core';
 export declare class DropdownComponent implements OnInit {
     utils: UtilitiesService;
     zone: NgZone;
@@ -40,7 +40,8 @@ export declare class DropdownComponent implements OnInit {
     searchText?: string;
     keypress(event: KeyboardEvent): void;
     get filteredItems(): any[];
-    static ɵfac: i0.ɵɵFactoryDef<DropdownComponent, never>;
-    static ɵcmp: i0.ɵɵComponentDefWithMeta<DropdownComponent, "eqm-dropdown", never, { "editable": "editable"; "items": "items"; "disabled": "disabled"; "selectedItem": "selectedItem"; "labelParam": "labelParam"; "numberOfVisibleItems": "numberOfVisibleItems"; "placeholder": "placeholder"; "noItemsPlaceholder": "noItemsPlaceholder"; "closeOnSelect": "closeOnSelect"; "searchable": "searchable"; "forceDirection": "forceDirection"; }, { "refChanged": "refChanged"; "selectedItemChange": "selectedItemChange"; "itemSelected": "itemSelected"; }, never, never>;
+    static ɵfac: ɵngcc0.ɵɵFactoryDef<DropdownComponent, never>;
+    static ɵcmp: ɵngcc0.ɵɵComponentDefWithMeta<DropdownComponent, "eqm-dropdown", never, { "editable": "editable"; "disabled": "disabled"; "selectedItem": "selectedItem"; "labelParam": "labelParam"; "numberOfVisibleItems": "numberOfVisibleItems"; "placeholder": "placeholder"; "noItemsPlaceholder": "noItemsPlaceholder"; "closeOnSelect": "closeOnSelect"; "searchable": "searchable"; "items": "items"; "forceDirection": "forceDirection"; }, { "refChanged": "refChanged"; "selectedItemChange": "selectedItemChange"; "itemSelected": "itemSelected"; }, never, never>;
 }
+
 //# sourceMappingURL=dropdown.component.d.ts.map

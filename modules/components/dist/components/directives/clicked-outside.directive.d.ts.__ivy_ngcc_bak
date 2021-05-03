@@ -1,0 +1,7 @@
+import { EventEmitter } from '@angular/core';
+export declare class ClickedOutsideDirective {
+    clickedOutside: EventEmitter<any>;
+    private inside;
+    insideClick(): void;
+    outsideClick(): void;
+}

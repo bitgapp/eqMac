@@ -1,0 +1,7 @@
+import { OnInit, EventEmitter } from '@angular/core';
+export declare class ToggleComponent implements OnInit {
+    state: boolean;
+    stateChange: EventEmitter<any>;
+    ngOnInit(): void;
+    toggleState(): void;
+}

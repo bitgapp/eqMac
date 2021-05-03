@@ -45,6 +45,8 @@ import { QuestionComponent } from './components/question/question.component'
 import { ClickedOutsideDirective } from './directives/clicked-outside.directive'
 import { ScrollingModule } from '@angular/cdk/scrolling'
 import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component'
+import { ProComponent } from './components/pro/pro.component'
+import { ColorsService } from './services/colors.service'
 
 @NgModule({
   imports: [
@@ -81,7 +83,8 @@ import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.compo
     CarouselItemElement,
     CarouselItemDirective,
     QuestionComponent,
-    BreadcrumbsComponent
+    BreadcrumbsComponent,
+    ProComponent
   ],
   exports: [
     ClickedOutsideDirective,
@@ -108,10 +111,12 @@ import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.compo
     CarouselComponent,
     CarouselItemDirective,
     QuestionComponent,
-    BreadcrumbsComponent
+    BreadcrumbsComponent,
+    ProComponent
   ],
   providers: [
-    UtilitiesService
+    UtilitiesService,
+    ColorsService
   ]
 })
 export class ComponentsModule {}

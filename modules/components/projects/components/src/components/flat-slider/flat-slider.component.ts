@@ -44,6 +44,10 @@ export class FlatSliderComponent {
   @Input() stickToMiddle = true
   @Input() thickness = 2
   @Input() orientation: 'vertical' | 'horizontal' = 'horizontal'
+  @Input() notches: number[]
+  @Input() thumbRadius = 4
+  @Input() thumbBorderSize = 1
+
   @Output() stickedToMiddle = new EventEmitter()
   @ViewChild('container', { static: true }) containerRef!: ElementRef
 
@@ -85,7 +89,6 @@ export class FlatSliderComponent {
   }
 
   public dragging = false
-  public thumbRadius = 4
 
   public _value = 0.5
   @Input()
@@ -162,7 +165,7 @@ export class FlatSliderComponent {
   public getValueFromMouseEvent (event: MouseEvent) {
     const coords = this.utils.getCoordinatesInsideElementFromEvent(event, this.containerRef.nativeElement)
     let progress = this.orientation === 'vertical' ? coords.y : coords.x
-    const value = (() => {
+    let value = (() => {
       const inMin = this.thumbRadius
       const inMax = (this.orientation === 'vertical' ? this.height : this.width) - this.thumbRadius * 2
       if (progress < inMin) progress = inMin
@@ -175,6 +178,12 @@ export class FlatSliderComponent {
         outMax: this.max
       })
     })()
+    if (this.notches?.length) {
+      const closest = this.notches.reduce((prev, curr) => {
+        return (Math.abs(curr - value) < Math.abs(prev - value) ? curr : prev);
+      })
+      value = closest
+    }
     return value
   }
 
@@ -247,9 +256,13 @@ export class FlatSliderComponent {
   }
 
   get progress () {
+    return this.getProgress(this.value)
+  }
+
+  getProgress (value: number) {
     const factor = 10000
     let progress = this.mapValue({
-      value: this.value,
+      value,
       inMin: this.min,
       inMax: this.max,
       outMin: 0,
@@ -324,12 +337,30 @@ export class FlatSliderComponent {
     return style
   }
 
+  getNotchStyle (index: number) {
+    const style: { [style: string]: string | number } = {
+      position: 'absolute'
+    }
+    style.width = `${this.thumbRadius * 2}px`
+    style.height = style.width
+    const notchValue = this.notches[index]
+    style.backgroundColor = this.value >= notchValue ? this.color : this.darkerColor
+
+    style.borderRadius = '100%'
+    const center = `calc(50% - ${this.thumbRadius}px)`
+
+    const notchProgress = this.getProgress(notchValue)
+    style.top = center
+    style.left = `${Math.round((this.width - this.thumbRadius * 2) * notchProgress)}px`
+
+    return style
+  }
+
   get thumbStyle () {
     const style: { [style: string]: number | string } = {}
     style.width = `${this.thumbRadius * 2}px`
     style.height = style.width
-    const borderSize = 1
-    style.border = `${borderSize}px solid black`
+    style.border = `${this.thumbBorderSize}px solid black`
     style.backgroundColor = this.color
 
     style.borderRadius = '100%'
@@ -338,8 +369,8 @@ export class FlatSliderComponent {
         value: this.value,
         inMin: this.min,
         inMax: this.max,
-        outMin: -borderSize,
-        outMax: this.width - this.thumbRadius * 2 - borderSize,
+        outMin: -this.thumbBorderSize,
+        outMax: this.width - this.thumbRadius * 2 - this.thumbBorderSize,
         logInverse: true
       })
       style.left = `${left}px`
@@ -348,8 +379,8 @@ export class FlatSliderComponent {
         value: this.value,
         inMin: this.min,
         inMax: this.max,
-        outMin: -borderSize,
-        outMax: this.height - this.thumbRadius * 2 - borderSize,
+        outMin: -this.thumbBorderSize,
+        outMax: this.height - this.thumbRadius * 2 - this.thumbBorderSize,
         logInverse: true
       })}px`
     }

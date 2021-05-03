@@ -1,5 +1,5 @@
 import { ElementRef } from '@angular/core';
-import * as i0 from "@angular/core";
+import * as ɵngcc0 from '@angular/core';
 export declare class DividerComponent {
     elem: ElementRef;
     orientation: 'vertical' | 'horizontal';
@@ -10,7 +10,8 @@ export declare class DividerComponent {
     get rightBorder(): string;
     get topBorder(): string;
     get bottomtBorder(): string;
-    static ɵfac: i0.ɵɵFactoryDef<DividerComponent, never>;
-    static ɵcmp: i0.ɵɵComponentDefWithMeta<DividerComponent, "eqm-divider", never, { "orientation": "orientation"; }, {}, never, never>;
+    static ɵfac: ɵngcc0.ɵɵFactoryDef<DividerComponent, never>;
+    static ɵcmp: ɵngcc0.ɵɵComponentDefWithMeta<DividerComponent, "eqm-divider", never, { "orientation": "orientation"; }, {}, never, never>;
 }
+
 //# sourceMappingURL=divider.component.d.ts.map

@@ -1,1 +1,1 @@
-{"version":3,"file":"vent.component.d.ts","sourceRoot":"","sources":["../../../../projects/components/src/components/vent/vent.component.ts"],"names":[],"mappings":"AAAA,OAAO,EAAa,MAAM,EAAE,MAAM,eAAe,CAAA;;AAEjD,qBAKa,aAAc,YAAW,MAAM;IAC1C,QAAQ;iCADG,aAAa;2CAAb,aAAa;CAGzB"}
+{"version":3,"file":"vent.component.d.ts","sources":["vent.component.d.ts"],"names":[],"mappings":"AAAA;;AACA;AACA;;;AACA","sourcesContent":["import { OnInit } from '@angular/core';\nexport declare class VentComponent implements OnInit {\n    ngOnInit(): void;\n}\n"]}

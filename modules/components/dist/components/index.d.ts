@@ -28,4 +28,3 @@ export * from './components/carousel/carousel.component';
 export * from './components/question/question.component';
 export * from './directives/clicked-outside.directive';
 export * from './components/breadcrumbs/breadcrumbs.component';
-//# sourceMappingURL=index.d.ts.map

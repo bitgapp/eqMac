@@ -1,6 +1,6 @@
 import { OnInit, ElementRef, EventEmitter } from '@angular/core';
 import { UtilitiesService } from '../../services/utilities.service';
-import * as i0 from "@angular/core";
+import * as ɵngcc0 from '@angular/core';
 export interface SkeuomorphSliderValueChangedEvent {
     value: number;
     transition?: boolean;
@@ -40,7 +40,8 @@ export declare class SkeuomorphSliderComponent implements OnInit {
     animateSlider(from: number, to: number): Promise<void>;
     drawNotches(): void;
     calculateTop(): string;
-    static ɵfac: i0.ɵɵFactoryDef<SkeuomorphSliderComponent, never>;
-    static ɵcmp: i0.ɵɵComponentDefWithMeta<SkeuomorphSliderComponent, "eqm-skeuomorph-slider", never, { "min": "min"; "max": "max"; "animationDuration": "animationDuration"; "animationFps": "animationFps"; "scrollEnabled": "scrollEnabled"; "middle": "middle"; "stickToMiddle": "stickToMiddle"; "showNotches": "showNotches"; "disabled": "disabled"; "value": "value"; }, { "stickedToMiddle": "stickedToMiddle"; "userChangedValue": "userChangedValue"; "valueChange": "valueChange"; }, never, never>;
+    static ɵfac: ɵngcc0.ɵɵFactoryDef<SkeuomorphSliderComponent, never>;
+    static ɵcmp: ɵngcc0.ɵɵComponentDefWithMeta<SkeuomorphSliderComponent, "eqm-skeuomorph-slider", never, { "min": "min"; "max": "max"; "animationDuration": "animationDuration"; "animationFps": "animationFps"; "scrollEnabled": "scrollEnabled"; "stickToMiddle": "stickToMiddle"; "showNotches": "showNotches"; "disabled": "disabled"; "value": "value"; "middle": "middle"; }, { "stickedToMiddle": "stickedToMiddle"; "userChangedValue": "userChangedValue"; "valueChange": "valueChange"; }, never, never>;
 }
+
 //# sourceMappingURL=skeuomorph-slider.component.d.ts.map

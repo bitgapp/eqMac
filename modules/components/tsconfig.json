@@ -16,6 +16,7 @@
     "experimentalDecorators": true,
     "moduleResolution": "node",
     "importHelpers": true,
+    "preserveSymlinks": true,
     "target": "es2015",
     "module": "es2020",
     "lib": [

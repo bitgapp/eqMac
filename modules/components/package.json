@@ -1,10 +1,10 @@
 {
   "name": "@eqmac/components",
-  "version": "1.1.0",
+  "version": "1.6.1",
   "scripts": {
     "ng": "ng",
     "start": "ng build components --watch",
-    "build": "ng build components"
+    "build": "ng build components --prod"
   },
   "private": true,
   "dependencies": {
