@@ -20,7 +20,6 @@
     "@angular/material": "^11.2.8",
     "@angular/platform-browser": "^11.2.9",
     "@angular/platform-browser-dynamic": "^11.2.9",
-    "@eqmac/components": "./modules/components/dist/components",
     "core-js": "^3.10.1",
     "rxjs": "^6.6.7",
     "web-animations-js": "^2.3.2",

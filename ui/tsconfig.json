@@ -21,7 +21,7 @@
       "dom"
     ],
     "paths": {
-      "@eqmac/components": ["../modules/components/dist/components"]
+      "@eqmac/components": ["../modules/components/projects/components/src"]
     }
   }
 }

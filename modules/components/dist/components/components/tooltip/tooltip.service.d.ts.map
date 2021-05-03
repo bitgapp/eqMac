@@ -1,1 +1,0 @@
-{"version":3,"file":"tooltip.service.d.ts","sources":["tooltip.service.d.ts"],"names":[],"mappings":";AAAA;AACA;;AACA","sourcesContent":["export declare class TooltipService {\n    components: any[];\n}\n"]}
