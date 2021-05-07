@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core'
 import { Bridge } from './bridge.service'
+import { ToastService } from './toast.service'
 
 export type JSONEncodable = null | boolean | number | string | JSONData
 export interface JSONData {
@@ -18,10 +19,21 @@ type EventCallback = (data?: any) => void
 export class DataService {
   route = ''
 
+  constructor (public toast?: ToastService) {}
+
   async request (opts: RequestOptions): Promise<any> {
     if (opts.endpoint && opts.endpoint[0] !== '/') opts.endpoint = `/${opts.endpoint}`
     const args: [string, any?] = [ `${opts.method} ${this.route}${opts.endpoint || ''}`, opts.data ]
-    const resp = await Bridge.call(...args)
+    let resp
+    try {
+      resp = await Bridge.call(...args)
+    } catch (err) {
+      this.toast.show({
+        message: err,
+        type: 'warning'
+      })
+      throw err
+    }
     return resp
   }
 
