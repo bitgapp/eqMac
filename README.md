@@ -6,6 +6,10 @@
   <img height="512" src="https://github.com/bitgapp/eqMac/raw/master/assets/screenshots/advanced-equalizer.png"/>
 </p>
 
+<p align="center">
+  <a href="https://discord.eqmac.app"><img src="https://img.shields.io/badge/chat-discord-black?style=flat&logo=discord" alt="discord chat"></a>
+</p>
+
 ## Features
 ### Current
 * System-wide audio source
@@ -16,7 +20,7 @@
 
 ### Roadmap
 Idea is to become the ultimate Audio toolbox for macOS (some features might not be open sourced)
-* Expert EQ - Unlimited bands + Spectrum analyzer
+* Expert EQ - Unlimited bands + Spectrum analyzer (coming very soon!)
 * Reverb - Spatial audio enhancement
 * Volume mixer - Apply different volume levels per each application
 * Input audio source - Apply effects to any device: guitar, microphone etc.
@@ -34,7 +38,6 @@ eqMac was built using these technologies:
 * [Driver](https://github.com/bitgapp/eqMac/tree/master/native/driver) - System Audio loopback/passthrough device based on [BackgroundMusic](https://github.com/kyleneideck/BackgroundMusic) project. The driver grabs the system audio stream and sends it to the input channels. eqMac can grab this stream, process it and send to the appropriate audio device. Still very low level C++ code although the driver runs in User space instead of Kernel like the previous drivers, which means it's much more secure and stable.
 * [App](https://github.com/bitgapp/eqMac/tree/master/native/app) - Native backend to the whole app. Responsible for audio processing, filesystem access, window management, API and general lifecycle of eqMac. Written in Swift and uses Apple's more modern [AVAudioEngine API](https://developer.apple.com/documentation/avfoundation/avaudioengine), unlike the previous version that used a deprecated AUGraph API.
 * [UI](https://github.com/bitgapp/eqMac/tree/master/ui) - Web based user interface that is hosted remotely and thus allows for over the air updates & bug fixes. Written in Angular 11 and is cached for offline availability.
-* [Site](https://github.com/bitgapp/eqMac/tree/master/site) - Source code for https://eqmac.app website. Written in Angular 8 and server side rendered using [Angular Universal](https://github.com/angular/universal)
 
 ## Contribution
 At the moment eqMac is going through a major rewrite and it's hard to coordinate the development of big features, but I'm open to try anyway. Please create an issue on GitHub (please check if your issue is already being discussed) or [join our Discord](https://discord.eqmac.app) to discuss. Once a piece of work has been agreed - fork, build, debug, fix, merge and create a Pull Request to get your work merged in :) 
