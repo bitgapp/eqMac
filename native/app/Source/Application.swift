@@ -45,40 +45,14 @@ class Application {
   
   static var dataBus: DataBus!
   static var updater = SUUpdater(for: Bundle.main)!
-  static func newState (_ state: ApplicationState) {}
   
-  static var supportPath: URL {
-    //Create App directory if not exists:
-    let fileManager = FileManager()
-    let urlPaths = fileManager.urls(for: .applicationSupportDirectory, in: .userDomainMask)
-    
-    let appDirectory = urlPaths.first!.appendingPathComponent(Bundle.main.bundleIdentifier! ,isDirectory: true)
-    var objCTrue: ObjCBool = true
-    let path = appDirectory.path
-    if !fileManager.fileExists(atPath: path, isDirectory: &objCTrue) {
-      try! fileManager.createDirectory(atPath: path, withIntermediateDirectories: true, attributes: nil)
-    }
-    return appDirectory
-  }
-  
-  static private let dispatchActionQueue = DispatchQueue(label: "dispatchActionQueue", qos: .userInitiated)
-  // Custom dispatch function. Need to execute all dispatches on the main thread
-  static func dispatchAction(_ action: Action, onMainThread: Bool = true) {
-    if (onMainThread) {
-      DispatchQueue.main.async {
-        store.dispatch(action)
-      }
-    } else {
-      dispatchActionQueue.async {
-        store.dispatch(action)
-      }
-    }
-  }
   static let store: Store = Store(reducer: ApplicationStateReducer, state: Storage[.state] ?? ApplicationState(), middleware: [])
   
   
   static public func start () {
-    setupSettings()
+    self.settings = Settings()
+    updater.automaticallyChecksForUpdates = true
+    
     Networking.startMonitor()
 
     if (!Constants.DEBUG) {
@@ -98,11 +72,6 @@ class Application {
       }
       setupAudio()
     }
-  }
-  
-  private static func setupSettings () {
-    self.settings = Settings()
-    updater.automaticallyChecksForUpdates = true
   }
   
   private static func setupCrashReporting () {
@@ -524,6 +493,36 @@ class Application {
   
   static var version: String {
     return Bundle.main.infoDictionary!["CFBundleVersion"] as! String
+  }
+  
+  static func newState (_ state: ApplicationState) {}
+  
+  static var supportPath: URL {
+    //Create App directory if not exists:
+    let fileManager = FileManager()
+    let urlPaths = fileManager.urls(for: .applicationSupportDirectory, in: .userDomainMask)
+    
+    let appDirectory = urlPaths.first!.appendingPathComponent(Bundle.main.bundleIdentifier! ,isDirectory: true)
+    var objCTrue: ObjCBool = true
+    let path = appDirectory.path
+    if !fileManager.fileExists(atPath: path, isDirectory: &objCTrue) {
+      try! fileManager.createDirectory(atPath: path, withIntermediateDirectories: true, attributes: nil)
+    }
+    return appDirectory
+  }
+  
+  static private let dispatchActionQueue = DispatchQueue(label: "dispatchActionQueue", qos: .userInitiated)
+  // Custom dispatch function. Need to execute all dispatches on the main thread
+  static func dispatchAction(_ action: Action, onMainThread: Bool = true) {
+    if (onMainThread) {
+      DispatchQueue.main.async {
+        store.dispatch(action)
+      }
+    } else {
+      dispatchActionQueue.async {
+        store.dispatch(action)
+      }
+    }
   }
 }
 
