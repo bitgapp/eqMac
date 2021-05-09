@@ -50,14 +50,14 @@ class Application {
   
   
   static public func start () {
+    if (!Constants.DEBUG) {
+      setupCrashReporting()
+    }
+    
     self.settings = Settings()
     updater.automaticallyChecksForUpdates = true
     
     Networking.startMonitor()
-
-    if (!Constants.DEBUG) {
-      setupCrashReporting()
-    }
     
     checkDriver {
       AudioDevice.register = true
