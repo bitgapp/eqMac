@@ -161,28 +161,34 @@ class UI: StoreSubscriber {
   }
   
   static func show () {
-    if (mode == .popover) {
-      popover.show()
-    } else {
-      UI.window.show()
+    DispatchQueue.main.async {
+      if (mode == .popover) {
+        popover.show()
+      } else {
+        UI.window.show()
+      }
+      NSApp.activate(ignoringOtherApps: true)
     }
-    NSApp.activate(ignoringOtherApps: true)
   }
   
   static func close () {
-    if (mode == .popover) {
-      popover.hide()
-    } else {
-      UI.window.close()
+    DispatchQueue.main.async {
+      if (mode == .popover) {
+        popover.hide()
+      } else {
+        UI.window.close()
+      }
+      NSApp.hide(self)
     }
-    NSApp.hide(self)
   }
 
   static func hide () {
-    if (mode == .popover) {
-      popover.hide()
-    } else {
-      UI.window.performMiniaturize(nil)
+    DispatchQueue.main.async {
+      if (mode == .popover) {
+        popover.hide()
+      } else {
+        UI.window.performMiniaturize(nil)
+      }
     }
   }
   
