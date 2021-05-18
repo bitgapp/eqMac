@@ -199,8 +199,8 @@ class UI: StoreSubscriber {
   }
   
   // Instance
-  var statusItemClickedListener: EventListener<Void>!
-  var bridge: Bridge!
+  static var statusItemClickedListener: EventListener<Void>!
+  static var bridge: Bridge!
   
   init () {
     UI.window.contentView = UI.viewController.view
@@ -216,9 +216,9 @@ class UI: StoreSubscriber {
     //            window.position = windowPosition
     //        }
     setupStateListener()
-    setupBridge()
-    setupListeners()
-    load()
+    UI.setupBridge()
+    UI.setupListeners()
+    UI.load()
     
     func checkIfVisible () {
       let shown = UI.isShown
@@ -236,7 +236,7 @@ class UI: StoreSubscriber {
     viewController.webView.reload()
   }
   
-  func setupBridge () {
+  static func setupBridge () {
     bridge = Bridge(webView: UI.viewController.webView)
   }
   
@@ -261,18 +261,33 @@ class UI: StoreSubscriber {
     }
   }
   
-  private func setupListeners () {
+  private static func setupListeners () {
     statusItemClickedListener = UI.statusItem.clicked.on {_ in
       UI.toggle()
     }
   }
   
-  private func load () {
+  static var loaded = false
+
+  static func whenLoaded (_ completion: @escaping () -> Void) {
+    if loaded { return completion() }
+    UI.viewController.loaded.once {
+      completion()
+    }
+  }
+  
+  private static func load () {
+    loaded = false
+    
     func startUILoad (_ url: URL) {
       DispatchQueue.main.async {
+        UI.viewController.loaded.once {
+          loaded = true
+        }
         UI.viewController.load(url)
       }
     }
+    
     remoteIsReachable() { reachable in
       if reachable {
         Console.log("Loading Remote UI")
@@ -300,13 +315,13 @@ class UI: StoreSubscriber {
     }
   }
   
-  private func getRemoteVersion (_ completion: @escaping (String?) -> Void) {
+  private static func getRemoteVersion (_ completion: @escaping (String?) -> Void) {
     HTTP.GET("\(Constants.UI_ENDPOINT_URL)/version.txt") { resp in
       completion(resp.error != nil ? nil : resp.text?.trim())
     }
   }
   
-  private func remoteIsReachable (_ completion: @escaping (Bool) -> Void) {
+  private static func remoteIsReachable (_ completion: @escaping (Bool) -> Void) {
     var returned = false
     Networking.isConnected { reachable in
       if (!reachable) {
@@ -328,7 +343,7 @@ class UI: StoreSubscriber {
     }
   }
   
-  private func cacheRemote () {
+  private static func cacheRemote () {
     // Only download ui.zip when UI endpoint is remote
     if Constants.UI_ENDPOINT_URL.absoluteString.contains(Constants.DOMAIN) {
       let remoteZipUrl = "\(Constants.UI_ENDPOINT_URL)/ui.zip"

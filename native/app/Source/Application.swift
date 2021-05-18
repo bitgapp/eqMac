@@ -359,7 +359,7 @@ class Application {
   
   private static func setupDataBus () {
     Console.log("Setting up Data Bus")
-    dataBus = ApplicationDataBus(bridge: self.ui.bridge)
+    dataBus = ApplicationDataBus(bridge: UI.bridge)
   }
   
   static var overrideNextVolumeEvent = false
