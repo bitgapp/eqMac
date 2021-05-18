@@ -84,4 +84,8 @@ export class UIService extends DataService {
     settings = await this.request({ method: 'POST', endpoint: '/settings', data: settings })
     this.settingsChanged.next(settings)
   }
+
+  async loaded () {
+    return this.request({ method: 'POST', endpoint: '/loaded' })
+  }
 }

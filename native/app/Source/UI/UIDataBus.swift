@@ -90,8 +90,15 @@ class UIDataBus: DataBus {
       return JSON([ "isShown": UI.isShown ])
     }
     
+    self.on(.POST, "/loaded") { _, _ in
+      UI.hasLoaded = true
+      UI.loaded.emit()
+      return "Thanks"
+    }
+    
     self.isShownChangedListener = UI.isShownChanged.on { isShown in
       self.send(to: "/shown", data: JSON([ "isShown": isShown ]))
     }
+    
   }
 }

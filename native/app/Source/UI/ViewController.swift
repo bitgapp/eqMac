@@ -16,9 +16,7 @@ class ViewController: NSViewController, WKNavigationDelegate {
   @IBOutlet var draggableView: DraggableView!
   @IBOutlet var loadingView: NSView!
   @IBOutlet var loadingSpinner: NSProgressIndicator!
-  
-  var loaded = Event<Void>()
-  
+    
   var height: Double {
     get {
       return Double(webView.frame.size.height)
@@ -77,10 +75,6 @@ class ViewController: NSViewController, WKNavigationDelegate {
   func webView(_ webView: WKWebView, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
     let cred = URLCredential(trust: challenge.protectionSpace.serverTrust!)
     completionHandler(.useCredential, cred)
-  }
-  
-  func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-    loaded.emit()
   }
   
 }

@@ -54,6 +54,7 @@ export class AppComponent implements OnInit, AfterContentInit {
     this.syncDimensions()
     this.startDimensionsSync()
     this.loaded = true
+    this.ui.loaded()
   }
 
   async sync () {

@@ -267,23 +267,21 @@ class UI: StoreSubscriber {
     }
   }
   
-  static var loaded = false
-
+  static var hasLoaded = false
+  static var loaded = Event<Void>()
+  
   static func whenLoaded (_ completion: @escaping () -> Void) {
-    if loaded { return completion() }
-    UI.viewController.loaded.once {
+    if hasLoaded { return completion() }
+    UI.loaded.once {
       completion()
     }
   }
   
   private static func load () {
-    loaded = false
+    hasLoaded = false
     
     func startUILoad (_ url: URL) {
       DispatchQueue.main.async {
-        UI.viewController.loaded.once {
-          loaded = true
-        }
         UI.viewController.load(url)
       }
     }
