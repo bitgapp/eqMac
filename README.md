@@ -43,6 +43,14 @@ eqMac was built using these technologies:
 At the moment eqMac is going through a major rewrite and it's hard to coordinate the development of big features, but I'm open to try anyway. Please create an issue on GitHub (please check if your issue is already being discussed) or [join our Discord](https://discord.eqmac.app) to discuss. Once a piece of work has been agreed - fork, build, debug, fix, merge and create a Pull Request to get your work merged in :) 
 Check the documentation below to understand how to start eqMac debug process from Xcode
 
+## Credits
+
+[@nodeful](https://github.com/nodeful) - Creator and Developer of eqMac
+
+[@kyleneideck](https://github.com/kyleneideck) - For his hard work on the [BGMDriver](https://github.com/kyleneideck/BackgroundMusic)
+
+[@titanicbobo](https://github.com/titanicbobo) - For the [Big Sur icon design](https://github.com/bitgapp/eqMac/blob/master/assets/icon/icon-bigsur.svg)
+
 ## Development
 Fork the repository, then run these commands in Terminal.app:
 
