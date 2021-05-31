@@ -2,7 +2,6 @@ PODS:
   - AMCoreAudio (3.5)
   - EmitterKit (5.2.2)
   - KeychainSwift (13.0.0)
-  - ReachabilitySwift (5.0.0)
   - ReSwift (5.0.0)
   - Sentry (6.0.9):
     - Sentry/Core (= 6.0.9)
@@ -20,7 +19,6 @@ DEPENDENCIES:
   - AMCoreAudio (from `https://github.com/bitgapp/AMCoreAudio.git`, commit `f02015b7dfbaeb9b5f70b658e860afe94f85df9c`)
   - EmitterKit (~> 5.2.2)
   - KeychainSwift (~> 13.0)
-  - ReachabilitySwift
   - ReSwift
   - Sentry (~> 6.0)
   - Sparkle (~> 1.24)
@@ -36,7 +34,6 @@ SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
     - EmitterKit
     - KeychainSwift
-    - ReachabilitySwift
     - ReSwift
     - Sentry
     - Sparkle
@@ -67,7 +64,6 @@ SPEC CHECKSUMS:
   AMCoreAudio: d7fc6672b56df2ade8e77d08f3247d18d59697e3
   EmitterKit: e7a27b37118823d8ad413b8396f75e40d59f8cba
   KeychainSwift: 23d6c16cbc33f20fafa30c3d783241b4b87d998c
-  ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
   ReSwift: 628f1a9b3ee52e3b3ca2a644435472fd77afafe1
   Sentry: 388c9dc093b2fd3a264466a5c5b21e25959610a9
   Sparkle: 270cd27377bf04e9c128af06e3a22d0f572d6ee3
@@ -79,6 +75,6 @@ SPEC CHECKSUMS:
   WebViewJavascriptBridge: 7f5bc4d3581e672e8f32bd0f812d54bc69bb8e29
   Zip: 8877eede3dda76bcac281225c20e71c25270774c
 
-PODFILE CHECKSUM: f0af85f9b8677a916122f0489aaabf1ac78ea2da
+PODFILE CHECKSUM: cee823746742e10772f720624e2505a594a9dd6d
 
 COCOAPODS: 1.9.3

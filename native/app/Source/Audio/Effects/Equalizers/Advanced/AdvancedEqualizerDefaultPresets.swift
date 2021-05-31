@@ -30,7 +30,7 @@ struct AdvancedEqualizerPresetGains: Codable, DefaultsSerializable {
 
 let ADVANCED_EQUALIZER_DEFAULT_PRESETS: [String : [Double]] = [
   "Flat": Array(repeating: 0, count: 10),
-  "Accoustic": [
+  "Acoustic": [
     -8.3,
     9.8,
     -15.68,

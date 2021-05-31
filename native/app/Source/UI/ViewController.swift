@@ -16,8 +16,7 @@ class ViewController: NSViewController, WKNavigationDelegate {
   @IBOutlet var draggableView: DraggableView!
   @IBOutlet var loadingView: NSView!
   @IBOutlet var loadingSpinner: NSProgressIndicator!
-  
-  var loaded = Event<Void>()
+    
   var height: Double {
     get {
       return Double(webView.frame.size.height)
@@ -47,7 +46,6 @@ class ViewController: NSViewController, WKNavigationDelegate {
     webView.autoresizingMask = [.height, .width]
     view.addSubview(webView, positioned: .below, relativeTo: loadingView)
     loadingSpinner.startAnimation(nil)
-    loaded.emit()
   }
   
   func load (_ url: URL) {

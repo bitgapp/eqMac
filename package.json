@@ -3,8 +3,17 @@
   "version": "1.0.0",
   "description": "eqMac Monorepo",
   "main": ".eslintrc.js",
+  "private": true,
+  "workspaces": {
+    "packages": [
+      "modules/*",
+      "ui"
+    ],
+    "nohoist": ["modules/components"]
+  },
   "scripts": {
-    "lint": "npx eslint ."
+    "lint": "npx eslint .",
+    "modules-install": "cd modules/ && find . -maxdepth 1 -type d \\( ! -name . \\) -exec bash -c \"cd '{}' && npm i\" \\;"
   },
   "repository": {
     "type": "git",

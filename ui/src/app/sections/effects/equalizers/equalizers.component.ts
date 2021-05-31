@@ -100,8 +100,8 @@ export class EqualizersComponent implements OnInit, OnDestroy {
   }
 
   async setType (type: EqualizerType) {
-    this.type = type
     await this.equalizersService.setType(type)
+    this.type = type
     this.ui.dimensionsChanged.next()
   }
 

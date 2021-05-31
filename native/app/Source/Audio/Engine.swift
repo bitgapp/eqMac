@@ -165,7 +165,7 @@ class Engine {
   }
   
   private func setupListeners () {
-    eventListeners.append(effects.equalizers.typeChanged.on { _ in
+    eventListeners.append(Equalizers.typeChanged.on { _ in
       self.stop()
       Utilities.delay(100) {
         self.reattachEqualizer()

@@ -13,6 +13,7 @@ import SwiftyUserDefaults
 class EqualizersState: State {
   var enabled = true
   var type: EqualizerType = .basic
+  var previousType: EqualizerType?
   var basic = BasicEqualizerState()
   var advanced = AdvancedEqualizerState()
 }
@@ -26,6 +27,9 @@ func EqualizersStateReducer(action: Action, state: EqualizersState?) -> Equalize
   let state = state ?? EqualizersState()
   switch action as? EqualizersAction {
   case .setType(let type)?:
+    if (type != state.type) {
+      state.previousType = state.type
+    }
     state.type = type
   case .setEnabled(let enabled)?:
     state.enabled = enabled

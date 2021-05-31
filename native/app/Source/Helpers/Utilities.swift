@@ -17,7 +17,7 @@ class Utilities {
     return Bundle.main.infoDictionary![key] as! String
   }
   
-  static func delay (_ milliseconds: Int, completion: @escaping () -> ()) {
+  static func delay (_ milliseconds: UInt, completion: @escaping () -> ()) {
     DispatchQueue.main.asyncAfter(deadline: .now() + Double(milliseconds) / 1000) { completion() }
   }
 }

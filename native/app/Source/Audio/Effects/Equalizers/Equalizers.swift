@@ -32,8 +32,7 @@ let AllEqualizerTypes = [
 
 class Equalizers: Effect, StoreSubscriber {
   // MARK: - Events
-  var typeChanged = Event<EqualizerType>()
-  var gainChanged = Event<Double>()
+  static let typeChanged = Event<EqualizerType>()
   
   // MARK: - Properties
   private var _type: EqualizerType! {
@@ -82,7 +81,7 @@ class Equalizers: Effect, StoreSubscriber {
     }
     if (_type != state.type) {
       _type = state.type
-      typeChanged.emit(_type)
+      Equalizers.typeChanged.emit(_type)
     }
   }
   

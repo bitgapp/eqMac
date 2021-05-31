@@ -38,10 +38,10 @@ struct Constants {
   static let FULL_VOLUME_STEPS: [Double] = Array(stride(from: 0.0, through: 2.0, by: FULL_VOLUME_STEP))
   static let QUARTER_VOLUME_STEPS: [Double] = Array(stride(from: 0.0, through: 2.0, by: QUARTER_VOLUME_STEP))
   
-  static let TRANSITION_DURATION: Int = 500
+  static let TRANSITION_DURATION: UInt = 500
   static let TRANSITION_FPS: Double = 30
   static let TRANSITION_FRAME_DURATION: Double = 1000 / TRANSITION_FPS
-  static let TRANSITION_FRAME_COUNT = Int(round(TRANSITION_FPS * (Double(TRANSITION_DURATION) / 1000)))
+  static let TRANSITION_FRAME_COUNT = UInt(round(TRANSITION_FPS * (Double(TRANSITION_DURATION) / 1000)))
   static let SUPPORTED_TRANSPORT_TYPES = [
     TransportType.airPlay,
     TransportType.bluetooth,

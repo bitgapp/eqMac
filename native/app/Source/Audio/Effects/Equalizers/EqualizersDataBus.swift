@@ -8,12 +8,15 @@
 
 import Foundation
 import SwiftyJSON
+import EmitterKit
 
 class EqualizersDataBus: DataBus {
   var state: EqualizersState {
     return Application.store.state.effects.equalizers
   }
   
+  var typeChangedListener: EventListener<EqualizerType>?
+
   required init(route: String, bridge: Bridge) {
     super.init(route: route, bridge: bridge)
     
@@ -54,5 +57,9 @@ class EqualizersDataBus: DataBus {
     
     self.add("/basic", BasicEqualizerDataBus.self)
     self.add("/advanced", AdvancedEqualizerDataBus.self)
+
+    typeChangedListener = Equalizers.typeChanged.on { type in
+      self.send(to: "/type", data: [ "type": type.rawValue ])
+    }
   }
 }
