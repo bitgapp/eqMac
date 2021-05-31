@@ -97,4 +97,9 @@ class View: NSView {
     
   }
   
+  override var acceptsFirstResponder: Bool { true }
+  override func keyDown(with event: NSEvent) {
+    // This is an override to disable OS sound effects (beeps and boops) when pressing keys inside the view
+  }
+  
 }
