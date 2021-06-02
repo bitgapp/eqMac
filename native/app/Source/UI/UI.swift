@@ -125,16 +125,18 @@ class UI: StoreSubscriber {
   
   static var mode: UIMode = .window {
     willSet {
-      if (newValue == .popover) {
-        window.close()
-        window.contentViewController = nil
-        popover.popover.contentViewController = viewController
-        popover.show()
-      } else {
-        popover.hide()
-        popover.popover.contentViewController = nil
-        window.contentViewController = viewController
-        window.show()
+      DispatchQueue.main.async {
+        if (newValue == .popover) {
+          window.close()
+          window.contentViewController = nil
+          popover.popover.contentViewController = viewController
+          popover.show()
+        } else {
+          popover.hide()
+          popover.popover.contentViewController = nil
+          window.contentViewController = viewController
+          window.show()
+        }
       }
     }
   }
@@ -208,34 +210,38 @@ class UI: StoreSubscriber {
   static var statusItemClickedListener: EventListener<Void>!
   static var bridge: Bridge!
   
-  init () {
-    UI.window.contentView = UI.viewController.view
+  init (_ completion: @escaping () -> Void) {
+    DispatchQueue.main.async {
+      UI.window.contentView = UI.viewController.view
 
-    ({
-      UI.mode = Application.store.state.ui.mode
-      UI.width = Application.store.state.ui.width
-      UI.height = Application.store.state.ui.height
-    })()
-    
-    // TODO: Fix window position state saving (need to look if the current position is still accessible, what if the monitor isn't there anymore)
-    //        if let windowPosition = Application.store.state.ui.windowPosition {
-    //            window.position = windowPosition
-    //        }
-    setupStateListener()
-    UI.setupBridge()
-    UI.setupListeners()
-    UI.load()
-    
-    func checkIfVisible () {
-      let shown = UI.isShown
-      if (UI.cachedIsShown != shown) {
-        UI.cachedIsShown = shown
-        UI.isShownChanged.emit(shown)
+      ({
+        UI.mode = Application.store.state.ui.mode
+        UI.width = Application.store.state.ui.width
+        UI.height = Application.store.state.ui.height
+      })()
+
+      // TODO: Fix window position state saving (need to look if the current position is still accessible, what if the monitor isn't there anymore)
+      //        if let windowPosition = Application.store.state.ui.windowPosition {
+      //            window.position = windowPosition
+      //        }
+      self.setupStateListener()
+      UI.setupBridge()
+      UI.setupListeners()
+      UI.load()
+
+      func checkIfVisible () {
+        let shown = UI.isShown
+        if (UI.cachedIsShown != shown) {
+          UI.cachedIsShown = shown
+          UI.isShownChanged.emit(shown)
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: checkIfVisible)
       }
-      DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: checkIfVisible)
+
+      checkIfVisible()
+      completion()
     }
-    
-    checkIfVisible()
+
   }
   
   static func reload () {

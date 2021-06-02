@@ -344,8 +344,9 @@ class Application {
   
   private static func setupUI () {
     Console.log("Setting up UI")
-    ui = UI()
-    setupDataBus()
+    ui = UI {
+      setupDataBus()
+    }
   }
   
   private static func stopEngines () {

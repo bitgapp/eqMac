@@ -93,8 +93,9 @@ class Sources: NSObject {
                       }
                   }
                 }
+              } else {
+                callback()
               }
-              
             }
           } else {
             Application.quit()

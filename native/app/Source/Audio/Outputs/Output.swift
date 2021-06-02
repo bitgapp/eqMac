@@ -149,9 +149,9 @@ class Output {
     outputEngine.setOutputDevice(device)
     
     let outputSampleRate = device.actualSampleRate()!
-    let channels = device.channels(direction: Direction.playback)
-    let format = AVAudioFormat.init(standardFormatWithSampleRate: outputSampleRate, channels: channels)!
-    
+    Console.log(device.channels(direction: .playback))
+    let format = AVAudioFormat.init(standardFormatWithSampleRate: outputSampleRate, channels: 2)!
+
     varispeed.rate = Float(Driver.device!.actualSampleRate()! / outputSampleRate)
     intialCalcRate = varispeed.rate;
     Console.log("Varispeed Rate: \(varispeed.rate)")
