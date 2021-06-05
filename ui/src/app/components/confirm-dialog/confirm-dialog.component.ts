@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject, Input } from '@angular/core'
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material'
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
 
 export interface ConfirmDialogData {
   text: string
@@ -10,7 +10,7 @@ export interface ConfirmDialogData {
 @Component({
   selector: 'eqm-confirm-dialog',
   templateUrl: './confirm-dialog.component.html',
-  styleUrls: ['./confirm-dialog.component.scss']
+  styleUrls: [ './confirm-dialog.component.scss' ]
 })
 export class ConfirmDialogComponent implements OnInit {
   @Input() text: string
@@ -26,7 +26,7 @@ export class ConfirmDialogComponent implements OnInit {
 
   ngOnInit () {
     if (this.data) {
-      for (const [key, value] of Object.entries(this.data)) {
+      for (const [ key, value ] of Object.entries(this.data)) {
         this[key] = value || this[key]
       }
     }
@@ -43,5 +43,4 @@ export class ConfirmDialogComponent implements OnInit {
       this.dialogRef.close(true)
     }
   }
-
 }

@@ -1,0 +1,10 @@
+
+<div class="container" #container [ngStyle]="containerStyle">
+  <div class="groove" [ngStyle]="grooveStyle"></div>
+  <div class="groove-filling" [ngStyle]="grooveFillingStyle"></div>
+  <div class="thumbNotch" *ngIf="showMiddleNotch" [ngStyle]="thumbNotchStyle"></div>
+  <div *ngIf="notches?.length" class="notches">
+    <div *ngFor="let notch of notches; index as i" class="notch" [ngStyle]="getNotchStyle(i)"></div>
+  </div>
+  <div class="thumb" [ngStyle]="thumbStyle" (dblclick)="doubleclick()"></div>
+</div>

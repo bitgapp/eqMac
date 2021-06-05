@@ -16,7 +16,13 @@ export class EffectService extends DataService {
     return this.request({ method: 'POST', endpoint: '/enabled', data: { enabled } })
   }
 
-  onEnabledChanged (callback: (enabled: boolean) => void) {
-    this.on(`/enabled`, ({ enabled }) => callback(enabled))
+  onEnabledChanged (callback: EffectEnabledChangedEventCallback) {
+    this.on('/enabled', callback)
+  }
+
+  offEnabledChanged (callback: EffectEnabledChangedEventCallback) {
+    this.off('/enabled', callback)
   }
 }
+
+export type EffectEnabledChangedEventCallback = (data: { enabled: boolean }) => void

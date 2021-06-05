@@ -24,27 +24,27 @@ export class AdvancedEqualizerService extends EqualizersService {
   }
 
   createPreset (preset: AdvancedEqualizerPreset, select: boolean = false) {
-    return this.request({ method: 'POST', endpoint: `/presets`, data: { ...preset, select } })
+    return this.request({ method: 'POST', endpoint: '/presets', data: { ...preset, select } })
   }
 
   updatePreset (preset: AdvancedEqualizerPreset, opts?: { select?: boolean, transition?: boolean }) {
     return this.request({
       method: 'POST',
-      endpoint: `/presets`,
+      endpoint: '/presets',
       data: {
         ...preset,
-        select: opts && opts.select,
-        transition: opts && opts.transition
+        select: opts?.select,
+        transition: opts?.transition
       }
     })
   }
 
   selectPreset (preset: AdvancedEqualizerPreset) {
-    return this.request({ method: 'POST', endpoint: `/presets/select`, data: { ...preset } })
+    return this.request({ method: 'POST', endpoint: '/presets/select', data: { ...preset } })
   }
 
   deletePreset (preset: AdvancedEqualizerPreset) {
-    return this.request({ method: 'DELETE', endpoint: `/presets`, data: { ...preset } })
+    return this.request({ method: 'DELETE', endpoint: '/presets', data: { ...preset } })
   }
 
   async getImportLegacyAvailable () {
@@ -80,11 +80,22 @@ export class AdvancedEqualizerService extends EqualizersService {
     return this.request({ method: 'POST', endpoint: '/settings/show-default-presets', data: { show } })
   }
 
-  onPresetsChanged (callback: (presets: AdvancedEqualizerPreset[]) => void) {
-    this.on(`/presets`, (presets) => callback(presets))
+  onPresetsChanged (callback: AdvancedEqualizerPresetsChangedEventCallback) {
+    this.on('/presets', callback)
   }
 
-  onSelectedPresetChanged (callback: (preset: AdvancedEqualizerPreset) => void) {
-    this.on(`/presets/selected`, (preset) => callback(preset))
+  offPresetsChanged (callback: AdvancedEqualizerPresetsChangedEventCallback) {
+    this.off('/presets', callback)
+  }
+
+  onSelectedPresetChanged (callback: AdvancedEqualizerSelectedPresetChangedEventCallback) {
+    this.on('/presets/selected', callback)
+  }
+
+  offSelectedPresetChanged (callback: AdvancedEqualizerSelectedPresetChangedEventCallback) {
+    this.off('/presets/selected', callback)
   }
 }
+
+export type AdvancedEqualizerPresetsChangedEventCallback = (presets: AdvancedEqualizerPreset[]) => void
+export type AdvancedEqualizerSelectedPresetChangedEventCallback = (preset: AdvancedEqualizerPreset) => void

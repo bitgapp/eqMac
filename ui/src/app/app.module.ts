@@ -10,16 +10,12 @@ import {
 } from './app.component'
 
 import {
-  environment
-} from '../environments/environment'
-
-import {
   FlexLayoutModule
 } from '@angular/flex-layout'
 
 import {
-  EqmacComponentsModule
-} from './modules/eqmac-components/eqmac-components.module'
+  ComponentsModule
+} from '@eqmac/components'
 
 import { PipesModule } from './modules/pipes/pipes.module'
 
@@ -42,9 +38,6 @@ import {
 import {
   EqualizersComponent
 } from './sections/effects/equalizers/equalizers.component'
-import {
-  ReverbComponent
-} from './sections/effects/reverb/reverb.component'
 import {
   RecorderComponent
 } from './sections/recorder/recorder.component'
@@ -70,20 +63,17 @@ import {
 import {
   VolumeBoosterBalanceComponent
 } from './sections/volume/booster-balance/volume-booster-balance.component'
-import {
-  VolumeMixerComponent
-} from './sections/volume/volume-mixer/volume-mixer.component'
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { SettingsComponent } from './sections/settings/settings.component'
-import { ClickOutsideModule } from 'ng-click-outside'
 import { OptionsComponent } from './components/options/options.component'
 import { HelpComponent } from './sections/help/help.component'
-import { MatDialogModule } from '@angular/material'
+import { MatDialogModule } from '@angular/material/dialog'
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component'
 import { EqualizerPresetsComponent } from './sections/effects/equalizers/presets/equalizer-presets.component'
 import { PromptDialogComponent } from './components/prompt-dialog/prompt-dialog.component'
 import { OptionsDialogComponent } from './components/options-dialog/options-dialog.component'
+import { MatSnackBarModule } from '@angular/material/snack-bar'
 
 @NgModule({
   imports: [
@@ -91,10 +81,10 @@ import { OptionsDialogComponent } from './components/options-dialog/options-dial
     BrowserAnimationsModule,
     FlexLayoutModule,
     PipesModule,
-    EqmacComponentsModule,
+    ComponentsModule,
     MatDialogModule,
-    BrowserModule,
-    ClickOutsideModule
+    MatSnackBarModule,
+    BrowserModule
   ],
   entryComponents: [
     ConfirmDialogComponent,
@@ -108,7 +98,6 @@ import { OptionsDialogComponent } from './components/options-dialog/options-dial
     BoosterComponent,
     BalanceComponent,
     EqualizersComponent,
-    ReverbComponent,
     RecorderComponent,
     OutputsComponent,
     InputComponent,
@@ -117,7 +106,6 @@ import { OptionsDialogComponent } from './components/options-dialog/options-dial
     BasicEqualizerComponent,
     AdvancedEqualizerComponent,
     VolumeBoosterBalanceComponent,
-    VolumeMixerComponent,
     SettingsComponent,
     OptionsComponent,
     HelpComponent,
@@ -127,6 +115,6 @@ import { OptionsDialogComponent } from './components/options-dialog/options-dial
     OptionsDialogComponent
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [ AppComponent ]
 })
 export class AppModule {}

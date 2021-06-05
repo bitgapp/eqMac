@@ -16,8 +16,7 @@ class ViewController: NSViewController, WKNavigationDelegate {
   @IBOutlet var draggableView: DraggableView!
   @IBOutlet var loadingView: NSView!
   @IBOutlet var loadingSpinner: NSProgressIndicator!
-  
-  var loaded = Event<Void>()
+    
   var height: Double {
     get {
       return Double(webView.frame.size.height)
@@ -47,7 +46,6 @@ class ViewController: NSViewController, WKNavigationDelegate {
     webView.autoresizingMask = [.height, .width]
     view.addSubview(webView, positioned: .below, relativeTo: loadingView)
     loadingSpinner.startAnimation(nil)
-    loaded.emit()
   }
   
   func load (_ url: URL) {
@@ -95,6 +93,11 @@ class View: NSView {
     //
     //        frameView.addSubview(backgroundView, positioned: .below, relativeTo: frameView)
     
+  }
+  
+  override var acceptsFirstResponder: Bool { true }
+  override func keyDown(with event: NSEvent) {
+    // This is an override to disable OS sound effects (beeps and boops) when pressing keys inside the view
   }
   
 }

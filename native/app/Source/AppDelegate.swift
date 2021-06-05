@@ -24,7 +24,17 @@ class AppDelegate: NSObject, NSApplicationDelegate, SUUpdaterDelegate {
     updateProcessed.once { _ in
       Application.start()
     }
-    updater.checkForUpdatesInBackground()
+    
+    Networking.isConnected { connected in
+      if (connected) {
+        self.updater.checkForUpdatesInBackground()
+      } else {
+        self.updateProcessed.emit()
+      }
+    }
+    Utilities.delay(2000) {
+      self.updateProcessed.emit()
+    }
   }
   
   func applicationWillTerminate(_ aNotification: Notification) {
@@ -41,7 +51,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, SUUpdaterDelegate {
   }
   
   func applicationDidBecomeActive(_ notification: Notification) {
-    
+    UI.show()
   }
   
   func updaterDidNotFindUpdate(_ updater: SUUpdater) {

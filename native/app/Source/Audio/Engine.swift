@@ -18,7 +18,7 @@ class Engine {
   let sources: Sources
   let effects: Effects
   let volume: Volume
-  var equalizerNodes: [AVAudioNode] = []
+  var attachedEqualizer: Equalizer?
   
   var format: AVAudioFormat!
   var engine: AVAudioEngine!
@@ -94,24 +94,26 @@ class Engine {
   }
   
   private func attachEffects () {
-    attachEqualizers()
+    attachEqualizer()
   }
   
-  private func attachEqualizers () {
-    equalizerNodes = []
+  private func attachEqualizer () {
     engine.attach(effects.equalizers.active.eq)
+    attachedEqualizer = effects.equalizers.active
+    effects.equalizers.active.wasAttachedTo(engine: self)
   }
   
-  private func detachEqualizers () {
-    for node in equalizerNodes {
-      engine.detach(node)
+  private func detachEqualizer () {
+    if attachedEqualizer != nil {
+      engine.detach(attachedEqualizer!.eq)
+      attachedEqualizer?.wasDetachedFrom(engine: self)
+      attachedEqualizer = nil
     }
-    equalizerNodes = []
   }
   
-  private func reattachEqualizers () {
-    detachEqualizers()
-    attachEqualizers()
+  private func reattachEqualizer () {
+    detachEqualizer()
+    attachEqualizer()
   }
   
   private func attachVolume () {
@@ -163,10 +165,10 @@ class Engine {
   }
   
   private func setupListeners () {
-    eventListeners.append(effects.equalizers.typeChanged.on { _ in
+    eventListeners.append(Equalizers.typeChanged.on { _ in
       self.stop()
       Utilities.delay(100) {
-        self.reattachEqualizers()
+        self.reattachEqualizer()
         self.chain()
         self.start()
       }

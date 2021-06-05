@@ -4,7 +4,7 @@ import { UtilitiesService } from '../../services/utilities.service'
 @Component({
   selector: 'eqm-recorder',
   templateUrl: './recorder.component.html',
-  styleUrls: ['./recorder.component.scss']
+  styleUrls: [ './recorder.component.scss' ]
 })
 export class RecorderComponent implements OnInit {
   recording = false
@@ -29,5 +29,4 @@ export class RecorderComponent implements OnInit {
       }, 1000)
     }
   }
-
 }

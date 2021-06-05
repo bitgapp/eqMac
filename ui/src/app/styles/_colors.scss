@@ -1,6 +1,89 @@
 $accent: #4f8d71;
-$warning: #e80415;
-$gradient-start: rgb(90, 91, 95);
-$gradient-end: #2c2c2e;
+::ng-deep .accent {
+  color: $accent !important;
+}
+
+::ng-deep .accent-bg {
+  background-color: $accent !important;
+}
+
+$accent-light: #4DAD82;
+::ng-deep .accent-light {
+  color: $accent-light !important;
+}
+
+::ng-deep .accent-light-bg {
+  background-color: $accent-light !important;
+}
+
+$warning: #eb3f42;
+::ng-deep .warning {
+  color: $warning !important;
+}
+
+::ng-deep .warning-bg {
+  background-color: $warning !important;
+}
+
+$gradient-start: #5a5b5f;
+::ng-deep .gradient-start {
+  color: $gradient-start !important;
+}
+
+::ng-deep .gradient-start-bg {
+  background-color: $gradient-start !important;
+}
+
+$gradient-end: rgb(44, 44, 46);
+::ng-deep .gradient-end {
+  color: $gradient-end !important;
+}
+
+::ng-deep .gradient-end-bg {
+  background-color: $gradient-end !important;
+}
+
+$icon-gradient-start: #05FF71;
+::ng-deep .icon-gradient-start {
+  color: $icon-gradient-start !important;
+}
+
+::ng-deep .icon-gradient-start-bg {
+  background-color: $icon-gradient-start !important;
+}
+
+$icon-gradient-middle: #03F193;
+::ng-deep .icon-gradient-middle {
+  color: $icon-gradient-middle !important;
+}
+
+::ng-deep .icon-gradient-middle-bg {
+  background-color: $icon-gradient-middle !important;
+}
+
+$icon-gradient-end: #04E2B5;
+::ng-deep .icon-gradient-end {
+  color: $icon-gradient-end !important;
+}
+
+::ng-deep .icon-gradient-end-bg {
+  background-color: $icon-gradient-end !important;
+}
+
 $light: #c9cdd0;
-$dark: #16191c;
+::ng-deep .light {
+  color: $light !important;
+}
+
+::ng-deep .light-bg {
+  background-color: $light !important;
+}
+
+$dark: rgb(22, 25, 28);
+::ng-deep .dark {
+  color: $dark !important;
+}
+
+::ng-deep .dark-bg {
+  background-color: $dark !important;
+}

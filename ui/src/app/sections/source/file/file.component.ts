@@ -7,6 +7,8 @@ import {
   UtilitiesService
 } from '../../../services/utilities.service'
 import {
+  FilePlayingChangedEventCallback,
+  FileProgressChangedEventCallback,
   FileService
 } from './file.service'
 import { ApplicationService } from '../../../services/app.service'
@@ -19,7 +21,7 @@ interface FileMeta {
 @Component({
   selector: 'eqm-file',
   templateUrl: './file.component.html',
-  styleUrls: ['./file.component.scss']
+  styleUrls: [ './file.component.scss' ]
 })
 
 export class FileComponent implements OnInit, OnDestroy {
@@ -27,6 +29,7 @@ export class FileComponent implements OnInit, OnDestroy {
     name: null,
     duration: 0
   }
+
   public syncedOnce = false
   public progressProjectionInterval = null
   public progressSetDebouncer = null
@@ -48,6 +51,7 @@ export class FileComponent implements OnInit, OnDestroy {
     if (this.progressProjectionInterval) {
       clearInterval(this.progressProjectionInterval)
     }
+    this.destroyEvents()
   }
 
   public setDefaultMeta () {
@@ -95,14 +99,13 @@ export class FileComponent implements OnInit, OnDestroy {
     ]
     if (this.selected || !this.syncedOnce) {
       thingsToSync.push(
-          this.getFile(),
-          this.getProgress(),
-          this.getPlaybackState()
-        )
+        this.getFile(),
+        this.getProgress(),
+        this.getPlaybackState()
+      )
     }
     await Promise.all(thingsToSync)
     this.syncedOnce = true
-
   }
 
   async getSelected () {
@@ -112,6 +115,7 @@ export class FileComponent implements OnInit, OnDestroy {
       this.selected = false
     }
   }
+
   async getFile () {
     try {
       this.meta = await this.fileService.getMeta()
@@ -150,13 +154,23 @@ export class FileComponent implements OnInit, OnDestroy {
     }, 10)
   }
 
-  protected setupEvents () {
-    this.fileService.onPlayingChanged(playing => {
-      this.playing = playing
-    })
+  private onPlayingChangedEventCallback: FilePlayingChangedEventCallback
+  private onProgressChangedEventCallback: FileProgressChangedEventCallback
 
-    this.fileService.onProgressChanged(progress => {
+  protected setupEvents () {
+    this.onPlayingChangedEventCallback = ({ playing }) => {
+      this.playing = playing
+    }
+    this.fileService.onPlayingChanged(this.onPlayingChangedEventCallback)
+
+    this.onProgressChangedEventCallback = ({ progress }) => {
       this.progress = progress
-    })
+    }
+    this.fileService.onProgressChanged(this.onProgressChangedEventCallback)
+  }
+
+  private destroyEvents () {
+    this.fileService.offPlayingChanged(this.onPlayingChangedEventCallback)
+    this.fileService.offProgressChanged(this.onProgressChangedEventCallback)
   }
 }

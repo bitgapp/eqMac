@@ -31,7 +31,7 @@ export class SettingsService extends DataService {
     return this.request({ method: 'POST', endpoint: '/icon-mode', data: { mode } })
   }
 
-    // async getMode () {
+  // async getMode () {
   //   const { mode } = await this.request({ method: 'GET', endpoint: '/mode' })
   //   return mode as UIMode
   // }

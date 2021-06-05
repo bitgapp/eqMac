@@ -13,6 +13,7 @@ class Window: NSWindow, NSWindowDelegate {
   override init(contentRect: NSRect, styleMask style: NSWindow.StyleMask, backing backingStoreType: NSWindow.BackingStoreType, defer flag: Bool) {
     super.init(contentRect: contentRect, styleMask: style, backing: backingStoreType, defer: flag)
     
+    self.delegate = self
     self.isOneShot = false
     self.titleVisibility = .hidden
     self.titlebarAppearsTransparent = true
@@ -32,9 +33,12 @@ class Window: NSWindow, NSWindowDelegate {
     })
   }
   
+  func windowDidChangeOcclusionState(_ notification: Notification) {
+    // occlusionState.contains(.visible)
+  }
   var isShown: Bool {
     get {
-      return self.isVisible
+      return self.isVisible && self.occlusionState.contains(.visible)
     }
     set {
       let show = newValue
@@ -102,7 +106,7 @@ class Window: NSWindow, NSWindowDelegate {
   // MARK: -  Public functions
   
   func show() {
-    self.makeKeyAndOrderFront(nil)
+    self.makeKeyAndOrderFront(UI.viewController.webView)
   }
   
   func hide() {
@@ -114,7 +118,7 @@ class Window: NSWindow, NSWindowDelegate {
   }
   
   override var isMainWindow: Bool {
-    return super.isMainWindow || (self.parent?.isMainWindow ?? false)
+    return super.isMainWindow || (self.parent?.isMainWindow ?? true)
   }
   
   override var canBecomeKey: Bool {
@@ -122,7 +126,7 @@ class Window: NSWindow, NSWindowDelegate {
   }
   
   override var isKeyWindow: Bool {
-    return super.isKeyWindow || (self.parent?.isKeyWindow ?? false)
+    return super.isKeyWindow || (self.parent?.isKeyWindow ?? true)
   }
   
   override func performDrag(with event: NSEvent) {

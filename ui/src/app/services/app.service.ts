@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core'
+import { AppComponent } from '../app.component'
 import { DataService } from './data.service'
 
 export interface MacInfo {
@@ -11,6 +12,8 @@ export interface MacInfo {
   providedIn: 'root'
 })
 export class ApplicationService extends DataService {
+  ref?: AppComponent
+
   getMacInfo (): Promise<MacInfo> {
     return this.request({ method: 'GET', endpoint: '/info' })
   }

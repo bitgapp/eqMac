@@ -1,12 +1,12 @@
 @import "./styles/colors";
 
 ::ng-deep *:not(input) {
-  user-select: none !important;
-  -moz-user-select: none !important;
-  -khtml-user-select: none !important;
-  -webkit-user-select: none !important;
-  -o-user-select: none !important;
-  cursor: default !important;
+  user-select: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+  cursor: default;
 
   &::-webkit-scrollbar {
     display: none;
@@ -82,6 +82,7 @@ $noise: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAYAAAA6/NlyA
 
   .dropdown-section {
     width: 100%;
+    box-sizing: border-box;
     position: absolute;
     z-index: 4;
     transform-origin: right top;

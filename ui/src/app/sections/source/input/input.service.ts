@@ -20,7 +20,13 @@ export class InputService extends SourceService {
     return this.request({ method: 'POST', endpoint: '/device', data: { deviceId } })
   }
 
-  onDeviceChanged (callback: (deviceId: number) => void) {
-    this.on(({ deviceId }) => callback(deviceId))
+  onDeviceChanged (callback: InputDeviceChangedEventCallback) {
+    this.on(callback)
+  }
+
+  offDeviceChanged (callback: InputDeviceChangedEventCallback) {
+    this.off(callback)
   }
 }
+
+export type InputDeviceChangedEventCallback = (data: { deviceId: number }) => void

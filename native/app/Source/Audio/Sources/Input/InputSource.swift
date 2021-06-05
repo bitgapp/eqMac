@@ -34,7 +34,9 @@ class InputSource {
   
   static func requestPermission (_ callback: @escaping (Bool) -> Void) {
     if #available(OSX 10.14, *) {
-      AVCaptureDevice.requestAccess(for: AVMediaType.audio, completionHandler: callback)
+      AVCaptureDevice.requestAccess(for: AVMediaType.audio) { granted in
+        callback(granted)
+      }
     } else {
       callback(true)
     }

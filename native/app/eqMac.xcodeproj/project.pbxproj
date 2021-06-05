@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		78242E96261A8AEE00058ADE /* Connectivity in Frameworks */ = {isa = PBXBuildFile; productRef = 78242E95261A8AEE00058ADE /* Connectivity */; };
 		7858FBC224A9630800637941 /* restart_mac.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 7858FBC124A9630800637941 /* restart_mac.scpt */; };
 		787474A925336D9200FF4A95 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 787474A825336D9200FF4A95 /* CoreFoundation.framework */; };
 		789F83CF250E20A8004F871D /* restart_coreaudio.sh in Resources */ = {isa = PBXBuildFile; fileRef = 789F83CE250E20A8004F871D /* restart_coreaudio.sh */; };
@@ -22,8 +23,6 @@
 		E00618E220F14C08003BA0B0 /* UIState.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00618E120F14C08003BA0B0 /* UIState.swift */; };
 		E00618EB20F22BD1003BA0B0 /* Effect.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00618EA20F22BD1003BA0B0 /* Effect.swift */; };
 		E00618ED20F292B9003BA0B0 /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00618EC20F292B9003BA0B0 /* Networking.swift */; };
-		E00C595923BBB8B000C7B8B6 /* RingBufferTimeBounds.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00C595823BBB8B000C7B8B6 /* RingBufferTimeBounds.swift */; };
-		E00C595B23BBB96100C7B8B6 /* RingBufferOffsets.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00C595A23BBB96100C7B8B6 /* RingBufferOffsets.swift */; };
 		E00C595D23BBBB6C00C7B8B6 /* UnsafeMutableAudioBufferListPointer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00C595C23BBBB6C00C7B8B6 /* UnsafeMutableAudioBufferListPointer.swift */; };
 		E00C596623BBBF3100C7B8B6 /* Atomic.m in Sources */ = {isa = PBXBuildFile; fileRef = E00C596523BBBF3100C7B8B6 /* Atomic.m */; };
 		E012A46E2044BC200029C800 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E012A46D2044BC200029C800 /* StringExtensions.swift */; };
@@ -44,7 +43,6 @@
 		E0267AFA218ADD9500FB2E5A /* install_driver.sh in Resources */ = {isa = PBXBuildFile; fileRef = E0DDF3FC2189021300B37E77 /* install_driver.sh */; };
 		E0267AFD218AE39500FB2E5A /* Script.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0267AFC218AE39500FB2E5A /* Script.swift */; };
 		E02ACA982459EF3B00754204 /* Pods_eqMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C0FBD24DF0BA400D806B8AC /* Pods_eqMac.framework */; };
-		E02B922C219843DF00AC130B /* open_privacy_microphone_settings.scpt in Resources */ = {isa = PBXBuildFile; fileRef = E02B922B219843DA00AC130B /* open_privacy_microphone_settings.scpt */; };
 		E02B922E219CBCD800AC130B /* AudioDeviceEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = E02B922D219CBCD800AC130B /* AudioDeviceEvents.swift */; };
 		E02FF91622C7EC6C0051342A /* Transition.swift in Sources */ = {isa = PBXBuildFile; fileRef = E02FF91522C7EC6C0051342A /* Transition.swift */; };
 		E02FF91822C8E87D0051342A /* Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = E02FF91722C8E87D0051342A /* Time.swift */; };
@@ -63,7 +61,6 @@
 		E057A637227032EC0019D13C /* EngineDataBus.swift in Sources */ = {isa = PBXBuildFile; fileRef = E057A636227032EC0019D13C /* EngineDataBus.swift */; };
 		E057A639227038B80019D13C /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = E057A638227038B80019D13C /* Settings.swift */; };
 		E057A63B22703F590019D13C /* BasicEqualizerDataBus.swift in Sources */ = {isa = PBXBuildFile; fileRef = E057A63A22703F590019D13C /* BasicEqualizerDataBus.swift */; };
-		E057A641227043EF0019D13C /* DataBusEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = E057A640227043EF0019D13C /* DataBusEvent.swift */; };
 		E057A6472270582C0019D13C /* EqualizersDataBus.swift in Sources */ = {isa = PBXBuildFile; fileRef = E057A6462270582C0019D13C /* EqualizersDataBus.swift */; };
 		E057A64922710F2B0019D13C /* AdvancedEqualizerDataBus.swift in Sources */ = {isa = PBXBuildFile; fileRef = E057A64822710F2B0019D13C /* AdvancedEqualizerDataBus.swift */; };
 		E057A64D2271A6DD0019D13C /* VolumeDataBus.swift in Sources */ = {isa = PBXBuildFile; fileRef = E057A64C2271A6DD0019D13C /* VolumeDataBus.swift */; };
@@ -85,7 +82,6 @@
 		E089AC492095E0B1005B72E5 /* Console.swift in Sources */ = {isa = PBXBuildFile; fileRef = E089AC482095E0B1005B72E5 /* Console.swift */; };
 		E090AD5820A9725F003BE5FF /* Volume.swift in Sources */ = {isa = PBXBuildFile; fileRef = E090AD5720A9725F003BE5FF /* Volume.swift */; };
 		E090AD5A20A972DE003BE5FF /* BasicEqualizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E090AD5920A972DE003BE5FF /* BasicEqualizer.swift */; };
-		E095BBC42014D999003473E9 /* RingBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E095BBC32014D999003473E9 /* RingBuffer.swift */; };
 		E095BBC62014E4A1003473E9 /* NumericTypesConversions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E095BBC52014E4A1003473E9 /* NumericTypesConversions.swift */; };
 		E09C17201FEC1969008E65A4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E09C171F1FEC1969008E65A4 /* Main.storyboard */; };
 		E0A3B96120DF8FE500E46908 /* Effects.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A3B96020DF8FE500E46908 /* Effects.swift */; };
@@ -129,6 +125,7 @@
 		454077A0596E209B8ABF4043 /* Pods-eqMac.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-eqMac.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-eqMac/Pods-eqMac.debug.xcconfig"; sourceTree = "<group>"; };
 		7858FBC124A9630800637941 /* restart_mac.scpt */ = {isa = PBXFileReference; lastKnownFileType = file; path = restart_mac.scpt; sourceTree = "<group>"; };
 		787474A825336D9200FF4A95 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		788732FA266700DF0093CBB5 /* eqMac.debug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = eqMac.debug.entitlements; sourceTree = "<group>"; };
 		789F83CE250E20A8004F871D /* restart_coreaudio.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = restart_coreaudio.sh; sourceTree = "<group>"; };
 		789F83D0250E20DD004F871D /* place_driver.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = place_driver.sh; sourceTree = "<group>"; };
 		789F83D2250E2164004F871D /* check_driver_installed.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = check_driver_installed.sh; sourceTree = "<group>"; };
@@ -143,8 +140,6 @@
 		E00618E120F14C08003BA0B0 /* UIState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIState.swift; sourceTree = "<group>"; };
 		E00618EA20F22BD1003BA0B0 /* Effect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Effect.swift; sourceTree = "<group>"; };
 		E00618EC20F292B9003BA0B0 /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
-		E00C595823BBB8B000C7B8B6 /* RingBufferTimeBounds.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingBufferTimeBounds.swift; sourceTree = "<group>"; };
-		E00C595A23BBB96100C7B8B6 /* RingBufferOffsets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingBufferOffsets.swift; sourceTree = "<group>"; };
 		E00C595C23BBBB6C00C7B8B6 /* UnsafeMutableAudioBufferListPointer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnsafeMutableAudioBufferListPointer.swift; sourceTree = "<group>"; };
 		E00C596423BBBF3100C7B8B6 /* Atomic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Atomic.h; sourceTree = "<group>"; };
 		E00C596523BBBF3100C7B8B6 /* Atomic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Atomic.m; sourceTree = "<group>"; };
@@ -164,7 +159,6 @@
 		E02662EF22BC3239006B486C /* NSSavePanelExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSSavePanelExtensions.swift; sourceTree = "<group>"; };
 		E0267AF5218ADD6000FB2E5A /* uninstall_driver.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = uninstall_driver.sh; sourceTree = "<group>"; };
 		E0267AFC218AE39500FB2E5A /* Script.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Script.swift; sourceTree = "<group>"; };
-		E02B922B219843DA00AC130B /* open_privacy_microphone_settings.scpt */ = {isa = PBXFileReference; lastKnownFileType = file; path = open_privacy_microphone_settings.scpt; sourceTree = "<group>"; };
 		E02B922D219CBCD800AC130B /* AudioDeviceEvents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioDeviceEvents.swift; sourceTree = "<group>"; };
 		E02FF91522C7EC6C0051342A /* Transition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transition.swift; sourceTree = "<group>"; };
 		E02FF91722C8E87D0051342A /* Time.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Time.swift; sourceTree = "<group>"; };
@@ -184,7 +178,6 @@
 		E057A636227032EC0019D13C /* EngineDataBus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EngineDataBus.swift; sourceTree = "<group>"; };
 		E057A638227038B80019D13C /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		E057A63A22703F590019D13C /* BasicEqualizerDataBus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicEqualizerDataBus.swift; sourceTree = "<group>"; };
-		E057A640227043EF0019D13C /* DataBusEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBusEvent.swift; sourceTree = "<group>"; };
 		E057A6462270582C0019D13C /* EqualizersDataBus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EqualizersDataBus.swift; sourceTree = "<group>"; };
 		E057A64822710F2B0019D13C /* AdvancedEqualizerDataBus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedEqualizerDataBus.swift; sourceTree = "<group>"; };
 		E057A64C2271A6DD0019D13C /* VolumeDataBus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeDataBus.swift; sourceTree = "<group>"; };
@@ -210,7 +203,6 @@
 		E089AC482095E0B1005B72E5 /* Console.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Console.swift; sourceTree = "<group>"; };
 		E090AD5720A9725F003BE5FF /* Volume.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Volume.swift; sourceTree = "<group>"; };
 		E090AD5920A972DE003BE5FF /* BasicEqualizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicEqualizer.swift; sourceTree = "<group>"; };
-		E095BBC32014D999003473E9 /* RingBuffer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RingBuffer.swift; sourceTree = "<group>"; };
 		E095BBC52014E4A1003473E9 /* NumericTypesConversions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumericTypesConversions.swift; sourceTree = "<group>"; };
 		E09C171F1FEC1969008E65A4 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		E0A3B96020DF8FE500E46908 /* Effects.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Effects.swift; sourceTree = "<group>"; };
@@ -248,6 +240,7 @@
 				787474A925336D9200FF4A95 /* CoreFoundation.framework in Frameworks */,
 				E02ACA982459EF3B00754204 /* Pods_eqMac.framework in Frameworks */,
 				E0F661711FDC38BE00252923 /* WebKit.framework in Frameworks */,
+				78242E96261A8AEE00058ADE /* Connectivity in Frameworks */,
 				78D8C3322569B2910084739C /* LaunchAtLogin in Frameworks */,
 				E0453056245A03E800CDB1BF /* Foundation.framework in Frameworks */,
 				78D8C3332569B3000084739C /* AudioToolbox.framework in Frameworks */,
@@ -258,6 +251,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7811AEF6261A6B86005BDAE3 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				E00618EC20F292B9003BA0B0 /* Networking.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
 		A433E835860EBA2247574C67 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -283,16 +284,6 @@
 				E072856A23F84A5500EDE8AC /* BoolExtensions.swift */,
 			);
 			path = Extensions;
-			sourceTree = "<group>";
-		};
-		E00C595723BBB84900C7B8B6 /* RingBuffer */ = {
-			isa = PBXGroup;
-			children = (
-				E095BBC32014D999003473E9 /* RingBuffer.swift */,
-				E00C595823BBB8B000C7B8B6 /* RingBufferTimeBounds.swift */,
-				E00C595A23BBB96100C7B8B6 /* RingBufferOffsets.swift */,
-			);
-			path = RingBuffer;
 			sourceTree = "<group>";
 		};
 		E00C596123BBBEA800C7B8B6 /* Vendor */ = {
@@ -360,7 +351,6 @@
 		E036BCE8235B09CB001F057B /* DataBus */ = {
 			isa = PBXGroup;
 			children = (
-				E057A640227043EF0019D13C /* DataBusEvent.swift */,
 				E036BCE623598772001F057B /* DataBus.swift */,
 			);
 			path = DataBus;
@@ -370,6 +360,7 @@
 			isa = PBXGroup;
 			children = (
 				E0A48D6123C5FB6B00700C39 /* eqMac.entitlements */,
+				788732FA266700DF0093CBB5 /* eqMac.debug.entitlements */,
 				E05901ED2221F21E006B93A5 /* Sandbox.playground */,
 				E0F661751FDCA05F00252923 /* Source */,
 				E0F661741FDCA01F00252923 /* Supporting Files */,
@@ -407,18 +398,17 @@
 				E05559841FF64CF6009EE4B7 /* BitOperations.swift */,
 				E0A3B96220DF992600E46908 /* Buffer.swift */,
 				E07A24E51FF3D4E4007AEF20 /* CheckErr.swift */,
-				E00618EC20F292B9003BA0B0 /* Networking.swift */,
-				E095BBC52014E4A1003473E9 /* NumericTypesConversions.swift */,
 				E089AC482095E0B1005B72E5 /* Console.swift */,
+				E0D1A0D9249E191700BBC742 /* eqMac2.swift */,
+				E0ECA88923B7F816002AFBF0 /* ExceptionCatcher.h */,
+				E07A6EE022B6BA4E00DE7B16 /* File.swift */,
+				E095BBC52014E4A1003473E9 /* NumericTypesConversions.swift */,
 				E0267AFC218AE39500FB2E5A /* Script.swift */,
 				E0C5629820A75BAD000902ED /* Storage.swift */,
-				E012A46F2044C4DA0029C800 /* Sysctl.swift */,
-				E01F2F5C203391EA005123BE /* Utilities.swift */,
-				E07A6EE022B6BA4E00DE7B16 /* File.swift */,
-				E02FF91722C8E87D0051342A /* Time.swift */,
-				E0ECA88923B7F816002AFBF0 /* ExceptionCatcher.h */,
 				E0AAD9D9249C109000D58099 /* SwiftyPing.swift */,
-				E0D1A0D9249E191700BBC742 /* eqMac2.swift */,
+				E012A46F2044C4DA0029C800 /* Sysctl.swift */,
+				E02FF91722C8E87D0051342A /* Time.swift */,
+				E01F2F5C203391EA005123BE /* Utilities.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -447,7 +437,6 @@
 				E01B1BB3235E449000CC58E5 /* Sources */,
 				E0AD99DA225114C600D893F7 /* Volume */,
 				E090AD5B20A9F13E003BE5FF /* Effects */,
-				E00C595723BBB84900C7B8B6 /* RingBuffer */,
 				E0AD99DB2251151F00D893F7 /* Outputs */,
 				E02B922D219CBCD800AC130B /* AudioDeviceEvents.swift */,
 				E057A636227032EC0019D13C /* EngineDataBus.swift */,
@@ -509,12 +498,12 @@
 			path = Settings;
 			sourceTree = "<group>";
 		};
-		E0DD0A8220E58C0900B14020 /* Models */ = {
+		E0DD0A8220E58C0900B14020 /* User */ = {
 			isa = PBXGroup;
 			children = (
 				E017A0081FF055B50019BBF1 /* User.swift */,
 			);
-			path = Models;
+			path = User;
 			sourceTree = "<group>";
 		};
 		E0DD0A9920E7FF2D00B14020 /* Equalizers */ = {
@@ -533,7 +522,6 @@
 		E0DDF3FB218901E700B37E77 /* Scripts */ = {
 			isa = PBXGroup;
 			children = (
-				E02B922B219843DA00AC130B /* open_privacy_microphone_settings.scpt */,
 				7858FBC124A9630800637941 /* restart_mac.scpt */,
 				E0DDF3FC2189021300B37E77 /* install_driver.sh */,
 				E0267AF5218ADD6000FB2E5A /* uninstall_driver.sh */,
@@ -569,7 +557,8 @@
 				E036BCE8235B09CB001F057B /* DataBus */,
 				E004A8F3209D08AF00A878AA /* Extensions */,
 				E095BBC02014CDAD003473E9 /* Helpers */,
-				E0DD0A8220E58C0900B14020 /* Models */,
+				E0DD0A8220E58C0900B14020 /* User */,
+				7811AEF6261A6B86005BDAE3 /* Networking */,
 				E0D5F88522DD1BB800499250 /* Settings */,
 				E0DDF3FB218901E700B37E77 /* Scripts */,
 				E01B5C862356E07600E1A675 /* Transition */,
@@ -629,6 +618,7 @@
 			name = eqMac;
 			packageProductDependencies = (
 				78D8C3312569B2910084739C /* LaunchAtLogin */,
+				78242E95261A8AEE00058ADE /* Connectivity */,
 			);
 			productName = eqMacAudio;
 			productReference = E086AFFC1FCCB8E700CF9F0D /* eqMac.app */;
@@ -669,6 +659,7 @@
 			mainGroup = E086AFF31FCCB8E700CF9F0D;
 			packageReferences = (
 				78D8C3302569B2910084739C /* XCRemoteSwiftPackageReference "LaunchAtLogin" */,
+				78242E94261A8AEE00058ADE /* XCRemoteSwiftPackageReference "connectivity" */,
 			);
 			productRefGroup = E086AFFD1FCCB8E700CF9F0D /* Products */;
 			projectDirPath = "";
@@ -693,7 +684,6 @@
 				789F83D5250E21BD004F871D /* check_driver_uninstalled.sh in Resources */,
 				789F83D3250E2164004F871D /* check_driver_installed.sh in Resources */,
 				7858FBC224A9630800637941 /* restart_mac.scpt in Resources */,
-				E02B922C219843DF00AC130B /* open_privacy_microphone_settings.scpt in Resources */,
 				789F83D7250E220C004F871D /* remove_driver.sh in Resources */,
 				E0267AF7218ADD8D00FB2E5A /* uninstall_driver.sh in Resources */,
 			);
@@ -749,7 +739,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/zsh;
-			shellScript = "if [[ $CONFIGURATION == \"Debug\" ]]; then\n    pkill -f eqMac || true\nfi\n";
+			shellScript = "if [[ $CONFIGURATION == \"Debug\" ]]; then\n    pkill -f eqMac.app || true\nfi\n";
 		};
 		E06B9AEA2459CAFE00A4D10B /* Run Script - Upload dSYM to Sentry */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -839,14 +829,12 @@
 				E06E98D021D17E230041DD9C /* UI.swift in Sources */,
 				E057A64922710F2B0019D13C /* AdvancedEqualizerDataBus.swift in Sources */,
 				E07CB5B121902F4F0033DA89 /* Output.swift in Sources */,
-				E00C595B23BBB96100C7B8B6 /* RingBufferOffsets.swift in Sources */,
 				E0267AFD218AE39500FB2E5A /* Script.swift in Sources */,
 				E0F661861FDDED0C00252923 /* ViewController.swift in Sources */,
 				E02FF91822C8E87D0051342A /* Time.swift in Sources */,
 				E083214720715BBA0038ED1A /* NSOpenPanelExtensions.swift in Sources */,
 				E01F2F5D203391EA005123BE /* Utilities.swift in Sources */,
 				E0E2CFF72104EA7A002DC989 /* Equalizers.swift in Sources */,
-				E095BBC42014D999003473E9 /* RingBuffer.swift in Sources */,
 				E07A24E61FF3D4E4007AEF20 /* CheckErr.swift in Sources */,
 				E012A46E2044BC200029C800 /* StringExtensions.swift in Sources */,
 				E0C8F78621D3B6590023B1E5 /* UIDataBus.swift in Sources */,
@@ -863,7 +851,6 @@
 				E0A3B96120DF8FE500E46908 /* Effects.swift in Sources */,
 				E018710F21696D9500436B68 /* NSObject.swift in Sources */,
 				E021BCE722313F1E004921FF /* SettingsDataBus.swift in Sources */,
-				E00C595923BBB8B000C7B8B6 /* RingBufferTimeBounds.swift in Sources */,
 				E017A0091FF055B50019BBF1 /* User.swift in Sources */,
 				E0D1A0DA249E191700BBC742 /* eqMac2.swift in Sources */,
 				E0E8B62F20EEB6A900DE905C /* EffectsState.swift in Sources */,
@@ -887,7 +874,6 @@
 				E0493D0B21F222D300A8FD3D /* EventInterceptor.swift in Sources */,
 				E044AB7621ED27E4000C41A1 /* Equalizer.swift in Sources */,
 				E01B1BB5235E452D00CC58E5 /* Sources.swift in Sources */,
-				E057A641227043EF0019D13C /* DataBusEvent.swift in Sources */,
 				E090AD5A20A972DE003BE5FF /* BasicEqualizer.swift in Sources */,
 				E01F2F5F2034A188005123BE /* ArrayExtensions.swift in Sources */,
 				E0DDF3FA2188390300B37E77 /* Alert.swift in Sources */,
@@ -1026,13 +1012,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_MODULES_AUTOLINK = NO;
-				CODE_SIGN_ENTITLEMENTS = eqMac.entitlements;
-				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_ENTITLEMENTS = eqMac.debug.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 0.3.7;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = JZA6C97KJA;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1171,6 +1157,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		78242E94261A8AEE00058ADE /* XCRemoteSwiftPackageReference "connectivity" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/rwbutler/connectivity";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.1;
+			};
+		};
 		78D8C3302569B2910084739C /* XCRemoteSwiftPackageReference "LaunchAtLogin" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/bitgapp/LaunchAtLogin";
@@ -1182,6 +1176,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		78242E95261A8AEE00058ADE /* Connectivity */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 78242E94261A8AEE00058ADE /* XCRemoteSwiftPackageReference "connectivity" */;
+			productName = Connectivity;
+		};
 		78D8C3312569B2910084739C /* LaunchAtLogin */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 78D8C3302569B2910084739C /* XCRemoteSwiftPackageReference "LaunchAtLogin" */;

@@ -1,6 +1,6 @@
 import { Component, Input, Inject } from '@angular/core'
 import { ConfirmDialogComponent, ConfirmDialogData } from '../confirm-dialog/confirm-dialog.component'
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material'
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
 
 export interface PromptDialogData extends ConfirmDialogData {
   prompt?: string
@@ -10,7 +10,7 @@ export interface PromptDialogData extends ConfirmDialogData {
 @Component({
   selector: 'eqm-prompt-dialog',
   templateUrl: './prompt-dialog.component.html',
-  styleUrls: ['./prompt-dialog.component.scss']
+  styleUrls: [ './prompt-dialog.component.scss' ]
 })
 export class PromptDialogComponent extends ConfirmDialogComponent {
   @Input() prompt

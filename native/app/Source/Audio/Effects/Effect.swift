@@ -13,6 +13,7 @@ import AVFoundation
 class Effect {
   var node: AVAudioNode!
   var enabledChanged = Event<Bool>()
+  var engine: Engine?
   var name: String {
     return String(describing: self)
   }
@@ -30,6 +31,14 @@ class Effect {
     } else {
 //      node.stop()
     }
+  }
+  
+  func wasAttachedTo (engine: Engine) {
+    self.engine = engine
+  }
+  
+  func wasDetachedFrom (engine: Engine) {
+    self.engine = nil
   }
   
 }

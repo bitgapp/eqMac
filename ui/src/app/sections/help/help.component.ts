@@ -1,25 +1,23 @@
 import { Component, OnInit } from '@angular/core'
-import { Option, Options } from 'src/app/components/options/options.component'
+import { Options } from 'src/app/components/options/options.component'
 import { ApplicationService, MacInfo } from 'src/app/services/app.service'
 import { ConstantsService } from 'src/app/services/constants.service'
 import { version } from '../../../../package.json'
-import { UIService } from '../../services/ui.service.js'
+import { UIService } from '../../services/ui.service'
 
 @Component({
   selector: 'eqm-help',
   templateUrl: './help.component.html',
-  styleUrls: ['./help.component.scss']
+  styleUrls: [ './help.component.scss' ]
 })
 export class HelpComponent implements OnInit {
   options: Options = [
     [
       {
-        key: 'faq',
         type: 'button',
         label: 'FAQ',
         action: this.faq.bind(this)
       }, {
-        key: 'report-bug',
         type: 'button',
         label: 'Report a Bug',
         action: this.reportBug.bind(this)

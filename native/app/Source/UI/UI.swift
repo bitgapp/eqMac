@@ -78,6 +78,8 @@ class UI: StoreSubscriber {
   static let loadingViewController = (loadingWindowController.contentViewController as! LoadingViewController)
   //    var popover: Popover!
   
+  static var cachedIsShown: Bool = false
+  static var isShownChanged = Event<Bool>()
   static var isShown: Bool {
     get {
       if (mode == .popover) {
@@ -123,16 +125,18 @@ class UI: StoreSubscriber {
   
   static var mode: UIMode = .window {
     willSet {
-      if (newValue == .popover) {
-        window.close()
-        window.contentViewController = nil
-        popover.popover.contentViewController = viewController
-        popover.show()
-      } else {
-        popover.hide()
-        popover.popover.contentViewController = nil
-        window.contentViewController = viewController
-        window.show()
+      DispatchQueue.main.async {
+        if (newValue == .popover) {
+          window.close()
+          window.contentViewController = nil
+          popover.popover.contentViewController = viewController
+          popover.show()
+        } else {
+          popover.hide()
+          popover.popover.contentViewController = nil
+          window.contentViewController = viewController
+          window.show()
+        }
       }
     }
   }
@@ -159,28 +163,34 @@ class UI: StoreSubscriber {
   }
   
   static func show () {
-    if (mode == .popover) {
-      popover.show()
-    } else {
-      UI.window.show()
+    DispatchQueue.main.async {
+      if (mode == .popover) {
+        popover.show()
+      } else {
+        UI.window.show()
+      }
+      NSApp.activate(ignoringOtherApps: true)
     }
-    NSApp.activate(ignoringOtherApps: true)
   }
   
   static func close () {
-    if (mode == .popover) {
-      popover.hide()
-    } else {
-      UI.window.close()
+    DispatchQueue.main.async {
+      if (mode == .popover) {
+        popover.hide()
+      } else {
+        UI.window.close()
+      }
+      NSApp.hide(self)
     }
-    NSApp.hide(self)
   }
 
   static func hide () {
-    if (mode == .popover) {
-      popover.hide()
-    } else {
-      UI.window.performMiniaturize(nil)
+    DispatchQueue.main.async {
+      if (mode == .popover) {
+        popover.hide()
+      } else {
+        UI.window.performMiniaturize(nil)
+      }
     }
   }
   
@@ -197,33 +207,48 @@ class UI: StoreSubscriber {
   }
   
   // Instance
-  var statusItemClickedListener: EventListener<Void>!
-  var bridge: Bridge!
+  static var statusItemClickedListener: EventListener<Void>!
+  static var bridge: Bridge!
   
-  init () {
-    UI.window.contentView = UI.viewController.view
+  init (_ completion: @escaping () -> Void) {
+    DispatchQueue.main.async {
+      UI.window.contentView = UI.viewController.view
 
-    ({
-      UI.mode = Application.store.state.ui.mode
-      UI.width = Application.store.state.ui.width
-      UI.height = Application.store.state.ui.height
-    })()
-    
-    // TODO: Fix window position state saving (need to look if the current position is still accessible, what if the monitor isn't there anymore)
-    //        if let windowPosition = Application.store.state.ui.windowPosition {
-    //            window.position = windowPosition
-    //        }
-    setupStateListener()
-    setupBridge()
-    setupListeners()
-    load()
+      ({
+        UI.mode = Application.store.state.ui.mode
+        UI.width = Application.store.state.ui.width
+        UI.height = Application.store.state.ui.height
+      })()
+
+      // TODO: Fix window position state saving (need to look if the current position is still accessible, what if the monitor isn't there anymore)
+      //        if let windowPosition = Application.store.state.ui.windowPosition {
+      //            window.position = windowPosition
+      //        }
+      self.setupStateListener()
+      UI.setupBridge()
+      UI.setupListeners()
+      UI.load()
+
+      func checkIfVisible () {
+        let shown = UI.isShown
+        if (UI.cachedIsShown != shown) {
+          UI.cachedIsShown = shown
+          UI.isShownChanged.emit(shown)
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: checkIfVisible)
+      }
+
+      checkIfVisible()
+      completion()
+    }
+
   }
   
   static func reload () {
     viewController.webView.reload()
   }
   
-  func setupBridge () {
+  static func setupBridge () {
     bridge = Bridge(webView: UI.viewController.webView)
   }
   
@@ -248,18 +273,31 @@ class UI: StoreSubscriber {
     }
   }
   
-  private func setupListeners () {
+  private static func setupListeners () {
     statusItemClickedListener = UI.statusItem.clicked.on {_ in
       UI.toggle()
     }
   }
   
-  private func load () {
+  static var hasLoaded = false
+  static var loaded = Event<Void>()
+  
+  static func whenLoaded (_ completion: @escaping () -> Void) {
+    if hasLoaded { return completion() }
+    UI.loaded.once {
+      completion()
+    }
+  }
+  
+  private static func load () {
+    hasLoaded = false
+    
     func startUILoad (_ url: URL) {
       DispatchQueue.main.async {
         UI.viewController.load(url)
       }
     }
+    
     remoteIsReachable() { reachable in
       if reachable {
         Console.log("Loading Remote UI")
@@ -287,15 +325,15 @@ class UI: StoreSubscriber {
     }
   }
   
-  private func getRemoteVersion (_ completion: @escaping (String?) -> Void) {
+  private static func getRemoteVersion (_ completion: @escaping (String?) -> Void) {
     HTTP.GET("\(Constants.UI_ENDPOINT_URL)/version.txt") { resp in
       completion(resp.error != nil ? nil : resp.text?.trim())
     }
   }
   
-  private func remoteIsReachable (_ completion: @escaping (Bool) -> Void) {
+  private static func remoteIsReachable (_ completion: @escaping (Bool) -> Void) {
     var returned = false
-    Networking.isReachable(UI.domain) { reachable in
+    Networking.isConnected { reachable in
       if (!reachable) {
         returned = true
         return completion(false)
@@ -315,7 +353,7 @@ class UI: StoreSubscriber {
     }
   }
   
-  private func cacheRemote () {
+  private static func cacheRemote () {
     // Only download ui.zip when UI endpoint is remote
     if Constants.UI_ENDPOINT_URL.absoluteString.contains(Constants.DOMAIN) {
       let remoteZipUrl = "\(Constants.UI_ENDPOINT_URL)/ui.zip"

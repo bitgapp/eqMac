@@ -6,7 +6,8 @@
     "resolveJsonModule": true
   },
   "angularCompilerOptions": {
-    "enableIvy": false
+    "enableIvy": true,
+    "strictTemplates": true
   },
   "exclude": []
 }

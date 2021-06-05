@@ -1,16 +1,15 @@
 import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef } from '@angular/core'
 import { BasicEqualizerService, BasicEqualizerPreset, BasicEqualizerBand, BasicEqualizerPresetGains } from './basic-equalizer.service'
-import { BridgeService } from '../../../../services/bridge.service'
 import { EqualizerComponent } from '../equalizer.component'
-import { KnobValueChangedEvent } from '../../../../modules/eqmac-components/components/knob/knob.component'
+import { KnobValueChangedEvent } from '@eqmac/components'
 import { TransitionService } from '../../../../services/transitions.service'
 import { ApplicationService } from '../../../../services/app.service'
-import { UISettings, UIService } from '../../../../services/ui.service'
+import { UIService } from '../../../../services/ui.service'
 
 @Component({
   selector: 'eqm-basic-equalizer',
   templateUrl: './basic-equalizer.component.html',
-  styleUrls: ['./basic-equalizer.component.scss']
+  styleUrls: [ './basic-equalizer.component.scss' ]
 })
 export class BasicEqualizerComponent extends EqualizerComponent implements OnInit {
   @Input() enabled = true
@@ -20,6 +19,7 @@ export class BasicEqualizerComponent extends EqualizerComponent implements OnIni
     mid: 0,
     treble: 0
   }
+
   peakLimiter = false
 
   replaceKnobsWithSliders = false
@@ -31,10 +31,11 @@ export class BasicEqualizerComponent extends EqualizerComponent implements OnIni
     [
       newPresets.find(p => p.id === 'manual'),
       newPresets.find(p => p.id === 'flat'),
-      ...newPresets.filter(p => !['manual', 'flat'].includes(p.id)).sort((a, b) => a.name > b.name ? 1 : -1)
+      ...newPresets.filter(p => ![ 'manual', 'flat' ].includes(p.id)).sort((a, b) => a.name > b.name ? 1 : -1)
     ]
     this.presetsChange.emit(this.presets)
   }
+
   get presets () { return this._presets }
 
   public _selectedPreset: BasicEqualizerPreset
@@ -43,6 +44,7 @@ export class BasicEqualizerComponent extends EqualizerComponent implements OnIni
     this._selectedPreset = newSelectedPreset
     this.selectedPresetChange.emit(this.selectedPreset)
   }
+
   get selectedPreset () { return this._selectedPreset }
 
   settings = []
@@ -108,8 +110,8 @@ export class BasicEqualizerComponent extends EqualizerComponent implements OnIni
     // TODO: Refactor this bollocks
     this.peakLimiter = this.selectedPreset.peakLimiter || false
 
-    for (const [type, gain] of Object.entries(this.selectedPreset.gains)) {
-      const currentGain: number = this.gains[type]
+    for (const [ type, gain ] of Object.entries(this.selectedPreset.gains)) {
+      const currentGain = this.gains[type] as number
       if (currentGain !== gain) {
         this.stickSlidersToMiddle = false
         this.change.detectChanges()
@@ -134,7 +136,16 @@ export class BasicEqualizerComponent extends EqualizerComponent implements OnIni
 
   async savePreset (name: string) {
     const { gains, peakLimiter } = this.selectedPreset
-    await this.service.createPreset({ name, gains, peakLimiter }, true)
+    const existingUserPreset = this.presets.filter(p => !p.isDefault).find(p => p.name === name)
+    if (existingUserPreset) {
+      // Overwrite
+      await this.service.updatePreset({ id: existingUserPreset.id, name, gains, peakLimiter }, {
+        select: true
+      })
+    } else {
+      // Create
+      await this.service.createPreset({ name, gains, peakLimiter }, true)
+    }
     await this.syncPresets()
   }
 

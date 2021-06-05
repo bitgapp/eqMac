@@ -15,7 +15,13 @@ export class BoosterService extends VolumeService {
     this.request({ method: 'POST', data: { gain, transition } })
   }
 
-  onGainChanged (callback: (gain: number) => void) {
-    this.on(({ gain }) => callback(gain))
+  onGainChanged (callback: BoosterGainChangedEventCallback) {
+    this.on(callback)
+  }
+
+  offGainChanged (callback: BoosterGainChangedEventCallback) {
+    this.off(callback)
   }
 }
+
+export type BoosterGainChangedEventCallback = (data: { gain: number }) => void

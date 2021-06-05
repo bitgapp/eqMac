@@ -1,19 +1,18 @@
 import { Component, OnInit } from '@angular/core'
-import { Option, CheckboxOption, ButtonOption, Options, SelectOption } from 'src/app/components/options/options.component'
+import { CheckboxOption, ButtonOption, Options, SelectOption } from 'src/app/components/options/options.component'
 import { SettingsService, IconMode } from './settings.service'
 import { ApplicationService } from '../../services/app.service'
-import { MatDialog } from '@angular/material'
+import { MatDialog } from '@angular/material/dialog'
 import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-dialog.component'
 import { UIService } from '../../services/ui.service'
 
 @Component({
   selector: 'eqm-settings',
   templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.scss']
+  styleUrls: [ './settings.component.scss' ]
 })
 export class SettingsComponent implements OnInit {
   launchOnStartupOption: CheckboxOption = {
-    key: 'launchOnStartup',
     type: 'checkbox',
     label: 'Launch on start-up',
     value: false,
@@ -21,7 +20,6 @@ export class SettingsComponent implements OnInit {
   }
 
   replaceKnobsWithSlidersOption: CheckboxOption = {
-    key: 'replaceKnobsWithSliders',
     type: 'checkbox',
     label: 'Replace Knobs with Sliders',
     value: false,
@@ -29,10 +27,9 @@ export class SettingsComponent implements OnInit {
   }
 
   iconModeOption: SelectOption = {
-    key: 'iconMode',
     type: 'select',
     label: 'Show Icon',
-    options: [{
+    options: [ {
       id: IconMode.dock,
       label: 'Dock'
     }, {
@@ -41,7 +38,7 @@ export class SettingsComponent implements OnInit {
     }, {
       id: IconMode.statusBar,
       label: 'Status Bar'
-    }],
+    } ],
     selectedId: IconMode.both,
     selected: async iconMode => {
       const uiMode = await this.ui.getMode()
@@ -51,8 +48,8 @@ export class SettingsComponent implements OnInit {
       await this.settingsService.setIconMode(iconMode as IconMode)
     }
   }
+
   uninstallOption: ButtonOption = {
-    key: 'uninstall',
     type: 'button',
     label: 'Uninstall eqMac',
     hoverable: false,
@@ -60,14 +57,12 @@ export class SettingsComponent implements OnInit {
   }
 
   updateOption: ButtonOption = {
-    key: 'update',
     type: 'button',
     label: 'Check for Updates',
     action: this.update.bind(this)
   }
 
   reinstallDriverOption: ButtonOption = {
-    key: 'reinstall-driver',
     type: 'button',
     label: 'Reinstall Driver',
     action: this.reinstallDriver.bind(this)

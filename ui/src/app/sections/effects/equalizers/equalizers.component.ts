@@ -1,27 +1,26 @@
-import { Component, OnInit, EventEmitter, Output, ViewChild, Input } from '@angular/core'
-import { EqualizersService, EqualizerType } from './equalizers.service'
+import { Component, OnInit, EventEmitter, Output, ViewChild, Input, ChangeDetectorRef, OnDestroy } from '@angular/core'
+import { EqualizersService, EqualizersTypeChangedEventCallback, EqualizerType } from './equalizers.service'
 import { BasicEqualizerComponent } from './basic-equalizer/basic-equalizer.component'
 import { AdvancedEqualizerComponent } from './advanced-equalizer/advanced-equalizer.component'
 import { EqualizerComponent } from './equalizer.component'
-import { CarouselComponent } from 'src/app/modules/eqmac-components/components/carousel/carousel.component'
-import { FadeInOutAnimation } from 'src/app/modules/animations'
-import { MatDialog, MatDialogRef } from '@angular/material'
+import { FadeInOutAnimation } from '@eqmac/components'
+import { MatDialog, MatDialogRef } from '@angular/material/dialog'
 import { OptionsDialogComponent } from '../../../components/options-dialog/options-dialog.component'
 import { EqualizerPreset } from './presets/equalizer-presets.component'
 import { UIService } from '../../../services/ui.service'
+import { EffectEnabledChangedEventCallback } from '../effect.service'
 
 @Component({
   selector: 'eqm-equalizers',
   templateUrl: './equalizers.component.html',
-  styleUrls: ['./equalizers.component.scss'],
+  styleUrls: [ './equalizers.component.scss' ],
   animations: [ FadeInOutAnimation ]
 })
-export class EqualizersComponent implements OnInit {
+export class EqualizersComponent implements OnInit, OnDestroy {
   @Input() animationDuration = 500
   @Input() animationFps = 30
 
   @Output() visibilityToggled = new EventEmitter()
-  @ViewChild('equalizersCarousel', { static: false }) equalizersCarousel: CarouselComponent
   @ViewChild('basicEqualizer', { static: false }) basicEqualizer: BasicEqualizerComponent
   @ViewChild('advancedEqualizer', { static: false }) advancedEqualizer: AdvancedEqualizerComponent
 
@@ -37,29 +36,29 @@ export class EqualizersComponent implements OnInit {
   set type (newType: EqualizerType) {
     if (this._type === newType) return
     this._type = newType
+    this.changeRef.detectChanges()
     this.activeEqualizer = this.getEqualizerFromType(this.type)
   }
+
   get type () { return this._type }
 
   gain: number = 0
-
-  typeSwitched (newType: EqualizerType) {
-    this.type = newType
-    this.equalizersService.setType(newType)
-  }
 
   public settingsDialog: MatDialogRef<OptionsDialogComponent>
 
   constructor (
     public equalizersService: EqualizersService,
     public dialog: MatDialog,
-    protected ui: UIService
-    ) { }
+    public ui: UIService,
+    private readonly changeRef: ChangeDetectorRef
+  ) { }
 
   async ngOnInit () {
     await this.sync()
     this.setupEvents()
     this.loaded = true
+    this.changeRef.detectChanges()
+    this.activeEqualizer = this.getEqualizerFromType(this.type)
   }
 
   protected sync () {
@@ -77,35 +76,33 @@ export class EqualizersComponent implements OnInit {
     this.enabled = await this.equalizersService.getEnabled()
   }
 
+  private onEnabledChangedEventCallback: EffectEnabledChangedEventCallback
+  private onTypeChangedEventCallback: EqualizersTypeChangedEventCallback
   protected setupEvents () {
-    this.equalizersService.onEnabledChanged(enabled => {
+    this.onEnabledChangedEventCallback = ({ enabled }) => {
       this.enabled = enabled
-    })
+    }
+    this.equalizersService.onEnabledChanged(this.onEnabledChangedEventCallback)
 
-    this.equalizersService.onTypeChanged(type => {
+    this.onTypeChangedEventCallback = ({ type }) => {
       this.type = type
-    })
+    }
+    this.equalizersService.onTypeChanged(this.onTypeChangedEventCallback)
+  }
+
+  private destroyEvents () {
+    this.equalizersService.offEnabledChanged(this.onEnabledChangedEventCallback)
+    this.equalizersService.offTypeChanged(this.onTypeChangedEventCallback)
   }
 
   setEnabled () {
     this.equalizersService.setEnabled(this.enabled)
   }
 
-  previousType () {
-    this.equalizersCarousel.prev()
-  }
-
-  nextType () {
-    this.equalizersCarousel.next()
-  }
-
-  equalizerCameIntoView (type: EqualizerType) {
-    const equalizer = this.getEqualizerFromType(type)
-    equalizer && equalizer.selected()
-  }
-
-  carouselHeightChanged (heightDiff: number) {
-    this.ui.dimensionsChanged.next({ heightDiff })
+  async setType (type: EqualizerType) {
+    await this.equalizersService.setType(type)
+    this.type = type
+    this.ui.dimensionsChanged.next()
   }
 
   public getEqualizerFromType (type: EqualizerType): EqualizerComponent {
@@ -147,4 +144,7 @@ export class EqualizersComponent implements OnInit {
     return this.activeEqualizer.selectPreset(preset)
   }
 
+  ngOnDestroy () {
+    this.destroyEvents()
+  }
 }

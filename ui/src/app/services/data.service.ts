@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core'
-import { BridgeService } from './bridge.service'
-import { Logger } from './logger.service'
-import { CookiesService } from './cookies.service'
+import { Bridge } from './bridge.service'
+import { ToastService } from './toast.service'
 
 export type JSONEncodable = null | boolean | number | string | JSONData
 export interface JSONData {
@@ -20,23 +19,41 @@ type EventCallback = (data?: any) => void
 export class DataService {
   route = ''
 
-  constructor (
-    public bridge: BridgeService,
-    public cookies: CookiesService
-  ) {}
+  constructor (public toast?: ToastService) {}
 
   async request (opts: RequestOptions): Promise<any> {
     if (opts.endpoint && opts.endpoint[0] !== '/') opts.endpoint = `/${opts.endpoint}`
-    const args: [string, any?] = [`${opts.method} ${this.route}${opts.endpoint || ''}`, opts.data]
-    const resp = await this.bridge.call(...args)
+    const args: [string, any?] = [ `${opts.method} ${this.route}${opts.endpoint || ''}`, opts.data ]
+    let resp
+    try {
+      resp = await Bridge.call(...args)
+    } catch (err) {
+      this.toast.show({
+        message: err,
+        type: 'warning'
+      })
+      throw err
+    }
     return resp
+  }
+
+  private normalizeEventCallback (eventOrCallback: string | EventCallback, callback?: EventCallback) {
+    const event = typeof eventOrCallback === 'string' ? eventOrCallback : ''
+    callback = typeof eventOrCallback === 'function' ? eventOrCallback : callback
+    return { event, callback }
   }
 
   async on (callback: EventCallback)
   async on (event: string, callback: EventCallback)
-  async on (eventOrCallback: string | EventCallback, callback?: EventCallback) {
-    const eventName = typeof eventOrCallback === 'string' ? eventOrCallback : ''
-    callback = typeof eventOrCallback === 'function' ? eventOrCallback : callback
-    this.bridge.on(`${this.route}${eventName}`, callback)
+  async on (eventOrCallback: string | EventCallback, cb?: EventCallback) {
+    const { event, callback } = this.normalizeEventCallback(eventOrCallback, cb)
+    Bridge.on(`${this.route}${event}`, callback)
+  }
+
+  async off (callback: EventCallback)
+  async off (event: string, callback: EventCallback)
+  async off (eventOrCallback: string | EventCallback, cb?: EventCallback) {
+    const { event, callback } = this.normalizeEventCallback(eventOrCallback, cb)
+    Bridge.off(`${this.route}${event}`, callback)
   }
 }

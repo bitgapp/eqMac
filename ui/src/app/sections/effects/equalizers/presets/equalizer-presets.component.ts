@@ -1,7 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
-import { MatDialog } from '@angular/material'
+import { MatDialog } from '@angular/material/dialog'
 import { PromptDialogComponent } from 'src/app/components/prompt-dialog/prompt-dialog.component'
 import { ConfirmDialogComponent } from 'src/app/components/confirm-dialog/confirm-dialog.component'
+import { IconName } from '@eqmac/components'
 
 export interface EqualizerPreset {
   id?: string
@@ -9,10 +10,17 @@ export interface EqualizerPreset {
   isDefault?: boolean
 }
 
+export interface AdditionalPresetOption {
+  tooltip: string
+  icon: IconName
+  iconSize?: number
+  action: () => void | Promise<void>
+}
+
 @Component({
   selector: 'eqm-equalizer-presets',
   templateUrl: './equalizer-presets.component.html',
-  styleUrls: ['./equalizer-presets.component.scss']
+  styleUrls: [ './equalizer-presets.component.scss' ]
 })
 export class EqualizerPresetsComponent implements OnInit {
   @Input() presets: EqualizerPreset[]
@@ -21,6 +29,8 @@ export class EqualizerPresetsComponent implements OnInit {
   @Output() presetSelected = new EventEmitter<EqualizerPreset>()
   @Output() presetSaved = new EventEmitter<string>()
   @Output() presetDeleted = new EventEmitter()
+  @Input() additionalLeftOption?: AdditionalPresetOption
+  @Input() additionalRightOption?: AdditionalPresetOption
 
   constructor (
     public dialog: MatDialog
@@ -29,38 +39,63 @@ export class EqualizerPresetsComponent implements OnInit {
   ngOnInit () {
   }
 
-  async savePreset () {
-    const dialog = this.dialog.open(PromptDialogComponent, {
+  async savePreset (presetName?: string) {
+    presetName = await this.dialog.open(PromptDialogComponent, {
       hasBackdrop: true,
       disableClose: true,
       data: {
         confirmText: 'Save',
         cancelText: 'Cancel',
         text: 'Please enter a name',
-        placeholder: 'New Preset name'
+        placeholder: 'New Preset name',
+        prompt: presetName
       }
-    })
+    }).afterClosed().toPromise()
 
-    const presetName = await dialog.afterClosed().toPromise()
     if (presetName) {
+      const existingPreset = this.presets.find(preset => preset.name === presetName)
+      if (existingPreset) {
+        if (existingPreset.isDefault) {
+          const saveAnyway: boolean = await this.dialog.open(ConfirmDialogComponent, {
+            hasBackdrop: true,
+            disableClose: true,
+            data: {
+              confirmText: 'Yes, save',
+              cancelText: 'No, cancel',
+              text: 'A Default preset with this name already exists. Would you like to use this name anyway? You might see Duplicate names in the Preset list.'
+            }
+          }).afterClosed().toPromise()
+          if (!saveAnyway) return this.savePreset(presetName)
+        } else {
+          const overwrite: boolean = await this.dialog.open(ConfirmDialogComponent, {
+            hasBackdrop: true,
+            disableClose: true,
+            data: {
+              confirmText: 'Yes, overwrite',
+              cancelText: 'No, cancel',
+              text: 'A preset with this name already exists. Would you like to overwrite it?'
+            }
+          }).afterClosed().toPromise()
+          if (!overwrite) return this.savePreset(presetName)
+        }
+      }
       this.presetSaved.emit(presetName)
     }
   }
 
   async deletePreset () {
-    const dialog = this.dialog.open(ConfirmDialogComponent, {
+    const shouldDelete = await this.dialog.open(ConfirmDialogComponent, {
       hasBackdrop: true,
       disableClose: true,
       data: {
         confirmText: 'Yes, remove',
         cancelText: 'No, cancel',
-        text: `Are you sure you want to delete this Preset?`
+        text: 'Are you sure you want to remove this Preset?'
       }
-    })
+    }).afterClosed().toPromise()
 
-    if (await dialog.afterClosed().toPromise()) {
+    if (shouldDelete) {
       this.presetDeleted.emit()
     }
   }
-
 }

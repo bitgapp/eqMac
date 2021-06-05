@@ -5,6 +5,13 @@
   justify-items: center;
   position: relative;
 
+  .button-container {
+    width: 100%;
+    .button {
+      width: 27.5%;
+    }
+  }
+  
   .presets {
     width: 95%;
   }

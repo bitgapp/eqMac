@@ -7,14 +7,14 @@
   <eqm-divider></eqm-divider>
   <eqm-settings 
     class="dropdown-section" 
-    (clickOutside)="closeDropdownSection('settings', $event)"
+    (clickedOutside)="closeDropdownSection('settings', $event)"
     [@FadeInOut]
     [@FromTop] 
     *ngIf="showDropdownSections.settings"
   ></eqm-settings>
   <eqm-help 
     class="dropdown-section" 
-    (clickOutside)="closeDropdownSection('help', $event)"
+    (clickedOutside)="closeDropdownSection('help', $event)"
     [@FadeInOut]
     [@FromTop] 
     *ngIf="showDropdownSections.help"

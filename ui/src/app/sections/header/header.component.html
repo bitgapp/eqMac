@@ -4,16 +4,16 @@
   (mouseenter)="setShowBoolean('showLeftIcons', true)" (mouseleave)="setShowBoolean('showLeftIcons', false)" 
   >
     <div class="circle-button left" fxLayout="row" fxLayoutAlign="center center" (click)="close()">
-      <eqm-icon *ngIf="showLeftIcons" [@FadeInOut] stroke=3 strokeColor="#2E2E2E" color="#2E2E2E" width="8" height="8" name="cross"></eqm-icon>
+      <eqm-icon *ngIf="showLeftIcons" [@FadeInOut] [stroke]=3 strokeColor="#2E2E2E" color="#2E2E2E" [width]="8" [height]="8" name="cross"></eqm-icon>
     </div>
     <div class="circle-button left" fxLayoutAlign="center center" (click)="hide()">
-      <eqm-icon *ngIf="showLeftIcons" [@FadeInOut] color="#2E2E2E" width="8" height="8" name="minus"></eqm-icon>
+      <eqm-icon *ngIf="showLeftIcons" [@FadeInOut] color="#2E2E2E" [width]="8" [height]="8" name="minus"></eqm-icon>
     </div>
     <div *ngIf="uiMode" 
     class="circle-button left" fxLayoutAlign="center center" 
     (click)="toggleUIMode()" 
     [eqmTooltip]="uiMode === 'window' ? 'Popover mode' : 'Window mode'" eqmTooltipPositionSide="bottom">
-      <eqm-icon *ngIf="showLeftIcons" [@FadeInOut] color="#2E2E2E" width="8" height="8" name="triangle" [rotate]="uiMode == 'window' ? -90 : 90"></eqm-icon>
+      <eqm-icon *ngIf="showLeftIcons" [@FadeInOut] color="#2E2E2E" [width]="8" [height]="8" name="triangle" [rotate]="uiMode == 'window' ? -90 : 90"></eqm-icon>
     </div>
   </div> 
   <eqm-label>eqMac</eqm-label>
@@ -23,17 +23,17 @@
     <div class="circle-button right" 
     fxLayout="row" fxLayoutAlign="center center"
     (click)="toggleHelp($event)" 
-    eqmTooltip="Help" eqmTooltipPositionSide="bottom" eqmTooltipDelay="100">
-      <eqm-icon class="settings" [@FadeInOut] stroke="0" color="#2E2E2E" width="10" height="10" name="help"></eqm-icon>
+    eqmTooltip="Help" eqmTooltipPositionSide="bottom" [eqmTooltipDelay]="100">
+      <eqm-icon class="settings" [@FadeInOut] [stroke]="0" color="#2E2E2E" [width]="10" [height]="10" name="help"></eqm-icon>
     </div>
     <div class="circle-button right" 
     fxLayout="row" fxLayoutAlign="center center" 
     (click)="toggleSettings($event)" 
-    eqmTooltip="Settings" eqmTooltipPositionSide="bottom" eqmTooltipDelay="100">
-      <eqm-icon class="settings" [@FadeInOut] stroke="0" color="#2E2E2E" width="14" height="14" name="spanner-circle"></eqm-icon>
+    eqmTooltip="Settings" eqmTooltipPositionSide="bottom" [eqmTooltipDelay]="100">
+      <eqm-icon class="settings" [@FadeInOut] [stroke]="0" color="#2E2E2E" [width]="14" [height]="14" name="spanner-circle"></eqm-icon>
     </div>   
     <div class="circle-button right" fxLayoutAlign="center center" (click)="quit()" eqmTooltip="Quit" eqmTooltipPositionSide="bottom">
-      <eqm-icon [@FadeInOut] color="#2E2E2E" width="12" height="12" name="quit"></eqm-icon>
+      <eqm-icon [@FadeInOut] color="#2E2E2E" [width]="12" [height]="12" name="quit"></eqm-icon>
     </div>   
   </div> 
 </div>

@@ -8,12 +8,16 @@
 
 import Foundation
 import SwiftyJSON
+import EmitterKit
 
 class UIDataBus: DataBus {
   
   var state: UIState {
     return Application.store.state.ui
   }
+  
+  var isShownChangedListener: EventListener<Bool>?
+  
   required init(route: String, bridge: Bridge) {
     super.init(route: route, bridge: bridge)
     
@@ -80,6 +84,20 @@ class UIDataBus: DataBus {
         return "UI Mode has been set"
       }
       throw "Please provide a valid 'uiMode' parameter."
+    }
+    
+    self.on(.GET, "/shown") { data, _ in
+      return JSON([ "isShown": UI.isShown ])
+    }
+    
+    self.on(.POST, "/loaded") { _, _ in
+      UI.hasLoaded = true
+      UI.loaded.emit()
+      return "Thanks"
+    }
+    
+    self.isShownChangedListener = UI.isShownChanged.on { isShown in
+      self.send(to: "/shown", data: JSON([ "isShown": isShown ]))
     }
     
   }

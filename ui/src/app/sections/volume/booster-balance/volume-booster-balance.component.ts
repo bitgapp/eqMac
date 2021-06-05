@@ -4,7 +4,7 @@ import { UIService } from '../../../services/ui.service'
 @Component({
   selector: 'eqm-volume-booster-balance',
   templateUrl: './volume-booster-balance.component.html',
-  styleUrls: ['./volume-booster-balance.component.scss']
+  styleUrls: [ './volume-booster-balance.component.scss' ]
 })
 export class VolumeBoosterBalanceComponent implements OnInit {
   hide = false
@@ -34,5 +34,4 @@ export class VolumeBoosterBalanceComponent implements OnInit {
     this.hide = !this.hide
     this.visibilityToggled.emit()
   }
-
 }

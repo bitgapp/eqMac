@@ -4,9 +4,10 @@ import {
   Input,
   EventEmitter,
   Output,
-  ChangeDetectorRef
+  ChangeDetectorRef,
+  OnDestroy
 } from '@angular/core'
-import { AdvancedEqualizerService, AdvancedEqualizerPreset } from 'src/app/sections/effects/equalizers/advanced-equalizer/advanced-equalizer.service'
+import { AdvancedEqualizerService, AdvancedEqualizerPreset, AdvancedEqualizerPresetsChangedEventCallback, AdvancedEqualizerSelectedPresetChangedEventCallback } from 'src/app/sections/effects/equalizers/advanced-equalizer/advanced-equalizer.service'
 import { EqualizerComponent } from '../equalizer.component'
 import { Options, CheckboxOption } from 'src/app/components/options/options.component'
 import { TransitionService } from '../../../../services/transitions.service'
@@ -15,33 +16,32 @@ import { ApplicationService } from '../../../../services/app.service'
 @Component({
   selector: 'eqm-advanced-equalizer',
   templateUrl: './advanced-equalizer.component.html',
-  styleUrls: ['./advanced-equalizer.component.scss']
+  styleUrls: [ './advanced-equalizer.component.scss' ]
 })
-export class AdvancedEqualizerComponent extends EqualizerComponent implements OnInit {
+export class AdvancedEqualizerComponent extends EqualizerComponent implements OnInit, OnDestroy {
   @Input() enabled = true
 
   public ShowDefaultPresetsCheckbox: CheckboxOption = {
-    key: 'show-default-presets',
     type: 'checkbox',
     label: 'Show Default Presets',
     value: false,
     toggled: (show) => this.service.setShowDefaultPresets(show)
   }
-  settings: Options = [[
+
+  settings: Options = [ [
     {
-      key: 'import-presets',
       type: 'button',
       label: 'Import Presets',
       action: () => this.service.importPresets()
     }, {
-      key: 'export-presets',
       type: 'button',
       label: 'Export Presets',
       action: () => this.service.exportPresets()
     }
   ], [
     this.ShowDefaultPresetsCheckbox
-  ]]
+  ] ]
+
   public _presets: AdvancedEqualizerPreset[]
   @Output() presetsChange = new EventEmitter<AdvancedEqualizerPreset[]>()
   set presets (newPresets: AdvancedEqualizerPreset[]) {
@@ -49,10 +49,11 @@ export class AdvancedEqualizerComponent extends EqualizerComponent implements On
     [
       newPresets.find(p => p.id === 'manual'),
       newPresets.find(p => p.id === 'flat'),
-      ...newPresets.filter(p => !['manual', 'flat'].includes(p.id)).sort((a, b) => a.name > b.name ? 1 : -1)
+      ...newPresets.filter(p => ![ 'manual', 'flat' ].includes(p.id)).sort((a, b) => a.name > b.name ? 1 : -1)
     ]
     this.presetsChange.emit(this.presets)
   }
+
   get presets () { return this._presets }
 
   public _selectedPreset: AdvancedEqualizerPreset
@@ -61,10 +62,11 @@ export class AdvancedEqualizerComponent extends EqualizerComponent implements On
     this._selectedPreset = newSelectedPreset
     this.selectedPresetChange.emit(this.selectedPreset)
   }
-  get selectedPreset () { return this._selectedPreset }
-  bandFrequencyLabels = ['32', '64', '125', '250', '500', '1K', '2K', '4K', '8K', '16K']
 
-  bands = [...Array(10)].map(() => 0)
+  get selectedPreset () { return this._selectedPreset }
+  bandFrequencyLabels = [ '32', '64', '125', '250', '500', '1K', '2K', '4K', '8K', '16K' ]
+
+  bands = [ ...Array(10) ].map(() => 0)
   global = 0
 
   stickSlidersToMiddle = true
@@ -83,7 +85,7 @@ export class AdvancedEqualizerComponent extends EqualizerComponent implements On
         this.change.detectChanges()
       })
     }
-    for (const [i, gain] of this.selectedPreset.gains.bands.entries()) {
+    for (const [ i, gain ] of this.selectedPreset.gains.bands.entries()) {
       const currentGain = this.bands[i]
       if (currentGain !== gain) {
         this.stickSlidersToMiddle = false
@@ -104,7 +106,7 @@ export class AdvancedEqualizerComponent extends EqualizerComponent implements On
     public transition: TransitionService,
     public change: ChangeDetectorRef,
     public app: ApplicationService
-    ) {
+  ) {
     super()
     this.getImportLegacyAvailable()
   }
@@ -125,7 +127,6 @@ export class AdvancedEqualizerComponent extends EqualizerComponent implements On
     if (await this.service.getImportLegacyAvailable()) {
       this.settings[1].push(
         {
-          key: 'import-legacy-presets',
           type: 'button',
           label: 'Import eqMac2 Presets',
           action: async () => {
@@ -138,6 +139,7 @@ export class AdvancedEqualizerComponent extends EqualizerComponent implements On
       )
     }
   }
+
   public async syncPresets () {
     const [ presets, selectedPreset ] = await Promise.all([
       this.service.getPresets(),
@@ -158,15 +160,25 @@ export class AdvancedEqualizerComponent extends EqualizerComponent implements On
     this.ShowDefaultPresetsCheckbox.value = await this.service.getShowDefaultPresets()
   }
 
+  private onPresetsChangedEventCallback: AdvancedEqualizerPresetsChangedEventCallback
+  private onSelectedPresetChangedEventCallback: AdvancedEqualizerSelectedPresetChangedEventCallback
   protected setupEvents () {
-    this.service.onPresetsChanged(presets => {
+    this.onPresetsChangedEventCallback = presets => {
       if (!presets) return
       this.presets = presets
-    })
-    this.service.onSelectedPresetChanged(preset => {
+    }
+    this.service.onPresetsChanged(this.onPresetsChangedEventCallback)
+
+    this.onSelectedPresetChangedEventCallback = preset => {
       this.selectedPreset = preset
       this.setSelectedPresetsGains()
-    })
+    }
+    this.service.onSelectedPresetChanged(this.onSelectedPresetChangedEventCallback)
+  }
+
+  private destroyEvents () {
+    this.service.offPresetsChanged(this.onPresetsChangedEventCallback)
+    this.service.offSelectedPresetChanged(this.onSelectedPresetChangedEventCallback)
   }
 
   async selectPreset (preset: AdvancedEqualizerPreset) {
@@ -211,7 +223,18 @@ export class AdvancedEqualizerComponent extends EqualizerComponent implements On
 
   async savePreset (name: string) {
     const { gains } = this.selectedPreset
-    this.selectedPreset = await this.service.createPreset({ name, gains }, true)
+    const existingUserPreset = this.presets.filter(p => !p.isDefault).find(p => p.name === name)
+    if (existingUserPreset) {
+      // Overwrite
+      await this.service.updatePreset({ id: existingUserPreset.id, name, gains }, {
+        select: true
+      })
+      this.selectedPreset = existingUserPreset
+    } else {
+      // Create
+      this.selectedPreset = await this.service.createPreset({ name, gains }, true)
+    }
+    await this.syncPresets()
   }
 
   async deletePreset () {
@@ -235,5 +258,9 @@ export class AdvancedEqualizerComponent extends EqualizerComponent implements On
 
   get globalGainScreenValue () {
     return `${this.selectedPreset.gains.global > 0 ? '+' : ''}${(this.selectedPreset.gains.global.toFixed(1))}dB`
+  }
+
+  ngOnDestroy () {
+    this.destroyEvents()
   }
 }

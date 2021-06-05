@@ -4,7 +4,6 @@ import { SourceService } from '../source.service'
 @Injectable({
   providedIn: 'root'
 })
-@Injectable()
 export class FileService extends SourceService {
   route = `${this.route}/file`
 
@@ -45,11 +44,22 @@ export class FileService extends SourceService {
     return resp.playing
   }
 
-  onPlayingChanged (callback: (playing: boolean) => void) {
-    this.on(`/playing`, ({ playing }) => callback(playing))
+  onPlayingChanged (callback: FilePlayingChangedEventCallback) {
+    this.on('/playing', callback)
   }
 
-  onProgressChanged (callback: (progress: number) => void) {
-    this.on(`/progress`, ({ progress }) => callback(progress))
+  offPlayingChanged (callback: FilePlayingChangedEventCallback) {
+    this.off('/playing', callback)
+  }
+
+  onProgressChanged (callback: FileProgressChangedEventCallback) {
+    this.on('/progress', callback)
+  }
+
+  offProgressChanged (callback: FileProgressChangedEventCallback) {
+    this.off('/progress', callback)
   }
 }
+
+export type FilePlayingChangedEventCallback = (data: { playing: boolean }) => void
+export type FileProgressChangedEventCallback = (data: { progress: number }) => void

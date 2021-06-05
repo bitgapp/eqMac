@@ -1,0 +1,39 @@
+{
+  "name": "eqmac",
+  "version": "1.0.0",
+  "description": "eqMac Monorepo",
+  "main": ".eslintrc.js",
+  "private": true,
+  "workspaces": {
+    "packages": [
+      "modules/*",
+      "ui"
+    ],
+    "nohoist": ["modules/components"]
+  },
+  "scripts": {
+    "lint": "npx eslint .",
+    "modules-install": "cd modules/ && find . -maxdepth 1 -type d \\( ! -name . \\) -exec bash -c \"cd '{}' && npm i\" \\;"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bitgapp/eqMac.git"
+  },
+  "author": "Roman Kisil <Nodeful>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bitgapp/eqMac/issues"
+  },
+  "homepage": "https://github.com/bitgapp/eqMac#readme",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.19.0",
+    "eslint": "^7.22.0",
+    "eslint-config-standard-with-typescript": "^20.0.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.3.1"
+  },
+  "dependencies": {
+    "typescript": "^4.2.3"
+  }
+}

@@ -1,0 +1,23 @@
+
+:host {
+  display: block;
+  padding: 2px;
+}
+
+:host.disabled {
+  filter: grayscale(80%);
+}
+
+.container {
+  position: relative;
+
+  .notches {
+    width: 100%;
+    height: 100%;
+  }
+
+  * {
+    position: absolute;
+  }
+}
+

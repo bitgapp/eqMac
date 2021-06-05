@@ -1,6 +1,6 @@
 <div class="file" fxLayout="row" fxFill fxLayoutAlign="space-between center" fxLayoutGap="10px">
     <eqm-button [disabled]="!selected" size="square" (pressed)="toggleFilePlayback()">
-      <eqm-icon [name]="playing ? 'pause' : 'triangle'" [height]="playing ? '20' : '25'" [width]="playing ? '20' : '25'"></eqm-icon>
+      <eqm-icon [name]="playing ? 'pause' : 'triangle'" [height]="playing ? 20 : 25" [width]="playing ? 20 : 25"></eqm-icon>
     </eqm-button>
     <div fxLayout="column" fxFill fxFlex="100%" fxLayoutAlign="center start">
       <eqm-label>{{meta.name || 'Please open an Audio File.' }}</eqm-label>
@@ -10,7 +10,7 @@
       </div>
     </div>
     <eqm-button type="square" (click)="openFile()">
-      <eqm-icon name="open" height="25" width="25"></eqm-icon>
+      <eqm-icon name="open" [height]="25" [width]="25"></eqm-icon>
     </eqm-button>
   </div>
   
