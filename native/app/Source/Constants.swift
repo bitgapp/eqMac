@@ -27,7 +27,7 @@ struct Constants {
   static let WEBSITE_URL = URL(string: "https://\(Constants.DOMAIN)")!
   static let FAQ_URL = URL(string: "https://\(Constants.DOMAIN)/faq")!
   static let BUG_REPORT_URL = URL(string: "https://\(Constants.DOMAIN)/bug-report")!
-  static let PASSTHROUGH_DEVICE_UID = "EQMDevice"
+  static let DRIVER_DEVICE_UID = "EQMDevice"
   static let LEGACY_DRIVER_UIDS = ["EQMAC2.1_DRIVER_ENGINE", "EQMAC2_DRIVER_ENGINE"]
   static let TOKEN_STORAGE_KEY = "eqMac Server Tokens"
   static let UI_SERVER_PREFERRED_PORT: UInt = 37628

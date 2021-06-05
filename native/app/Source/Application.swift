@@ -46,9 +46,12 @@ class Application {
   static var dataBus: DataBus!
   static var updater = SUUpdater(for: Bundle.main)!
   
-  static let store: Store = Store(reducer: ApplicationStateReducer, state: Storage[.state] ?? ApplicationState(), middleware: [])
-  
-  
+  static let store: Store = Store(
+    reducer: ApplicationStateReducer,
+    state: Storage[.state] ?? ApplicationState(),
+    middleware: []
+  )
+
   static public func start () {
     if (!Constants.DEBUG) {
       setupCrashReporting()
@@ -94,7 +97,6 @@ class Application {
         message: message,
         buttons: ["Restart Mac", "Re-install eqMac", "Quit"]
       ) { buttonPressed in
-        Console.log(buttonPressed)
         switch NSApplication.ModalResponse(buttonPressed) {
           case .alertFirstButtonReturn:
             self.restartMac()
@@ -112,7 +114,7 @@ class Application {
   
   private static func setupAudio () {
     Console.log("Setting up Audio Engine")
-    showPassthroughDevice() {
+    showDriver {
       // Make sure the Driver is not currently selected
       if (AudioDevice.currentOutputDevice.id == Driver.device!.id) {
         AudioDevice.builtInOutputDevice.setAsDefaultOutputDevice()
@@ -122,36 +124,36 @@ class Application {
     }
   }
   
-  private static var showPasshtroughDeviceChecks: Int = 0
-  private static var showPassthroughDeviceCheckQueue: DispatchQueue?
-  private static func showPassthroughDevice (_ completion: @escaping() -> Void) {
+  private static var showDriverChecks: Int = 0
+  private static var showDriverCheckQueue: DispatchQueue?
+  private static func showDriver (_ completion: @escaping() -> Void) {
     if (Driver.hidden) {
       Driver.shown = true
-      showPasshtroughDeviceChecks = 0
-      showPassthroughDeviceCheckQueue = DispatchQueue(label: "check-driver-shown", qos: .userInteractive)
-      showPassthroughDeviceCheckQueue!.asyncAfter(deadline: .now() + .milliseconds(500)) {
-        return waitAndCheckForPasshtroughDeviceShown(completion)
+      showDriverChecks = 0
+      showDriverCheckQueue = DispatchQueue(label: "check-driver-shown", qos: .userInteractive)
+      showDriverCheckQueue!.asyncAfter(deadline: .now() + .milliseconds(500)) {
+        return waitAndCheckForDriverShown(completion)
       }
     } else {
       completion()
     }
   }
-  private static func waitAndCheckForPasshtroughDeviceShown (_ completion: @escaping() -> Void) {
-    showPasshtroughDeviceChecks += 1
+  private static func waitAndCheckForDriverShown (_ completion: @escaping() -> Void) {
+    showDriverChecks += 1
     if (Driver.device == nil) {
-      if (showPasshtroughDeviceChecks > 5) {
-        return passthroughDeviceFailedToActivatePrompt()
+      if (showDriverChecks > 5) {
+        return driverFailedToActivatePrompt()
       }
-      showPassthroughDeviceCheckQueue!.asyncAfter(deadline: .now() + .milliseconds(500)) {
-        return waitAndCheckForPasshtroughDeviceShown(completion)
+      showDriverCheckQueue!.asyncAfter(deadline: .now() + .milliseconds(500)) {
+        return waitAndCheckForDriverShown(completion)
       }
       return
     }
-    showPassthroughDeviceCheckQueue = nil
+    showDriverCheckQueue = nil
     completion()
   }
   
-  private static func passthroughDeviceFailedToActivatePrompt () {
+  private static func driverFailedToActivatePrompt () {
     Alert.confirm(
     title: "Driver failed to activate", message: "Unfortunately the audio driver has failed to active. You can restart eqMac and try again or quit.", okText: "Try again", cancelText: "Quit") { restart in
       if restart {
@@ -164,11 +166,14 @@ class Application {
   
   static var ignoreNextVolumeEvent = false
   
-  private static func setupDeviceEvents () {
+  static func setupDeviceEvents () {
     AudioDeviceEvents.on(.outputChanged) { device in
-      if device.isHardware {
+      if device.id == Driver.device!.id { return }
+      if Output.isDeviceAllowed(device) {
         Console.log("outputChanged: ", device, " starting PlayThrough")
         startPassthrough()
+      } else {
+        // TODO: Tell the user eqMac doesn't support this device
       }
     }
     
@@ -177,35 +182,30 @@ class Application {
       
       if list.added.count > 0 {
         for added in list.added {
-          if Output.autoSelect(added) {
+          if Output.shouldAutoSelect(added) {
             selectOutput(device: added)
             break
           }
         }
       } else if (list.removed.count > 0) {
         
-        var currentDeviceRemoved = false
-        for removed in list.removed {
-          if removed.id == selectedDevice.id {
-            currentDeviceRemoved = true
-            break
-          }
-        }
+        let currentDeviceRemoved = list.removed.contains(where: { $0.id == selectedDevice.id })
         
-        stopEngines()
-        if (!currentDeviceRemoved) {
+        if (currentDeviceRemoved) {
+          stopEngines()
           try! AudioDeviceEvents.recreateEventEmitters([.isAliveChanged, .volumeChanged, .nominalSampleRateChanged])
           self.setupDriverDeviceEvents()
           Utilities.delay(500) {
-            createAudioPipeline()
+            selectOutput(device: AudioDevice.builtInOutputDevice) // TODO: Replace with a known device from a stack
           }
         }
       }
       
     }
     AudioDeviceEvents.on(.isJackConnectedChanged) { device in
-      Console.log("isJackConnectedChanged", device, device.isJackConnected(direction: .playback))
-      if (device.id != selectedDevice.id) {
+      let connected = device.isJackConnected(direction: .playback)
+      Console.log("isJackConnectedChanged", device, connected)
+      if (connected == true && device.id != selectedDevice.id) {
         selectOutput(device: device)
       }
     }
@@ -214,7 +214,7 @@ class Application {
   }
   
   static var ignoreNextDriverMuteEvent = false
-  private static func setupDriverDeviceEvents () {
+  static func setupDriverDeviceEvents () {
     AudioDeviceEvents.on(.volumeChanged, onDevice: Driver.device!) {
       if ignoreNextVolumeEvent {
         ignoreNextVolumeEvent = false
@@ -249,9 +249,13 @@ class Application {
     }
   }
   
-  private static func startPassthrough () {
+  static func startPassthrough () {
     selectedDevice = AudioDevice.currentOutputDevice
-    
+
+    if (selectedDevice.id == Driver.device!.id) {
+      selectOutput(device: AudioDevice.builtInOutputDevice) // TODO: Replace with a known device from a stack
+      return
+    }
     var volume: Double = Application.store.state.effects.volume.gain
     if (AudioDevice.currentOutputDevice.outputVolumeSupported) {
       volume = Double(AudioDevice.currentOutputDevice.virtualMasterVolume(direction: .playback)!)
@@ -263,7 +267,7 @@ class Application {
     Driver.device!.setVirtualMasterVolume(volume > 1 ? 1 : Float32(volume), direction: .playback)
     Driver.latency = selectedDevice.latency(direction: .playback) ?? 0 // Set driver latency to mimic device
     Driver.safetyOffset = selectedDevice.safetyOffset(direction: .playback) ?? 0 // Set driver latency to mimic device
-    self.matchDriverSampleRateTo48000()
+    self.matchDriverSampleRateToOutput()
     
     Console.log("Driver new Latency: \(Driver.latency)")
     Console.log("Driver new Safety Offset: \(Driver.safetyOffset)")
@@ -308,7 +312,7 @@ class Application {
         // If device that we are sending audio to goes offline we need to stop and switch to a different device
         if (selectedDevice.isAlive() == false) {
           Console.log("Current device dies so switching to built it")
-          selectOutput(device: AudioDevice.builtInOutputDevice)
+          selectOutput(device: AudioDevice.builtInOutputDevice) // TODO: Replace with a known device from stack
         }
       }
       
@@ -322,6 +326,7 @@ class Application {
           // need a delay, because emitter should finish it's work at first
           try! AudioDeviceEvents.recreateEventEmitters([.isAliveChanged, .volumeChanged, .nominalSampleRateChanged])
           self.setupDriverDeviceEvents()
+          self.matchDriverSampleRateToOutput()
           stopEngines()
           createAudioPipeline()
         }
@@ -349,12 +354,12 @@ class Application {
     }
   }
   
-  private static func stopEngines () {
+  static func stopEngines () {
     if (output != nil) {
-      output.stop()
+      output = nil
     }
     if (engine != nil) {
-      engine.stop()
+      engine = nil
     }
   }
   
@@ -432,13 +437,17 @@ class Application {
       AudioDevice.currentOutputDevice = selectedDevice
     }
   }
-  
-  static func quit () {
+
+  static func stopSave () {
     stopListeners()
     stopEngines()
     switchBackToLastKnownDevice()
-    Driver.hidden = true
     Storage.synchronize()
+  }
+  
+  static func quit () {
+    stopSave()
+    Driver.hidden = true
     NSApp.terminate(nil)
   }
   
@@ -462,9 +471,7 @@ class Application {
   
   static func uninstall (_ completion: @escaping (Bool) -> Void) {
     Driver.uninstall(started: {
-      self.stopListeners()
-      self.stopEngines()
-      self.switchBackToLastKnownDevice()
+      self.stopSave()
       UI.close()
       Utilities.delay(100) { UI.showLoadingWindow("Uninstalling eqMac\nIf this process takes too long,\nplease restart your Mac") }
     }) { success in

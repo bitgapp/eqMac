@@ -12,8 +12,9 @@ https://www.davidebarranca.com/2019/04/notarizing-installers-for-macos-catalina/
 * Select build > Distribute app > Developer ID > Next next next
 * Wait for notarization to happen > Export notarized .app to native/app/update
 * Goto native/app/update
-* Check for: `codesign -dvv eqMac.app`
-
+* Check that the binary is universal (x86_64 arm64): `lipo -archs eqMac.app/Contents/MacOS/eqMac`
+* Check for: `codesign -vvv --deep --strict eqMac.app`
+  
 * `open ../eqMac.pkgproj`
 
 * Build the .pkg move it to the /native/update dir: `mv ../build/eqMac.pkg eqMac_unsigned.pkg`

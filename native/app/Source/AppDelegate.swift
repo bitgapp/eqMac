@@ -35,6 +35,14 @@ class AppDelegate: NSObject, NSApplicationDelegate, SUUpdaterDelegate {
     Utilities.delay(2000) {
       self.updateProcessed.emit()
     }
+
+    NSWorkspace.shared.notificationCenter.addObserver(
+        self, selector: #selector(didWakeUp(event:)),
+        name: NSWorkspace.didWakeNotification, object: nil)
+
+    NSWorkspace.shared.notificationCenter.addObserver(
+        self, selector: #selector(willSleep(event:)),
+        name: NSWorkspace.willSleepNotification, object: nil)
   }
   
   func applicationWillTerminate(_ aNotification: Notification) {
@@ -88,6 +96,14 @@ class AppDelegate: NSObject, NSApplicationDelegate, SUUpdaterDelegate {
   
   func updater(_ updater: SUUpdater, failedToDownloadUpdate item: SUAppcastItem, error: Error) {
     updateProcessed.emit()
+  }
+
+  @objc func willSleep(event: NSNotification) {
+    Application.stopSave()
+  }
+
+  @objc func didWakeUp(event: NSNotification) {
+    Application.restart()
   }
 }
 

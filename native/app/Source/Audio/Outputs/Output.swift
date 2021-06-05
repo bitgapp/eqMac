@@ -20,23 +20,17 @@ class Output {
       && Constants.SUPPORTED_TRANSPORT_TYPES.contains(device.transportType!)
       && !device.isInputOnlyDevice()
       && !device.name.contains("CADefaultDeviceAggregate")
+      && device.uid != Constants.DRIVER_DEVICE_UID
+      && !Constants.LEGACY_DRIVER_UIDS.contains(device.uid ?? "")
   }
   
-  static func autoSelect (_ device: AudioDevice) -> Bool {
+  static func shouldAutoSelect (_ device: AudioDevice) -> Bool {
     let types: [TransportType] = [.bluetooth, .bluetoothLE, .builtIn]
     return Output.isDeviceAllowed(device) && types.contains(device.transportType!)
   }
   
   static var allowedDevices: [AudioDevice] {
-    return AudioDevice.allOutputDevices()
-      .filter({ device in
-        if let uid = device.uid {
-          if (uid == Constants.PASSTHROUGH_DEVICE_UID || Constants.LEGACY_DRIVER_UIDS.contains(uid)) {
-            return false
-          }
-        }
-        return isDeviceAllowed(device)
-      })
+    return AudioDevice.allOutputDevices().filter({ isDeviceAllowed($0) })
   }
   
   let outputRenderCallback: AURenderCallback = {

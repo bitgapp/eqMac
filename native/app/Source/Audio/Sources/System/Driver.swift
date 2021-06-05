@@ -10,18 +10,6 @@ import Foundation
 import AMCoreAudio
 import CoreFoundation
 
-enum DriverDevice {
-  case passthrough
-  case ui
-  case null
-}
-
-enum DriverDeviceIsActiveProperty: String {
-  case passthrough = "deva"
-  case ui = "uida"
-  case null = "nuld"
-}
-
 enum CustomProperties: String {
   case kAudioDeviceCustomPropertyLatency = "cltc"
   case kAudioDeviceCustomPropertySafetyOffset = "csfo"
@@ -30,16 +18,6 @@ enum CustomProperties: String {
 }
 
 class Driver {
-//  static var legacyIsInstalled: Bool {
-//    get {
-//      for legacyDriverUID in Constants.LEGACY_DRIVER_UIDS {
-//        let device = AudioDevice.getOutputDeviceFromUID(UID: legacyDriverUID)
-//        if (device != nil) { return true }
-//      }
-//      return false
-//    }
-//  }
-//
   static var pluginId: AudioObjectID? {
     return AudioDevice.lookupIDByPluginBundleID(by: Constants.DRIVER_BUNDLE_ID)
   }
@@ -54,9 +32,7 @@ class Driver {
     return NSDictionary(contentsOfFile: Bundle.main.path(forResource: "Info", ofType: "plist", inDirectory: "Embedded/eqMac.driver/Contents")!) as! Dictionary<String, Any>
   }
 
-  static var bundledVersion: String {
-    return info["CFBundleVersion"] as! String
-  }
+  static let requiredVersion = "1.2"
 
   static var sampleRates: [Double] {
     return [
@@ -78,50 +54,6 @@ class Driver {
     ]
   }
   
-  static func getDeviceIsActive (device: DriverDevice) -> Bool {
-    if Driver.device != nil { return true }
-    if let pluginId = self.pluginId {
-      var address = AudioObjectPropertyAddress(
-        mSelector: getPropertySelectorFromString(getDeviceIsActiveProperty(device).rawValue),
-        mScope: kAudioObjectPropertyScopeGlobal,
-        mElement: kAudioObjectPropertyElementMaster
-      )
-      
-      var active = kCFBooleanFalse
-      var size: UInt32 = UInt32(MemoryLayout<CFBoolean>.size)
-      
-      checkErr(AudioObjectGetPropertyData(pluginId, &address, 0, nil, &size, &active))
-      
-      return CFBooleanGetValue(active)
-    }
-    return false
-  }
-  
-  private static func setDeviceIsActive (device: DriverDevice, _ active: Bool) {
-    if let pluginId = self.pluginId {
-      var mSelector: AudioObjectPropertySelector = getPropertySelectorFromString(getDeviceIsActiveProperty(device).rawValue)
-      var address = AudioObjectPropertyAddress(
-        mSelector: mSelector,
-        mScope: kAudioObjectPropertyScopeGlobal,
-        mElement: kAudioObjectPropertyElementMaster
-      )
-      
-      var data: CFBoolean = active.cfBooleanValue
-      let size: UInt32 = UInt32(MemoryLayout<CFBoolean>.size)
-      
-      checkErr(AudioObjectSetPropertyData(pluginId, &address, 0, nil, size, &data))
-    }
-  }
-  
-  
-  private static func getDeviceIsActiveProperty (_ device: DriverDevice) -> DriverDeviceIsActiveProperty {
-    switch device {
-    case .passthrough: return .passthrough
-    case .ui: return .ui
-    case .null: return .null
-    }
-  }
-  
   private static func getPropertySelectorFromString (_ str: String) -> AudioObjectPropertySelector {
     return AudioObjectPropertySelector(UInt32.init(from: str.byteArray))
   }
@@ -135,6 +67,7 @@ class Driver {
     Console.log(CustomProperties.kAudioDeviceCustomPropertyLatency.rawValue, address.mSelector)
     return AudioObjectHasProperty(Driver.device!.id, &address)
   }
+
   static var latency: UInt32 {
     get {
       return Driver.device!.latency(direction: .playback)!
@@ -224,7 +157,7 @@ class Driver {
   }
   
   static var isMismatched: Bool {
-    return bundledVersion != installedVersion
+    return requiredVersion != installedVersion
   }
   
   static var hidden: Bool {
@@ -233,7 +166,7 @@ class Driver {
   }
   
   static var device: AudioDevice? {
-    return AudioDevice.lookup(by: Constants.PASSTHROUGH_DEVICE_UID)
+    return AudioDevice.lookup(by: Constants.DRIVER_DEVICE_UID)
   }
   
   static func install (started: (() -> Void)? = nil, _ finished: @escaping (Bool) -> Void) {

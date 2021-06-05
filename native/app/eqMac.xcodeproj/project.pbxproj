@@ -10,6 +10,7 @@
 		78242E96261A8AEE00058ADE /* Connectivity in Frameworks */ = {isa = PBXBuildFile; productRef = 78242E95261A8AEE00058ADE /* Connectivity */; };
 		7858FBC224A9630800637941 /* restart_mac.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 7858FBC124A9630800637941 /* restart_mac.scpt */; };
 		787474A925336D9200FF4A95 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 787474A825336D9200FF4A95 /* CoreFoundation.framework */; };
+		788732FE266BB08E0093CBB5 /* Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = E073727C20167E7600874CC6 /* Application.swift */; };
 		789F83CF250E20A8004F871D /* restart_coreaudio.sh in Resources */ = {isa = PBXBuildFile; fileRef = 789F83CE250E20A8004F871D /* restart_coreaudio.sh */; };
 		789F83D1250E20DD004F871D /* place_driver.sh in Resources */ = {isa = PBXBuildFile; fileRef = 789F83D0250E20DD004F871D /* place_driver.sh */; };
 		789F83D3250E2164004F871D /* check_driver_installed.sh in Resources */ = {isa = PBXBuildFile; fileRef = 789F83D2250E2164004F871D /* check_driver_installed.sh */; };
@@ -69,7 +70,6 @@
 		E06E98D221D2E32E0041DD9C /* Popover.swift in Sources */ = {isa = PBXBuildFile; fileRef = E06E98D121D2E32E0041DD9C /* Popover.swift */; };
 		E072856B23F84A5500EDE8AC /* BoolExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E072856A23F84A5500EDE8AC /* BoolExtensions.swift */; };
 		E073727B20167CA300874CC6 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E073727A20167CA300874CC6 /* Constants.swift */; };
-		E073727D20167E7600874CC6 /* Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = E073727C20167E7600874CC6 /* Application.swift */; };
 		E07A24E41FF3D49F007AEF20 /* AudioDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = E07A24E31FF3D49F007AEF20 /* AudioDevice.swift */; };
 		E07A24E61FF3D4E4007AEF20 /* CheckErr.swift in Sources */ = {isa = PBXBuildFile; fileRef = E07A24E51FF3D4E4007AEF20 /* CheckErr.swift */; };
 		E07A6EE122B6BA4E00DE7B16 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = E07A6EE022B6BA4E00DE7B16 /* File.swift */; };
@@ -809,11 +809,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				788732FE266BB08E0093CBB5 /* Application.swift in Sources */,
 				E00C596623BBBF3100C7B8B6 /* Atomic.m in Sources */,
 				E089AC492095E0B1005B72E5 /* Console.swift in Sources */,
 				E0AAD9DA249C109000D58099 /* SwiftyPing.swift in Sources */,
 				E090AD5820A9725F003BE5FF /* Volume.swift in Sources */,
-				E073727D20167E7600874CC6 /* Application.swift in Sources */,
 				E02FF91622C7EC6C0051342A /* Transition.swift in Sources */,
 				E0E8B63220EEB6A900DE905C /* EqualizersState.swift in Sources */,
 				E036BCEA235B1171001F057B /* ApplicationDataBus.swift in Sources */,
@@ -1016,7 +1016,7 @@
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 0.3.7;
+				CURRENT_PROJECT_VERSION = 1.0.0;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1055,7 +1055,7 @@
 					"$(PROJECT_DIR)/Source/Vendor",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				MARKETING_VERSION = v0.3.7;
+				MARKETING_VERSION = v1.0.0;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bitgapp.eqmac;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1080,7 +1080,7 @@
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 0.3.7;
+				CURRENT_PROJECT_VERSION = 1.0.0;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = JZA6C97KJA;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1119,7 +1119,7 @@
 					"$(PROJECT_DIR)/Source/Vendor",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				MARKETING_VERSION = v0.3.7;
+				MARKETING_VERSION = v1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bitgapp.eqmac;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

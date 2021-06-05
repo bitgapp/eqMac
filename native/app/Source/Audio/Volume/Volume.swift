@@ -155,32 +155,35 @@ class Volume: StoreSubscriber {
 
   func newState(state: VolumeState) {
     if (state.balance != balance) {
-      performOnChangeGainThread {
+      performOnChangeGainThread { [weak self] in
+        guard self != nil else { return }
         if (state.transition) {
-          Transition.perform(from: self.balance, to: state.balance) { balance in
-            self.balance = balance
+          Transition.perform(from: self!.balance, to: state.balance) { balance in
+            self!.balance = balance
           }
         } else {
-          self.balance = state.balance
+          self!.balance = state.balance
         }
       }
     }
     
     if (state.gain != gain) {
-      performOnChangeGainThread {
+      performOnChangeGainThread { [weak self] in
+        guard self != nil else { return }
         if (state.transition) {
-          Transition.perform(from: self.gain, to: state.gain) { gain in
-            self.gain = gain
+          Transition.perform(from: self!.gain, to: state.gain) { [weak self] gain in
+            self?.gain = gain
           }
         } else {
-          self.gain = state.gain
+          self!.gain = state.gain
         }
       }
     }
     
     if (state.muted != muted) {
-      performOnChangeGainThread {
-        self.muted = state.muted
+      performOnChangeGainThread { [weak self] in
+        guard self != nil else { return }
+        self!.muted = state.muted
       }
     }
   }
