@@ -45,7 +45,6 @@ class Output {
     let abl = UnsafeMutableAudioBufferListPointer(ioData)!
     let output = Unmanaged<Output>.fromOpaque(inRefCon).takeUnretainedValue()
     let engine: Engine! = output.engine!
-    let inputDevice = Driver.device!
     let sampleTime = inTimeStamp.pointee.mSampleTime
     var currRate = output.varispeed.rate;
     
@@ -55,7 +54,7 @@ class Output {
       Console.log("Last Input Time: ", engine.lastSampleTime)
       Console.log("First Output Time: ", output.firstOutputTime)
       Console.log("Delta: ", delta)
-      output.computeThruOffset(inputDevice: inputDevice, outputDevice: output.device)
+      output.computeOffset()
       
       Console.log("Initial Offset: ", output.inToOutSampleOffset)
       if delta < 0 {
@@ -97,13 +96,15 @@ class Output {
         rate = currRate - 0.0002;
       }
       output.varispeed.rate = rate;
-      //Console.log("rate: " , rate, error) ;
+//      Console.log("Rate: \(rate)") ;
     }
     
     let startRead = Int64(sampleTime - output.inToOutSampleOffset)
     //    Console.log("Reading: ", inNumberFrames, startRead)
     
-    if engine.ringBuffer.fetch(ioData!, framesToRead: inNumberFrames, startRead: startRead) != .noError {
+    let err = engine.ringBuffer.fetch(ioData!, framesToRead: inNumberFrames, startRead: startRead)
+    
+    if err != .noError {
       makeBufferSilent(abl)
       //            var bufferStartTime: SampleTime = 0
       //            var bufferEndTime: SampleTime = 0
@@ -112,7 +113,7 @@ class Output {
       output.firstOutputTime = -1;
       output.initialOffset = 0;
       output.varispeed.rate = output.intialCalcRate;
-      Console.log("ERROR");
+      Console.log("ERROR: \(err)");
       return noErr
     }
     //    Console.log("Output Finished! Silence", bufferSilencePercent(ioData!))
@@ -139,7 +140,7 @@ class Output {
     self.device = device
     self.engine = engine
     
-    computeThruOffset(inputDevice: Driver.device!, outputDevice: device)
+    computeOffset()
     outputEngine.setOutputDevice(device)
     
     let outputSampleRate = device.actualSampleRate()!
@@ -183,12 +184,12 @@ class Output {
     Console.log("Output Engine started")
   }
   
-  func computeThruOffset(inputDevice : AudioDevice,
-                         outputDevice: AudioDevice) {
+  func computeOffset() {
+    let inputDevice = Driver.device!
     let inputOffset = inputDevice.safetyOffset(direction: .recording)
-    let outputOffset = outputDevice.safetyOffset(direction: .playback)
     let inputBuffer = inputDevice.bufferFrameSize(direction: .recording)
-    let outputBuffer = outputDevice.bufferFrameSize(direction: .playback)
+    let outputOffset = device.safetyOffset(direction: .playback)
+    let outputBuffer = device.bufferFrameSize(direction: .playback)
     inToOutSampleOffset = Double(inputOffset! + outputOffset! + inputBuffer + outputBuffer)
   }
   

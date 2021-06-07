@@ -63,17 +63,18 @@ class Application {
     Networking.startMonitor()
     
     checkDriver {
-      AudioDevice.register = true
-      audioPipelineIsRunningListener = audioPipelineIsRunning.once {
-        self.setupUI()
-        if (User.isFirstLaunch || Constants.DEBUG) {
-          UI.show()
-        } else {
-          UI.close()
+      Sources.getInputPermission {
+        AudioDevice.register = true
+        audioPipelineIsRunningListener = audioPipelineIsRunning.once {
+          self.setupUI()
+          if (User.isFirstLaunch || Constants.DEBUG) {
+            UI.show()
+          } else {
+            UI.close()
+          }
         }
-        
+        setupAudio()
       }
-      setupAudio()
     }
   }
   

@@ -61,13 +61,13 @@ class Sources: NSObject {
     reset()
     //        initializeFile()
     //        initializeInput()
-    getInputPermission() {
+    Sources.getInputPermission() {
       self.initializeSystem()
       callback(self)
     }
   }
   
-  func getInputPermission (_ callback: @escaping () -> Void) {
+  static func getInputPermission (_ callback: @escaping () -> Void) {
     if !InputSource.hasPermission {
       let title = "Microphone Usage Permission"
       Alert.confirm(
