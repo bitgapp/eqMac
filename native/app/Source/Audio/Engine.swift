@@ -12,6 +12,7 @@ import AMCoreAudio
 import AVFoundation
 import Foundation
 import AudioToolbox
+import CircularBuffer
 
 class Engine {
   private var eventListeners: [Any] = []
@@ -41,7 +42,7 @@ class Engine {
       
 //      Console.log("Writing: ", inNumberFrames, sampleTime)
 
-      if engine.ringBuffer.store(ioData!, framesToWrite: inNumberFrames, startWrite: sampleTime.int64Value) != .noError {
+      if engine.ringBuffer.store(ioData!, framesToWrite: CircularBufferTimeBounds.SampleTime(inNumberFrames), startWrite: sampleTime.int64Value) != .noError {
         return OSStatus()
       }
       engine.lastSampleTime = sampleTime
@@ -53,7 +54,7 @@ class Engine {
   }
   
   // Middleware
-  var ringBuffer: CARingBuffer<Float>!
+  var ringBuffer: CircularBuffer<Float>!
   
   init (sources: Sources, effects: Effects, volume: Volume) {
     Console.log("Creating Engine")
@@ -79,7 +80,7 @@ class Engine {
   
   private func setupBuffer () {
     let framesPerSample = Driver.device!.bufferFrameSize(direction: .playback)
-    ringBuffer = CARingBuffer<Float>(numberOfChannels: 2, capacityFrames: UInt32(framesPerSample * 64))
+    ringBuffer = CircularBuffer<Float>(numberOfBuffers: 2, numberOfElements: Int(framesPerSample) * 64)
   }
   
   private func attach () {

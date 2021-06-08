@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7803AC5B266ED60800860BB5 /* CircularBuffer in Frameworks */ = {isa = PBXBuildFile; productRef = 7803AC5A266ED60800860BB5 /* CircularBuffer */; };
 		78242E96261A8AEE00058ADE /* Connectivity in Frameworks */ = {isa = PBXBuildFile; productRef = 78242E95261A8AEE00058ADE /* Connectivity */; };
 		7858FBC224A9630800637941 /* restart_mac.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 7858FBC124A9630800637941 /* restart_mac.scpt */; };
 		787474A925336D9200FF4A95 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 787474A825336D9200FF4A95 /* CoreFoundation.framework */; };
@@ -240,6 +241,7 @@
 				787474A925336D9200FF4A95 /* CoreFoundation.framework in Frameworks */,
 				E02ACA982459EF3B00754204 /* Pods_eqMac.framework in Frameworks */,
 				E0F661711FDC38BE00252923 /* WebKit.framework in Frameworks */,
+				7803AC5B266ED60800860BB5 /* CircularBuffer in Frameworks */,
 				78242E96261A8AEE00058ADE /* Connectivity in Frameworks */,
 				78D8C3322569B2910084739C /* LaunchAtLogin in Frameworks */,
 				E0453056245A03E800CDB1BF /* Foundation.framework in Frameworks */,
@@ -619,6 +621,7 @@
 			packageProductDependencies = (
 				78D8C3312569B2910084739C /* LaunchAtLogin */,
 				78242E95261A8AEE00058ADE /* Connectivity */,
+				7803AC5A266ED60800860BB5 /* CircularBuffer */,
 			);
 			productName = eqMacAudio;
 			productReference = E086AFFC1FCCB8E700CF9F0D /* eqMac.app */;
@@ -660,6 +663,7 @@
 			packageReferences = (
 				78D8C3302569B2910084739C /* XCRemoteSwiftPackageReference "LaunchAtLogin" */,
 				78242E94261A8AEE00058ADE /* XCRemoteSwiftPackageReference "connectivity" */,
+				7803AC59266ED60800860BB5 /* XCRemoteSwiftPackageReference "CircularBufferSwift" */,
 			);
 			productRefGroup = E086AFFD1FCCB8E700CF9F0D /* Products */;
 			projectDirPath = "";
@@ -1157,6 +1161,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		7803AC59266ED60800860BB5 /* XCRemoteSwiftPackageReference "CircularBufferSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/bitgapp/CircularBufferSwift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		78242E94261A8AEE00058ADE /* XCRemoteSwiftPackageReference "connectivity" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/rwbutler/connectivity";
@@ -1176,6 +1188,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		7803AC5A266ED60800860BB5 /* CircularBuffer */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7803AC59266ED60800860BB5 /* XCRemoteSwiftPackageReference "CircularBufferSwift" */;
+			productName = CircularBuffer;
+		};
 		78242E95261A8AEE00058ADE /* Connectivity */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 78242E94261A8AEE00058ADE /* XCRemoteSwiftPackageReference "connectivity" */;

@@ -2,6 +2,15 @@
   "object": {
     "pins": [
       {
+        "package": "CircularBuffer",
+        "repositoryURL": "https://github.com/bitgapp/CircularBufferSwift.git",
+        "state": {
+          "branch": null,
+          "revision": "6d988331400d25ad6e66167c1b95d595b40e8901",
+          "version": "1.0.0"
+        }
+      },
+      {
         "package": "Connectivity",
         "repositoryURL": "https://github.com/rwbutler/connectivity",
         "state": {
@@ -17,6 +26,15 @@
           "branch": null,
           "revision": "3f18355f492993c2fd5c571d97e524697d16d572",
           "version": "4.0.1"
+        }
+      },
+      {
+        "package": "swift-atomics",
+        "repositoryURL": "https://github.com/apple/swift-atomics.git",
+        "state": {
+          "branch": null,
+          "revision": "3e95ba32cd1b4c877f6163e8eea54afc4e63bf9f",
+          "version": "0.0.3"
         }
       }
     ]

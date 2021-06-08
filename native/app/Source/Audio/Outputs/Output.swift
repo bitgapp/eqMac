@@ -12,6 +12,7 @@ import SwiftyUserDefaults
 import EmitterKit
 import AVFoundation
 import AudioToolbox
+import CircularBuffer
 
 class Output {
   
@@ -102,7 +103,7 @@ class Output {
     let startRead = Int64(sampleTime - output.inToOutSampleOffset)
     //    Console.log("Reading: ", inNumberFrames, startRead)
     
-    let err = engine.ringBuffer.fetch(ioData!, framesToRead: inNumberFrames, startRead: startRead)
+    let err = engine.ringBuffer.fetch(ioData!, framesToRead: CircularBufferTimeBounds.SampleTime(inNumberFrames), startRead: startRead)
     
     if err != .noError {
       makeBufferSilent(abl)
