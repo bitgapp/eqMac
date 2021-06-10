@@ -227,7 +227,7 @@ class Output {
 
     varispeed.rate = newRate
 //        Console.log("Took \(benchmark.end())ms to recalculate Varispeed rate: \(varispeed.rate)")
-    print("\n\nInput Last: \(engine.lastSampleTime)\nOutput Last: \(lastSampleTime)\nSafety Offset: \(safetyOffset)\nLast Safety Offset: \(lastSafetyOffset)\nSafety Offset Avg: \(safetyOffsetAverage)\nError: \(String(format: "%.3f", error * 100))%\nDt: \(Dt)\nIntegral: \(integral)\nPID: \(p), \(i), \(d)\nRate Change: \(change)\nNew Varispeed Rate: \(varispeed.rate)\n")
+//    print("\n\nInput Last: \(engine.lastSampleTime)\nOutput Last: \(lastSampleTime)\nSafety Offset: \(safetyOffset)\nLast Safety Offset: \(lastSafetyOffset)\nSafety Offset Avg: \(safetyOffsetAverage)\nError: \(String(format: "%.3f", error * 100))%\nDt: \(Dt)\nIntegral: \(integral)\nPID: \(p), \(i), \(d)\nRate Change: \(change)\nNew Varispeed Rate: \(varispeed.rate)\n")
   }
 
   func resetOffsets () {
