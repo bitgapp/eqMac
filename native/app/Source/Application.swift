@@ -280,12 +280,7 @@ class Application {
       self.createAudioPipeline()
     }
   }
-  
-  private static func matchDriverSampleRateTo48000 () {
-    // Makes correct processing of EQ for different Input formats
-    Driver.device!.setNominalSampleRate(48_000)
-  }
-  
+
   private static func matchDriverSampleRateToOutput () {
     let outputSampleRate = selectedDevice.actualSampleRate()!
     let driverSampleRates = Driver.sampleRates
@@ -322,13 +317,12 @@ class Application {
         onDevice: selectedDevice,
         retain: false
       ) {
-        //        selectOutput(device: selectedDevice)
+        stopEngines()
         Utilities.delay(100) {
           // need a delay, because emitter should finish it's work at first
           try! AudioDeviceEvents.recreateEventEmitters([.isAliveChanged, .volumeChanged, .nominalSampleRateChanged])
           self.setupDriverDeviceEvents()
           self.matchDriverSampleRateToOutput()
-          stopEngines()
           createAudioPipeline()
         }
       }

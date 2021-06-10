@@ -55,5 +55,6 @@ struct Constants {
     TransportType.usb,
     TransportType.aggregate
   ]
+  static let OPEN_SOURCE = true
 }
 

@@ -24,6 +24,7 @@ class ApplicationDataBus: DataBus {
         "name": host.localizedName as AnyObject,
         "model": Sysctl.model as String,
         "version": Bundle.main.infoDictionary?["CFBundleVersion"] as Any,
+        "isOpenSource": Constants.OPEN_SOURCE,
         "driverVersion": Driver.installedVersion
       ]
     }

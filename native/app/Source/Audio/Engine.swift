@@ -12,7 +12,6 @@ import AMCoreAudio
 import AVFoundation
 import Foundation
 import AudioToolbox
-import CircularBuffer
 
 class Engine {
   private var eventListeners: [Any] = []
@@ -35,26 +34,23 @@ class Engine {
     ioData: UnsafeMutablePointer<AudioBufferList>?) -> OSStatus in
     
     if ioActionFlags.pointee == AudioUnitRenderActionFlags.unitRenderAction_PostRender {
-//      Console.log("Input started")
       let engine = Unmanaged<Engine>.fromOpaque(inRefCon).takeUnretainedValue()
       
       let sampleTime = inTimeStamp.pointee.mSampleTime
-      
-//      Console.log("Writing: ", inNumberFrames, sampleTime)
 
-      if engine.ringBuffer.store(ioData!, framesToWrite: CircularBufferTimeBounds.SampleTime(inNumberFrames), startWrite: sampleTime.int64Value) != .noError {
+      let start = sampleTime.int64Value
+      let end = start + Int64(inNumberFrames)
+      if engine.buffer.write(from: ioData!, start: start, end: end) != .noError {
         return OSStatus()
       }
       engine.lastSampleTime = sampleTime
-      
-//      Console.log("Input Finished! Silence", bufferSilencePercent(ioData!))
     }
     
     return noErr
   }
   
   // Middleware
-  var ringBuffer: CircularBuffer<Float>!
+  var buffer: CircularBuffer<Float>!
   
   init (sources: Sources, effects: Effects, volume: Volume) {
     Console.log("Creating Engine")
@@ -80,7 +76,7 @@ class Engine {
   
   private func setupBuffer () {
     let framesPerSample = Driver.device!.bufferFrameSize(direction: .playback)
-    ringBuffer = CircularBuffer<Float>(numberOfBuffers: 2, numberOfElements: Int(framesPerSample) * 64)
+    buffer = CircularBuffer<Float>(channelCount: 2, capacity: Int(framesPerSample) * 64)
   }
   
   private func attach () {

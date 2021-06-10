@@ -2,15 +2,6 @@
   "object": {
     "pins": [
       {
-        "package": "CircularBuffer",
-        "repositoryURL": "https://github.com/bitgapp/CircularBufferSwift.git",
-        "state": {
-          "branch": null,
-          "revision": "6d988331400d25ad6e66167c1b95d595b40e8901",
-          "version": "1.0.0"
-        }
-      },
-      {
         "package": "Connectivity",
         "repositoryURL": "https://github.com/rwbutler/connectivity",
         "state": {

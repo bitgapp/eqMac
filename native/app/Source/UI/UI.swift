@@ -235,7 +235,7 @@ class UI: StoreSubscriber {
           UI.cachedIsShown = shown
           UI.isShownChanged.emit(shown)
         }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: checkIfVisible)
+        Utilities.delay(1000) { checkIfVisible() }
       }
 
       checkIfVisible()
