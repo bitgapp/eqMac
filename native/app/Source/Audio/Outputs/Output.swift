@@ -58,7 +58,6 @@ class Output {
     outputEngine.setOutputDevice(device)
     
     let outputSampleRate = device.actualSampleRate()!
-    Console.log(device.channels(direction: .playback))
     let format = AVAudioFormat.init(standardFormatWithSampleRate: outputSampleRate, channels: 2)!
 
     varispeed.rate = Float(Driver.device!.actualSampleRate()! / outputSampleRate)
@@ -155,7 +154,7 @@ class Output {
     let inputBuffer = inputDevice.bufferFrameSize(direction: .recording)
     let outputOffset = device.safetyOffset(direction: .playback)
     let outputBuffer = device.bufferFrameSize(direction: .playback)
-    safetyOffset = Double(inputOffset! + outputOffset! + inputBuffer + outputBuffer) + pow(2, 12)
+    safetyOffset = Double(inputOffset! + outputOffset! + inputBuffer + outputBuffer)// + pow(2, 12)
     sampleOffset = engine.lastSampleTime - lastSampleTime
     Console.log("Last Input Time: ", engine.lastSampleTime)
     Console.log("Last Output Time: ", lastSampleTime)

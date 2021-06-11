@@ -267,7 +267,7 @@ class Application {
     
     Driver.device!.setVirtualMasterVolume(volume > 1 ? 1 : Float32(volume), direction: .playback)
     Driver.latency = selectedDevice.latency(direction: .playback) ?? 0 // Set driver latency to mimic device
-    Driver.safetyOffset = selectedDevice.safetyOffset(direction: .playback) ?? 0 // Set driver latency to mimic device
+//    Driver.safetyOffset = selectedDevice.safetyOffset(direction: .playback) ?? 0 // Set driver latency to mimic device
     self.matchDriverSampleRateToOutput()
     
     Console.log("Driver new Latency: \(Driver.latency)")

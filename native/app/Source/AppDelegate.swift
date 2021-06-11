@@ -11,6 +11,7 @@ import SwiftyJSON
 import ServiceManagement
 import Sparkle
 import EmitterKit
+import AMCoreAudio
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate, SUUpdaterDelegate {
@@ -19,12 +20,14 @@ class AppDelegate: NSObject, NSApplicationDelegate, SUUpdaterDelegate {
   var willBeDownloadingUpdate = false
   
   func applicationDidFinishLaunching(_ aNotification: Notification) {
-    NSApplication.shared.windows.first?.close()
+    for window in NSApplication.shared.windows {
+      window.close()
+    }
     updater.delegate = self
     updateProcessed.once { _ in
       Application.start()
     }
-    
+
     Networking.isConnected { connected in
       if (connected) {
         self.updater.checkForUpdatesInBackground()
