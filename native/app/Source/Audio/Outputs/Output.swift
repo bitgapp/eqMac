@@ -57,10 +57,12 @@ class Output {
     
     outputEngine.setOutputDevice(device)
     
-    let outputSampleRate = device.actualSampleRate()!
-    let format = AVAudioFormat.init(standardFormatWithSampleRate: outputSampleRate, channels: 2)!
+    let format = AVAudioFormat.init(
+      standardFormatWithSampleRate: device.nominalSampleRate()!,
+      channels: 2
+    )!
 
-    varispeed.rate = Float(Driver.device!.actualSampleRate()! / outputSampleRate)
+    varispeed.rate = Float(Driver.device!.actualSampleRate()! / device.actualSampleRate()!)
     initialVarispeedRate = varispeed.rate
     // Clamp new Rate to not exceed 0.2% in either direction
     let bounds = 0.002

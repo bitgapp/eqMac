@@ -24,30 +24,6 @@ class Engine {
   var engine: AVAudioEngine!
   
   var lastSampleTime: Double = -1
-
-  let inputRenderedNotification: AURenderCallback = {
-    (inRefCon: UnsafeMutableRawPointer,
-    ioActionFlags: UnsafeMutablePointer<AudioUnitRenderActionFlags>,
-    inTimeStamp:  UnsafePointer<AudioTimeStamp>,
-    inBusNumber: UInt32,
-    inNumberFrames: UInt32,
-    ioData: UnsafeMutablePointer<AudioBufferList>?) -> OSStatus in
-    
-    if ioActionFlags.pointee == AudioUnitRenderActionFlags.unitRenderAction_PostRender {
-      let engine = Unmanaged<Engine>.fromOpaque(inRefCon).takeUnretainedValue()
-      
-      let sampleTime = inTimeStamp.pointee.mSampleTime
-
-      let start = sampleTime.int64Value
-      let end = start + Int64(inNumberFrames)
-      if engine.buffer.write(from: ioData!, start: start, end: end) != .noError {
-        return OSStatus()
-      }
-      engine.lastSampleTime = sampleTime
-    }
-    
-    return noErr
-  }
   
   // Middleware
   var buffer: CircularBuffer<Float>!
@@ -154,11 +130,35 @@ class Engine {
     Console.log("Setting up Input Render Callback")
     let lastAVUnit = effects.equalizers.active.eq as AVAudioUnit
     if let err = checkErr(AudioUnitAddRenderNotify(lastAVUnit.audioUnit,
-                                                   inputRenderedNotification,
+                                                   renderCallback,
                                                    UnsafeMutableRawPointer(Unmanaged<Engine>.passUnretained(self).toOpaque()))) {
       Console.log(err)
       return
     }
+  }
+
+  let renderCallback: AURenderCallback = {
+    (inRefCon: UnsafeMutableRawPointer,
+    ioActionFlags: UnsafeMutablePointer<AudioUnitRenderActionFlags>,
+    inTimeStamp:  UnsafePointer<AudioTimeStamp>,
+    inBusNumber: UInt32,
+    inNumberFrames: UInt32,
+    ioData: UnsafeMutablePointer<AudioBufferList>?) -> OSStatus in
+
+    if ioActionFlags.pointee == AudioUnitRenderActionFlags.unitRenderAction_PostRender {
+      let engine = Unmanaged<Engine>.fromOpaque(inRefCon).takeUnretainedValue()
+
+      let sampleTime = inTimeStamp.pointee.mSampleTime
+
+      let start = sampleTime.int64Value
+      let end = start + Int64(inNumberFrames)
+      if engine.buffer.write(from: ioData!, start: start, end: end) != .noError {
+        return OSStatus()
+      }
+      engine.lastSampleTime = sampleTime
+    }
+
+    return noErr
   }
   
   private func setupListeners () {

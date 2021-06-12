@@ -9,6 +9,7 @@
 import Foundation
 import AMCoreAudio
 import CoreFoundation
+import Version
 
 enum CustomProperties: String {
   case kAudioDeviceCustomPropertyLatency = "cltc"
@@ -31,8 +32,6 @@ class Driver {
   static var info: Dictionary<String, Any> {
     return NSDictionary(contentsOfFile: Bundle.main.path(forResource: "Info", ofType: "plist", inDirectory: "Embedded/eqMac.driver/Contents")!) as! Dictionary<String, Any>
   }
-
-  static let requiredVersion = "1.2"
 
   static var sampleRates: [Double] {
     return [
@@ -154,8 +153,8 @@ class Driver {
     }
   }
   
-  static var installedVersion: String? {
-    if Driver.device == nil { return nil }
+  static var installedVersion: Version {
+    if Driver.device == nil { return .null }
     var address = AudioObjectPropertyAddress(
       mSelector: getPropertySelectorFromString(CustomProperties.kAudioDeviceCustomPropertyVersion.rawValue),
       mScope: kAudioObjectPropertyScopeGlobal,
@@ -167,11 +166,14 @@ class Driver {
     var version: CFString? = nil
     
     checkErr(AudioObjectGetPropertyData(Driver.device!.id, &address, 0, nil, &size, &version))
-    return version as String?
+
+    let verStr = version as String?
+    return verStr != nil ? (Version(tolerant: verStr!) ?? .null) : .null
   }
   
-  static var isMismatched: Bool {
-    return requiredVersion != installedVersion
+  static var isCompatible: Bool {
+    let compatibleRange = Constants.DRIVER_MINIMUM_VERSION ..< Version(2, 0, 0)
+    return compatibleRange.contains(installedVersion)
   }
   
   static var hidden: Bool {

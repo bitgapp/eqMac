@@ -17,6 +17,7 @@ class Volume: StoreSubscriber {
   var gainChanged = EmitterKit.Event<Double>()
   var balanceChanged = EmitterKit.Event<Double>()
   var mutedChanged = EmitterKit.Event<Bool>()
+  
   var leftInput = AVAudioMixerNode()
   var rightInput = AVAudioMixerNode()
   var mixer = AVAudioMixerNode()

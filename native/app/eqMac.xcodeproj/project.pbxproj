@@ -14,6 +14,7 @@
 		7858FBC224A9630800637941 /* restart_mac.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 7858FBC124A9630800637941 /* restart_mac.scpt */; };
 		787474A925336D9200FF4A95 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 787474A825336D9200FF4A95 /* CoreFoundation.framework */; };
 		788732FE266BB08E0093CBB5 /* Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = E073727C20167E7600874CC6 /* Application.swift */; };
+		7893D5752674F6B100F3815B /* Version in Frameworks */ = {isa = PBXBuildFile; productRef = 7893D5742674F6B100F3815B /* Version */; };
 		789F83CF250E20A8004F871D /* restart_coreaudio.sh in Resources */ = {isa = PBXBuildFile; fileRef = 789F83CE250E20A8004F871D /* restart_coreaudio.sh */; };
 		789F83D1250E20DD004F871D /* place_driver.sh in Resources */ = {isa = PBXBuildFile; fileRef = 789F83D0250E20DD004F871D /* place_driver.sh */; };
 		789F83D3250E2164004F871D /* check_driver_installed.sh in Resources */ = {isa = PBXBuildFile; fileRef = 789F83D2250E2164004F871D /* check_driver_installed.sh */; };
@@ -239,6 +240,7 @@
 				783A6F9D266FA1F300A96B42 /* Atomics in Frameworks */,
 				787474A925336D9200FF4A95 /* CoreFoundation.framework in Frameworks */,
 				E02ACA982459EF3B00754204 /* Pods_eqMac.framework in Frameworks */,
+				7893D5752674F6B100F3815B /* Version in Frameworks */,
 				E0F661711FDC38BE00252923 /* WebKit.framework in Frameworks */,
 				78242E96261A8AEE00058ADE /* Connectivity in Frameworks */,
 				78D8C3322569B2910084739C /* LaunchAtLogin in Frameworks */,
@@ -619,6 +621,7 @@
 				78D8C3312569B2910084739C /* LaunchAtLogin */,
 				78242E95261A8AEE00058ADE /* Connectivity */,
 				783A6F9C266FA1F300A96B42 /* Atomics */,
+				7893D5742674F6B100F3815B /* Version */,
 			);
 			productName = eqMacAudio;
 			productReference = E086AFFC1FCCB8E700CF9F0D /* eqMac.app */;
@@ -661,6 +664,7 @@
 				78D8C3302569B2910084739C /* XCRemoteSwiftPackageReference "LaunchAtLogin" */,
 				78242E94261A8AEE00058ADE /* XCRemoteSwiftPackageReference "connectivity" */,
 				783A6F9B266FA1F300A96B42 /* XCRemoteSwiftPackageReference "swift-atomics" */,
+				7893D5732674F6B100F3815B /* XCRemoteSwiftPackageReference "Version" */,
 			);
 			productRefGroup = E086AFFD1FCCB8E700CF9F0D /* Products */;
 			projectDirPath = "";
@@ -1173,6 +1177,14 @@
 				minimumVersion = 0.0.3;
 			};
 		};
+		7893D5732674F6B100F3815B /* XCRemoteSwiftPackageReference "Version" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/mxcl/Version";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.1;
+			};
+		};
 		78D8C3302569B2910084739C /* XCRemoteSwiftPackageReference "LaunchAtLogin" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/bitgapp/LaunchAtLogin";
@@ -1193,6 +1205,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 783A6F9B266FA1F300A96B42 /* XCRemoteSwiftPackageReference "swift-atomics" */;
 			productName = Atomics;
+		};
+		7893D5742674F6B100F3815B /* Version */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7893D5732674F6B100F3815B /* XCRemoteSwiftPackageReference "Version" */;
+			productName = Version;
 		};
 		78D8C3312569B2910084739C /* LaunchAtLogin */ = {
 			isa = XCSwiftPackageProductDependency;
