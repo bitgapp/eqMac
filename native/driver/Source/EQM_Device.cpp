@@ -688,7 +688,7 @@ void	EQM_Device::Device_GetPropertyData(AudioObjectID inObjectID, pid_t inClient
               "kAudioDevicePropertyDeviceCanBeDefaultDevice for the device");
       // TODO: Add a field for this and set it in EQM_Device::StaticInitializer so we don't
       //       have to handle a specific instance differently here.
-      *reinterpret_cast<UInt32*>(outData) = mShown ? 1 : 0;
+      *reinterpret_cast<UInt32*>(outData) = inAddress.mScope == kAudioObjectPropertyScopeInput ? 0 : (mShown ? 1 : 0);
       outDataSize = sizeof(UInt32);
       break;
       
@@ -799,7 +799,7 @@ void	EQM_Device::Device_GetPropertyData(AudioObjectID inObjectID, pid_t inClient
               CAException(kAudioHardwareBadPropertySizeError),
               "EQM_Device::Device_GetPropertyData: not enough space for the return value of kAudioDevicePropertyLatency for the device");
       
-      *reinterpret_cast<UInt32*>(outData) = GetLatency();
+      *reinterpret_cast<UInt32*>(outData) = inAddress.mScope == kAudioObjectPropertyScopeInput ? 0 : GetLatency();
       outDataSize = sizeof(UInt32);
       break;
       
@@ -808,7 +808,7 @@ void	EQM_Device::Device_GetPropertyData(AudioObjectID inObjectID, pid_t inClient
       ThrowIf(inDataSize < sizeof(UInt32),
               CAException(kAudioHardwareBadPropertySizeError),
               "EQM_Device::Device_GetPropertyData: not enough space for the return value of kAudioDevicePropertySafetyOffset for the device");
-      *reinterpret_cast<UInt32*>(outData) = GetSafetyOffset();
+      *reinterpret_cast<UInt32*>(outData) = inAddress.mScope == kAudioObjectPropertyScopeInput ? 0 : GetSafetyOffset();
       outDataSize = sizeof(UInt32);
       break;
       
@@ -959,30 +959,30 @@ void	EQM_Device::Device_GetPropertyData(AudioObjectID inObjectID, pid_t inClient
       }
       if(theNumberItemsToFetch > 6)
       {
-        ((AudioServerPlugInCustomPropertyInfo*)outData)[5].mSelector = kAudioDeviceCustomPropertyLatency;
-        ((AudioServerPlugInCustomPropertyInfo*)outData)[5].mPropertyDataType = kAudioServerPlugInCustomPropertyDataTypeCFPropertyList;
-        ((AudioServerPlugInCustomPropertyInfo*)outData)[5].mQualifierDataType = kAudioServerPlugInCustomPropertyDataTypeNone;
+        ((AudioServerPlugInCustomPropertyInfo*)outData)[6].mSelector = kAudioDeviceCustomPropertyLatency;
+        ((AudioServerPlugInCustomPropertyInfo*)outData)[6].mPropertyDataType = kAudioServerPlugInCustomPropertyDataTypeCFPropertyList;
+        ((AudioServerPlugInCustomPropertyInfo*)outData)[6].mQualifierDataType = kAudioServerPlugInCustomPropertyDataTypeNone;
       }
       
       if(theNumberItemsToFetch > 7)
       {
-        ((AudioServerPlugInCustomPropertyInfo*)outData)[6].mSelector = kAudioDeviceCustomPropertySafetyOffset;
-        ((AudioServerPlugInCustomPropertyInfo*)outData)[6].mPropertyDataType = kAudioServerPlugInCustomPropertyDataTypeCFPropertyList;
-        ((AudioServerPlugInCustomPropertyInfo*)outData)[6].mQualifierDataType = kAudioServerPlugInCustomPropertyDataTypeNone;
+        ((AudioServerPlugInCustomPropertyInfo*)outData)[7].mSelector = kAudioDeviceCustomPropertySafetyOffset;
+        ((AudioServerPlugInCustomPropertyInfo*)outData)[7].mPropertyDataType = kAudioServerPlugInCustomPropertyDataTypeCFPropertyList;
+        ((AudioServerPlugInCustomPropertyInfo*)outData)[7].mQualifierDataType = kAudioServerPlugInCustomPropertyDataTypeNone;
       }
       
       if(theNumberItemsToFetch > 8)
       {
-        ((AudioServerPlugInCustomPropertyInfo*)outData)[6].mSelector = kAudioDeviceCustomPropertyShown;
-        ((AudioServerPlugInCustomPropertyInfo*)outData)[6].mPropertyDataType = kAudioServerPlugInCustomPropertyDataTypeCFPropertyList;
-        ((AudioServerPlugInCustomPropertyInfo*)outData)[6].mQualifierDataType = kAudioServerPlugInCustomPropertyDataTypeNone;
+        ((AudioServerPlugInCustomPropertyInfo*)outData)[8].mSelector = kAudioDeviceCustomPropertyShown;
+        ((AudioServerPlugInCustomPropertyInfo*)outData)[8].mPropertyDataType = kAudioServerPlugInCustomPropertyDataTypeCFPropertyList;
+        ((AudioServerPlugInCustomPropertyInfo*)outData)[8].mQualifierDataType = kAudioServerPlugInCustomPropertyDataTypeNone;
       }
       
       if(theNumberItemsToFetch > 9)
       {
-        ((AudioServerPlugInCustomPropertyInfo*)outData)[7].mSelector = kAudioDeviceCustomPropertyVersion;
-        ((AudioServerPlugInCustomPropertyInfo*)outData)[7].mPropertyDataType = kAudioServerPlugInCustomPropertyDataTypeCFString;
-        ((AudioServerPlugInCustomPropertyInfo*)outData)[7].mQualifierDataType = kAudioServerPlugInCustomPropertyDataTypeNone;
+        ((AudioServerPlugInCustomPropertyInfo*)outData)[9].mSelector = kAudioDeviceCustomPropertyVersion;
+        ((AudioServerPlugInCustomPropertyInfo*)outData)[9].mPropertyDataType = kAudioServerPlugInCustomPropertyDataTypeCFString;
+        ((AudioServerPlugInCustomPropertyInfo*)outData)[9].mQualifierDataType = kAudioServerPlugInCustomPropertyDataTypeNone;
       }
       
       outDataSize = theNumberItemsToFetch * sizeof(AudioServerPlugInCustomPropertyInfo);
@@ -1039,6 +1039,12 @@ void	EQM_Device::Device_GetPropertyData(AudioObjectID inObjectID, pid_t inClient
     case kAudioDeviceCustomPropertyDeviceIsRunningSomewhereOtherThanEQMApp:
       ThrowIf(inDataSize < sizeof(CFBooleanRef), CAException(kAudioHardwareBadPropertySizeError), "EQM_Device::Device_GetPropertyData: not enough space for the return value of kAudioDeviceCustomPropertyDeviceIsRunningSomewhereOtherThanEQMApp for the device");
       *reinterpret_cast<CFBooleanRef*>(outData) = mClients.ClientsOtherThanEQMAppRunningIO() ? kCFBooleanTrue : kCFBooleanFalse;
+      outDataSize = sizeof(CFBooleanRef);
+      break;
+      
+    case kAudioDeviceCustomPropertyShown:
+      ThrowIf(inDataSize < sizeof(CFBooleanRef), CAException(kAudioHardwareBadPropertySizeError), "EQM_Device::Device_GetPropertyData: not enough space for the return value of kAudioDeviceCustomPropertyShown for the device");
+      *reinterpret_cast<CFBooleanRef*>(outData) = mShown ? kCFBooleanTrue : kCFBooleanFalse;
       outDataSize = sizeof(CFBooleanRef);
       break;
       

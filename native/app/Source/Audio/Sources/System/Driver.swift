@@ -88,6 +88,15 @@ class Driver {
     }
   }
   
+  static var hasSafetyOffset: Bool {
+    var address = AudioObjectPropertyAddress(
+      mSelector: getPropertySelectorFromString(CustomProperties.kAudioDeviceCustomPropertySafetyOffset.rawValue),
+      mScope: kAudioObjectPropertyScopeOutput,
+      mElement: kAudioObjectPropertyElementMaster
+    )
+    Console.log(CustomProperties.kAudioDeviceCustomPropertySafetyOffset.rawValue, address.mSelector)
+    return AudioObjectHasProperty(Driver.device!.id, &address)
+  }
   static var safetyOffset: UInt32 {
     get {
       return Driver.device!.safetyOffset(direction: .playback)!
@@ -121,8 +130,13 @@ class Driver {
       
       var shownBool = kCFBooleanFalse
       
-      checkErr(AudioObjectGetPropertyData(Driver.device!.id, &address, 0, nil, &size, &shownBool))
-      return CFBooleanGetValue(shownBool!)
+      let err = AudioObjectGetPropertyData(Driver.device!.id, &address, 0, nil, &size, &shownBool)
+      if err == noErr {
+        return CFBooleanGetValue(shownBool!)
+      }
+      
+      // Workaround around a bug in the Driver where it wasn't aware of address
+      return Driver.device!.canBeDefaultDevice(direction: .playback)
     }
     set {
       if Driver.device == nil { return }

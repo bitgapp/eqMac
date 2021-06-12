@@ -5,7 +5,19 @@ import CoreFoundation
 import EmitterKit
 
 extension AudioDevice {
-  
+  func canBeDefaultDevice (direction: AMCoreAudio.Direction) -> Bool {
+    var address = AudioObjectPropertyAddress(
+      mSelector: kAudioDevicePropertyDeviceCanBeDefaultDevice,
+      mScope: AudioDevice.scope(direction: direction),
+      mElement: kAudioObjectPropertyElementMaster
+    )
+    var size: UInt32 = UInt32(MemoryLayout<UInt32>.size)
+    
+    var result: UInt32 = 0
+    
+    checkErr(AudioObjectGetPropertyData(self.id, &address, 0, nil, &size, &result))
+    return result == 1
+  }
   var stashedVolume: Double {
     get {
       return Storage.double(forKey: "stashedVolume:\(self.id)")
@@ -76,7 +88,7 @@ extension AudioDevice {
                                                      mElement: kAudioObjectPropertyElementMaster)
     var value = AudioValueRange(mMinimum: 0, mMaximum: 0)
     // Try master first
-
+    
     if checkErr(AudioDevice.getPropertyData(self.id, address: propertyAddress, andValue: &value)) != nil {
       propertyAddress.mElement = 1
       // Try single channel

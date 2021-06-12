@@ -62,7 +62,7 @@ class Application {
     
     Networking.startMonitor()
     
-    checkDriver {
+//    checkDriver {
       Sources.getInputPermission {
         AudioDevice.register = true
         audioPipelineIsRunningListener = audioPipelineIsRunning.once {
@@ -75,7 +75,7 @@ class Application {
         }
         setupAudio()
       }
-    }
+//    }
   }
   
   private static func setupCrashReporting () {
