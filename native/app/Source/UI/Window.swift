@@ -106,7 +106,7 @@ class Window: NSWindow, NSWindowDelegate {
   // MARK: -  Public functions
   
   func show() {
-    self.makeKeyAndOrderFront(UI.viewController.webView)
+    self.makeKeyAndOrderFront(nil)
   }
   
   func hide() {

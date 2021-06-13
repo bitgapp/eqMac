@@ -16,7 +16,7 @@ class ViewController: NSViewController, WKNavigationDelegate {
   @IBOutlet var draggableView: DraggableView!
   @IBOutlet var loadingView: NSView!
   @IBOutlet var loadingSpinner: NSProgressIndicator!
-    
+
   var height: Double {
     get {
       return Double(webView.frame.size.height)
@@ -38,16 +38,30 @@ class ViewController: NSViewController, WKNavigationDelegate {
       self.view.setFrameSize(newSize)
     }
   }
-  
+
   // MARK: - Initialization
-  override func viewDidLoad() {
-    super.viewDidLoad()
+  override init(nibName: String?, bundle: Bundle? = Bundle.main)   {
+    super.init(nibName: nibName, bundle: bundle)
+    createWebView()
+  }
+
+  required init?(coder: NSCoder) {
+    super.init(coder: coder)
+    createWebView()
+  }
+
+  convenience init(){
+    self.init()
+    createWebView()
+  }
+
+  private func createWebView () {
     webView = WKWebView(frame: view.frame)
     webView.autoresizingMask = [.height, .width]
     view.addSubview(webView, positioned: .below, relativeTo: loadingView)
     loadingSpinner.startAnimation(nil)
   }
-  
+
   func load (_ url: URL) {
     let request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData)
     if self.webView.isLoading {
@@ -60,7 +74,7 @@ class ViewController: NSViewController, WKNavigationDelegate {
       self.loadingView.isHidden = true
       self.loadingSpinner.stopAnimation(nil)
     }
-      
+
     if Constants.DEBUG {
       Console.log("Enabling DevTools")
       self.webView.configuration.preferences.setValue(true, forKey: "developerExtrasEnabled")

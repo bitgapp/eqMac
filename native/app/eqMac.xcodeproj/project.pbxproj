@@ -77,7 +77,6 @@
 		E07A6EE122B6BA4E00DE7B16 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = E07A6EE022B6BA4E00DE7B16 /* File.swift */; };
 		E07B45A620FBA4990086AA7E /* Encodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E07B45A520FBA4990086AA7E /* Encodable.swift */; };
 		E07CB5B121902F4F0033DA89 /* Output.swift in Sources */ = {isa = PBXBuildFile; fileRef = E07CB5B021902F4F0033DA89 /* Output.swift */; };
-		E08300ED23F9964A00C9A12A /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E08300EC23F9964A00C9A12A /* LoadingViewController.swift */; };
 		E083214720715BBA0038ED1A /* NSOpenPanelExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E083214620715BBA0038ED1A /* NSOpenPanelExtensions.swift */; };
 		E086B0001FCCB8E700CF9F0D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E086AFFF1FCCB8E700CF9F0D /* AppDelegate.swift */; };
 		E086B0021FCCB8E700CF9F0D /* assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E086B0011FCCB8E700CF9F0D /* assets.xcassets */; };
@@ -194,7 +193,6 @@
 		E07A6EE022B6BA4E00DE7B16 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		E07B45A520FBA4990086AA7E /* Encodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Encodable.swift; sourceTree = "<group>"; };
 		E07CB5B021902F4F0033DA89 /* Output.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Output.swift; sourceTree = "<group>"; };
-		E08300EC23F9964A00C9A12A /* LoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
 		E083214620715BBA0038ED1A /* NSOpenPanelExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSOpenPanelExtensions.swift; sourceTree = "<group>"; };
 		E086AFFC1FCCB8E700CF9F0D /* eqMac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = eqMac.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E086AFFF1FCCB8E700CF9F0D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -420,7 +418,6 @@
 				E0C5629220A39651000902ED /* Bridge.swift */,
 				E0C8F78521D3B6590023B1E5 /* UIDataBus.swift */,
 				E06E98CF21D17E230041DD9C /* UI.swift */,
-				E08300EC23F9964A00C9A12A /* LoadingViewController.swift */,
 				E09C171F1FEC1969008E65A4 /* Main.storyboard */,
 				E00618E120F14C08003BA0B0 /* UIState.swift */,
 				E0FFB702200119060003EC9E /* StatusItem.swift */,
@@ -844,7 +841,6 @@
 				783A6F9A266FA1A600A96B42 /* CircularBuffer.swift in Sources */,
 				E0C8F78621D3B6590023B1E5 /* UIDataBus.swift in Sources */,
 				E095BBC62014E4A1003473E9 /* NumericTypesConversions.swift in Sources */,
-				E08300ED23F9964A00C9A12A /* LoadingViewController.swift in Sources */,
 				E07A6EE122B6BA4E00DE7B16 /* File.swift in Sources */,
 				E0A3B96320DF992600E46908 /* Buffer.swift in Sources */,
 				E00618ED20F292B9003BA0B0 /* Networking.swift in Sources */,

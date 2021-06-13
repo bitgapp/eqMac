@@ -16,7 +16,7 @@ struct UIState: State {
   var width: Double = 400
   var windowPosition: NSPoint? = nil
   var settings: JSON = JSON()
-  var mode: UIMode = .popover
+  var mode: UIMode = .window
 }
 
 enum UIAction: Action {

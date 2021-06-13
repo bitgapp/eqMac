@@ -464,19 +464,9 @@ class Application {
     updater.checkForUpdates(nil)
   }
   
-  static func uninstall (_ completion: @escaping (Bool) -> Void) {
-    Driver.uninstall(started: {
-      self.stopSave()
-      UI.close()
-      Utilities.delay(100) { UI.showLoadingWindow("Uninstalling eqMac\nIf this process takes too long,\nplease restart your Mac") }
-    }) { success in
-      completion(success)
-      if (success) {
-        UI.hideLoadingWindow()
-        try! FileManager.default.removeItem(atPath: Bundle.main.bundlePath)
-        NSApp.terminate(nil)
-      }
-    }
+  static func uninstall () {
+    // TODO: Implement uninstaller
+    Console.log("// TODO: Download Uninstaller")
   }
   
   static func stopListeners () {

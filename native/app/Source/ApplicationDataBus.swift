@@ -25,7 +25,7 @@ class ApplicationDataBus: DataBus {
         "model": Sysctl.model as String,
         "version": Bundle.main.infoDictionary?["CFBundleVersion"] as Any,
         "isOpenSource": Constants.OPEN_SOURCE,
-        "driverVersion": Driver.installedVersion
+        "driverVersion": Driver.installedVersion.description
       ]
     }
     
@@ -57,10 +57,7 @@ class ApplicationDataBus: DataBus {
     }
     
     self.on(.GET, "/uninstall") { _, res in
-      Application.uninstall() { success in
-        res.send([ "uninstalled": success ])
-      }
-      return nil
+      return "Downloading Uninstaller"
     }
     
     self.on(.GET, "/driver/reinstall/available") { _, res in

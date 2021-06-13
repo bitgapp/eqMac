@@ -143,7 +143,6 @@ class Output {
   
   private func start () {
     outputEngine.prepare()
-    
     Console.log("Starting Output Engine")
     Console.log(outputEngine)
     try! outputEngine.start()

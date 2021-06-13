@@ -1,64 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="Wg1-es-IGc">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17506"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17701"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Window Controller-->
-        <scene sceneID="a9j-ld-JYx">
-            <objects>
-                <windowController storyboardIdentifier="LoadingWindow" id="sz6-d8-mTu" sceneMemberID="viewController">
-                    <window key="window" title="eqMac" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="csk-I5-phj">
-                        <windowStyleMask key="styleMask" titled="YES"/>
-                        <rect key="contentRect" x="156" y="1511" width="254" height="139"/>
-                        <rect key="screenRect" x="-269" y="1050" width="2560" height="1417"/>
-                        <connections>
-                            <outlet property="delegate" destination="sz6-d8-mTu" id="0H1-2W-hFQ"/>
-                        </connections>
-                    </window>
-                    <connections>
-                        <outlet property="window" destination="csk-I5-phj" id="sdx-ZW-X4n"/>
-                        <segue destination="7zF-eT-W8n" kind="relationship" relationship="window.shadowedContentViewController" id="w2T-tF-OQp"/>
-                    </connections>
-                </windowController>
-                <customObject id="xoA-Us-kGP" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-471" y="-282"/>
-        </scene>
-        <!--Loading View Controller-->
-        <scene sceneID="kuc-vk-Jua">
-            <objects>
-                <customObject id="uVW-0s-i5O" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-                <viewController id="7zF-eT-W8n" customClass="LoadingViewController" customModule="eqMac" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" id="ere-xc-4DW">
-                        <rect key="frame" x="0.0" y="0.0" width="268" height="139"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <subviews>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="G6Y-R8-Z81">
-                                <rect key="frame" x="-2" y="0.0" width="272" height="54"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <textFieldCell key="cell" lineBreakMode="truncatingTail" alignment="center" title="Installing Driver" id="3Xg-7Y-udV">
-                                    <font key="font" usesAppearanceFont="YES"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
-                            <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" maxValue="100" bezeled="NO" indeterminate="YES" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="5oO-FA-sX6">
-                                <rect key="frame" x="118" y="67" width="32" height="32"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                            </progressIndicator>
-                        </subviews>
-                    </view>
-                    <connections>
-                        <outlet property="label" destination="G6Y-R8-Z81" id="fUk-ye-p1b"/>
-                        <outlet property="spinner" destination="5oO-FA-sX6" id="xz7-YG-17D"/>
-                    </connections>
-                </viewController>
-            </objects>
-            <point key="canvasLocation" x="-471" y="69.5"/>
-        </scene>
         <!--Application-->
         <scene sceneID="JPo-4y-FX3">
             <objects>
@@ -137,9 +84,6 @@
                         <rect key="screenRect" x="0.0" y="0.0" width="3008" height="1669"/>
                         <contentBorderThickness minY="22"/>
                     </window>
-                    <connections>
-                        <segue destination="Wg1-es-IGc" kind="relationship" relationship="window.shadowedContentViewController" id="9mM-80-I6E"/>
-                    </connections>
                 </windowController>
             </objects>
             <point key="canvasLocation" x="127" y="365"/>

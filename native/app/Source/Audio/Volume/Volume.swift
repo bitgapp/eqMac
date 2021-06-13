@@ -17,9 +17,9 @@ class Volume: StoreSubscriber {
   var gainChanged = EmitterKit.Event<Double>()
   var balanceChanged = EmitterKit.Event<Double>()
   var mutedChanged = EmitterKit.Event<Bool>()
-  
-  var leftInput = AVAudioMixerNode()
-  var rightInput = AVAudioMixerNode()
+
+  var engine: AVAudioEngine?
+
   var mixer = AVAudioMixerNode()
   var output = AVAudioUnitEQ()
 
@@ -30,60 +30,39 @@ class Volume: StoreSubscriber {
       let volumeSupported = device.outputVolumeSupported
       let balanceSupported = device.outputBalanceSupported
       
-      var newLeftGain: Double = gain
-      var newRightGain: Double = gain
-      
-      if (gain > 1) {
-        if (volumeSupported) {
-          device.setVirtualMasterVolume(1.0, direction: .playback)
-          if (balanceSupported) {
-            device.setVirtualMasterBalance(Float32(Utilities.mapValue(value: balance, inMin: -1, inMax: 1, outMin: 0, outMax: 1)), direction: .playback)
-          } else {
-            if (balance > 0) {
-              newLeftGain = gain * (Utilities.mapValue(value: Double(balance), inMin: 0, inMax: 1, outMin: 1, outMax: 0))
-            } else if (balance < 0) {
-              newRightGain = gain * Utilities.mapValue(value: Double(balance), inMin: 0, inMax: -1, outMin: 1, outMax: 0)
-            }
-          }
-          device.setVirtualMasterVolume(1.0, direction: .playback)
-        } else {
-          if (balance > 0) {
-            newLeftGain = gain * (Utilities.mapValue(value: Double(balance), inMin: 0, inMax: 1, outMin: 1, outMax: 0))
-          } else if (balance < 0) {
-            newRightGain = gain * Utilities.mapValue(value: Double(balance), inMin: 0, inMax: -1, outMin: 1, outMax: 0)
-          }
-        }
-        
-        if let driver = Driver.device {
-          driver.setVirtualMasterVolume(1, direction: .playback)
-        }
-      } else {
+      if (gain <= 1) {
         if (volumeSupported) {
           device.setVirtualMasterVolume(Float32(gain), direction: .playback)
-          if (balanceSupported) {
-            device.setVirtualMasterBalance(Float32(Utilities.mapValue(value: balance, inMin: -1, inMax: 1, outMin: 0, outMax: 1)), direction: .playback)
-            newRightGain = 1
-            newLeftGain = 1
-          } else {
-            if (balance > 0) {
-              newLeftGain = (Utilities.mapValue(value: Double(balance), inMin: 0, inMax: 1, outMin: 1, outMax: 0))
-            } else if (balance < 0) {
-              newRightGain = Utilities.mapValue(value: Double(balance), inMin: 0, inMax: -1, outMin: 1, outMax: 0)
-            }
-          }
+          output.globalGain = 0
         } else {
-          if (balance > 0) {
-            newLeftGain = gain * (Utilities.mapValue(value: Double(balance), inMin: 0, inMax: 1, outMin: 1, outMax: 0))
-          } else if (balance < 0) {
-            newRightGain = gain * Utilities.mapValue(value: Double(balance), inMin: 0, inMax: -1, outMin: 1, outMax: 0)
-          }
+          output.globalGain = Float(Utilities.mapValue(value: gain, inMin: 0, inMax: 1, outMin: -96, outMax: 0))
         }
-        
+
+        if (balanceSupported) {
+          device.setVirtualMasterBalance(Float32(Utilities.mapValue(value: balance, inMin: -1, inMax: 1, outMin: 0, outMax: 1)), direction: .playback)
+          mixer.pan = 0
+        } else {
+          mixer.pan = Float(balance)
+        }
+
         Driver.device!.setVirtualMasterVolume(Float32(gain), direction: .playback)
+
+      } else {
+        if (volumeSupported) {
+          device.setVirtualMasterVolume(1.0, direction: .playback)
+        }
+        output.globalGain = Float(Utilities.mapValue(value: gain, inMin: 1, inMax: 2, outMin: 0, outMax: 12))
+
+        if (balanceSupported) {
+          device.setVirtualMasterBalance(Float32(Utilities.mapValue(value: balance, inMin: -1, inMax: 1, outMin: 0, outMax: 1)), direction: .playback)
+          mixer.pan = 0
+        } else {
+          mixer.pan = Float(balance)
+        }
+
+        Driver.device!.setVirtualMasterVolume(1, direction: .playback)
       }
-      
-      leftGain = newLeftGain
-      rightGain = newRightGain
+
       
       if (!volumeSupported) {
         Driver.device!.mute = false
@@ -98,14 +77,17 @@ class Volume: StoreSubscriber {
       
       Application.ignoreNextVolumeEvent = false
       Application.ignoreNextDriverMuteEvent = false
+
+      mixer.pan = Float(gain)
+      Console.log(mixer.pan)
     }
   }
   
   var muted: Bool = false {
     didSet {
       if (muted) {
-        leftGain = 0
-        rightGain = 0
+//        leftGain = 0
+//        rightGain = 0
       } else {
         (gain = gain)
       }
@@ -127,22 +109,7 @@ class Volume: StoreSubscriber {
       balanceChanged.emit(balance)
     }
   }
-  
-  // MARK: - Private Properties
-  private var leftGain: Double = 1 {
-    didSet {
-      leftInput.outputVolume = Float(leftGain)
-    }
-  }
-  
-  private var rightGain: Double = 1 {
-    didSet {
-      rightInput.outputVolume = Float(rightGain)
-    }
-  }
-  
-//  var booster: AKBooster!
-  
+
   // MARK: - State
   typealias StoreSubscriberStateType = VolumeState
   
@@ -192,11 +159,6 @@ class Volume: StoreSubscriber {
   // MARK: - Initialization
   init () {
     Console.log("Creating Volume")
-//    booster = AKBooster()
-//    booster.detach()
-    leftInput.pan = -100
-    rightInput.pan = 100
-    
     setupStateListener()
   }
   
@@ -204,6 +166,20 @@ class Volume: StoreSubscriber {
     Application.store.subscribe(self) { subscription in
       subscription.select { state in state.effects.volume }
     }
+  }
+
+  func attachToEngine (engine: AVAudioEngine) {
+    self.engine = engine
+    let format = engine.inputNode.inputFormat(forBus: 0)
+
+    engine.attach(mixer)
+    engine.attach(output)
+
+    engine.connect(mixer, to: output, format: format)
+  }
+
+  func postSetup () {
+    (gain = gain)
   }
   
 }

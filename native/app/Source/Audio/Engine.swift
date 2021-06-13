@@ -90,40 +90,32 @@ class Engine {
   }
   
   private func attachVolume () {
-//    engine.attach(volume.booster.avAudioNode)
-    engine.attach(volume.leftInput)
-    engine.attach(volume.rightInput)
-    engine.attach(volume.mixer)
-    engine.attach(volume.output)
-    engine.connect(volume.leftInput, to: volume.mixer, format: format)
-    engine.connect(volume.rightInput, to: volume.mixer, format: format)
-    engine.connect(volume.mixer, to: volume.output, format: format)
+    volume.attachToEngine(engine: engine)
   }
   
   private func chain () {
-    chainSourceToVolume()
-    chainVolumeToEffects()
+    chainSourceToEffects()
+    chainEffectsToVolume()
     chainEffects()
-    chainEffectsToSink()
+    chainVolumeToSink()
     setupRenderCallback()
   }
   
-  private func chainSourceToVolume () {
+  private func chainSourceToEffects () {
     Console.log("Chaining Source to Volume")
-    engine.connect(engine.inputNode, to: volume.leftInput, format: format)
-    engine.connect(engine.inputNode, to: volume.rightInput, format: format)
+    engine.connect(engine.inputNode, to: effects.equalizers.active.eq, format: format)
   }
   
-  private func chainVolumeToEffects () {
-    engine.connect(volume.output, to: effects.equalizers.active.eq, format: format)
+  private func chainEffectsToVolume () {
+    engine.connect(effects.equalizers.active.eq, to: volume.mixer, format: format)
   }
   
   private func chainEffects () {
     Console.log("Chaining Effects")
   }
   
-  private func chainEffectsToSink () {
-    engine.connect(effects.equalizers.active.eq, to: engine.mainMixerNode, format: format)
+  private func chainVolumeToSink () {
+    engine.connect(volume.output, to: engine.mainMixerNode, format: format)
   }
   
   private func setupRenderCallback () {
@@ -174,6 +166,7 @@ class Engine {
   
   private func start () {
     engine.prepare()
+    volume.postSetup()
 
     Console.log("Starting Input Engine")
     Console.log(engine)

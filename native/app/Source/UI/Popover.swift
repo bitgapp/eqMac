@@ -65,9 +65,8 @@ class Popover: NSObject, NSPopoverDelegate {
         }
     }
     
-    init (_ statusItem: StatusItem, _ viewController: ViewController) {
+    init (_ statusItem: StatusItem) {
         self.statusItem = statusItem
-        popover.contentViewController = viewController
         popover.animates = true
         super.init()
         popover.behavior = .transient
@@ -80,13 +79,10 @@ class Popover: NSObject, NSPopoverDelegate {
     }
     
     func show() {
-        NSApp.activate(ignoringOtherApps: true)
         popover.show(relativeTo: NSZeroRect, of: statusItem.button, preferredEdge: .minY)
-        popover.becomeFirstResponder()
     }
     
     func hide() {
-        popover.resignFirstResponder()
         popover.close()
         statusItem.highlighted = false
     }

@@ -21,8 +21,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, SUUpdaterDelegate {
   
   func applicationDidFinishLaunching(_ aNotification: Notification) {
     for window in NSApplication.shared.windows {
+      window.resignFirstResponder()
       window.close()
     }
+
     updater.delegate = self
     updateProcessed.once { _ in
       Application.start()

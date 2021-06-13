@@ -29,10 +29,6 @@ class Driver {
     }
   }
 
-  static var info: Dictionary<String, Any> {
-    return NSDictionary(contentsOfFile: Bundle.main.path(forResource: "Info", ofType: "plist", inDirectory: "Embedded/eqMac.driver/Contents")!) as! Dictionary<String, Any>
-  }
-
   static var sampleRates: [Double] {
     return [
       8_000,
@@ -183,18 +179,6 @@ class Driver {
   
   static var device: AudioDevice? {
     return AudioDevice.lookup(by: Constants.DRIVER_DEVICE_UID)
-  }
-  
-  static func install (started: (() -> Void)? = nil, _ finished: @escaping (Bool) -> Void) {
-    Script.sudo("install_driver", started: started, { success in
-      finished(success)
-    })
-  }
-  
-  static func uninstall (started: (() -> Void)? = nil, _ finished: @escaping (Bool) -> Void) {
-    Script.sudo("uninstall_driver", started: started, { success in
-      finished(success)
-    })
   }
   
 }

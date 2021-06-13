@@ -5,7 +5,6 @@
 //  Created by Roman Kisil on 09/05/2018.
 //  Copyright © 2018 Roman Kisil. All rights reserved.
 //
-
 import Foundation
 import WebKit
 import WebViewJavascriptBridge
@@ -26,7 +25,7 @@ class Bridge {
   init(webView: WKWebView) {
     self.bridge = WebViewJavascriptBridge(forWebView: webView)
   }
-  
+
   func call (handler: String, data: JSON?, _ callback: ((String?, JSON?) -> Void)? = nil) {
     self.bridge.callHandler(handler, data: data?.dictionaryObject ?? data?.object, responseCallback: { respData in
       if let data: BridgeResponseData = respData as? BridgeResponseData {
@@ -47,11 +46,11 @@ class Bridge {
       return
     })
   }
-  
+
   func on (event: String, handler: @escaping (_ data: JSON?, _ res: BridgeResponse) -> Void) {
     self.bridge.registerHandler(event) { (data, responseCallback) in
       let send = { (resp: JSON?) in
-        if (resp == nil) {
+        if (resp == nil || resp == JSON.null || resp!.type == SwiftyJSON.Type.unknown) {
           responseCallback!([ "data": nil ])
         } else if let dict = resp!.dictionaryObject {
           responseCallback!([ "data": dict ])

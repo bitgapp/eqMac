@@ -63,19 +63,17 @@ class UI: StoreSubscriber {
     return Application.supportPath.appendingPathComponent("ui")
   }
   
-  static let storyboard = NSStoryboard(name: "Main", bundle: nil)
+  static let storyboard = NSStoryboard(name: "Main", bundle: Bundle.main)
   static let statusItem = StatusItem(image: NSImage(named: "statusBarIcon")!)
   
   static var windowController: NSWindowController = (storyboard.instantiateController(withIdentifier: "EQMWindowController") as! NSWindowController)
   static var window: Window = (windowController.window! as! Window)
-  static var viewController: ViewController = window.contentViewController as! ViewController
+  static var viewController = (storyboard.instantiateController(withIdentifier: "EQMViewController") as! ViewController)
 
-  static var popover = Popover(statusItem, viewController)
+  static var popover = Popover(statusItem)
 
   
   static let loadingWindowController = storyboard.instantiateController(withIdentifier: "LoadingWindow") as! NSWindowController
-  static let loadingWindow = loadingWindowController.window!
-  static let loadingViewController = (loadingWindowController.contentViewController as! LoadingViewController)
   //    var popover: Popover!
   
   static var cachedIsShown: Bool = false
@@ -128,14 +126,18 @@ class UI: StoreSubscriber {
       DispatchQueue.main.async {
         if (newValue == .popover) {
           window.close()
+          window.resignFirstResponder()
           window.contentViewController = nil
           popover.popover.contentViewController = viewController
           popover.show()
+          popover.popover.becomeFirstResponder()
         } else {
           popover.hide()
+          popover.popover.resignFirstResponder()
           popover.popover.contentViewController = nil
           window.contentViewController = viewController
           window.show()
+          window.becomeFirstResponder()
         }
       }
     }
@@ -167,7 +169,7 @@ class UI: StoreSubscriber {
       if (mode == .popover) {
         popover.show()
       } else {
-        UI.window.show()
+        window.show()
       }
       NSApp.activate(ignoringOtherApps: true)
     }
@@ -178,7 +180,7 @@ class UI: StoreSubscriber {
       if (mode == .popover) {
         popover.hide()
       } else {
-        UI.window.close()
+        window.close()
       }
       NSApp.hide(self)
     }
@@ -189,21 +191,9 @@ class UI: StoreSubscriber {
       if (mode == .popover) {
         popover.hide()
       } else {
-        UI.window.performMiniaturize(nil)
+        window.performMiniaturize(nil)
       }
     }
-  }
-  
-  static func showLoadingWindow (_ text: String) {
-    UI.loadingViewController.label.stringValue = text
-    UI.loadingWindow.makeKeyAndOrderFront(self)
-    UI.loadingWindow.orderFrontRegardless()
-    NSApp.activate(ignoringOtherApps: true)
-  }
-  
-  static func hideLoadingWindow () {
-    UI.loadingWindow.orderOut(self)
-    NSApp.hide(self)
   }
   
   // Instance
@@ -212,8 +202,6 @@ class UI: StoreSubscriber {
   
   init (_ completion: @escaping () -> Void) {
     DispatchQueue.main.async {
-      UI.window.contentView = UI.viewController.view
-
       ({
         UI.mode = Application.store.state.ui.mode
         UI.width = Application.store.state.ui.width
