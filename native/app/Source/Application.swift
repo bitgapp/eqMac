@@ -66,11 +66,12 @@ class Application {
       Sources.getInputPermission {
         AudioDevice.register = true
         audioPipelineIsRunningListener = audioPipelineIsRunning.once {
-          self.setupUI()
-          if (User.isFirstLaunch || Constants.DEBUG) {
-            UI.show()
-          } else {
-            UI.close()
+          self.setupUI {
+            if (User.isFirstLaunch || Constants.DEBUG) {
+              UI.show()
+            } else {
+              UI.close()
+            }
           }
         }
         setupAudio()
@@ -342,7 +343,7 @@ class Application {
     }
   }
   
-  private static func setupUI () {
+  private static func setupUI (_ completion: @escaping () -> Void) {
     Console.log("Setting up UI")
     ui = UI {
       setupDataBus()

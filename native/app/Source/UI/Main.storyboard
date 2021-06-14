@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17701"/>
+        <plugIn identifier="com.apple.WebKit2IBPlugin" version="17701"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -107,6 +108,14 @@
                                     </progressIndicator>
                                 </subviews>
                             </customView>
+                            <wkWebView wantsLayer="YES" fixedFrame="YES" allowsLinkPreview="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zJG-9b-cg4">
+                                <rect key="frame" x="0.0" y="0.0" width="400" height="400"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <wkWebViewConfiguration key="configuration">
+                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                                    <wkPreferences key="preferences" javaScriptCanOpenWindowsAutomatically="NO"/>
+                                </wkWebViewConfiguration>
+                            </wkWebView>
                             <customView autoresizesSubviews="NO" wantsLayer="YES" appearanceType="darkAqua" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bLB-gh-lJZ" customClass="DraggableView" customModule="eqMac" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="372" width="400" height="28"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
@@ -117,7 +126,8 @@
                         <outlet property="draggableView" destination="bLB-gh-lJZ" id="7cR-to-BQs"/>
                         <outlet property="loadingSpinner" destination="cyp-ij-N0e" id="ZwC-yt-JeR"/>
                         <outlet property="loadingView" destination="RBl-OJ-pth" id="TVK-E1-Dbz"/>
-                        <outlet property="view" destination="eMQ-jC-nnX" id="XuJ-1w-qES"/>
+                        <outlet property="parentView" destination="eMQ-jC-nnX" id="tX5-iK-1f8"/>
+                        <outlet property="webView" destination="zJG-9b-cg4" id="ALI-gZ-yXs"/>
                     </connections>
                 </viewController>
             </objects>

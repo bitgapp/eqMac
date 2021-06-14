@@ -63,19 +63,23 @@ class UI: StoreSubscriber {
     return Application.supportPath.appendingPathComponent("ui")
   }
   
-  static let storyboard = NSStoryboard(name: "Main", bundle: Bundle.main)
   static let statusItem = StatusItem(image: NSImage(named: "statusBarIcon")!)
-  
-  static var windowController: NSWindowController = (storyboard.instantiateController(withIdentifier: "EQMWindowController") as! NSWindowController)
-  static var window: Window = (windowController.window! as! Window)
-  static var viewController = (storyboard.instantiateController(withIdentifier: "EQMViewController") as! ViewController)
 
+  static let storyboard = NSStoryboard(name: "Main", bundle: Bundle.main)
+
+  static var windowController: NSWindowController = (
+    storyboard.instantiateController(
+      withIdentifier: "EQMWindowController"
+    ) as! NSWindowController)
+  static var window: Window = (windowController.window! as! Window)
   static var popover = Popover(statusItem)
 
-  
-  static let loadingWindowController = storyboard.instantiateController(withIdentifier: "LoadingWindow") as! NSWindowController
-  //    var popover: Popover!
-  
+  static var viewController = (
+    storyboard.instantiateController(
+      withIdentifier: "EQMViewController"
+    ) as! ViewController)
+
+
   static var cachedIsShown: Bool = false
   static var isShownChanged = Event<Bool>()
   static var isShown: Bool {
@@ -129,16 +133,15 @@ class UI: StoreSubscriber {
           window.resignFirstResponder()
           window.contentViewController = nil
           popover.popover.contentViewController = viewController
-          popover.show()
           popover.popover.becomeFirstResponder()
         } else {
           popover.hide()
           popover.popover.resignFirstResponder()
           popover.popover.contentViewController = nil
           window.contentViewController = viewController
-          window.show()
           window.becomeFirstResponder()
         }
+        UI.show()
       }
     }
   }
@@ -202,32 +205,46 @@ class UI: StoreSubscriber {
   
   init (_ completion: @escaping () -> Void) {
     DispatchQueue.main.async {
-      ({
-        UI.mode = Application.store.state.ui.mode
-        UI.width = Application.store.state.ui.width
-        UI.height = Application.store.state.ui.height
-      })()
 
-      // TODO: Fix window position state saving (need to look if the current position is still accessible, what if the monitor isn't there anymore)
-      //        if let windowPosition = Application.store.state.ui.windowPosition {
-      //            window.position = windowPosition
-      //        }
-      self.setupStateListener()
-      UI.setupBridge()
-      UI.setupListeners()
-      UI.load()
+      func setup () {
+        ({
+          UI.mode = Application.store.state.ui.mode
+          UI.width = Application.store.state.ui.width
+          UI.height = Application.store.state.ui.height
+        })()
 
-      func checkIfVisible () {
-        let shown = UI.isShown
-        if (UI.cachedIsShown != shown) {
-          UI.cachedIsShown = shown
-          UI.isShownChanged.emit(shown)
+        // TODO: Fix window position state saving (need to look if the current position is still accessible, what if the monitor isn't there anymore)
+        //        if let windowPosition = Application.store.state.ui.windowPosition {
+        //            window.position = windowPosition
+        //        }
+        self.setupStateListener()
+        UI.setupBridge()
+        UI.setupListeners()
+        UI.load()
+
+        func checkIfVisible () {
+          let shown = UI.isShown
+          if (UI.cachedIsShown != shown) {
+            UI.cachedIsShown = shown
+            UI.isShownChanged.emit(shown)
+          }
+          Utilities.delay(1000) { checkIfVisible() }
         }
-        Utilities.delay(1000) { checkIfVisible() }
+
+        checkIfVisible()
+        completion()
       }
 
-      checkIfVisible()
-      completion()
+      if (!UI.viewController.isViewLoaded) {
+        UI.viewController.loaded.once {
+          setup()
+        }
+        let _ = UI.viewController.view
+      } else {
+        setup()
+      }
+
+
     }
 
   }

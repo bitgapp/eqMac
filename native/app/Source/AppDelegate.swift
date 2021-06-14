@@ -20,10 +20,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, SUUpdaterDelegate {
   var willBeDownloadingUpdate = false
   
   func applicationDidFinishLaunching(_ aNotification: Notification) {
-    for window in NSApplication.shared.windows {
-      window.resignFirstResponder()
-      window.close()
-    }
+//    for window in NSApplication.shared.windows {
+//      window.resignFirstResponder()
+//      window.close()
+//    }
 
     updater.delegate = self
     updateProcessed.once { _ in
@@ -64,7 +64,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, SUUpdaterDelegate {
   }
   
   func applicationDidBecomeActive(_ notification: Notification) {
-    UI.show()
+    if (UI.hasLoaded) {
+      UI.show()
+    }
   }
   
   func updaterDidNotFindUpdate(_ updater: SUUpdater) {

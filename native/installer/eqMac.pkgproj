@@ -81,19 +81,19 @@
 									<key>BUNDLE_POSTINSTALL_PATH</key>
 									<dict>
 										<key>PATH_TYPE</key>
-										<integer>0</integer>
+										<integer>1</integer>
 									</dict>
 									<key>BUNDLE_PREINSTALL_PATH</key>
 									<dict>
 										<key>PATH_TYPE</key>
-										<integer>0</integer>
+										<integer>1</integer>
 									</dict>
 									<key>CHILDREN</key>
 									<array/>
 									<key>GID</key>
 									<integer>80</integer>
 									<key>PATH</key>
-									<string>update/eqMac.app</string>
+									<string>../update/eqMac.app</string>
 									<key>PATH_TYPE</key>
 									<integer>1</integer>
 									<key>PERMISSIONS</key>
@@ -519,7 +519,7 @@
 				<key>POSTINSTALL_PATH</key>
 				<dict>
 					<key>PATH</key>
-					<string>installer/postinstall.sh</string>
+					<string>postinstall.sh</string>
 					<key>PATH_TYPE</key>
 					<integer>1</integer>
 				</dict>
@@ -531,12 +531,14 @@
 				<key>RESOURCES</key>
 				<array>
 					<dict>
+						<key>BUNDLE_CAN_DOWNGRADE</key>
+						<false/>
 						<key>CHILDREN</key>
 						<array/>
 						<key>GID</key>
 						<integer>0</integer>
 						<key>PATH</key>
-						<string>update/eqMac.app/Contents/Resources/Embedded/eqMac.driver</string>
+						<string>../build/eqMac.driver</string>
 						<key>PATH_TYPE</key>
 						<integer>1</integer>
 						<key>PERMISSIONS</key>
@@ -573,7 +575,7 @@
 				<key>USE_HFS+_COMPRESSION</key>
 				<true/>
 				<key>VERSION</key>
-				<string>0.3.7</string>
+				<string>1.0.0</string>
 			</dict>
 			<key>TYPE</key>
 			<integer>0</integer>
@@ -740,7 +742,7 @@
 						<key>VALUE</key>
 						<dict>
 							<key>PATH</key>
-							<string>installer/introduction.txt</string>
+							<string>introduction.txt</string>
 							<key>PATH_TYPE</key>
 							<integer>1</integer>
 						</dict>
@@ -801,7 +803,7 @@
 						<key>IC_REQUIREMENT_OS_DISTRIBUTION_TYPE</key>
 						<integer>0</integer>
 						<key>IC_REQUIREMENT_OS_MINIMUM_VERSION</key>
-						<integer>101000</integer>
+						<integer>101200</integer>
 					</dict>
 					<key>IC_REQUIREMENT_CHECK_TYPE</key>
 					<integer>1</integer>
@@ -827,7 +829,7 @@
 			<key>BUILD_PATH</key>
 			<dict>
 				<key>PATH</key>
-				<string>build</string>
+				<string>../build</string>
 				<key>PATH_TYPE</key>
 				<integer>1</integer>
 			</dict>

@@ -12,10 +12,12 @@ import EmitterKit
 
 class ViewController: NSViewController, WKNavigationDelegate {
   // MARK: - Properties
-  var webView: WKWebView!
+  @IBOutlet var parentView: View!
+  @IBOutlet var webView: WKWebView!
   @IBOutlet var draggableView: DraggableView!
   @IBOutlet var loadingView: NSView!
   @IBOutlet var loadingSpinner: NSProgressIndicator!
+  let loaded = Event<Void>()
 
   var height: Double {
     get {
@@ -40,26 +42,10 @@ class ViewController: NSViewController, WKNavigationDelegate {
   }
 
   // MARK: - Initialization
-  override init(nibName: String?, bundle: Bundle? = Bundle.main)   {
-    super.init(nibName: nibName, bundle: bundle)
-    createWebView()
-  }
-
-  required init?(coder: NSCoder) {
-    super.init(coder: coder)
-    createWebView()
-  }
-
-  convenience init(){
-    self.init()
-    createWebView()
-  }
-
-  private func createWebView () {
-    webView = WKWebView(frame: view.frame)
-    webView.autoresizingMask = [.height, .width]
-    view.addSubview(webView, positioned: .below, relativeTo: loadingView)
+  override func viewDidLoad () {
+    super.viewDidLoad()
     loadingSpinner.startAnimation(nil)
+    loaded.emit()
   }
 
   func load (_ url: URL) {
@@ -94,19 +80,32 @@ class ViewController: NSViewController, WKNavigationDelegate {
 }
 
 class View: NSView {
+  var backgroundAdded = false
+
   override func viewDidMoveToWindow() {
-    
-    //        guard let frameView = window?.contentView?.superview else {
-    //            return
-    //        }
-    //
-    //        let backgroundView = NSView(frame: frameView.bounds)
-    //        backgroundView.wantsLayer = true
-    //        backgroundView.layer?.backgroundColor = NSColor(red: 62 / 255, green: 62 / 255, blue: 62 / 255, alpha: 1).cgColor
-    //        backgroundView.autoresizingMask = [.width, .height]
-    //
-    //        frameView.addSubview(backgroundView, positioned: .below, relativeTo: frameView)
-    
+    addBackground()
+  }
+
+  // This is a workaround to color the popover top triangle to a non-default system color
+  func addBackground () {
+    if backgroundAdded { return }
+
+    // Should only apply this to the popover
+    guard window == UI.popover.popover.contentViewController?.view.window else {
+      return
+    }
+
+    guard let frameView = window!.contentView?.superview else {
+      return
+    }
+
+    let backgroundView = NSView(frame: frameView.bounds)
+    backgroundView.wantsLayer = true
+    backgroundView.layer?.backgroundColor = NSColor(red: 62 / 255, green: 62 / 255, blue: 62 / 255, alpha: 1).cgColor
+    backgroundView.autoresizingMask = [.width, .height]
+
+    frameView.addSubview(backgroundView, positioned: .below, relativeTo: frameView)
+    backgroundAdded = true
   }
   
   override var acceptsFirstResponder: Bool { true }
