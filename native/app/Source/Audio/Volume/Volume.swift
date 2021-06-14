@@ -20,8 +20,8 @@ class Volume: StoreSubscriber {
 
   var engine: AVAudioEngine?
 
+  var booster = AVAudioUnitEQ()
   var mixer = AVAudioMixerNode()
-  var output = AVAudioUnitEQ()
 
   // MARK: - Properties
   var gain: Double = 1 {
@@ -33,9 +33,9 @@ class Volume: StoreSubscriber {
       if (gain <= 1) {
         if (volumeSupported) {
           device.setVirtualMasterVolume(Float32(gain), direction: .playback)
-          output.globalGain = 0
+          booster.globalGain = 0
         } else {
-          output.globalGain = Float(Utilities.mapValue(value: gain, inMin: 0, inMax: 1, outMin: -96, outMax: 0))
+          booster.globalGain = Float(Utilities.mapValue(value: gain, inMin: 0, inMax: 1, outMin: -96, outMax: 0))
         }
 
         if (balanceSupported) {
@@ -47,11 +47,11 @@ class Volume: StoreSubscriber {
 
         Driver.device!.setVirtualMasterVolume(Float32(gain), direction: .playback)
 
-      } else {
+      } else { // gain > 1
         if (volumeSupported) {
           device.setVirtualMasterVolume(1.0, direction: .playback)
         }
-        output.globalGain = Float(Utilities.mapValue(value: gain, inMin: 1, inMax: 2, outMin: 0, outMax: 12))
+        booster.globalGain = Float(Utilities.mapValue(value: gain, inMin: 1, inMax: 2, outMin: 0, outMax: 12))
 
         if (balanceSupported) {
           device.setVirtualMasterBalance(Float32(Utilities.mapValue(value: balance, inMin: -1, inMax: 1, outMin: 0, outMax: 1)), direction: .playback)
@@ -78,8 +78,7 @@ class Volume: StoreSubscriber {
       Application.ignoreNextVolumeEvent = false
       Application.ignoreNextDriverMuteEvent = false
 
-      mixer.pan = Float(gain)
-      Console.log(mixer.pan)
+      Console.log("Boost: \(booster.globalGain)  Mix: \(mixer.pan)")
     }
   }
   
@@ -172,10 +171,10 @@ class Volume: StoreSubscriber {
     self.engine = engine
     let format = engine.inputNode.inputFormat(forBus: 0)
 
+    engine.attach(booster)
     engine.attach(mixer)
-    engine.attach(output)
 
-    engine.connect(mixer, to: output, format: format)
+    engine.connect(mixer, to: booster, format: format)
   }
 
   func postSetup () {

@@ -115,12 +115,12 @@ class Engine {
   }
   
   private func chainVolumeToSink () {
-    engine.connect(volume.output, to: engine.mainMixerNode, format: format)
+    engine.connect(volume.booster, to: engine.mainMixerNode, format: format)
   }
   
   private func setupRenderCallback () {
     Console.log("Setting up Input Render Callback")
-    let lastAVUnit = effects.equalizers.active.eq as AVAudioUnit
+    let lastAVUnit = volume.booster as AVAudioUnit
     if let err = checkErr(AudioUnitAddRenderNotify(lastAVUnit.audioUnit,
                                                    renderCallback,
                                                    UnsafeMutableRawPointer(Unmanaged<Engine>.passUnretained(self).toOpaque()))) {

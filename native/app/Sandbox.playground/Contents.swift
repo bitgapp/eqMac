@@ -39,3 +39,5 @@ player.scheduleBuffer(buffer, at: AVAudioTime(hostTime: 0), options:.loops, comp
 DispatchQueue.main.asyncAfter(deadline: .now() + 5, execute:  {
   mixer.pan = -1
 })
+
+let unit = mixer.auAudioUnit.component
