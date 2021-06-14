@@ -17,7 +17,6 @@ class Engine {
   private var eventListeners: [Any] = []
   let sources: Sources
   let effects: Effects
-  let volume: Volume
   var attachedEqualizer: Equalizer?
   
   var format: AVAudioFormat!
@@ -28,11 +27,10 @@ class Engine {
   // Middleware
   var buffer: CircularBuffer<Float>!
   
-  init (sources: Sources, effects: Effects, volume: Volume) {
+  init (sources: Sources, effects: Effects) {
     Console.log("Creating Engine")
     self.sources = sources
     self.effects = effects
-    self.volume = volume
     setupEngine()
     setupSink()
     setupBuffer()
@@ -58,7 +56,6 @@ class Engine {
   private func attach () {
     attachSource()
     attachEffects()
-    attachVolume()
   }
   
   private func attachSource () {
@@ -89,15 +86,10 @@ class Engine {
     attachEqualizer()
   }
   
-  private func attachVolume () {
-    volume.attachToEngine(engine: engine)
-  }
-  
   private func chain () {
     chainSourceToEffects()
-    chainEffectsToVolume()
     chainEffects()
-    chainVolumeToSink()
+    chainEffectsToSink()
     setupRenderCallback()
   }
   
@@ -105,22 +97,18 @@ class Engine {
     Console.log("Chaining Source to Volume")
     engine.connect(engine.inputNode, to: effects.equalizers.active.eq, format: format)
   }
-  
-  private func chainEffectsToVolume () {
-    engine.connect(effects.equalizers.active.eq, to: volume.mixer, format: format)
-  }
-  
+
   private func chainEffects () {
     Console.log("Chaining Effects")
   }
   
-  private func chainVolumeToSink () {
-    engine.connect(volume.booster, to: engine.mainMixerNode, format: format)
+  private func chainEffectsToSink () {
+    engine.connect(effects.equalizers.active.eq, to: engine.mainMixerNode, format: format)
   }
   
   private func setupRenderCallback () {
     Console.log("Setting up Input Render Callback")
-    let lastAVUnit = volume.booster as AVAudioUnit
+    let lastAVUnit = effects.equalizers.active.eq as AVAudioUnit
     if let err = checkErr(AudioUnitAddRenderNotify(lastAVUnit.audioUnit,
                                                    renderCallback,
                                                    UnsafeMutableRawPointer(Unmanaged<Engine>.passUnretained(self).toOpaque()))) {
@@ -166,7 +154,6 @@ class Engine {
   
   private func start () {
     engine.prepare()
-    volume.postSetup()
 
     Console.log("Starting Input Engine")
     Console.log(engine)

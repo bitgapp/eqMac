@@ -194,7 +194,7 @@ class Application {
         let currentDeviceRemoved = list.removed.contains(where: { $0.id == selectedDevice.id })
         
         if (currentDeviceRemoved) {
-          stopEngines()
+          removeEngines()
           try! AudioDeviceEvents.recreateEventEmitters([.isAliveChanged, .volumeChanged, .nominalSampleRateChanged])
           self.setupDriverDeviceEvents()
           Utilities.delay(500) {
@@ -245,7 +245,7 @@ class Application {
   }
   
   static func selectOutput (device: AudioDevice) {
-    stopEngines()
+    stopRemoveEngines()
     Utilities.delay(500) {
       AudioDevice.currentOutputDevice = device
     }
@@ -293,13 +293,12 @@ class Application {
     _ = Sources() { sources in
       self.sources = sources
       effects = Effects()
-      volume = Volume()
       engine = Engine(
         sources: sources,
-        effects: effects,
-        volume: volume
+        effects: effects
       )
-      output = Output(device: selectedDevice, engine: engine)
+      volume = Volume()
+      output = Output(device: selectedDevice, engine: engine, volume: volume)
       
       selectedDeviceIsAliveListener = AudioDeviceEvents.on(
         .isAliveChanged,
@@ -318,7 +317,7 @@ class Application {
         onDevice: selectedDevice,
         retain: false
       ) {
-        stopEngines()
+        stopRemoveEngines()
         Utilities.delay(100) {
           // need a delay, because emitter should finish it's work at first
           try! AudioDeviceEvents.recreateEventEmitters([.isAliveChanged, .volumeChanged, .nominalSampleRateChanged])
@@ -351,12 +350,18 @@ class Application {
   }
   
   static func stopEngines () {
-    if (output != nil) {
-      output = nil
-    }
-    if (engine != nil) {
-      engine = nil
-    }
+    output?.stop()
+    engine?.stop()
+  }
+
+  static func removeEngines () {
+    output = nil
+    engine = nil
+  }
+
+  static func stopRemoveEngines () {
+    stopEngines()
+    removeEngines()
   }
   
   private static func setupDataBus () {
@@ -436,7 +441,7 @@ class Application {
 
   static func stopSave () {
     stopListeners()
-    stopEngines()
+    stopRemoveEngines()
     switchBackToLastKnownDevice()
     Storage.synchronize()
   }

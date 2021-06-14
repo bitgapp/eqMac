@@ -29,13 +29,12 @@ class Volume: StoreSubscriber {
       let device: AudioDevice! = Application.selectedDevice
       let volumeSupported = device.outputVolumeSupported
       let balanceSupported = device.outputBalanceSupported
-      
+      var virtualVolume: Double = 1
       if (gain <= 1) {
         if (volumeSupported) {
           device.setVirtualMasterVolume(Float32(gain), direction: .playback)
-          booster.globalGain = 0
         } else {
-          booster.globalGain = Float(Utilities.mapValue(value: gain, inMin: 0, inMax: 1, outMin: -96, outMax: 0))
+          virtualVolume = gain
         }
 
         if (balanceSupported) {
@@ -45,13 +44,13 @@ class Volume: StoreSubscriber {
           mixer.pan = Float(balance)
         }
 
+        booster.globalGain = 0
         Driver.device!.setVirtualMasterVolume(Float32(gain), direction: .playback)
-
       } else { // gain > 1
         if (volumeSupported) {
           device.setVirtualMasterVolume(1.0, direction: .playback)
         }
-        booster.globalGain = Float(Utilities.mapValue(value: gain, inMin: 1, inMax: 2, outMin: 0, outMax: 12))
+        virtualVolume = Utilities.mapValue(value: gain, inMin: 1, inMax: 2, outMin: 0, outMax: 6)
 
         if (balanceSupported) {
           device.setVirtualMasterBalance(Float32(Utilities.mapValue(value: balance, inMin: -1, inMax: 1, outMin: 0, outMax: 1)), direction: .playback)
@@ -63,7 +62,8 @@ class Volume: StoreSubscriber {
         Driver.device!.setVirtualMasterVolume(1, direction: .playback)
       }
 
-      
+      mixer.outputVolume = Float(virtualVolume)
+
       if (!volumeSupported) {
         Driver.device!.mute = false
         device.mute = false
@@ -77,16 +77,13 @@ class Volume: StoreSubscriber {
       
       Application.ignoreNextVolumeEvent = false
       Application.ignoreNextDriverMuteEvent = false
-
-      Console.log("Boost: \(booster.globalGain)  Mix: \(mixer.pan)")
     }
   }
   
   var muted: Bool = false {
     didSet {
       if (muted) {
-//        leftGain = 0
-//        rightGain = 0
+        mixer.outputVolume = 0
       } else {
         (gain = gain)
       }
@@ -169,12 +166,12 @@ class Volume: StoreSubscriber {
 
   func attachToEngine (engine: AVAudioEngine) {
     self.engine = engine
-    let format = engine.inputNode.inputFormat(forBus: 0)
+    let format = engine.outputNode.outputFormat(forBus: 0)
 
     engine.attach(booster)
     engine.attach(mixer)
 
-    engine.connect(mixer, to: booster, format: format)
+    engine.connect(booster, to: mixer, format: format)
   }
 
   func postSetup () {

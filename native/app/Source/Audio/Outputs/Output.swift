@@ -35,6 +35,7 @@ class Output {
   
   var device: AudioDevice
   var engine: Engine
+  var volume: Volume
   var outputEngine = AVAudioEngine()
   var player = AVAudioPlayerNode()
   var varispeed = AVAudioUnitVarispeed()
@@ -50,11 +51,12 @@ class Output {
   var lowestVarispeedRate: Float
   var highestVarispeedRate: Float
 
-  init(device: AudioDevice!, engine: Engine!) {
+  init(device: AudioDevice, engine: Engine, volume: Volume) {
     Console.log("Creating Output for Device: " + device.name)
     self.device = device
     self.engine = engine
-    
+    self.volume = volume
+
     outputEngine.setOutputDevice(device)
     
     let format = AVAudioFormat.init(
@@ -72,8 +74,11 @@ class Output {
 
     outputEngine.attach(player)
     outputEngine.attach(varispeed)
+    volume.attachToEngine(engine: outputEngine)
+
     outputEngine.connect(player, to: varispeed, format: format)
-    outputEngine.connect(varispeed, to: outputEngine.mainMixerNode, format: format)
+    outputEngine.connect(varispeed, to: volume.booster, format: format)
+    outputEngine.connect(volume.mixer, to: outputEngine.mainMixerNode, format: format)
     
     self.setupCallback()
     
@@ -109,7 +114,7 @@ class Output {
     let output = Unmanaged<Output>.fromOpaque(outputPointer).takeUnretainedValue()
 
     // No input yet, wait
-    if (output.engine.lastSampleTime == -1) {
+    if (!output.engine.engine.isRunning || output.engine.lastSampleTime == -1) {
       makeBufferSilent(abl)
       return noErr
     }
