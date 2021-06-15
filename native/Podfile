@@ -22,11 +22,10 @@ def shared_pods
 end
 
 project 'app/eqMac.xcodeproj'
-project 'driver-installer/eqMac Driver Installer.xcodeproj'
 
 target 'eqMac' do
   project 'app/eqMac.xcodeproj'
-  
+
   pod 'SwiftHTTP', '~> 3.0'
   pod 'AMCoreAudio', :git => 'https://github.com/bitgapp/AMCoreAudio.git', :commit => 'f02015b7dfbaeb9b5f70b658e860afe94f85df9c'
   pod 'WebViewJavascriptBridge', '~> 6.0'
@@ -41,6 +40,7 @@ target 'eqMac' do
   pod 'KeychainSwift', '~> 13.0'
   pod 'Zip', '~> 1.1'
   shared_pods
+
 end
 
 
