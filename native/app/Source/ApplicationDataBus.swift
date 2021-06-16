@@ -55,7 +55,8 @@ class ApplicationDataBus: DataBus {
     }
     
     self.on(.GET, "/uninstall") { _, res in
-      return "Downloading Uninstaller"
+      NSWorkspace.shared.open(Constants.FAQ_URL)
+      return "FAQ Openned"
     }
     
     self.on(.GET, "/driver/reinstall/available") { _, res in
