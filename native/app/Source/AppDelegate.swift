@@ -30,7 +30,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, SUUpdaterDelegate {
       Application.start()
     }
 
-    Networking.isConnected { connected in
+    Networking.checkConnected { connected in
       if (connected) {
         self.updater.checkForUpdatesInBackground()
       } else {
