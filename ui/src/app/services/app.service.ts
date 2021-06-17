@@ -6,6 +6,7 @@ export interface MacInfo {
   name: string
   model: string
   version: string
+  isOpenSource: boolean
   driverVersion?: string
 }
 @Injectable({

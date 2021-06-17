@@ -84,7 +84,8 @@ EOT
               fi
             done
             echo "Device became active"
-
+            killall SystemUIServer # Restart the menu bar
+            killall ControlStrip || true   # Restart the MBP TouchBar, if you have one
         fi
 fi
 
