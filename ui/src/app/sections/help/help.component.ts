@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { Options } from 'src/app/components/options/options.component'
-import { ApplicationService, MacInfo } from 'src/app/services/app.service'
+import { ApplicationService, Info } from 'src/app/services/app.service'
 import { ConstantsService } from 'src/app/services/constants.service'
 import { version } from '../../../../package.json'
 import { UIService } from '../../services/ui.service'
@@ -32,13 +32,13 @@ export class HelpComponent implements OnInit {
   ) {}
 
   uiVersion = `${version} (${this.ui.isLocal ? 'Local' : 'Remote'})`
-  info: MacInfo
+  info: Info
   ngOnInit () {
     this.fetchInfo()
   }
 
   async fetchInfo () {
-    this.info = await this.app.getMacInfo()
+    this.info = await this.app.getInfo()
   }
 
   reportBug () {

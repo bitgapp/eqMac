@@ -22,7 +22,7 @@ export class AnalyticsService {
   async send () {
     const [ tracker, info ] = await Promise.all([
       this.load(),
-      this.app.getMacInfo()
+      this.app.getInfo()
     ])
     const data = {
       appName: 'eqMac',
