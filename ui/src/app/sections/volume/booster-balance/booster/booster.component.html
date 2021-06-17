@@ -1,39 +1,37 @@
 <eqm-label>Volume</eqm-label>
 
-<!-- Knob controls -->
-<div *ngIf="!replaceKnobsWithSliders" fxLayout="row" fxLayoutAlign="center start"
-  class="knob-control">
+<ng-template #volume>
   <div fxLayout="column" fxLayoutAlign="center center" fxFlex="52px">
     <eqm-label>Volume</eqm-label>
     <eqm-value-screen>{{(gain | mapValue:0:1:0:100 | clipValue:0:100 | fixFloat:0:false)}}%</eqm-value-screen>
   </div>
+</ng-template>
 
-  <eqm-knob [min]="0" [max]="2" [(value)]="gain" (userChangedValue)="setGain($event.value)" [stickToMiddle]="true"
-    (stickedToMiddle)="performHapticFeedback($event)" size="small" [doubleClickToAnimateToMiddle]="false">
-  </eqm-knob>
+<ng-template #boost>
   <div fxLayout="column" fxLayoutAlign="center center" fxFlex="52px">
     <eqm-label>Boost</eqm-label>
     <eqm-value-screen>{{(gain | mapValue:1:2:0:100 | clipValue:0:100 | fixFloat:0:false)}}%</eqm-value-screen>
   </div>
+</ng-template>
+
+<!-- Knob controls -->
+<div *ngIf="!replaceKnobsWithSliders" fxLayout="row" fxLayoutAlign="center start"
+  class="knob-control">
+  <ng-container *ngTemplateOutlet="volume"></ng-container>
+  <eqm-knob [min]="0" [max]="2" [(value)]="gain" (userChangedValue)="setGain($event.value)" [stickToMiddle]="true"
+    (stickedToMiddle)="performHapticFeedback($event)" size="small" [doubleClickToAnimateToMiddle]="false">
+  </eqm-knob>
+  <ng-container *ngTemplateOutlet="boost"></ng-container>
 </div>
 
 
 <!-- Slider controls -->
 <div *ngIf="replaceKnobsWithSliders" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px" class="slider-control">
-  <div fxLayout="column" fxLayoutAlign="center center" fxFlex="52px">
-    <eqm-label>Volume</eqm-label>
-    <eqm-value-screen>{{(gain | mapValue:0:1:0:100 | clipValue:0:100 | fixFloat:0:false)}}%</eqm-value-screen>
-  </div>
+  <ng-container *ngTemplateOutlet="volume"></ng-container>
   <div fxFlex="60%">
     <eqm-flat-slider [min]="0" [max]="2" [(value)]="gain" (userChangedValue)="setGain($event.value)"
     [doubleClickToAnimateToMiddle]="false"
     [stickToMiddle]="true" (stickedToMiddle)="performHapticFeedback($event)"></eqm-flat-slider>
   </div>
-
-
-  <div fxLayout="column" fxLayoutAlign="center center" fxFlex="52px">
-    <eqm-label>Boost</eqm-label>
-    <eqm-value-screen>{{(gain | mapValue:1:2:0:100 | clipValue:0:100 | fixFloat:0:false)}}%</eqm-value-screen>
-  </div>
-
+  <ng-container *ngTemplateOutlet="boost"></ng-container>
 </div>

@@ -21,9 +21,12 @@ export class SettingsComponent implements OnInit {
 
   replaceKnobsWithSlidersOption: CheckboxOption = {
     type: 'checkbox',
-    label: 'Replace Knobs with Sliders',
+    label: 'Knobs → Sliders',
     value: false,
-    toggled: replaceKnobsWithSliders => this.ui.setSettings({ replaceKnobsWithSliders })
+    toggled: replaceKnobsWithSliders => {
+      this.ui.setSettings({ replaceKnobsWithSliders })
+      this.app.ref.closeDropdownSection('settings')
+    }
   }
 
   iconModeOption: SelectOption = {
@@ -62,12 +65,6 @@ export class SettingsComponent implements OnInit {
     action: this.update.bind(this)
   }
 
-  reinstallDriverOption: ButtonOption = {
-    type: 'button',
-    label: 'Reinstall Driver',
-    action: this.reinstallDriver.bind(this)
-  }
-
   settings: Options = [
     [
       this.updateOption
@@ -90,21 +87,10 @@ export class SettingsComponent implements OnInit {
     public dialog: MatDialog,
     public ui: UIService
   ) {
-    this.getDriverReinstallAvailable()
   }
 
   ngOnInit () {
     this.sync()
-  }
-
-  async getDriverReinstallAvailable () {
-    if (await this.app.getDriverReinstallAvailable()) {
-      this.settings[3].unshift(this.reinstallDriverOption)
-    }
-  }
-
-  async reinstallDriver () {
-    this.app.reinstallDriver()
   }
 
   async sync () {
@@ -133,19 +119,6 @@ export class SettingsComponent implements OnInit {
   }
 
   async uninstall () {
-    const dialog = this.dialog.open(ConfirmDialogComponent, {
-      hasBackdrop: true,
-      disableClose: true,
-      data: {
-        confirmText: 'Yes, uninstall',
-        cancelText: 'No, cancel',
-        text: 'Are you sure you want to uninstall eqMac?'
-      }
-    })
-
-    const uninstall = await dialog.afterClosed().toPromise()
-    if (uninstall) {
-      this.app.uninstall()
-    }
+    this.app.uninstall()
   }
 }

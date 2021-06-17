@@ -15,6 +15,23 @@ export class BoosterService extends VolumeService {
     this.request({ method: 'POST', data: { gain, transition } })
   }
 
+  async getBoostEnabled (): Promise<boolean> {
+    const { enabled } = await this.request({ method: 'GET', endpoint: '/boost/enabled' })
+    return enabled
+  }
+
+  setBoostEnabled (enabled: boolean) {
+    return this.request({ method: 'POST', endpoint: '/boost/enabled', data: { enabled } })
+  }
+
+  onBoostEnabledChanged (callback: BoostEnabledChangedEventCallback) {
+    this.on(callback)
+  }
+
+  offBoostEnabledChanged (callback: BoostEnabledChangedEventCallback) {
+    this.off(callback)
+  }
+
   onGainChanged (callback: BoosterGainChangedEventCallback) {
     this.on(callback)
   }
@@ -25,3 +42,4 @@ export class BoosterService extends VolumeService {
 }
 
 export type BoosterGainChangedEventCallback = (data: { gain: number }) => void
+export type BoostEnabledChangedEventCallback = (data: { enabled: boolean }) => void

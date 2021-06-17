@@ -15,12 +15,14 @@ struct VolumeState: State {
   var muted: Bool = false
   var balance: Double = 0
   var transition: Bool = false
+  var boostEnabled: Bool = true
 }
 
 enum VolumeAction: Action {
   case setGain(Double, Bool)
   case setBalance(Double, Bool)
   case setMuted(Bool)
+  case setBoostEnabled(Bool)
 }
 
 func VolumeStateReducer(action: Action, state: VolumeState?) -> VolumeState {
@@ -35,6 +37,8 @@ func VolumeStateReducer(action: Action, state: VolumeState?) -> VolumeState {
     state.transition = transition
   case .setMuted(let muted)?:
     state.muted = muted
+  case .setBoostEnabled(let enabled)?:
+    state.boostEnabled = enabled
   case .none:
     break
   }

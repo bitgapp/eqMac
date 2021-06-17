@@ -16,6 +16,7 @@ class VolumeDataBus: DataBus {
   }
   
   var gainChangedListener: EventListener<Double>?
+  var boostEnabledChangedListener: EventListener<Bool>?
   
   required init (route: String, bridge: Bridge) {
     super.init(route: route, bridge: bridge)
@@ -34,6 +35,20 @@ class VolumeDataBus: DataBus {
       Application.ignoreNextDriverMuteEvent = true
       Application.dispatchAction(VolumeAction.setGain(gain!, transition))
       return "Volume Gain has been set"
+    }
+
+    self.on(.GET, "/gain/boost/enabled") { _, _ in
+      return [ "enabled": self.state.boostEnabled ]
+    }
+
+    self.on(.POST, "/gain/boost/enabled") { data, _ in
+      let boostEnabled = data["enabled"] as? Bool
+      if boostEnabled == nil {
+        throw "Invalid 'enabled' value, must be a boolean"
+      }
+
+      Application.dispatchAction(VolumeAction.setBoostEnabled(boostEnabled!))
+      return "Set"
     }
     
     self.on(.GET, "/balance") { _, _ in
@@ -69,6 +84,10 @@ class VolumeDataBus: DataBus {
     
     gainChangedListener = Application.volume.gainChanged.on { gain in
       self.send(to: "/gain", data: JSON([ "gain": gain ]))
+    }
+
+    boostEnabledChangedListener = Application.volume.boostEnabledChanged.on { enabled in
+      self.send(to: "/gain/boost/enabled", data: JSON([ "enabled": enabled ]))
     }
   }
 }

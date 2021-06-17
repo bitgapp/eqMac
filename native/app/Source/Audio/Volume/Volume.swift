@@ -13,10 +13,15 @@ import AMCoreAudio
 import AVFoundation
 
 class Volume: StoreSubscriber {
+  var state: VolumeState {
+    return Application.store.state.effects.volume
+  }
+
   // MARK: - Events
   var gainChanged = EmitterKit.Event<Double>()
   var balanceChanged = EmitterKit.Event<Double>()
   var mutedChanged = EmitterKit.Event<Bool>()
+  let boostEnabledChanged = EmitterKit.Event<Bool>()
 
   var engine: AVAudioEngine?
 
@@ -47,6 +52,10 @@ class Volume: StoreSubscriber {
         booster.globalGain = 0
         Driver.device!.setVirtualMasterVolume(Float32(gain), direction: .playback)
       } else { // gain > 1
+        if (!boostEnabled) {
+          (gain = 1)
+          return
+        }
         if (volumeSupported) {
           device.setVirtualMasterVolume(1.0, direction: .playback)
         }
@@ -106,6 +115,15 @@ class Volume: StoreSubscriber {
     }
   }
 
+  var boostEnabled: Bool = true {
+    didSet {
+      if (boostEnabled != oldValue) {
+        boostEnabledChanged.emit(boostEnabled)
+        (gain = gain)
+      }
+    }
+  }
+
   // MARK: - State
   typealias StoreSubscriberStateType = VolumeState
   
@@ -150,11 +168,18 @@ class Volume: StoreSubscriber {
         self!.muted = state.muted
       }
     }
+
+    if (state.boostEnabled != boostEnabled) {
+      self.boostEnabled = state.boostEnabled
+    }
   }
   
   // MARK: - Initialization
   init () {
     Console.log("Creating Volume")
+    ({
+      self.boostEnabled = state.boostEnabled
+    })()
     setupStateListener()
   }
   

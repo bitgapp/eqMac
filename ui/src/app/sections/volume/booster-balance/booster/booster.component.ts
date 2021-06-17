@@ -6,7 +6,7 @@ import {
   OnDestroy
 } from '@angular/core'
 
-import { BoosterGainChangedEventCallback, BoosterService } from './booster.service'
+import { BoosterGainChangedEventCallback, BoosterService, BoostEnabledChangedEventCallback } from './booster.service'
 import { ApplicationService } from '../../../../services/app.service'
 import { UIService, UISettings } from '../../../../services/ui.service'
 import { Subscription } from 'rxjs'
@@ -19,6 +19,7 @@ import { Subscription } from 'rxjs'
 export class BoosterComponent implements OnInit, OnDestroy {
   gain = 1
   replaceKnobsWithSliders = false
+  boostEnabled = true
   @Input() hide = false
 
   constructor (
@@ -36,13 +37,30 @@ export class BoosterComponent implements OnInit, OnDestroy {
   async sync () {
     await Promise.all([
       this.getGain(),
+      this.getBoostEnabled(),
       this.syncUISettings()
     ])
   }
 
+  async getGain () {
+    this.gain = await this.boosterService.getGain()
+  }
+
+  async getBoostEnabled () {
+    this.boostEnabled = await this.boosterService.getBoostEnabled()
+  }
+
+  async syncUISettings () {
+    const uiSettings = await this.ui.getSettings()
+    this.replaceKnobsWithSliders = uiSettings.replaceKnobsWithSliders
+  }
+
   public ignoreUpdates = false
   public ignoreUpdatesDebouncer: NodeJS.Timer
+
   private onGainChangedEventCallback: BoosterGainChangedEventCallback
+  private onBoostEnabledChangedEventCallback: BoostEnabledChangedEventCallback
+
   private onUISettingsChangedEventSubscription: Subscription
   protected setupEvents () {
     this.onGainChangedEventCallback = ({ gain }) => {
@@ -53,6 +71,11 @@ export class BoosterComponent implements OnInit, OnDestroy {
     }
     this.boosterService.onGainChanged(this.onGainChangedEventCallback)
 
+    this.onBoostEnabledChangedEventCallback = ({ enabled }) => {
+      this.boostEnabled = enabled
+    }
+    this.boosterService.onBoostEnabledChanged(this.onBoostEnabledChangedEventCallback)
+
     this.onUISettingsChangedEventSubscription = this.ui.settingsChanged.subscribe(uiSettings => {
       this.replaceKnobsWithSliders = uiSettings.replaceKnobsWithSliders
     })
@@ -60,12 +83,8 @@ export class BoosterComponent implements OnInit, OnDestroy {
 
   protected destroyEvents () {
     this.boosterService.offGainChanged(this.onGainChangedEventCallback)
+    this.boosterService.offBoostEnabledChanged(this.onBoostEnabledChangedEventCallback)
     this.onUISettingsChangedEventSubscription.unsubscribe()
-  }
-
-  async syncUISettings () {
-    const uiSettings = await this.ui.getSettings()
-    this.replaceKnobsWithSliders = uiSettings.replaceKnobsWithSliders
   }
 
   setGain (gain: number) {
@@ -76,10 +95,6 @@ export class BoosterComponent implements OnInit, OnDestroy {
       this.ignoreUpdates = false
     }, 1000)
     this.boosterService.setGain(gain)
-  }
-
-  async getGain () {
-    this.gain = await this.boosterService.getGain()
   }
 
   performHapticFeedback (animating) {

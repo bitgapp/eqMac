@@ -55,7 +55,8 @@ class ApplicationDataBus: DataBus {
     }
     
     self.on(.GET, "/uninstall") { _, res in
-      NSWorkspace.shared.open(Constants.FAQ_URL)
+      let url = URL(string: "#uninstall", relativeTo: Constants.FAQ_URL)!
+      NSWorkspace.shared.open(url)
       return "FAQ Openned"
     }
     

@@ -1,34 +1,36 @@
 <eqm-label>Balance</eqm-label>
 
-<!-- Knob controls -->
-<div *ngIf="!replaceKnobsWithSliders" fxLayout="row" fxLayoutAlign="center start"
-  [class]="'controls' + (hide ? ' hide' : '')">
+<ng-template #left>
   <div fxLayout="column" fxLayoutAlign="center center" fxFlex="52px">
     <eqm-label>Left</eqm-label>
     <eqm-value-screen>{{(balance | mapValue:0:1:100:0 | clipValue:0:100 | fixFloat:0:false)}}%</eqm-value-screen>
   </div>
-  <eqm-knob size="small" [min]="-1" [max]="1" [(value)]="balance" (userChangedValue)="setBalance($event)"
-    [stickToMiddle]="true" (stickedToMiddle)="performHapticFeedback($event)" [animationDuration]="animationDuration"
-    [animationFps]="animationFps"></eqm-knob>
+</ng-template>
+
+<ng-template #right>
   <div fxLayout="column" fxLayoutAlign="center center" fxFlex="52px">
     <eqm-label>Right</eqm-label>
     <eqm-value-screen>{{(balance | mapValue:0:-1:100:0 | clipValue:0:100 | fixFloat:0:false)}}%</eqm-value-screen>
   </div>
+</ng-template>
+
+<!-- Knob controls -->
+<div *ngIf="!replaceKnobsWithSliders" fxLayout="row" fxLayoutAlign="center start"
+  [class]="'controls' + (hide ? ' hide' : '')">
+  <ng-container *ngTemplateOutlet="left"></ng-container>
+  <eqm-knob size="small" [min]="-1" [max]="1" [(value)]="balance" (userChangedValue)="setBalance($event)"
+    [stickToMiddle]="true" (stickedToMiddle)="performHapticFeedback($event)" [animationDuration]="animationDuration"
+    [animationFps]="animationFps"></eqm-knob>
+  <ng-container *ngTemplateOutlet="right"></ng-container>
 </div>
 
 <!-- Slider controls -->
 <div *ngIf="replaceKnobsWithSliders" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px" class="slider-control">
-  <div fxLayout="column" fxLayoutAlign="center center" fxFlex="52px">
-    <eqm-label>Left</eqm-label>
-    <eqm-value-screen>{{(balance | mapValue:0:1:100:0 | clipValue:0:100 | fixFloat:0:false)}}%</eqm-value-screen>
-  </div>
+  <ng-container *ngTemplateOutlet="left"></ng-container>
   <div fxFlex="60%">
     <eqm-flat-slider [min]="-1" [max]="1" [(value)]="balance" (userChangedValue)="setBalance($event)"
     [doubleClickToAnimateToMiddle]="true" [animationDuration]="animationDuration" [animationFps]="animationFps"
       [stickToMiddle]="true" (stickedToMiddle)="performHapticFeedback($event)"></eqm-flat-slider>
   </div>
-  <div fxLayout="column" fxLayoutAlign="center center" fxFlex="52px">
-    <eqm-label>Right</eqm-label>
-    <eqm-value-screen>{{(balance | mapValue:0:-1:100:0 | clipValue:0:100 | fixFloat:0:false)}}%</eqm-value-screen>
-  </div>
+  <ng-container *ngTemplateOutlet="right"></ng-container>
 </div>

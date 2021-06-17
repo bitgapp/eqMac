@@ -140,9 +140,6 @@ export class OptionsComponent {
     if (!style.width) {
       style.width = `${100 / row.length}%`
     }
-    if (option.type === 'button') {
-      style.width = '100%'
-    }
 
     if (!!option.isEnabled && !option.isEnabled()) {
       style.filter = 'grayscale(1)'
