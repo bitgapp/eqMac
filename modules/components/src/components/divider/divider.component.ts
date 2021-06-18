@@ -2,7 +2,7 @@ import { Component, Input, ElementRef, HostBinding } from '@angular/core'
 
 @Component({
   selector: 'eqm-divider',
-  templateUrl: './divider.component.html',
+  template: '',
   styleUrls: [ './divider.component.scss' ]
 })
 export class DividerComponent {

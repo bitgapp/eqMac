@@ -10,6 +10,7 @@
     "experimentalDecorators": true,
     "downlevelIteration": true,
     "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
     "target": "es5",
     "typeRoots": [
       "node_modules/@types",
@@ -20,7 +21,7 @@
       "dom"
     ],
     "paths": {
-      "@eqmac/components": ["../modules/components/projects/components/src"]
+      "@eqmac/components": ["../modules/components/src"]
     }
   }
 }

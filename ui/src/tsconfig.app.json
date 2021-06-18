@@ -9,5 +9,6 @@
     "enableIvy": true,
     "strictTemplates": true
   },
-  "exclude": []
+  "exclude": [],
+  "paths": { "@angular/*": [ "./node_modules/@angular/*" ] }
 }

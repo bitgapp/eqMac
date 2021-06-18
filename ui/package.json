@@ -4,37 +4,14 @@
   "scripts": {
     "lint": "npx eslint .",
     "start": "ng serve --port 8080",
-    "build": "rm -rf dist/ && ng build --prod && node -e \"console.log(require('./package.json').version)\" > dist/version.txt && cd dist/ && zip -r -D ui.zip * -x '*.DS_Store' && cp ui.zip ../../native/app/Embedded",
+    "build": "rm -rf dist/ && ng build --configuration production && node -e \"console.log(require('./package.json').version)\" > dist/version.txt && cd dist/ && zip -r -D ui.zip * -x '*.DS_Store' && cp ui.zip ../../native/app/Embedded",
     "deploy": "export $(egrep -v '^#' .env | xargs) && ./scripts/deploy.sh",
     "purge-cache": "./node_modules/.bin/ts-node -O '{\"module\":\"commonjs\"}' ./scripts/purge-cache.ts"
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^12.0.5",
-    "@angular/cdk": "^11.2.8",
-    "@angular/common": "^12.0.5",
-    "@angular/compiler": "^12.0.5",
-    "@angular/core": "^12.0.5",
-    "@angular/flex-layout": "^11.0.0-beta.33",
-    "@angular/forms": "^12.0.5",
-    "@angular/material": "^11.2.8",
-    "@angular/platform-browser": "^12.0.5",
-    "@angular/platform-browser-dynamic": "^12.0.5",
-    "core-js": "^3.10.1",
-    "rxjs": "^6.6.7",
-    "web-animations-js": "^2.3.2",
-    "zone.js": "~0.11.4"
+
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^12.0.5",
-    "@angular/cli": "^12.0.5",
-    "@angular/compiler-cli": "^12.0.5",
-    "@angular/language-service": "^12.0.5",
-    "@types/google.analytics": "0.0.41",
-    "@types/node": "^14.14.37",
-    "cloudflare": "^2.7.0",
-    "dotenv": "^8.2.0",
-    "ts-node": "^9.1.1",
-    "typescript": "^4.1.5"
   }
 }

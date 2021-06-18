@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import { UtilitiesService } from './utilities.service'
 import { ApplicationService } from './app.service'
-import { version } from '../../../package.json'
+import packageJson from '../../../package.json'
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +28,7 @@ export class AnalyticsService {
       appName: 'eqMac',
       appVersion: `${info.version}`,
       screenName: 'Home',
-      dimension1: `${version}`
+      dimension1: `${packageJson.version}`
     }
     tracker.send('screenview', data)
   }

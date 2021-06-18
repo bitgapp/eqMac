@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core'
 import { Options } from 'src/app/components/options/options.component'
 import { ApplicationService, Info } from 'src/app/services/app.service'
 import { ConstantsService } from 'src/app/services/constants.service'
-import { version } from '../../../../package.json'
+import packageJson from '../../../../package.json'
 import { UIService } from '../../services/ui.service'
 
 @Component({
@@ -31,7 +31,7 @@ export class HelpComponent implements OnInit {
     public ui: UIService
   ) {}
 
-  uiVersion = `${version} (${this.ui.isLocal ? 'Local' : 'Remote'})`
+  uiVersion = `${packageJson.version} (${this.ui.isLocal ? 'Local' : 'Remote'})`
   info: Info
   ngOnInit () {
     this.fetchInfo()
