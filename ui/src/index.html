@@ -1,118 +1,114 @@
 <!doctype html>
 <html lang="en">
+  <head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-KBWVP9Q');</script>
+    <!-- End Google Tag Manager -->
 
-<head>
+    <meta name="robots" content="noindex,nofollow">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data:; img-src 'self' data:; font-src 'self' data:; script-src 'self' 'unsafe-eval' 'sha256-bXrLdI2KMMIc9ZIiuVrqGgA2juhoNIXC3iylOFn9Z/c='"> -->
 
-  <!-- Google Tag Manager -->
-  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-  })(window,document,'script','dataLayer','GTM-KBWVP9Q');</script>
-  <!-- End Google Tag Manager -->
-
-  <meta name="robots" content="noindex,nofollow">
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data:; img-src 'self' data:; font-src 'self' data:; script-src 'self' 'unsafe-eval' 'sha256-bXrLdI2KMMIc9ZIiuVrqGgA2juhoNIXC3iylOFn9Z/c='"> -->
-
-  <title>eqMac</title>
-  <script>document.write(`<base href="${document.location}" />`);</script>
-  <meta name="theme-color" content="#000">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <style>
-    body {
-      background-color: #2c2c2e;
-      width: 100vw;
-      height: 100vh;
-      margin: 0;
-    }
-
-    body::-webkit-scrollbar {
-      display: none;
-    }
-    .loader {
-      height: 500px;
-      width: 400px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .loader #loader-wave {
-      stroke-dasharray: 0 16 101 16;
-      animation: animateWave 2400ms linear infinite;  
-    }
-
-    @keyframes animateWave {
-      0% { 
-        stroke-dashoffset: 0; 
-        transform: translate3d(0, 0, 0);
-      }
-      100% { 
-        stroke-dashoffset: -133;
-        transform: translate3d(-90px, 0, 0);
-      }
-    }
-  </style>
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#000">
-</head>
-
-<body>
-  <!-- Google Tag Manager (noscript) -->
-  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KBWVP9Q"
-  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-  <!-- End Google Tag Manager (noscript) -->
-
-  <app-root class="app">
-    <div class="loader">
-      <svg xmlns="http://www.w3.org/2000/svg" 
-         width="80px" height="60px"
-         viewBox="5 0 80 60">
-        <path id="loader-wave"
-            fill="none" 
-            stroke="#4f8d71" 
-            stroke-width="4"
-            stroke-linecap="round">
-        </path>
-      </svg>
-    </div>
-    <script>
-      const path = document.querySelector('#loader-wave');
-      const m = 0.512286623256592433;
-
-      function buildWave(w, h) {
-        
-        const a = h / 4;
-        const y = h / 2;
-        
-        const pathData = [
-          'M', w * 0, y + a / 2, 
-          'c', a * m, 0, -(1 - a) * m, -a, a, -a,
-          's', -(1 - a) * m, a, a, a,
-          's', -(1 - a) * m, -a, a, -a,
-          's', -(1 - a) * m, a, a, a,
-          's', -(1 - a) * m, -a, a, -a,
-          's', -(1 - a) * m, a, a, a,
-          's', -(1 - a) * m, -a, a, -a,
-          's', -(1 - a) * m, a, a, a,
-          's', -(1 - a) * m, -a, a, -a,
-          's', -(1 - a) * m, a, a, a,
-          's', -(1 - a) * m, -a, a, -a,
-          's', -(1 - a) * m, a, a, a,
-          's', -(1 - a) * m, -a, a, -a,
-          's', -(1 - a) * m, a, a, a,
-          's', -(1 - a) * m, -a, a, -a
-        ].join(' ');
-        
-        path.setAttribute('d', pathData);
+    <title>eqMac</title>
+    <script>document.write(`<base href="${document.location}" />`);</script>
+    <meta name="theme-color" content="#000">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <style>
+      body {
+        background-color: #2c2c2e;
+        width: 100vw;
+        height: 100vh;
+        margin: 0;
       }
 
-      buildWave(90, 60);
-    </script>
-  </app-root>
-  <noscript>Please enable JavaScript to continue using this application.</noscript>
-</body>
+      body::-webkit-scrollbar {
+        display: none;
+      }
+      .loader {
+        height: 500px;
+        width: 400px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
 
+      .loader #loader-wave {
+        stroke-dasharray: 0 16 101 16;
+        animation: animateWave 2400ms linear infinite;  
+      }
+
+      @keyframes animateWave {
+        0% { 
+          stroke-dashoffset: 0; 
+          transform: translate3d(0, 0, 0);
+        }
+        100% { 
+          stroke-dashoffset: -133;
+          transform: translate3d(-90px, 0, 0);
+        }
+      }
+    </style>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#000">
+  </head>
+  <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KBWVP9Q"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <app-root class="app">
+      <div class="loader">
+        <svg xmlns="http://www.w3.org/2000/svg" 
+          width="80px" height="60px"
+          viewBox="5 0 80 60">
+          <path id="loader-wave"
+              fill="none" 
+              stroke="#4f8d71" 
+              stroke-width="4"
+              stroke-linecap="round">
+          </path>
+        </svg>
+      </div>
+      <script>
+        const path = document.querySelector('#loader-wave');
+        const m = 0.512286623256592433;
+
+        function buildWave(w, h) {
+          
+          const a = h / 4;
+          const y = h / 2;
+          
+          const pathData = [
+            'M', w * 0, y + a / 2, 
+            'c', a * m, 0, -(1 - a) * m, -a, a, -a,
+            's', -(1 - a) * m, a, a, a,
+            's', -(1 - a) * m, -a, a, -a,
+            's', -(1 - a) * m, a, a, a,
+            's', -(1 - a) * m, -a, a, -a,
+            's', -(1 - a) * m, a, a, a,
+            's', -(1 - a) * m, -a, a, -a,
+            's', -(1 - a) * m, a, a, a,
+            's', -(1 - a) * m, -a, a, -a,
+            's', -(1 - a) * m, a, a, a,
+            's', -(1 - a) * m, -a, a, -a,
+            's', -(1 - a) * m, a, a, a,
+            's', -(1 - a) * m, -a, a, -a,
+            's', -(1 - a) * m, a, a, a,
+            's', -(1 - a) * m, -a, a, -a
+          ].join(' ');
+          
+          path.setAttribute('d', pathData);
+        }
+
+        buildWave(90, 60);
+      </script>
+    </app-root>
+    <noscript>Please enable JavaScript to continue using this application.</noscript>
+  </body>
 </html>
