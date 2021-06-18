@@ -22,7 +22,7 @@
 
     <div fxFlex="20" fxLayoutAlign="end start">
       <eqm-button [@FadeInOut] type="transparent" (pressed)="openSettings()"
-      [disabled]="!enabled"
+      [enabled]="enabled"
       *ngIf="activeEqualizer && activeEqualizer.settings.length"
       eqmTooltip="Settings" eqmTooltipPositionSide="bottom">
         <eqm-icon name="cog" color="#8E8E93" [width]="14" [height]="14"></eqm-icon>
@@ -34,7 +34,7 @@
 
 <div [style.width.%]="100" fxLayout="row">
   <eqm-equalizer-presets 
-    [disabled]="!enabled"
+    [enabled]="enabled"
     class="presets"
     [presets]="presets" [selectedPreset]="selectedPreset" 
     (presetSelected)="selectPreset($event)"

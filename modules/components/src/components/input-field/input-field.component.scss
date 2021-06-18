@@ -4,6 +4,7 @@
 :host {
   display: block;
   width: 100%;
+  filter: grayscale(80%);
 }
 .container{
   display: flex;
@@ -30,6 +31,6 @@
   }
 }
 
-:host.disabled {
-  filter: grayscale(80%);
+:host.enabled {
+  filter: none;
 }

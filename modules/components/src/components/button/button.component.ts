@@ -13,7 +13,7 @@ export class ButtonComponent implements OnInit {
   @Input() toggle = false
   @Input() depressable = true
   @Input() hoverable = true
-  @Input() disabled = false
+  @Input() enabled = true
   @Output() pressed = new EventEmitter()
 
   ngOnInit () {
@@ -29,18 +29,18 @@ export class ButtonComponent implements OnInit {
   computeClass () {
     let className = 'button'
     className += ` ${this.type}`
-    className += ` ${this.type}`
     className += this.state ? ' on' : ' off'
-    if (this.disabled) {
-      className += ' disabled'
-    } else if (this.hoverable) {
+    if (this.enabled) {
+      className += ' enabled'
+    }
+    if (this.hoverable) {
       className += ' hoverable-' + (this.state ? 'on' : 'off')
     }
     return className
   }
 
   click () {
-    if (!this.disabled) {
+    if (this.enabled) {
       if (this.toggle) {
         if (this.state && this.depressable) {
           this.state = !this.state

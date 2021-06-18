@@ -97,6 +97,12 @@ export class BoosterComponent implements OnInit, OnDestroy {
     this.boosterService.setGain(gain)
   }
 
+  setBoostEnabled (enabled: boolean) {
+    this.boostEnabled = enabled
+    this.boosterService.setBoostEnabled(this.boostEnabled)
+    this.changeRef.detectChanges()
+  }
+
   performHapticFeedback (animating) {
     if (!animating) {
       this.app.haptic()

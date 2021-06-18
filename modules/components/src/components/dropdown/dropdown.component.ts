@@ -31,7 +31,7 @@ export class DropdownComponent implements OnInit {
   }
 
   @Output() refChanged = new EventEmitter<DropdownComponent>()
-  @HostBinding('class.disabled') @Input() disabled = false
+  @HostBinding('class.enabled') @Input() enabled = true
   @Input() selectedItem = null
   @Output() selectedItemChange = new EventEmitter<any>()
   @Input() labelParam = 'text'
@@ -108,7 +108,7 @@ export class DropdownComponent implements OnInit {
   }
 
   async open () {
-    if (!this.disabled && !this.shown && this.items.length) {
+    if (this.enabled && !this.shown && this.items.length) {
       this.calculateYCoordinate()
       this.setDimensions()
       this.shown = true
@@ -116,7 +116,7 @@ export class DropdownComponent implements OnInit {
   }
 
   async close () {
-    if (!this.disabled && this.shown) {
+    if (this.enabled && this.shown) {
       this.shown = false
       this.searchText = undefined
     }
@@ -134,7 +134,7 @@ export class DropdownComponent implements OnInit {
   searchText?: string
   @HostListener('document:keypress', [ '$event' ])
   keypress (event: KeyboardEvent) {
-    if (!this.disabled && this.shown && this.searchable) {
+    if (this.enabled && this.shown && this.searchable) {
       switch (event.key) {
         case 'Backspace': {
           if (this.searchText?.length) {

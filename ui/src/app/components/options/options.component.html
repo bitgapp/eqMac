@@ -12,7 +12,7 @@
         <!-- Button -->
         <eqm-button *ngIf="option.type === 'button'" 
         fxFill type="narrow" 
-        [disabled]="!!option.isEnabled && option.isEnabled() === false"
+        [enabled]="!option.isEnabled || option.isEnabled() === true"
         (pressed)="option.action()" [hoverable]="option.hasOwnProperty('hoverable') ? option.hoverable : true">
           <eqm-label [clickable]="true">{{option.label}}</eqm-label>
         </eqm-button>
@@ -23,7 +23,7 @@
           <div fxLayout="row" fxLayoutGap="5px" fxFlex>
             <eqm-button *ngFor="let selectOption of option.options" 
             [fxFlex]="100 / option.options.length"
-            [disabled]="!!option.isEnabled && option.isEnabled() === false"
+            [enabled]="!option.isEnabled || option.isEnabled() === true"
             [depressable]="false" [toggle]="true" type="narrow" [state]="option.selectedId === selectOption.id" (pressed)="selectedOption(option, selectOption)"
             >
               <eqm-label [clickable]="true">{{selectOption.label}}</eqm-label>
@@ -73,7 +73,7 @@
           (enter)="option.enter && option.enter()"
           [placeholder]="option.placeholder"
           [editable]="option.editable" [fontSize]="option.fontSize"
-          [disabled]="!!option.isEnabled && option.isEnabled() === false"
+          [enabled]="!option.isEnabled || option.isEnabled() === true"
         ></eqm-input-field>
 
         <!-- Flat Slider -->
@@ -89,7 +89,7 @@
         ></eqm-flat-slider>
 
         <!-- Skeuomorph Slider -->
-        <eqm-skeuomorph-slider *ngIf="option.type === 'skeuomorph-slider'" [disabled]="!!option.isEnabled && option.isEnabled() === false"
+        <eqm-skeuomorph-slider *ngIf="option.type === 'skeuomorph-slider'" [enabled]="!option.isEnabled || option.isEnabled() === true"
           [(value)]="option.value" [min]="option.min" [middle]="option.middle" [max]="option.max"
           [animationDuration]="option.animationDuration" [animationFps]="option.animationFps"
           [scrollEnabled]="option.scrollEnabled" [stickToMiddle]="option.stickToMiddle"
@@ -100,7 +100,7 @@
 
         <!-- Value Screen -->
         <eqm-value-screen *ngIf="option.type === 'value-screen'" 
-          [disabled]="!!option.isEnabled && option.isEnabled() === false" 
+          [enabled]="!option.isEnabled || option.isEnabled() === true" 
           (click)="option.clicked && option.clicked()"
           [eqmTooltip]="option.tooltip"
         >

@@ -6,7 +6,7 @@ import { Component, OnInit, HostBinding, Input } from '@angular/core'
   styleUrls: [ './container.component.scss' ]
 })
 export class ContainerComponent implements OnInit {
-  @HostBinding('class.disabled') @Input() disabled = false
+  @HostBinding('class.enabled') @Input() enabled = true
 
   ngOnInit () {
   }

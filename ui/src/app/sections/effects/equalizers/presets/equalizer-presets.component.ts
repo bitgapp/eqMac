@@ -24,7 +24,7 @@ export interface AdditionalPresetOption {
 })
 export class EqualizerPresetsComponent implements OnInit {
   @Input() presets: EqualizerPreset[]
-  @Input() disabled = false
+  @Input() enabled = true
   @Input() selectedPreset: EqualizerPreset
   @Output() presetSelected = new EventEmitter<EqualizerPreset>()
   @Output() presetSaved = new EventEmitter<string>()

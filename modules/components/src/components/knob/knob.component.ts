@@ -31,7 +31,7 @@ export class KnobComponent implements OnInit {
   @Input() set max (newMax) { this._max = newMax; this.calculateMiddleValue() }
   get max () { return this._max }
 
-  @HostBinding('class.disabled') @Input() disabled = false
+  @HostBinding('class.enabled') @Input() enabled = true
 
   @Input() doubleClickToAnimateToMiddle = true
   @Input() animationDuration = 500
@@ -92,7 +92,7 @@ export class KnobComponent implements OnInit {
   }
 
   mouseWheel (event: WheelEvent) {
-    if (!this.disabled) {
+    if (this.enabled) {
       this.continueAnimation = false
       const oldValue = this.value
       this.value += -event.deltaY / (1000 / this.max)
@@ -102,7 +102,7 @@ export class KnobComponent implements OnInit {
   }
 
   mousedown (event: MouseEvent) {
-    if (!this.disabled) {
+    if (this.enabled) {
       this.continueAnimation = false
       this.dragStartDegr = this.getDegreesFromEvent(event)
       this.dragging = true
@@ -116,7 +116,7 @@ export class KnobComponent implements OnInit {
 
   @HostListener('gesturechange', [ '$event' ])
   onGestureChange (event: any) {
-    if (!this.disabled) {
+    if (this.enabled) {
       try {
         this.continueAnimation = false
         const oldValue = this.value
@@ -130,7 +130,7 @@ export class KnobComponent implements OnInit {
   }
 
   mousemove (event: MouseEvent) {
-    if (!this.disabled) {
+    if (this.enabled) {
       if (this.setDraggingFalseTimeout) {
         window.clearTimeout(this.setDraggingFalseTimeout)
       }
@@ -171,7 +171,7 @@ export class KnobComponent implements OnInit {
   }
 
   doubleclick () {
-    if (this.doubleClickToAnimateToMiddle && !this.disabled) {
+    if (this.doubleClickToAnimateToMiddle && this.enabled) {
       this.animatingToMiddle.emit()
       this.userChangedValue.emit({ value: this.middleValue, transition: true })
       this.animateKnob(this._value, this.middleValue)

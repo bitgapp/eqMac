@@ -11,7 +11,7 @@ export class InputFieldComponent implements OnInit {
   @Output() textChange = new EventEmitter()
   @Output() enter = new EventEmitter()
   @Input() editable = true
-  @HostBinding('class.disabled') @Input() disabled = false
+  @HostBinding('class.enabled') @Input() enabled = true
   @Input() fontSize = 12
   @ViewChild('container', { static: true }) container!: ElementRef
 

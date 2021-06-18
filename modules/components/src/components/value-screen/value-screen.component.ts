@@ -11,7 +11,7 @@ import {
 })
 export class ValueScreenComponent implements OnInit {
   @Input() fontSize = 10
-  @Input() disabled = false
+  @Input() enabled = true
 
   ngOnInit () {}
 }

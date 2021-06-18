@@ -21,28 +21,28 @@ Then increase the overall volume to compensate'
     fxLayoutAlign="space-around center">
     <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="5px">
       <eqm-label>BASS</eqm-label>
-      <eqm-knob #bassKnob size="large" [disabled]="!enabled" [min]="-24" [max]="24" [(value)]="gains.bass"
+      <eqm-knob #bassKnob size="large" [enabled]="enabled" [min]="-24" [max]="24" [(value)]="gains.bass"
         (userChangedValue)="setGain('bass', $event)" [stickToMiddle]="stickSlidersToMiddle"
         (stickedToMiddle)="performHapticFeedback($event)" [animationDuration]="animationDuration"
         [animationFps]="animationFps"></eqm-knob>
-      <eqm-value-screen [disabled]="!enabled">{{screenValue(gains.bass)}}</eqm-value-screen>
+      <eqm-value-screen [enabled]="enabled">{{screenValue(gains.bass)}}</eqm-value-screen>
 
     </div>
     <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="5px">
       <eqm-label>MID</eqm-label>
-      <eqm-knob #bassKnob size="large" [disabled]="!enabled" [min]="-24" [max]="24" [(value)]="gains.mid"
+      <eqm-knob #bassKnob size="large" [enabled]="!enabled" [min]="-24" [max]="24" [(value)]="gains.mid"
         (userChangedValue)="setGain('mid', $event)" [stickToMiddle]="stickSlidersToMiddle"
         (stickedToMiddle)="performHapticFeedback($event)" [animationDuration]="animationDuration"
         [animationFps]="animationFps"></eqm-knob>
-      <eqm-value-screen [disabled]="!enabled">{{screenValue(gains.mid)}}</eqm-value-screen>
+      <eqm-value-screen [enabled]="enabled">{{screenValue(gains.mid)}}</eqm-value-screen>
     </div>
     <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="5px">
       <eqm-label>TREBLE</eqm-label>
-      <eqm-knob #bassKnob size="large" [disabled]="!enabled" [min]="-24" [max]="24" [(value)]="gains.treble"
+      <eqm-knob #bassKnob size="large" [enabled]="enabled" [min]="-24" [max]="24" [(value)]="gains.treble"
         (userChangedValue)="setGain('treble', $event)" [stickToMiddle]="stickSlidersToMiddle"
         (stickedToMiddle)="performHapticFeedback($event)" [animationDuration]="animationDuration"
         [animationFps]="animationFps"></eqm-knob>
-      <eqm-value-screen [disabled]="!enabled">{{screenValue(gains.treble)}}</eqm-value-screen>
+      <eqm-value-screen [enabled]="enabled">{{screenValue(gains.treble)}}</eqm-value-screen>
     </div>
   </div>
 
@@ -57,7 +57,7 @@ Then increase the overall volume to compensate'
           [animationDuration]="animationDuration" [animationFps]="animationFps" [stickToMiddle]="true"
           (stickedToMiddle)="performHapticFeedback($event)"></eqm-flat-slider>
       </div>
-      <eqm-value-screen fxFlex="52px" [disabled]="!enabled">{{screenValue(gains.bass)}}</eqm-value-screen>
+      <eqm-value-screen fxFlex="52px" [enabled]="enabled">{{screenValue(gains.bass)}}</eqm-value-screen>
 
     </div>
     <div fxLayout="row" fxLayoutAlign="center center" fxFill fxLayoutGap="5px">
@@ -68,7 +68,7 @@ Then increase the overall volume to compensate'
           [animationDuration]="animationDuration" [animationFps]="animationFps" [stickToMiddle]="true"
           (stickedToMiddle)="performHapticFeedback($event)"></eqm-flat-slider>
       </div>
-      <eqm-value-screen fxFlex="52px" [disabled]="!enabled">{{screenValue(gains.mid)}}</eqm-value-screen>
+      <eqm-value-screen fxFlex="52px" [enabled]="enabled">{{screenValue(gains.mid)}}</eqm-value-screen>
     </div>
     <div fxLayout="row" fxLayoutAlign="center center" fxFill fxLayoutGap="5px">
       <eqm-label fxFlex="52px">TREBLE</eqm-label>
@@ -78,7 +78,7 @@ Then increase the overall volume to compensate'
           [animationDuration]="animationDuration" [animationFps]="animationFps" [stickToMiddle]="true"
           (stickedToMiddle)="performHapticFeedback($event)"></eqm-flat-slider>
       </div>
-      <eqm-value-screen fxFlex="52px" [disabled]="!enabled">{{screenValue(gains.treble)}}</eqm-value-screen>
+      <eqm-value-screen fxFlex="52px" [enabled]="enabled">{{screenValue(gains.treble)}}</eqm-value-screen>
     </div>
   </div>
 </div>

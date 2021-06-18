@@ -47,7 +47,7 @@ export class SkeuomorphSliderComponent implements OnInit {
   @Output() valueChange = new EventEmitter()
   @Input() showNotches = true
 
-  @HostBinding('class.disabled') @Input() disabled = false
+  @HostBinding('class.enabled') @Input() enabled = true
 
   public _value = 0.5
   @Input()
@@ -79,7 +79,7 @@ export class SkeuomorphSliderComponent implements OnInit {
 
   @HostListener('mousewheel', [ '$event' ])
   onMouseWheel (event: WheelEvent): void {
-    if (!this.disabled && this.scrollEnabled) {
+    if (this.enabled && this.scrollEnabled) {
       this.value += -event.deltaY / 100
       this.userChangedValue.emit({ value: this.value })
     }
@@ -106,7 +106,7 @@ export class SkeuomorphSliderComponent implements OnInit {
 
   @HostListener('mousedown', [ '$event' ])
   onMouseDown (event: MouseEvent) {
-    if (!this.disabled) {
+    if (this.enabled) {
       this.dragging = true
       if (!this.doubleclickTimeout) {
         this.doubleclickTimeout = setTimeout(() => {
@@ -120,7 +120,7 @@ export class SkeuomorphSliderComponent implements OnInit {
 
   @HostListener('mousemove', [ '$event' ])
   onMouseMove (event: MouseEvent) {
-    if (!this.disabled && this.dragging) {
+    if (this.enabled && this.dragging) {
       this.value = this.getValueFromMouseEvent(event)
       this.userChangedValue.emit({ value: this.value })
     }
@@ -137,7 +137,7 @@ export class SkeuomorphSliderComponent implements OnInit {
   }
 
   doubleclick () {
-    if (!this.disabled) {
+    if (this.enabled) {
       if (this.doubleclickTimeout) {
         clearTimeout(this.doubleclickTimeout)
       }

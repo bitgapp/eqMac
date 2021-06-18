@@ -2,10 +2,11 @@
 :host {
   display: block;
   padding: 2px;
+  filter: grayscale(80%);
 }
 
-:host.disabled {
-  filter: grayscale(80%);
+:host.enabled {
+  filter: none;
 }
 
 .container {

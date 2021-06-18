@@ -58,7 +58,7 @@ export class FlatSliderComponent {
   public defaultColor = '#4f8d71'
   public _enabled = true
 
-  @HostBinding('class.disabled') get disabled () { return !this.enabled }
+  @HostBinding('class.enabled')
   @Input()
   set enabled (shouldBeEnabled) {
     this._enabled = shouldBeEnabled
@@ -180,7 +180,7 @@ export class FlatSliderComponent {
     })()
     if (this.notches?.length) {
       const closest = this.notches.reduce((prev, curr) => {
-        return (Math.abs(curr - value) < Math.abs(prev - value) ? curr : prev);
+        return (Math.abs(curr - value) < Math.abs(prev - value) ? curr : prev)
       })
       value = closest
     }

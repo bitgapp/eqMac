@@ -8,9 +8,10 @@
 </ng-template>
 
 <ng-template #boost>
-  <div fxLayout="column" fxLayoutAlign="center center" fxFlex="52px">
+  <div style="position: relative;" fxLayout="column" fxLayoutAlign="center center" fxFlex="52px">
+    <eqm-checkbox style="position: absolute; top: 5px; right: -8px;" [checked]="boostEnabled" (checkedChange)="setBoostEnabled($event)"></eqm-checkbox>
     <eqm-label>Boost</eqm-label>
-    <eqm-value-screen>{{(gain | mapValue:1:2:0:100 | clipValue:0:100 | fixFloat:0:false)}}%</eqm-value-screen>
+    <eqm-value-screen [enabled]="boostEnabled">{{(gain | mapValue:1:2:0:100 | clipValue:0:100 | fixFloat:0:false)}}%</eqm-value-screen>
   </div>
 </ng-template>
 

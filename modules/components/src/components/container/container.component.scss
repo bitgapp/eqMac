@@ -9,8 +9,9 @@
   box-shadow: 0 0 0 1px #000,
               0 0 0 2px rgb(70, 74, 77);
   background-size: 6px 6px;
+  filter: grayscale(80%);
 }
 
-:host.disabled {
-  filter: grayscale(80%);
+:host.enabled {
+  filter: none;
 }

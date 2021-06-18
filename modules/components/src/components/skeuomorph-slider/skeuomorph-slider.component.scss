@@ -9,6 +9,7 @@
   position: relative;
   transition-property: filter;
   transition-duration: .5s;
+  filter: grayscale(80%);
 }
 
 .notches {
@@ -66,6 +67,6 @@
   }
 }
 
-:host.disabled {
-  filter: grayscale(80%);
+:host.enabled {
+  filter: none;
 }

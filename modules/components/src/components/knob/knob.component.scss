@@ -1,7 +1,11 @@
 @import "../../styles/colors.scss";
 
-:host.disabled {
+:host {
   filter: grayscale(80%)
+}
+
+:host.enabled {
+  filter: none;
 }
 
 @mixin center {

@@ -5,6 +5,7 @@
   width: 100%;
   transition: filter;
   transition-duration: 0.5s;
+  filter: grayscale(80%);
 }
 
 .container {
@@ -45,8 +46,8 @@ $animation-duration: .2s;
   transform-origin: bottom center;
 }
 
-:host.disabled {
-  filter: grayscale(80%);
+:host.enabled {
+  filter: none;
 }
 
 .item {

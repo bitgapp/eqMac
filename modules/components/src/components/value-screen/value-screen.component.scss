@@ -6,15 +6,13 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  transition-property: filter;
+  transition-duration: .5s;
+
   ::ng-deep eqm-label {
     span {
       color: $accent !important;
     }
   }
-  transition-property: filter;
-  transition-duration: .5s;
-}
-
-.disabled {
-  filter: grayscale(80%);
+  
 }

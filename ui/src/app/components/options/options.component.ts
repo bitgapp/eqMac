@@ -141,7 +141,7 @@ export class OptionsComponent {
       style.width = `${100 / row.length}%`
     }
 
-    if (!!option.isEnabled && !option.isEnabled()) {
+    if (option.isEnabled && !option.isEnabled()) {
       style.filter = 'grayscale(1)'
     }
 
@@ -149,7 +149,7 @@ export class OptionsComponent {
   }
 
   toggleCheckbox (checkbox: CheckboxOption) {
-    if (!!checkbox.isEnabled && !checkbox.isEnabled()) {
+    if (checkbox.isEnabled && !checkbox.isEnabled()) {
       return
     }
     checkbox.value = !checkbox.value
@@ -158,7 +158,7 @@ export class OptionsComponent {
   }
 
   selectedOption (option: SelectOption, selectOption: SelectOptionOption) {
-    if (!!option.isEnabled && !option.isEnabled()) {
+    if (option.isEnabled && !option.isEnabled()) {
       return
     }
     if (option.selectedId !== selectOption.id) {
