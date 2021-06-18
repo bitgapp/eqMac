@@ -6,7 +6,8 @@
   "private": true,
   "workspaces": {
     "packages": [
-      "modules/*"
+      "modules/*",
+      "ui"
     ],
     "nohoist": [
     ]
