@@ -9,8 +9,7 @@
       "modules/*",
       "ui"
     ],
-    "nohoist": [
-    ]
+    "nohoist": []
   },
   "scripts": {
     "lint": "npx eslint .",
@@ -29,6 +28,7 @@
   "devDependencies": {
     "@angular/animations": "~12.0.5",
     "@angular/cdk": "^12.0.5",
+    "@angular/cli": "^12.0.5",
     "@angular/common": "~12.0.5",
     "@angular/compiler": "~12.0.5",
     "@angular/core": "~12.0.5",
@@ -51,7 +51,6 @@
   },
   "dependencies": {
     "@angular-devkit/build-angular": "^12.0.5",
-    "@angular/cli": "^12.0.5",
     "@angular/compiler-cli": "^12.0.5",
     "@angular/language-service": "^12.0.5",
     "@types/google.analytics": "0.0.41",
