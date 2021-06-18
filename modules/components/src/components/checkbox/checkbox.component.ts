@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core'
+import { Component, Input, Output, EventEmitter, HostBinding, HostListener } from '@angular/core'
 
 @Component({
   selector: 'eqm-checkbox',
@@ -6,11 +6,13 @@ import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/co
   styleUrls: [ './checkbox.component.scss' ]
 })
 export class CheckboxComponent {
+  @Input() contentSide: 'left' | 'right' = 'right'
   @Input() interactive: boolean = true
   @Input() checked: boolean = false
   @Output() checkedChanged = new EventEmitter<boolean>()
   @HostBinding('class.enabled') @Input() enabled = true
 
+  @HostListener('click')
   toggle () {
     if (this.interactive && this.enabled) {
       this.checked = !this.checked

@@ -13,6 +13,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
 }
 
 @mixin size ($size) {
@@ -101,6 +102,7 @@
           top: -4%;
           left: 50%;
           transform: translate(-50%, 0);
+          -webkit-transform: translate(-50%, 0);
           background-color: $accent;
         }
       }

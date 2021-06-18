@@ -3,7 +3,11 @@
   justify-content: center;
   align-items: center;
   cursor: default;
-  filter: grayscale(80%)
+  filter: grayscale(80%);
+
+  eqm-label {
+    margin: 0 5px;
+  }
 }
 
 :host.enabled {

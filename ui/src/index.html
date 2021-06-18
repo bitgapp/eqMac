@@ -15,7 +15,7 @@
     <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data:; img-src 'self' data:; font-src 'self' data:; script-src 'self' 'unsafe-eval' 'sha256-bXrLdI2KMMIc9ZIiuVrqGgA2juhoNIXC3iylOFn9Z/c='"> -->
 
     <title>eqMac</title>
-    <script>document.write(`<base href="${document.location}" />`);</script>
+    <script>document.write('<base href="' + document.location + '" />');</script>
     <meta name="theme-color" content="#000">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <style>
@@ -46,10 +46,11 @@
         0% { 
           stroke-dashoffset: 0; 
           transform: translate3d(0, 0, 0);
+          -webkit-transform: translate3d(0, 0, 0);
         }
         100% { 
           stroke-dashoffset: -133;
-          transform: translate3d(-90px, 0, 0);
+          -webkit-transform: translate3d(-90px, 0, 0);
         }
       }
     </style>

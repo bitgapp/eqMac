@@ -3,11 +3,13 @@ import { trigger, style, animate, transition } from '@angular/animations'
 const DURATION = 100
 
 const INITIAL_STATE = {
-  transform: 'translateY(-100%)'
+  transform: 'translateY(-100%)',
+  '-webkit-transform': 'translateY(-100%)'
 }
 
 const END_FRAME_STATE = {
-  transform: 'translateY(0%)'
+  transform: 'translateY(0%)',
+  '-webkit-transform': 'translateY(0%)'
 }
 
 export const FromTopAnimation = trigger('FromTop', [

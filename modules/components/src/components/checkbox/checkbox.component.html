@@ -1,3 +1,9 @@
-<eqm-container (click)="toggle()">
+<eqm-label [clickable]="enabled" *ngIf="contentSide === 'left'">
+  <ng-content></ng-content>
+</eqm-label>
+<eqm-container>
   <eqm-icon name="checkbox" [size]="10" [color]="checked ? '#4f8d71' : 'transparent'"></eqm-icon>
 </eqm-container>
+<eqm-label [clickable]="enabled" *ngIf="contentSide === 'right'">
+  <ng-content></ng-content>
+</eqm-label>

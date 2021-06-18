@@ -14,12 +14,12 @@ export class DividerComponent {
 
   @HostBinding('style.width')
   get width () {
-    return this.orientation === 'vertical' ? '1px' : `${this.elem.nativeElement.parentElement.offsetWidth}`
+    return this.orientation === 'vertical' ? '1px' : '100%'
   }
 
   @HostBinding('style.height')
   get height () {
-    return this.orientation === 'vertical' ? `${this.elem.nativeElement.parentElement.offsetHeight}` : '1px'
+    return this.orientation === 'vertical' ? 'initial' : '1px'
   }
 
   @HostBinding('style.border-left')

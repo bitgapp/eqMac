@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
+import { ColorsService } from '../../services/colors.service'
 
 @Component({
   selector: 'eqm-button',
@@ -13,8 +14,14 @@ export class ButtonComponent implements OnInit {
   @Input() toggle = false
   @Input() depressable = true
   @Input() hoverable = true
+  @Input() backgroundColor = '#3e4146'
+  @Input() color = this.colors.light
+  @Output() pressed = new EventEmitter<MouseEvent>()
   @Input() enabled = true
-  @Output() pressed = new EventEmitter()
+
+  constructor (
+    public colors: ColorsService
+  ) {}
 
   ngOnInit () {
   }
@@ -22,7 +29,9 @@ export class ButtonComponent implements OnInit {
   get style () {
     return {
       width: `${this.width}px`,
-      height: `${this.height}px`
+      height: `${this.height}px`,
+      backgroundColor: this.type === 'transparent' ? 'transparent' : this.backgroundColor,
+      color: this.color
     }
   }
 
@@ -39,7 +48,8 @@ export class ButtonComponent implements OnInit {
     return className
   }
 
-  click () {
+  click (event: MouseEvent) {
+    event.stopPropagation()
     if (this.enabled) {
       if (this.toggle) {
         if (this.state && this.depressable) {
@@ -51,7 +61,7 @@ export class ButtonComponent implements OnInit {
           this.state = false
         }, 100)
       }
-      this.pressed.emit()
+      this.pressed.emit(event)
     }
   }
 }

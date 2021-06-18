@@ -180,15 +180,21 @@ export class KnobComponent implements OnInit {
 
   largeCapMaxAngle = 135
   get largeCapClipPathStyle () {
+    const transform = `rotate(${this.utils.mapValue(this.value, this.min, this.max, -this.largeCapMaxAngle, this.largeCapMaxAngle)}deg)`
+    const transformOrigin = '50% 50%'
     return {
-      transform: `rotate(${this.utils.mapValue(this.value, this.min, this.max, -this.largeCapMaxAngle, this.largeCapMaxAngle)}deg)`,
-      'transform-origin': '50% 50%'
+      transform,
+      '-webkit-transform': transform,
+      'transform-origin': transformOrigin,
+      '-webkit-transform-origin': transformOrigin
     }
   }
 
   get largeCapIndicatorStyle () {
+    const transform = `translate(-50%, -50%) rotate(${this.utils.mapValue(this.value, this.min, this.max, -this.largeCapMaxAngle, this.largeCapMaxAngle)}deg)`
     return {
-      transform: `translate(-50%, -50%) rotate(${this.utils.mapValue(this.value, this.min, this.max, -this.largeCapMaxAngle, this.largeCapMaxAngle)}deg)`
+      transform,
+      '-webkit-transform': transform
     }
   }
 
@@ -201,15 +207,19 @@ export class KnobComponent implements OnInit {
 
   mediumCapMaxAngle = 135
   get mediumCapIndicatorStyle () {
+    const transform = `translate(-50%, -50%) rotate(${this.utils.mapValue(this.value, this.min, this.max, -this.mediumCapMaxAngle, this.mediumCapMaxAngle)}deg)`
     return {
-      transform: `translate(-50%, -50%) rotate(${this.utils.mapValue(this.value, this.min, this.max, -this.mediumCapMaxAngle, this.mediumCapMaxAngle)}deg)`
+      transform,
+      '-webkit-transform': transform
     }
   }
 
   smallCapMaxAngle = 135
   get smallCapIndicatorStyle () {
+    const transform = `translate(-50%, -50%) rotate(${this.utils.mapValue(this.value, this.min, this.max, -this.smallCapMaxAngle, this.smallCapMaxAngle)}deg)`
     return {
-      transform: `translate(-50%, -50%) rotate(${this.utils.mapValue(this.value, this.min, this.max, -this.smallCapMaxAngle, this.smallCapMaxAngle)}deg)`
+      transform,
+      '-webkit-transform': transform
     }
   }
 

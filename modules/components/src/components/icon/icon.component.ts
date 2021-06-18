@@ -11,7 +11,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser'
   selector: 'eqm-icon',
   templateUrl: './icon.component.html',
   styleUrls: [ './icon.component.scss' ],
-  encapsulation: ViewEncapsulation.ShadowDom
+  encapsulation: ViewEncapsulation.None
 })
 export class IconComponent implements OnInit {
   @Input() width = 20
@@ -82,6 +82,7 @@ export class IconComponent implements OnInit {
       style.width = `${this.width}px`
     }
     style.transform = `rotate(${this.rotate}deg)`
+    style['-webkit-transform'] = `rotate(${this.rotate}deg)`
 
     if (this.stroke) {
       style['stroke-width'] = `${this.stroke}px`
