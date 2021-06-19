@@ -175,8 +175,8 @@ export class BasicEqualizerComponent extends EqualizerComponent implements OnIni
     })
   }
 
-  async togglePeakLimiter () {
-    this.peakLimiter = !this.peakLimiter
+  async setPeakLimiter (enabled: boolean) {
+    this.peakLimiter = enabled
     this.selectedPreset.peakLimiter = this.peakLimiter
     await this.service.updatePreset(this.selectedPreset, {
       select: true

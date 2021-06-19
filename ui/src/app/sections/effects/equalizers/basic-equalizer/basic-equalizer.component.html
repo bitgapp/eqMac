@@ -2,14 +2,11 @@
 <div *ngIf="selectedPreset && presets" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="10px">
   <div fxLayout="row">
     <div fxLayout="column">
-      <div fxLayout="row" fxLayoutAlign="center center" style="width: 100%;" fxLayoutGap="10px" (click)="togglePeakLimiter()">
-        <eqm-checkbox [interactive]="false" [checked]="peakLimiter"></eqm-checkbox>
-        <eqm-label>Peak Limiter</eqm-label>
+      <div fxLayout="row" fxLayoutAlign="center center" style="width: 100%;" fxLayoutGap="10px">
+        <eqm-checkbox [checked]="peakLimiter" (checkedChanged)="setPeakLimiter($event)">Peak Limiter</eqm-checkbox>
         <eqm-question
           [eqmTooltip]="
-            'Enable if you hear Distortion when increasing Gain.
-This will decrease the Global Gain \n to make sure the sound never clips.
-Then increase the overall volume to compensate'
+            'Enable if you hear Distortion when increasing Gain.\nThis will decrease the Global Gain \n to make sure the sound never clips.\nThen increase the overall volume to compensate'
           "
         ></eqm-question>
       </div>
