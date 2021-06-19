@@ -2,7 +2,7 @@
 <div *ngIf="selectedPreset && presets" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="10px">
   <div fxLayout="row">
     <div fxLayout="column">
-      <div fxLayout="row" fxLayoutAlign="center center" style="width: 100%;" fxLayoutGap="10px">
+      <div fxLayout="row" fxLayoutAlign="center center" style="width: 100%;">
         <eqm-checkbox [checked]="peakLimiter" (checkedChanged)="setPeakLimiter($event)">Peak Limiter</eqm-checkbox>
         <eqm-question
           [eqmTooltip]="
