@@ -53,7 +53,7 @@ class Volume: StoreSubscriber {
         Driver.device!.setVirtualMasterVolume(Float32(gain), direction: .playback)
       } else { // gain > 1
         if (!boostEnabled) {
-          (gain = 1)
+          Application.dispatchAction(VolumeAction.setGain(1, false))
           return
         }
         if (volumeSupported) {

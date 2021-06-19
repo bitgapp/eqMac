@@ -400,11 +400,15 @@ class Application {
         }
       }
       
-      let newGain = steps[stepIndex]
+      var newGain = steps[stepIndex]
       
       if (newGain <= 1) {
         Utilities.delay(100) {
           Driver.device!.setVirtualMasterVolume(Float(newGain), direction: .playback)
+        }
+      } else {
+        if (!Application.store.state.effects.volume.boostEnabled) {
+          newGain = 1
         }
       }
       Application.dispatchAction(VolumeAction.setGain(newGain, false))

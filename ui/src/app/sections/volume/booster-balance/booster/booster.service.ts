@@ -25,11 +25,11 @@ export class BoosterService extends VolumeService {
   }
 
   onBoostEnabledChanged (callback: BoostEnabledChangedEventCallback) {
-    this.on(callback)
+    this.on('/boost/enabled', callback)
   }
 
   offBoostEnabledChanged (callback: BoostEnabledChangedEventCallback) {
-    this.off(callback)
+    this.off('/boost/enabled', callback)
   }
 
   onGainChanged (callback: BoosterGainChangedEventCallback) {

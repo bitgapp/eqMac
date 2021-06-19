@@ -73,14 +73,14 @@
     .cap {
       @include center();
       @include size(58px);
-      filter: drop-shadow(0 -1px 0px #FFF3)
-      drop-shadow(0 2px 5px black);
 
       .cap-body {
         @include center();
         @include size(58px);
         @include circle();
         // @include shadow(2px, 0px);
+        filter: drop-shadow(0 -1px 0px #FFF3)
+      drop-shadow(0 2px 5px black);
 
         background-image: linear-gradient(to bottom, #51555A, #3C4045);
         // clip-path: url('#large-knob-cap-clip-path');

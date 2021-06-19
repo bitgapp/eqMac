@@ -10,6 +10,7 @@ import { BoosterGainChangedEventCallback, BoosterService, BoostEnabledChangedEve
 import { ApplicationService } from '../../../../services/app.service'
 import { UIService, UISettings } from '../../../../services/ui.service'
 import { Subscription } from 'rxjs'
+import { SemanticVersion } from '../../../../services/semantic-version.service'
 
 @Component({
   selector: 'eqm-booster',
@@ -20,6 +21,7 @@ export class BoosterComponent implements OnInit, OnDestroy {
   gain = 1
   replaceKnobsWithSliders = false
   boostEnabled = true
+  boostEnabledAvailable = false
   @Input() hide = false
 
   constructor (
@@ -35,11 +37,15 @@ export class BoosterComponent implements OnInit, OnDestroy {
   }
 
   async sync () {
-    await Promise.all([
+    const [ { version } ] = await Promise.all([
+      this.app.getInfo(),
       this.getGain(),
-      this.getBoostEnabled(),
       this.syncUISettings()
     ])
+    this.boostEnabledAvailable = new SemanticVersion(version).isGreaterThanOrEqualTo('1.0.0')
+    if (this.boostEnabledAvailable) {
+      this.getBoostEnabled()
+    }
   }
 
   async getGain () {
@@ -73,6 +79,10 @@ export class BoosterComponent implements OnInit, OnDestroy {
 
     this.onBoostEnabledChangedEventCallback = ({ enabled }) => {
       this.boostEnabled = enabled
+      if (!this.boostEnabled && this.gain > 1) {
+        this.gain = 1
+      }
+      this.changeRef.detectChanges()
     }
     this.boosterService.onBoostEnabledChanged(this.onBoostEnabledChangedEventCallback)
 
@@ -88,6 +98,10 @@ export class BoosterComponent implements OnInit, OnDestroy {
   }
 
   setGain (gain: number) {
+    if (!this.boostEnabled && gain > 1) {
+      gain = 1
+      this.gain = gain
+    }
     this.ignoreUpdates = true
     if (this.ignoreUpdatesDebouncer) clearTimeout(this.ignoreUpdatesDebouncer)
     this.ignoreUpdatesDebouncer = setTimeout(() => {
@@ -100,7 +114,6 @@ export class BoosterComponent implements OnInit, OnDestroy {
   setBoostEnabled (enabled: boolean) {
     this.boostEnabled = enabled
     this.boosterService.setBoostEnabled(this.boostEnabled)
-    this.changeRef.detectChanges()
   }
 
   performHapticFeedback (animating) {
