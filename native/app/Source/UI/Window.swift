@@ -85,8 +85,8 @@ class Window: NSWindow, NSWindowDelegate {
       var origin = self.contentView!.frame.origin
       origin.y -= diff
       self.animator().setFrame(frame, display: false, animate: true)
-      Utilities.delay(Constants.TRANSITION_DURATION) {
-        self.contentView?.setFrameOrigin(NSPoint(x: 0, y: 0))
+      Utilities.delay(Constants.TRANSITION_DURATION) { [weak self] in
+        self?.contentView?.setFrameOrigin(NSPoint(x: 0, y: 0))
       }
     }
   }

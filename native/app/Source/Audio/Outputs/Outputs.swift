@@ -11,9 +11,9 @@ import AVFoundation
 import AMCoreAudio
 
 class Outputs {
-  static var current: AudioDeviceID {
+  static var current: AudioDeviceID? {
     get {
-      return Application.selectedDevice.id
+      return Application.selectedDevice?.id
     }
   }
 }

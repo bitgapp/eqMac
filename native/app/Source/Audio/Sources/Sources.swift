@@ -21,7 +21,7 @@ public enum SourceType : String {
   ]
 }
 
-class Sources: NSObject {
+class Sources {
   //    typealias StoreSubscriberStateType = SourceState
   var source: SourceType! = .System {
     didSet {
@@ -30,43 +30,13 @@ class Sources: NSObject {
   }
   let sourceChanged = Event<SourceType>()
   var isReady = EmitterKit.Event<Void>()
-  
-  //    var file: File!
-  //    var input: Input!
+
   var system: SystemAudioSource!
   
-  init (_ callback: @escaping (Sources) -> Void) {
-    super.init()
+  init () {
     Console.log("Creating Sources")
-    //        source = state.source
-    setup(callback)
-    //        setupStateListener()
   }
-  
-  //    func setupStateListener () {
-  //        Application.store.subscribe(self) { subscription in
-  //            subscription.select { state in state.source }
-  //        }
-  //    }
-  //
-  //    func newState(state: SourceState) {
-  //        self.state = state
-  //        if (source != state.source) {
-  //            source = state.source
-  //            setup()
-  //        }
-  //    }
-  
-  func setup (_ callback: @escaping (Sources) -> Void) {
-    reset()
-    //        initializeFile()
-    //        initializeInput()
-    Sources.getInputPermission() {
-      self.initializeSystem()
-      callback(self)
-    }
-  }
-  
+
   static func getInputPermission (_ callback: @escaping () -> Void) {
     if !InputSource.hasPermission {
       let title = "Microphone Usage Permission"
@@ -111,16 +81,6 @@ class Sources: NSObject {
   func reset () {
     system = nil
   }
-  
-  //    func initializeFile () {
-  //        file = File()
-  //        node = file.player
-  //    }
-  //
-  //    func initializeInput () {
-  //        input = Input()
-  //        node = input.device
-  //    }
   
   func initializeSystem () {
     system = SystemAudioSource()

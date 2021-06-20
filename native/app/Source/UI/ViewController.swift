@@ -95,7 +95,7 @@ class View: NSView {
       return
     }
 
-    guard let frameView = window!.contentView?.superview else {
+    guard let frameView = window?.contentView?.superview else {
       return
     }
 

@@ -34,8 +34,7 @@ class Output {
   }
   
   var device: AudioDevice
-  var engine: Engine
-  var volume: Volume
+  let volume: Volume
   var outputEngine = AVAudioEngine()
   var player = AVAudioPlayerNode()
   var varispeed = AVAudioUnitVarispeed()
@@ -51,11 +50,10 @@ class Output {
   var lowestVarispeedRate: Float
   var highestVarispeedRate: Float
 
-  init(device: AudioDevice, engine: Engine, volume: Volume) {
+  init(device: AudioDevice) {
     Console.log("Creating Output for Device: " + device.name)
     self.device = device
-    self.engine = engine
-    self.volume = volume
+    self.volume = Volume()
 
     outputEngine.setOutputDevice(device)
     
@@ -74,7 +72,11 @@ class Output {
 
     outputEngine.attach(player)
     outputEngine.attach(varispeed)
-    volume.attachToEngine(engine: outputEngine)
+    outputEngine.attach(volume.booster)
+    outputEngine.attach(volume.mixer)
+
+    outputEngine.connect(volume.booster, to: volume.mixer, format: format)
+
 
     outputEngine.connect(player, to: varispeed, format: format)
     outputEngine.connect(varispeed, to: volume.booster, format: format)
@@ -82,16 +84,16 @@ class Output {
     
     self.setupCallback()
     
-    Utilities.delay(200) {
-      self.start()
-      self.startComputeVarispeedRate()
+    Utilities.delay(200) { [weak self] in
+      self?.start()
+      self?.startComputeVarispeedRate()
     }
   }
   
   private func setupCallback () {
     var callbackStruct = AURenderCallbackStruct(
       inputProc: callback,
-      inputProcRefCon: UnsafeMutableRawPointer(Unmanaged<Output>.passUnretained(self).toOpaque())
+      inputProcRefCon: nil
     )
     
     AudioUnitSetProperty(
@@ -104,17 +106,20 @@ class Output {
   }
 
   let callback: AURenderCallback = {
-    (outputPointer: UnsafeMutableRawPointer,
+    (inRefCon: UnsafeMutableRawPointer,
      ioActionFlags: UnsafeMutablePointer<AudioUnitRenderActionFlags>,
      inTimeStamp:  UnsafePointer<AudioTimeStamp>,
      inBusNumber: UInt32,
      inNumberFrames: UInt32,
      ioData: UnsafeMutablePointer<AudioBufferList>?) -> OSStatus in
     let abl = UnsafeMutableAudioBufferListPointer(ioData)!
-    let output = Unmanaged<Output>.fromOpaque(outputPointer).takeUnretainedValue()
 
-    // No input yet, wait
-    if (!output.engine.engine.isRunning || output.engine.lastSampleTime == -1) {
+    // Nothing to work with...
+    if (Application.output == nil
+          || Application.engine == nil
+          || !Application.engine!.engine.isRunning
+          || Application.engine!.lastSampleTime == -1
+    ) {
       makeBufferSilent(abl)
       return noErr
     }
@@ -122,23 +127,23 @@ class Output {
     let sampleTime = inTimeStamp.pointee.mSampleTime
 
     // If first run, compute offset
-    if (output.lastSampleTime == -1) {
-      output.lastSampleTime = sampleTime
-      output.computeOffset()
+    if (Application.output!.lastSampleTime == -1) {
+      Application.output!.lastSampleTime = sampleTime
+      Application.output!.computeOffset()
       makeBufferSilent(abl)
       return noErr
     } else {
-      output.lastSampleTime = sampleTime
+      Application.output!.lastSampleTime = sampleTime
     }
 
-    let from = Int64(sampleTime + output.sampleOffset - output.safetyOffset)
+    let from = Int64(sampleTime + Application.output!.sampleOffset - Application.output!.safetyOffset)
     let to = from + Int64(inNumberFrames)
-    let err = output.engine.buffer.read(into: ioData!, from: from, to: to)
+    let err = Application.engine!.buffer.read(into: ioData!, from: from, to: to)
 
     if err != .noError {
       makeBufferSilent(abl)
       Console.log("ERROR: \(err)")
-      output.resetOffsets()
+      Application.output!.resetOffsets()
       return noErr
     }
     //    Console.log("Output Finished! Silence", bufferSilencePercent(ioData!))
@@ -161,14 +166,14 @@ class Output {
     let outputOffset = device.safetyOffset(direction: .playback)
     let outputBuffer = device.bufferFrameSize(direction: .playback)
     safetyOffset = Double(inputOffset! + outputOffset! + inputBuffer + outputBuffer)// + pow(2, 12)
-    sampleOffset = engine.lastSampleTime - lastSampleTime
-    Console.log("Last Input Time: ", engine.lastSampleTime)
+    sampleOffset = Application.engine!.lastSampleTime - lastSampleTime
+    Console.log("Last Input Time: ", Application.engine!.lastSampleTime)
     Console.log("Last Output Time: ", lastSampleTime)
     Console.log("Safety Offset: ", safetyOffset)
     Console.log("Sample Offset: ", sampleOffset)
   }
 
-  // PID Controller to adjust Varispeed rate so we never go beyond Safety Offset, currently only P is used, can be tuned later
+  // PID Controller to adjust Varispeed rate so we never go beyond Safety Offset
   private let computeVarispeedCyclesPerSecond = 10
   private func startComputeVarispeedRate () {
     stopComputeVarispeedRate()
@@ -186,10 +191,10 @@ class Output {
   private var safetyOffsetsHistory: [Double] = []
   private func computeVarispeedRate () {
     //    let benchmark = Benchmark()
-    if lastSampleTime == -1 { return }
+    if Application.engine == nil || lastSampleTime == -1 { return }
 
     // Calculate the Latest Safety offset and filter it by averaging with last second of data
-    let lastSafetyOffset = engine.lastSampleTime - (lastSampleTime + sampleOffset - safetyOffset)
+    let lastSafetyOffset = Application.engine!.lastSampleTime - (lastSampleTime + sampleOffset - safetyOffset)
     safetyOffsetsHistory.insert(lastSafetyOffset, at: 0)
     let historyMaxLength = computeVarispeedCyclesPerSecond
     if (safetyOffsetsHistory.count > historyMaxLength) {
@@ -231,8 +236,8 @@ class Output {
     }
 
     varispeed.rate = newRate
-//        Console.log("Took \(benchmark.end())ms to recalculate Varispeed rate: \(varispeed.rate)")
-//    print("\n\nInput Last: \(engine.lastSampleTime)\nOutput Last: \(lastSampleTime)\nSafety Offset: \(safetyOffset)\nLast Safety Offset: \(lastSafetyOffset)\nSafety Offset Avg: \(safetyOffsetAverage)\nError: \(String(format: "%.3f", error * 100))%\nDt: \(Dt)\nIntegral: \(integral)\nPID: \(p), \(i), \(d)\nRate Change: \(change)\nNew Varispeed Rate: \(varispeed.rate)\n")
+    //        Console.log("Took \(benchmark.end())ms to recalculate Varispeed rate: \(varispeed.rate)")
+    //    print("\n\nInput Last: \(engine.lastSampleTime)\nOutput Last: \(lastSampleTime)\nSafety Offset: \(safetyOffset)\nLast Safety Offset: \(lastSafetyOffset)\nSafety Offset Avg: \(safetyOffsetAverage)\nError: \(String(format: "%.3f", error * 100))%\nDt: \(Dt)\nIntegral: \(integral)\nPID: \(p), \(i), \(d)\nRate Change: \(change)\nNew Varispeed Rate: \(varispeed.rate)\n")
   }
 
   func resetOffsets () {

@@ -25,13 +25,12 @@ enum VolumeChangeDirection: String {
 }
 
 class Application {
-  // Engine
-  static var sources: Sources!
-  static var effects: Effects!
-  static var volume: Volume!
-  static var engine: Engine!
-  static var output: Output!
-  static var selectedDevice: AudioDevice!
+  static var engine: Engine?
+  static var output: Output?
+  static var engineCreated = EmitterKit.Event<Void>()
+  static var outputCreated = EmitterKit.Event<Void>()
+
+  static var selectedDevice: AudioDevice?
   static var selectedDeviceIsAliveListener: EventListener<AudioDevice>?
   static var selectedDeviceVolumeChangedListener: EventListener<AudioDevice>?
   static var selectedDeviceSampleRateChangedListener: EventListener<AudioDevice>?
@@ -191,7 +190,7 @@ class Application {
         }
       } else if (list.removed.count > 0) {
         
-        let currentDeviceRemoved = list.removed.contains(where: { $0.id == selectedDevice.id })
+        let currentDeviceRemoved = list.removed.contains(where: { $0.id == selectedDevice?.id })
         
         if (currentDeviceRemoved) {
           removeEngines()
@@ -207,7 +206,7 @@ class Application {
     AudioDeviceEvents.on(.isJackConnectedChanged) { device in
       let connected = device.isJackConnected(direction: .playback)
       Console.log("isJackConnectedChanged", device, connected)
-      if (connected == true && device.id != selectedDevice.id) {
+      if (connected == true && device.id != selectedDevice?.id) {
         selectOutput(device: device)
       }
     }
@@ -254,7 +253,7 @@ class Application {
   static func startPassthrough () {
     selectedDevice = AudioDevice.currentOutputDevice
 
-    if (selectedDevice.id == Driver.device!.id) {
+    if (selectedDevice!.id == Driver.device!.id) {
       selectOutput(device: AudioDevice.builtInOutputDevice) // TODO: Replace with a known device from a stack
       return
     }
@@ -267,7 +266,7 @@ class Application {
     Application.dispatchAction(VolumeAction.setBalance(Application.store.state.effects.volume.balance, false))
     
     Driver.device!.setVirtualMasterVolume(volume > 1 ? 1 : Float32(volume), direction: .playback)
-    Driver.latency = selectedDevice.latency(direction: .playback) ?? 0 // Set driver latency to mimic device
+    Driver.latency = selectedDevice!.latency(direction: .playback) ?? 0 // Set driver latency to mimic device
 //    Driver.safetyOffset = selectedDevice.safetyOffset(direction: .playback) ?? 0 // Set driver latency to mimic device
     self.matchDriverSampleRateToOutput()
     
@@ -278,35 +277,32 @@ class Application {
     AudioDevice.currentOutputDevice = Driver.device!
     // TODO: Figure out a better way
     Utilities.delay(1000) {
-      self.createAudioPipeline()
+      createAudioPipeline()
     }
   }
 
   private static func matchDriverSampleRateToOutput () {
-    let outputSampleRate = selectedDevice.actualSampleRate()!
+    let outputSampleRate = selectedDevice!.actualSampleRate()!
     let driverSampleRates = Driver.sampleRates
     let closestSampleRate = driverSampleRates.min( by: { abs($0 - outputSampleRate) < abs($1 - outputSampleRate) } )!
     Driver.device!.setNominalSampleRate(closestSampleRate)
   }
   
   private static func createAudioPipeline () {
-    _ = Sources() { sources in
-      self.sources = sources
-      effects = Effects()
-      engine = Engine(
-        sources: sources,
-        effects: effects
-      )
-      volume = Volume()
-      output = Output(device: selectedDevice, engine: engine, volume: volume)
-      
+    engine = nil
+    engine = Engine {
+      engineCreated.emit()
+      output = nil
+      output = Output(device: selectedDevice!)
+      outputCreated.emit()
+
       selectedDeviceIsAliveListener = AudioDeviceEvents.on(
         .isAliveChanged,
-        onDevice: selectedDevice,
+        onDevice: selectedDevice!,
         retain: false
       ) {
         // If device that we are sending audio to goes offline we need to stop and switch to a different device
-        if (selectedDevice.isAlive() == false) {
+        if (selectedDevice!.isAlive() == false) {
           Console.log("Current device dies so switching to built it")
           selectOutput(device: AudioDevice.builtInOutputDevice) // TODO: Replace with a known device from stack
         }
@@ -314,25 +310,25 @@ class Application {
       
       selectedDeviceSampleRateChangedListener = AudioDeviceEvents.on(
         .nominalSampleRateChanged,
-        onDevice: selectedDevice,
+        onDevice: selectedDevice!,
         retain: false
       ) {
         stopRemoveEngines()
-        Utilities.delay(100) {
+        Utilities.delay(1000) {
           // need a delay, because emitter should finish it's work at first
           try! AudioDeviceEvents.recreateEventEmitters([.isAliveChanged, .volumeChanged, .nominalSampleRateChanged])
-          self.setupDriverDeviceEvents()
-          self.matchDriverSampleRateToOutput()
+          setupDriverDeviceEvents()
+          matchDriverSampleRateToOutput()
           createAudioPipeline()
         }
       }
       
       selectedDeviceVolumeChangedListener = AudioDeviceEvents.on(
         .volumeChanged,
-        onDevice: selectedDevice,
+        onDevice: selectedDevice!,
         retain: false
       ) {
-        let deviceVolume = selectedDevice.virtualMasterVolume(direction: .playback)!
+        let deviceVolume = selectedDevice!.virtualMasterVolume(direction: .playback)!
         let driverVolume = Driver.device!.virtualMasterVolume(direction: .playback)!
         if (deviceVolume != driverVolume) {
           Driver.device!.setVirtualMasterVolume(deviceVolume, direction: .playback)
@@ -371,7 +367,7 @@ class Application {
   
   static var overrideNextVolumeEvent = false
   static func volumeChangeButtonPressed (direction: VolumeChangeDirection, quarterStep: Bool = false) {
-    if volume == nil || engine == nil {
+    if engine == nil || output == nil {
       return
     }
     if direction == .UP {
@@ -380,7 +376,7 @@ class Application {
         ignoreNextDriverMuteEvent = false
       }
     }
-    let gain = volume.gain
+    let gain = output!.volume.gain
     if (gain >= 1) {
       if direction == .DOWN {
         overrideNextVolumeEvent = true
@@ -419,34 +415,29 @@ class Application {
     ignoreNextDriverMuteEvent = false
   }
   
-  private static func killEngine () {
-    engine = nil
-  }
-  
   private static func switchBackToLastKnownDevice () {
     // If the active equalizer global gain hass been lowered we need to equalize the volume to avoid blowing people ears our
-    if (effects != nil && effects.equalizers.active.globalGain < 0) {
-      if (selectedDevice.canSetVirtualMasterVolume(direction: .playback)) {
-        var decibels = selectedDevice.virtualMasterVolumeInDecibels(direction: .playback)!
-        decibels = decibels + Float(self.effects.equalizers.active.globalGain)
-        selectedDevice.setVirtualMasterVolume(selectedDevice.decibelsToScalar(volume: decibels, channel: 1, direction: .playback)!, direction: .playback)
-      } else if (selectedDevice.canSetVolume(channel: 1, direction: .playback)) {
-        var decibels = selectedDevice.volumeInDecibels(channel: 1, direction: .playback)!
-        decibels = decibels + Float(self.effects.equalizers.active.globalGain)
-        for channel in 1...selectedDevice.channels(direction: .playback) {
-          selectedDevice.setVolume(selectedDevice.decibelsToScalar(volume: decibels, channel: channel, direction: .playback)!, channel: channel, direction: .playback)
+    if (engine == nil || selectedDevice == nil) { return }
+    if (engine!.effects != nil && engine!.effects.equalizers.active.globalGain < 0) {
+      if (selectedDevice!.canSetVirtualMasterVolume(direction: .playback)) {
+        var decibels = selectedDevice!.virtualMasterVolumeInDecibels(direction: .playback)!
+        decibels = decibels + Float(engine!.effects.equalizers.active.globalGain)
+        selectedDevice!.setVirtualMasterVolume(selectedDevice!.decibelsToScalar(volume: decibels, channel: 1, direction: .playback)!, direction: .playback)
+      } else if (selectedDevice!.canSetVolume(channel: 1, direction: .playback)) {
+        var decibels = selectedDevice!.volumeInDecibels(channel: 1, direction: .playback)!
+        decibels = decibels + Float(engine!.effects.equalizers.active.globalGain)
+        for channel in 1...selectedDevice!.channels(direction: .playback) {
+          selectedDevice!.setVolume(selectedDevice!.decibelsToScalar(volume: decibels, channel: channel, direction: .playback)!, channel: channel, direction: .playback)
         }
       }
     }
-    if (selectedDevice != nil) {
-      AudioDevice.currentOutputDevice = selectedDevice
-    }
+    AudioDevice.currentOutputDevice = selectedDevice!
   }
 
   static func stopSave () {
     stopListeners()
-    stopRemoveEngines()
     switchBackToLastKnownDevice()
+    stopRemoveEngines()
     Storage.synchronize()
   }
   

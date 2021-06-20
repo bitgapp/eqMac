@@ -14,7 +14,8 @@ class VolumeDataBus: DataBus {
   var state: VolumeState {
     return Application.store.state.effects.volume
   }
-  
+
+  var outputCreatedListener: EventListener<Void>?
   var gainChangedListener: EventListener<Double>?
   var boostEnabledChangedListener: EventListener<Bool>?
   
@@ -81,13 +82,29 @@ class VolumeDataBus: DataBus {
       Application.dispatchAction(VolumeAction.setMuted(muted!))
       return "Volume mute has been set"
     }
-    
-    gainChangedListener = Application.volume.gainChanged.on { gain in
-      self.send(to: "/gain", data: JSON([ "gain": gain ]))
+
+    func recreateEventListeners () {
+      if (gainChangedListener != nil) {
+        gainChangedListener?.isListening = false
+        gainChangedListener = nil
+      }
+      gainChangedListener = Application.output!.volume.gainChanged.on { gain in
+        self.send(to: "/gain", data: JSON([ "gain": gain ]))
+      }
+
+      if (boostEnabledChangedListener != nil) {
+        boostEnabledChangedListener?.isListening = false
+        boostEnabledChangedListener = nil
+      }
+      boostEnabledChangedListener = Application.output!.volume.boostEnabledChanged.on { enabled in
+        self.send(to: "/gain/boost/enabled", data: JSON([ "enabled": enabled ]))
+      }
     }
 
-    boostEnabledChangedListener = Application.volume.boostEnabledChanged.on { enabled in
-      self.send(to: "/gain/boost/enabled", data: JSON([ "enabled": enabled ]))
+    recreateEventListeners()
+
+    outputCreatedListener = Application.outputCreated.on {
+      recreateEventListeners()
     }
   }
 }

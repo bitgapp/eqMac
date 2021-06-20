@@ -9,8 +9,11 @@
 import Foundation
 import SwiftyJSON
 import AMCoreAudio
+import EmitterKit
 
 class OutputsDataBus: DataBus {
+  var outputCreatedListener: EventListener<Void>?
+
   required init(route: String, bridge: Bridge) {
     super.init(route: route, bridge: bridge)
     
@@ -27,8 +30,8 @@ class OutputsDataBus: DataBus {
     self.on(.POST, "/selected") { data, _ in
       if let id = data["id"] as? AudioDeviceID {
         if let device = AudioDevice.lookup(by: id) {
-            Application.selectOutput(device: device)
-            return "Output Selected"
+          Application.selectOutput(device: device)
+          return "Output Selected"
         }
         throw "Device with such ID doesn't exist"
       }
@@ -38,10 +41,9 @@ class OutputsDataBus: DataBus {
     AudioDeviceEvents.on(.isJackConnectedChanged, sendOutputDevices)
     AudioDeviceEvents.on(.listChanged, sendOutputDevices)
     AudioDeviceEvents.onDeviceListChanged(sendOutputDevices)
-    AudioDeviceEvents.on(.outputChanged) { _ in
-      if (Application.output != nil) {
-        self.send(to: "/selected", data: [ "id": Application.output.device.id ])
-      }
+
+    outputCreatedListener = Application.outputCreated.on {
+      self.send(to: "/selected", data: [ "id": Application.output!.device.id ])
     }
   }
   

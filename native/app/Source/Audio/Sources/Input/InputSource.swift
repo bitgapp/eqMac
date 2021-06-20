@@ -11,16 +11,12 @@ import AMCoreAudio
 import AVFoundation
 
 class InputSource {
-  let device: AudioDevice!
+  let device: AudioDevice
   
   public init(device: AudioDevice) {
     self.device = device
   }
-  
-  func setInputDevice (engine: AVAudioEngine) {
-    engine.setInputDevice(device)
-  }
-  
+
   static var hasPermission: Bool {
     get {
       if #available(OSX 10.14, *) {

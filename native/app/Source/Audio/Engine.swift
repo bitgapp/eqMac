@@ -12,11 +12,13 @@ import AMCoreAudio
 import AVFoundation
 import Foundation
 import AudioToolbox
+import EmitterKit
 
 class Engine {
-  private var eventListeners: [Any] = []
-  let sources: Sources
-  let effects: Effects
+  private var equalizersTypeChangedListener: EventListener<EqualizerType>?
+
+  let sources: Sources!
+  let effects: Effects!
   var attachedEqualizer: Equalizer?
   
   var format: AVAudioFormat!
@@ -27,17 +29,21 @@ class Engine {
   // Middleware
   var buffer: CircularBuffer<Float>!
   
-  init (sources: Sources, effects: Effects) {
+  init (_ completion: @escaping () -> Void) {
     Console.log("Creating Engine")
-    self.sources = sources
-    self.effects = effects
-    setupEngine()
-    setupSink()
-    setupBuffer()
-    attach()
-    chain()
-    setupListeners()
-    start()
+    self.effects = Effects()
+    self.sources = Sources()
+    Sources.getInputPermission() {
+      self.sources.initializeSystem()
+      self.setupEngine()
+      self.setupSink()
+      self.setupBuffer()
+      self.attach()
+      self.chain()
+      self.setupListeners()
+      self.start()
+      completion()
+    }
   }
   
   private func setupEngine () {
@@ -59,8 +65,9 @@ class Engine {
   }
   
   private func attachSource () {
-    sources.system.setInputDevice(engine: engine)
+    engine.setInputDevice(sources.system.device)
     format = engine.inputNode.inputFormat(forBus: 0)
+    Console.log("Set Input Engine format to: \(format.description)")
   }
   
   private func attachEffects () {
@@ -70,13 +77,11 @@ class Engine {
   private func attachEqualizer () {
     engine.attach(effects.equalizers.active.eq)
     attachedEqualizer = effects.equalizers.active
-    effects.equalizers.active.wasAttachedTo(engine: self)
   }
   
   private func detachEqualizer () {
     if attachedEqualizer != nil {
       engine.detach(attachedEqualizer!.eq)
-      attachedEqualizer?.wasDetachedFrom(engine: self)
       attachedEqualizer = nil
     }
   }
@@ -94,7 +99,7 @@ class Engine {
   }
   
   private func chainSourceToEffects () {
-    Console.log("Chaining Source to Volume")
+    Console.log("Chaining Source to Effects")
     engine.connect(engine.inputNode, to: effects.equalizers.active.eq, format: format)
   }
 
@@ -111,7 +116,7 @@ class Engine {
     let lastAVUnit = effects.equalizers.active.eq as AVAudioUnit
     if let err = checkErr(AudioUnitAddRenderNotify(lastAVUnit.audioUnit,
                                                    renderCallback,
-                                                   UnsafeMutableRawPointer(Unmanaged<Engine>.passUnretained(self).toOpaque()))) {
+                                                   nil)) {
       Console.log(err)
       return
     }
@@ -119,37 +124,39 @@ class Engine {
 
   let renderCallback: AURenderCallback = {
     (inRefCon: UnsafeMutableRawPointer,
-    ioActionFlags: UnsafeMutablePointer<AudioUnitRenderActionFlags>,
-    inTimeStamp:  UnsafePointer<AudioTimeStamp>,
-    inBusNumber: UInt32,
-    inNumberFrames: UInt32,
-    ioData: UnsafeMutablePointer<AudioBufferList>?) -> OSStatus in
+     ioActionFlags: UnsafeMutablePointer<AudioUnitRenderActionFlags>,
+     inTimeStamp:  UnsafePointer<AudioTimeStamp>,
+     inBusNumber: UInt32,
+     inNumberFrames: UInt32,
+     ioData: UnsafeMutablePointer<AudioBufferList>?) -> OSStatus in
 
     if ioActionFlags.pointee == AudioUnitRenderActionFlags.unitRenderAction_PostRender {
-      let engine = Unmanaged<Engine>.fromOpaque(inRefCon).takeUnretainedValue()
+      if Application.engine == nil { return noErr }
 
       let sampleTime = inTimeStamp.pointee.mSampleTime
 
       let start = sampleTime.int64Value
       let end = start + Int64(inNumberFrames)
-      if engine.buffer.write(from: ioData!, start: start, end: end) != .noError {
+      if Application.engine!.buffer.write(from: ioData!, start: start, end: end) != .noError {
         return OSStatus()
       }
-      engine.lastSampleTime = sampleTime
+      Application.engine!.lastSampleTime = sampleTime
     }
 
     return noErr
   }
   
   private func setupListeners () {
-    eventListeners.append(Equalizers.typeChanged.on { _ in
-      self.stop()
-      Utilities.delay(100) {
-        self.reattachEqualizer()
-        self.chain()
-        self.start()
+    equalizersTypeChangedListener = Equalizers.typeChanged.on { [weak self] _ in
+      if self == nil { return }
+      self!.stop()
+      Utilities.delay(100) { [weak self] in
+        if self == nil { return }
+        self!.reattachEqualizer()
+        self!.chain()
+        self!.start()
       }
-    })
+    }
   }
   
   private func start () {
@@ -164,5 +171,9 @@ class Engine {
   func stop () {
     self.engine.stop()
   }
-  
+
+  deinit {
+    equalizersTypeChangedListener?.isListening = false
+    equalizersTypeChangedListener = nil
+  }
 }

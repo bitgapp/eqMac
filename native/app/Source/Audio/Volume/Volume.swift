@@ -23,8 +23,6 @@ class Volume: StoreSubscriber {
   var mutedChanged = EmitterKit.Event<Bool>()
   let boostEnabledChanged = EmitterKit.Event<Bool>()
 
-  var engine: AVAudioEngine?
-
   var booster = AVAudioUnitEQ()
   var mixer = AVAudioMixerNode()
 
@@ -187,16 +185,6 @@ class Volume: StoreSubscriber {
     Application.store.subscribe(self) { subscription in
       subscription.select { state in state.effects.volume }
     }
-  }
-
-  func attachToEngine (engine: AVAudioEngine) {
-    self.engine = engine
-    let format = engine.outputNode.outputFormat(forBus: 0)
-
-    engine.attach(booster)
-    engine.attach(mixer)
-
-    engine.connect(booster, to: mixer, format: format)
   }
 
   func postSetup () {
