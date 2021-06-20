@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="512" src="https://github.com/bitgapp/eqMac/raw/master/assets/logos/promo.png"/>
+  <img width="512" src="https://github.com/bitgapp/eqMac/raw/master/assets/logos/promo-dark.png"/>
 </p>
 
 <p align="center">
