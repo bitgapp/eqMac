@@ -59,7 +59,7 @@ export class AdvancedEqualizerService extends EqualizersService {
     })
   }
 
-  async importLegacy () {
+  async importLegacyPresets () {
     return this.request({ method: 'GET', endpoint: '/presets/import-legacy' })
   }
 

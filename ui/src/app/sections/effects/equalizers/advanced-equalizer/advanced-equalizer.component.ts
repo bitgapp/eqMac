@@ -12,6 +12,7 @@ import { EqualizerComponent } from '../equalizer.component'
 import { Options, CheckboxOption } from 'src/app/components/options/options.component'
 import { TransitionService } from '../../../../services/transitions.service'
 import { ApplicationService } from '../../../../services/app.service'
+import { ToastService } from '../../../../services/toast.service'
 
 @Component({
   selector: 'eqm-advanced-equalizer',
@@ -32,11 +33,23 @@ export class AdvancedEqualizerComponent extends EqualizerComponent implements On
     {
       type: 'button',
       label: 'Import Presets',
-      action: () => this.service.importPresets()
+      action: async () => {
+        const log = await this.service.importPresets()
+        this.toast.show({
+          type: 'success',
+          message: log
+        })
+      }
     }, {
       type: 'button',
       label: 'Export Presets',
-      action: () => this.service.exportPresets()
+      action: async () => {
+        const log = await this.service.exportPresets()
+        this.toast.show({
+          type: 'success',
+          message: log
+        })
+      }
     }
   ], [
     this.ShowDefaultPresetsCheckbox
@@ -105,7 +118,8 @@ export class AdvancedEqualizerComponent extends EqualizerComponent implements On
     public service: AdvancedEqualizerService,
     public transition: TransitionService,
     public change: ChangeDetectorRef,
-    public app: ApplicationService
+    public app: ApplicationService,
+    public toast: ToastService
   ) {
     super()
     this.getImportLegacyAvailable()
@@ -130,10 +144,14 @@ export class AdvancedEqualizerComponent extends EqualizerComponent implements On
           type: 'button',
           label: 'Import eqMac2 Presets',
           action: async () => {
-            await this.service.importLegacy()
+            const log = await this.service.importLegacyPresets()
             if (this.settingsDialog) {
               this.settingsDialog.close()
             }
+            this.toast.show({
+              type: 'success',
+              message: log
+            })
           }
         }
       )
