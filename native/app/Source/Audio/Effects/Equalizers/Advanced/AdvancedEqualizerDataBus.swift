@@ -104,7 +104,7 @@ class AdvancedEqualizerDataBus: DataBus {
           let json = presets.rawString()!
           do {
             try json.write(to: file!, atomically: true, encoding: .utf8)
-            res.send("Presets exported")
+            res.send(JSON("Exported \(presets.count) Presets"))
           } catch {
             res.error("Something went wrong")
           }
@@ -128,6 +128,7 @@ class AdvancedEqualizerDataBus: DataBus {
         
         if let json = try? String(contentsOf: file!) {
           let presets = JSON(parseJSON: json).arrayValue
+          var imported = 0
           for preset in presets {
             if let gains = preset["gains"].dictionary, let name = preset["name"].string {
               let global = gains["global"]?.double
@@ -141,11 +142,11 @@ class AdvancedEqualizerDataBus: DataBus {
                     global: global ?? 0, bands: bands
                   ))
                 }
-                
+                imported += 1
               }
             }
           }
-          res.send("Presets imported.")
+          res.send(JSON("Imported \(imported) Presets"))
         } else {
           res.error("File is not readable format.")
         }
@@ -164,7 +165,7 @@ class AdvancedEqualizerDataBus: DataBus {
       for preset in presets {
         _ = AdvancedEqualizer.createPreset(name: preset.name, gains: preset.gains)
       }
-      return "Imported"
+      return JSON("Imported \(presets.count) Presets")
     }
     
     presetsChangedListener = AdvancedEqualizer.presetsChanged.on { presets in
