@@ -512,6 +512,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				ONLY_ACTIVE_ARCH = YES;
 				RUN_CLANG_STATIC_ANALYZER = YES;
+				SDKROOT = macosx;
 				WARNING_CFLAGS = "-Wpartial-availability";
 			};
 			name = Debug;
@@ -577,6 +578,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				RUN_CLANG_STATIC_ANALYZER = YES;
+				SDKROOT = macosx;
 				WARNING_CFLAGS = "-Wpartial-availability";
 			};
 			name = Release;
