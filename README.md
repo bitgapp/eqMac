@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  <img height="512" src="https://github.com/bitgapp/eqMac/raw/master/assets/screenshots/expert-eq.png"/>
+  <img width="512" src="https://github.com/bitgapp/eqMac/raw/master/assets/screenshots/expert-eq.png"/>
 </p>
 
 <p align="center">
@@ -14,13 +14,16 @@
 ### Current
 * System-wide audio source
 * Volume Booster
-* Volume Balance support for all devices
+* HDMI Volume Support
+* Volume Balance support for all devices (including HDMI)
 * Basic EQ - 3 band (Bass, Mids, Treble)
 * Advanced EQ - 10 bands
+* Expert EQ - Unlimited bands
+* Spectrum analyzer 
+* [AutoEQ](https://github.com/jaakkopasanen/AutoEq?referrer=eqMac&referer=eqMac&utm_source=eqMac) Integration
 
 ### Roadmap
 Idea is to become the ultimate Audio toolbox for macOS (some features might not be open sourced)
-* Expert EQ - Unlimited bands + Spectrum analyzer (coming very soon!)
 * Reverb - Spatial audio enhancement
 * Volume mixer - Apply different volume levels per each application
 * Input audio source - Apply effects to any device: guitar, microphone etc.
