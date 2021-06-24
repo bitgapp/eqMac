@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  <img height="512" src="https://github.com/bitgapp/eqMac/raw/master/assets/screenshots/advanced-equalizer.png"/>
+  <img height="512" src="https://github.com/bitgapp/eqMac/raw/master/assets/screenshots/expert-eq.png"/>
 </p>
 
 <p align="center">
