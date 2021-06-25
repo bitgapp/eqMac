@@ -18,9 +18,11 @@
 * Volume Balance support for all devices (including HDMI)
 * Basic EQ - 3 band (Bass, Mids, Treble)
 * Advanced EQ - 10 bands
-* Expert EQ - Unlimited bands
-* Spectrum analyzer 
-* [AutoEQ](https://github.com/jaakkopasanen/AutoEq?referrer=eqMac&referer=eqMac&utm_source=eqMac) Integration
+* Expert EQ - Unlimited bands*
+* Spectrum analyzer*
+* [AutoEQ](https://github.com/jaakkopasanen/AutoEq?referrer=eqMac&referer=eqMac&utm_source=eqMac) Integration*
+
+*Not Open Sourced
 
 ### Roadmap
 Idea is to become the ultimate Audio toolbox for macOS (some features might not be open sourced)
