@@ -3,7 +3,7 @@
   <div fxLayout="row">
     <div fxLayout="column">
       <div fxLayout="row" fxLayoutAlign="center center" style="width: 100%;">
-        <eqm-checkbox [checked]="peakLimiter" (checkedChanged)="setPeakLimiter($event)">Peak Limiter</eqm-checkbox>
+        <eqm-checkbox labelSide="right" [checked]="peakLimiter" (checkedChanged)="setPeakLimiter($event)">Peak Limiter</eqm-checkbox>
         <eqm-question
           [eqmTooltip]="
             'Enable if you hear Distortion when increasing Gain.\nThis will decrease the Global Gain \n to make sure the sound never clips.\nThen increase the overall volume to compensate'

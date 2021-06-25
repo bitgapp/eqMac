@@ -6,7 +6,7 @@ import { Component, Input, Output, EventEmitter, HostBinding, HostListener, View
   styleUrls: [ './checkbox.component.scss' ]
 })
 export class CheckboxComponent {
-  @Input() labelSide: 'left' | 'right' = 'right'
+  @Input() labelSide: 'left' | 'right'
   @Input() interactive: boolean = true
   @Input() checked: boolean = false
   @Output() checkedChanged = new EventEmitter<boolean>()

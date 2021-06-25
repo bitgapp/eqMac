@@ -6,7 +6,7 @@
         fxLayout="row" fxLayoutAlign="center center" fxFill fxLayoutGap="10px"
         class="pointer"
         (click)="toggleCheckbox(option)">
-          <eqm-checkbox [interactive]="false" [checked]="option.value">{{option.label}}</eqm-checkbox>
+          <eqm-checkbox [labelSide]="option.label && 'right'" [interactive]="false" [checked]="option.value">{{option.label}}</eqm-checkbox>
         </div> 
 
         <!-- Button -->

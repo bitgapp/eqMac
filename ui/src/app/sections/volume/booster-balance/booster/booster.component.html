@@ -12,7 +12,7 @@
     <eqm-checkbox 
       [enabled]="boostEnabledAvailable" 
       [eqmTooltip]="boostEnabledAvailable ? (boostEnabled ? 'Disable Boost' : 'Enable Boost') : ('Enable/Disable Boost\nOnly available after v1.0.0')" 
-      style="position: absolute; top: 5px; right: -20px;" 
+      style="position: absolute; top: 5px; right: -10px;" 
       [checked]="boostEnabled" (checkedChanged)="setBoostEnabled($event)"
     ></eqm-checkbox>
     <eqm-label>Boost</eqm-label>
