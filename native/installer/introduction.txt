@@ -1,9 +1,0 @@
-You will be guided through the steps necessary to install eqMac.
-
-⚠️ WARNING ⚠️
-It is highly recommended you allow permissions to “SystemUIServer.app“ when asked,
-it is needed to correctly guide you through the installation process!
-
-⚠️ WARNING ⚠️
-YOU MIGHT ALSO BE ASKED TO RESTART YOUR COMPUTER
-after the installation has finished, so please save any work progress you might have!
