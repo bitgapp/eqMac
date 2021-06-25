@@ -4,9 +4,7 @@
   "scripts": {
     "lint": "npx eslint .",
     "start": "ng serve --port 8080 --host 0.0.0.0 --disable-host-check",
-    "build": "rm -rf dist/ && ng build --configuration production && node -e \"console.log(require('./package.json').version)\" > dist/version.txt && cd dist/ && zip -r -D ui.zip * -x '*.DS_Store' && cp ui.zip ../../native/app/Embedded",
-    "deploy": "export $(egrep -v '^#' .env | xargs) && ./scripts/deploy.sh",
-    "purge-cache": "./node_modules/.bin/ts-node -O '{\"module\":\"commonjs\"}' ./scripts/purge-cache.ts"
+    "build": "rm -rf dist/ && ng build --configuration production && node -e \"console.log(require('./package.json').version)\" > dist/version.txt && cd dist/ && zip -r -D ui.zip * -x '*.DS_Store' && cp ui.zip ../../native/app/Embedded"
   },
   "private": true,
   "dependencies": {

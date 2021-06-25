@@ -52,7 +52,7 @@ Check the documentation below to understand how to start eqMac debug process fro
 
 [@kyleneideck](https://github.com/kyleneideck) - For his hard work on the [BGMDriver](https://github.com/kyleneideck/BackgroundMusic)
 
-[@titanicbobo](https://github.com/titanicbobo) - For the [Big Sur icon design](https://github.com/bitgapp/eqMac/blob/master/assets/icon/icon-bigsur.svg)
+[@titanicbobo](https://github.com/titanicbobo) - For the [Big Sur icon design](https://github.com/bitgapp/eqMac/blob/master/assets/icon/icon.svg)
 
 ## Development
 Fork the repository, then run these commands in Terminal.app:
