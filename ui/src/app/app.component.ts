@@ -47,6 +47,9 @@ export class AppComponent implements OnInit, AfterContentInit {
     await this.sync()
     await this.fixUIMode()
     this.analytics.send()
+    setInterval(() => {
+      this.analytics.ping()
+    }, 1000 * 60)
   }
 
   async ngAfterContentInit () {
