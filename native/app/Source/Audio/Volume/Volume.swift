@@ -67,7 +67,6 @@ class Volume: StoreSubscriber {
         Driver.device!.setVirtualMasterVolume(1, direction: .playback)
       }
 
-      Console.log(virtualVolume)
       mixer.outputVolume = Float(virtualVolume)
 
       if (!volumeSupported) {
