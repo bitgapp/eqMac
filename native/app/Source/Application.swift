@@ -342,6 +342,7 @@ class Application {
     Console.log("Setting up UI")
     ui = UI {
       setupDataBus()
+      completion()
     }
   }
   
