@@ -15,7 +15,6 @@
 
 // Local Includes
 #include "EQM_PlugIn.h"
-#include "EQM_XPCHelper.h"
 #include "EQM_Utils.h"
 
 // PublicUtility Includes
@@ -1293,8 +1292,6 @@ void	EQM_Device::Device_SetPropertyData(AudioObjectID inObjectID, pid_t inClient
 
 void	EQM_Device::StartIO(UInt32 inClientID)
 {
-  bool clientIsEQMApp, EQMAppHasClientRegistered;
-  
   {
     CAMutex::Locker theStateLocker(mStateMutex);
     
@@ -1318,40 +1315,6 @@ void	EQM_Device::StartIO(UInt32 inClientID)
       ThrowIfKernelError(theError,
                          CAException(theError),
                          "EQM_Device::StartIO: Failed to start because of an error calling down to the driver.");
-    }
-    
-    clientIsEQMApp = mClients.IsEQMApp(inClientID);
-    EQMAppHasClientRegistered = mClients.EQMAppHasClientRegistered();
-  }
-  
-  // We only return from StartIO after EQMApp is ready to pass the audio through to the output device. That way
-  // the HAL doesn't start sending us data before EQMApp can play it, which would mean we'd have to either drop
-  // frames or increase latency.
-  if(!clientIsEQMApp && EQMAppHasClientRegistered)
-  {
-    UInt64 theXPCError = StartEQMAppPlayThroughSync(GetObjectID() == kObjectID_Device_UI_Sounds);
-    
-    switch(theXPCError)
-    {
-      case kEQMXPC_Success:
-        DebugMsg("EQM_Device::StartIO: Ready for IO.");
-        break;
-        
-      case kEQMXPC_MessageFailure:
-        // This most likely means EQMXPCHelper isn't installed or has crashed. IO will probably still work,
-        // but we may drop frames while the audio hardware starts up.
-        LogError("EQM_Device::StartIO: Couldn't reach EQMApp via XPC. Attempting to start IO anyway.");
-        break;
-        
-      case kEQMXPC_ReturningEarlyError:
-        // This can (and might always) happen when the user changes output device in EQMApp while IO is running.
-        // See EQMAudioDeviceManager::startPlayThroughSync and EQMPlayThrough::WaitForOutputDeviceToStart.
-        LogWarning("EQM_Device::StartIO: EQMApp was busy, so EQMDriver has to return from StartIO early.");
-        break;
-        
-      default:
-        LogError("EQM_Device::StartIO: EQMApp failed to start the output device. theXPCError=%llu", theXPCError);
-        Throw(CAException(kAudioHardwareNotRunningError));
     }
   }
 }

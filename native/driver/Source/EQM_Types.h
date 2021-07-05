@@ -23,7 +23,6 @@
 // TODO: Change these and the other defines to const strings?
 #define kEQMDriverBundleID           "com.bitgapp.eqmac.driver"
 #define kEQMAppBundleID              "com.bitgapp.eqmac"
-#define kEQMXPCHelperBundleID        "com.bitgapp.eqmac.xpc"
 
 #define kEQMDeviceUID                "EQMDevice"
 #define kEQMDeviceModelUID           "EQMDeviceModelUID"
@@ -200,17 +199,6 @@ static const AudioObjectPropertyAddress kEQMEnabledOutputControlsAddress = {
   kAudioObjectPropertyElementMaster
 };
 
-#pragma mark XPC Return Codes
-
-enum {
-  kEQMXPC_Success,
-  kEQMXPC_MessageFailure,
-  kEQMXPC_Timeout,
-  kEQMXPC_EQMAppStateError,
-  kEQMXPC_HardwareError,
-  kEQMXPC_ReturningEarlyError,
-  kEQMXPC_InternalError
-};
 
 #pragma mark Exceptions
 

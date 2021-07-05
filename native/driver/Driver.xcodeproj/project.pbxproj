@@ -23,7 +23,6 @@
 		1CB8B3921BBCF50A000E2DD1 /* EQM_WrappedAudioEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1CB8B3901BBCF50A000E2DD1 /* EQM_WrappedAudioEngine.cpp */; };
 		1CDF3ABC1E863B980001E9B7 /* EQM_NullDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1CDF3ABA1E863B980001E9B7 /* EQM_NullDevice.cpp */; };
 		1CDF3ABF1E8644C20001E9B7 /* EQM_AbstractDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1CDF3ABD1E8644C20001E9B7 /* EQM_AbstractDevice.cpp */; };
-		27381A161C8EF50F00DF167C /* EQM_XPCHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 27381A141C8EF50F00DF167C /* EQM_XPCHelper.m */; };
 		2743C9CD1D7EF8760089613B /* CACFArray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1CE3E68F1BE2683900167F5D /* CACFArray.cpp */; };
 		2743C9CF1D7EF8760089613B /* CACFDictionary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1CE3E68C1BE263CA00167F5D /* CACFDictionary.cpp */; };
 		2743C9D11D7EF8760089613B /* CACFNumber.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1C305D9B1BE294B5004EBB91 /* CACFNumber.cpp */; };
@@ -109,8 +108,6 @@
 		1CE3E68D1BE263CA00167F5D /* CACFDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CACFDictionary.h; path = PublicUtility/CACFDictionary.h; sourceTree = "<group>"; };
 		1CE3E68F1BE2683900167F5D /* CACFArray.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CACFArray.cpp; path = PublicUtility/CACFArray.cpp; sourceTree = "<group>"; };
 		1CE3E6901BE2683900167F5D /* CACFArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CACFArray.h; path = PublicUtility/CACFArray.h; sourceTree = "<group>"; };
-		27381A141C8EF50F00DF167C /* EQM_XPCHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQM_XPCHelper.m; sourceTree = "<group>"; };
-		27381A151C8EF50F00DF167C /* EQM_XPCHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQM_XPCHelper.h; sourceTree = "<group>"; };
 		2743C9C61D7EF84B0089613B /* libPublicUtility.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPublicUtility.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		E00879C8237EC3D3006AACF8 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		E01A29F32456E4F800369F41 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -211,8 +208,6 @@
 				1C0CB6AF1C642C600084C15A /* DeviceClients */,
 				1C38210D1C4A163A00A0C8C6 /* EQM_TaskQueue.h */,
 				1C38210C1C4A163A00A0C8C6 /* EQM_TaskQueue.cpp */,
-				27381A151C8EF50F00DF167C /* EQM_XPCHelper.h */,
-				27381A141C8EF50F00DF167C /* EQM_XPCHelper.m */,
 				1CB8B3911BBCF50A000E2DD1 /* EQM_WrappedAudioEngine.h */,
 				1CB8B3901BBCF50A000E2DD1 /* EQM_WrappedAudioEngine.cpp */,
 			);
@@ -414,7 +409,6 @@
 				1CB8B3921BBCF50A000E2DD1 /* EQM_WrappedAudioEngine.cpp in Sources */,
 				1CB8B36E1BBBD541000E2DD1 /* EQM_PlugInInterface.cpp in Sources */,
 				1CB8B37D1BBCCF62000E2DD1 /* EQM_PlugIn.cpp in Sources */,
-				27381A161C8EF50F00DF167C /* EQM_XPCHelper.m in Sources */,
 				1CDF3ABF1E8644C20001E9B7 /* EQM_AbstractDevice.cpp in Sources */,
 				1C7010791F07A0BA00D8CCDC /* EQM_VolumeControl.cpp in Sources */,
 				1C0CB6BA1C642C600084C15A /* EQM_ClientMap.cpp in Sources */,
@@ -656,7 +650,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MARKETING_VERSION = 1.2.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_CODE_SIGN_FLAGS = timestamp;
+				OTHER_CODE_SIGN_FLAGS = "--timestamp";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bitgapp.eqmac.driver;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
