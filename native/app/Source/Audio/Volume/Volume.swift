@@ -23,7 +23,6 @@ class Volume: StoreSubscriber {
   var mutedChanged = EmitterKit.Event<Bool>()
   let boostEnabledChanged = EmitterKit.Event<Bool>()
 
-  var booster = AVAudioUnitEQ()
   var mixer = AVAudioMixerNode()
 
   // MARK: - Properties
@@ -47,7 +46,6 @@ class Volume: StoreSubscriber {
           mixer.pan = Float(balance)
         }
 
-        booster.globalGain = 0
         Driver.device!.setVirtualMasterVolume(Float32(gain), direction: .playback)
       } else { // gain > 1
         if (!boostEnabled) {
@@ -57,7 +55,7 @@ class Volume: StoreSubscriber {
         if (volumeSupported) {
           device.setVirtualMasterVolume(1.0, direction: .playback)
         }
-        virtualVolume = Utilities.mapValue(value: gain, inMin: 1, inMax: 2, outMin: 0, outMax: 6)
+        virtualVolume = Utilities.mapValue(value: gain, inMin: 1, inMax: 2, outMin: 1, outMax: 6)
 
         if (balanceSupported) {
           device.setVirtualMasterBalance(Float32(Utilities.mapValue(value: balance, inMin: -1, inMax: 1, outMin: 0, outMax: 1)), direction: .playback)
@@ -69,6 +67,7 @@ class Volume: StoreSubscriber {
         Driver.device!.setVirtualMasterVolume(1, direction: .playback)
       }
 
+      Console.log(virtualVolume)
       mixer.outputVolume = Float(virtualVolume)
 
       if (!volumeSupported) {

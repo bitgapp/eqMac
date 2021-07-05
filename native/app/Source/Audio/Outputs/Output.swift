@@ -14,25 +14,6 @@ import AVFoundation
 import AudioToolbox
 
 class Output {
-  
-  static func isDeviceAllowed(_ device: AudioDevice) -> Bool {
-    return device.transportType != nil
-      && Constants.SUPPORTED_TRANSPORT_TYPES.contains(device.transportType!)
-      && !device.isInputOnlyDevice()
-      && !device.name.contains("CADefaultDeviceAggregate")
-      && device.uid != Constants.DRIVER_DEVICE_UID
-      && !Constants.LEGACY_DRIVER_UIDS.contains(device.uid ?? "")
-  }
-  
-  static func shouldAutoSelect (_ device: AudioDevice) -> Bool {
-    let types: [TransportType] = [.bluetooth, .bluetoothLE, .builtIn]
-    return Output.isDeviceAllowed(device) && types.contains(device.transportType!)
-  }
-  
-  static var allowedDevices: [AudioDevice] {
-    return AudioDevice.allOutputDevices().filter({ isDeviceAllowed($0) })
-  }
-  
   var device: AudioDevice
   let volume: Volume
   var outputEngine = AVAudioEngine()
@@ -72,14 +53,10 @@ class Output {
 
     outputEngine.attach(player)
     outputEngine.attach(varispeed)
-    outputEngine.attach(volume.booster)
     outputEngine.attach(volume.mixer)
 
-    outputEngine.connect(volume.booster, to: volume.mixer, format: format)
-
-
     outputEngine.connect(player, to: varispeed, format: format)
-    outputEngine.connect(varispeed, to: volume.booster, format: format)
+    outputEngine.connect(varispeed, to: volume.mixer, format: format)
     outputEngine.connect(volume.mixer, to: outputEngine.mainMixerNode, format: format)
     
     self.setupCallback()

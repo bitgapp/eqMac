@@ -170,7 +170,7 @@ class Application {
   static func setupDeviceEvents () {
     AudioDeviceEvents.on(.outputChanged) { device in
       if device.id == Driver.device!.id { return }
-      if Output.isDeviceAllowed(device) {
+      if Outputs.isDeviceAllowed(device) {
         Console.log("outputChanged: ", device, " starting PlayThrough")
         startPassthrough()
       } else {
@@ -183,7 +183,7 @@ class Application {
       
       if list.added.count > 0 {
         for added in list.added {
-          if Output.shouldAutoSelect(added) {
+          if Outputs.shouldAutoSelect(added) {
             selectOutput(device: added)
             break
           }

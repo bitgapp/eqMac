@@ -18,7 +18,7 @@ class OutputsDataBus: DataBus {
     super.init(route: route, bridge: bridge)
     
     self.on(.GET, "/devices") { _, _ in
-      return JSON(Output.allowedDevices.map({ $0.json }))
+      return JSON(Outputs.allowedDevices.map({ $0.json }))
     }
     
     self.on(.GET, "/selected") { _, _ in
@@ -48,6 +48,6 @@ class OutputsDataBus: DataBus {
   }
   
   func sendOutputDevices (args: Any) {
-    self.send(to: "/devices", data: JSON(Output.allowedDevices.map({ $0.json })))
+    self.send(to: "/devices", data: JSON(Outputs.allowedDevices.map({ $0.json })))
   }
 }
