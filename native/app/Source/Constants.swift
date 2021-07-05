@@ -43,19 +43,6 @@ struct Constants {
   static let TRANSITION_FPS: Double = 30
   static let TRANSITION_FRAME_DURATION: Double = 1000 / TRANSITION_FPS
   static let TRANSITION_FRAME_COUNT = UInt(round(TRANSITION_FPS * (Double(TRANSITION_DURATION) / 1000)))
-  static let SUPPORTED_TRANSPORT_TYPES = [
-    TransportType.airPlay,
-    TransportType.bluetooth,
-    TransportType.bluetoothLE,
-    TransportType.builtIn,
-    TransportType.displayPort,
-    TransportType.fireWire,
-    TransportType.hdmi,
-    TransportType.pci,
-    TransportType.thunderbolt,
-    TransportType.usb,
-    TransportType.aggregate
-  ]
   static let OPEN_SOURCE = true
 }
 
