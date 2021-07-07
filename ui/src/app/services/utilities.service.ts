@@ -54,4 +54,24 @@ export class UtilitiesService {
       })
     })
   }
+
+  static async injectScript ({ src, id }: { src: string, id?: string }) {
+    return new Promise<void>((resolve, reject) => {
+      const script = document.createElement('script')
+      script.type = 'text/javascript'
+      script.async = true
+      script.onload = () => {
+        resolve()
+      }
+      script.onerror = (err) => {
+        reject(err)
+      }
+      script.src = src
+      if (id) {
+        script.id = id
+      }
+      const head = document.getElementsByTagName('head')[0]
+      head.appendChild(script)
+    })
+  }
 }

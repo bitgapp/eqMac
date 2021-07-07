@@ -5,6 +5,7 @@ import { ApplicationService } from '../../services/app.service'
 import { MatDialog } from '@angular/material/dialog'
 import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-dialog.component'
 import { UIService } from '../../services/ui.service'
+import { AnalyticsService } from '../../services/analytics.service'
 
 @Component({
   selector: 'eqm-settings',
@@ -26,6 +27,29 @@ export class SettingsComponent implements OnInit {
     toggled: replaceKnobsWithSliders => {
       this.ui.setSettings({ replaceKnobsWithSliders })
       this.app.ref.closeDropdownSection('settings')
+    }
+  }
+
+  doCollectTelemetryOption: CheckboxOption = {
+    type: 'checkbox',
+    label: 'Send Anonymous Analytics data',
+    tooltip: `
+eqMac will collect anonymous Telemetry analytics data like:
+
+• macOS Version
+• App and UI Version
+• Country (IP Addresses are anonymized)
+
+This helps us understand distribution of our users.
+`,
+    value: false,
+    toggled: doCollectTelemetry => {
+      this.ui.setSettings({ doCollectTelemetry })
+      if (doCollectTelemetry) {
+        this.analytics.init()
+      } else {
+        this.analytics.deinit()
+      }
     }
   }
 
@@ -67,17 +91,25 @@ export class SettingsComponent implements OnInit {
 
   settings: Options = [
     [
-      this.updateOption
+      {
+        type: 'label',
+        label: 'Settings'
+      }
     ],
     [
       this.iconModeOption
     ],
     [
+      this.updateOption,
+      this.uninstallOption
+    ],
+
+    [
       this.replaceKnobsWithSlidersOption,
       this.launchOnStartupOption
     ],
     [
-      this.uninstallOption
+      this.doCollectTelemetryOption
     ]
   ]
 
@@ -85,7 +117,8 @@ export class SettingsComponent implements OnInit {
     public settingsService: SettingsService,
     public app: ApplicationService,
     public dialog: MatDialog,
-    public ui: UIService
+    public ui: UIService,
+    public analytics: AnalyticsService
   ) {
   }
 
@@ -112,6 +145,7 @@ export class SettingsComponent implements OnInit {
     this.iconModeOption.selectedId = iconMode
     this.launchOnStartupOption.value = launchOnStartup
     this.replaceKnobsWithSlidersOption.value = UISettings.replaceKnobsWithSliders
+    this.doCollectTelemetryOption.value = UISettings.doCollectTelemetry
   }
 
   async update () {

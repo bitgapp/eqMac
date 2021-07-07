@@ -5,13 +5,14 @@ import {
   AfterContentInit
 } from '@angular/core'
 import { UtilitiesService } from './services/utilities.service'
-import { UIService, UIDimensions } from './services/ui.service'
+import { UIService, UIDimensions, UIShownChangedEventCallback } from './services/ui.service'
 import { FadeInOutAnimation, FromTopAnimation } from '@eqmac/components'
 import { MatDialog } from '@angular/material/dialog'
 import { TransitionService } from './services/transitions.service'
 import { AnalyticsService } from './services/analytics.service'
 import { ApplicationService } from './services/app.service'
 import { SettingsService, IconMode } from './sections/settings/settings.service'
+import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component'
 
 @Component({
   selector: 'app-root',
@@ -34,7 +35,7 @@ export class AppComponent implements OnInit, AfterContentInit {
   constructor (
     public utils: UtilitiesService,
     public ui: UIService,
-    public matDialog: MatDialog,
+    public dialog: MatDialog,
     public transitions: TransitionService,
     public analytics: AnalyticsService,
     public app: ApplicationService,
@@ -46,10 +47,34 @@ export class AppComponent implements OnInit, AfterContentInit {
   async ngOnInit () {
     await this.sync()
     await this.fixUIMode()
-    this.analytics.send()
-    setInterval(() => {
-      this.analytics.ping()
-    }, 1000 * 60)
+
+    const uiSettings = await this.ui.getSettings()
+
+    if (typeof uiSettings.doCollectTelemetry !== 'boolean') {
+      uiSettings.doCollectTelemetry = await this.dialog.open(ConfirmDialogComponent, {
+        hasBackdrop: true,
+        disableClose: true,
+        data: {
+          text: `Is it okay with you if eqMac will collect anonymous Telemetry analytics data like:
+
+          • macOS Version
+          • App and UI Version
+          • Country (IP Addresses are anonymized)
+
+          This helps us understand distribution of eqMac's users.
+          You can change this setting any time later in the Settings.`,
+          cancelText: 'Don\'t collect',
+          confirmText: 'It\'s okay'
+        }
+      }).afterClosed().toPromise()
+      await this.ui.setSettings({
+        doCollectTelemetry: uiSettings.doCollectTelemetry
+      })
+    }
+
+    if (uiSettings.doCollectTelemetry) {
+      await this.analytics.init()
+    }
   }
 
   async ngAfterContentInit () {
@@ -129,7 +154,7 @@ export class AppComponent implements OnInit, AfterContentInit {
 
   closeDropdownSection (section: string, event?: any) {
     // if (event && event.target && ['backdrop', 'mat-dialog'].some(e => event.target.className.includes(e))) return
-    if (this.matDialog.openDialogs.length > 0) return
+    if (this.dialog.openDialogs.length > 0) return
     if (section in this.showDropdownSections) {
       this.showDropdownSections[section] = false
     }

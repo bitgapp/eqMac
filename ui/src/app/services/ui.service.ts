@@ -4,6 +4,7 @@ import { Subject } from 'rxjs'
 
 export interface UISettings {
   replaceKnobsWithSliders?: boolean
+  doCollectTelemetry?: boolean
 }
 
 export interface UIDimensions {
@@ -88,4 +89,14 @@ export class UIService extends DataService {
   async loaded () {
     return this.request({ method: 'POST', endpoint: '/loaded' })
   }
+
+  onShownChanged (cb: UIShownChangedEventCallback) {
+    this.on('/shown', cb)
+  }
+
+  offShownChanged (cb: UIShownChangedEventCallback) {
+    this.off('/shown', cb)
+  }
 }
+
+export type UIShownChangedEventCallback = (data: { isShown: boolean }) => void | Promise<void>

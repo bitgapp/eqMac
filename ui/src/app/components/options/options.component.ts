@@ -6,6 +6,7 @@ interface BaseOptions {
   type: string
   isEnabled?: () => boolean
   style?: { [style: string]: string | number }
+  tooltip?: string
 }
 
 export interface ButtonOption extends BaseOptions {
