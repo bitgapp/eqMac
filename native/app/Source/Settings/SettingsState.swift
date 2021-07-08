@@ -14,11 +14,15 @@ import ReSwift
 struct SettingsState: State {
   var iconMode: IconMode = .both
   var doCollectCrashReports = false
+  var doAutoCheckUpdates = true
+  var doOTAUpdates = true
 }
 
 enum SettingsAction: Action {
   case setIconMode(IconMode)
   case setDoCollectCrashReports(Bool)
+  case setDoAutoCheckUpdates(Bool)
+  case setDoOTAUpdates(Bool)
 }
 
 func SettingsStateReducer(action: Action, state: SettingsState?) -> SettingsState {
@@ -28,6 +32,10 @@ func SettingsStateReducer(action: Action, state: SettingsState?) -> SettingsStat
     state.iconMode = iconMode
   case .setDoCollectCrashReports(let doCollect)?:
     state.doCollectCrashReports = doCollect
+  case .setDoAutoCheckUpdates(let doAutoCheckUpdates)?:
+    state.doAutoCheckUpdates = doAutoCheckUpdates
+  case .setDoOTAUpdates(let doOTAUpdates)?:
+    state.doOTAUpdates = doOTAUpdates
   case .none:
     break
   }

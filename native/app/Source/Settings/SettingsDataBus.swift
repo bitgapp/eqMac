@@ -59,6 +59,34 @@ class SettingsDataBus: DataBus {
 
       return "Crash Report collection consent has been set"
     }
+
+    self.on(.GET, "/auto-check-updates") { data, _ in
+      return [ "doAutoCheckUpdates": self.state.doAutoCheckUpdates ]
+    }
+
+    self.on(.POST, "/auto-check-updates") { data, _ in
+      let doAutoCheckUpdates = data["doAutoCheckUpdates"] as? Bool
+      if doAutoCheckUpdates == nil {
+        throw "Invalid 'doAutoCheckUpdates' parameter, must be a Boolean"
+      }
+      Application.dispatchAction(SettingsAction.setDoAutoCheckUpdates(doAutoCheckUpdates!))
+
+      return "Auto check updates option has been set"
+    }
+
+    self.on(.GET, "/ota-updates") { data, _ in
+      return [ "doOTAUpdates": self.state.doOTAUpdates ]
+    }
+
+    self.on(.POST, "/ota-updates") { data, _ in
+      let doOTAUpdates = data["doOTAUpdates"] as? Bool
+      if doOTAUpdates == nil {
+        throw "Invalid 'doOTAUpdates' parameter, must be a Boolean"
+      }
+      Application.dispatchAction(SettingsAction.setDoOTAUpdates(doOTAUpdates!))
+
+      return "OTA updates option has been set"
+    }
     
   }
 }

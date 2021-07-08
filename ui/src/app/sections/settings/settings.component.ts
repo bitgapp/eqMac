@@ -107,24 +107,54 @@ and make it a more stable product.
     action: this.update.bind(this)
   }
 
-  settings: Options = [
-    [
-      this.iconModeOption
-    ],
-    [
-      this.updateOption,
-      this.uninstallOption
-    ],
+  autoCheckUpdatesOption: CheckboxOption = {
+    type: 'checkbox',
+    value: false,
+    label: 'Check Automatically',
+    toggled: doAutoCheckUpdates => {
+      this.settingsService.setDoAutoCheckUpdates({
+        doAutoCheckUpdates
+      })
+    }
+  }
 
+  otaUpdatesOption: CheckboxOption = {
+    type: 'checkbox',
+    value: false,
+    label: 'OTA User Interface Updates',
+    toggled: doOTAUpdates => {
+      this.settingsService.setDoOTAUpdates({
+        doOTAUpdates
+      })
+    }
+  }
+
+  settings: Options = [
+    [ { type: 'label', label: 'Settings' } ],
+    [ this.iconModeOption ],
     [
       this.replaceKnobsWithSlidersOption,
       this.launchOnStartupOption
     ],
+
     [ { type: 'divider', orientation: 'horizontal' } ],
+
+    [ { type: 'label', label: 'Updates' } ],
+    [
+      this.updateOption
+    ],
+
+    [ { type: 'divider', orientation: 'horizontal' } ],
+
+    // Privacy
     [ { type: 'label', label: 'Privacy' } ],
     [
       this.doCollectTelemetryOption
-    ]
+    ],
+
+    [ { type: 'divider', orientation: 'horizontal' } ],
+    // Misc
+    [ this.uninstallOption ]
   ]
 
   constructor (
@@ -163,10 +193,30 @@ and make it a more stable product.
     this.replaceKnobsWithSlidersOption.value = UISettings.replaceKnobsWithSliders
     this.doCollectTelemetryOption.value = UISettings.doCollectTelemetry
 
-    // Crash report consent was only available from v1.1.0
+    // Some settings that are only available from v1.1.0
     if (new SemanticVersion(info.version).isGreaterThanOrEqualTo('1.1.0')) {
-      this.doCollectCrashReportsOption.value = await this.settingsService.getDoCollectCrashReports()
-      this.settings.push([
+      const [
+        doCollectCrashReports,
+        doAutoCheckUpdates,
+        doOTAUpdates
+      ] = await Promise.all([
+        this.settingsService.getDoCollectCrashReports(),
+        this.settingsService.getDoAutoCheckUpdates(),
+        this.settingsService.getDoOTAUpdates()
+      ])
+
+      this.doCollectCrashReportsOption.value = doCollectCrashReports
+      this.autoCheckUpdatesOption.value = doAutoCheckUpdates
+      this.otaUpdatesOption.value = doOTAUpdates
+
+      // Add Update options
+      this.settings.splice(this.settings.length - 6, 0, [
+        this.autoCheckUpdatesOption,
+        this.otaUpdatesOption
+      ])
+
+      // Add Privacy option
+      this.settings.splice(this.settings.length - 2, 0, [
         this.doCollectCrashReportsOption
       ])
     }

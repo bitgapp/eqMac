@@ -39,12 +39,22 @@ export class SettingsService extends DataService {
   setDoCollectCrashReports ({ doCollectCrashReports }: { doCollectCrashReports: boolean }) {
     return this.request({ method: 'POST', endpoint: '/collect-crash-reports', data: { doCollectCrashReports } })
   }
-  // async getMode () {
-  //   const { mode } = await this.request({ method: 'GET', endpoint: '/mode' })
-  //   return mode as UIMode
-  // }
 
-  // setMode (mode: UIMode) {
-  //   return this.request({ method: 'POST', endpoint: '/mode', data: { mode } })
-  // }
+  async getDoAutoCheckUpdates (): Promise<boolean> {
+    const { doAutoCheckUpdates } = await this.request({ method: 'GET', endpoint: '/auto-check-updates' })
+    return doAutoCheckUpdates
+  }
+
+  setDoAutoCheckUpdates ({ doAutoCheckUpdates }: { doAutoCheckUpdates: boolean }) {
+    return this.request({ method: 'POST', endpoint: '/auto-check-updates', data: { doAutoCheckUpdates } })
+  }
+
+  async getDoOTAUpdates (): Promise<boolean> {
+    const { doOTAUpdates } = await this.request({ method: 'GET', endpoint: '/ota-updates' })
+    return doOTAUpdates
+  }
+
+  setDoOTAUpdates ({ doOTAUpdates }: { doOTAUpdates: boolean }) {
+    return this.request({ method: 'POST', endpoint: '/ota-updates', data: { doOTAUpdates } })
+  }
 }

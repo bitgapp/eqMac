@@ -302,32 +302,45 @@ class UI: StoreSubscriber {
         UI.viewController.load(url)
       }
     }
-    
-    remoteIsReachable() { reachable in
-      if reachable {
-        Console.log("Loading Remote UI")
-        startUILoad(Constants.UI_ENDPOINT_URL)
-        self.getRemoteVersion { remoteVersion in
-          if remoteVersion != nil {
-            let fs = FileManager.default
-            if fs.fileExists(atPath: UI.remoteZipPath.path) {
-              UI.unarchiveZip()
-              let currentVersion = try? String(contentsOf: UI.localPath.appendingPathComponent("version.txt"))
-              if (currentVersion?.trim() != remoteVersion?.trim()) {
-                self.cacheRemote()
-              }
-            } else {
+
+    func loadRemote () {
+      Console.log("Loading Remote UI")
+      startUILoad(Constants.UI_ENDPOINT_URL)
+      self.getRemoteVersion { remoteVersion in
+        if remoteVersion != nil {
+          let fs = FileManager.default
+          if fs.fileExists(atPath: UI.remoteZipPath.path) {
+            UI.unarchiveZip()
+            let currentVersion = try? String(contentsOf: UI.localPath.appendingPathComponent("version.txt"))
+            if (currentVersion?.trim() != remoteVersion?.trim()) {
               self.cacheRemote()
             }
+          } else {
+            self.cacheRemote()
           }
         }
-      } else {
-        Console.log("Loading Local UI")
-        UI.unarchiveZip()
-        let url = URL(string: "\(UI.localPath)/index.html")!
-        startUILoad(url)
       }
     }
+
+    func loadLocal () {
+      Console.log("Loading Local UI")
+      UI.unarchiveZip()
+      let url = URL(string: "\(UI.localPath)/index.html")!
+      startUILoad(url)
+    }
+
+    if (Application.store.state.settings.doOTAUpdates) {
+      remoteIsReachable() { reachable in
+        if reachable {
+          loadRemote()
+        } else {
+          loadLocal()
+        }
+      }
+    } else {
+      loadLocal()
+    }
+
   }
   
   private static func getRemoteVersion (_ completion: @escaping (String?) -> Void) {

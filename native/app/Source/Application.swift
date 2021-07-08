@@ -57,7 +57,6 @@ class Application {
     }
     
     self.settings = Settings()
-    updater.automaticallyChecksForUpdates = true
     
     Networking.startMonitor()
     

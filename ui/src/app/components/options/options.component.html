@@ -1,4 +1,4 @@
-<div fxLayout="column" fxLayoutAlign="space-around start" fxLayoutGap="15px">
+<div fxLayout="column" fxLayoutAlign="space-around start" fxLayoutGap="10px">
   <div *ngFor="let row of options" fxLayout="row" style="width: 100%" fxLayoutGap="10px" fxLayoutAlign="space-between center">
     <div *ngFor="let option of row" [ngStyle]="getOptionStyle(option, row)">
         <!-- Checkbox -->
@@ -7,7 +7,7 @@
         class="pointer"
         [eqmTooltip]="!option.tooltipAsComponent && option.tooltip"
         (click)="toggleCheckbox(option)">
-          <eqm-checkbox [labelSide]="option.label && 'right'" [interactive]="false" [checked]="option.value">{{option.label}}</eqm-checkbox>
+          <eqm-checkbox [labelSide]="!!option.label ? 'right' : undefined" [interactive]="false" [checked]="option.value">{{option.label}}</eqm-checkbox>
           <eqm-question *ngIf="option.tooltip && option.tooltipAsComponent" [eqmTooltip]="option.tooltip"></eqm-question>
         </div> 
 
