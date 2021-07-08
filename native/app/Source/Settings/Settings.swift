@@ -12,60 +12,23 @@ import ServiceManagement
 import LaunchAtLogin
 import SwiftyUserDefaults
 import ReSwift
+import Sentry
 
 enum IconMode: String, Codable {
-    case dock = "dock"
-    case statusBar = "statusBar"
-    case both = "both"
+  case dock = "dock"
+  case statusBar = "statusBar"
+  case both = "both"
 }
 
 extension IconMode {
-    static let allValues = [
-        dock.rawValue,
-        statusBar.rawValue,
-        both.rawValue
-    ]
+  static let allValues = [
+    dock.rawValue,
+    statusBar.rawValue,
+    both.rawValue
+  ]
 }
 
 class Settings: StoreSubscriber {
-    typealias StoreSubscriberStateType = SettingsState
-    private func setupStateListener () {
-        Application.store.subscribe(self) { subscription in
-            subscription.select { state in state.settings }
-        }
-    }
-    
-    func newState(state: SettingsState) {
-      if (state.iconMode != Settings.iconMode) {
-        Settings.iconMode = state.iconMode
-      }
-    }
-    
-    init() {
-        self.setupStateListener()
-      ({
-        Settings.iconMode = Application.store.state.settings.iconMode
-      })()
-    }
-    
-    static var launchOnStartup: Bool {
-        get {
-            return LaunchAtLogin.isEnabled
-        }
-        set {
-            LaunchAtLogin.isEnabled = newValue
-        }
-    }
-    
-    var launchOnStartup: Bool {
-        get {
-            return LaunchAtLogin.isEnabled
-        }
-        set {
-            LaunchAtLogin.isEnabled = newValue
-        }
-    }
-  
   static var iconMode: IconMode = .both {
     didSet {
       let showDockIcon = self.iconMode == .both || self.iconMode == .dock
@@ -74,5 +37,45 @@ class Settings: StoreSubscriber {
       UI.statusItem.item.isVisible = showStatusBarIcon
     }
   }
-    
+
+  init() {
+    self.setupStateListener()
+    ({
+      Settings.iconMode = Application.store.state.settings.iconMode
+    })()
+  }
+
+  typealias StoreSubscriberStateType = SettingsState
+  private func setupStateListener () {
+    Application.store.subscribe(self) { subscription in
+      subscription.select { state in state.settings }
+    }
+  }
+
+  func newState(state: SettingsState) {
+    if (state.iconMode != Settings.iconMode) {
+      Settings.iconMode = state.iconMode
+    }
+  }
+
+  static var launchOnStartup: Bool {
+    get {
+      return LaunchAtLogin.isEnabled
+    }
+    set {
+      LaunchAtLogin.isEnabled = newValue
+    }
+  }
+
+  var launchOnStartup: Bool {
+    get {
+      return LaunchAtLogin.isEnabled
+    }
+    set {
+      LaunchAtLogin.isEnabled = newValue
+    }
+  }
+  
+
+
 }

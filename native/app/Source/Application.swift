@@ -83,6 +83,14 @@ class Application {
     SentrySDK.start { options in
       options.dsn = Constants.SENTRY_ENDPOINT
       options.sampleRate = 0.1
+
+      // Only send crash reports if user gave consent
+      options.beforeSend = { event in
+        if (store.state.settings.doCollectCrashReports) {
+          return event
+        }
+        return nil
+      }
     }
   }
   

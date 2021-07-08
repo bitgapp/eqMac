@@ -7,12 +7,15 @@ import {
 import { UtilitiesService } from './services/utilities.service'
 import { UIService, UIDimensions, UIShownChangedEventCallback } from './services/ui.service'
 import { FadeInOutAnimation, FromTopAnimation } from '@eqmac/components'
-import { MatDialog } from '@angular/material/dialog'
+import { MatDialog, MatDialogRef } from '@angular/material/dialog'
 import { TransitionService } from './services/transitions.service'
 import { AnalyticsService } from './services/analytics.service'
 import { ApplicationService } from './services/app.service'
 import { SettingsService, IconMode } from './sections/settings/settings.service'
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component'
+import { SemanticVersion } from './services/semantic-version.service'
+import { OptionsDialogComponent } from './components/options-dialog/options-dialog.component'
+import { Option, Options } from './components/options/options.component'
 
 @Component({
   selector: 'app-root',
@@ -47,29 +50,107 @@ export class AppComponent implements OnInit, AfterContentInit {
   async ngOnInit () {
     await this.sync()
     await this.fixUIMode()
+    await this.setupPrivacy()
+  }
 
-    const uiSettings = await this.ui.getSettings()
+  async setupPrivacy () {
+    const [ uiSettings, info ] = await Promise.all([
+      this.ui.getSettings(),
+      this.app.getInfo()
+    ])
 
-    if (typeof uiSettings.doCollectTelemetry !== 'boolean') {
-      uiSettings.doCollectTelemetry = await this.dialog.open(ConfirmDialogComponent, {
-        hasBackdrop: true,
-        disableClose: true,
-        data: {
-          text: `Is it okay with you if eqMac will collect anonymous Telemetry analytics data like:
+    // Starting from v1.1.0 we need to show the Crash Reports consent as well
+    if (new SemanticVersion(info.version).isGreaterThanOrEqualTo('1.1.0')) {
+      let doCollectCrashReports = await this.settings.getDoCollectCrashReports()
+      if (typeof uiSettings.privacyFormSeen !== 'boolean') {
+        const doCollectTelemetryOption: Option = {
+          type: 'checkbox',
+          label: 'Send Anonymous Analytics data',
+          tooltip: `
+eqMac would collect anonymous Telemetry analytics data like:
 
-          • macOS Version
-          • App and UI Version
-          • Country (IP Addresses are anonymized)
+• macOS Version
+• App and UI Version
+• Country (IP Addresses are anonymized)
 
-          This helps us understand distribution of eqMac's users.
-          You can change this setting any time later in the Settings.`,
-          cancelText: 'Don\'t collect',
-          confirmText: 'It\'s okay'
+This helps us understand distribution of our users.
+`,
+          value: uiSettings.doCollectTelemetry ?? false,
+          toggled: doCollectTelemetry => {
+            uiSettings.doCollectTelemetry = doCollectTelemetry
+            this.ui.setSettings({ doCollectTelemetry })
+          }
         }
-      }).afterClosed().toPromise()
-      await this.ui.setSettings({
-        doCollectTelemetry: uiSettings.doCollectTelemetry
-      })
+
+        const doCollectCrashReportsOption: Option = {
+          type: 'checkbox',
+          label: 'Send Anonymous Crash reports',
+          tooltip: `
+eqMac would send anonymized crash reports
+back to the developer in case eqMac crashes.
+This helps us understand improve eqMac 
+and make it a more stable product.
+      `,
+          value: doCollectCrashReports,
+          toggled: doCollect => {
+            doCollectCrashReports = doCollect
+            this.settings.setDoCollectCrashReports({
+              doCollectCrashReports
+            })
+          }
+        }
+        const privacyDialog: MatDialogRef<OptionsDialogComponent> = this.dialog.open(OptionsDialogComponent, {
+          hasBackdrop: true,
+          disableClose: true,
+          data: {
+            options: [
+              [ { type: 'label', label: 'Privacy' } ],
+              [ {
+                type: 'label', label: `eqMac respects it's user's privacy 
+and is giving you a choice what data you wish to share with the developer.
+This data would help us improve and grow the product.`
+              } ],
+              [ doCollectTelemetryOption ],
+              [ doCollectCrashReportsOption ],
+              [
+                {
+                  type: 'button',
+                  label: 'Save',
+                  action: () => privacyDialog.close()
+                }
+              ]
+            ] as Options
+          }
+        })
+
+        await privacyDialog.afterClosed().toPromise()
+        await this.ui.setSettings({
+          privacyFormSeen: true
+        })
+      }
+    } else {
+      // Can only show Analytics consent form on < v1.1.0
+      if (typeof uiSettings.doCollectTelemetry !== 'boolean') {
+        uiSettings.doCollectTelemetry = await this.dialog.open(ConfirmDialogComponent, {
+          hasBackdrop: true,
+          disableClose: true,
+          data: {
+            text: `Is it okay with you if eqMac will collect anonymous Telemetry analytics data like:
+  
+            • macOS Version
+            • App and UI Version
+            • Country (IP Addresses are anonymized)
+  
+            This helps us understand distribution of eqMac's users.
+            You can change this setting any time later in the Settings.`,
+            cancelText: 'Don\'t collect',
+            confirmText: 'It\'s okay'
+          }
+        }).afterClosed().toPromise()
+        await this.ui.setSettings({
+          doCollectTelemetry: uiSettings.doCollectTelemetry
+        })
+      }
     }
 
     if (uiSettings.doCollectTelemetry) {

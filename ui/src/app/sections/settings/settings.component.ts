@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material/dialog'
 import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-dialog.component'
 import { UIService } from '../../services/ui.service'
 import { AnalyticsService } from '../../services/analytics.service'
+import { SemanticVersion } from '../../services/semantic-version.service'
 
 @Component({
   selector: 'eqm-settings',
@@ -34,7 +35,7 @@ export class SettingsComponent implements OnInit {
     type: 'checkbox',
     label: 'Send Anonymous Analytics data',
     tooltip: `
-eqMac will collect anonymous Telemetry analytics data like:
+eqMac would collect anonymous Telemetry analytics data like:
 
 • macOS Version
 • App and UI Version
@@ -50,6 +51,23 @@ This helps us understand distribution of our users.
       } else {
         this.analytics.deinit()
       }
+    }
+  }
+
+  doCollectCrashReportsOption: CheckboxOption = {
+    type: 'checkbox',
+    label: 'Send Anonymous Crash reports',
+    tooltip: `
+eqMac would send anonymized crash reports
+back to the developer in case eqMac crashes.
+This helps us understand improve eqMac 
+and make it a more stable product.
+`,
+    value: false,
+    toggled: doCollectCrashReports => {
+      this.settingsService.setDoCollectCrashReports({
+        doCollectCrashReports
+      })
     }
   }
 
@@ -91,12 +109,6 @@ This helps us understand distribution of our users.
 
   settings: Options = [
     [
-      {
-        type: 'label',
-        label: 'Settings'
-      }
-    ],
-    [
       this.iconModeOption
     ],
     [
@@ -108,6 +120,8 @@ This helps us understand distribution of our users.
       this.replaceKnobsWithSlidersOption,
       this.launchOnStartupOption
     ],
+    [ { type: 'divider', orientation: 'horizontal' } ],
+    [ { type: 'label', label: 'Privacy' } ],
     [
       this.doCollectTelemetryOption
     ]
@@ -136,16 +150,26 @@ This helps us understand distribution of our users.
     const [
       launchOnStartup,
       iconMode,
-      UISettings
+      UISettings,
+      info
     ] = await Promise.all([
       this.settingsService.getLaunchOnStartup(),
       this.settingsService.getIconMode(),
-      this.ui.getSettings()
+      this.ui.getSettings(),
+      this.app.getInfo()
     ])
     this.iconModeOption.selectedId = iconMode
     this.launchOnStartupOption.value = launchOnStartup
     this.replaceKnobsWithSlidersOption.value = UISettings.replaceKnobsWithSliders
     this.doCollectTelemetryOption.value = UISettings.doCollectTelemetry
+
+    // Crash report consent was only available from v1.1.0
+    if (new SemanticVersion(info.version).isGreaterThanOrEqualTo('1.1.0')) {
+      this.doCollectCrashReportsOption.value = await this.settingsService.getDoCollectCrashReports()
+      this.settings.push([
+        this.doCollectCrashReportsOption
+      ])
+    }
   }
 
   async update () {

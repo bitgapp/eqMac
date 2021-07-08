@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core'
 import { UtilitiesService } from './utilities.service'
 import { ApplicationService } from './app.service'
-import packageJson from '../../../package.json'
 import { UIService, UIShownChangedEventCallback } from './ui.service'
 
 declare global {
@@ -55,7 +54,7 @@ export class AnalyticsService {
       appName: 'eqMac',
       appVersion: `${info.version}`,
       screenName: 'Home',
-      dimension1: `${packageJson.version}`,
+      dimension1: `${this.ui.version}`,
       dimension2: `${info.isOpenSource}`,
       dimension3: `${this.ui.isRemote}`
     }

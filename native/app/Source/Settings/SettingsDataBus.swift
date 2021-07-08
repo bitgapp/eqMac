@@ -45,6 +45,20 @@ class SettingsDataBus: DataBus {
       
       return "Settings have been set"
     }
+
+    self.on(.GET, "/collect-crash-reports") { data, _ in
+      return [ "doCollectCrashReports": self.state.doCollectCrashReports ]
+    }
+
+    self.on(.POST, "/collect-crash-reports") { data, _ in
+      let doCollectCrashReports = data["doCollectCrashReports"] as? Bool
+      if doCollectCrashReports == nil {
+        throw "Invalid 'doCollectCrashReports' parameter, must be a Boolean"
+      }
+      Application.dispatchAction(SettingsAction.setDoCollectCrashReports(doCollectCrashReports!))
+
+      return "Crash Report collection consent has been set"
+    }
     
   }
 }

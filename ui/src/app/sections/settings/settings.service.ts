@@ -31,6 +31,14 @@ export class SettingsService extends DataService {
     return this.request({ method: 'POST', endpoint: '/icon-mode', data: { mode } })
   }
 
+  async getDoCollectCrashReports (): Promise<boolean> {
+    const { doCollectCrashReports } = await this.request({ method: 'GET', endpoint: '/collect-crash-reports' })
+    return doCollectCrashReports
+  }
+
+  setDoCollectCrashReports ({ doCollectCrashReports }: { doCollectCrashReports: boolean }) {
+    return this.request({ method: 'POST', endpoint: '/collect-crash-reports', data: { doCollectCrashReports } })
+  }
   // async getMode () {
   //   const { mode } = await this.request({ method: 'GET', endpoint: '/mode' })
   //   return mode as UIMode

@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core'
 import { DataService } from './data.service'
 import { Subject } from 'rxjs'
+import packageJson from '../../../package.json'
 
 export interface UISettings {
   replaceKnobsWithSliders?: boolean
   doCollectTelemetry?: boolean
+  privacyFormSeen?: boolean
 }
 
 export interface UIDimensions {
@@ -31,6 +33,10 @@ export class UIService extends DataService {
     'gradient-end': '#2c2c2e',
     light: '#c9cdd0',
     dark: '#16191c'
+  }
+
+  get version () {
+    return packageJson.version
   }
 
   get isLocal () {

@@ -13,10 +13,12 @@ import ReSwift
 
 struct SettingsState: State {
   var iconMode: IconMode = .both
+  var doCollectCrashReports = false
 }
 
 enum SettingsAction: Action {
   case setIconMode(IconMode)
+  case setDoCollectCrashReports(Bool)
 }
 
 func SettingsStateReducer(action: Action, state: SettingsState?) -> SettingsState {
@@ -24,6 +26,8 @@ func SettingsStateReducer(action: Action, state: SettingsState?) -> SettingsStat
   switch action as? SettingsAction {
   case .setIconMode(let iconMode)?:
     state.iconMode = iconMode
+  case .setDoCollectCrashReports(let doCollect)?:
+    state.doCollectCrashReports = doCollect
   case .none:
     break
   }
