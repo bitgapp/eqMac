@@ -7,6 +7,7 @@ interface BaseOptions {
   isEnabled?: () => boolean
   style?: { [style: string]: string | number }
   tooltip?: string
+  tooltipAsComponent?: boolean
 }
 
 export interface ButtonOption extends BaseOptions {
@@ -25,7 +26,6 @@ export interface LabelOption extends BaseOptions {
   type: 'label'
   label: string
   url?: string
-  tooltip?: string
 }
 
 export interface HTMLOption extends BaseOptions {

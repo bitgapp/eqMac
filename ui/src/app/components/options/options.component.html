@@ -5,9 +5,10 @@
         <div *ngIf="option.type === 'checkbox'" 
         fxLayout="row" fxLayoutAlign="center center" fxFill fxLayoutGap="10px"
         class="pointer"
-        [eqmTooltip]="option.tooltip"
+        [eqmTooltip]="!option.tooltipAsComponent && option.tooltip"
         (click)="toggleCheckbox(option)">
           <eqm-checkbox [labelSide]="option.label && 'right'" [interactive]="false" [checked]="option.value">{{option.label}}</eqm-checkbox>
+          <eqm-question *ngIf="option.tooltip && option.tooltipAsComponent" [eqmTooltip]="option.tooltip"></eqm-question>
         </div> 
 
         <!-- Button -->

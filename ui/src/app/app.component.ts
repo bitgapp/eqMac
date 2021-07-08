@@ -75,6 +75,7 @@ eqMac would collect anonymous Telemetry analytics data like:
 
 This helps us understand distribution of our users.
 `,
+          tooltipAsComponent: true,
           value: uiSettings.doCollectTelemetry ?? false,
           toggled: doCollectTelemetry => {
             uiSettings.doCollectTelemetry = doCollectTelemetry
@@ -90,7 +91,8 @@ eqMac would send anonymized crash reports
 back to the developer in case eqMac crashes.
 This helps us understand improve eqMac 
 and make it a more stable product.
-      `,
+`,
+          tooltipAsComponent: true,
           value: doCollectCrashReports,
           toggled: doCollect => {
             doCollectCrashReports = doCollect
