@@ -57,7 +57,7 @@ class Application {
     }
     
     self.settings = Settings()
-    
+
     Networking.startMonitor()
     
     checkDriver {
@@ -65,7 +65,7 @@ class Application {
         AudioDevice.register = true
         audioPipelineIsRunningListener = audioPipelineIsRunning.once {
           self.setupUI {
-            if (User.isFirstLaunch || Constants.DEBUG) {
+            if (User.isFirstLaunch) {
               UI.show()
             } else {
               UI.close()
@@ -81,7 +81,6 @@ class Application {
     // Create a Sentry client and start crash handler
     SentrySDK.start { options in
       options.dsn = Constants.SENTRY_ENDPOINT
-      options.sampleRate = 0.1
 
       // Only send crash reports if user gave consent
       options.beforeSend = { event in
@@ -303,18 +302,6 @@ class Application {
       output = Output(device: selectedDevice!)
       outputCreated.emit()
 
-      selectedDeviceIsAliveListener = AudioDeviceEvents.on(
-        .isAliveChanged,
-        onDevice: selectedDevice!,
-        retain: false
-      ) {
-        // If device that we are sending audio to goes offline we need to stop and switch to a different device
-        if (selectedDevice!.isAlive() == false) {
-          Console.log("Current device dies so switching to built it")
-          selectOutput(device: AudioDevice.builtInOutputDevice) // TODO: Replace with a known device from stack
-        }
-      }
-      
       selectedDeviceSampleRateChangedListener = AudioDeviceEvents.on(
         .nominalSampleRateChanged,
         onDevice: selectedDevice!,
@@ -448,6 +435,20 @@ class Application {
     stopRemoveEngines()
     Storage.synchronize()
   }
+
+  static func handleSleep () {
+    stopSave()
+  }
+
+  static func handleWakeUp () {
+    Utilities.delay(1000) {
+      if (AudioDevice.allOutputDevices().contains(where: { $0.id == selectedDevice?.id })) {
+        startPassthrough()
+      } else {
+        restart()
+      }
+    }
+  }
   
   static func quit () {
     stopSave()
@@ -514,7 +515,7 @@ class Application {
   }
   
   static private let dispatchActionQueue = DispatchQueue(label: "dispatchActionQueue", qos: .userInitiated)
-  // Custom dispatch function. Need to execute all dispatches on the main thread
+  // Custom dispatch function. Need to execute some dispatches on the main thread
   static func dispatchAction(_ action: Action, onMainThread: Bool = true) {
     if (onMainThread) {
       DispatchQueue.main.async {

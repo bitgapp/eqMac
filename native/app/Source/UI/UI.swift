@@ -267,14 +267,16 @@ class UI: StoreSubscriber {
   }
   
   func newState(state: UIState) {
-    if (state.height != UI.height) {
-      UI.height = state.height
-    }
-    if (state.width != UI.width) {
-      UI.width = state.width
-    }
-    if (state.mode != UI.mode) {
-      UI.mode = state.mode
+    DispatchQueue.main.async {
+      if (state.height != UI.height) {
+        UI.height = state.height
+      }
+      if (state.width != UI.width) {
+        UI.width = state.width
+      }
+      if (state.mode != UI.mode) {
+        UI.mode = state.mode
+      }
     }
   }
   

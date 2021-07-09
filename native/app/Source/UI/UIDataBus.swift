@@ -31,8 +31,11 @@ class UIDataBus: DataBus {
       return "Hidden"
     }
     
-    self.on(.GET, "/height") { _, _  in
-      return [ "height": self.state.height ]
+    self.on(.GET, "/height") { _, res  in
+      DispatchQueue.main.async {
+        res.send([ "height": self.state.height ])
+      }
+      return nil
     }
     
     self.on(.POST, "/height") { data, _  in
@@ -44,8 +47,11 @@ class UIDataBus: DataBus {
       return "UI Height has been set"
     }
     
-    self.on(.GET, "/width") { data, _ in
-      return [ "width": self.state.width ]
+    self.on(.GET, "/width") { _, res in
+      DispatchQueue.main.async {
+        res.send([ "width": self.state.width ])
+      }
+      return nil
     }
     
     self.on(.POST, "/width") { data, _ in
@@ -86,8 +92,11 @@ class UIDataBus: DataBus {
       throw "Please provide a valid 'uiMode' parameter."
     }
     
-    self.on(.GET, "/shown") { data, _ in
-      return JSON([ "isShown": UI.isShown ])
+    self.on(.GET, "/shown") { data, res in
+      DispatchQueue.main.async {
+        res.send([ "isShown": UI.isShown ])
+      }
+      return nil
     }
     
     self.on(.POST, "/loaded") { _, _ in

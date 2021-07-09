@@ -13,7 +13,8 @@ export type DeviceTransportType =
 'pci' |
 'thunderbolt' |
 'usb' |
-'aggregate'
+'aggregate' |
+'virtual'
 
 export interface Output {
   id: number

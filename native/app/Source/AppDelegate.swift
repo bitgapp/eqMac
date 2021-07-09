@@ -30,14 +30,19 @@ class AppDelegate: NSObject, NSApplicationDelegate, SUUpdaterDelegate {
       Application.start()
     }
 
-    Networking.checkConnected { connected in
-      if (connected) {
-        self.updater.checkForUpdatesInBackground()
-      } else {
+    if (Application.store.state.settings.doAutoCheckUpdates) {
+      Networking.checkConnected { connected in
+        if (connected) {
+          self.updater.checkForUpdatesInBackground()
+        } else {
+          self.updateProcessed.emit()
+        }
+      }
+
+      Utilities.delay(2000) {
         self.updateProcessed.emit()
       }
-    }
-    Utilities.delay(2000) {
+    } else {
       self.updateProcessed.emit()
     }
 
@@ -106,11 +111,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, SUUpdaterDelegate {
   }
 
   @objc func willSleep(event: NSNotification) {
-    Application.stopSave()
+    Application.handleSleep()
   }
 
   @objc func didWakeUp(event: NSNotification) {
-    Application.restart()
+    Application.handleWakeUp()
   }
 }
 

@@ -32,6 +32,7 @@ export class OutputsComponent implements OnInit {
           case 'builtIn': return output.name === 'Headphones' ? 'headphones' : 'speaker'
           case 'displayPort': return 'displayport'
           case 'fireWire': return 'firewire'
+          case 'virtual': return 'cog'
           default: return output.transportType
         }
       })()

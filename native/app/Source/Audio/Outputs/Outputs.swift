@@ -28,6 +28,7 @@ class Outputs {
   
   static func shouldAutoSelect (_ device: AudioDevice) -> Bool {
     let types: [TransportType] = [.bluetooth, .bluetoothLE, .builtIn]
+    Console.log(device.nominalSampleRate(), device.sourceName, device.actualSampleRate(), device.isOutputOnlyDevice())
     return isDeviceAllowed(device) && types.contains(device.transportType!)
   }
   

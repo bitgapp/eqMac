@@ -121,7 +121,14 @@ and make it a more stable product.
   otaUpdatesOption: CheckboxOption = {
     type: 'checkbox',
     value: false,
-    label: 'OTA User Interface Updates',
+    label: 'OTA Updates',
+    tooltip: `
+Because eqMac's User Interface is built with Web Technologies 
+the developer can periodically push Over the Air (OTA) updates,
+make minor bug fixes and UI improvements,
+all without needing the user to do a full app update.
+`,
+    tooltipAsComponent: true,
     toggled: doOTAUpdates => {
       this.settingsService.setDoOTAUpdates({
         doOTAUpdates
