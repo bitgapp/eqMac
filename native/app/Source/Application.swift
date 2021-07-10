@@ -212,8 +212,19 @@ class Application {
     AudioDeviceEvents.on(.isJackConnectedChanged) { device in
       let connected = device.isJackConnected(direction: .playback)
       Console.log("isJackConnectedChanged", device, connected)
-      if (connected == true && device.id != selectedDevice?.id) {
-        selectOutput(device: device)
+      if (device.id != selectedDevice?.id) {
+        if (connected == true) {
+          selectOutput(device: device)
+        }
+      } else {
+        stopRemoveEngines()
+        Utilities.delay(1000) {
+          // need a delay, because emitter should finish it's work at first
+          try! AudioDeviceEvents.recreateEventEmitters([.isAliveChanged, .volumeChanged, .nominalSampleRateChanged])
+          setupDriverDeviceEvents()
+          matchDriverSampleRateToOutput()
+          createAudioPipeline()
+        }
       }
     }
     
@@ -288,6 +299,7 @@ class Application {
   }
 
   private static func matchDriverSampleRateToOutput () {
+    return
     let outputSampleRate = selectedDevice!.actualSampleRate()!
     let driverSampleRates = Driver.sampleRates
     let closestSampleRate = driverSampleRates.min( by: { abs($0 - outputSampleRate) < abs($1 - outputSampleRate) } )!
@@ -441,13 +453,7 @@ class Application {
   }
 
   static func handleWakeUp () {
-    Utilities.delay(1000) {
-      if (AudioDevice.allOutputDevices().contains(where: { $0.id == selectedDevice?.id })) {
-        startPassthrough()
-      } else {
-        restart()
-      }
-    }
+    setupAudio()
   }
   
   static func quit () {
