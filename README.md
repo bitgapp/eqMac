@@ -40,7 +40,7 @@ I'm notoriously known for lacking in communication with users due to lack of tim
 
 ## Technology
 eqMac was built using these technologies:
-* [Driver](https://github.com/bitgapp/eqMac/tree/master/native/driver) - System Audio loopback/passthrough device based on [BackgroundMusic](https://github.com/kyleneideck/BackgroundMusic) project. The driver grabs the system audio stream and sends it to the input channels. eqMac can grab this stream, process it and send to the appropriate audio device. Still very low level C++ code although the driver runs in User space instead of Kernel like the previous drivers, which means it's much more secure and stable.
+* [Driver](https://github.com/bitgapp/eqMac/tree/master/native/driver) - System Audio loopback/passthrough device based on [Apple's Null Audio Server Driver Plug-in](https://developer.apple.com/documentation/coreaudio/creating_an_audio_server_driver_plug-in) example. The driver grabs the system audio stream and sends it to the input channels. eqMac can grab this stream, process it and send to the appropriate audio device. Still very low level C++ code although the driver runs in User space instead of Kernel like the previous drivers, which means it's much more secure and stable.
 * [App](https://github.com/bitgapp/eqMac/tree/master/native/app) - Native backend to the whole app. Responsible for audio processing, filesystem access, window management, API and general lifecycle of eqMac. Written in Swift and uses Apple's more modern [AVAudioEngine API](https://developer.apple.com/documentation/avfoundation/avaudioengine), unlike the previous version that used a deprecated AUGraph API.
 * [UI](https://github.com/bitgapp/eqMac/tree/master/ui) - Web based user interface that is hosted remotely and thus allows for over the air updates & bug fixes. Built with [Angular](https://angular.io/) + [TypeScript](https://www.typescriptlang.org/) and is cached for offline availability.
 
@@ -52,7 +52,7 @@ Check the documentation below to understand how to start eqMac debug process fro
 
 [@nodeful](https://github.com/nodeful) - Creator and Developer of eqMac
 
-[@kyleneideck](https://github.com/kyleneideck) - For his hard work on the [BGMDriver](https://github.com/kyleneideck/BackgroundMusic)
+Apple Inc. - For open sourcing this [HAL Driver Example](https://developer.apple.com/documentation/coreaudio/creating_an_audio_server_driver_plug-in)
 
 [@titanicbobo](https://github.com/titanicbobo) - For the [Big Sur icon design](https://github.com/bitgapp/eqMac/blob/master/assets/icon/icon.svg)
 

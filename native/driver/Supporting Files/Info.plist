@@ -23,7 +23,7 @@
 	<key>CFPlugInFactories</key>
 	<dict>
 		<key>7080ba34-76cc-40b2-b2b3-819d28460e7e</key>
-		<string>EQM_Create</string>
+		<string>eqMac_Create</string>
 	</dict>
 	<key>CFPlugInTypes</key>
 	<dict>
