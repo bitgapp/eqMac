@@ -15,6 +15,7 @@ struct UIState: State {
   var height: Double = 400
   var width: Double = 400
   var windowPosition: NSPoint? = nil
+  var alwaysOnTop = false
   var settings: JSON = JSON()
   var mode: UIMode = .window
 }
