@@ -82,16 +82,7 @@ class Driver {
       checkErr(AudioObjectSetPropertyData(Driver.device!.id, &address, 0, nil, size, &latency))
     }
   }
-  
-  static var hasSafetyOffset: Bool {
-    var address = AudioObjectPropertyAddress(
-      mSelector: getPropertySelectorFromString(CustomProperties.kAudioDeviceCustomPropertySafetyOffset.rawValue),
-      mScope: kAudioObjectPropertyScopeOutput,
-      mElement: kAudioObjectPropertyElementMaster
-    )
-    Console.log(CustomProperties.kAudioDeviceCustomPropertySafetyOffset.rawValue, address.mSelector)
-    return AudioObjectHasProperty(Driver.device!.id, &address)
-  }
+
   static var safetyOffset: UInt32 {
     get {
       return Driver.device!.safetyOffset(direction: .playback)!
@@ -99,7 +90,7 @@ class Driver {
     set {
       var address = AudioObjectPropertyAddress(
         mSelector: getPropertySelectorFromString(CustomProperties.kAudioDeviceCustomPropertySafetyOffset.rawValue),
-        mScope: kAudioObjectPropertyScopeGlobal,
+        mScope: kAudioObjectPropertyScopeOutput,
         mElement: kAudioObjectPropertyElementMaster
       )
       

@@ -213,10 +213,29 @@ class UI: StoreSubscriber {
           UI.height = Application.store.state.ui.height
         })()
 
-        // TODO: Fix window position state saving (need to look if the current position is still accessible, what if the monitor isn't there anymore)
-        //        if let windowPosition = Application.store.state.ui.windowPosition {
-        //            window.position = windowPosition
-        //        }
+        // Set window position to where it was last time, in case that position is not available anymore - reset.
+        if var windowPosition = Application.store.state.ui.windowPosition {
+          var withinBounds = false
+          for screen in NSScreen.screens {
+            if NSPointInRect(windowPosition, screen.frame) {
+              withinBounds = true
+              break
+            }
+          }
+          if (!withinBounds) {
+            if let mainScreen = NSScreen.screens.first {
+              let screenSize = mainScreen.frame.size
+              windowPosition.x = screenSize.width / 2 - CGFloat(UI.width / 2)
+              windowPosition.y = screenSize.height / 2 - CGFloat(UI.height / 2)
+            } else {
+              windowPosition.x = 0
+              windowPosition.y = 0
+            }
+          }
+          UI.window.position = windowPosition
+          Application.dispatchAction(UIAction.setWindowPosition(windowPosition))
+        }
+        
         self.setupStateListener()
         UI.setupBridge()
         UI.setupListeners()
