@@ -9,6 +9,12 @@
 import Cocoa
 import EmitterKit
 
+enum StatusItemIconType: String, Codable {
+  case classic = "classic"
+  case colored = "colored"
+  case macOS = "macOS"
+}
+
 class StatusItem {
   // MARK: - Properties
   
@@ -22,31 +28,75 @@ class StatusItem {
       }
     }
   }
+
+  private static let iconSize = NSMakeSize(20, 15)
+  private static let speakerIconImages: [NSImage] = [
+    NSImage(named: "speaker0")!.resize(with: iconSize),
+    NSImage(named: "speaker1")!.resize(with: iconSize),
+    NSImage(named: "speaker2")!.resize(with: iconSize),
+    NSImage(named: "speaker3")!.resize(with: iconSize)
+  ]
+  private static let classicIconImage = NSImage(named: "statusBarIcon")!.resize(with: NSMakeSize(20, 20))
+  static func getNativeImageForVolume (_ volume: Double) -> NSImage {
+    if volume <= 0.01 {
+      return speakerIconImages[0]
+    }
+    if volume <= 0.33 {
+      return speakerIconImages[1]
+    }
+    if volume <= 0.66 {
+      return speakerIconImages[2]
+    }
+
+    return speakerIconImages[3]
+  }
+
+  var iconType: StatusItemIconType = .classic {
+    didSet {
+      DispatchQueue.main.async {
+        var image = StatusItem.classicIconImage
+        switch (self.iconType) {
+        case .classic:
+          image.isTemplate = true
+          break
+        case .colored:
+          image.isTemplate = false
+          break
+        case .macOS:
+          image = StatusItem.getNativeImageForVolume(Application.store.state.effects.volume.gain)
+          image.isTemplate = true
+          break
+        }
+        self.button.image = image
+      }
+    }
+  }
   
   var clicked = Event<Void>()
   var rightClicked = Event<Void>()
-  var button: NSStatusBarButton
   private let dummyMenu = NSMenu()
   private let rightClickMenu = NSMenu()
   let rightClickGesture = NSClickGestureRecognizer()
-  
+  private var volumeGainChangedListener: EventListener<Double>!
+
   let item = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
-  
+  var button: NSStatusBarButton!
+
   // MARK - Initialization
-  public init(image: NSImage) {
+  public init() {
     self.button = item.button!
-    image.isTemplate = true
-    button.image = image
+    // Listen to volume changes and apply icon
+    self.volumeGainChangedListener = Volume.gainChanged.on { [weak self] gain in
+      if (self != nil && self!.iconType == .macOS) {
+        (self!.iconType = self!.iconType)
+      }
+    }
+
     button.appearsDisabled = false
     button.target = self
     button.action = #selector(StatusItem.wasClicked(sender:))
     
     button.sendAction(on: [.leftMouseDown, .rightMouseDown])
-//    // Add right click functionality
-//    rightClickGesture.buttonMask = 0x2 // right mouse
-//    rightClickGesture.target = self
-//    rightClickGesture.action = #selector(StatusItem.wasClicked)
-//    button.addGestureRecognizer(rightClickGesture)
     
     let quitMenuItem = NSMenuItem()
     quitMenuItem.target = self

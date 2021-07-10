@@ -4,7 +4,8 @@ import { DataService } from 'src/app/services/data.service'
 export enum IconMode {
   both = 'both',
   dock = 'dock',
-  statusBar = 'statusBar'
+  statusBar = 'statusBar',
+  neither = 'neither'
 }
 
 @Injectable({

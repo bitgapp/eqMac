@@ -15,6 +15,7 @@
 		787474A925336D9200FF4A95 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 787474A825336D9200FF4A95 /* CoreFoundation.framework */; };
 		788732FE266BB08E0093CBB5 /* Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = E073727C20167E7600874CC6 /* Application.swift */; };
 		7893D5752674F6B100F3815B /* Version in Frameworks */ = {isa = PBXBuildFile; productRef = 7893D5742674F6B100F3815B /* Version */; };
+		789B5F73269A45C400C72029 /* NSImageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789B5F72269A45C400C72029 /* NSImageExtensions.swift */; };
 		789F83CF250E20A8004F871D /* restart_coreaudio.sh in Resources */ = {isa = PBXBuildFile; fileRef = 789F83CE250E20A8004F871D /* restart_coreaudio.sh */; };
 		78D8C3322569B2910084739C /* LaunchAtLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 78D8C3312569B2910084739C /* LaunchAtLogin */; };
 		78D8C3332569B3000084739C /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0370EB0200D68AB00DF4DBF /* AudioToolbox.framework */; };
@@ -24,7 +25,6 @@
 		E00618EB20F22BD1003BA0B0 /* Effect.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00618EA20F22BD1003BA0B0 /* Effect.swift */; };
 		E00618ED20F292B9003BA0B0 /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00618EC20F292B9003BA0B0 /* Networking.swift */; };
 		E00C595D23BBBB6C00C7B8B6 /* UnsafeMutableAudioBufferListPointer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00C595C23BBBB6C00C7B8B6 /* UnsafeMutableAudioBufferListPointer.swift */; };
-		E00C596623BBBF3100C7B8B6 /* Atomic.m in Sources */ = {isa = PBXBuildFile; fileRef = E00C596523BBBF3100C7B8B6 /* Atomic.m */; };
 		E012A46E2044BC200029C800 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E012A46D2044BC200029C800 /* StringExtensions.swift */; };
 		E012A4702044C4DA0029C800 /* Sysctl.swift in Sources */ = {isa = PBXBuildFile; fileRef = E012A46F2044C4DA0029C800 /* Sysctl.swift */; };
 		E0136BB322D9EC920048D5BC /* DraggableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0136BB222D9EC920048D5BC /* DraggableView.swift */; };
@@ -122,18 +122,16 @@
 		7858FBC124A9630800637941 /* restart_mac.scpt */ = {isa = PBXFileReference; lastKnownFileType = file; path = restart_mac.scpt; sourceTree = "<group>"; };
 		787474A825336D9200FF4A95 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		788732FA266700DF0093CBB5 /* eqMac.debug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = eqMac.debug.entitlements; sourceTree = "<group>"; };
+		789B5F72269A45C400C72029 /* NSImageExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSImageExtensions.swift; sourceTree = "<group>"; };
 		789F83CE250E20A8004F871D /* restart_coreaudio.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = restart_coreaudio.sh; sourceTree = "<group>"; };
 		78D8C3462569B7980084739C /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = System/Library/Frameworks/AudioUnit.framework; sourceTree = SDKROOT; };
 		78E2441324B661C3003C1FBC /* Embedded */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Embedded; sourceTree = "<group>"; };
 		9C0FBD24DF0BA400D806B8AC /* Pods_eqMac.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_eqMac.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3D606D740D37C93ABA157E7 /* Pods-eqMac.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-eqMac.release.xcconfig"; path = "../Pods/Target Support Files/Pods-eqMac/Pods-eqMac.release.xcconfig"; sourceTree = "<group>"; };
-		E002178623BBC069006C452A /* module.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		E00618E120F14C08003BA0B0 /* UIState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIState.swift; sourceTree = "<group>"; };
 		E00618EA20F22BD1003BA0B0 /* Effect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Effect.swift; sourceTree = "<group>"; };
 		E00618EC20F292B9003BA0B0 /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
 		E00C595C23BBBB6C00C7B8B6 /* UnsafeMutableAudioBufferListPointer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnsafeMutableAudioBufferListPointer.swift; sourceTree = "<group>"; };
-		E00C596423BBBF3100C7B8B6 /* Atomic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Atomic.h; sourceTree = "<group>"; };
-		E00C596523BBBF3100C7B8B6 /* Atomic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Atomic.m; sourceTree = "<group>"; };
 		E012A46D2044BC200029C800 /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
 		E012A46F2044C4DA0029C800 /* Sysctl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sysctl.swift; sourceTree = "<group>"; };
 		E0136BB222D9EC920048D5BC /* DraggableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DraggableView.swift; sourceTree = "<group>"; };
@@ -270,34 +268,9 @@
 				E02662EF22BC3239006B486C /* NSSavePanelExtensions.swift */,
 				E0ECA88A23B8B8DD002AFBF0 /* AVAudioEngine.swift */,
 				E072856A23F84A5500EDE8AC /* BoolExtensions.swift */,
+				789B5F72269A45C400C72029 /* NSImageExtensions.swift */,
 			);
 			path = Extensions;
-			sourceTree = "<group>";
-		};
-		E00C596123BBBEA800C7B8B6 /* Vendor */ = {
-			isa = PBXGroup;
-			children = (
-				E00C596223BBBF3100C7B8B6 /* ConcurrencyOC */,
-				E002178623BBC069006C452A /* module.modulemap */,
-			);
-			path = Vendor;
-			sourceTree = "<group>";
-		};
-		E00C596223BBBF3100C7B8B6 /* ConcurrencyOC */ = {
-			isa = PBXGroup;
-			children = (
-				E00C596323BBBF3100C7B8B6 /* include */,
-				E00C596523BBBF3100C7B8B6 /* Atomic.m */,
-			);
-			path = ConcurrencyOC;
-			sourceTree = "<group>";
-		};
-		E00C596323BBBF3100C7B8B6 /* include */ = {
-			isa = PBXGroup;
-			children = (
-				E00C596423BBBF3100C7B8B6 /* Atomic.h */,
-			);
-			path = include;
 			sourceTree = "<group>";
 		};
 		E01B1BB3235E449000CC58E5 /* Sources */ = {
@@ -543,7 +516,6 @@
 				E0DDF3FB218901E700B37E77 /* Scripts */,
 				E01B5C862356E07600E1A675 /* Transition */,
 				E095BBC12014CDF1003473E9 /* UI */,
-				E00C596123BBBEA800C7B8B6 /* Vendor */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -788,7 +760,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				788732FE266BB08E0093CBB5 /* Application.swift in Sources */,
-				E00C596623BBBF3100C7B8B6 /* Atomic.m in Sources */,
 				E089AC492095E0B1005B72E5 /* Console.swift in Sources */,
 				E090AD5820A9725F003BE5FF /* Volume.swift in Sources */,
 				E02FF91622C7EC6C0051342A /* Transition.swift in Sources */,
@@ -834,6 +805,7 @@
 				E0D5F88722DD20F800499250 /* SettingsState.swift in Sources */,
 				E01B1BB9235E454500CC58E5 /* InputSource.swift in Sources */,
 				E06E98D221D2E32E0041DD9C /* Popover.swift in Sources */,
+				789B5F73269A45C400C72029 /* NSImageExtensions.swift in Sources */,
 				E07B45A620FBA4990086AA7E /* Encodable.swift in Sources */,
 				E0241AA5225E9FB700748656 /* BasicEqualizerPreset.swift in Sources */,
 				E057A639227038B80019D13C /* Settings.swift in Sources */,

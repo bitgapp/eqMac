@@ -18,13 +18,15 @@ enum IconMode: String, Codable {
   case dock = "dock"
   case statusBar = "statusBar"
   case both = "both"
+  case neither = "neither"
 }
 
 extension IconMode {
   static let allValues = [
     dock.rawValue,
     statusBar.rawValue,
-    both.rawValue
+    both.rawValue,
+    neither.rawValue
   ]
 }
 

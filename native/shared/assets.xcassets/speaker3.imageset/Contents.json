@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "statusItemDark16.png",
+      "filename" : "speaker3-66.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "statusItemDark32.png",
+      "filename" : "speaker3-65.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "statusItemDark64.png",
+      "filename" : "speaker3-64.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

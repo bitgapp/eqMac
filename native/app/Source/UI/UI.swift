@@ -63,7 +63,7 @@ class UI: StoreSubscriber {
     return Application.supportPath.appendingPathComponent("ui")
   }
   
-  static let statusItem = StatusItem(image: NSImage(named: "statusBarIcon")!)
+  static let statusItem = StatusItem()
 
   static let storyboard = NSStoryboard(name: "Main", bundle: Bundle.main)
 
@@ -145,6 +145,20 @@ class UI: StoreSubscriber {
       }
     }
   }
+
+  static var alwaysOnTop = false {
+    didSet {
+      DispatchQueue.main.async {
+        if alwaysOnTop {
+          popover.popover.behavior = .applicationDefined
+          window.level = .floating
+        } else {
+          popover.popover.behavior = .transient
+          window.level = .normal
+        }
+      }
+    }
+  }
   
   static var canHide: Bool {
     get {
@@ -164,7 +178,13 @@ class UI: StoreSubscriber {
   }
   
   static func toggle () {
-    show()
+    DispatchQueue.main.async {
+      if isShown {
+        close()
+      } else {
+        show()
+      }
+    }
   }
   
   static func show () {
@@ -209,6 +229,7 @@ class UI: StoreSubscriber {
       func setup () {
         ({
           UI.mode = Application.store.state.ui.mode
+          UI.alwaysOnTop = Application.store.state.ui.alwaysOnTop
           UI.width = Application.store.state.ui.width
           UI.height = Application.store.state.ui.height
         })()
@@ -295,6 +316,12 @@ class UI: StoreSubscriber {
       }
       if (state.mode != UI.mode) {
         UI.mode = state.mode
+      }
+      if (state.alwaysOnTop != UI.alwaysOnTop) {
+        UI.alwaysOnTop = state.alwaysOnTop
+      }
+      if (state.statusItemIconType != UI.statusItem.iconType) {
+        UI.statusItem.iconType = state.statusItemIconType
       }
     }
   }

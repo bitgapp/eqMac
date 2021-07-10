@@ -17,6 +17,11 @@ export interface UIDimensions {
 }
 
 export type UIMode = 'window' | 'popover'
+export enum StatusItemIconType {
+  classic = 'classic',
+  colored = 'colored',
+  macOS = 'macOS'
+}
 
 @Injectable({
   providedIn: 'root'
@@ -80,6 +85,24 @@ export class UIService extends DataService {
 
   async setMode (mode: UIMode) {
     return this.request({ method: 'POST', endpoint: '/mode', data: { mode } })
+  }
+
+  async getAlwaysOnTop (): Promise<boolean> {
+    const { alwaysOnTop } = await this.request({ method: 'GET', endpoint: '/always-on-top' })
+    return alwaysOnTop
+  }
+
+  async setAlwaysOnTop ({ alwaysOnTop }: { alwaysOnTop: boolean }) {
+    return this.request({ method: 'POST', endpoint: '/always-on-top', data: { alwaysOnTop } })
+  }
+
+  async getStatusItemIconType (): Promise<StatusItemIconType> {
+    const { statusItemIconType } = await this.request({ method: 'GET', endpoint: '/status-item-icon-type' })
+    return statusItemIconType
+  }
+
+  setStatusItemIconType (statusItemIconType: StatusItemIconType) {
+    return this.request({ method: 'POST', endpoint: '/status-item-icon-type', data: { statusItemIconType } })
   }
 
   async getSettings (): Promise<UISettings> {
