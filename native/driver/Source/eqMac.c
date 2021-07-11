@@ -2027,7 +2027,7 @@ static OSStatus eqMac_GetDevicePropertyData (AudioServerPlugInDriverRef inDriver
       //  other incidental or UI-related sounds on. Most devices should allow this
       //  although devices with lots of latency may not want to.
       FailWithAction(inDataSize < sizeof(UInt32), theAnswer = kAudioHardwareBadPropertySizeError, Done, "eqMac_GetDevicePropertyData: not enough space for the return value of kAudioDevicePropertyDeviceCanBeDefaultSystemDevice for the device");
-      *((UInt32*)outData) = 0;
+      *((UInt32*)outData) = mShown ? 1 : 0;
       *outDataSize = sizeof(UInt32);
       break;
       
