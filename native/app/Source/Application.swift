@@ -299,7 +299,6 @@ class Application {
   }
 
   private static func matchDriverSampleRateToOutput () {
-    return
     let outputSampleRate = selectedDevice!.actualSampleRate()!
     let driverSampleRates = Driver.sampleRates
     let closestSampleRate = driverSampleRates.min( by: { abs($0 - outputSampleRate) < abs($1 - outputSampleRate) } )!
