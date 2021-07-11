@@ -8,5 +8,4 @@ dist
 !modules/**/dist
 **/package-lock.json
 
-native/app/Embedded/*
 native/app/Sandbox.playground/Resources/track.mp3
