@@ -16,6 +16,7 @@ struct ApplicationState: State {
   var settings = SettingsState()
   var ui = UIState()
   var effects = EffectsState()
+  var volume = VolumeState()
 }
 
 func ApplicationStateReducer(action: Action, state: ApplicationState?) -> ApplicationState {
@@ -23,7 +24,8 @@ func ApplicationStateReducer(action: Action, state: ApplicationState?) -> Applic
   state.settings = SettingsStateReducer(action: action, state: state.settings)
   state.ui = UIStateReducer(action: action, state: state.ui)
   state.effects = EffectsStateReducer(action: action, state: state.effects)
-  
+  state.volume = VolumeStateReducer(action: action, state: state.volume)
+
   Application.newState(state) // Notify
   Storage[.state] = state // Store
   

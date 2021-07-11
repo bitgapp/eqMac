@@ -11,6 +11,7 @@
 		783A6F9A266FA1A600A96B42 /* CircularBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783A6F97266FA1A600A96B42 /* CircularBuffer.swift */; };
 		783A6F9D266FA1F300A96B42 /* Atomics in Frameworks */ = {isa = PBXBuildFile; productRef = 783A6F9C266FA1F300A96B42 /* Atomics */; };
 		783A6FA02670225C00A96B42 /* Benchmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783A6F9F2670225C00A96B42 /* Benchmark.swift */; };
+		785453AB269B75F100E8AB42 /* Assets in Resources */ = {isa = PBXBuildFile; fileRef = 785453AA269B75F000E8AB42 /* Assets */; };
 		7858FBC224A9630800637941 /* restart_mac.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 7858FBC124A9630800637941 /* restart_mac.scpt */; };
 		787474A925336D9200FF4A95 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 787474A825336D9200FF4A95 /* CoreFoundation.framework */; };
 		788732FE266BB08E0093CBB5 /* Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = E073727C20167E7600874CC6 /* Application.swift */; };
@@ -119,6 +120,7 @@
 		454077A0596E209B8ABF4043 /* Pods-eqMac.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-eqMac.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-eqMac/Pods-eqMac.debug.xcconfig"; sourceTree = "<group>"; };
 		783A6F97266FA1A600A96B42 /* CircularBuffer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircularBuffer.swift; sourceTree = "<group>"; };
 		783A6F9F2670225C00A96B42 /* Benchmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Benchmark.swift; sourceTree = "<group>"; };
+		785453AA269B75F000E8AB42 /* Assets */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = folder; path = Assets; sourceTree = SOURCE_ROOT; };
 		7858FBC124A9630800637941 /* restart_mac.scpt */ = {isa = PBXFileReference; lastKnownFileType = file; path = restart_mac.scpt; sourceTree = "<group>"; };
 		787474A825336D9200FF4A95 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		788732FA266700DF0093CBB5 /* eqMac.debug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = eqMac.debug.entitlements; sourceTree = "<group>"; };
@@ -325,6 +327,7 @@
 				E05901ED2221F21E006B93A5 /* Sandbox.playground */,
 				E0F661751FDCA05F00252923 /* Source */,
 				E0F661741FDCA01F00252923 /* Supporting Files */,
+				785453AA269B75F000E8AB42 /* Assets */,
 				78E2441324B661C3003C1FBC /* Embedded */,
 				E086AFFD1FCCB8E700CF9F0D /* Products */,
 				A433E835860EBA2247574C67 /* Pods */,
@@ -633,6 +636,7 @@
 			files = (
 				E086B0021FCCB8E700CF9F0D /* assets.xcassets in Resources */,
 				E09C17201FEC1969008E65A4 /* Main.storyboard in Resources */,
+				785453AB269B75F100E8AB42 /* Assets in Resources */,
 				78E2441424B661C3003C1FBC /* Embedded in Resources */,
 				789F83CF250E20A8004F871D /* restart_coreaudio.sh in Resources */,
 				7858FBC224A9630800637941 /* restart_mac.scpt in Resources */,

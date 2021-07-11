@@ -12,7 +12,7 @@ import SwiftyJSON
 
 class VolumeDataBus: DataBus {
   var state: VolumeState {
-    return Application.store.state.effects.volume
+    return Application.store.state.volume
   }
 
   var outputCreatedListener: EventListener<Void>?

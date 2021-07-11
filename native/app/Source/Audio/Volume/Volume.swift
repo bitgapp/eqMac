@@ -14,7 +14,7 @@ import AVFoundation
 
 class Volume: StoreSubscriber {
   var state: VolumeState {
-    return Application.store.state.effects.volume
+    return Application.store.state.volume
   }
 
   // MARK: - Events
@@ -181,7 +181,7 @@ class Volume: StoreSubscriber {
   
   func setupStateListener () {
     Application.store.subscribe(self) { subscription in
-      subscription.select { state in state.effects.volume }
+      subscription.select { state in state.volume }
     }
   }
 

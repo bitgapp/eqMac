@@ -29,12 +29,18 @@ class StatusItem {
     }
   }
 
+  private static func getIcon (name: String) -> NSImage {
+    let url = Bundle.main.url(forResource: name, withExtension: "png", subdirectory: "Assets")!
+    let image = NSImage(contentsOf: url)!
+    return image.resize(with: iconSize)
+  }
+
   private static let iconSize = NSMakeSize(20, 14)
   private static let speakerIconImages: [NSImage] = [
-    NSImage(named: "speaker0")!.resize(with: iconSize),
-    NSImage(named: "speaker1")!.resize(with: iconSize),
-    NSImage(named: "speaker2")!.resize(with: iconSize),
-    NSImage(named: "speaker3")!.resize(with: iconSize)
+    getIcon(name: "speaker0"),
+    getIcon(name: "speaker1"),
+    getIcon(name: "speaker2"),
+    getIcon(name: "speaker3")
   ]
   private static let classicIconImage = NSImage(named: "statusBarIcon")!.resize(with: NSMakeSize(20, 20))
   static func getNativeImageFor (volume: Double, muted: Bool) -> NSImage {
@@ -64,8 +70,8 @@ class StatusItem {
           break
         case .macOS:
           image = StatusItem.getNativeImageFor(
-            volume: Application.store.state.effects.volume.gain,
-            muted: Application.store.state.effects.volume.muted
+            volume: Application.store.state.volume.gain,
+            muted: Application.store.state.volume.muted
           )
           image.isTemplate = true
           break

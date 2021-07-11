@@ -11,14 +11,12 @@ import ReSwift
 import SwiftyUserDefaults
 
 struct EffectsState: State {
-  var volume = VolumeState()
   var equalizers = EqualizersState()
 }
 
 func EffectsStateReducer(action: Action, state: EffectsState?) -> EffectsState {
   var state = state ?? EffectsState()
   
-  state.volume = VolumeStateReducer(action: action, state: state.volume)
   state.equalizers = EqualizersStateReducer(action: action, state: state.equalizers)
   
   return state

@@ -245,7 +245,7 @@ class Application {
         return
       }
       let gain = Double(Driver.device!.virtualMasterVolume(direction: .playback)!)
-      if (gain <= 1 && gain != Application.store.state.effects.volume.gain) {
+      if (gain <= 1 && gain != Application.store.state.volume.gain) {
         Application.dispatchAction(VolumeAction.setGain(gain, false))
       }
 
@@ -274,15 +274,21 @@ class Application {
       selectOutput(device: AudioDevice.builtInOutputDevice) // TODO: Replace with a known device from a stack
       return
     }
-    var volume: Double = Application.store.state.effects.volume.gain
-    var muted = store.state.effects.volume.muted
+    var volume: Double = Application.store.state.volume.gain
+    var muted = store.state.volume.muted
+    var balance = store.state.volume.balance
+
     if (selectedDevice!.outputVolumeSupported) {
       volume = Double(selectedDevice!.virtualMasterVolume(direction: .playback)!)
       muted = selectedDevice!.mute
     }
-    
+
+    if (selectedDevice!.outputBalanceSupported) {
+      balance = Double(selectedDevice!.virtualMasterBalance(direction: .playback)!)
+    }
+
+    Application.dispatchAction(VolumeAction.setBalance(balance, false))
     Application.dispatchAction(VolumeAction.setGain(volume, false))
-    Application.dispatchAction(VolumeAction.setBalance(Application.store.state.effects.volume.balance, false))
     Application.dispatchAction(VolumeAction.setMuted(muted))
     
     Driver.device!.setVirtualMasterVolume(volume > 1 ? 1 : Float32(volume), direction: .playback)
@@ -412,7 +418,7 @@ class Application {
           Driver.device!.setVirtualMasterVolume(Float(newGain), direction: .playback)
         }
       } else {
-        if (!Application.store.state.effects.volume.boostEnabled) {
+        if (!Application.store.state.volume.boostEnabled) {
           newGain = 1
         }
       }
