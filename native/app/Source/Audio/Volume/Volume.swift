@@ -68,30 +68,27 @@ class Volume: StoreSubscriber {
       }
 
       mixer.outputVolume = Float(virtualVolume)
-
-      if (!volumeSupported) {
-        Driver.device!.mute = false
-        device.mute = false
-      }
-      
-      let shouldMute = gain == 0.0
-      Driver.device!.mute = shouldMute
-      device.mute = shouldMute
-      
       Volume.gainChanged.emit(gain)
-      
       Application.ignoreNextVolumeEvent = false
-      Application.ignoreNextDriverMuteEvent = false
+      
+      if (gain == 0) {
+        Application.dispatchAction(VolumeAction.setMuted(true))
+      } else if (muted) {
+        Application.dispatchAction(VolumeAction.setMuted(false))
+      }
     }
   }
   
   var muted: Bool = false {
     didSet {
+      Driver.device!.mute = muted
+      Application.selectedDevice!.mute = muted
       if (muted) {
         mixer.outputVolume = 0
       } else {
         (gain = gain)
       }
+      Application.ignoreNextDriverMuteEvent = false
       Volume.mutedChanged.emit(muted)
     }
   }
@@ -175,6 +172,9 @@ class Volume: StoreSubscriber {
     Console.log("Creating Volume")
     ({
       self.boostEnabled = state.boostEnabled
+      self.balance = state.balance
+      self.gain = state.gain
+      self.muted = state.muted
     })()
     setupStateListener()
   }

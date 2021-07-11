@@ -275,12 +275,15 @@ class Application {
       return
     }
     var volume: Double = Application.store.state.effects.volume.gain
-    if (AudioDevice.currentOutputDevice.outputVolumeSupported) {
-      volume = Double(AudioDevice.currentOutputDevice.virtualMasterVolume(direction: .playback)!)
+    var muted = store.state.effects.volume.muted
+    if (selectedDevice!.outputVolumeSupported) {
+      volume = Double(selectedDevice!.virtualMasterVolume(direction: .playback)!)
+      muted = selectedDevice!.mute
     }
     
     Application.dispatchAction(VolumeAction.setGain(volume, false))
     Application.dispatchAction(VolumeAction.setBalance(Application.store.state.effects.volume.balance, false))
+    Application.dispatchAction(VolumeAction.setMuted(muted))
     
     Driver.device!.setVirtualMasterVolume(volume > 1 ? 1 : Float32(volume), direction: .playback)
     Driver.latency = selectedDevice!.latency(direction: .playback) ?? 0 // Set driver latency to mimic device
@@ -441,10 +444,10 @@ class Application {
   }
 
   static func stopSave () {
-    stopListeners()
-    switchBackToLastKnownDevice()
-    stopRemoveEngines()
     Storage.synchronize()
+    stopListeners()
+    stopRemoveEngines()
+    switchBackToLastKnownDevice()
   }
 
   static func handleSleep () {

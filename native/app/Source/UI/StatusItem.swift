@@ -29,7 +29,7 @@ class StatusItem {
     }
   }
 
-  private static let iconSize = NSMakeSize(20, 15)
+  private static let iconSize = NSMakeSize(20, 14)
   private static let speakerIconImages: [NSImage] = [
     NSImage(named: "speaker0")!.resize(with: iconSize),
     NSImage(named: "speaker1")!.resize(with: iconSize),
@@ -37,8 +37,8 @@ class StatusItem {
     NSImage(named: "speaker3")!.resize(with: iconSize)
   ]
   private static let classicIconImage = NSImage(named: "statusBarIcon")!.resize(with: NSMakeSize(20, 20))
-  static func getNativeImageForVolume (_ volume: Double) -> NSImage {
-    if volume <= 0.01 {
+  static func getNativeImageFor (volume: Double, muted: Bool) -> NSImage {
+    if muted || volume <= 0.01 {
       return speakerIconImages[0]
     }
     if volume <= 0.33 {
@@ -63,7 +63,10 @@ class StatusItem {
           image.isTemplate = false
           break
         case .macOS:
-          image = StatusItem.getNativeImageForVolume(Application.store.state.effects.volume.gain)
+          image = StatusItem.getNativeImageFor(
+            volume: Application.store.state.effects.volume.gain,
+            muted: Application.store.state.effects.volume.muted
+          )
           image.isTemplate = true
           break
         }
@@ -78,6 +81,7 @@ class StatusItem {
   private let rightClickMenu = NSMenu()
   let rightClickGesture = NSClickGestureRecognizer()
   private var volumeGainChangedListener: EventListener<Double>!
+  private var mutedChangedListener: EventListener<Bool>!
 
   let item = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
   var button: NSStatusBarButton!
@@ -86,7 +90,12 @@ class StatusItem {
   public init() {
     self.button = item.button!
     // Listen to volume changes and apply icon
-    self.volumeGainChangedListener = Volume.gainChanged.on { [weak self] gain in
+    self.volumeGainChangedListener = Volume.gainChanged.on { [weak self] _ in
+      if (self != nil && self!.iconType == .macOS) {
+        (self!.iconType = self!.iconType)
+      }
+    }
+    self.mutedChangedListener = Volume.mutedChanged.on { [weak self] _ in
       if (self != nil && self!.iconType == .macOS) {
         (self!.iconType = self!.iconType)
       }
