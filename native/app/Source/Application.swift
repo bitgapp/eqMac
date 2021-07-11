@@ -284,7 +284,13 @@ class Application {
     }
 
     if (selectedDevice!.outputBalanceSupported) {
-      balance = Double(selectedDevice!.virtualMasterBalance(direction: .playback)!)
+      balance = Utilities.mapValue(
+        value: Double(selectedDevice!.virtualMasterBalance(direction: .playback)!),
+        inMin: 0,
+        inMax: 1,
+        outMin: -1,
+        outMax: 1
+      )
     }
 
     Application.dispatchAction(VolumeAction.setBalance(balance, false))
