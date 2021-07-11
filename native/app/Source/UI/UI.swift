@@ -232,6 +232,7 @@ class UI: StoreSubscriber {
           UI.alwaysOnTop = Application.store.state.ui.alwaysOnTop
           UI.width = Application.store.state.ui.width
           UI.height = Application.store.state.ui.height
+          UI.statusItem.iconType = Application.store.state.ui.statusItemIconType
         })()
 
         // Set window position to where it was last time, in case that position is not available anymore - reset.

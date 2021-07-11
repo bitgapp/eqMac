@@ -123,7 +123,7 @@ class Volume: StoreSubscriber {
   // MARK: - State
   typealias StoreSubscriberStateType = VolumeState
   
-  private let changeGainThread = DispatchQueue(label: "change-volume", qos: .userInteractive)
+  private let changeGainThread = DispatchQueue(label: "change-volume", qos: .background)
   private var latestChangeGainTask: DispatchWorkItem?
   private func performOnChangeGainThread (_ code: @escaping () -> Void) {
     latestChangeGainTask?.cancel()
