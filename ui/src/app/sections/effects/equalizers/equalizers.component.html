@@ -45,7 +45,7 @@
   ></eqm-equalizer-presets>
 </div>
 <eqm-loading *ngIf="!loaded"></eqm-loading>
-<eqm-basic-equalizer fxFill *ngIf="loaded && type === 'Basic'" #basicEqualizer
+<eqm-basic-equalizer *ngIf="loaded && type === 'Basic'" #basicEqualizer
   [enabled]="enabled" class="equalizer" 
   (presetsChange)="presets = $event" (selectedPresetChange)="selectedPreset = $event" 
   [animationDuration]="animationDuration" [animationFps]="animationFps"
