@@ -4,7 +4,7 @@ import { SettingsService, IconMode } from './settings.service'
 import { ApplicationService } from '../../services/app.service'
 import { MatDialog } from '@angular/material/dialog'
 import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-dialog.component'
-import { UIService } from '../../services/ui.service'
+import { StatusItemIconType, UIService } from '../../services/ui.service'
 import { AnalyticsService } from '../../services/analytics.service'
 import { SemanticVersion } from '../../services/semantic-version.service'
 
@@ -16,7 +16,7 @@ import { SemanticVersion } from '../../services/semantic-version.service'
 export class SettingsComponent implements OnInit {
   launchOnStartupOption: CheckboxOption = {
     type: 'checkbox',
-    label: 'Launch on start-up',
+    label: 'Launch on login',
     value: false,
     toggled: launchOnStartup => this.settingsService.setLaunchOnStartup(launchOnStartup)
   }
@@ -31,9 +31,18 @@ export class SettingsComponent implements OnInit {
     }
   }
 
+  alwaysOnTopOption: CheckboxOption = {
+    type: 'checkbox',
+    label: 'Always on top',
+    value: false,
+    toggled: alwaysOnTop => {
+      this.ui.setAlwaysOnTop({ alwaysOnTop })
+    }
+  }
+
   doCollectTelemetryOption: CheckboxOption = {
     type: 'checkbox',
-    label: 'Send Anonymous Analytics data',
+    label: 'Send Analytics telemetry',
     tooltip: `
 eqMac would collect anonymous Telemetry analytics data like:
 
@@ -56,7 +65,7 @@ This helps us understand distribution of our users.
 
   doCollectCrashReportsOption: CheckboxOption = {
     type: 'checkbox',
-    label: 'Send Anonymous Crash reports',
+    label: 'Send Crash reports',
     tooltip: `
 eqMac would send anonymized crash reports
 back to the developer in case eqMac crashes.
@@ -136,8 +145,27 @@ all without needing the user to do a full app update.
     }
   }
 
+  statusItemIconTypeOption: SelectOption = {
+    type: 'select',
+    label: 'Status Icon Type',
+    isEnabled: () => ([ IconMode.both, IconMode.statusBar ] as IconMode[]).includes(this.iconModeOption.selectedId as any),
+    options: [ {
+      id: StatusItemIconType.classic,
+      label: 'Classic'
+    }, {
+      id: StatusItemIconType.colored,
+      label: 'Colored'
+    }, {
+      id: StatusItemIconType.macOS,
+      label: 'macOS'
+    } ],
+    selectedId: StatusItemIconType.classic,
+    selected: async (statusItemIconType: StatusItemIconType) => {
+      await this.ui.setStatusItemIconType(statusItemIconType)
+    }
+  }
+
   settings: Options = [
-    [ { type: 'label', label: 'Settings' } ],
     [ this.iconModeOption ],
     [
       this.replaceKnobsWithSlidersOption,
@@ -205,16 +233,22 @@ all without needing the user to do a full app update.
       const [
         doCollectCrashReports,
         doAutoCheckUpdates,
-        doOTAUpdates
+        doOTAUpdates,
+        alwaytOnTop,
+        statusItemIconType
       ] = await Promise.all([
         this.settingsService.getDoCollectCrashReports(),
         this.settingsService.getDoAutoCheckUpdates(),
-        this.settingsService.getDoOTAUpdates()
+        this.settingsService.getDoOTAUpdates(),
+        this.ui.getAlwaysOnTop(),
+        this.ui.getStatusItemIconType()
       ])
 
       this.doCollectCrashReportsOption.value = doCollectCrashReports
       this.autoCheckUpdatesOption.value = doAutoCheckUpdates
       this.otaUpdatesOption.value = doOTAUpdates
+      this.alwaysOnTopOption.value = alwaytOnTop
+      this.statusItemIconTypeOption.selectedId = statusItemIconType
 
       // Add Update options
       this.settings.splice(this.settings.length - 6, 0, [
@@ -223,9 +257,21 @@ all without needing the user to do a full app update.
       ])
 
       // Add Privacy option
-      this.settings.splice(this.settings.length - 2, 0, [
+      this.settings[8].push(
         this.doCollectCrashReportsOption
-      ])
+      )
+
+      // Add always on top option
+      this.settings[1].push(this.alwaysOnTopOption)
+
+      // Add Neither option for IconMode
+      this.iconModeOption.options.push({
+        id: IconMode.neither,
+        label: 'Neither'
+      })
+
+      // Add Status Item Icon type option
+      this.settings.splice(1, 0, [ this.statusItemIconTypeOption ])
     }
   }
 

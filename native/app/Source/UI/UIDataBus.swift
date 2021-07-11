@@ -104,6 +104,32 @@ class UIDataBus: DataBus {
       UI.loaded.emit()
       return "Thanks"
     }
+
+    self.on(.GET, "/always-on-top") { _, _ in
+      return [ "alwaysOnTop": self.state.alwaysOnTop ]
+    }
+
+    self.on(.POST, "/always-on-top") { data, _ in
+      let alwaysOnTop = data["alwaysOnTop"] as? Bool
+      if alwaysOnTop == nil {
+        throw "Invalid 'alwaysOnTop' parameter, must be a boolean."
+      }
+      Application.dispatchAction(UIAction.setAlwaysOnTop(alwaysOnTop!))
+      return "Always on top has been set."
+    }
+
+    self.on(.GET, "/status-item-icon-type") { _, _ in
+      return [ "statusItemIconType": self.state.statusItemIconType.rawValue ]
+    }
+
+    self.on(.POST, "/status-item-icon-type") { data, _ in
+      let typeRaw = data["statusItemIconType"] as? String
+      if typeRaw != nil, let type = StatusItemIconType(rawValue: typeRaw!) {
+        Application.dispatchAction(UIAction.setStatusItemIconType(type))
+        return "Status Item Icon type has been set"
+      }
+      throw "Please provide a valid 'statusItemIconType' parameter"
+    }
     
     self.isShownChangedListener = UI.isShownChanged.on { isShown in
       self.send(to: "/shown", data: JSON([ "isShown": isShown ]))

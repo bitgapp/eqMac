@@ -18,10 +18,10 @@ class Volume: StoreSubscriber {
   }
 
   // MARK: - Events
-  var gainChanged = EmitterKit.Event<Double>()
-  var balanceChanged = EmitterKit.Event<Double>()
-  var mutedChanged = EmitterKit.Event<Bool>()
-  let boostEnabledChanged = EmitterKit.Event<Bool>()
+  static var gainChanged = EmitterKit.Event<Double>()
+  static var balanceChanged = EmitterKit.Event<Double>()
+  static var mutedChanged = EmitterKit.Event<Bool>()
+  static let boostEnabledChanged = EmitterKit.Event<Bool>()
 
   var mixer = AVAudioMixerNode()
 
@@ -78,7 +78,7 @@ class Volume: StoreSubscriber {
       Driver.device!.mute = shouldMute
       device.mute = shouldMute
       
-      gainChanged.emit(gain)
+      Volume.gainChanged.emit(gain)
       
       Application.ignoreNextVolumeEvent = false
       Application.ignoreNextDriverMuteEvent = false
@@ -92,7 +92,7 @@ class Volume: StoreSubscriber {
       } else {
         (gain = gain)
       }
-      mutedChanged.emit(muted)
+      Volume.mutedChanged.emit(muted)
     }
   }
   
@@ -107,14 +107,14 @@ class Volume: StoreSubscriber {
         return
       }
       (gain = gain)
-      balanceChanged.emit(balance)
+      Volume.balanceChanged.emit(balance)
     }
   }
 
   var boostEnabled: Bool = true {
     didSet {
       if (boostEnabled != oldValue) {
-        boostEnabledChanged.emit(boostEnabled)
+        Volume.boostEnabledChanged.emit(boostEnabled)
         (gain = gain)
       }
     }

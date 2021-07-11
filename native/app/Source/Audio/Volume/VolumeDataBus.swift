@@ -83,28 +83,13 @@ class VolumeDataBus: DataBus {
       return "Volume mute has been set"
     }
 
-    func recreateEventListeners () {
-      if (gainChangedListener != nil) {
-        gainChangedListener?.isListening = false
-        gainChangedListener = nil
-      }
-      gainChangedListener = Application.output!.volume.gainChanged.on { gain in
-        self.send(to: "/gain", data: JSON([ "gain": gain ]))
-      }
 
-      if (boostEnabledChangedListener != nil) {
-        boostEnabledChangedListener?.isListening = false
-        boostEnabledChangedListener = nil
-      }
-      boostEnabledChangedListener = Application.output!.volume.boostEnabledChanged.on { enabled in
-        self.send(to: "/gain/boost/enabled", data: JSON([ "enabled": enabled ]))
-      }
+    gainChangedListener = Volume.gainChanged.on { gain in
+      self.send(to: "/gain", data: JSON([ "gain": gain ]))
     }
 
-    recreateEventListeners()
-
-    outputCreatedListener = Application.outputCreated.on {
-      recreateEventListeners()
+    boostEnabledChangedListener = Volume.boostEnabledChanged.on { enabled in
+      self.send(to: "/gain/boost/enabled", data: JSON([ "enabled": enabled ]))
     }
   }
 }
