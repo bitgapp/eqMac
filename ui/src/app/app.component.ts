@@ -61,8 +61,11 @@ export class AppComponent implements OnInit, AfterContentInit {
 
     // Starting from v1.1.0 we need to show the Crash Reports consent as well
     if (new SemanticVersion(info.version).isGreaterThanOrEqualTo('1.1.0')) {
-      let doCollectCrashReports = await this.settings.getDoCollectCrashReports()
       if (typeof uiSettings.privacyFormSeen !== 'boolean') {
+        let doCollectTelemetry = uiSettings.doCollectTelemetry ?? false
+        let doCollectCrashReports = await this.settings.getDoCollectCrashReports()
+        let saving = false
+
         const doCollectTelemetryOption: Option = {
           type: 'checkbox',
           label: 'Send Anonymous Analytics data',
@@ -76,10 +79,10 @@ eqMac would collect anonymous Telemetry analytics data like:
 This helps us understand distribution of our users.
 `,
           tooltipAsComponent: true,
-          value: uiSettings.doCollectTelemetry ?? false,
-          toggled: doCollectTelemetry => {
-            uiSettings.doCollectTelemetry = doCollectTelemetry
-            this.ui.setSettings({ doCollectTelemetry })
+          value: doCollectTelemetry,
+          isEnabled: () => !saving,
+          toggled: doCollect => {
+            doCollectTelemetry = doCollect
           }
         }
 
@@ -94,11 +97,9 @@ and make it a more stable product.
 `,
           tooltipAsComponent: true,
           value: doCollectCrashReports,
+          isEnabled: () => !saving,
           toggled: doCollect => {
             doCollectCrashReports = doCollect
-            this.settings.setDoCollectCrashReports({
-              doCollectCrashReports
-            })
           }
         }
         const privacyDialog: MatDialogRef<OptionsDialogComponent> = this.dialog.open(OptionsDialogComponent, {
@@ -117,7 +118,22 @@ This data would help us improve and grow the product.`
               [
                 {
                   type: 'button',
+                  label: 'Accept all',
+                  isEnabled: () => !saving,
+                  action: async () => {
+                    doCollectCrashReports = true
+                    doCollectTelemetry = true
+                    doCollectCrashReportsOption.value = true
+                    doCollectTelemetryOption.value = true
+                    saving = true
+                    await this.utils.delay(200)
+                    privacyDialog.close()
+                  }
+                },
+                {
+                  type: 'button',
                   label: 'Save',
+                  isEnabled: () => !saving,
                   action: () => privacyDialog.close()
                 }
               ]
@@ -126,9 +142,16 @@ This data would help us improve and grow the product.`
         })
 
         await privacyDialog.afterClosed().toPromise()
-        await this.ui.setSettings({
-          privacyFormSeen: true
-        })
+
+        await Promise.all([
+          this.ui.setSettings({
+            privacyFormSeen: true,
+            doCollectTelemetry
+          }),
+          this.settings.setDoCollectCrashReports({
+            doCollectCrashReports
+          })
+        ])
       }
     } else {
       // Can only show Analytics consent form on < v1.1.0
