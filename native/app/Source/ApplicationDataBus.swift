@@ -8,14 +8,17 @@
 
 import Foundation
 import AppKit
+import SwiftyJSON
 
 class ApplicationDataBus: DataBus {
   required init(route: String, bridge: Bridge) {
     super.init(route: route, bridge: bridge)
     
-    self.on(.GET, "/quit") { _, _ in
-      Application.quit()
-      return "Application Quit"
+    self.on(.GET, "/quit") { _, res in
+      Application.quit {
+        res.send(JSON("Application Quit"))
+      }
+      return nil
     }
     
     self.on(.GET, "/info") { _, _ in

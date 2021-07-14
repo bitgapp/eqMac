@@ -19,6 +19,74 @@ enum CustomProperties: String {
 }
 
 class Driver {
+  static func check (_ completion: @escaping() -> Void) {
+    if !Driver.isInstalled || !Driver.isCompatible {
+      let isIncompatable = Driver.isInstalled && !Driver.isCompatible
+      let message = isIncompatable ?
+        "For unknown reason the version of Audio Driver needed for eqMac to work currently is not compatable. Try restarting your computer and run eqMac again. In that doesn't work, try re-installing eqMac from our website."
+        : "For unknown reason the Audio Driver needed for eqMac to work currently is not installed. Try restarting your computer and run eqMac again. In that doesn't work, try re-installing eqMac from our website."
+      let title = isIncompatable ? "The eqMac Audio Driver is Incompatable" : "The eqMac Audio Driver is not installed"
+      Alert.withButtons(
+        title: title,
+        message: message,
+        buttons: ["Restart Mac", "Re-install eqMac", "Quit"]
+      ) { buttonPressed in
+        switch NSApplication.ModalResponse(buttonPressed) {
+          case .alertFirstButtonReturn:
+            Application.restartMac()
+            break
+          case .alertSecondButtonReturn:
+            NSWorkspace.shared.open(Constants.WEBSITE_URL)
+          default: break
+        }
+        return Application.quit()
+      }
+    } else {
+      completion()
+    }
+  }
+
+  private static var showChecks: Int = 0
+  private static var showCheckQueue: DispatchQueue?
+
+  static func show (_ completion: @escaping() -> Void) {
+    if (hidden) {
+      shown = true
+      showChecks = 0
+      showCheckQueue = DispatchQueue(label: "check-driver-shown", qos: .userInteractive)
+      showCheckQueue!.asyncAfter(deadline: .now() + .milliseconds(500)) {
+        return waitAndCheckForShown(completion)
+      }
+    } else {
+      completion()
+    }
+  }
+  private static func waitAndCheckForShown (_ completion: @escaping() -> Void) {
+    showChecks += 1
+    if (device == nil) {
+      if (showChecks > 5) {
+        return failedToShowPrompt()
+      }
+      showCheckQueue!.asyncAfter(deadline: .now() + .milliseconds(500)) {
+        return waitAndCheckForShown(completion)
+      }
+      return
+    }
+    showCheckQueue = nil
+    completion()
+  }
+
+  private static func failedToShowPrompt () {
+    Alert.confirm(
+    title: "Driver failed to activate", message: "Unfortunately the audio driver has failed to active. You can restart eqMac and try again or quit.", okText: "Try again", cancelText: "Quit") { restart in
+      if restart {
+        return Application.restart()
+      } else {
+        return Application.quit()
+      }
+    }
+  }
+
   static var pluginId: AudioObjectID? {
     return AudioDevice.lookupIDByPluginBundleID(by: Constants.DRIVER_BUNDLE_ID)
   }
@@ -60,7 +128,7 @@ class Driver {
       mElement: kAudioObjectPropertyElementMaster
     )
     Console.log(CustomProperties.kAudioDeviceCustomPropertyLatency.rawValue, address.mSelector)
-    return AudioObjectHasProperty(Driver.device!.id, &address)
+    return AudioObjectHasProperty(device!.id, &address)
   }
 
   static var latency: UInt32 {

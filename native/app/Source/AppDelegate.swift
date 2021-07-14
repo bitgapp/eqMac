@@ -21,7 +21,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, SUUpdaterDelegate {
   
   func applicationDidFinishLaunching(_ aNotification: Notification) {
     for window in NSApplication.shared.windows {
-      window.resignFirstResponder()
       window.close()
     }
 
@@ -60,7 +59,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, SUUpdaterDelegate {
   }
   
   func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
-    UI.toggle()
+    UI.show()
     return true
   }
   
@@ -69,9 +68,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, SUUpdaterDelegate {
   }
   
   func applicationDidBecomeActive(_ notification: Notification) {
-    if (UI.hasLoaded) {
-      UI.show()
-    }
+//    if (UI.hasLoaded) {
+//      UI.show()
+//    }
   }
   
   func updaterDidNotFindUpdate(_ updater: SUUpdater) {

@@ -10,84 +10,86 @@ import Foundation
 import Cocoa
 
 class Popover: NSObject, NSPopoverDelegate {
-    let popover = NSPopover()
-    var popoverTransiencyMonitor: Any?
-    private var statusItem: StatusItem!
-    
-    var isShown: Bool {
-        get {
-            return popover.isShown
-        }
-        set {
-            let show = newValue
-            if (show) {
-                self.show()
-            } else {
-                self.hide()
-            }
-        }
+  let popover = NSPopover()
+  var popoverTransiencyMonitor: Any?
+  private var statusItem: StatusItem!
+
+  var isShown: Bool {
+    get {
+      return popover.isShown
     }
-    
-    var isHidden: Bool {
-        get {
-            return !isShown
-        }
-        set {
-            isShown = !newValue
-        }
+    set {
+      let show = newValue
+      if (show) {
+        self.show()
+      } else {
+        self.hide()
+      }
     }
-    var height: Double {
-        get {
-            return Double(popover.contentSize.height)
-        }
-        set {
-            let newHeight = CGFloat(newValue)
-            let newSize = NSSize(width: CGFloat(width), height: newHeight)
-            popover.contentSize = newSize
-        }
+  }
+
+  var isHidden: Bool {
+    get {
+      return !isShown
     }
-    
-    var width: Double {
-        get {
-            return Double(popover.contentSize.width)
-        }
-        set {
-            let newWidth = CGFloat(newValue)
-            let newSize = NSSize(width: newWidth, height: CGFloat(height))
-            popover.contentSize = newSize
-        }
+    set {
+      isShown = !newValue
     }
-    
-    var canHide: Bool {
-        get { return true }
-        set {
-          //
-        }
+  }
+  var height: Double {
+    get {
+      return Double(popover.contentSize.height)
     }
-    
-    init (_ statusItem: StatusItem) {
-        self.statusItem = statusItem
-        popover.animates = true
-        super.init()
-        popover.behavior = .transient
-        popover.delegate = self
+    set {
+      let newHeight = CGFloat(newValue)
+      let newSize = NSSize(width: CGFloat(width), height: newHeight)
+      popover.contentSize = newSize
     }
-    
-    // MARK: -  Public functions
-    @objc open func toggle() {
-        isShown ? hide() : show()
+  }
+
+  var width: Double {
+    get {
+      return Double(popover.contentSize.width)
     }
-    
-    func show() {
-        popover.show(relativeTo: NSZeroRect, of: statusItem.button, preferredEdge: .minY)
+    set {
+      let newWidth = CGFloat(newValue)
+      let newSize = NSSize(width: newWidth, height: CGFloat(height))
+      popover.contentSize = newSize
     }
-    
-    func hide() {
-        popover.close()
-        statusItem.highlighted = false
+  }
+
+  var canHide: Bool {
+    get { return true }
+    set {
+      //
     }
-    
-    func popoverShouldClose(_ popover: NSPopover) -> Bool {
-        return !File.isPanelVisible
-    }
+  }
+
+  init (_ statusItem: StatusItem) {
+    self.statusItem = statusItem
+    popover.animates = true
+    super.init()
+    popover.behavior = .transient
+    popover.delegate = self
+  }
+
+  // MARK: -  Public functions
+  @objc open func toggle() {
+    isShown ? hide() : show()
+  }
+
+  func show() {
+    popover.show(relativeTo: NSZeroRect, of: statusItem.button, preferredEdge: .minY)
+    popover.becomeFirstResponder()
+  }
+
+  func hide() {
+    popover.resignFirstResponder()
+    popover.close()
+    statusItem.highlighted = false
+  }
+
+  func popoverShouldClose(_ popover: NSPopover) -> Bool {
+    return !File.isPanelVisible
+  }
 }

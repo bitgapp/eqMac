@@ -141,7 +141,9 @@ class UI: StoreSubscriber {
           window.contentViewController = viewController
           window.becomeFirstResponder()
         }
-        UI.show()
+        if (!UI.duringInit) {
+          UI.show()
+        }
       }
     }
   }
@@ -222,10 +224,10 @@ class UI: StoreSubscriber {
   // Instance
   static var statusItemClickedListener: EventListener<Void>!
   static var bridge: Bridge!
-  
+
+  static var duringInit = true
   init (_ completion: @escaping () -> Void) {
     DispatchQueue.main.async {
-
       func setup () {
         ({
           UI.mode = Application.store.state.ui.mode
@@ -257,6 +259,8 @@ class UI: StoreSubscriber {
           UI.window.position = windowPosition
           Application.dispatchAction(UIAction.setWindowPosition(windowPosition))
         }
+
+        UI.close()
         
         self.setupStateListener()
         UI.setupBridge()
@@ -274,6 +278,9 @@ class UI: StoreSubscriber {
 
         checkIfVisible()
         completion()
+        Utilities.delay(1000) {
+          UI.duringInit = false
+        }
       }
 
       if (!UI.viewController.isViewLoaded) {

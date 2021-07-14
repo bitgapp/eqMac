@@ -35,10 +35,12 @@ class Application {
   static var selectedDeviceVolumeChangedListener: EventListener<AudioDevice>?
   static var selectedDeviceSampleRateChangedListener: EventListener<AudioDevice>?
   static var justChangedSelectedDeviceVolume = false
-  
+  static var lastKnownDeviceStack: [AudioDevice] = []
+
   static let audioPipelineIsRunning = EmitterKit.Event<Void>()
   static var audioPipelineIsRunningListener: EmitterKit.EventListener<Void>?
-  
+  private static var ignoreEvents = false
+
   static var settings: Settings!
   static var ui: UI!
   
@@ -60,7 +62,7 @@ class Application {
 
     Networking.startMonitor()
     
-    checkDriver {
+    Driver.check {
       Sources.getInputPermission {
         AudioDevice.register = true
         audioPipelineIsRunningListener = audioPipelineIsRunning.once {
@@ -81,7 +83,6 @@ class Application {
     // Create a Sentry client and start crash handler
     SentrySDK.start { options in
       options.dsn = Constants.SENTRY_ENDPOINT
-
       // Only send crash reports if user gave consent
       options.beforeSend = { event in
         if (store.state.settings.doCollectCrashReports) {
@@ -91,83 +92,12 @@ class Application {
       }
     }
   }
-  
-  private static func checkDriver (_ completion: @escaping() -> Void) {
-    if !Driver.isInstalled || !Driver.isCompatible {
-      let isIncompatable = Driver.isInstalled && !Driver.isCompatible
-      let message = isIncompatable ?
-        "For unknown reason the version of Audio Driver needed for eqMac to work corrently is not compatable. Try restarting your computer and run eqMac again. In that doesn't work, try re-installing eqMac from our website."
-        : "For unknown reason the Audio Driver needed for eqMac to work corrently is not installed. Try restarting your computer and run eqMac again. In that doesn't work, try re-installing eqMac from our website."
-      let title = isIncompatable ? "The eqMac Audio Driver is Incompatable" : "The eqMac Audio Driver is not installed"
-      Alert.withButtons(
-        title: title,
-        message: message,
-        buttons: ["Restart Mac", "Re-install eqMac", "Quit"]
-      ) { buttonPressed in
-        switch NSApplication.ModalResponse(buttonPressed) {
-          case .alertFirstButtonReturn:
-            self.restartMac()
-            break
-          case .alertSecondButtonReturn:
-            NSWorkspace.shared.open(Constants.WEBSITE_URL)
-          default: break
-        }
-        return self.quit()
-      }
-    } else {
-      completion()
-    }
-  }
-  
+
   private static func setupAudio () {
     Console.log("Setting up Audio Engine")
-    showDriver {
-      // Make sure the Driver is not currently selected
-      if (AudioDevice.currentOutputDevice.id == Driver.device!.id) {
-        AudioDevice.builtInOutputDevice.setAsDefaultOutputDevice()
-      }
+    Driver.show {
       setupDeviceEvents()
       startPassthrough()
-    }
-  }
-  
-  private static var showDriverChecks: Int = 0
-  private static var showDriverCheckQueue: DispatchQueue?
-  private static func showDriver (_ completion: @escaping() -> Void) {
-    if (Driver.hidden) {
-      Driver.shown = true
-      showDriverChecks = 0
-      showDriverCheckQueue = DispatchQueue(label: "check-driver-shown", qos: .userInteractive)
-      showDriverCheckQueue!.asyncAfter(deadline: .now() + .milliseconds(500)) {
-        return waitAndCheckForDriverShown(completion)
-      }
-    } else {
-      completion()
-    }
-  }
-  private static func waitAndCheckForDriverShown (_ completion: @escaping() -> Void) {
-    showDriverChecks += 1
-    if (Driver.device == nil) {
-      if (showDriverChecks > 5) {
-        return driverFailedToActivatePrompt()
-      }
-      showDriverCheckQueue!.asyncAfter(deadline: .now() + .milliseconds(500)) {
-        return waitAndCheckForDriverShown(completion)
-      }
-      return
-    }
-    showDriverCheckQueue = nil
-    completion()
-  }
-  
-  private static func driverFailedToActivatePrompt () {
-    Alert.confirm(
-    title: "Driver failed to activate", message: "Unfortunately the audio driver has failed to active. You can restart eqMac and try again or quit.", okText: "Try again", cancelText: "Quit") { restart in
-      if restart {
-        return self.restart()
-      } else {
-        return self.quit()
-      }
     }
   }
   
@@ -175,7 +105,9 @@ class Application {
   
   static func setupDeviceEvents () {
     AudioDeviceEvents.on(.outputChanged) { device in
+      if ignoreEvents { return }
       if device.id == Driver.device!.id { return }
+
       if Outputs.isDeviceAllowed(device) {
         Console.log("outputChanged: ", device, " starting PlayThrough")
         startPassthrough()
@@ -185,6 +117,7 @@ class Application {
     }
     
     AudioDeviceEvents.onDeviceListChanged { list in
+      if ignoreEvents { return }
       Console.log("listChanged", list)
       
       if list.added.count > 0 {
@@ -199,17 +132,19 @@ class Application {
         let currentDeviceRemoved = list.removed.contains(where: { $0.id == selectedDevice?.id })
         
         if (currentDeviceRemoved) {
+          ignoreEvents = true
           removeEngines()
           try! AudioDeviceEvents.recreateEventEmitters([.isAliveChanged, .volumeChanged, .nominalSampleRateChanged])
           self.setupDriverDeviceEvents()
           Utilities.delay(500) {
-            selectOutput(device: AudioDevice.builtInOutputDevice) // TODO: Replace with a known device from a stack
+            selectOutput(device: getLastKnowDeviceFromStack())
           }
         }
       }
       
     }
     AudioDeviceEvents.on(.isJackConnectedChanged) { device in
+      if ignoreEvents { return }
       let connected = device.isJackConnected(direction: .playback)
       Console.log("isJackConnectedChanged", device, connected)
       if (device.id != selectedDevice?.id) {
@@ -217,13 +152,14 @@ class Application {
           selectOutput(device: device)
         }
       } else {
-        stopRemoveEngines()
-        Utilities.delay(1000) {
-          // need a delay, because emitter should finish it's work at first
-          try! AudioDeviceEvents.recreateEventEmitters([.isAliveChanged, .volumeChanged, .nominalSampleRateChanged])
-          setupDriverDeviceEvents()
-          matchDriverSampleRateToOutput()
-          createAudioPipeline()
+        stopRemoveEngines {
+          Utilities.delay(1000) {
+            // need a delay, because emitter should finish it's work at first
+            try! AudioDeviceEvents.recreateEventEmitters([.isAliveChanged, .volumeChanged, .nominalSampleRateChanged])
+            setupDriverDeviceEvents()
+            matchDriverSampleRateToOutput()
+            createAudioPipeline()
+          }
         }
       }
     }
@@ -234,6 +170,7 @@ class Application {
   static var ignoreNextDriverMuteEvent = false
   static func setupDriverDeviceEvents () {
     AudioDeviceEvents.on(.volumeChanged, onDevice: Driver.device!) {
+      if ignoreEvents { return }
       if ignoreNextVolumeEvent {
         ignoreNextVolumeEvent = false
         return
@@ -252,6 +189,7 @@ class Application {
     }
     
     AudioDeviceEvents.on(.muteChanged, onDevice: Driver.device!) {
+      if ignoreEvents { return }
       if (ignoreNextDriverMuteEvent) {
         ignoreNextDriverMuteEvent = false
         return
@@ -261,9 +199,12 @@ class Application {
   }
   
   static func selectOutput (device: AudioDevice) {
-    stopRemoveEngines()
-    Utilities.delay(500) {
-      AudioDevice.currentOutputDevice = device
+    ignoreEvents = true
+    stopRemoveEngines {
+      Utilities.delay(500) {
+        ignoreEvents = false
+        AudioDevice.currentOutputDevice = device
+      }
     }
   }
   
@@ -271,9 +212,12 @@ class Application {
     selectedDevice = AudioDevice.currentOutputDevice
 
     if (selectedDevice!.id == Driver.device!.id) {
-      selectOutput(device: AudioDevice.builtInOutputDevice) // TODO: Replace with a known device from a stack
-      return
+      selectedDevice = getLastKnowDeviceFromStack()
     }
+
+    lastKnownDeviceStack.append(selectedDevice!)
+
+    ignoreEvents = true
     var volume: Double = Application.store.state.volume.gain
     var muted = store.state.volume.muted
     var balance = store.state.volume.balance
@@ -299,7 +243,7 @@ class Application {
     
     Driver.device!.setVirtualMasterVolume(volume > 1 ? 1 : Float32(volume), direction: .playback)
     Driver.latency = selectedDevice!.latency(direction: .playback) ?? 0 // Set driver latency to mimic device
-//    Driver.safetyOffset = selectedDevice.safetyOffset(direction: .playback) ?? 0 // Set driver latency to mimic device
+    //    Driver.safetyOffset = selectedDevice.safetyOffset(direction: .playback) ?? 0 // Set driver safetyOffset to mimic device
     self.matchDriverSampleRateToOutput()
     
     Console.log("Driver new Latency: \(Driver.latency)")
@@ -309,8 +253,27 @@ class Application {
     AudioDevice.currentOutputDevice = Driver.device!
     // TODO: Figure out a better way
     Utilities.delay(1000) {
+      ignoreEvents = false
       createAudioPipeline()
     }
+  }
+
+  private static func getLastKnowDeviceFromStack () -> AudioDevice {
+    var device: AudioDevice?
+    if (lastKnownDeviceStack.count > 0) {
+      device = lastKnownDeviceStack.removeLast()
+    } else {
+      return AudioDevice.builtInOutputDevice
+    }
+    if device == nil { return getLastKnowDeviceFromStack() }
+
+    Console.log("Last known device: \(device!.id) - \(device!.name)")
+    let newDevice = Outputs.allowedDevices.first(where: { $0.id == device!.id || $0.name == device!.name })
+    if newDevice == nil {
+      Console.log("Last known device is not currently available, trying next")
+      return getLastKnowDeviceFromStack()
+    }
+    return newDevice!
   }
 
   private static func matchDriverSampleRateToOutput () {
@@ -333,13 +296,17 @@ class Application {
         onDevice: selectedDevice!,
         retain: false
       ) {
-        stopRemoveEngines()
-        Utilities.delay(1000) {
-          // need a delay, because emitter should finish it's work at first
-          try! AudioDeviceEvents.recreateEventEmitters([.isAliveChanged, .volumeChanged, .nominalSampleRateChanged])
-          setupDriverDeviceEvents()
-          matchDriverSampleRateToOutput()
-          createAudioPipeline()
+        if ignoreEvents { return }
+        ignoreEvents = true
+        stopRemoveEngines {
+          Utilities.delay(1000) {
+            // need a delay, because emitter should finish it's work at first
+            try! AudioDeviceEvents.recreateEventEmitters([.isAliveChanged, .volumeChanged, .nominalSampleRateChanged])
+            setupDriverDeviceEvents()
+            matchDriverSampleRateToOutput()
+            createAudioPipeline()
+            ignoreEvents = false
+          }
         }
       }
       
@@ -348,6 +315,7 @@ class Application {
         onDevice: selectedDevice!,
         retain: false
       ) {
+        if ignoreEvents { return }
         let deviceVolume = selectedDevice!.virtualMasterVolume(direction: .playback)!
         let driverVolume = Driver.device!.virtualMasterVolume(direction: .playback)!
         if (deviceVolume != driverVolume) {
@@ -366,21 +334,6 @@ class Application {
     }
   }
   
-  static func stopEngines () {
-    output?.stop()
-    engine?.stop()
-  }
-
-  static func removeEngines () {
-    output = nil
-    engine = nil
-  }
-
-  static func stopRemoveEngines () {
-    stopEngines()
-    removeEngines()
-  }
-  
   private static func setupDataBus () {
     Console.log("Setting up Data Bus")
     dataBus = ApplicationDataBus(bridge: UI.bridge)
@@ -388,7 +341,7 @@ class Application {
   
   static var overrideNextVolumeEvent = false
   static func volumeChangeButtonPressed (direction: VolumeChangeDirection, quarterStep: Bool = false) {
-    if engine == nil || output == nil {
+    if ignoreEvents || engine == nil || output == nil {
       return
     }
     if direction == .UP {
@@ -455,25 +408,84 @@ class Application {
     AudioDevice.currentOutputDevice = selectedDevice!
   }
 
-  static func stopSave () {
+  static func stopEngines (_ completion: @escaping () -> Void) {
+    DispatchQueue.main.async {
+      var returned = false
+      Utilities.delay(2000) {
+        if (!returned) {
+          completion()
+        }
+      }
+      output?.stop()
+      engine?.stop()
+      returned = true
+      completion()
+    }
+  }
+
+  static func removeEngines () {
+    output = nil
+    engine = nil
+  }
+
+  static func stopRemoveEngines (_ completion: @escaping () -> Void) {
+    stopEngines {
+      removeEngines()
+      completion()
+    }
+  }
+
+  static func stopSave (_ completion: @escaping () -> Void) {
     Storage.synchronize()
     stopListeners()
-    stopRemoveEngines()
-    switchBackToLastKnownDevice()
+    stopRemoveEngines {
+      switchBackToLastKnownDevice()
+      completion()
+    }
   }
 
   static func handleSleep () {
-    stopSave()
+    ignoreEvents = true
+    stopSave {}
   }
 
   static func handleWakeUp () {
-    setupAudio()
+    // Wait for devices to initialize, not sure what delay is appropriate
+    Utilities.delay(1000) {
+      if lastKnownDeviceStack.count == 0 { return setupAudio() }
+      let lastDevice = lastKnownDeviceStack.last
+      var tries = 0
+      let maxTries = 5
+
+      func checkLastKnownDeviceActive () {
+        tries += 1
+        if tries <= maxTries {
+          let newDevice = Outputs.allowedDevices.first(where: { $0.id == lastDevice!.id || $0.name == lastDevice!.name })
+          if newDevice != nil && newDevice!.isAlive() && newDevice!.nominalSampleRate() != nil {
+            setupAudio()
+          } else {
+            Utilities.delay(1000) {
+              checkLastKnownDeviceActive()
+            }
+          }
+        } else {
+          // Tried as much as we could, continue with something else
+          setupAudio()
+        }
+      }
+
+      checkLastKnownDeviceActive()
+    }
   }
   
-  static func quit () {
-    stopSave()
-    Driver.hidden = true
-    NSApp.terminate(nil)
+  static func quit (_ completion: (() -> Void)? = nil) {
+    stopSave {
+      Driver.hidden = true
+      if completion != nil {
+        completion!()
+      }
+      NSApp.terminate(nil)
+    }
   }
   
   static func restart () {

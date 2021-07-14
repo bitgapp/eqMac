@@ -78,7 +78,7 @@
         <scene sceneID="LFk-J6-h8Z">
             <objects>
                 <customObject id="gb2-cM-2ZO" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-                <windowController storyboardIdentifier="EQMWindowController" id="eW3-cT-cmJ" sceneMemberID="viewController">
+                <windowController storyboardIdentifier="EQMWindowController" showSeguePresentationStyle="single" id="eW3-cT-cmJ" sceneMemberID="viewController">
                     <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" titlebarAppearsTransparent="YES" id="nPg-tC-SwO" customClass="Window" customModule="eqMac" customModuleProvider="target">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" fullSizeContentView="YES"/>
                         <rect key="contentRect" x="2447" y="1070" width="400" height="400"/>

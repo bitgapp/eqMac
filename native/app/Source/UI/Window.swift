@@ -107,9 +107,11 @@ class Window: NSWindow, NSWindowDelegate {
   
   func show() {
     self.makeKeyAndOrderFront(nil)
+    self.becomeFirstResponder()
   }
   
   func hide() {
+    self.resignFirstResponder()
     self.orderOut(self)
   }
   
