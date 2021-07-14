@@ -87,6 +87,20 @@ class SettingsDataBus: DataBus {
 
       return "OTA updates option has been set"
     }
+
+    self.on(.GET, "/beta-updates") { data, _ in
+      return [ "doBetaUpdates": self.state.doBetaUpdates ]
+    }
+
+    self.on(.POST, "/beta-updates") { data, _ in
+      let doBetaUpdates = data["doBetaUpdates"] as? Bool
+      if doBetaUpdates == nil {
+        throw "Invalid 'doBetaUpdates' parameter, must be a Boolean"
+      }
+      Application.dispatchAction(SettingsAction.setDoBetaUpdates(doBetaUpdates!))
+
+      return "Beta updates option has been set"
+    }
     
   }
 }

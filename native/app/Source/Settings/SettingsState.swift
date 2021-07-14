@@ -16,6 +16,7 @@ struct SettingsState: State {
   var doCollectCrashReports = false
   var doAutoCheckUpdates = true
   var doOTAUpdates = true
+  var doBetaUpdates = false
 }
 
 enum SettingsAction: Action {
@@ -23,6 +24,7 @@ enum SettingsAction: Action {
   case setDoCollectCrashReports(Bool)
   case setDoAutoCheckUpdates(Bool)
   case setDoOTAUpdates(Bool)
+  case setDoBetaUpdates(Bool)
 }
 
 func SettingsStateReducer(action: Action, state: SettingsState?) -> SettingsState {
@@ -36,6 +38,8 @@ func SettingsStateReducer(action: Action, state: SettingsState?) -> SettingsStat
     state.doAutoCheckUpdates = doAutoCheckUpdates
   case .setDoOTAUpdates(let doOTAUpdates)?:
     state.doOTAUpdates = doOTAUpdates
+  case .setDoBetaUpdates(let doBetaUpdates)?:
+    state.doBetaUpdates = doBetaUpdates
   case .none:
     break
   }

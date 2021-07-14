@@ -58,4 +58,13 @@ export class SettingsService extends DataService {
   setDoOTAUpdates ({ doOTAUpdates }: { doOTAUpdates: boolean }) {
     return this.request({ method: 'POST', endpoint: '/ota-updates', data: { doOTAUpdates } })
   }
+
+  async getDoBetaUpdates (): Promise<boolean> {
+    const { doBetaUpdates } = await this.request({ method: 'GET', endpoint: '/beta-updates' })
+    return doBetaUpdates
+  }
+
+  setDoBetaUpdates ({ doBetaUpdates }: { doBetaUpdates: boolean }) {
+    return this.request({ method: 'POST', endpoint: '/beta-updates', data: { doBetaUpdates } })
+  }
 }

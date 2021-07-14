@@ -44,5 +44,7 @@ struct Constants {
   static let TRANSITION_FRAME_DURATION: Double = 1000 / TRANSITION_FPS
   static let TRANSITION_FRAME_COUNT = UInt(round(TRANSITION_FPS * (Double(TRANSITION_DURATION) / 1000)))
   static let OPEN_SOURCE = true
+  static let UPDATES_FEED = URL(string: "https://update.eqmac.app/update.xml")!
+  static let BETA_UPDATES_FEED = URL(string: "https://update.eqmac.app/beta-update.xml")!
 }
 

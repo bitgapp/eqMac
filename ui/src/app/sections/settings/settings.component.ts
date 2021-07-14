@@ -145,6 +145,22 @@ all without needing the user to do a full app update.
     }
   }
 
+  betaUpdatesOption: CheckboxOption = {
+    type: 'checkbox',
+    value: false,
+    label: 'Beta Program',
+    tooltip: `
+Get and test the most latest changes to eqMac.
+Help the developer identify and fix uncaught issues, 
+before they go out to all users.
+`,
+    toggled: doBetaUpdates => {
+      this.settingsService.setDoBetaUpdates({
+        doBetaUpdates
+      })
+    }
+  }
+
   statusItemIconTypeOption: SelectOption = {
     type: 'select',
     label: 'Status Icon Type',
@@ -272,6 +288,18 @@ all without needing the user to do a full app update.
 
       // Add Status Item Icon type option
       this.settings.splice(1, 0, [ this.statusItemIconTypeOption ])
+    }
+
+    if (new SemanticVersion(info.version).isGreaterThanOrEqualTo('1.2.0')) {
+      const [
+        doBetaUpdates
+      ] = await Promise.all([
+        this.settingsService.getDoBetaUpdates()
+      ])
+
+      this.betaUpdatesOption.value = doBetaUpdates
+
+      this.settings[this.settings.length - 6].splice(0, 0, this.betaUpdatesOption)
     }
   }
 

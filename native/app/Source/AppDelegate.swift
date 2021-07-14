@@ -15,7 +15,7 @@ import AMCoreAudio
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate, SUUpdaterDelegate {
-  var updater = SUUpdater(for: Bundle.main)!
+
   var updateProcessed = EmitterKit.Event<Void>()
   var willBeDownloadingUpdate = false
   
@@ -24,7 +24,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, SUUpdaterDelegate {
       window.close()
     }
 
-    updater.delegate = self
+    Application.updater.delegate = self
+    Application.updater.feedURL = Settings.updatesFeedUrl
+    Console.log(Application.updater.feedURL)
+    
     updateProcessed.once { _ in
       Application.start()
     }
@@ -32,7 +35,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, SUUpdaterDelegate {
     if (Application.store.state.settings.doAutoCheckUpdates) {
       Networking.checkConnected { connected in
         if (connected) {
-          self.updater.checkForUpdatesInBackground()
+          Application.updater.checkForUpdatesInBackground()
         } else {
           self.updateProcessed.emit()
         }
