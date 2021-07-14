@@ -10,9 +10,9 @@ import Foundation
 
 
 class Time {
-    static var stamp: UInt {
-        get {
-            return UInt(NSDate().timeIntervalSince1970 * 1000)
-        }
+  static var stamp: UInt {
+    get {
+      return UInt(NSDate().timeIntervalSince1970 * 1000)
     }
+  }
 }

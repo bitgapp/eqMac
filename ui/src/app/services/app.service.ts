@@ -52,8 +52,12 @@ export class ApplicationService extends DataService {
     return this.openURL(new URL(`https://${this.CONST.DOMAIN}#uninstall`))
   }
 
+  lastHaptic: Date
   haptic () {
-    return this.request({ method: 'GET', endpoint: '/haptic' })
+    if (!this.lastHaptic || new Date().getTime() - this.lastHaptic.getTime() > 1000) {
+      this.lastHaptic = new Date()
+      return this.request({ method: 'GET', endpoint: '/haptic' })
+    }
   }
 
   update () {

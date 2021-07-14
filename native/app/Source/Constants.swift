@@ -46,5 +46,6 @@ struct Constants {
   static let OPEN_SOURCE = true
   static let UPDATES_FEED = URL(string: "https://update.eqmac.app/update.xml")!
   static let BETA_UPDATES_FEED = URL(string: "https://update.eqmac.app/beta-update.xml")!
+  static let OPEN_URL_TRUSTED_DOMAINS: [String] = ["eqmac.app", "github.com"]
 }
 

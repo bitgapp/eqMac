@@ -45,16 +45,26 @@ class ApplicationDataBus: DataBus {
     self.on(.POST, "/open-url") { data, _ in
       if let urlString = data["url"] as? String {
         if let url = URL(string: urlString) {
-          NSWorkspace.shared.open(url)
-          return "Openned"
+          if (Constants.OPEN_URL_TRUSTED_DOMAINS.contains(url.host)) {
+            NSWorkspace.shared.open(url)
+            return "Openned"
+          } else {
+            throw "Untrusted domain"
+          }
         }
       }
       throw "Invalid URL"
     }
-    
+
+    var lastHaptic: UInt?
     self.on(.GET, "/haptic") { _, _ in
-      NSHapticFeedbackManager.defaultPerformer.perform(NSHapticFeedbackManager.FeedbackPattern.alignment, performanceTime: NSHapticFeedbackManager.PerformanceTime.now)
-      return "Haptic feedback performed"
+      if lastHaptic == nil || Time.stamp - lastHaptic! > 1000 {
+        lastHaptic = Time.stamp
+        NSHapticFeedbackManager.defaultPerformer.perform(NSHapticFeedbackManager.FeedbackPattern.alignment, performanceTime: NSHapticFeedbackManager.PerformanceTime.now)
+        return "Haptic feedback performed"
+      } else {
+        return "Too much"
+      }
     }
     
     self.on(.GET, "/uninstall") { _, res in
