@@ -113,6 +113,7 @@ export class UIService extends DataService {
   async setSettings (settings: Partial<UISettings>) {
     settings = await this.request({ method: 'POST', endpoint: '/settings', data: settings })
     this.settingsChanged.next(settings)
+    return settings
   }
 
   async loaded () {
