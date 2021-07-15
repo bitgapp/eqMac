@@ -45,7 +45,7 @@ class ApplicationDataBus: DataBus {
     self.on(.POST, "/open-url") { data, _ in
       if let urlString = data["url"] as? String {
         if let url = URL(string: urlString) {
-          if (Constants.OPEN_URL_TRUSTED_DOMAINS.contains(url.host)) {
+          if (Constants.OPEN_URL_TRUSTED_DOMAINS.contains(url.host ?? "")) {
             NSWorkspace.shared.open(url)
             return "Openned"
           } else {
