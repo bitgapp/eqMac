@@ -4,9 +4,9 @@ import {
   Input,
   Output,
   EventEmitter,
-  HostListener,
   ElementRef,
-  HostBinding
+  HostBinding,
+  HostListener
 } from '@angular/core'
 import {
   UtilitiesService
@@ -28,7 +28,7 @@ export interface FlatSliderValueChangedEvent {
 export class FlatSliderComponent {
   constructor (
     public utils: UtilitiesService,
-    public elem: ElementRef,
+    public elem: ElementRef<HTMLElement>,
     public sanitizer: DomSanitizer
   ) {}
 
@@ -47,6 +47,7 @@ export class FlatSliderComponent {
   @Input() notches: number[]
   @Input() thumbRadius = 4
   @Input() thumbBorderSize = 1
+  @Input() wheelAnimationFPS = 30
 
   @Output() stickedToMiddle = new EventEmitter()
   @ViewChild('container', { static: true }) containerRef!: ElementRef
@@ -141,10 +142,14 @@ export class FlatSliderComponent {
     return value
   }
 
+  private lastWheelEvent = new Date().getTime()
+  private get wheelDebouncer () { return 1000 / this.wheelAnimationFPS }
   @HostListener('mousewheel', [ '$event' ])
   mouseWheel (event: WheelEvent) {
     if (this.enabled && this.scrollEnabled) {
-      // const multiplier = (this.max - this.min) / 1000
+      const now = new Date().getTime()
+      if (now - this.lastWheelEvent < this.wheelDebouncer) return
+      this.lastWheelEvent = now
       let progress = this.progress
       progress += -event.deltaY / 1000
       if (progress < 0) progress = 0
@@ -187,7 +192,6 @@ export class FlatSliderComponent {
     return value
   }
 
-  @HostListener('mousedown', [ '$event' ])
   mousedown (event: MouseEvent) {
     if (this.enabled) {
       this.dragging = true
@@ -196,7 +200,6 @@ export class FlatSliderComponent {
     }
   }
 
-  @HostListener('mousemove', [ '$event' ])
   mousemove (event: MouseEvent) {
     if (this.enabled && this.dragging) {
       this.value = this.getValueFromMouseEvent(event)
@@ -205,13 +208,11 @@ export class FlatSliderComponent {
   }
 
   public mouseInside = false
-  @HostListener('mouseenter')
-  onMouseEnter (): void {
+  mouseenter (): void {
     this.mouseInside = true
   }
 
-  @HostListener('mouseleave')
-  onMouseLeave (): void {
+  mouseleave (): void {
     this.mouseInside = false
     this.dragging = false
   }
@@ -244,11 +245,6 @@ export class FlatSliderComponent {
       value += step
       this.value = value
     }
-  }
-
-  @HostListener('mouseup', [ '$event' ])
-  onMouseUp (event: MouseEvent) {
-    this.dragging = false
   }
 
   mouseup (event: MouseEvent) {

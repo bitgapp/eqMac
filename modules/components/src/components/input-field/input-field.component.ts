@@ -13,6 +13,7 @@ export class InputFieldComponent implements OnInit {
   @Input() editable = true
   @HostBinding('class.enabled') @Input() enabled = true
   @Input() fontSize = 12
+  @Input() type: string = 'text'
   @ViewChild('container', { static: true }) container!: ElementRef
 
   ngOnInit () {

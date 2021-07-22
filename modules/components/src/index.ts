@@ -3,7 +3,6 @@ export * from './directives'
 export * from './animations'
 
 export * from './components/knob/knob.component'
-export * from './directives/mousewheel.directive'
 export * from './components/value-screen/value-screen.component'
 export * from './components/button/button.component'
 export * from './components/toggle/toggle.component'

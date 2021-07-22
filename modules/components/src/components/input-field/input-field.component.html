@@ -1,3 +1,7 @@
 <eqm-container class="container" #container>
-  <input [(ngModel)]="text" [placeholder]="placeholder" (input)="inputChanged()" (keyup.enter)="enterPressed()" class="input-field" [readonly]="!enabled || !editable" [style.font-size.px]="fontSize">
+  <input [type]="type" [(ngModel)]="text" 
+  [placeholder]="placeholder" autocomplete="true"
+  (input)="inputChanged()" (keyup.enter)="enterPressed()" 
+  class="input-field" [readonly]="!enabled || !editable" 
+  [style.font-size.px]="fontSize">
 </eqm-container>

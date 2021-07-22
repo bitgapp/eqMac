@@ -8,10 +8,6 @@ import {
   KnobComponent
 } from './components/knob/knob.component'
 import {
-  MouseWheelDirective
-} from './directives/mousewheel.directive'
-
-import {
   ValueScreenComponent
 } from './components/value-screen/value-screen.component'
 import {
@@ -58,7 +54,6 @@ import { ColorsService } from './services/colors.service'
   declarations: [
     ClickedOutsideDirective,
     KnobComponent,
-    MouseWheelDirective,
     ValueScreenComponent,
     ButtonComponent,
     ToggleComponent,

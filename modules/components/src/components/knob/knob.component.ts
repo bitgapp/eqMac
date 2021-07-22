@@ -7,7 +7,8 @@ import {
   ViewChild,
   HostListener,
   HostBinding,
-  ElementRef
+  ElementRef,
+  ChangeDetectorRef
 } from '@angular/core'
 import { UtilitiesService } from '../../services/utilities.service'
 
@@ -85,19 +86,23 @@ export class KnobComponent implements OnInit {
     return this.middleValue
   }
 
-  constructor (public utils: UtilitiesService) {}
+  constructor (public utils: UtilitiesService, public changeRef: ChangeDetectorRef) {}
 
   async ngOnInit () {
     this.container = this.containerRef.nativeElement
   }
 
+  private lastWheelEvent = new Date().getTime()
+  private readonly wheelDebouncer = 1000 / 30
+  @HostListener('mousewheel', [ '$event' ])
   mouseWheel (event: WheelEvent) {
     if (this.enabled) {
       this.continueAnimation = false
-      const oldValue = this.value
+      const now = new Date().getTime()
+      if ((now - this.lastWheelEvent) < this.wheelDebouncer) return
+      this.lastWheelEvent = now
       this.value += -event.deltaY / (1000 / this.max)
-      const newValue = this.value
-      if (oldValue !== newValue) this.userChangedValue.emit({ value: this.value })
+      this.userChangedValue.emit({ value: this.value })
     }
   }
 

@@ -7,7 +7,8 @@ import {
   HostListener,
   ViewChild,
   EventEmitter,
-  HostBinding
+  HostBinding,
+  OnDestroy
 } from '@angular/core'
 import {
   UtilitiesService
@@ -24,7 +25,10 @@ export interface SkeuomorphSliderValueChangedEvent {
   styleUrls: [ './skeuomorph-slider.component.scss' ]
 })
 export class SkeuomorphSliderComponent implements OnInit {
-  constructor (public utils: UtilitiesService, public elRef: ElementRef) {}
+  constructor (
+    public utils: UtilitiesService,
+    public elRef: ElementRef<HTMLElement>
+  ) {}
 
   @Input() min: number = 0
   @Input() max: number = 1
@@ -77,9 +81,14 @@ export class SkeuomorphSliderComponent implements OnInit {
 
   get value () { return this._value }
 
+  private lastWheelEvent = new Date().getTime()
+  private readonly wheelDebouncer = 1000 / 30
   @HostListener('mousewheel', [ '$event' ])
   onMouseWheel (event: WheelEvent): void {
     if (this.enabled && this.scrollEnabled) {
+      const now = new Date().getTime()
+      if ((now - this.lastWheelEvent) < this.wheelDebouncer) return
+      this.lastWheelEvent = now
       this.value += -event.deltaY / 100
       this.userChangedValue.emit({ value: this.value })
     }
@@ -196,6 +205,6 @@ export class SkeuomorphSliderComponent implements OnInit {
   }
 
   calculateTop () {
-    return `${this.utils.mapValue(this._value, this.min, this.max, parseInt(this.elRef.nativeElement.offsetHeight) - 25, 0)}px`
+    return `${this.utils.mapValue(this._value, this.min, this.max, this.elRef.nativeElement.offsetHeight - 25, 0)}px`
   }
 }
