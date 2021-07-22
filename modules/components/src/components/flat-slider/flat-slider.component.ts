@@ -6,7 +6,9 @@ import {
   EventEmitter,
   ElementRef,
   HostBinding,
-  HostListener
+  HostListener,
+  OnInit,
+  OnDestroy
 } from '@angular/core'
 import {
   UtilitiesService
@@ -25,7 +27,7 @@ export interface FlatSliderValueChangedEvent {
   styleUrls: [ './flat-slider.component.scss' ],
   animations: [ FadeInOutAnimation ]
 })
-export class FlatSliderComponent {
+export class FlatSliderComponent implements OnInit, OnDestroy {
   constructor (
     public utils: UtilitiesService,
     public elem: ElementRef<HTMLElement>,
@@ -136,6 +138,12 @@ export class FlatSliderComponent {
     return this.containerRef.nativeElement.offsetWidth
   }
 
+  ngOnInit () {
+    window.addEventListener('mousemove', this.mousemove, true)
+
+    window.addEventListener('mouseup', this.mouseup, true)
+  }
+
   public clampValue (value: number) {
     if (value < this.min) return this.min
     if (value > this.max) return this.max
@@ -200,21 +208,11 @@ export class FlatSliderComponent {
     }
   }
 
-  mousemove (event: MouseEvent) {
+  mousemove = (event: MouseEvent) => {
     if (this.enabled && this.dragging) {
       this.value = this.getValueFromMouseEvent(event)
       this.userChangedValue.emit({ value: this._value })
     }
-  }
-
-  public mouseInside = false
-  mouseenter (): void {
-    this.mouseInside = true
-  }
-
-  mouseleave (): void {
-    this.mouseInside = false
-    this.dragging = false
   }
 
   public doubleclickTimeout?: number
@@ -247,7 +245,7 @@ export class FlatSliderComponent {
     }
   }
 
-  mouseup (event: MouseEvent) {
+  mouseup = (event: MouseEvent) => {
     this.dragging = false
   }
 
@@ -395,5 +393,10 @@ export class FlatSliderComponent {
       case 'linear': return this.utils.mapValue(value, inMin, inMax, outMin, outMax)
       case 'logarithmic': return (logInverse ? this.utils.logMapValueInverse : this.utils.logMapValue)({ value, inMin, inMax, outMin, outMax })
     }
+  }
+
+  ngOnDestroy () {
+    window.removeEventListener('mousemove', this.mousemove, true)
+    window.removeEventListener('mouseup', this.mouseup, true)
   }
 }

@@ -24,7 +24,7 @@ export interface SkeuomorphSliderValueChangedEvent {
   templateUrl: './skeuomorph-slider.component.html',
   styleUrls: [ './skeuomorph-slider.component.scss' ]
 })
-export class SkeuomorphSliderComponent implements OnInit {
+export class SkeuomorphSliderComponent implements OnInit, OnDestroy {
   constructor (
     public utils: UtilitiesService,
     public elRef: ElementRef<HTMLElement>
@@ -127,21 +127,14 @@ export class SkeuomorphSliderComponent implements OnInit {
     }
   }
 
-  @HostListener('mousemove', [ '$event' ])
-  onMouseMove (event: MouseEvent) {
+  mousemove = (event: MouseEvent) => {
     if (this.enabled && this.dragging) {
       this.value = this.getValueFromMouseEvent(event)
       this.userChangedValue.emit({ value: this.value })
     }
   }
 
-  @HostListener('mouseup')
-  onMouseUp () {
-    this.dragging = false
-  }
-
-  @HostListener('mouseleave')
-  onMouseLeave () {
+  mouseup = (event: MouseEvent) => {
     this.dragging = false
   }
 
@@ -164,6 +157,9 @@ export class SkeuomorphSliderComponent implements OnInit {
       this.drawNotches()
       setTimeout(() => this.drawNotches())
     }
+
+    window.addEventListener('mousemove', this.mousemove, true)
+    window.addEventListener('mouseup', this.mouseup, true)
   }
 
   async animateSlider (from: number, to: number) {
@@ -206,5 +202,10 @@ export class SkeuomorphSliderComponent implements OnInit {
 
   calculateTop () {
     return `${this.utils.mapValue(this._value, this.min, this.max, this.elRef.nativeElement.offsetHeight - 25, 0)}px`
+  }
+
+  ngOnDestroy () {
+    window.removeEventListener('mousemove', this.mousemove, true)
+    window.removeEventListener('mouseup', this.mouseup, true)
   }
 }

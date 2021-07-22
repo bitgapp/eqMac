@@ -8,7 +8,8 @@ import {
   HostListener,
   HostBinding,
   ElementRef,
-  ChangeDetectorRef
+  ChangeDetectorRef,
+  OnDestroy
 } from '@angular/core'
 import { UtilitiesService } from '../../services/utilities.service'
 
@@ -21,7 +22,7 @@ export interface KnobValueChangedEvent {
   templateUrl: './knob.component.html',
   styleUrls: [ './knob.component.scss' ]
 })
-export class KnobComponent implements OnInit {
+export class KnobComponent implements OnInit, OnDestroy {
   @Input() size: 'large' | 'medium' | 'small' = 'medium'
   @Input() showScale = true
   public _min = -1
@@ -45,7 +46,6 @@ export class KnobComponent implements OnInit {
   public dragging = false
   public setDraggingFalseTimeout: any = null
   public continueAnimation = false
-  public dragStartDegr = 0
 
   @ViewChild('container', { static: true }) containerRef!: ElementRef
   container!: HTMLDivElement
@@ -90,6 +90,8 @@ export class KnobComponent implements OnInit {
 
   async ngOnInit () {
     this.container = this.containerRef.nativeElement
+    window.addEventListener('mousemove', this.mousemove, true)
+    window.addEventListener('mouseup', this.mouseup, true)
   }
 
   private lastWheelEvent = new Date().getTime()
@@ -109,14 +111,8 @@ export class KnobComponent implements OnInit {
   mousedown (event: MouseEvent) {
     if (this.enabled) {
       this.continueAnimation = false
-      this.dragStartDegr = this.getDegreesFromEvent(event)
       this.dragging = true
     }
-  }
-
-  @HostListener('mouseleave')
-  onMouseLeave (): void {
-    this.dragging = false
   }
 
   @HostListener('gesturechange', [ '$event' ])
@@ -134,36 +130,17 @@ export class KnobComponent implements OnInit {
     }
   }
 
-  mousemove (event: MouseEvent) {
+  mousemove = (event: MouseEvent) => {
     if (this.enabled) {
       if (this.setDraggingFalseTimeout) {
         window.clearTimeout(this.setDraggingFalseTimeout)
       }
       if (this.dragging) {
         this.continueAnimation = false
-        const distanceFromCenter = this.getDistanceFromCenterOfElementAndEvent(event)
-        const unaffectedRadius = (this.container.clientWidth) / 7
-        if (distanceFromCenter < unaffectedRadius) {
-          return
-        }
-        const degrees = this.getDegreesFromEvent(event)
-        if ((this.dragStartDegr < 0 && degrees > 0) || (this.dragStartDegr > 0 && degrees < 0)) {
-          this.dragStartDegr = degrees
-        }
-        const degreeDiff = this.dragStartDegr - degrees
-        this.dragStartDegr = degrees
-        const multiplier = (() => {
-          switch (this.size) {
-            case 'large': return 250
-            case 'medium': return 220
-            case 'small': return 600
-            default: return 220
-          }
-        })()
-        const oldValue = this.value
-        this.value += degreeDiff / (multiplier / this.max)
-        const newValue = this.value
-        if (oldValue !== newValue) this.userChangedValue.emit({ value: this.value })
+        const change = -event.movementY / (100 / this.max)
+        console.log(change)
+        this.value += change
+        this.userChangedValue.emit({ value: this.value })
       }
       this.setDraggingFalseTimeout = setTimeout(() => {
         this.dragging = false
@@ -171,7 +148,7 @@ export class KnobComponent implements OnInit {
     }
   }
 
-  mouseup (event: MouseEvent) {
+  mouseup = (event: MouseEvent) => {
     this.dragging = false
   }
 
@@ -250,23 +227,6 @@ export class KnobComponent implements OnInit {
     this.continueAnimation = false
   }
 
-  public getDegreesFromEvent (event: MouseEvent) {
-    const coords = this.utils.getCoordinatesInsideElementFromEvent(event, this.container)
-    const knobCenterX = (this.container.clientWidth) / 2
-    const knobCenterY = (this.container.clientHeight) / 2
-    const rads = Math.atan2(coords.x - knobCenterX, coords.y - knobCenterY)
-    return rads * 100
-  }
-
-  public getDistanceFromCenterOfElementAndEvent (event: MouseEvent) {
-    const coords = this.utils.getCoordinatesInsideElementFromEvent(event, this.container)
-    const knobCenterX = (this.container.clientWidth) / 2
-    const knobCenterY = (this.container.clientHeight) / 2
-    const w = coords.x - knobCenterX
-    const h = coords.y - knobCenterY
-    return Math.sqrt(w * w + h * h)
-  }
-
   public clampValue (value: number) {
     if (value > this.max) {
       value = this.max
@@ -277,5 +237,10 @@ export class KnobComponent implements OnInit {
     }
 
     return value
+  }
+
+  ngOnDestroy () {
+    window.removeEventListener('mousemove', this.mousemove, true)
+    window.removeEventListener('mouseup', this.mouseup, true)
   }
 }
