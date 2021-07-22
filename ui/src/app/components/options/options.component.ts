@@ -146,6 +146,10 @@ export class OptionsComponent {
       style.filter = 'grayscale(1)'
     }
 
+    if (option.type === 'dropdown') {
+      style['z-index'] = 9999
+    }
+
     return style
   }
 

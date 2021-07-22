@@ -24,7 +24,7 @@ export class SelectBoxComponent implements OnInit {
   public _nVisibleItems: number = 6
   @Input()
   set numberOfVisibleItems (value: number) {
-    if (!isNaN(parseInt(value.toString(), 10))) {
+    if (!isNaN(value)) {
       this._nVisibleItems = value
       this.setHeight()
     }

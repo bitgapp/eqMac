@@ -5,10 +5,10 @@
   <ng-content></ng-content>
   <div fxLayout="row" fxLayoutGap="10px">
     <eqm-button type="narrow" fxFlex (pressed)="confirm()">
-      <eqm-label>{{confirmText}}</eqm-label>
+      <eqm-label [clickable]="true">{{confirmText}}</eqm-label>
     </eqm-button>
-    <eqm-button type="narrow" fxFlex (pressed)="cancel()">
-      <eqm-label>{{cancelText}}</eqm-label>
+    <eqm-button type="narrow" *ngIf="cancelText?.length > 1" fxFlex (pressed)="cancel()">
+      <eqm-label [clickable]="true">{{cancelText}}</eqm-label>
     </eqm-button>
   </div>  
 </div>

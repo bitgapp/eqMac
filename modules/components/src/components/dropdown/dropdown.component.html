@@ -2,7 +2,7 @@
   class="container">
   <div class="item">
 
-    <eqm-icon *ngIf="selectedItem && selectedItem.icon" [name]="selectedItem.icon" class="icon" color="#4f8d71"></eqm-icon>
+    <eqm-icon *ngIf="selectedItem && selectedItem.icon" [name]="selectedItem.icon" [rotate]="selectedItem.iconRotate || 0" class="icon" [color]="selectedItem.iconColor || '#4f8d71'"></eqm-icon>
     <eqm-label color="#4f8d71"> {{(searchText || (items.length ? (selectedItem ? selectedItem[labelParam] : placeholder) : noItemsPlaceholder))}} </eqm-label>
   </div>
 
