@@ -138,7 +138,6 @@ export class KnobComponent implements OnInit, OnDestroy {
       if (this.dragging) {
         this.continueAnimation = false
         const change = -event.movementY / (100 / this.max)
-        console.log(change)
         this.value += change
         this.userChangedValue.emit({ value: this.value })
       }
