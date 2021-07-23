@@ -88,6 +88,18 @@ class ApplicationDataBus: DataBus {
       Application.checkForUpdates()
       return "Checking for updates."
     }
+
+    self.on(.GET, "/enabled") { _, _ in
+      return [ "enabled": Application.store.state.enabled ]
+    }
+
+    self.on(.POST, "/enabled") { data, _ in
+      if let enabled = data["enabled"] as? Bool {
+        Application.dispatchAction(ApplicationAction.setEnabled(enabled))
+        return "Enabled has been set"
+      }
+      throw "Invalid 'enabled' parameter, must be a boolean"
+    }
     
     self.add(EngineDataBus.self)
     self.add("/transition", TransitionDataBus.self)

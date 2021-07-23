@@ -16,6 +16,7 @@ export class HeaderComponent implements OnInit {
   showLeftIcons = false
   showBooleanDebouncers: { [name: string]: any } = {}
   uiMode: UIMode
+  appEnabled: boolean = true
 
   @Output() settingsToggled = new EventEmitter()
   @Output() helpToggled = new EventEmitter()
@@ -32,13 +33,15 @@ export class HeaderComponent implements OnInit {
   }
 
   async sync () {
-    await Promise.all([
-      this.syncUIMode()
+    const [
+      uiMode,
+      appEnabled
+    ] = await Promise.all([
+      this.ui.getMode(),
+      this.app.getEnabled()
     ])
-  }
-
-  async syncUIMode () {
-    this.uiMode = await this.ui.getMode()
+    this.uiMode = uiMode
+    this.appEnabled = appEnabled
   }
 
   setShowBoolean (name: string, bool: boolean) {
@@ -104,4 +107,9 @@ export class HeaderComponent implements OnInit {
   //   this.mode = this.mode === 'window' ? 'popover' : 'window'
   //   return this.ui.setMode(this.mode)
   // }
+
+  async setAppEnabled (appEnabled: boolean) {
+    this.appEnabled = appEnabled
+    this.app.setEnabled(this.appEnabled)
+  }
 }

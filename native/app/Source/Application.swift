@@ -44,7 +44,7 @@ class Application {
   static var settings: Settings!
   static var ui: UI!
   
-  static var dataBus: DataBus!
+  static var dataBus: ApplicationDataBus!
   static var updater = SUUpdater(for: Bundle.main)!
   
   static let store: Store = Store(
@@ -52,6 +52,16 @@ class Application {
     state: Storage[.state] ?? ApplicationState(),
     middleware: []
   )
+
+  static let enabledChanged = EmitterKit.Event<Bool>()
+  static var enabledChangedListener: EmitterKit.EventListener<Bool>?
+  static var enabled = store.state.enabled {
+    didSet {
+      if (oldValue != enabled) {
+        enabledChanged.emit(enabled)
+      }
+    }
+  }
 
   static public func start () {
     if (!Constants.DEBUG) {
@@ -65,16 +75,26 @@ class Application {
     Driver.check {
       Sources.getInputPermission {
         AudioDevice.register = true
-        audioPipelineIsRunningListener = audioPipelineIsRunning.once {
-          self.setupUI {
-            if (User.isFirstLaunch) {
-              UI.show()
-            } else {
-              UI.close()
-            }
+
+        if enabled {
+          setupAudio()
+        }
+
+        enabledChangedListener = enabledChanged.on { enabled in
+          if (enabled) {
+            setupAudio()
+          } else {
+            stopSave {}
           }
         }
-        setupAudio()
+
+        self.setupUI {
+          if (User.isFirstLaunch) {
+            UI.show()
+          } else {
+            UI.close()
+          }
+        }
       }
     }
   }
@@ -105,10 +125,13 @@ class Application {
   
   static func setupDeviceEvents () {
     AudioDeviceEvents.on(.outputChanged) { device in
-      if ignoreEvents { return }
       if device.id == Driver.device!.id { return }
 
       if Outputs.isDeviceAllowed(device) {
+        if ignoreEvents {
+          dataBus.send(to: "/outputs/selected", data: JSON([ "id": device.id ]))
+          return
+        }
         Console.log("outputChanged: ", device, " starting PlayThrough")
         startPassthrough()
       } else {
@@ -391,21 +414,44 @@ class Application {
   
   private static func switchBackToLastKnownDevice () {
     // If the active equalizer global gain hass been lowered we need to equalize the volume to avoid blowing people ears our
-    if (engine == nil || selectedDevice == nil) { return }
-    if (engine!.effects != nil && engine!.effects.equalizers.active.globalGain < 0) {
-      if (selectedDevice!.canSetVirtualMasterVolume(direction: .playback)) {
-        var decibels = selectedDevice!.virtualMasterVolumeInDecibels(direction: .playback)!
-        decibels = decibels + Float(engine!.effects.equalizers.active.globalGain)
-        selectedDevice!.setVirtualMasterVolume(selectedDevice!.decibelsToScalar(volume: decibels, channel: 1, direction: .playback)!, direction: .playback)
-      } else if (selectedDevice!.canSetVolume(channel: 1, direction: .playback)) {
-        var decibels = selectedDevice!.volumeInDecibels(channel: 1, direction: .playback)!
-        decibels = decibels + Float(engine!.effects.equalizers.active.globalGain)
-        for channel in 1...selectedDevice!.channels(direction: .playback) {
-          selectedDevice!.setVolume(selectedDevice!.decibelsToScalar(volume: decibels, channel: channel, direction: .playback)!, channel: channel, direction: .playback)
+    let device = getLastKnowDeviceFromStack()
+
+    let globalGain = ({ () -> Double in
+      let equalizersState = store.state.effects.equalizers
+      let eqType = equalizersState.type
+
+      switch eqType {
+      case .basic:
+        if let preset = BasicEqualizer.getPreset(id: equalizersState.basic.selectedPresetId) {
+          if preset.peakLimiter {
+            let gains = preset.gains
+            let maxGain = [ gains.bass, gains.mid, gains.treble ].max()!
+            return -maxGain
+          }
+        }
+      case .advanced:
+        if let preset = AdvancedEqualizer.getPreset(id: equalizersState.advanced.selectedPresetId) {
+          return preset.gains.global
+        }
+      }
+      return 0
+    })()
+
+
+    if (globalGain < 0) {
+      if (device.canSetVirtualMasterVolume(direction: .playback)) {
+        var decibels = device.virtualMasterVolumeInDecibels(direction: .playback)!
+        decibels = decibels + Float(globalGain)
+        device.setVirtualMasterVolume(device.decibelsToScalar(volume: decibels, channel: 1, direction: .playback)!, direction: .playback)
+      } else if (device.canSetVolume(channel: 1, direction: .playback)) {
+        var decibels = device.volumeInDecibels(channel: 1, direction: .playback)!
+        decibels = decibels + Float(globalGain)
+        for channel in 1...device.channels(direction: .playback) {
+          device.setVolume(device.decibelsToScalar(volume: decibels, channel: channel, direction: .playback)!, channel: channel, direction: .playback)
         }
       }
     }
-    AudioDevice.currentOutputDevice = selectedDevice!
+    AudioDevice.currentOutputDevice = device
   }
 
   static func stopEngines (_ completion: @escaping () -> Void) {
@@ -530,7 +576,11 @@ class Application {
     return Bundle.main.infoDictionary!["CFBundleVersion"] as! String
   }
   
-  static func newState (_ state: ApplicationState) {}
+  static func newState (_ state: ApplicationState) {
+    if state.enabled != enabled {
+      enabled = state.enabled
+    }
+  }
   
   static var supportPath: URL {
     //Create App directory if not exists:

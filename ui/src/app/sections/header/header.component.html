@@ -1,6 +1,6 @@
 <div class="header" fxLayout="row" fxLayoutAlign="space-between center">
   <div class="menu-buttons" 
-  fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px"
+  fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px" fxFlex="40%"
   (mouseenter)="setShowBoolean('showLeftIcons', true)" (mouseleave)="setShowBoolean('showLeftIcons', false)" 
   >
     <div class="circle-button left" fxLayout="row" fxLayoutAlign="center center" (click)="close()">
@@ -15,10 +15,17 @@
     [eqmTooltip]="uiMode === 'window' ? 'Popover mode' : 'Window mode'" eqmTooltipPositionSide="bottom">
       <eqm-icon *ngIf="showLeftIcons" [@FadeInOut] color="#2E2E2E" [width]="8" [height]="8" name="triangle" [rotate]="uiMode == 'window' ? -90 : 90"></eqm-icon>
     </div>
-  </div> 
-  <eqm-label>eqMac</eqm-label>
+    <eqm-toggle eqmTooltip="eqMac Bypass: {{appEnabled ? 'Disabled' : 'Enabled'}}" eqmTooltipPositionSide="bottom" [state]="appEnabled" (stateChange)="setAppEnabled($event)"></eqm-toggle>
+  </div>
+
+  <div fxLayout="row" fxLayoutGap="5px">
+    <div style="width: 28px;"></div>
+    <eqm-label> eqMac </eqm-label>
+    <div style="width: 28px;"></div>
+  </div>  
+
   <div class="menu-buttons" 
-  fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px"
+  fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="8px" fxFlex="40%"
   >
     <div class="circle-button right" 
     fxLayout="row" fxLayoutAlign="center center"

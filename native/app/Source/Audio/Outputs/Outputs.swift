@@ -13,7 +13,7 @@ import AMCoreAudio
 class Outputs {
   static var current: AudioDeviceID? {
     get {
-      return Application.selectedDevice?.id
+      return Application.enabled ? Application.selectedDevice?.id : AudioDevice.currentOutputDevice.id
     }
   }
   

@@ -63,4 +63,13 @@ export class ApplicationService extends DataService {
   update () {
     return this.request({ method: 'GET', endpoint: '/update' })
   }
+
+  async getEnabled (): Promise<boolean> {
+    const { enabled } = await this.request({ method: 'GET', endpoint: '/enabled' })
+    return enabled
+  }
+
+  setEnabled (enabled: boolean) {
+    return this.request({ method: 'POST', endpoint: '/enabled', data: { enabled } })
+  }
 }

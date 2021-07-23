@@ -17,6 +17,11 @@ struct ApplicationState: State {
   var ui = UIState()
   var effects = EffectsState()
   var volume = VolumeState()
+  var enabled = true
+}
+
+enum ApplicationAction: Action {
+  case setEnabled(Bool)
 }
 
 func ApplicationStateReducer(action: Action, state: ApplicationState?) -> ApplicationState {
@@ -25,6 +30,13 @@ func ApplicationStateReducer(action: Action, state: ApplicationState?) -> Applic
   state.ui = UIStateReducer(action: action, state: state.ui)
   state.effects = EffectsStateReducer(action: action, state: state.effects)
   state.volume = VolumeStateReducer(action: action, state: state.volume)
+
+  switch action as? ApplicationAction {
+  case .setEnabled(let enabled)?:
+    state.enabled = enabled
+  case .none:
+    break
+  }
 
   Application.newState(state) // Notify
   Storage[.state] = state // Store
