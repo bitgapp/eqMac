@@ -90,8 +90,6 @@ export class KnobComponent implements OnInit, OnDestroy {
 
   async ngOnInit () {
     this.container = this.containerRef.nativeElement
-    window.addEventListener('mousemove', this.mousemove, true)
-    window.addEventListener('mouseup', this.mouseup, true)
   }
 
   private lastWheelEvent = new Date().getTime()
@@ -108,6 +106,7 @@ export class KnobComponent implements OnInit, OnDestroy {
     }
   }
 
+  @HostListener('mousedown', [ '$event' ])
   mousedown (event: MouseEvent) {
     if (this.enabled) {
       this.continueAnimation = false
@@ -130,6 +129,7 @@ export class KnobComponent implements OnInit, OnDestroy {
     }
   }
 
+  @HostListener('mousemove', [ '$event' ])
   mousemove = (event: MouseEvent) => {
     if (this.enabled) {
       if (this.setDraggingFalseTimeout) {
@@ -147,8 +147,27 @@ export class KnobComponent implements OnInit, OnDestroy {
     }
   }
 
+  @HostListener('mouseleave', [ '$event' ])
+  mouseleave () {
+    if (this.dragging) {
+      this.attachWindowEvents()
+    }
+  }
+
+  @HostListener('mouseup', [ '$event' ])
   mouseup = (event: MouseEvent) => {
     this.dragging = false
+    this.dettachWindowEvents()
+  }
+
+  private attachWindowEvents () {
+    window.addEventListener('mousemove', this.mousemove, true)
+    window.addEventListener('mouseup', this.mouseup, true)
+  }
+
+  private dettachWindowEvents () {
+    window.removeEventListener('mousemove', this.mousemove, true)
+    window.removeEventListener('mouseup', this.mouseup, true)
   }
 
   doubleclick () {
@@ -239,7 +258,6 @@ export class KnobComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy () {
-    window.removeEventListener('mousemove', this.mousemove, true)
-    window.removeEventListener('mouseup', this.mouseup, true)
+    this.dettachWindowEvents()
   }
 }

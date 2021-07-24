@@ -114,7 +114,7 @@ export class SkeuomorphSliderComponent implements OnInit, OnDestroy {
   }
 
   @HostListener('mousedown', [ '$event' ])
-  onMouseDown (event: MouseEvent) {
+  mousedown (event: MouseEvent) {
     if (this.enabled) {
       this.dragging = true
       if (!this.doubleclickTimeout) {
@@ -127,6 +127,7 @@ export class SkeuomorphSliderComponent implements OnInit, OnDestroy {
     }
   }
 
+  @HostListener('mousemove', [ '$event' ])
   mousemove = (event: MouseEvent) => {
     if (this.enabled && this.dragging) {
       this.value = this.getValueFromMouseEvent(event)
@@ -134,8 +135,27 @@ export class SkeuomorphSliderComponent implements OnInit, OnDestroy {
     }
   }
 
+  @HostListener('mouseleave', [ '$event' ])
+  mouseleave () {
+    if (this.dragging) {
+      this.attachWindowEvents()
+    }
+  }
+
+  @HostListener('mouseup', [ '$event' ])
   mouseup = (event: MouseEvent) => {
     this.dragging = false
+    this.dettachWindowEvents()
+  }
+
+  private attachWindowEvents () {
+    window.addEventListener('mousemove', this.mousemove, true)
+    window.addEventListener('mouseup', this.mouseup, true)
+  }
+
+  private dettachWindowEvents () {
+    window.removeEventListener('mousemove', this.mousemove, true)
+    window.removeEventListener('mouseup', this.mouseup, true)
   }
 
   doubleclick () {
@@ -157,9 +177,6 @@ export class SkeuomorphSliderComponent implements OnInit, OnDestroy {
       this.drawNotches()
       setTimeout(() => this.drawNotches())
     }
-
-    window.addEventListener('mousemove', this.mousemove, true)
-    window.addEventListener('mouseup', this.mouseup, true)
   }
 
   async animateSlider (from: number, to: number) {
@@ -205,7 +222,6 @@ export class SkeuomorphSliderComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy () {
-    window.removeEventListener('mousemove', this.mousemove, true)
-    window.removeEventListener('mouseup', this.mouseup, true)
+    this.dettachWindowEvents()
   }
 }

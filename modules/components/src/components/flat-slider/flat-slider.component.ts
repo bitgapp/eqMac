@@ -139,9 +139,6 @@ export class FlatSliderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit () {
-    window.addEventListener('mousemove', this.mousemove, true)
-
-    window.addEventListener('mouseup', this.mouseup, true)
   }
 
   public clampValue (value: number) {
@@ -200,6 +197,7 @@ export class FlatSliderComponent implements OnInit, OnDestroy {
     return value
   }
 
+  @HostListener('mousedown', [ '$event' ])
   mousedown (event: MouseEvent) {
     if (this.enabled) {
       this.dragging = true
@@ -208,11 +206,35 @@ export class FlatSliderComponent implements OnInit, OnDestroy {
     }
   }
 
+  @HostListener('mousemove', [ '$event' ])
   mousemove = (event: MouseEvent) => {
     if (this.enabled && this.dragging) {
       this.value = this.getValueFromMouseEvent(event)
       this.userChangedValue.emit({ value: this._value })
     }
+  }
+
+  @HostListener('mouseleave', [ '$event' ])
+  mouseleave () {
+    if (this.dragging) {
+      this.attachWindowEvents()
+    }
+  }
+
+  @HostListener('mouseup', [ '$event' ])
+  mouseup = (event: MouseEvent) => {
+    this.dragging = false
+    this.dettachWindowEvents()
+  }
+
+  private attachWindowEvents () {
+    window.addEventListener('mousemove', this.mousemove, true)
+    window.addEventListener('mouseup', this.mouseup, true)
+  }
+
+  private dettachWindowEvents () {
+    window.removeEventListener('mousemove', this.mousemove, true)
+    window.removeEventListener('mouseup', this.mouseup, true)
   }
 
   public doubleclickTimeout?: number
@@ -243,10 +265,6 @@ export class FlatSliderComponent implements OnInit, OnDestroy {
       value += step
       this.value = value
     }
-  }
-
-  mouseup = (event: MouseEvent) => {
-    this.dragging = false
   }
 
   get progress () {
@@ -396,7 +414,6 @@ export class FlatSliderComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy () {
-    window.removeEventListener('mousemove', this.mousemove, true)
-    window.removeEventListener('mouseup', this.mouseup, true)
+    this.dettachWindowEvents()
   }
 }
