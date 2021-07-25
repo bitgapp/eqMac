@@ -7,6 +7,11 @@ export interface UISettings {
   replaceKnobsWithSliders?: boolean
   doCollectTelemetry?: boolean
   privacyFormSeen?: boolean
+  showVolumeFeature?: boolean
+  showBoostFeature?: boolean
+  showBalanceFeature?: boolean
+  showEqualizerFeature?: boolean
+  showOutputFeature?: boolean
 }
 
 export interface UIDimensions {

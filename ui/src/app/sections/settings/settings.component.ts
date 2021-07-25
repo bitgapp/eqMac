@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core'
-import { CheckboxOption, ButtonOption, Options, SelectOption } from 'src/app/components/options/options.component'
+import { CheckboxOption, ButtonOption, Options, SelectOption, DividerOption } from 'src/app/components/options/options.component'
 import { SettingsService, IconMode } from './settings.service'
 import { ApplicationService } from '../../services/app.service'
 import { MatDialog } from '@angular/material/dialog'
@@ -7,6 +7,7 @@ import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-
 import { StatusItemIconType, UIService } from '../../services/ui.service'
 import { AnalyticsService } from '../../services/analytics.service'
 import { SemanticVersion } from '../../services/semantic-version.service'
+import { OptionsDialogComponent } from '../../components/options-dialog/options-dialog.component'
 
 @Component({
   selector: 'eqm-settings',
@@ -92,6 +93,9 @@ and make it a more stable product.
     }, {
       id: IconMode.statusBar,
       label: 'Status Bar'
+    }, {
+      id: IconMode.neither,
+      label: 'Neither'
     } ],
     selectedId: IconMode.both,
     selected: async iconMode => {
@@ -137,7 +141,7 @@ the developer can periodically push Over the Air (OTA) updates,
 make minor bug fixes and UI improvements,
 all without needing the user to do a full app update.
 `,
-    tooltipAsComponent: true,
+    tooltipAsComponent: false,
     toggled: doOTAUpdates => {
       this.settingsService.setDoOTAUpdates({
         doOTAUpdates
@@ -181,29 +185,104 @@ before they go out to all users.
     }
   }
 
+  // hideShowFeaturesOption: ButtonOption = {
+  //   type: 'button',
+  //   label: 'Show/Hide Features',
+  //   action: async () => {
+  //     const uiSettings = await this.ui.getSettings()
+  //     const volume: CheckboxOption = {
+  //       type: 'checkbox',
+  //       label: 'Volume',
+  //       value: uiSettings.showVolumeFeature ?? true,
+  //       toggled: showVolumeFeature => {
+  //         this.ui.setSettings({ showVolumeFeature })
+  //       }
+  //     }
+  //     const boost: CheckboxOption = {
+  //       type: 'checkbox',
+  //       label: 'Boost',
+  //       value: uiSettings.showBoostFeature ?? true,
+  //       toggled: showBoostFeature => {
+  //         this.ui.setSettings({ showBoostFeature })
+  //       }
+  //     }
+  //     const balance: CheckboxOption = {
+  //       type: 'checkbox',
+  //       label: 'Balance',
+  //       value: uiSettings.showBalanceFeature ?? true,
+  //       toggled: showBalanceFeature => {
+  //         this.ui.setSettings({ showBalanceFeature })
+  //       }
+  //     }
+
+  //     const equalizers: CheckboxOption = {
+  //       type: 'checkbox',
+  //       label: 'Equalizers',
+  //       value: uiSettings.showEqualizerFeature ?? true,
+  //       toggled: showEqualizerFeature => {
+  //         this.ui.setSettings({ showEqualizerFeature })
+  //       }
+  //     }
+
+  //     const output: CheckboxOption = {
+  //       type: 'checkbox',
+  //       label: 'Output',
+  //       value: uiSettings.showOutputFeature ?? true,
+  //       toggled: showOutputFeature => {
+  //         this.ui.setSettings({ showOutputFeature })
+  //       }
+  //     }
+  //     const options: Options = [
+  //       [ volume, boost, balance ],
+  //       [ this.divider ],
+  //       [ equalizers ],
+  //       [ this.divider ],
+  //       [ output ]
+  //     ]
+
+  //     await this.dialog.open(OptionsDialogComponent, {
+  //       hasBackdrop: true,
+  //       disableClose: false,
+  //       data: {
+  //         options
+  //       }
+  //     })
+  //   }
+  // }
+
+  private readonly divider: DividerOption = { type: 'divider', orientation: 'horizontal' }
   settings: Options = [
+    // [ this.hideShowFeaturesOption ],
     [ this.iconModeOption ],
+    [ this.statusItemIconTypeOption ],
     [
       this.replaceKnobsWithSlidersOption,
-      this.launchOnStartupOption
+      this.launchOnStartupOption,
+      this.alwaysOnTopOption
     ],
 
-    [ { type: 'divider', orientation: 'horizontal' } ],
+    [ this.divider ],
 
     [ { type: 'label', label: 'Updates' } ],
+    [
+      this.betaUpdatesOption,
+      this.autoCheckUpdatesOption,
+      this.otaUpdatesOption
+    ],
     [
       this.updateOption
     ],
 
-    [ { type: 'divider', orientation: 'horizontal' } ],
+    [ this.divider ],
 
     // Privacy
     [ { type: 'label', label: 'Privacy' } ],
     [
-      this.doCollectTelemetryOption
+      this.doCollectTelemetryOption,
+      this.doCollectCrashReportsOption
     ],
 
-    [ { type: 'divider', orientation: 'horizontal' } ],
+    [ this.divider ],
     // Misc
     [ this.uninstallOption ]
   ]
@@ -232,75 +311,33 @@ before they go out to all users.
       launchOnStartup,
       iconMode,
       UISettings,
-      info
+      doCollectCrashReports,
+      doAutoCheckUpdates,
+      doOTAUpdates,
+      alwaytOnTop,
+      statusItemIconType,
+      doBetaUpdates
     ] = await Promise.all([
       this.settingsService.getLaunchOnStartup(),
       this.settingsService.getIconMode(),
       this.ui.getSettings(),
-      this.app.getInfo()
+      this.settingsService.getDoCollectCrashReports(),
+      this.settingsService.getDoAutoCheckUpdates(),
+      this.settingsService.getDoOTAUpdates(),
+      this.ui.getAlwaysOnTop(),
+      this.ui.getStatusItemIconType(),
+      this.settingsService.getDoBetaUpdates()
     ])
     this.iconModeOption.selectedId = iconMode
     this.launchOnStartupOption.value = launchOnStartup
     this.replaceKnobsWithSlidersOption.value = UISettings.replaceKnobsWithSliders
     this.doCollectTelemetryOption.value = UISettings.doCollectTelemetry
-
-    // Some settings that are only available from v1.1.0
-    if (new SemanticVersion(info.version).isGreaterThanOrEqualTo('1.1.0')) {
-      const [
-        doCollectCrashReports,
-        doAutoCheckUpdates,
-        doOTAUpdates,
-        alwaytOnTop,
-        statusItemIconType
-      ] = await Promise.all([
-        this.settingsService.getDoCollectCrashReports(),
-        this.settingsService.getDoAutoCheckUpdates(),
-        this.settingsService.getDoOTAUpdates(),
-        this.ui.getAlwaysOnTop(),
-        this.ui.getStatusItemIconType()
-      ])
-
-      this.doCollectCrashReportsOption.value = doCollectCrashReports
-      this.autoCheckUpdatesOption.value = doAutoCheckUpdates
-      this.otaUpdatesOption.value = doOTAUpdates
-      this.alwaysOnTopOption.value = alwaytOnTop
-      this.statusItemIconTypeOption.selectedId = statusItemIconType
-
-      // Add Update options
-      this.settings.splice(this.settings.length - 6, 0, [
-        this.autoCheckUpdatesOption,
-        this.otaUpdatesOption
-      ])
-
-      // Add Privacy option
-      this.settings[8].push(
-        this.doCollectCrashReportsOption
-      )
-
-      // Add always on top option
-      this.settings[1].push(this.alwaysOnTopOption)
-
-      // Add Neither option for IconMode
-      this.iconModeOption.options.push({
-        id: IconMode.neither,
-        label: 'Neither'
-      })
-
-      // Add Status Item Icon type option
-      this.settings.splice(1, 0, [ this.statusItemIconTypeOption ])
-    }
-
-    if (new SemanticVersion(info.version).isGreaterThanOrEqualTo('1.2.0')) {
-      const [
-        doBetaUpdates
-      ] = await Promise.all([
-        this.settingsService.getDoBetaUpdates()
-      ])
-
-      this.betaUpdatesOption.value = doBetaUpdates
-
-      this.settings[this.settings.length - 6].splice(0, 0, this.betaUpdatesOption)
-    }
+    this.doCollectCrashReportsOption.value = doCollectCrashReports
+    this.autoCheckUpdatesOption.value = doAutoCheckUpdates
+    this.otaUpdatesOption.value = doOTAUpdates
+    this.alwaysOnTopOption.value = alwaytOnTop
+    this.statusItemIconTypeOption.selectedId = statusItemIconType
+    this.betaUpdatesOption.value = doBetaUpdates
   }
 
   async update () {
