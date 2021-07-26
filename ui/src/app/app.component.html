@@ -1,4 +1,4 @@
-<div #container class="container" [style]="containerStyle">
+<div #container class="container" fxLayout="column" fxLayoutAlign="start center" [style]="containerStyle">
   <eqm-loading class="loader" *ngIf="!loaded"></eqm-loading>
   <eqm-header class="header" 
     (settingsToggled)="toggleDropdownSection('settings')"
@@ -20,13 +20,13 @@
     *ngIf="showDropdownSections.help"
   ></eqm-help>
 
-  <eqm-volume-booster-balance></eqm-volume-booster-balance>
+  <eqm-volume-booster-balance class="w-100"></eqm-volume-booster-balance>
   <eqm-divider></eqm-divider>
 
-  <eqm-equalizers (type)="syncDimensions()" (visibilityToggled)="syncDimensions()"></eqm-equalizers>
+  <eqm-equalizers class="w-100"></eqm-equalizers>
   <eqm-divider></eqm-divider>
 
-  <eqm-outputs></eqm-outputs>
+  <eqm-outputs class="w-100"></eqm-outputs>
   <eqm-tooltip-container></eqm-tooltip-container>
 </div>
 

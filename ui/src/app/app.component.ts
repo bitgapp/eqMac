@@ -37,8 +37,9 @@ export class AppComponent implements OnInit, AfterContentInit {
 
   get containerStyle () {
     const style: any = {}
-
     style.transform = `scale(${this.app.uiScale})`
+    style.width = `calc(100% / ${this.app.uiScale})`
+    style.height = `calc(100% / ${this.app.uiScale})`
     return style
   }
 
@@ -166,8 +167,8 @@ This data would help us improve and grow the product.`
 
   async ngAfterContentInit () {
     await this.utils.delay(this.animationDuration)
-    this.syncDimensions()
-    this.startDimensionsSync()
+    // this.syncDimensions()
+    // this.startDimensionsSync()
     this.loaded = true
     this.ui.loaded()
   }
@@ -178,12 +179,12 @@ This data would help us improve and grow the product.`
     ])
   }
 
-  async syncDimensions (dimensions?: UIDimensions) {
-    await Promise.all([
-      this.syncHeight(dimensions),
-      this.syncWidth(dimensions)
-    ])
-  }
+  // async syncDimensions (dimensions?: UIDimensions) {
+  //   await Promise.all([
+  //     this.syncHeight(dimensions),
+  //     this.syncWidth(dimensions)
+  //   ])
+  // }
 
   async getTransitionSettings () {
     const settings = await this.transitions.getSettings()
@@ -191,40 +192,40 @@ This data would help us improve and grow the product.`
     this.animationFps = settings.fps
   }
 
-  async syncHeight (dimensions?: UIDimensions) {
-    await this.utils.delay(10)
-    let height: number = this.container.nativeElement.offsetHeight
-    if (dimensions) {
-      if (dimensions.heightDiff) {
-        height += dimensions.heightDiff
-      } else if (dimensions.height) {
-        height = dimensions.height
-      }
-    }
-    height *= this.app.uiScale
-    this.ui.setHeight(height)
-  }
+  // async syncHeight (dimensions?: UIDimensions) {
+  //   await this.utils.delay(10)
+  //   let height: number = this.container.nativeElement.offsetHeight
+  //   if (dimensions) {
+  //     if (dimensions.heightDiff) {
+  //       height += dimensions.heightDiff
+  //     } else if (dimensions.height) {
+  //       height = dimensions.height
+  //     }
+  //   }
+  //   height *= this.app.uiScale
+  //   this.ui.setHeight(height)
+  // }
 
-  async syncWidth (dimensions?: UIDimensions) {
-    await this.utils.delay(10)
-    let width: number = this.container.nativeElement.offsetWidth
-    if (dimensions) {
-      if (dimensions.widthDiff) {
-        width += dimensions.widthDiff
-      } else if (dimensions.width) {
-        width = dimensions.width
-      }
-    }
-    width *= this.app.uiScale
-    this.ui.setWidth(width)
-  }
+  // async syncWidth (dimensions?: UIDimensions) {
+  //   await this.utils.delay(10)
+  //   let width: number = this.container.nativeElement.offsetWidth
+  //   if (dimensions) {
+  //     if (dimensions.widthDiff) {
+  //       width += dimensions.widthDiff
+  //     } else if (dimensions.width) {
+  //       width = dimensions.width
+  //     }
+  //   }
+  //   width *= this.app.uiScale
+  //   this.ui.setWidth(width)
+  // }
 
-  startDimensionsSync () {
-    this.ui.dimensionsChanged.subscribe(async dimensions => await this.syncDimensions(dimensions))
-    this.app.uiScaleChanged.subscribe(async uiScale => await this.syncDimensions())
+  // startDimensionsSync () {
+  //   this.ui.dimensionsChanged.subscribe(async dimensions => await this.syncDimensions(dimensions))
+  //   this.app.uiScaleChanged.subscribe(async uiScale => await this.syncDimensions())
 
-    setInterval(async () => await this.syncDimensions(), 1000)
-  }
+  //   setInterval(async () => await this.syncDimensions(), 1000)
+  // }
 
   toggleDropdownSection (section: string) {
     for (const key in this.showDropdownSections) {

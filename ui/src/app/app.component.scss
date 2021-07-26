@@ -43,11 +43,10 @@ $noise: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAYAAAA6/NlyA
   transform-origin: top left;
   $border-radius: 0px;
 
-  width: 400px; 
   top: 0;
   left: 0;
 
-  background-image: $noise, linear-gradient($gradient-start, $gradient-end);
+  background-image: $noise, $gradient-end;
   overflow: hidden;
 
   .loader {
