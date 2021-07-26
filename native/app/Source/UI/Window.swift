@@ -84,10 +84,8 @@ class Window: NSWindow, NSWindowDelegate {
       
       var origin = self.contentView!.frame.origin
       origin.y -= diff
-      self.animator().setFrame(frame, display: false, animate: true)
-      Utilities.delay(Constants.TRANSITION_DURATION) { [weak self] in
-        self?.contentView?.setFrameOrigin(NSPoint(x: 0, y: 0))
-      }
+      self.setFrame(frame, display: false, animate: true)
+      self.contentView?.setFrameOrigin(NSPoint(x: 0, y: 0))
     }
   }
   
@@ -99,7 +97,7 @@ class Window: NSWindow, NSWindowDelegate {
       let newWidth = CGFloat(newValue)
       var frame = self.frame
       frame.size.width = newWidth
-      self.animator().setFrame(frame, display: false, animate: true)
+      self.setFrame(frame, display: false, animate: true)
     }
   }
   

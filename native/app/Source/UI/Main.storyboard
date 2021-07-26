@@ -81,7 +81,7 @@
                 <windowController storyboardIdentifier="EQMWindowController" showSeguePresentationStyle="single" id="eW3-cT-cmJ" sceneMemberID="viewController">
                     <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" titlebarAppearsTransparent="YES" id="nPg-tC-SwO" customClass="Window" customModule="eqMac" customModuleProvider="target">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" fullSizeContentView="YES"/>
-                        <rect key="contentRect" x="2447" y="1070" width="400" height="400"/>
+                        <rect key="contentRect" x="2447" y="1070" width="400" height="500"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="3008" height="1669"/>
                         <contentBorderThickness minY="22"/>
                     </window>
@@ -117,7 +117,7 @@
                                 </wkWebViewConfiguration>
                             </wkWebView>
                             <customView autoresizesSubviews="NO" wantsLayer="YES" appearanceType="darkAqua" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bLB-gh-lJZ" customClass="DraggableView" customModule="eqMac" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="372" width="400" height="28"/>
+                                <rect key="frame" x="0.0" y="377" width="400" height="23"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                             </customView>
                         </subviews>
