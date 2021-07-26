@@ -35,6 +35,13 @@ export class AppComponent implements OnInit, AfterContentInit {
     help: false
   }
 
+  get containerStyle () {
+    const style: any = {}
+
+    style.transform = `scale(${this.app.uiScale})`
+    return style
+  }
+
   constructor (
     public utils: UtilitiesService,
     public ui: UIService,
@@ -59,17 +66,15 @@ export class AppComponent implements OnInit, AfterContentInit {
       this.app.getInfo()
     ])
 
-    // Starting from v1.1.0 we need to show the Crash Reports consent as well
-    if (new SemanticVersion(info.version).isGreaterThanOrEqualTo('1.1.0')) {
-      if (typeof uiSettings.privacyFormSeen !== 'boolean') {
-        let doCollectTelemetry = uiSettings.doCollectTelemetry ?? false
-        let doCollectCrashReports = await this.settings.getDoCollectCrashReports()
-        let saving = false
+    if (typeof uiSettings.privacyFormSeen !== 'boolean') {
+      let doCollectTelemetry = uiSettings.doCollectTelemetry ?? false
+      let doCollectCrashReports = await this.settings.getDoCollectCrashReports()
+      let saving = false
 
-        const doCollectTelemetryOption: Option = {
-          type: 'checkbox',
-          label: 'Send Anonymous Analytics data',
-          tooltip: `
+      const doCollectTelemetryOption: Option = {
+        type: 'checkbox',
+        label: 'Send Anonymous Analytics data',
+        tooltip: `
 eqMac would collect anonymous Telemetry analytics data like:
 
 • macOS Version
@@ -78,104 +83,80 @@ eqMac would collect anonymous Telemetry analytics data like:
 
 This helps us understand distribution of our users.
 `,
-          tooltipAsComponent: true,
-          value: doCollectTelemetry,
-          isEnabled: () => !saving,
-          toggled: doCollect => {
-            doCollectTelemetry = doCollect
-          }
+        tooltipAsComponent: true,
+        value: doCollectTelemetry,
+        isEnabled: () => !saving,
+        toggled: doCollect => {
+          doCollectTelemetry = doCollect
         }
+      }
 
-        const doCollectCrashReportsOption: Option = {
-          type: 'checkbox',
-          label: 'Send Anonymous Crash reports',
-          tooltip: `
+      const doCollectCrashReportsOption: Option = {
+        type: 'checkbox',
+        label: 'Send Anonymous Crash reports',
+        tooltip: `
 eqMac would send anonymized crash reports
 back to the developer in case eqMac crashes.
 This helps us understand improve eqMac 
 and make it a more stable product.
 `,
-          tooltipAsComponent: true,
-          value: doCollectCrashReports,
-          isEnabled: () => !saving,
-          toggled: doCollect => {
-            doCollectCrashReports = doCollect
-          }
+        tooltipAsComponent: true,
+        value: doCollectCrashReports,
+        isEnabled: () => !saving,
+        toggled: doCollect => {
+          doCollectCrashReports = doCollect
         }
-        const privacyDialog: MatDialogRef<OptionsDialogComponent> = this.dialog.open(OptionsDialogComponent, {
-          hasBackdrop: true,
-          disableClose: true,
-          data: {
-            options: [
-              [ { type: 'label', label: 'Privacy' } ],
-              [ {
-                type: 'label', label: `eqMac respects it's user's privacy 
+      }
+      const privacyDialog: MatDialogRef<OptionsDialogComponent> = this.dialog.open(OptionsDialogComponent, {
+        hasBackdrop: true,
+        disableClose: true,
+        data: {
+          options: [
+            [ { type: 'label', label: 'Privacy' } ],
+            [ {
+              type: 'label', label: `eqMac respects it's user's privacy 
 and is giving you a choice what data you wish to share with the developer.
 This data would help us improve and grow the product.`
-              } ],
-              [ doCollectTelemetryOption ],
-              [ doCollectCrashReportsOption ],
-              [
-                {
-                  type: 'button',
-                  label: 'Accept all',
-                  isEnabled: () => !saving,
-                  action: async () => {
-                    doCollectCrashReports = true
-                    doCollectTelemetry = true
-                    doCollectCrashReportsOption.value = true
-                    doCollectTelemetryOption.value = true
-                    saving = true
-                    await this.utils.delay(200)
-                    privacyDialog.close()
-                  }
-                },
-                {
-                  type: 'button',
-                  label: 'Save',
-                  isEnabled: () => !saving,
-                  action: () => privacyDialog.close()
+            } ],
+            [ doCollectTelemetryOption ],
+            [ doCollectCrashReportsOption ],
+            [
+              {
+                type: 'button',
+                label: 'Accept all',
+                isEnabled: () => !saving,
+                action: async () => {
+                  doCollectCrashReports = true
+                  doCollectTelemetry = true
+                  doCollectCrashReportsOption.value = true
+                  doCollectTelemetryOption.value = true
+                  saving = true
+                  await this.utils.delay(200)
+                  privacyDialog.close()
                 }
-              ]
-            ] as Options
-          }
-        })
+              },
+              {
+                type: 'button',
+                label: 'Save',
+                isEnabled: () => !saving,
+                action: () => privacyDialog.close()
+              }
+            ]
+          ] as Options
+        }
+      })
 
-        await privacyDialog.afterClosed().toPromise()
+      await privacyDialog.afterClosed().toPromise()
 
-        await Promise.all([
-          this.ui.setSettings({
-            privacyFormSeen: true,
-            doCollectTelemetry
-          }),
-          this.settings.setDoCollectCrashReports({
-            doCollectCrashReports
-          })
-        ])
-      }
-    } else {
-      // Can only show Analytics consent form on < v1.1.0
-      if (typeof uiSettings.doCollectTelemetry !== 'boolean') {
-        uiSettings.doCollectTelemetry = await this.dialog.open(ConfirmDialogComponent, {
-          hasBackdrop: true,
-          disableClose: true,
-          data: {
-            text: `Is it okay with you if eqMac will collect anonymous Telemetry analytics data like:
-  
-            • macOS Version
-            • App and UI Version
-            • Country (IP Addresses are anonymized)
-  
-            This helps us understand distribution of eqMac's users.
-            You can change this setting any time later in the Settings.`,
-            cancelText: 'Don\'t collect',
-            confirmText: 'It\'s okay'
-          }
-        }).afterClosed().toPromise()
-        await this.ui.setSettings({
-          doCollectTelemetry: uiSettings.doCollectTelemetry
+      await Promise.all([
+        this.ui.setSettings({
+          privacyFormSeen: true,
+          doCollectTelemetry
+        }),
+        this.settings.setDoCollectCrashReports({
+          doCollectCrashReports
         })
-      }
+      ])
     }
 
     if (uiSettings.doCollectTelemetry) {
@@ -220,6 +201,7 @@ This data would help us improve and grow the product.`
         height = dimensions.height
       }
     }
+    height *= this.app.uiScale
     this.ui.setHeight(height)
   }
 
@@ -233,11 +215,14 @@ This data would help us improve and grow the product.`
         width = dimensions.width
       }
     }
+    width *= this.app.uiScale
     this.ui.setWidth(width)
   }
 
   startDimensionsSync () {
     this.ui.dimensionsChanged.subscribe(async dimensions => await this.syncDimensions(dimensions))
+    this.app.uiScaleChanged.subscribe(async uiScale => await this.syncDimensions())
+
     setInterval(async () => await this.syncDimensions(), 1000)
   }
 

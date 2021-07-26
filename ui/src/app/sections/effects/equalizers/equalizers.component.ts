@@ -3,18 +3,19 @@ import { EqualizersService, EqualizersTypeChangedEventCallback, EqualizerType } 
 import { BasicEqualizerComponent } from './basic-equalizer/basic-equalizer.component'
 import { AdvancedEqualizerComponent } from './advanced-equalizer/advanced-equalizer.component'
 import { EqualizerComponent } from './equalizer.component'
-import { FadeInOutAnimation } from '@eqmac/components'
+import { FadeInOutAnimation, FromTopAnimation } from '@eqmac/components'
 import { MatDialog, MatDialogRef } from '@angular/material/dialog'
 import { OptionsDialogComponent } from '../../../components/options-dialog/options-dialog.component'
 import { EqualizerPreset } from './presets/equalizer-presets.component'
 import { UIService } from '../../../services/ui.service'
 import { EffectEnabledChangedEventCallback } from '../effect.service'
+import { UtilitiesService } from '../../../services/utilities.service'
 
 @Component({
   selector: 'eqm-equalizers',
   templateUrl: './equalizers.component.html',
   styleUrls: [ './equalizers.component.scss' ],
-  animations: [ FadeInOutAnimation ]
+  animations: [ FadeInOutAnimation, FromTopAnimation ]
 })
 export class EqualizersComponent implements OnInit, OnDestroy {
   @Input() animationDuration = 500
@@ -26,7 +27,7 @@ export class EqualizersComponent implements OnInit, OnDestroy {
 
   loaded = false
   enabled = true
-  hide = false
+  show = true
   activeEqualizer: EqualizerComponent = this.getEqualizerFromType('Basic')
 
   presets: EqualizerPreset[] = []
@@ -50,7 +51,8 @@ export class EqualizersComponent implements OnInit, OnDestroy {
     public equalizersService: EqualizersService,
     public dialog: MatDialog,
     public ui: UIService,
-    private readonly changeRef: ChangeDetectorRef
+    private readonly changeRef: ChangeDetectorRef,
+    private readonly utils: UtilitiesService
   ) { }
 
   async ngOnInit () {
@@ -61,19 +63,19 @@ export class EqualizersComponent implements OnInit, OnDestroy {
     this.activeEqualizer = this.getEqualizerFromType(this.type)
   }
 
-  protected sync () {
-    return Promise.all([
-      this.syncType(),
-      this.syncEnabled()
+  protected async sync () {
+    const [
+      type,
+      enabled,
+      uiSettings
+    ] = await Promise.all([
+      this.equalizersService.getType(),
+      this.equalizersService.getEnabled(),
+      this.ui.getSettings()
     ])
-  }
-
-  protected async syncType () {
-    this.type = await this.equalizersService.getType()
-  }
-
-  protected async syncEnabled () {
-    this.enabled = await this.equalizersService.getEnabled()
+    this.type = type
+    this.enabled = enabled
+    this.show = uiSettings.showEqualizers ?? true
   }
 
   private onEnabledChangedEventCallback: EffectEnabledChangedEventCallback
@@ -102,6 +104,7 @@ export class EqualizersComponent implements OnInit, OnDestroy {
   async setType (type: EqualizerType) {
     await this.equalizersService.setType(type)
     this.type = type
+    await this.utils.delay(this.animationDuration)
     this.ui.dimensionsChanged.next()
   }
 
@@ -113,8 +116,8 @@ export class EqualizersComponent implements OnInit, OnDestroy {
   }
 
   toggleVisibility () {
-    this.hide = !this.hide
-    this.visibilityToggled.emit()
+    this.show = !this.show
+    this.visibilityToggled.emit(this.show)
   }
 
   openSettings () {

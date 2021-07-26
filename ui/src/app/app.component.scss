@@ -31,14 +31,16 @@ $noise: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAYAAAA6/NlyA
   text-rendering: optimizeLegibility;
   text-shadow: rgba(0, 0, 0, .01) 0 0 1px;
   -webkit-font-smoothing: subpixel-antialiased;
+  transform: perspective(1px) translateZ(0);
+  backface-visibility: hidden;
 }
 
 
 .container {
-  position: absolute;
+  position: relative;
   display: inline-block;
   padding-top: 25px;
-
+  transform-origin: top left;
   $border-radius: 0px;
 
   width: 400px; 

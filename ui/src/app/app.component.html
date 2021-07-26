@@ -1,4 +1,4 @@
-<div #container class="container">
+<div #container class="container" [style]="containerStyle">
   <eqm-loading class="loader" *ngIf="!loaded"></eqm-loading>
   <eqm-header class="header" 
     (settingsToggled)="toggleDropdownSection('settings')"

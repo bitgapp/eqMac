@@ -79,23 +79,26 @@ export class DropdownComponent implements OnInit {
     const viewHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight)
     const preferredDirection = 'down'
     this.direction = preferredDirection
-    const inputEl = this.container.nativeElement
+    const inputEl: HTMLElement = this.container.nativeElement
 
-    const inputHeight = parseInt(inputEl.offsetHeight)
-    const inputPosition = inputEl.getBoundingClientRect()
+    const inputHeight = inputEl.offsetHeight
+    const inputRect = inputEl.getBoundingClientRect()
+    const scale = inputRect.width / inputEl.offsetWidth
 
     const boxHeight = this.boxComponent.height
 
-    const downY = parseInt(inputPosition.y) + inputHeight + this.padding / 2
-    const downSpaceLeft = viewHeight - (downY + boxHeight)
+    const downYScaled = inputRect.y / scale + inputHeight + this.padding / 2
+    const downYNotScaled = inputRect.y + inputHeight + this.padding / 2
+    const downSpaceLeft = viewHeight - (downYNotScaled + boxHeight)
 
-    const upY = inputPosition.top - boxHeight - this.padding
-    const upSpaceLeft = upY
+    const upYScaled = inputRect.top / scale - boxHeight - this.padding
+    const upYNotScaled = inputRect.top - boxHeight - this.padding
+    const upSpaceLeft = upYNotScaled
 
     this.direction = this.forceDirection ?? (downSpaceLeft > upSpaceLeft ? 'down' : 'up')
-    const y = this.direction === 'down' ? downY : upY
+    const y = this.direction === 'down' ? downYScaled : upYScaled
 
-    this.yCoordinate = y
+    this.yCoordinate = Math.round(y)
   }
 
   async toggle (event: MouseEvent) {

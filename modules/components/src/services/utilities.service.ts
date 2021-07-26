@@ -67,9 +67,10 @@ export class UtilitiesService {
   getCoordinatesInsideElementFromEvent (event: MouseEvent, element?: HTMLElement) {
     const el = element || event.target as HTMLElement
     const rect = el.getBoundingClientRect()
+    const scale = rect.width / el.offsetWidth
     return {
-      x: event.clientX - rect.left,
-      y: event.clientY - rect.top
+      x: (event.clientX - rect.left) / scale,
+      y: (event.clientY - rect.top) / scale
     }
   }
 
@@ -83,7 +84,11 @@ export class UtilitiesService {
     const rect = el.getBoundingClientRect()
     const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop
-    return { y: rect.top + scrollTop, x: rect.left + scrollLeft }
+    const scale = rect.width / el.offsetWidth
+    return {
+      y: (rect.top + scrollTop) / scale,
+      x: (rect.left + scrollLeft) / scale
+    }
   }
 
   hexToRgb (hex: string) {

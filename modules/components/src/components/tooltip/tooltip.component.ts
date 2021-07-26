@@ -119,7 +119,7 @@ export class TooltipComponent implements OnInit {
     }
 
     if (this.positionSide === 'bottom') {
-      y = -arrowSize / 2 + 3
+      y = -arrowSize / 2 + 2
     }
 
     style.top = `${y}px`

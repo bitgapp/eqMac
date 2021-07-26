@@ -81,7 +81,7 @@
         <!-- Flat Slider -->
         <eqm-flat-slider *ngIf="option.type === 'flat-slider'" [enabled]="!option.isEnabled || option.isEnabled() === true"
           [orientation]="option.orientation || 'horizontal'" [scale]="option.scale || 'linear'"
-          [min]="option.min" [middle]="option.middle" [max]="option.max" [value]="option.value" 
+          [min]="option.min" [middle]="option.middle" [max]="option.max" [(value)]="option.value" 
           [doubleClickToAnimateToMiddle]="option.doubleClickToAnimateToMiddle" [showMiddleNotch]="option.showMiddleNotch"
           [animationDuration]="option.animationDuration" [animationFps]="option.animationFps"
           [scrollEnabled]="option.scrollEnabled" [stickToMiddle]="option.stickToMiddle"

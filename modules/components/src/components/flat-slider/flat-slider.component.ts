@@ -343,8 +343,14 @@ export class FlatSliderComponent implements OnInit, OnDestroy {
     style.borderRadius = '100%'
     const center = `calc(50% - ${this.thumbRadius}px)`
 
-    style.top = center
-    style.left = center
+    const middleProgress = this.getProgress(this.middleValue)
+    if (this.orientation === 'horizontal') {
+      style.top = center
+      style.left = `${Math.round((this.width - this.thumbRadius * 2) * middleProgress)}px`
+    } else {
+      style.left = center
+      style.top = `${Math.round((this.height - this.thumbRadius * 2) * middleProgress)}px`
+    }
 
     return style
   }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core'
-import { CheckboxOption, ButtonOption, Options, SelectOption, DividerOption } from 'src/app/components/options/options.component'
+import { CheckboxOption, ButtonOption, Options, SelectOption, DividerOption, FlatSliderOption, LabelOption, ValueScreenOption } from 'src/app/components/options/options.component'
 import { SettingsService, IconMode } from './settings.service'
 import { ApplicationService } from '../../services/app.service'
 import { MatDialog } from '@angular/material/dialog'
@@ -123,7 +123,7 @@ and make it a more stable product.
   autoCheckUpdatesOption: CheckboxOption = {
     type: 'checkbox',
     value: false,
-    label: 'Check Automatically',
+    label: 'Auto Check',
     toggled: doAutoCheckUpdates => {
       this.settingsService.setDoAutoCheckUpdates({
         doAutoCheckUpdates
@@ -183,6 +183,46 @@ before they go out to all users.
     selected: async (statusItemIconType: StatusItemIconType) => {
       await this.ui.setStatusItemIconType(statusItemIconType)
     }
+  }
+
+  uiScaleLabel: LabelOption = {
+    type: 'label',
+    label: 'UI Scale'
+  }
+
+  setUIScaleScreenValue () {
+    this.uiScaleScreen.value = `${Math.round(this.uiScaleSlider.value * 100)}%`
+  }
+
+  uiScaleSliderDebounceTimer: number
+  uiScaleSlider: FlatSliderOption = {
+    type: 'flat-slider',
+    value: 1,
+    min: 0.5,
+    max: 2,
+    orientation: 'horizontal',
+    doubleClickToAnimateToMiddle: false,
+    middle: 1,
+    stickToMiddle: true,
+    showMiddleNotch: true,
+    scrollEnabled: false,
+    userChangedValue: event => {
+      this.setUIScaleScreenValue()
+      if (this.uiScaleSliderDebounceTimer) {
+        clearTimeout(this.uiScaleSliderDebounceTimer)
+      }
+      this.uiScaleSliderDebounceTimer = setTimeout(() => {
+        this.app.setUIScale(event.value)
+      }, 1000) as any
+    },
+    style: {
+      width: '700px'
+    }
+  }
+
+  uiScaleScreen: ValueScreenOption = {
+    type: 'value-screen',
+    value: '100%'
   }
 
   // hideShowFeaturesOption: ButtonOption = {
@@ -253,6 +293,7 @@ before they go out to all users.
   private readonly divider: DividerOption = { type: 'divider', orientation: 'horizontal' }
   settings: Options = [
     // [ this.hideShowFeaturesOption ],
+    [ this.uiScaleLabel, this.uiScaleSlider, this.uiScaleScreen ],
     [ this.iconModeOption ],
     [ this.statusItemIconTypeOption ],
     [
@@ -338,6 +379,8 @@ before they go out to all users.
     this.alwaysOnTopOption.value = alwaytOnTop
     this.statusItemIconTypeOption.selectedId = statusItemIconType
     this.betaUpdatesOption.value = doBetaUpdates
+    this.uiScaleSlider.value = UISettings.uiScale ?? 1
+    this.setUIScaleScreenValue()
   }
 
   async update () {

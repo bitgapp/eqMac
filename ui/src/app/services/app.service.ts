@@ -1,8 +1,9 @@
-import { Injectable } from '@angular/core'
+import { EventEmitter, Injectable } from '@angular/core'
 import { AppComponent } from '../app.component'
 import { ConstantsService } from './constants.service'
 import { DataService } from './data.service'
 import { ToastService } from './toast.service'
+import { UIService } from './ui.service'
 
 export interface Info {
   name: string
@@ -17,10 +18,21 @@ export interface Info {
 export class ApplicationService extends DataService {
   ref?: AppComponent
   info?: Info
+  private _uiScale = 1
+  uiScaleChanged = new EventEmitter<number>()
+
+  get uiScale () { return this._uiScale }
+  set uiScale (newUIScale: number) {
+    if (this.uiScale !== newUIScale) {
+      this._uiScale = newUIScale
+      this.uiScaleChanged.emit(this.uiScale)
+    }
+  }
 
   constructor (
     public toast: ToastService,
-    public CONST: ConstantsService
+    public CONST: ConstantsService,
+    public ui: UIService
   ) {
     super()
     this.on('/error', ({ error }) => {
@@ -29,6 +41,19 @@ export class ApplicationService extends DataService {
         type: 'warning'
       })
     })
+    this.sync()
+  }
+
+  async sync () {
+    const [ uiSettings ] = await Promise.all([
+      this.ui.getSettings()
+    ])
+    this.uiScale = uiSettings.uiScale ?? 1
+  }
+
+  setUIScale (uiScale: number) {
+    this.uiScale = uiScale
+    this.ui.setSettings({ uiScale })
   }
 
   async getInfo (): Promise<Info> {
