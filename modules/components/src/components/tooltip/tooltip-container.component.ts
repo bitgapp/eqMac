@@ -8,7 +8,6 @@ import { FadeInOutAnimation } from '../../animations/fade-in-out'
     <div class="tooltip-container">
       <eqm-tooltip
         *ngFor="let tooltip of tooltipService.components"
-        [@FadeInOut]
         [text]="tooltip.text"
         [parent]="tooltip.parent"
         [positionSide]="tooltip.positionSide"

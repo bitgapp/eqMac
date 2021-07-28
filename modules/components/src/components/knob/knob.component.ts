@@ -160,7 +160,17 @@ export class KnobComponent implements OnInit, OnDestroy {
     this.dettachWindowEvents()
   }
 
+  @HostListener('mouseenter', [ '$event' ])
+  mouseenter () {
+    if (this.windowEventsAttached) {
+      this.dettachWindowEvents()
+    }
+  }
+
+  private windowEventsAttached = false
   private attachWindowEvents () {
+    if (this.windowEventsAttached) return
+    this.windowEventsAttached = true
     window.addEventListener('mousemove', this.mousemove, true)
     window.addEventListener('mouseup', this.mouseup, true)
   }
@@ -168,6 +178,7 @@ export class KnobComponent implements OnInit, OnDestroy {
   private dettachWindowEvents () {
     window.removeEventListener('mousemove', this.mousemove, true)
     window.removeEventListener('mouseup', this.mouseup, true)
+    this.windowEventsAttached = false
   }
 
   doubleclick () {

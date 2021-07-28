@@ -3,8 +3,6 @@
 :host {
   display: block;
   width: 100%;
-  transition: filter;
-  transition-duration: 0.5s;
   filter: grayscale(80%);
 }
 

@@ -8,7 +8,8 @@ import {
   ViewChild,
   EventEmitter,
   HostBinding,
-  OnDestroy
+  OnDestroy,
+  ChangeDetectionStrategy
 } from '@angular/core'
 import {
   UtilitiesService
@@ -22,7 +23,8 @@ export interface SkeuomorphSliderValueChangedEvent {
 @Component({
   selector: 'eqm-skeuomorph-slider',
   templateUrl: './skeuomorph-slider.component.html',
-  styleUrls: [ './skeuomorph-slider.component.scss' ]
+  styleUrls: [ './skeuomorph-slider.component.scss' ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SkeuomorphSliderComponent implements OnInit, OnDestroy {
   constructor (
@@ -148,7 +150,17 @@ export class SkeuomorphSliderComponent implements OnInit, OnDestroy {
     this.dettachWindowEvents()
   }
 
+  @HostListener('mouseenter', [ '$event' ])
+  mouseenter () {
+    if (this.windowEventsAttached) {
+      this.dettachWindowEvents()
+    }
+  }
+
+  private windowEventsAttached = false
   private attachWindowEvents () {
+    if (this.windowEventsAttached) return
+    this.windowEventsAttached = true
     window.addEventListener('mousemove', this.mousemove, true)
     window.addEventListener('mouseup', this.mouseup, true)
   }
@@ -156,6 +168,7 @@ export class SkeuomorphSliderComponent implements OnInit, OnDestroy {
   private dettachWindowEvents () {
     window.removeEventListener('mousemove', this.mousemove, true)
     window.removeEventListener('mouseup', this.mouseup, true)
+    this.windowEventsAttached = false
   }
 
   doubleclick () {
