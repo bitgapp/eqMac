@@ -36,7 +36,7 @@ Idea is to become the ultimate Audio toolbox for macOS (some features might not 
 * and more...
 
 ## User support
-I'm notoriously known for lacking in communication with users due to lack of time in my busy life. This project is heavily reliant on the whole community helping each other out. If you have an issue with eqMac please go through [Issues](https://github.com/bitgapp/eqMac/issues) to see if it's already being discussed, if not create a new one. Also you can [join our Discord](https://discord.eqmac.app). Please no stupid questions like "How to bass?" - those will be completely ignored.
+This project is heavily reliant on the whole community helping each other out. If you have an issue with eqMac please go through [Issues](https://github.com/bitgapp/eqMac/issues) to see if it's already being discussed, if not create a new one. Also you can [join our Discord](https://discord.eqmac.app), I'm there all the time and I like to chat with people.
 
 ## Technology
 eqMac was built using these technologies:
@@ -45,16 +45,8 @@ eqMac was built using these technologies:
 * [UI](https://github.com/bitgapp/eqMac/tree/master/ui) - Web based user interface that is hosted remotely and thus allows for over the air updates & bug fixes. Built with [Angular](https://angular.io/) + [TypeScript](https://www.typescriptlang.org/) and is cached for offline availability.
 
 ## Contribution
-At the moment eqMac is going through a major rewrite and it's hard to coordinate the development of big features, but I'm open to try anyway. Please create an issue on GitHub (please check if your issue is already being discussed) or [join our Discord](https://discord.eqmac.app) to discuss. Once a piece of work has been agreed - fork, build, debug, fix, merge and create a Pull Request to get your work merged in :) 
+At the moment eqMac is going through a major rewrite and it's hard to coordinate the development of big features. But bug fixes, performance optimizations and refactoring PR's are welcomed! Please create an issue on GitHub (please check if your issue is already being discussed) or [join our Discord](https://discord.eqmac.app) to discuss. Once a piece of work has been agreed - fork, build, debug, fix, merge and create a Pull Request to get your work merged in :) 
 Check the documentation below to understand how to start eqMac debug process from Xcode
-
-## Credits
-
-[@nodeful](https://github.com/nodeful) - Creator and Developer of eqMac
-
-Apple Inc. - For open sourcing this [HAL Driver Example](https://developer.apple.com/documentation/coreaudio/creating_an_audio_server_driver_plug-in)
-
-[@titanicbobo](https://github.com/titanicbobo) - For the [Big Sur icon design](https://github.com/bitgapp/eqMac/blob/master/assets/icon/icon.svg)
 
 ## Development
 Fork the repository, then run these commands in Terminal.app:
@@ -63,19 +55,6 @@ Fork the repository, then run these commands in Terminal.app:
 git clone https://github.com/YOUR_USERNAME/eqMac.git
 cd eqMac/
 ```
-
-### Web User Interface
-If you want to run the web based User Interface locally then you need to follow these steps to make that happen:
-
-#### Prerequisites
-Install [Node.js](https://nodejs.org/en/) LTS version preferrably using [NVM](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Install [Yarn](https://classic.yarnpkg.com/en/) v1 globally: `npm i -g yarn` (this is needed because the project uses [Yarn Workspaces](https://classic.yarnpkg.com/en/docs/workspaces/))
-
-#### Building and running the Web UI
-1. Run `yarn` from the root directory of the Monorepo
-2. Go into the ui/ directory by `cd ui/`
-3. Start local development server with `yarn start`
 
 ### Native app + driver
 #### Prerequisites
@@ -90,3 +69,26 @@ Install [Yarn](https://classic.yarnpkg.com/en/) v1 globally: `npm i -g yarn` (th
 3. Open the Xcode workspace: `open eqMac.xcworkspace`
 4. Launch eqMac in debug mode by running the **App - Debug** Scheme:
 <img width="512" src="https://user-images.githubusercontent.com/8472525/83069640-279c1100-a062-11ea-85a7-45aa5253771b.png"/>
+
+### Web User Interface
+You don't need to run the UI code locally to debug just the Swift side of the app, unless you want to debug the UI code :)
+If you want to run the web based User Interface locally then you need to follow these steps to make that happen:
+
+#### Prerequisites
+Install [Node.js](https://nodejs.org/en/) LTS version preferrably using [NVM](https://github.com/nvm-sh/nvm#installing-and-updating)
+
+Install [Yarn](https://classic.yarnpkg.com/en/) v1 globally: `npm i -g yarn` (this is needed because the project uses [Yarn Workspaces](https://classic.yarnpkg.com/en/docs/workspaces/))
+
+#### Building and running the Web UI
+1. Run `yarn` from the root directory of the Monorepo
+2. Go into the ui/ directory by `cd ui/`
+3. Start local development server with `yarn start`
+
+
+## Credits
+
+[@nodeful](https://github.com/nodeful) - Creator and Developer of eqMac
+
+Apple Inc. - For open sourcing this [HAL Driver Example](https://developer.apple.com/documentation/coreaudio/creating_an_audio_server_driver_plug-in)
+
+[@titanicbobo](https://github.com/titanicbobo) - For the [Big Sur icon design](https://github.com/bitgapp/eqMac/blob/master/assets/icon/icon.svg)
