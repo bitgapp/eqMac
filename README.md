@@ -12,13 +12,13 @@
 
 ## Features
 ### Current
-* System-wide audio source
+* System audio source
 * Volume Booster
 * HDMI Volume Support
 * Volume Balance support for all devices (including HDMI)
-* Basic EQ - 3 band (Bass, Mids, Treble)
-* Advanced EQ - 10 bands
-* Expert EQ - Unlimited bands*
+* Basic EQ - Bass, Mids, Treble control
+* Advanced EQ - Fixed 10 bands
+* Expert EQ - Unlimited bands, fully customizable (Filter Type, Frequency, Gain, Bandwidth)  *
 * Spectrum analyzer*
 * [AutoEQ](https://github.com/jaakkopasanen/AutoEq?referrer=eqMac&referer=eqMac&utm_source=eqMac) Integration*
 
@@ -27,12 +27,13 @@
 ### Roadmap
 Idea is to become the ultimate Audio toolbox for macOS (some features might not be open sourced)
 * Reverb - Spatial audio enhancement
-* Volume mixer - Apply different volume levels per each application
-* Input audio source - Apply effects to any device: guitar, microphone etc.
+* Volume Mixer - Apply different volume levels per each application
+* Separate L/R Channel EQ - Fix hearing impairements 
+* Input Audio Source - Apply effects to any device: guitar, microphone etc.
 * Recorder - save any audio playback (System, Input device, File)
 * File playback and rendering - Apply effects to audio files and instantly render them
 * Remote control from your phone
-* Hide unused effects / elements of the UI
+* Fully customizable UI
 * and more...
 
 ## User support
