@@ -169,6 +169,7 @@ export class BasicEqualizerComponent extends EqualizerComponent implements OnIni
     if (!event.transition) {
       this.setSelectedPresetsGains()
     }
+    this.change.detectChanges()
     await this.service.updatePreset(manualPreset, {
       select: true,
       transition: event.transition

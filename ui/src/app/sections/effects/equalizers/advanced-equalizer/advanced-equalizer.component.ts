@@ -233,6 +233,7 @@ export class AdvancedEqualizerComponent extends EqualizerComponent implements On
       this.setSelectedPresetsGains()
     }
 
+    this.change.detectChanges()
     this.service.updatePreset(manualPreset, {
       select: true,
       transition: event.transition

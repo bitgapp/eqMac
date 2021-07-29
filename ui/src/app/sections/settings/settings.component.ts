@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core'
 import { CheckboxOption, ButtonOption, Options, SelectOption, DividerOption, FlatSliderOption, LabelOption, ValueScreenOption } from 'src/app/components/options/options.component'
 import { SettingsService, IconMode } from './settings.service'
 import { ApplicationService } from '../../services/app.service'
@@ -208,6 +208,7 @@ before they go out to all users.
     scrollEnabled: false,
     userChangedValue: event => {
       this.setUIScaleScreenValue()
+      this.changeRef.detectChanges()
       if (this.uiScaleSliderDebounceTimer) {
         clearTimeout(this.uiScaleSliderDebounceTimer)
       }
@@ -333,7 +334,8 @@ before they go out to all users.
     public app: ApplicationService,
     public dialog: MatDialog,
     public ui: UIService,
-    public analytics: AnalyticsService
+    public analytics: AnalyticsService,
+    private readonly changeRef: ChangeDetectorRef
   ) {
   }
 
