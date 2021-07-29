@@ -23,8 +23,7 @@ export interface SkeuomorphSliderValueChangedEvent {
 @Component({
   selector: 'eqm-skeuomorph-slider',
   templateUrl: './skeuomorph-slider.component.html',
-  styleUrls: [ './skeuomorph-slider.component.scss' ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: [ './skeuomorph-slider.component.scss' ]
 })
 export class SkeuomorphSliderComponent implements OnInit, OnDestroy {
   constructor (
