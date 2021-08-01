@@ -62,6 +62,8 @@ class Application {
       }
     }
   }
+  
+  static var equalizersTypeChangedListener: EventListener<EqualizerType>?
 
   static public func start () {
     if (!Constants.DEBUG) {
@@ -80,13 +82,7 @@ class Application {
           setupAudio()
         }
 
-        enabledChangedListener = enabledChanged.on { enabled in
-          if (enabled) {
-            setupAudio()
-          } else {
-            stopSave {}
-          }
-        }
+        setupListeners()
 
         self.setupUI {
           if (User.isFirstLaunch) {
@@ -96,6 +92,26 @@ class Application {
           }
         }
       }
+    }
+  }
+  
+  private static func setupListeners () {
+    enabledChangedListener = enabledChanged.on { enabled in
+      if (enabled) {
+        setupAudio()
+      } else {
+        stopSave {}
+      }
+    }
+    
+    equalizersTypeChangedListener = Equalizers.typeChanged.on { _ in
+      if (enabled) {
+        stopSave {}
+        Utilities.delay(100) {
+          setupAudio()
+        }
+      }
+      
     }
   }
   
