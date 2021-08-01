@@ -355,6 +355,10 @@ class Application {
         retain: false
       ) {
         if ignoreEvents { return }
+        if ignoreNextVolumeEvent {
+          ignoreNextVolumeEvent = false
+          return
+        }
         let deviceVolume = selectedDevice!.virtualMasterVolume(direction: .playback)!
         let driverVolume = Driver.device!.virtualMasterVolume(direction: .playback)!
         if (deviceVolume != driverVolume) {
@@ -508,12 +512,15 @@ class Application {
 
   static func handleSleep () {
     ignoreEvents = true
-    stopSave {}
+    if enabled {
+      stopSave {}
+    }
   }
 
   static func handleWakeUp () {
     // Wait for devices to initialize, not sure what delay is appropriate
     Utilities.delay(1000) {
+      if !enabled { return }
       if lastKnownDeviceStack.count == 0 { return setupAudio() }
       let lastDevice = lastKnownDeviceStack.last
       var tries = 0
