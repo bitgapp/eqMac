@@ -123,8 +123,7 @@ class Output {
       Application.output!.resetOffsets()
       return noErr
     }
-    //    Console.log("Output Finished! Silence", bufferSilencePercent(ioData!))
-
+    
     return noErr
   }
   

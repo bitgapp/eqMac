@@ -62,6 +62,8 @@ class Application {
       }
     }
   }
+  
+  static var equalizersTypeChangedListener: EventListener<EqualizerType>?
 
   static public func start () {
     if (!Constants.DEBUG) {
@@ -80,13 +82,7 @@ class Application {
           setupAudio()
         }
 
-        enabledChangedListener = enabledChanged.on { enabled in
-          if (enabled) {
-            setupAudio()
-          } else {
-            stopSave {}
-          }
-        }
+        setupListeners()
 
         self.setupUI {
           if (User.isFirstLaunch) {
@@ -96,6 +92,26 @@ class Application {
           }
         }
       }
+    }
+  }
+  
+  private static func setupListeners () {
+    enabledChangedListener = enabledChanged.on { enabled in
+      if (enabled) {
+        setupAudio()
+      } else {
+        stopSave {}
+      }
+    }
+    
+    equalizersTypeChangedListener = Equalizers.typeChanged.on { _ in
+      if (enabled) {
+        stopSave {}
+        Utilities.delay(100) {
+          setupAudio()
+        }
+      }
+      
     }
   }
   
@@ -339,6 +355,10 @@ class Application {
         retain: false
       ) {
         if ignoreEvents { return }
+        if ignoreNextVolumeEvent {
+          ignoreNextVolumeEvent = false
+          return
+        }
         let deviceVolume = selectedDevice!.virtualMasterVolume(direction: .playback)!
         let driverVolume = Driver.device!.virtualMasterVolume(direction: .playback)!
         if (deviceVolume != driverVolume) {
@@ -492,12 +512,15 @@ class Application {
 
   static func handleSleep () {
     ignoreEvents = true
-    stopSave {}
+    if enabled {
+      stopSave {}
+    }
   }
 
   static func handleWakeUp () {
     // Wait for devices to initialize, not sure what delay is appropriate
     Utilities.delay(1000) {
+      if !enabled { return }
       if lastKnownDeviceStack.count == 0 { return setupAudio() }
       let lastDevice = lastKnownDeviceStack.last
       var tries = 0

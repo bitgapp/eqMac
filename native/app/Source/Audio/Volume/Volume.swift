@@ -34,6 +34,7 @@ class Volume: StoreSubscriber {
       var virtualVolume: Double = 1
       if (gain <= 1) {
         if (volumeSupported) {
+          Application.ignoreNextVolumeEvent = true
           device.setVirtualMasterVolume(Float32(gain), direction: .playback)
         } else {
           virtualVolume = gain
@@ -53,6 +54,7 @@ class Volume: StoreSubscriber {
           return
         }
         if (volumeSupported) {
+          Application.ignoreNextVolumeEvent = true
           device.setVirtualMasterVolume(1.0, direction: .playback)
         }
         virtualVolume = Utilities.mapValue(value: gain, inMin: 1, inMax: 2, outMin: 1, outMax: 6)
@@ -64,6 +66,7 @@ class Volume: StoreSubscriber {
           mixer.pan = Float(balance)
         }
 
+        Application.ignoreNextVolumeEvent = true
         Driver.device!.setVirtualMasterVolume(1, direction: .playback)
       }
 
