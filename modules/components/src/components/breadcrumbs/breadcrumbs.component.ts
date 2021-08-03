@@ -1,9 +1,10 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
 
 @Component({
   selector: 'eqm-breadcrumbs',
   templateUrl: './breadcrumbs.component.html',
-  styleUrls: [ './breadcrumbs.component.scss' ]
+  styleUrls: [ './breadcrumbs.component.scss' ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BreadcrumbsComponent implements OnInit {
   @Input() crumbs: string[]

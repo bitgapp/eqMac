@@ -2,7 +2,8 @@ import {
   Component,
   OnInit,
   Input,
-  ViewEncapsulation
+  ViewEncapsulation,
+  ChangeDetectionStrategy
 } from '@angular/core'
 import { svgs, IconName } from './icons'
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser'
@@ -11,7 +12,8 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser'
   selector: 'eqm-icon',
   templateUrl: './icon.component.html',
   styleUrls: [ './icon.component.scss' ],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class IconComponent implements OnInit {
   @Input() width = 20

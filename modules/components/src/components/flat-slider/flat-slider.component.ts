@@ -8,7 +8,9 @@ import {
   HostBinding,
   HostListener,
   OnInit,
-  OnDestroy
+  OnDestroy,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef
 } from '@angular/core'
 import {
   UtilitiesService
@@ -25,13 +27,15 @@ export interface FlatSliderValueChangedEvent {
   selector: 'eqm-flat-slider',
   templateUrl: './flat-slider.component.html',
   styleUrls: [ './flat-slider.component.scss' ],
-  animations: [ FadeInOutAnimation ]
+  animations: [ FadeInOutAnimation ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FlatSliderComponent implements OnInit, OnDestroy {
   constructor (
     public utils: UtilitiesService,
     public elem: ElementRef<HTMLElement>,
-    public sanitizer: DomSanitizer
+    public sanitizer: DomSanitizer,
+    private readonly changeRef: ChangeDetectorRef
   ) {}
 
   @Input() scale: 'logarithmic' | 'linear' = 'linear'
@@ -42,6 +46,7 @@ export class FlatSliderComponent implements OnInit, OnDestroy {
   @Input() animationDuration = 500
   @Input() animationFps = 30
   @Input() scrollEnabled = true
+  @Input() scrollOnlyWithOrientation = false
   @Input() middle?: number
   @Input() stickToMiddle = true
   @Input() thickness = 2
@@ -112,10 +117,10 @@ export class FlatSliderComponent implements OnInit, OnDestroy {
         outMin: 0,
         outMax: 100
       })
-      if ((this._value).toFixed(2) === (middleValue).toFixed(2) && percFromMiddle < 5) {
+      if ((this._value).toFixed(2) === (middleValue).toFixed(2) && percFromMiddle < 2) {
         value = middleValue
       } else if ((this._value < middleValue && newValue > this._value) || (this._value > middleValue && newValue < this._value)) {
-        if (percFromMiddle < 3) {
+        if (percFromMiddle < 1) {
           value = middleValue
           this.stickedToMiddle.emit()
         }
@@ -123,6 +128,7 @@ export class FlatSliderComponent implements OnInit, OnDestroy {
     }
     this._value = this.clampValue(value)
     this.valueChange.emit(this._value)
+    this.changeRef.detectChanges()
   }
 
   get value () { return this._value }
@@ -155,8 +161,17 @@ export class FlatSliderComponent implements OnInit, OnDestroy {
       const now = new Date().getTime()
       if (now - this.lastWheelEvent < this.wheelDebouncer) return
       this.lastWheelEvent = now
+
+      const changeDelta = (() => {
+        if (this.scrollOnlyWithOrientation) {
+          return this.orientation === 'horizontal' ? event.deltaX : -event.deltaY
+        }
+        return -event.deltaY + (this.orientation === 'horizontal' ? event.deltaX : 0)
+      })()
+      const diff = changeDelta < 0 ? -changeDelta : changeDelta
+      if (diff < 2) return
       let progress = this.progress
-      progress += -event.deltaY / 1000
+      progress += changeDelta / 1000
       if (progress < 0) progress = 0
       if (progress > 1) progress = 1
       progress = Math.round(progress * 1000)

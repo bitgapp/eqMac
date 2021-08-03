@@ -1,9 +1,10 @@
-import { Component, Input, ElementRef, HostBinding } from '@angular/core'
+import { Component, Input, ElementRef, HostBinding, ChangeDetectionStrategy } from '@angular/core'
 
 @Component({
   selector: 'eqm-divider',
   template: '',
-  styleUrls: [ './divider.component.scss' ]
+  styleUrls: [ './divider.component.scss' ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DividerComponent {
   @Input() orientation: 'vertical' | 'horizontal' = 'horizontal'

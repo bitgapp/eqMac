@@ -9,7 +9,8 @@ import {
   HostBinding,
   ElementRef,
   ChangeDetectorRef,
-  OnDestroy
+  OnDestroy,
+  ChangeDetectionStrategy
 } from '@angular/core'
 import { UtilitiesService } from '../../services/utilities.service'
 
@@ -20,7 +21,8 @@ export interface KnobValueChangedEvent {
 @Component({
   selector: 'eqm-knob',
   templateUrl: './knob.component.html',
-  styleUrls: [ './knob.component.scss' ]
+  styleUrls: [ './knob.component.scss' ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class KnobComponent implements OnInit, OnDestroy {
   @Input() size: 'large' | 'medium' | 'small' = 'medium'
@@ -39,7 +41,7 @@ export class KnobComponent implements OnInit, OnDestroy {
   @Input() animationDuration = 500
   @Input() animationFps = 30
   @Output() animatingToMiddle = new EventEmitter()
-
+  @Input() scrollDirection: 'vertical' | 'horizontal' | 'both' = 'both'
   @Input() stickToMiddle = false
   @Output() stickedToMiddle = new EventEmitter()
 
@@ -66,7 +68,7 @@ export class KnobComponent implements OnInit, OnDestroy {
       if ((this._value).toFixed(1) === (this.middleValue).toFixed(1) && percFromMiddle < 2) {
         value = this.middleValue
       } else if ((this._value < this.middleValue && newValue > this._value) || (this._value > this.middleValue && newValue < this._value)) {
-        if (percFromMiddle < 5) {
+        if (percFromMiddle < 1) {
           value = this.middleValue
           this.stickedToMiddle.emit(this.continueAnimation)
         }
@@ -74,6 +76,7 @@ export class KnobComponent implements OnInit, OnDestroy {
     }
     this._value = this.clampValue(value)
     this.valueChange.emit(this._value)
+    this.changeRef.detectChanges()
   }
 
   get value () {
@@ -92,16 +95,26 @@ export class KnobComponent implements OnInit, OnDestroy {
     this.container = this.containerRef.nativeElement
   }
 
+  @Input() scrollEnabled = true
   private lastWheelEvent = new Date().getTime()
   private readonly wheelDebouncer = 1000 / 30
   @HostListener('mousewheel', [ '$event' ])
   mouseWheel (event: WheelEvent) {
-    if (this.enabled) {
+    if (this.enabled && this.scrollEnabled) {
       this.continueAnimation = false
       const now = new Date().getTime()
       if ((now - this.lastWheelEvent) < this.wheelDebouncer) return
       this.lastWheelEvent = now
-      this.value += -event.deltaY / (1000 / this.max)
+      const changeDelta = (() => {
+        switch (this.scrollDirection) {
+          case 'horizontal': return event.deltaX
+          case 'vertical': return -event.deltaY
+          case 'both': return -event.deltaY + event.deltaX
+        }
+      })()
+      const diff = changeDelta < 0 ? -changeDelta : changeDelta
+      if (diff < 2) return
+      this.value += changeDelta / (1000 / this.max)
       this.userChangedValue.emit({ value: this.value })
     }
   }

@@ -1,4 +1,4 @@
-import { Component, OnInit, HostBinding, Input } from '@angular/core'
+import { Component, OnInit, HostBinding, Input, ChangeDetectionStrategy } from '@angular/core'
 
 @Component({
   selector: 'eqm-container',

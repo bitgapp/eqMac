@@ -1,10 +1,11 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
+import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core'
 import { ColorsService } from '../../services/colors.service'
 
 @Component({
   selector: 'eqm-button',
   templateUrl: './button.component.html',
-  styleUrls: [ './button.component.scss' ]
+  styleUrls: [ './button.component.scss' ],
+  changeDetection: ChangeDetectionStrategy.Default
 })
 export class ButtonComponent implements OnInit {
   @Input() type: 'large' | 'narrow' | 'square' | 'circle' | 'transparent' = 'large'

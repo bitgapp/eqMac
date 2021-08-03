@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core'
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core'
 import { ColorsService } from '../../services/colors.service'
 
 @Component({
@@ -7,7 +7,8 @@ import { ColorsService } from '../../services/colors.service'
     <div [ngStyle]="style">
       <eqm-label [fontSize]="fontSize" [color]="color">Pro</eqm-label>
     </div>
-  `
+  `,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProComponent {
   @Input() color = this.colors.light

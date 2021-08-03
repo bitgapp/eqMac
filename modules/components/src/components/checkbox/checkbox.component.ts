@@ -1,9 +1,10 @@
-import { Component, Input, Output, EventEmitter, HostBinding, HostListener, ViewChild, ElementRef, ContentChild } from '@angular/core'
+import { Component, Input, Output, EventEmitter, HostBinding, HostListener, ViewChild, ElementRef, ContentChild, ChangeDetectionStrategy } from '@angular/core'
 
 @Component({
   selector: 'eqm-checkbox',
   templateUrl: './checkbox.component.html',
-  styleUrls: [ './checkbox.component.scss' ]
+  styleUrls: [ './checkbox.component.scss' ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CheckboxComponent {
   @Input() labelSide: 'left' | 'right'

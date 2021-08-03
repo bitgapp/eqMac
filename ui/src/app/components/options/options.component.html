@@ -86,7 +86,7 @@
           [animationDuration]="option.animationDuration" [animationFps]="option.animationFps"
           [scrollEnabled]="option.scrollEnabled" [stickToMiddle]="option.stickToMiddle"
           (valueChange)="option.changed && option.changed($event)"
-          (userChangedValue)="option.userChangedValue && option.userChangedValue($event)"
+          (userChangedValue)="sliderUserChangedValue(option, $event)"
           (stickedToMiddle)="option.stickedToMiddle && option.stickedToMiddle()"
         ></eqm-flat-slider>
 
@@ -96,7 +96,7 @@
           [animationDuration]="option.animationDuration" [animationFps]="option.animationFps"
           [scrollEnabled]="option.scrollEnabled" [stickToMiddle]="option.stickToMiddle"
           (valueChange)="option.changed && option.changed($event)"
-          (userChangedValue)="option.userChangedValue && option.userChangedValue($event)"
+          (userChangedValue)="sliderUserChangedValue(option, $event)"
           (stickedToMiddle)="option.stickedToMiddle && option.stickedToMiddle()"
         ></eqm-skeuomorph-slider>
 

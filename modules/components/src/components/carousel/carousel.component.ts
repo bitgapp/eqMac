@@ -1,4 +1,4 @@
-import { Component, ContentChildren, QueryList, Directive, ViewChild, ElementRef, Input, TemplateRef, AfterViewInit, Output, EventEmitter, ViewChildren, OnDestroy } from '@angular/core'
+import { Component, ContentChildren, QueryList, Directive, ViewChild, ElementRef, Input, TemplateRef, AfterViewInit, Output, EventEmitter, ViewChildren, OnDestroy, ChangeDetectionStrategy } from '@angular/core'
 import { AnimationFactory, animate, style, AnimationBuilder } from '@angular/animations'
 
 @Directive({
@@ -23,7 +23,8 @@ export class CarouselItemElement {
 @Component({
   selector: 'eqm-carousel',
   templateUrl: './carousel.component.html',
-  styleUrls: [ './carousel.component.scss' ]
+  styleUrls: [ './carousel.component.scss' ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CarouselComponent implements AfterViewInit, OnDestroy {
   @ContentChildren(CarouselItemDirective) items!: QueryList<CarouselItemDirective>

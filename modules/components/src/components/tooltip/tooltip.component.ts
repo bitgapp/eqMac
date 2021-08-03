@@ -3,7 +3,8 @@ import {
   OnInit,
   Input,
   ElementRef,
-  ViewChild
+  ViewChild,
+  ChangeDetectionStrategy
 } from '@angular/core'
 import { UtilitiesService } from '../../services/utilities.service'
 import { DomSanitizer } from '@angular/platform-browser'
@@ -12,7 +13,8 @@ export type TooltipPositionSide = 'top' | 'bottom' | 'left' | 'right'
 @Component({
   selector: 'eqm-tooltip',
   templateUrl: './tooltip.component.html',
-  styleUrls: [ './tooltip.component.scss' ]
+  styleUrls: [ './tooltip.component.scss' ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TooltipComponent implements OnInit {
   @Input() text?: string
