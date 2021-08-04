@@ -18,15 +18,15 @@
 * Volume Balance support for all devices (including HDMI)
 * Basic EQ - Bass, Mids, Treble control
 * Advanced EQ - Fixed 10 bands
-* Expert EQ - Unlimited bands, fully customizable (Filter Type, Frequency, Gain, Bandwidth)  *
+* Expert EQ* - Unlimited bands, fully customizable (Filter Type, Frequency, Gain, Bandwidth)
 * Spectrum analyzer*
 * [AutoEQ](https://github.com/jaakkopasanen/AutoEq?referrer=eqMac&referer=eqMac&utm_source=eqMac) Integration*
+* Reverb* - Spatial audio enhancement
 
 *Not Open Sourced
 
 ### Roadmap
 Idea is to become the ultimate Audio toolbox for macOS (some features might not be open sourced)
-* Reverb - Spatial audio enhancement
 * Volume Mixer - Apply different volume levels per each application
 * Separate L/R Channel EQ - Fix hearing impairements 
 * Input Audio Source - Apply effects to any device: guitar, microphone etc.
@@ -35,6 +35,8 @@ Idea is to become the ultimate Audio toolbox for macOS (some features might not 
 * Remote control from your phone
 * Fully customizable UI
 * and more...
+
+[Vote on the Features you want to see sooner](https://eqmac.app/#coming-soon)
 
 ## User support
 This project is heavily reliant on the whole community helping each other out. If you have an issue with eqMac please go through [Issues](https://github.com/bitgapp/eqMac/issues) to see if it's already being discussed, if not create a new one. Also you can [join our Discord](https://discord.eqmac.app), I'm there all the time and I like to chat with people.
