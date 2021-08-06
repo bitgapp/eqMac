@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  <img width="512" src="https://github.com/bitgapp/eqMac/raw/master/assets/screenshots/expert-eq.png"/>
+  <img width="512" src="https://github.com/bitgapp/eqMac/raw/master/assets/screenshots/main.png"/>
 </p>
 
 <p align="center">
