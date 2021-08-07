@@ -10,6 +10,7 @@ import { EqualizerPreset } from './presets/equalizer-presets.component'
 import { UIService } from '../../../services/ui.service'
 import { EffectEnabledChangedEventCallback } from '../effect.service'
 import { UtilitiesService } from '../../../services/utilities.service'
+import { ApplicationService } from '../../../services/app.service'
 
 @Component({
   selector: 'eqm-equalizers',
@@ -51,6 +52,7 @@ export class EqualizersComponent implements OnInit, OnDestroy {
     public equalizersService: EqualizersService,
     public dialog: MatDialog,
     public ui: UIService,
+    public app: ApplicationService,
     private readonly changeRef: ChangeDetectorRef,
     private readonly utils: UtilitiesService
   ) { }
@@ -102,6 +104,7 @@ export class EqualizersComponent implements OnInit, OnDestroy {
   }
 
   async setType (type: EqualizerType) {
+    if (!this.app.enabled) return
     await this.equalizersService.setType(type)
     this.type = type
     await this.utils.delay(this.animationDuration)

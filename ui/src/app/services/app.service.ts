@@ -16,6 +16,7 @@ export interface Info {
   providedIn: 'root'
 })
 export class ApplicationService extends DataService {
+  enabled: boolean
   ref?: AppComponent
   info?: Info
   private _uiScale = 1
@@ -45,9 +46,11 @@ export class ApplicationService extends DataService {
   }
 
   async sync () {
-    const [ uiSettings ] = await Promise.all([
-      this.ui.getSettings()
+    const [ uiSettings, enabled ] = await Promise.all([
+      this.ui.getSettings(),
+      this.getEnabled()
     ])
+    this.enabled = enabled
     this.uiScale = uiSettings.uiScale ?? 1
   }
 
@@ -91,10 +94,12 @@ export class ApplicationService extends DataService {
 
   async getEnabled (): Promise<boolean> {
     const { enabled } = await this.request({ method: 'GET', endpoint: '/enabled' })
+    this.enabled = enabled
     return enabled
   }
 
   setEnabled (enabled: boolean) {
+    this.enabled = enabled
     return this.request({ method: 'POST', endpoint: '/enabled', data: { enabled } })
   }
 }
