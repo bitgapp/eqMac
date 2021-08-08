@@ -28,7 +28,8 @@
             [enabled]="!option.isEnabled || option.isEnabled() === true"
             [depressable]="false" [toggle]="true" type="narrow" [state]="option.selectedId === selectOption.id" (pressed)="selectedOption(option, selectOption)"
             >
-              <eqm-label [clickable]="true">{{selectOption.label}}</eqm-label>
+              <eqm-icon *ngIf="selectOption.icon" [name]="selectOption.icon" [size]="16" [stroke]="selectOption.iconStroke || 0"></eqm-icon>
+              <eqm-label *ngIf="selectOption.label" [clickable]="true">{{selectOption.label}}</eqm-label>
             </eqm-button>
           </div>
         </div>

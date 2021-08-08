@@ -25,7 +25,7 @@
   class="knob-control">
   <ng-container *ngTemplateOutlet="volume"></ng-container>
   <eqm-knob [enabled]="app.enabled" [min]="0" [max]="boostEnabled ? 2 : 1" [(value)]="gain" (userChangedValue)="setGain($event.value)" [stickToMiddle]="boostEnabled"
-    (stickedToMiddle)="performHapticFeedback($event)" size="small" [doubleClickToAnimateToMiddle]="false">
+    (stickedToMiddle)="performHapticFeedback($event)" size="small" [doubleClickToAnimateToMiddle]="false" [controlStyle]="ui.settings.knobControlStyle">
   </eqm-knob>
   <ng-container *ngTemplateOutlet="boost"></ng-container>
 </div>

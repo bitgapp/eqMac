@@ -2,21 +2,24 @@ import { Injectable } from '@angular/core'
 import { DataService } from './data.service'
 import { Subject } from 'rxjs'
 import packageJson from '../../../package.json'
+import { KnobControlStyle } from '../../../../modules/components/src'
 
 export interface UISettings {
   replaceKnobsWithSliders?: boolean
   doCollectTelemetry?: boolean
   privacyFormSeen?: boolean
-
   uiScale?: number
+  knobControlStyle?: KnobControlStyle
 
   volumeFeatureEnabled?: boolean
-  boostFeatureEnabled?: boolean
   balanceFeatureEnabled?: boolean
   equalizersFeatureEnabled?: boolean
   outputFeatureEnabled?: boolean
 
+  showReverbs?: boolean
   showEqualizers?: boolean
+
+  reverbsShownBefore?: boolean
 }
 
 export interface UIDimensions {
@@ -40,6 +43,7 @@ export class UIService extends DataService {
   route = `${this.route}/ui`
   dimensionsChanged = new Subject<UIDimensions>()
   settingsChanged = new Subject<UISettings>()
+  settings: UISettings
 
   readonly colors = {
     accent: '#4f8d71',
@@ -48,6 +52,35 @@ export class UIService extends DataService {
     'gradient-end': '#2c2c2e',
     light: '#c9cdd0',
     dark: '#16191c'
+  }
+
+  constructor () {
+    super()
+    this.sync()
+  }
+
+  async sync () {
+    const [ uiSettings ] = await Promise.all([
+      this.getSettings()
+    ])
+    this.settings = uiSettings
+    if (!uiSettings.knobControlStyle) {
+      this.settings.knobControlStyle = 'directional'
+    }
+    if (typeof uiSettings.volumeFeatureEnabled !== 'boolean') {
+      this.settings.volumeFeatureEnabled = true
+    }
+
+    if (typeof uiSettings.balanceFeatureEnabled !== 'boolean') {
+      this.settings.balanceFeatureEnabled = true
+    }
+    if (typeof uiSettings.equalizersFeatureEnabled !== 'boolean') {
+      this.settings.equalizersFeatureEnabled = true
+    }
+    if (typeof uiSettings.outputFeatureEnabled !== 'boolean') {
+      this.settings.outputFeatureEnabled = true
+    }
+    this.setSettings(this.settings)
   }
 
   get version () {
@@ -117,13 +150,14 @@ export class UIService extends DataService {
 
   async getSettings (): Promise<UISettings> {
     const settings = await this.request({ method: 'GET', endpoint: '/settings' })
-    return settings || {}
+    this.settings = settings || {}
+    return this.settings
   }
 
   async setSettings (settings: Partial<UISettings>) {
-    settings = await this.request({ method: 'POST', endpoint: '/settings', data: settings })
-    this.settingsChanged.next(settings)
-    return settings
+    this.settings = await this.request({ method: 'POST', endpoint: '/settings', data: settings })
+    this.settingsChanged.next(this.settings)
+    return this.settings
   }
 
   async loaded () {

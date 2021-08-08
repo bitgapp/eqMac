@@ -120,6 +120,7 @@ export class EqualizersComponent implements OnInit, OnDestroy {
 
   toggleVisibility () {
     this.show = !this.show
+    this.ui.setSettings({ showEqualizers: this.show })
     this.visibilityToggled.emit(this.show)
   }
 

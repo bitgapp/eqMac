@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectorRef } from '@angular/core'
-import { DropdownComponent, FlatSliderValueChangedEvent, SkeuomorphSliderValueChangedEvent } from '@eqmac/components'
+import { DropdownComponent, FlatSliderValueChangedEvent, IconName, SkeuomorphSliderValueChangedEvent } from '@eqmac/components'
 import { ApplicationService } from '../../services/app.service'
 
 interface BaseOptions {
@@ -56,7 +56,9 @@ export interface CheckboxOption extends BaseOptions {
 
 export interface SelectOptionOption <T = string> {
   id: T
-  label: string
+  label?: string
+  icon?: IconName
+  iconStroke?: number
 }
 export interface SelectOption <T = string> extends BaseOptions {
   type: 'select'

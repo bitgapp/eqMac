@@ -39,6 +39,14 @@ export class AppComponent implements OnInit, AfterContentInit {
     const style: any = {}
 
     style.transform = `scale(${this.app.uiScale})`
+
+    const dropdownSection = document.getElementById('dropdown-section')
+    if (dropdownSection) {
+      const header = document.getElementById('header')
+      const minHeight = dropdownSection.offsetHeight + header.offsetHeight
+      style.height = `${minHeight}px`
+    }
+
     return style
   }
 
@@ -201,7 +209,9 @@ This data would help us improve and grow the product.`
         height = dimensions.height
       }
     }
+
     height *= this.app.uiScale
+
     this.ui.setHeight(height)
   }
 

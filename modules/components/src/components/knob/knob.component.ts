@@ -18,6 +18,9 @@ export interface KnobValueChangedEvent {
   value: number
   transition?: boolean
 }
+
+export type KnobControlStyle = 'directional' | 'rotational'
+
 @Component({
   selector: 'eqm-knob',
   templateUrl: './knob.component.html',
@@ -44,10 +47,12 @@ export class KnobComponent implements OnInit, OnDestroy {
   @Input() scrollDirection: 'vertical' | 'horizontal' | 'both' = 'both'
   @Input() stickToMiddle = false
   @Output() stickedToMiddle = new EventEmitter()
+  @Input() controlStyle: KnobControlStyle = 'directional'
 
   public dragging = false
   public setDraggingFalseTimeout: any = null
   public continueAnimation = false
+  public dragStartDegr = 0
 
   @ViewChild('container', { static: true }) containerRef!: ElementRef
   container!: HTMLDivElement
@@ -122,6 +127,9 @@ export class KnobComponent implements OnInit, OnDestroy {
   @HostListener('mousedown', [ '$event' ])
   mousedown (event: MouseEvent) {
     if (this.enabled) {
+      if (this.controlStyle === 'rotational') {
+        this.dragStartDegr = this.getDegreesFromEvent(event)
+      }
       this.continueAnimation = false
       this.dragging = true
     }
@@ -150,9 +158,36 @@ export class KnobComponent implements OnInit, OnDestroy {
       }
       if (this.dragging) {
         this.continueAnimation = false
-        const change = (-event.movementY + event.movementX) / (100 / this.max)
-        this.value += change
-        this.userChangedValue.emit({ value: this.value })
+        if (this.controlStyle === 'directional') {
+          const change = (-event.movementY + event.movementX) / (100 / this.max)
+          this.value += change
+          this.userChangedValue.emit({ value: this.value })
+        }
+        if (this.controlStyle === 'rotational') {
+          const distanceFromCenter = this.getDistanceFromCenterOfElementAndEvent(event)
+          const unaffectedRadius = (this.container.clientWidth) / 7
+          if (distanceFromCenter < unaffectedRadius) {
+            return
+          }
+          const degrees = this.getDegreesFromEvent(event)
+          if ((this.dragStartDegr < 0 && degrees > 0) || (this.dragStartDegr > 0 && degrees < 0)) {
+            this.dragStartDegr = degrees
+          }
+          const degreeDiff = this.dragStartDegr - degrees
+          this.dragStartDegr = degrees
+          const multiplier = (() => {
+            switch (this.size) {
+              case 'large': return 250
+              case 'medium': return 220
+              case 'small': return 480
+              default: return 220
+            }
+          })()
+          const oldValue = this.value
+          this.value += degreeDiff / (multiplier / this.max)
+          const newValue = this.value
+          if (oldValue !== newValue) this.userChangedValue.emit({ value: this.value })
+        }
       }
       this.setDraggingFalseTimeout = setTimeout(() => {
         this.dragging = false
@@ -267,6 +302,23 @@ export class KnobComponent implements OnInit, OnDestroy {
       }
     }
     this.continueAnimation = false
+  }
+
+  public getDegreesFromEvent (event: MouseEvent) {
+    const coords = this.utils.getCoordinatesInsideElementFromEvent(event, this.container)
+    const knobCenterX = (this.container.clientWidth) / 2
+    const knobCenterY = (this.container.clientHeight) / 2
+    const rads = Math.atan2(coords.x - knobCenterX, coords.y - knobCenterY)
+    return rads * 100
+  }
+
+  public getDistanceFromCenterOfElementAndEvent (event: MouseEvent) {
+    const coords = this.utils.getCoordinatesInsideElementFromEvent(event, this.container)
+    const knobCenterX = (this.container.clientWidth) / 2
+    const knobCenterY = (this.container.clientHeight) / 2
+    const w = coords.x - knobCenterX
+    const h = coords.y - knobCenterY
+    return Math.sqrt(w * w + h * h)
   }
 
   public clampValue (value: number) {

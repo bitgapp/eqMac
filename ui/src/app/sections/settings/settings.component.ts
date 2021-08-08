@@ -8,6 +8,7 @@ import { StatusItemIconType, UIService } from '../../services/ui.service'
 import { AnalyticsService } from '../../services/analytics.service'
 import { SemanticVersion } from '../../services/semantic-version.service'
 import { OptionsDialogComponent } from '../../components/options-dialog/options-dialog.component'
+import { KnobControlStyle } from '../../../../../modules/components/src'
 
 @Component({
   selector: 'eqm-settings',
@@ -29,6 +30,22 @@ export class SettingsComponent implements OnInit {
     toggled: replaceKnobsWithSliders => {
       this.ui.setSettings({ replaceKnobsWithSliders })
       this.app.ref.closeDropdownSection('settings')
+    }
+  }
+
+  knobControlStyleOption: SelectOption<KnobControlStyle> = {
+    type: 'select',
+    label: 'Knob Control',
+    options: [ {
+      id: 'directional',
+      icon: 'move'
+    }, {
+      id: 'rotational',
+      icon: 'refresh'
+    } ],
+    selectedId: 'directional',
+    selected: knobControlStyle => {
+      this.ui.setSettings({ knobControlStyle })
     }
   }
 
@@ -226,82 +243,78 @@ before they go out to all users.
     value: '100%'
   }
 
-  // hideShowFeaturesOption: ButtonOption = {
-  //   type: 'button',
-  //   label: 'Show/Hide Features',
-  //   action: async () => {
-  //     const uiSettings = await this.ui.getSettings()
-  //     const volume: CheckboxOption = {
-  //       type: 'checkbox',
-  //       label: 'Volume',
-  //       value: uiSettings.showVolumeFeature ?? true,
-  //       toggled: showVolumeFeature => {
-  //         this.ui.setSettings({ showVolumeFeature })
-  //       }
-  //     }
-  //     const boost: CheckboxOption = {
-  //       type: 'checkbox',
-  //       label: 'Boost',
-  //       value: uiSettings.showBoostFeature ?? true,
-  //       toggled: showBoostFeature => {
-  //         this.ui.setSettings({ showBoostFeature })
-  //       }
-  //     }
-  //     const balance: CheckboxOption = {
-  //       type: 'checkbox',
-  //       label: 'Balance',
-  //       value: uiSettings.showBalanceFeature ?? true,
-  //       toggled: showBalanceFeature => {
-  //         this.ui.setSettings({ showBalanceFeature })
-  //       }
-  //     }
+  hideShowFeaturesOption: ButtonOption = {
+    type: 'button',
+    label: 'Show/Hide Features',
+    action: async () => {
+      const uiSettings = await this.ui.getSettings()
+      const volume: CheckboxOption = {
+        type: 'checkbox',
+        label: 'Volume',
+        value: uiSettings.volumeFeatureEnabled ?? true,
+        toggled: volumeFeatureEnabled => {
+          this.ui.setSettings({ volumeFeatureEnabled })
+        }
+      }
 
-  //     const equalizers: CheckboxOption = {
-  //       type: 'checkbox',
-  //       label: 'Equalizers',
-  //       value: uiSettings.showEqualizerFeature ?? true,
-  //       toggled: showEqualizerFeature => {
-  //         this.ui.setSettings({ showEqualizerFeature })
-  //       }
-  //     }
+      const balance: CheckboxOption = {
+        type: 'checkbox',
+        label: 'Balance',
+        value: uiSettings.balanceFeatureEnabled ?? true,
+        toggled: balanceFeatureEnabled => {
+          this.ui.setSettings({ balanceFeatureEnabled })
+        }
+      }
 
-  //     const output: CheckboxOption = {
-  //       type: 'checkbox',
-  //       label: 'Output',
-  //       value: uiSettings.showOutputFeature ?? true,
-  //       toggled: showOutputFeature => {
-  //         this.ui.setSettings({ showOutputFeature })
-  //       }
-  //     }
-  //     const options: Options = [
-  //       [ volume, boost, balance ],
-  //       [ this.divider ],
-  //       [ equalizers ],
-  //       [ this.divider ],
-  //       [ output ]
-  //     ]
+      const equalizers: CheckboxOption = {
+        type: 'checkbox',
+        label: 'Equalizers',
+        value: uiSettings.equalizersFeatureEnabled ?? true,
+        toggled: equalizersFeatureEnabled => {
+          this.ui.setSettings({ equalizersFeatureEnabled })
+        }
+      }
 
-  //     await this.dialog.open(OptionsDialogComponent, {
-  //       hasBackdrop: true,
-  //       disableClose: false,
-  //       data: {
-  //         options
-  //       }
-  //     })
-  //   }
-  // }
+      const output: CheckboxOption = {
+        type: 'checkbox',
+        label: 'Output',
+        value: uiSettings.outputFeatureEnabled ?? true,
+        toggled: outputFeatureEnabled => {
+          this.ui.setSettings({ outputFeatureEnabled })
+        }
+      }
+      const options: Options = [
+        [ volume, balance ],
+        [ this.divider ],
+        [ equalizers ],
+        [ this.divider ],
+        [ output ]
+      ]
+
+      await this.dialog.open(OptionsDialogComponent, {
+        hasBackdrop: true,
+        disableClose: false,
+        data: {
+          options
+        }
+      })
+    }
+  }
 
   private readonly divider: DividerOption = { type: 'divider', orientation: 'horizontal' }
   settings: Options = [
-    // [ this.hideShowFeaturesOption ],
     [ this.uiScaleLabel, this.uiScaleSlider, this.uiScaleScreen ],
     [ this.iconModeOption ],
     [ this.statusItemIconTypeOption ],
     [
-      this.replaceKnobsWithSlidersOption,
       this.launchOnStartupOption,
       this.alwaysOnTopOption
     ],
+    [
+      this.replaceKnobsWithSlidersOption,
+      this.knobControlStyleOption
+    ],
+    [ this.hideShowFeaturesOption ],
 
     [ this.divider ],
 
@@ -374,6 +387,7 @@ before they go out to all users.
     this.iconModeOption.selectedId = iconMode
     this.launchOnStartupOption.value = launchOnStartup
     this.replaceKnobsWithSlidersOption.value = UISettings.replaceKnobsWithSliders
+    this.knobControlStyleOption.selectedId = UISettings.knobControlStyle
     this.doCollectTelemetryOption.value = UISettings.doCollectTelemetry
     this.doCollectCrashReportsOption.value = doCollectCrashReports
     this.autoCheckUpdatesOption.value = doAutoCheckUpdates

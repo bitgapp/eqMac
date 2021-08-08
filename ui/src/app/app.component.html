@@ -1,32 +1,32 @@
-<div #container class="container" [style]="containerStyle">
+<div #container class="container" [ngStyle]="containerStyle">
   <eqm-loading class="loader" *ngIf="!loaded"></eqm-loading>
-  <eqm-header class="header" 
+  <eqm-header class="header" id="header"
     (settingsToggled)="toggleDropdownSection('settings')"
     (helpToggled)="toggleDropdownSection('help')"
   ></eqm-header>
   <eqm-divider></eqm-divider>
-  <eqm-settings 
-    class="dropdown-section" 
+  
+  <eqm-settings id="dropdown-section"
+    class="dropdown-section"
     (clickedOutside)="closeDropdownSection('settings', $event)"
     [@FadeInOut]
     [@FromTop] 
     *ngIf="showDropdownSections.settings"
   ></eqm-settings>
-  <eqm-help 
-    class="dropdown-section" 
+  <eqm-help id="dropdown-section"
+    class="dropdown-section"
     (clickedOutside)="closeDropdownSection('help', $event)"
     [@FadeInOut]
     [@FromTop] 
     *ngIf="showDropdownSections.help"
   ></eqm-help>
 
-  <eqm-volume-booster-balance></eqm-volume-booster-balance>
-  <eqm-divider></eqm-divider>
+  <eqm-volume-booster-balance *ngIf="ui.settings.volumeFeatureEnabled && ui.settings.balanceFeatureEnabled"></eqm-volume-booster-balance>
+  <eqm-divider *ngIf="ui.settings.volumeFeatureEnabled && ui.settings.balanceFeatureEnabled"></eqm-divider>
 
-  <eqm-equalizers (type)="syncDimensions()" (visibilityToggled)="syncDimensions()"></eqm-equalizers>
-  <eqm-divider></eqm-divider>
+  <eqm-equalizers (type)="syncDimensions()" *ngIf="ui.settings.equalizersFeatureEnabled" (visibilityToggled)="syncDimensions()"></eqm-equalizers>
+  <eqm-divider *ngIf="ui.settings.equalizersFeatureEnabled && ui.settings.outputFeatureEnabled"></eqm-divider>
 
-  <eqm-outputs></eqm-outputs>
+  <eqm-outputs *ngIf="ui.settings.outputFeatureEnabled"></eqm-outputs>
   <eqm-tooltip-container></eqm-tooltip-container>
 </div>
-
