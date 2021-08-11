@@ -42,9 +42,8 @@ export class AppComponent implements OnInit, AfterContentInit {
 
     const dropdownSection = document.getElementById('dropdown-section')
     if (dropdownSection) {
-      const header = document.getElementById('header')
-      const minHeight = dropdownSection.offsetHeight + header.offsetHeight
-      style.height = `${minHeight}px`
+      const minHeight = dropdownSection.offsetHeight
+      style.minHeight = `${minHeight}px`
     }
 
     return style
