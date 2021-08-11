@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		789B5F202699153000C72029 /* eqMac.c in Sources */ = {isa = PBXBuildFile; fileRef = 789B5F1F2699153000C72029 /* eqMac.c */; };
+		78A8049E26C4866D0021981C /* eqMacBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 78A8049D26C4866D0021981C /* eqMacBridge.m */; };
+		78A804D726C4903E0021981C /* eqMac.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A804D626C4903E0021981C /* eqMac.swift */; };
 		E01A29F82456E50500369F41 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E01A29F72456E50500369F41 /* CoreFoundation.framework */; };
 		E0DAAFBD21FE545F00DCCCEC /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = E0DAAFBC21FE545F00DCCCEC /* icon.icns */; };
 /* End PBXBuildFile section */
@@ -15,8 +16,10 @@
 /* Begin PBXFileReference section */
 		1CB8B3641BBBB78D000E2DD1 /* eqMac.driver */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = eqMac.driver; sourceTree = BUILT_PRODUCTS_DIR; };
 		1CB8B3681BBBB78D000E2DD1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		789B5F1E2699153000C72029 /* eqMac.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = eqMac.h; sourceTree = "<group>"; };
-		789B5F1F2699153000C72029 /* eqMac.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = eqMac.c; sourceTree = "<group>"; };
+		78A8049D26C4866D0021981C /* eqMacBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = eqMacBridge.m; sourceTree = "<group>"; };
+		78A804A026C486820021981C /* eqMacBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = eqMacBridge.h; sourceTree = "<group>"; };
+		78A804D526C4903E0021981C /* eqMac-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "eqMac-Bridging-Header.h"; sourceTree = "<group>"; };
+		78A804D626C4903E0021981C /* eqMac.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = eqMac.swift; sourceTree = "<group>"; };
 		E01A29F72456E50500369F41 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		E0DAAFBC21FE545F00DCCCEC /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
 		E0FA2BB021FBB917001C99CD /* build.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = build.sh; sourceTree = "<group>"; };
@@ -56,8 +59,9 @@
 		1CB8B3661BBBB78D000E2DD1 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				789B5F1E2699153000C72029 /* eqMac.h */,
-				789B5F1F2699153000C72029 /* eqMac.c */,
+				78A8049C26C486350021981C /* Bridge */,
+				78A804D626C4903E0021981C /* eqMac.swift */,
+				78A804D526C4903E0021981C /* eqMac-Bridging-Header.h */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -69,6 +73,15 @@
 				1CB8B3681BBBB78D000E2DD1 /* Info.plist */,
 			);
 			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		78A8049C26C486350021981C /* Bridge */ = {
+			isa = PBXGroup;
+			children = (
+				78A8049D26C4866D0021981C /* eqMacBridge.m */,
+				78A804A026C486820021981C /* eqMacBridge.h */,
+			);
+			path = Bridge;
 			sourceTree = "<group>";
 		};
 		E00879C7237EC3D3006AACF8 /* Frameworks */ = {
@@ -121,6 +134,7 @@
 					1CB8B3631BBBB78D000E2DD1 = {
 						CreatedOnToolsVersion = 6.4;
 						DevelopmentTeam = JZA6C97KJA;
+						LastSwiftMigration = 1240;
 						ProvisioningStyle = Manual;
 					};
 				};
@@ -179,7 +193,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				789B5F202699153000C72029 /* eqMac.c in Sources */,
+				78A8049E26C4866D0021981C /* eqMacBridge.m in Sources */,
+				78A804D726C4903E0021981C /* eqMac.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -322,10 +337,11 @@
 		1CB8B36A1BBBB78D000E2DD1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
-				CLANG_ENABLE_MODULES = NO;
-				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_ASSIGN_ENUM = NO;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
@@ -341,10 +357,12 @@
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1.2.3;
+				DEAD_CODE_STRIPPING = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = JZA6C97KJA;
 				ENABLE_NS_ASSERTIONS = YES;
-				GCC_C_LANGUAGE_STANDARD = c11;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_CPP_RTTI = YES;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
@@ -359,6 +377,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Supporting Files/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Audio/Plug-Ins/HAL";
 				IPHONEOS_DEPLOYMENT_TARGET = "";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MARKETING_VERSION = 1.2.3;
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -369,6 +388,9 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 				SKIP_INSTALL = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "Source/eqMac-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				TVOS_DEPLOYMENT_TARGET = "";
 				WARNING_CFLAGS = "";
 				WATCHOS_DEPLOYMENT_TARGET = "";
@@ -379,10 +401,11 @@
 		1CB8B36B1BBBB78D000E2DD1 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
-				CLANG_ENABLE_MODULES = NO;
-				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_ASSIGN_ENUM = NO;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
@@ -398,10 +421,12 @@
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1.2.3;
+				DEAD_CODE_STRIPPING = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = JZA6C97KJA;
 				ENABLE_NS_ASSERTIONS = YES;
-				GCC_C_LANGUAGE_STANDARD = c11;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_ENABLE_CPP_RTTI = YES;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = "";
@@ -415,6 +440,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Supporting Files/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Audio/Plug-Ins/HAL";
 				IPHONEOS_DEPLOYMENT_TARGET = "";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MARKETING_VERSION = 1.2.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
@@ -424,6 +450,8 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 				SKIP_INSTALL = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "Source/eqMac-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
 				TVOS_DEPLOYMENT_TARGET = "";
 				WARNING_CFLAGS = "";
 				WATCHOS_DEPLOYMENT_TARGET = "";
