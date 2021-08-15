@@ -1,5 +1,5 @@
 //
-//  eqMacBridge.h
+//  EQMDriverBridge.h
 //  Driver
 //
 //  Created by Nodeful on 12/08/2021.
@@ -8,4 +8,4 @@
 
 #import <CoreFoundation/CoreFoundation.h>
 
-void *eqMac_Create(CFAllocatorRef allocator, CFUUIDRef requestedTypeUUID);
+void *EQM_Create(CFAllocatorRef allocator, CFUUIDRef requestedTypeUUID);
