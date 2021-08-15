@@ -19,7 +19,7 @@ extension String {
             do {
                 return try JSONSerialization.jsonObject(with: data, options: []) as? [String: AnyObject]
             } catch {
-                Console.log(error.localizedDescription)
+                print(error.localizedDescription)
             }
         }
         return nil

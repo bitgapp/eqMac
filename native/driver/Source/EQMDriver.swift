@@ -229,17 +229,17 @@ func EQM_HasProperty (inDriver: AudioServerPlugInDriverRef, inObjectID: AudioObj
   return DarwinBoolean(({
     switch inObjectID {
 
-    case kObjectID_PlugIn: return EQMPlugIn.hasProperty()
-    case kObjectID_Box: return EQMBox.hasProperty()
-    case kObjectID_Device: return EQMDevice.hasProperty()
+    case kObjectID_PlugIn: return EQMPlugIn.hasProperty(address: inAddress.pointee)
+    case kObjectID_Box: return EQMBox.hasProperty(address: inAddress.pointee)
+    case kObjectID_Device: return EQMDevice.hasProperty(address: inAddress.pointee)
 
     case kObjectID_Stream_Input,
-         kObjectID_Stream_Output: return EQMStream.hasProperty()
+         kObjectID_Stream_Output: return EQMStream.hasProperty(address: inAddress.pointee)
 
     case kObjectID_Volume_Output_Master,
          kObjectID_Mute_Output_Master,
          kObjectID_DataSource_Input_Master,
-         kObjectID_DataSource_Output_Master: return EQMControl.hasProperty()
+         kObjectID_DataSource_Output_Master: return EQMControl.hasProperty(address: inAddress.pointee)
       
     default:
       return false

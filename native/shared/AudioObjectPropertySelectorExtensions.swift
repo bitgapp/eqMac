@@ -1,6 +1,7 @@
 
 
 import Foundation
+import CoreAudio.AudioServerPlugIn
 
 extension AudioObjectPropertySelector {
   static func fromString (_ str: String) -> AudioObjectPropertySelector {

@@ -1,12 +1,4 @@
-//
-//  NumericTypesConversions.swift
-//  WaveLabs
-//
-//  Created by Vlad Gorlov on 29.06.16.
-//  Copyright © 2016 WaveLabs. All rights reserved.
-//
 
-import CoreGraphics
 
 public protocol IntRepresentable {
    var intValue: Int { get }
@@ -40,20 +32,13 @@ public protocol DoubleRepresentable {
    var doubleValue: Double { get }
 }
 
-public protocol CGFloatRepresentable {
-   var CGFloatValue: CGFloat { get } // swiftlint:disable:this variable_name
-}
-
 // region MARK: Implementations
 
-extension Int: UInt32Representable, CGFloatRepresentable, DoubleRepresentable, Int32Representable {
+extension Int: UInt32Representable, DoubleRepresentable, Int32Representable {
    public var uint32Value: UInt32 {
       return UInt32(self)
    }
 
-   public var CGFloatValue: CGFloat { // swiftlint:disable:this variable_name
-      return CGFloat(self)
-   }
 
    public var doubleValue: Double {
       return Double(self)
@@ -122,20 +107,16 @@ extension UInt64: DoubleRepresentable, Int64Representable {
    }
 }
 
-extension Float: CGFloatRepresentable, IntRepresentable {
-   public var CGFloatValue: CGFloat { // swiftlint:disable:this variable_name
-      return CGFloat(self)
-   }
+extension Float: IntRepresentable {
+
 
    public var intValue: Int {
       return Int(self)
    }
 }
 
-extension Double: CGFloatRepresentable, FloatRepresentable, Int64Representable, UInt64Representable {
-   public var CGFloatValue: CGFloat { // swiftlint:disable:this variable_name
-      return CGFloat(self)
-   }
+extension Double: FloatRepresentable, Int64Representable, UInt64Representable {
+
 
    public var floatValue: Float {
       return Float(self)
@@ -150,22 +131,6 @@ extension Double: CGFloatRepresentable, FloatRepresentable, Int64Representable, 
    }
 }
 
-extension CGFloat: FloatRepresentable, DoubleRepresentable, IntRepresentable, Int32Representable {
-   public var floatValue: Float {
-      return Float(self)
-   }
 
-   public var doubleValue: Double {
-      return Double(self)
-   }
-
-   public var intValue: Int {
-      return Int(self)
-   }
-
-   public var int32Value: Int32 {
-      return Int32(self)
-   }
-}
 
 // endregion

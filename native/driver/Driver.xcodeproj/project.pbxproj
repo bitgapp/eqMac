@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7838E35226C897560039D466 /* SharedConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7838E34E26C897560039D466 /* SharedConstants.swift */; };
+		7838E35326C897560039D466 /* AudioObjectPropertySelectorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7838E34F26C897560039D466 /* AudioObjectPropertySelectorExtensions.swift */; };
+		7838E35426C897560039D466 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7838E35026C897560039D466 /* StringExtensions.swift */; };
+		7838E35526C897560039D466 /* NumericTypesConversions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7838E35126C897560039D466 /* NumericTypesConversions.swift */; };
 		78A8049E26C4866D0021981C /* EQMDriverBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 78A8049D26C4866D0021981C /* EQMDriverBridge.m */; };
 		78A804D726C4903E0021981C /* EQMDriver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A804D626C4903E0021981C /* EQMDriver.swift */; };
 		78A804DD26C563860021981C /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A804DC26C563860021981C /* Constants.swift */; };
@@ -22,6 +26,10 @@
 /* Begin PBXFileReference section */
 		1CB8B3641BBBB78D000E2DD1 /* eqMac.driver */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = eqMac.driver; sourceTree = BUILT_PRODUCTS_DIR; };
 		1CB8B3681BBBB78D000E2DD1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7838E34E26C897560039D466 /* SharedConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SharedConstants.swift; path = ../shared/SharedConstants.swift; sourceTree = "<group>"; };
+		7838E34F26C897560039D466 /* AudioObjectPropertySelectorExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AudioObjectPropertySelectorExtensions.swift; path = ../shared/AudioObjectPropertySelectorExtensions.swift; sourceTree = "<group>"; };
+		7838E35026C897560039D466 /* StringExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StringExtensions.swift; path = ../shared/StringExtensions.swift; sourceTree = "<group>"; };
+		7838E35126C897560039D466 /* NumericTypesConversions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NumericTypesConversions.swift; path = ../shared/NumericTypesConversions.swift; sourceTree = "<group>"; };
 		78A8049D26C4866D0021981C /* EQMDriverBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EQMDriverBridge.m; sourceTree = "<group>"; };
 		78A804A026C486820021981C /* EQMDriverBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EQMDriverBridge.h; sourceTree = "<group>"; };
 		78A804D526C4903E0021981C /* EQMDriver-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "EQMDriver-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -52,6 +60,7 @@
 		1CB8B3591BBBB69C000E2DD1 = {
 			isa = PBXGroup;
 			children = (
+				7838E34D26C897450039D466 /* Shared */,
 				1CB8B3661BBBB78D000E2DD1 /* Source */,
 				E0FA2BAF21FBB917001C99CD /* Scripts */,
 				1CB8B3651BBBB78D000E2DD1 /* Products */,
@@ -89,6 +98,17 @@
 				1CB8B3681BBBB78D000E2DD1 /* Info.plist */,
 			);
 			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		7838E34D26C897450039D466 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				7838E34F26C897560039D466 /* AudioObjectPropertySelectorExtensions.swift */,
+				7838E35126C897560039D466 /* NumericTypesConversions.swift */,
+				7838E34E26C897560039D466 /* SharedConstants.swift */,
+				7838E35026C897560039D466 /* StringExtensions.swift */,
+			);
+			name = Shared;
 			sourceTree = "<group>";
 		};
 		78A8049C26C486350021981C /* Bridge */ = {
@@ -218,10 +238,14 @@
 			files = (
 				78A8049E26C4866D0021981C /* EQMDriverBridge.m in Sources */,
 				78A804D726C4903E0021981C /* EQMDriver.swift in Sources */,
+				7838E35426C897560039D466 /* StringExtensions.swift in Sources */,
+				7838E35326C897560039D466 /* AudioObjectPropertySelectorExtensions.swift in Sources */,
 				78A8050326C5F4810021981C /* ObjectProtocol.swift in Sources */,
 				78A804E026C5676D0021981C /* EQMPlugIn.swift in Sources */,
+				7838E35226C897560039D466 /* SharedConstants.swift in Sources */,
 				78A804EA26C596080021981C /* EQMDevice.swift in Sources */,
 				78A804DD26C563860021981C /* Constants.swift in Sources */,
+				7838E35526C897560039D466 /* NumericTypesConversions.swift in Sources */,
 				78A804E726C595D80021981C /* EQMBox.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

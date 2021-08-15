@@ -9,10 +9,10 @@
 import Foundation
 import CoreAudio.AudioServerPlugIn
 
-let kEQMDeviceCustomPropertyLatency = Utilities.getPropertySelector(from: "cltc")
-let kEQMDeviceCustomPropertySafetyOffset =  Utilities.getPropertySelector(from: "csfo")
-let kEQMDeviceCustomPropertyShown =  Utilities.getPropertySelector(from: "shwn")
-let kEQMDeviceCustomPropertyVersion =  Utilities.getPropertySelector(from: "vrsn")
+let kEQMDeviceCustomPropertyLatency = AudioObjectPropertySelector.fromString("cltc")
+let kEQMDeviceCustomPropertySafetyOffset =  AudioObjectPropertySelector.fromString("csfo")
+let kEQMDeviceCustomPropertyShown =  AudioObjectPropertySelector.fromString("shwn")
+let kEQMDeviceCustomPropertyVersion =  AudioObjectPropertySelector.fromString("vrsn")
 
 class EQMDevice {
   static let id = AudioObjectID(kDeviceUID)!
@@ -42,10 +42,10 @@ class EQMDevice {
      kAudioDevicePropertyIcon,
      kAudioDevicePropertyStreams,
      kAudioObjectPropertyCustomPropertyInfoList,
-     kAudioDeviceCustomPropertyShown,
-     kAudioDeviceCustomPropertyVersion,
-     kAudioDeviceCustomPropertyLatency,
-     kAudioDeviceCustomPropertySafetyOffset:
+     kEQMDeviceCustomPropertyShown,
+     kEQMDeviceCustomPropertyVersion,
+     kEQMDeviceCustomPropertyLatency,
+     kEQMDeviceCustomPropertySafetyOffset:
       return true
 
      case kAudioDevicePropertyDeviceCanBeDefaultDevice,
