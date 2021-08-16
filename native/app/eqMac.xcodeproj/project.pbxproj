@@ -12,6 +12,7 @@
 		7838E34726C896EB0039D466 /* NumericTypesConversions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7838E34526C896C60039D466 /* NumericTypesConversions.swift */; };
 		7838E34826C896EB0039D466 /* SharedConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7838E34226C896C60039D466 /* SharedConstants.swift */; };
 		7838E34926C896EB0039D466 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7838E34426C896C60039D466 /* StringExtensions.swift */; };
+		7838E36226C9CBE80039D466 /* ArrayExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7838E36126C9CBE80039D466 /* ArrayExtensions.swift */; };
 		783A6F9A266FA1A600A96B42 /* CircularBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783A6F97266FA1A600A96B42 /* CircularBuffer.swift */; };
 		783A6F9D266FA1F300A96B42 /* Atomics in Frameworks */ = {isa = PBXBuildFile; productRef = 783A6F9C266FA1F300A96B42 /* Atomics */; };
 		783A6FA02670225C00A96B42 /* Benchmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783A6F9F2670225C00A96B42 /* Benchmark.swift */; };
@@ -39,7 +40,6 @@
 		E01B1BBB235E456600CC58E5 /* SystemSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01B1BBA235E456600CC58E5 /* SystemSource.swift */; };
 		E01B1BBD235E458200CC58E5 /* Driver.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01B1BBC235E458200CC58E5 /* Driver.swift */; };
 		E01F2F5D203391EA005123BE /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01F2F5C203391EA005123BE /* Utilities.swift */; };
-		E01F2F5F2034A188005123BE /* ArrayExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01F2F5E2034A188005123BE /* ArrayExtensions.swift */; };
 		E021BCE722313F1E004921FF /* SettingsDataBus.swift in Sources */ = {isa = PBXBuildFile; fileRef = E021BCE622313F1E004921FF /* SettingsDataBus.swift */; };
 		E0241AA5225E9FB700748656 /* BasicEqualizerPreset.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0241AA4225E9FB700748656 /* BasicEqualizerPreset.swift */; };
 		E02662F022BC3239006B486C /* NSSavePanelExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E02662EF22BC3239006B486C /* NSSavePanelExtensions.swift */; };
@@ -124,6 +124,7 @@
 		7838E34326C896C60039D466 /* AudioObjectPropertySelectorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AudioObjectPropertySelectorExtensions.swift; path = ../../shared/AudioObjectPropertySelectorExtensions.swift; sourceTree = "<group>"; };
 		7838E34426C896C60039D466 /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StringExtensions.swift; path = ../../shared/StringExtensions.swift; sourceTree = "<group>"; };
 		7838E34526C896C60039D466 /* NumericTypesConversions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NumericTypesConversions.swift; path = ../../shared/NumericTypesConversions.swift; sourceTree = "<group>"; };
+		7838E36126C9CBE80039D466 /* ArrayExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ArrayExtensions.swift; path = ../../shared/ArrayExtensions.swift; sourceTree = "<group>"; };
 		783A6F97266FA1A600A96B42 /* CircularBuffer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircularBuffer.swift; sourceTree = "<group>"; };
 		783A6F9F2670225C00A96B42 /* Benchmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Benchmark.swift; sourceTree = "<group>"; };
 		785453AA269B75F000E8AB42 /* Assets */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = folder; path = Assets; sourceTree = SOURCE_ROOT; };
@@ -149,7 +150,6 @@
 		E01B1BBA235E456600CC58E5 /* SystemSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemSource.swift; sourceTree = "<group>"; };
 		E01B1BBC235E458200CC58E5 /* Driver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Driver.swift; sourceTree = "<group>"; };
 		E01F2F5C203391EA005123BE /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
-		E01F2F5E2034A188005123BE /* ArrayExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtensions.swift; sourceTree = "<group>"; };
 		E021BCE622313F1E004921FF /* SettingsDataBus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsDataBus.swift; sourceTree = "<group>"; };
 		E0241AA4225E9FB700748656 /* BasicEqualizerPreset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicEqualizerPreset.swift; sourceTree = "<group>"; };
 		E02662EF22BC3239006B486C /* NSSavePanelExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSSavePanelExtensions.swift; sourceTree = "<group>"; };
@@ -254,6 +254,7 @@
 		7838E34126C896AB0039D466 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				7838E36126C9CBE80039D466 /* ArrayExtensions.swift */,
 				7838E34326C896C60039D466 /* AudioObjectPropertySelectorExtensions.swift */,
 				7838E34526C896C60039D466 /* NumericTypesConversions.swift */,
 				7838E34226C896C60039D466 /* SharedConstants.swift */,
@@ -276,7 +277,6 @@
 			isa = PBXGroup;
 			children = (
 				E00C595C23BBBB6C00C7B8B6 /* UnsafeMutableAudioBufferListPointer.swift */,
-				E01F2F5E2034A188005123BE /* ArrayExtensions.swift */,
 				E07A24E31FF3D49F007AEF20 /* AudioDevice.swift */,
 				E07B45A520FBA4990086AA7E /* Encodable.swift */,
 				E018710E21696D9500436B68 /* NSObject.swift */,
@@ -809,6 +809,7 @@
 				E07A24E61FF3D4E4007AEF20 /* CheckErr.swift in Sources */,
 				783A6F9A266FA1A600A96B42 /* CircularBuffer.swift in Sources */,
 				E0C8F78621D3B6590023B1E5 /* UIDataBus.swift in Sources */,
+				7838E36226C9CBE80039D466 /* ArrayExtensions.swift in Sources */,
 				E07A6EE122B6BA4E00DE7B16 /* File.swift in Sources */,
 				E0A3B96320DF992600E46908 /* Buffer.swift in Sources */,
 				E00618ED20F292B9003BA0B0 /* Networking.swift in Sources */,
@@ -845,7 +846,6 @@
 				E044AB7621ED27E4000C41A1 /* Equalizer.swift in Sources */,
 				E01B1BB5235E452D00CC58E5 /* Sources.swift in Sources */,
 				E090AD5A20A972DE003BE5FF /* BasicEqualizer.swift in Sources */,
-				E01F2F5F2034A188005123BE /* ArrayExtensions.swift in Sources */,
 				E0DDF3FA2188390300B37E77 /* Alert.swift in Sources */,
 				E0FFB703200119060003EC9E /* StatusItem.swift in Sources */,
 				E07A24E41FF3D49F007AEF20 /* AudioDevice.swift in Sources */,

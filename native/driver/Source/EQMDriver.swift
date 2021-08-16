@@ -142,6 +142,7 @@ func EQM_Initialize (inDriver: AudioServerPlugInDriverRef, inHost: AudioServerPl
   guard validate(inDriver) else { return kAudioHardwareBadObjectError }
 
   EQMDriver.host = inHost
+  EQMBox.acquired = true
   EQMDriver.hostTicksPerFrame = calculateHostTicksPerFrame()
 
   return kAudioHardwareNoError
@@ -222,6 +223,10 @@ func EQM_AbortDeviceConfigurationChange (inDriver: AudioServerPlugInDriverRef, i
 }
 
 // MARK: - Property Operations
+//  Note that for each object, this driver implements all the required properties plus a few
+//  extras that are useful but not required. There is more detailed commentary about each
+//  property in the EQMPlugin.getPropertyData() and EQMDevice.getPropertyData() methods.
+
 func EQM_HasProperty (inDriver: AudioServerPlugInDriverRef, inObjectID: AudioObjectID, inClientProcessID: pid_t, inAddress: UnsafePointer<AudioObjectPropertyAddress>) -> DarwinBoolean {
   // This method returns whether or not the given object has the given property.
   guard validate(inDriver) else { return false }
@@ -236,10 +241,12 @@ func EQM_HasProperty (inDriver: AudioServerPlugInDriverRef, inObjectID: AudioObj
     case kObjectID_Stream_Input,
          kObjectID_Stream_Output: return EQMStream.hasProperty(address: inAddress.pointee)
 
-    case kObjectID_Volume_Output_Master,
+    case kObjectID_Volume_Input_Master,
+         kObjectID_Volume_Output_Master,
+         kObjectID_Mute_Input_Master,
          kObjectID_Mute_Output_Master,
          kObjectID_DataSource_Input_Master,
-         kObjectID_DataSource_Output_Master: return EQMControl.hasProperty(address: inAddress.pointee)
+         kObjectID_DataSource_Output_Master: return EQMControl.hasProperty(objectID: inObjectID, address: inAddress.pointee)
       
     default:
       return false
@@ -251,18 +258,97 @@ func EQM_HasProperty (inDriver: AudioServerPlugInDriverRef, inObjectID: AudioObj
 func EQM_IsPropertySettable (inDriver: AudioServerPlugInDriverRef, inObjectID: AudioObjectID, inClientProcessID: pid_t, inAddress: UnsafePointer<AudioObjectPropertyAddress>, outIsSettable: UnsafeMutablePointer<DarwinBoolean>) -> OSStatus {
   // This method returns whether or not the given property on the object can have its value changed.
   guard validate(inDriver) else { return kAudioHardwareBadObjectError }
+
+  let isSettable = DarwinBoolean(({
+    switch inObjectID {
+
+    case kObjectID_PlugIn: return EQMPlugIn.isPropertySettable(address: inAddress.pointee)
+    case kObjectID_Box: return EQMBox.isPropertySettable(address: inAddress.pointee)
+    case kObjectID_Device: return EQMDevice.isPropertySettable(address: inAddress.pointee)
+
+    case kObjectID_Stream_Input,
+         kObjectID_Stream_Output: return EQMStream.isPropertySettable(address: inAddress.pointee)
+
+    case kObjectID_Volume_Input_Master,
+         kObjectID_Volume_Output_Master,
+         kObjectID_Mute_Input_Master,
+         kObjectID_Mute_Output_Master,
+         kObjectID_DataSource_Input_Master,
+         kObjectID_DataSource_Output_Master: return EQMControl.isPropertySettable(objectID: inObjectID, address: inAddress.pointee)
+
+    default:
+      return false
+    }
+  })())
+
+  outIsSettable.pointee = isSettable
+
+  return noErr
 }
 
 func EQM_GetPropertyDataSize (inDriver: AudioServerPlugInDriverRef, inObjectID: AudioObjectID, inClientProcessID: pid_t, inAddress: UnsafePointer<AudioObjectPropertyAddress>, inQualifierDataSize: UInt32, inQualifierData: UnsafeRawPointer?, outDataSize: UnsafeMutablePointer<UInt32>) -> OSStatus {
   // This method returns the byte size of the property's data.
   guard validate(inDriver) else { return kAudioHardwareBadObjectError }
 
+  if let size = ({ () -> UInt32? in
+    switch inObjectID {
+
+    case kObjectID_PlugIn: return EQMPlugIn.getPropertyDataSize(address: inAddress.pointee)
+    case kObjectID_Box: return EQMBox.getPropertyDataSize(address: inAddress.pointee)
+    case kObjectID_Device: return EQMDevice.getPropertyDataSize(address: inAddress.pointee)
+
+    case kObjectID_Stream_Input,
+         kObjectID_Stream_Output: return EQMStream.getPropertyDataSize(address: inAddress.pointee)
+
+    case kObjectID_Volume_Input_Master,
+         kObjectID_Volume_Output_Master,
+         kObjectID_Mute_Input_Master,
+         kObjectID_Mute_Output_Master,
+         kObjectID_DataSource_Input_Master,
+         kObjectID_DataSource_Output_Master: return EQMControl.getPropertyDataSize(objectID: inObjectID, address: inAddress.pointee)
+
+    default:
+      return nil
+    }
+  })() {
+    outDataSize.pointee = size
+    return noErr
+  } else {
+    return kAudioHardwareUnknownPropertyError
+  }
 }
 
 func EQM_GetPropertyData (inDriver: AudioServerPlugInDriverRef, inObjectID: AudioObjectID, inClientProcessID: pid_t, inAddress: UnsafePointer<AudioObjectPropertyAddress>, inQualifierDataSize: UInt32, inQualifierData: UnsafeRawPointer?, inDataSize: UInt32, outDataSize: UnsafeMutablePointer<UInt32>, outData: UnsafeMutableRawPointer) -> OSStatus {
   // Fetches the data of the given property and places it in the provided buffer.
   guard validate(inDriver) else { return kAudioHardwareBadObjectError }
 
+  if let data = ({ () -> EQMObjectProperty? in
+    switch inObjectID {
+
+    case kObjectID_PlugIn: return EQMPlugIn.getPropertyData(address: inAddress.pointee)
+    case kObjectID_Box: return EQMBox.getPropertyData(address: inAddress.pointee)
+    case kObjectID_Device: return EQMDevice.getPropertyData(address: inAddress.pointee)
+
+    case kObjectID_Stream_Input,
+         kObjectID_Stream_Output: return EQMStream.getPropertyData(address: inAddress.pointee)
+
+    case kObjectID_Volume_Input_Master,
+         kObjectID_Volume_Output_Master,
+         kObjectID_Mute_Input_Master,
+         kObjectID_Mute_Output_Master,
+         kObjectID_DataSource_Input_Master,
+         kObjectID_DataSource_Output_Master: return EQMControl.getPropertyData(objectID: inObjectID, address: inAddress.pointee)
+
+    default:
+      return nil
+    }
+  })() {
+    data.write(to: outData, size: outDataSize)
+    return noErr
+  } else {
+    outDataSize.pointee = 0
+    return kAudioHardwareUnknownPropertyError
+  }
 }
 
 func EQM_SetPropertyData (inDriver: AudioServerPlugInDriverRef, inObjectID: AudioObjectID, inClientProcessID: pid_t, inAddress: UnsafePointer<AudioObjectPropertyAddress>, inQualifierDataSize: UInt32, inQualifierData: UnsafeRawPointer?, inDataSize: UInt32, inData: UnsafeRawPointer) -> OSStatus {

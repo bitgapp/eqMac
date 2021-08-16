@@ -17,6 +17,7 @@ let kChannelCount: UInt = 2
 let kBitsPerChannel: UInt = 32
 let kBytesPerChannel = kBitsPerChannel / 8
 let kBytesPerFrame = kChannelCount * kBytesPerChannel
+let kDataSource_NumberItems: UInt32 = 1
 
 let kDeviceName = "eqMac"
 let kDeviceManufacturer = "Bitgapp Ltd"
@@ -60,16 +61,14 @@ extension HRESULT {
   static let accessDenied     = HRESULT(bitPattern: 0x80000009)
 }
 
-let kObjectID_PlugIn: UInt32 = 1
-let kObjectID_Box: UInt32 = 2
-let kObjectID_Device: UInt32 = 3
-let kObjectID_Stream_Input: UInt32 = 4
-let kObjectID_Volume_Input_Master: UInt32 = 5
-let kObjectID_Mute_Input_Master: UInt32 = 6
-let kObjectID_DataSource_Input_Master: UInt32 = 7
-let kObjectID_Stream_Output: UInt32 = 8
-let kObjectID_Volume_Output_Master: UInt32 = 9
-let kObjectID_Mute_Output_Master: UInt32 = 10
-let kObjectID_DataSource_Output_Master: UInt32 = 11
-
-let kPlugIn_CustomPropertyID = AudioObjectPropertySelector.fromString("PCst")
+let kObjectID_PlugIn: UInt32                    = 1
+let kObjectID_Box: UInt32                       = 2
+let kObjectID_Device: UInt32                    = 3
+let kObjectID_Stream_Input: UInt32              = 4
+let kObjectID_Volume_Input_Master: UInt32       = 5
+let kObjectID_Mute_Input_Master: UInt32         = 6
+let kObjectID_DataSource_Input_Master: UInt32   = 7
+let kObjectID_Stream_Output: UInt32             = 8
+let kObjectID_Volume_Output_Master: UInt32      = 9
+let kObjectID_Mute_Output_Master: UInt32        = 10
+let kObjectID_DataSource_Output_Master: UInt32  = 11
