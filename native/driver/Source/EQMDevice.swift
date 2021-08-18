@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreAudio.AudioServerPlugIn
+import Atomics
 
 class EQMDevice: EQMObjectProtocol {
   static let id = AudioObjectID(kDeviceUID)!
@@ -17,6 +18,12 @@ class EQMDevice: EQMObjectProtocol {
   static var shown = false
   static var latency: UInt32 = 0
   static var ringBufferSize: UInt32 = 16384
+  static var ioCounter = ManagedAtomic<UInt64>(0)
+  static var hostTime: UInt64 = 0
+  static var sampleTime: UInt64 = 0
+  static var timestampCount: UInt64 = 0
+  static var buffer: UnsafeMutableRawPointer?
+  static let bufferSize: UInt32 = 65536
 
   static func hasProperty (objectID: AudioObjectID? = nil, address: AudioObjectPropertyAddress) -> Bool {
     switch address.mSelector {
@@ -433,10 +440,87 @@ class EQMDevice: EQMObjectProtocol {
   }
 
   static func startIO () -> OSStatus {
+    let ioCount = ioCounter.load(ordering: .relaxed)
+
+    // Reached max amount of possible IOs
+    if ioCount == UInt64.max {
+      return kAudioHardwareIllegalOperationError
+    }
+
+    // If IO is not running we need start it and init all the important vars
+    if ioCount == 0 {
+      running = true
+      timestampCount = 0
+      sampleTime = 0
+      hostTime = mach_absolute_time()
+      buffer = calloc(Int(bufferSize * kChannelCount), Int(sizeof(Float32.self)))
+    } else {
+      // IO already running so increment the counter
+      ioCounter.wrappingIncrement(ordering: .relaxed)
+    }
+
     return noErr
   }
 
   static func stopIO () -> OSStatus {
+    // If IO is not running it's an invalid call
+    if !running {
+      return kAudioHardwareIllegalOperationError
+    }
+
+    var ioCount = ioCounter.load(ordering: .relaxed)
+
+    if ioCount > 0 {
+      ioCount = ioCounter.wrappingDecrementThenLoad(ordering: .relaxed)
+    }
+
+    // If IO reached zero deinit
+    if ioCount == 0 {
+      running = false
+      free(buffer)
+    }
+
+    return noErr
+  }
+
+  static func getZeroTimeStamp (outSampleTime: UnsafeMutablePointer<Float64>, outHostTime: UnsafeMutablePointer<UInt64>, outSeed: UnsafeMutablePointer<UInt64>) -> OSStatus {
+    //  get the current host time
+    let currentHostTime = mach_absolute_time()
+
+    //  calculate the next host time
+    let hostTicksPerRingBuffer = EQMDriver.hostTicksPerFrame! * Float64(bufferSize)
+    let hostTicksOffset = Float64(timestampCount + 1) * hostTicksPerRingBuffer
+    let nextHostTime = hostTime + UInt64(hostTicksOffset)
+
+    if nextHostTime <= currentHostTime {
+      timestampCount += 1
+    }
+
+    outSampleTime.pointee = Float64(timestampCount * UInt64(bufferSize))
+    outHostTime.pointee = hostTime + timestampCount * UInt64(hostTicksPerRingBuffer)
+    outSeed.pointee = 1
+
+    return noErr
+  }
+
+  static func doIO (clientID: UInt32, operationID: UInt32, sample: UnsafeMutablePointer<Float32>, sampleTime: Float64, frameSize: UInt32) -> OSStatus {
+    switch operationID {
+    case AudioServerPlugInIOOperation.writeMix.rawValue:
+      for frame in 0 ..< frameSize {
+        for channel in 0 ..< kChannelCount {
+          let readFrame: UInt64 = UInt64(frame * kChannelCount + channel)
+          if EQMControl.outputMuted {
+            memcpy(sample, <#T##__src: UnsafeRawPointer!##UnsafeRawPointer!#>, <#T##__n: Int##Int#>)
+          }
+        }
+      }
+      break
+    case AudioServerPlugInIOOperation.readInput.rawValue:
+
+      break
+    default: break
+    }
+
     return noErr
   }
 }

@@ -405,6 +405,12 @@ func EQM_GetZeroTimeStamp (inDriver: AudioServerPlugInDriverRef, inDeviceObjectI
   // For this device, the zero time stamps' sample time increments every kDevice_RingBufferSize
   // frames and the host time increments by kDevice_RingBufferSize * gDevice_HostTicksPerFrame.
   guard validate(inDriver) else { return kAudioHardwareBadObjectError }
+
+  return EQMDevice.getZeroTimeStamp(
+    outSampleTime: outSampleTime,
+    outHostTime: outHostTime,
+    outSeed: outSeed
+  )
 }
 
 func EQM_WillDoIOOperation (inDriver: AudioServerPlugInDriverRef, inDeviceObjectID: AudioObjectID, inClientID: UInt32, inOperationID: UInt32, outWillDo: UnsafeMutablePointer<DarwinBoolean>, outWillDoInPlace: UnsafeMutablePointer<DarwinBoolean>) -> OSStatus {
@@ -412,6 +418,26 @@ func EQM_WillDoIOOperation (inDriver: AudioServerPlugInDriverRef, inDeviceObject
   // This method returns whether or not the device will do a given IO operation. For this device,
   // we only support reading input data and writing output data.
   guard validate(inDriver) else { return kAudioHardwareBadObjectError }
+
+  var willDo = false
+  var willDoInPlace = true
+
+  switch inOperationID {
+  case AudioServerPlugInIOOperation.writeMix.rawValue:
+    willDo = true
+    willDoInPlace = true
+    break
+  case AudioServerPlugInIOOperation.readInput.rawValue:
+    willDo = true
+    willDoInPlace = true
+    break
+  default: break
+  }
+
+  outWillDo.pointee = DarwinBoolean(willDo)
+  outWillDoInPlace.pointee = DarwinBoolean(willDoInPlace)
+
+  return noErr
 }
 
 func EQM_BeginIOOperation (inDriver: AudioServerPlugInDriverRef, inDeviceObjectID: AudioObjectID, inClientID: UInt32, inOperationID: UInt32, inIOBufferFrameSize: UInt32, inIOCycleInfo: UnsafePointer<AudioServerPlugInIOCycleInfo>) -> OSStatus {
@@ -419,11 +445,24 @@ func EQM_BeginIOOperation (inDriver: AudioServerPlugInDriverRef, inDeviceObjectI
   // This is called at the beginning of an IO operation. This device doesn't do anything, so just
   // check the arguments and return.
   guard validate(inDriver) else { return kAudioHardwareBadObjectError }
+  return noErr
 }
 
 func EQM_DoIOOperation (inDriver: AudioServerPlugInDriverRef, inDeviceObjectID: AudioObjectID, inStreamObjectID: AudioObjectID, inClientID: UInt32, inOperationID: UInt32, inIOBufferFrameSize: UInt32, inIOCycleInfo: UnsafePointer<AudioServerPlugInIOCycleInfo>, ioMainBuffer: UnsafeMutableRawPointer?, ioSecondaryBuffer: UnsafeMutableRawPointer?) -> OSStatus {
   // This is called to actuall perform a given operation.
   guard validate(inDriver) else { return kAudioHardwareBadObjectError }
+
+  guard let sample = ioMainBuffer?.assumingMemoryBound(to: Float32.self) else {
+    return noErr
+  }
+
+  return EQMDevice.doIO(
+    clientID: inClientID,
+    operationID: inOperationID,
+    sample: sample,
+    sampleTime: inIOCycleInfo.pointee.mInputTime.mSampleTime,
+    frameSize: inIOBufferFrameSize
+  )
 }
 
 func EQM_EndIOOperation (inDriver: AudioServerPlugInDriverRef, inDeviceObjectID: AudioObjectID, inClientID: UInt32, inOperationID: UInt32, inIOBufferFrameSize: UInt32, inIOCycleInfo: UnsafePointer<AudioServerPlugInIOCycleInfo>) -> OSStatus {
