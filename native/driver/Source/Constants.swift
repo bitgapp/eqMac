@@ -13,8 +13,8 @@ let kAudioServerPluginTypeUUID = CFUUIDGetConstantUUIDWithBytes(nil, 0x44, 0x3A,
 let kAudioServerPluginDriverInterfaceUUID = CFUUIDGetConstantUUIDWithBytes(nil, 0xEE, 0xA5, 0x77, 0x3D, 0xCC, 0x43, 0x49, 0xF1, 0x8E, 0x00, 0x8F, 0x96, 0xE7, 0xD2, 0x3B, 0x17)!
 let IUnknownUUID = CFUUIDGetConstantUUIDWithBytes(kCFAllocatorSystemDefault, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xC0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x4)!
 
-let kChannelCount: UInt = 2
-let kBitsPerChannel: UInt = 32
+let kChannelCount: UInt32 = 2
+let kBitsPerChannel: UInt32 = 32
 let kBytesPerChannel = kBitsPerChannel / 8
 let kBytesPerFrame = kChannelCount * kBytesPerChannel
 let kDataSource_NumberItems: UInt32 = 1
@@ -27,7 +27,7 @@ let kBoxUID = "EQMBox"
 let kDeviceUID = "EQMDevice"
 let kDeviceModelUID = "EQMDeviceModelUID"
 
-let kSupportedSamplingRates: [UInt] = [
+let kSupportedSamplingRates: [Float64] = [
   44_100,
   48_000,
   88_200,
@@ -36,7 +36,7 @@ let kSupportedSamplingRates: [UInt] = [
   192_000
 ]
 
-let kDefaultSampleRate: Float64 = 44_100.0
+let kDefaultSampleRate: Float64 = kSupportedSamplingRates[0]
 let kDefaultInputVolume: Float32 = 1.0
 let kDefaultOutputVolume: Float32 = 1.0
 

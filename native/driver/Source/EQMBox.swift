@@ -11,7 +11,7 @@ import CoreAudio.AudioServerPlugIn
 
 class EQMBox: EQMObjectProtocol {
   static let id = AudioObjectID(kBoxUID)!
-  static let name = "eqMac Box"
+  static var name = "eqMac Box"
   static var acquired = false
 
   static func hasProperty (objectID: AudioObjectID? = nil, address: AudioObjectPropertyAddress) -> Bool {
@@ -140,6 +140,32 @@ class EQMBox: EQMObjectProtocol {
       //  This is used to indicate which devices came from this box
       return .integer(acquired ? kObjectID_Device : 0)
     default: return nil
+    }
+  }
+
+  static func setPropertyData(objectID: AudioObjectID? = nil, address: AudioObjectPropertyAddress, data: UnsafeRawPointer) -> OSStatus {
+    switch address.mSelector {
+    case kAudioObjectPropertyName:
+      //  Boxes should allow their name to be editable
+      guard let newName = data.assumingMemoryBound(to: CFString?.self).pointee else {
+        return kAudioHardwareBadPropertySizeError
+      }
+      name = newName as String
+      return noErr
+    case kAudioObjectPropertyIdentify:
+      return noErr
+    case kAudioBoxPropertyAcquired:
+      //  When the box is acquired, it means the contents, namely the device, are available to the system
+      guard let wasAcquiredInt = data.assumingMemoryBound(to: UInt32?.self).pointee else {
+        return kAudioHardwareBadPropertySizeError
+      }
+      let wasAcquired = wasAcquiredInt == 1
+      if (acquired != wasAcquired) {
+        //  the new value is different from the old value, so save it
+        acquired = wasAcquired
+      }
+      return noErr
+    default: return kAudioHardwareUnknownPropertyError
     }
   }
 }

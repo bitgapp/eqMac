@@ -9,11 +9,14 @@
 import Foundation
 import CoreAudio.AudioServerPlugIn
 
+// MARK: - Protocols, Enums
+
 protocol EQMObjectProtocol {
   static func hasProperty (objectID: AudioObjectID?, address: AudioObjectPropertyAddress) -> Bool
   static func isPropertySettable (objectID: AudioObjectID?, address: AudioObjectPropertyAddress) -> Bool
   static func getPropertyDataSize (objectID: AudioObjectID?, address: AudioObjectPropertyAddress) -> UInt32?
   static func getPropertyData (objectID: AudioObjectID?, address: AudioObjectPropertyAddress) -> EQMObjectProperty?
+  static func setPropertyData (objectID: AudioObjectID?, address: AudioObjectPropertyAddress, data: UnsafeRawPointer) -> OSStatus
 }
 
 enum EQMObjectProperty {
@@ -40,11 +43,6 @@ enum EQMObjectProperty {
   case valueRangeList(ContiguousArray<AudioValueRange>)
   case integerList(ContiguousArray<UInt32>)
 
-  /// Writes the property and the property's size to memory
-  ///
-  /// - Parameters:
-  ///   - address: A pointer to the address for the property data to be written to.
-  ///   - size: A pointer to the address for the property size to be written to.
   func write(to address: UnsafeMutableRawPointer?, size: UnsafeMutablePointer<UInt32>) {
     switch self {
     case .bool(let data):                   self.write(element: data, address: address, size: size)
@@ -83,7 +81,6 @@ enum EQMObjectProperty {
 
     // Write data
     guard let address = address else {
-      //print("Wrote", array.count, "Elements of", self, "(size only)")
       return
     }
     var currentAddress = address.assumingMemoryBound(to: T.Element.self)
@@ -93,3 +90,43 @@ enum EQMObjectProperty {
     }
   }
 }
+
+// MARK: - Pure Functions
+
+func volumeToDecibel (_ volume: Float32) -> Float32 {
+  if (volume <= powf(10.0, kMinVolumeDB / 20.0)) {
+    return kMinVolumeDB
+  } else {
+    return 20.0 * log10f(volume)
+  }
+}
+
+func decibelToVolume (_ decibel: Float32) -> Float32 {
+  if (decibel <= kMinVolumeDB) {
+    return 0.0
+  } else {
+    return powf(10.0, decibel / 20.0)
+  }
+}
+
+func volumeToScalar (_ volume: Float32) -> Float32 {
+  let decibel = volumeToDecibel(volume);
+  return (decibel - kMinVolumeDB) / (kMaxVolumeDB - kMinVolumeDB);
+}
+
+func scalarToVolume (_ scalar: Float32) -> Float32 {
+  let decibel = scalar * (kMaxVolumeDB - kMinVolumeDB) + kMinVolumeDB
+  return decibelToVolume(decibel)
+}
+
+func clamp <T: Comparable> (value val: T, min: T, max: T) -> T {
+  var value = val
+  if value < min {
+    value = min
+  } else if value > min {
+    value = max
+  }
+  return value
+}
+
+// MARK: - Extensions

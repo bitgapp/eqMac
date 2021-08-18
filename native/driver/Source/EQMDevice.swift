@@ -9,11 +9,6 @@
 import Foundation
 import CoreAudio.AudioServerPlugIn
 
-let kEQMDeviceCustomPropertyLatency = AudioObjectPropertySelector.fromString("cltc")
-let kEQMDeviceCustomPropertySafetyOffset =  AudioObjectPropertySelector.fromString("csfo")
-let kEQMDeviceCustomPropertyShown =  AudioObjectPropertySelector.fromString("shwn")
-let kEQMDeviceCustomPropertyVersion =  AudioObjectPropertySelector.fromString("vrsn")
-
 class EQMDevice: EQMObjectProtocol {
   static let id = AudioObjectID(kDeviceUID)!
   static var name = kDeviceName
@@ -21,6 +16,7 @@ class EQMDevice: EQMObjectProtocol {
   static var running = false
   static var shown = false
   static var latency: UInt32 = 0
+  static var ringBufferSize: UInt32 = 16384
 
   static func hasProperty (objectID: AudioObjectID? = nil, address: AudioObjectPropertyAddress) -> Bool {
     switch address.mSelector {
@@ -47,8 +43,7 @@ class EQMDevice: EQMObjectProtocol {
          kAudioObjectPropertyCustomPropertyInfoList,
          kEQMDeviceCustomPropertyShown,
          kEQMDeviceCustomPropertyVersion,
-         kEQMDeviceCustomPropertyLatency,
-         kEQMDeviceCustomPropertySafetyOffset:
+         kEQMDeviceCustomPropertyLatency:
       return true
 
     case kAudioDevicePropertyDeviceCanBeDefaultDevice,
@@ -58,6 +53,7 @@ class EQMDevice: EQMObjectProtocol {
          kAudioDevicePropertyPreferredChannelsForStereo,
          kAudioDevicePropertyPreferredChannelLayout:
       return address.mScope == kAudioObjectPropertyScopeInput || address.mScope == kAudioObjectPropertyScopeOutput
+
     default:
       return false
     }
@@ -67,10 +63,8 @@ class EQMDevice: EQMObjectProtocol {
     switch address.mSelector {
     case kAudioDevicePropertyNominalSampleRate,
          kEQMDeviceCustomPropertyShown,
-         kEQMDeviceCustomPropertyLatency,
-         kEQMDeviceCustomPropertySafetyOffset:
+         kEQMDeviceCustomPropertyLatency:
       return true
-
 
     default:
       return false
@@ -118,13 +112,12 @@ class EQMDevice: EQMObjectProtocol {
     case kAudioDevicePropertyPreferredChannelsForStereo: return 2 * sizeof(UInt32.self)
     case kAudioDevicePropertyPreferredChannelLayout:
       let basicSize = UInt(MemoryLayout<AudioChannelLayout>.stride) // contains one channel already
-      let additionalChannels = UInt(MemoryLayout<AudioChannelDescription>.stride) * (kChannelCount - 1) // the other channels
+      let additionalChannels = UInt(MemoryLayout<AudioChannelDescription>.stride) * UInt(kChannelCount - 1) // the other channels
       return UInt32(basicSize + additionalChannels)
 
     case kAudioDevicePropertyZeroTimeStampPeriod: return sizeof(UInt32.self)
     case kAudioDevicePropertyIcon: return sizeof(CFURL.self)
-    case kEQMDeviceCustomPropertyLatency: return sizeof(CFNumber.self)
-    case kEQMDeviceCustomPropertySafetyOffset: return sizeof(CFNumber.self)
+    case kEQMDeviceCustomPropertyLatency: return sizeof(UInt32.self)
     case kEQMDeviceCustomPropertyShown: return sizeof(CFBoolean.self)
     case kEQMDeviceCustomPropertyVersion: return sizeof(CFString.self)
     case kAudioObjectPropertyCustomPropertyInfoList: return sizeof(AudioServerPlugInCustomPropertyInfo.self) * 4
@@ -291,10 +284,12 @@ class EQMDevice: EQMObjectProtocol {
       //  This property returns the how close to now the HAL can read and write. For
       //  this, device, the value is 0 due to the fact that it always vends silence.
       return .integer(0)
+
     case kAudioDevicePropertyNominalSampleRate:
       //  This property returns the nominal sample rate of the device. Note that we
       //  only need to take the state lock to get this value.
       return .float64(sampleRate)
+
     case kAudioDevicePropertyAvailableNominalSampleRates:
       //  This returns all nominal sample rates the device supports as an array of
       //  AudioValueRangeStructs. Note that for discrete sampler rates, the range
@@ -311,94 +306,137 @@ class EQMDevice: EQMObjectProtocol {
     case kAudioDevicePropertyIsHidden:
       //  This returns whether or not the device is visible to clients.
       return .integer(0)
+
     case kAudioDevicePropertyPreferredChannelsForStereo:
       //  This property returns which two channesl to use as left/right for stereo
       //  data by default. Note that the channel numbers are 1-based.xz
       return .integerList([ 1, 2 ])
+
     case kAudioDevicePropertyPreferredChannelLayout:
       //  This property returns the default AudioChannelLayout to use for the device
       //  by default. For this device, we return a stereo ACL.
       //  calcualte how big the
-      UInt32 theACLSize = offsetof(AudioChannelLayout, mChannelDescriptions) + (kChannelCount * sizeof(AudioChannelDescription))
-      ((AudioChannelLayout*)outData)->mChannelLayoutTag = kAudioChannelLayoutTag_UseChannelDescriptions
-      ((AudioChannelLayout*)outData)->mChannelBitmap = 0
-      ((AudioChannelLayout*)outData)->mNumberChannelDescriptions = kChannelCount
-      for (theItemIndex = 0 theItemIndex < kChannelCount ++theItemIndex) {
-        ((AudioChannelLayout*)outData)->mChannelDescriptions[theItemIndex].mChannelLabel = kAudioChannelLabel_Left + theItemIndex
-        ((AudioChannelLayout*)outData)->mChannelDescriptions[theItemIndex].mChannelFlags = 0
-        ((AudioChannelLayout*)outData)->mChannelDescriptions[theItemIndex].mCoordinates[0] = 0
-        ((AudioChannelLayout*)outData)->mChannelDescriptions[theItemIndex].mCoordinates[1] = 0
-        ((AudioChannelLayout*)outData)->mChannelDescriptions[theItemIndex].mCoordinates[2] = 0
-      }
-      *outDataSize = theACLSize
-
-
+      var channelDescriptions = ContiguousArray((1...kChannelCount).map { channelNumber in
+        return AudioChannelDescription(
+          mChannelLabel: channelNumber,
+          mChannelFlags: AudioChannelFlags(rawValue: 0),
+          mCoordinates: (0, 0, 0)
+        )
+      })
+      var channelLayout = AudioChannelLayout(
+        mChannelLayoutTag: kAudioChannelLayoutTag_UseChannelDescriptions,
+        mChannelBitmap: AudioChannelBitmap(rawValue: 0),
+        mNumberChannelDescriptions: UInt32(kChannelCount),
+        mChannelDescriptions: AudioChannelDescription()
+      )
+      let channelSize = MemoryLayout<AudioChannelDescription>.stride * channelDescriptions.count
+      memcpy(&channelLayout.mChannelDescriptions, &channelDescriptions, channelSize)
+      return .channelLayout(channelLayout)
     case kAudioDevicePropertyZeroTimeStampPeriod:
       //  This property returns how many frames the HAL should expect to see between
       //  successive sample times in the zero time stamps this device provides.
-      *((UInt32*)outData) = kDevice_RingBufferSize
-      *outDataSize = sizeof(UInt32)
+      return .integer(ringBufferSize)
     case kAudioDevicePropertyIcon:
       //  This is a CFURL that points to the device's Icon in the plug-in's resource bundle.
-      CFBundleRef theBundle = CFBundleGetBundleWithIdentifier(CFSTR(kPlugIn_BundleID))
-      CFURLRef theURL = CFBundleCopyResourceURL(theBundle, CFSTR("icon.icns"), NULL, NULL)
-      *((CFURLRef*)outData) = theURL
-      *outDataSize = sizeof(CFURLRef)
+      let bundle = CFBundleGetBundleWithIdentifier(kPlugInBundleId as CFString)
+      let url = CFBundleCopyResourceURL(bundle, "icon.icns" as CFString, nil, nil)
+      return .url(url!)
     case kAudioObjectPropertyCustomPropertyInfoList:
       //  This property returns an array of AudioServerPlugInCustomPropertyInfo's that
       //  describe the type of data used by any custom properties. For this example,
       //  the plug-in supports a single property whose data type is a CFString and
       //  whose qualifier is a CFString.
-      theNumberItemsToFetch = inDataSize / sizeof(AudioServerPlugInCustomPropertyInfo)
-
-      //  clamp it to the number of items we have
-      if (theNumberItemsToFetch > 4) {
-        theNumberItemsToFetch = 4
-      }
-
-      if (theNumberItemsToFetch > 0) {
-        ((AudioServerPlugInCustomPropertyInfo*)outData)[0].mSelector = kAudioDeviceCustomPropertyLatency
-        ((AudioServerPlugInCustomPropertyInfo*)outData)[0].mPropertyDataType = kAudioServerPlugInCustomPropertyDataTypeCFPropertyList
-        ((AudioServerPlugInCustomPropertyInfo*)outData)[0].mQualifierDataType = kAudioServerPlugInCustomPropertyDataTypeNone
-      }
-
-      if (theNumberItemsToFetch > 1) {
-        ((AudioServerPlugInCustomPropertyInfo*)outData)[1].mSelector = kAudioDeviceCustomPropertySafetyOffset
-        ((AudioServerPlugInCustomPropertyInfo*)outData)[1].mPropertyDataType = kAudioServerPlugInCustomPropertyDataTypeCFPropertyList
-        ((AudioServerPlugInCustomPropertyInfo*)outData)[1].mQualifierDataType = kAudioServerPlugInCustomPropertyDataTypeNone
-      }
-
-      if (theNumberItemsToFetch > 2) {
-        ((AudioServerPlugInCustomPropertyInfo*)outData)[2].mSelector = kAudioDeviceCustomPropertyShown
-        ((AudioServerPlugInCustomPropertyInfo*)outData)[2].mPropertyDataType = kAudioServerPlugInCustomPropertyDataTypeCFPropertyList
-        ((AudioServerPlugInCustomPropertyInfo*)outData)[2].mQualifierDataType = kAudioServerPlugInCustomPropertyDataTypeNone
-      }
-
-      if (theNumberItemsToFetch > 3) {
-        ((AudioServerPlugInCustomPropertyInfo*)outData)[3].mSelector = kAudioDeviceCustomPropertyVersion
-        ((AudioServerPlugInCustomPropertyInfo*)outData)[3].mPropertyDataType = kAudioServerPlugInCustomPropertyDataTypeCFString
-        ((AudioServerPlugInCustomPropertyInfo*)outData)[3].mQualifierDataType = kAudioServerPlugInCustomPropertyDataTypeNone
-      }
-
-      *outDataSize = theNumberItemsToFetch * sizeof(AudioServerPlugInCustomPropertyInfo)
-    case kAudioDeviceCustomPropertyVersion: {
-      *((CFStringRef*)outData) =
-        CFCopyDescription(
-          CFBundleGetValueForInfoDictionaryKey(
-            CFBundleGetBundleWithIdentifier(CFSTR(kPlugIn_BundleID)),
-            kCFBundleVersionKey
-          )
+      let customProperties = ContiguousArray([
+        AudioServerPlugInCustomPropertyInfo(
+          mSelector: kEQMDeviceCustomPropertyVersion,
+          mPropertyDataType: kAudioServerPlugInCustomPropertyDataTypeCFString,
+          mQualifierDataType: kAudioServerPlugInCustomPropertyDataTypeNone
+        ),
+        AudioServerPlugInCustomPropertyInfo(
+          mSelector: kEQMDeviceCustomPropertyShown,
+          mPropertyDataType: kAudioServerPlugInCustomPropertyDataTypeCFPropertyList,
+          mQualifierDataType: kAudioServerPlugInCustomPropertyDataTypeNone
+        ),
+        AudioServerPlugInCustomPropertyInfo(
+          mSelector: kEQMDeviceCustomPropertyLatency,
+          mPropertyDataType: kAudioServerPlugInCustomPropertyDataTypeCFPropertyList,
+          mQualifierDataType: kAudioServerPlugInCustomPropertyDataTypeNone
         )
-      if (*((CFStringRef*)outData) != NULL) {
-        CFRetain(*((CFStringRef*)outData))
-      }
-      *outDataSize = sizeof(CFStringRef)
-    }
+      ])
 
-    case kAudioDeviceCustomPropertyShown:
-      *((CFBooleanRef*)outData) = mShown ? kCFBooleanTrue : kCFBooleanFalse
-      *outDataSize = sizeof(CFBooleanRef)
+      return .customPropertyInfoList(customProperties)
+    case kEQMDeviceCustomPropertyVersion:
+      let version = CFCopyDescription(
+        CFBundleGetValueForInfoDictionaryKey(
+          CFBundleGetBundleWithIdentifier(kPlugInBundleId as CFString),
+          kCFBundleVersionKey
+        )
+      )
+      return .string(version!)
+    case kEQMDeviceCustomPropertyShown:
+      return .bool(shown ? kCFBooleanTrue : kCFBooleanFalse)
     default: return nil
     }
+  }
+
+  static func setPropertyData(objectID: AudioObjectID? = nil, address: AudioObjectPropertyAddress, data: UnsafeRawPointer) -> OSStatus {
+    switch address.mSelector {
+
+    case kAudioDevicePropertyNominalSampleRate:
+      //  Changing the sample rate needs to be handled via the
+      //  RequestConfigChange/PerformConfigChange machinery.
+
+      //  check the arguments
+      guard let newSampleRate = data.assumingMemoryBound(to: Float64?.self).pointee else {
+        return kAudioHardwareBadPropertySizeError
+      }
+
+      if !kSupportedSamplingRates.contains(newSampleRate) {
+        return kAudioHardwareIllegalOperationError
+      }
+
+      //  make sure that the new value is different than the old value
+      if (sampleRate != newSampleRate) {
+        //  we dispatch this so that the change can happen asynchronously
+        DispatchQueue.main.async {
+          _ = EQMDriver.host?.pointee.RequestDeviceConfigurationChange(
+            EQMDriver.host!,
+            kObjectID_Device,
+            UInt64(sampleRate),
+            nil
+          )
+        }
+      }
+      return noErr
+
+    // Custom Properties
+    case kEQMDeviceCustomPropertyShown:
+      guard let shownRef = data.assumingMemoryBound(to: CFBoolean?.self).pointee else {
+        return kAudioHardwareBadPropertySizeError
+      }
+
+      shown = CFBooleanGetValue(shownRef)
+      return noErr
+
+    case kEQMDeviceCustomPropertyLatency:
+      guard let newLatency = data.assumingMemoryBound(to: UInt32?.self).pointee else {
+        return kAudioHardwareBadPropertySizeError
+      }
+
+      if latency != newLatency {
+        latency = UInt32(newLatency)
+      }
+      return noErr
+
+    default: return kAudioHardwareUnknownPropertyError
+    }
+  }
+
+  static func startIO () -> OSStatus {
+    return noErr
+  }
+
+  static func stopIO () -> OSStatus {
+    return noErr
   }
 }

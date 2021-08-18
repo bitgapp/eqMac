@@ -204,7 +204,7 @@ func EQM_PerformDeviceConfigurationChange (inDriver: AudioServerPlugInDriverRef,
 
   guard validate(inDriver) else { return kAudioHardwareBadObjectError }
 
-  if !kSupportedSamplingRates.contains(where: { $0 == inChangeAction }) { return kAudioHardwareBadObjectError }
+  if !kSupportedSamplingRates.contains(where: { UInt64($0) == inChangeAction }) { return kAudioHardwareBadObjectError }
 
   EQMDevice.sampleRate = Float64(inChangeAction)
   EQMDriver.hostTicksPerFrame = calculateHostTicksPerFrame()
@@ -330,7 +330,7 @@ func EQM_GetPropertyData (inDriver: AudioServerPlugInDriverRef, inObjectID: Audi
     case kObjectID_Device: return EQMDevice.getPropertyData(address: inAddress.pointee)
 
     case kObjectID_Stream_Input,
-         kObjectID_Stream_Output: return EQMStream.getPropertyData(address: inAddress.pointee)
+         kObjectID_Stream_Output: return EQMStream.getPropertyData(objectID: inObjectID, address: inAddress.pointee)
 
     case kObjectID_Volume_Input_Master,
          kObjectID_Volume_Output_Master,
@@ -354,7 +354,25 @@ func EQM_GetPropertyData (inDriver: AudioServerPlugInDriverRef, inObjectID: Audi
 func EQM_SetPropertyData (inDriver: AudioServerPlugInDriverRef, inObjectID: AudioObjectID, inClientProcessID: pid_t, inAddress: UnsafePointer<AudioObjectPropertyAddress>, inQualifierDataSize: UInt32, inQualifierData: UnsafeRawPointer?, inDataSize: UInt32, inData: UnsafeRawPointer) -> OSStatus {
   // Tells an object to change the value of the given property.
   guard validate(inDriver) else { return kAudioHardwareBadObjectError }
+  switch inObjectID {
 
+  case kObjectID_PlugIn: return EQMPlugIn.setPropertyData(address: inAddress.pointee, data: inData)
+  case kObjectID_Box: return EQMBox.setPropertyData(address: inAddress.pointee, data: inData)
+  case kObjectID_Device: return EQMDevice.setPropertyData(address: inAddress.pointee, data: inData)
+
+  case kObjectID_Stream_Input,
+       kObjectID_Stream_Output: return EQMStream.setPropertyData(objectID: inObjectID, address: inAddress.pointee, data: inData)
+
+  case kObjectID_Volume_Input_Master,
+       kObjectID_Volume_Output_Master,
+       kObjectID_Mute_Input_Master,
+       kObjectID_Mute_Output_Master,
+       kObjectID_DataSource_Input_Master,
+       kObjectID_DataSource_Output_Master: return EQMControl.setPropertyData(objectID: inObjectID, address: inAddress.pointee, data: inData)
+
+  default:
+    return kAudioHardwareBadObjectError
+  }
 }
 
 // MARK: - IO Operations
@@ -365,12 +383,16 @@ func EQM_StartIO (inDriver: AudioServerPlugInDriverRef, inDeviceObjectID: AudioO
   // So, work only needs to be done when the first client starts. All subsequent starts simply
   // increment the counter.
   guard validate(inDriver) else { return kAudioHardwareBadObjectError }
+
+  return EQMDevice.startIO()
 }
 
 func EQM_StopIO (inDriver: AudioServerPlugInDriverRef, inDeviceObjectID: AudioObjectID, inClientID: UInt32) -> OSStatus {
   // This call tells the device that the client has stopped IO. The driver can stop the hardware
   // once all clients have stopped.
   guard validate(inDriver) else { return kAudioHardwareBadObjectError }
+
+  return EQMDevice.stopIO()
 }
 
 func EQM_GetZeroTimeStamp (inDriver: AudioServerPlugInDriverRef, inDeviceObjectID: AudioObjectID, inClientID: UInt32, outSampleTime: UnsafeMutablePointer<Float64>, outHostTime: UnsafeMutablePointer<UInt64>, outSeed: UnsafeMutablePointer<UInt64>) -> OSStatus {

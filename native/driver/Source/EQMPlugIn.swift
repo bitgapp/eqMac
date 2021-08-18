@@ -118,4 +118,10 @@ class EQMPlugIn: EQMObjectProtocol {
         return nil
     }
   }
+
+  static func setPropertyData(objectID: AudioObjectID? = nil, address: AudioObjectPropertyAddress, data: UnsafeRawPointer) -> OSStatus {
+    switch address.mSelector {
+    default: return kAudioHardwareUnknownPropertyError
+    }
+  }
 }
