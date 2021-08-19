@@ -22,8 +22,8 @@ class EQMDevice: EQMObjectProtocol {
   static var hostTime: UInt64 = 0
   static var sampleTime: UInt64 = 0
   static var timestampCount: UInt64 = 0
-  static var buffer: UnsafeMutableRawPointer?
-  static let bufferSize: UInt32 = 65536
+  static var buffer: UnsafeMutablePointer<Float32>?
+  static let bufferSize: UInt32 = 65536 * kChannelCount
 
   static func hasProperty (objectID: AudioObjectID? = nil, address: AudioObjectPropertyAddress) -> Bool {
     switch address.mSelector {
@@ -453,7 +453,7 @@ class EQMDevice: EQMObjectProtocol {
       timestampCount = 0
       sampleTime = 0
       hostTime = mach_absolute_time()
-      buffer = calloc(Int(bufferSize * kChannelCount), Int(sizeof(Float32.self)))
+      buffer = UnsafeMutablePointer<Float32>.allocate(capacity: Int(bufferSize * kChannelCount))
     } else {
       // IO already running so increment the counter
       ioCounter.wrappingIncrement(ordering: .relaxed)
@@ -477,7 +477,7 @@ class EQMDevice: EQMObjectProtocol {
     // If IO reached zero deinit
     if ioCount == 0 {
       running = false
-      free(buffer)
+      buffer?.deallocate()
     }
 
     return noErr
@@ -488,7 +488,7 @@ class EQMDevice: EQMObjectProtocol {
     let currentHostTime = mach_absolute_time()
 
     //  calculate the next host time
-    let hostTicksPerRingBuffer = EQMDriver.hostTicksPerFrame! * Float64(bufferSize)
+    let hostTicksPerRingBuffer = EQMDriver.hostTicksPerFrame! * Float64(ringBufferSize)
     let hostTicksOffset = Float64(timestampCount + 1) * hostTicksPerRingBuffer
     let nextHostTime = hostTime + UInt64(hostTicksOffset)
 
@@ -496,27 +496,62 @@ class EQMDevice: EQMObjectProtocol {
       timestampCount += 1
     }
 
-    outSampleTime.pointee = Float64(timestampCount * UInt64(bufferSize))
+    outSampleTime.pointee = Float64(timestampCount * UInt64(ringBufferSize))
     outHostTime.pointee = hostTime + timestampCount * UInt64(hostTicksPerRingBuffer)
     outSeed.pointee = 1
 
     return noErr
   }
 
-  static func doIO (clientID: UInt32, operationID: UInt32, sample: UnsafeMutablePointer<Float32>, sampleTime: Float64, frameSize: UInt32) -> OSStatus {
+  static func doIO (clientID: UInt32, operationID: UInt32, sample: UnsafeMutablePointer<Float32>, sampleTime: Int, frameSize: UInt32) -> OSStatus {
+
+
     switch operationID {
+    // Store
     case AudioServerPlugInIOOperation.writeMix.rawValue:
       for frame in 0 ..< frameSize {
         for channel in 0 ..< kChannelCount {
-          let readFrame: UInt64 = UInt64(frame * kChannelCount + channel)
+          let readFrame = Int(frame * kChannelCount + channel)
           if EQMControl.outputMuted {
-            memcpy(sample, <#T##__src: UnsafeRawPointer!##UnsafeRawPointer!#>, <#T##__n: Int##Int#>)
+            // Muted
+            sample.advanced(by: readFrame).pointee = 0
+          } else {
+            let nextSampleTime = sampleTime + Int(frame)
+            let remainder = nextSampleTime % Int(ringBufferSize)
+            let writeFrame = remainder * Int(kChannelCount) + Int(channel)
+            buffer!.advanced(by: writeFrame).pointee += sample.advanced(by: readFrame).pointee
           }
+
+          // Clean up buffer
+          let cleanFromFrame = sampleTime + Int(frame) + 8192
+          let remainder = cleanFromFrame % Int(ringBufferSize)
+          let cleanFrame = remainder * Int(kChannelCount) + Int(channel)
+          buffer!.advanced(by: cleanFrame).pointee = 0
         }
       }
       break
-    case AudioServerPlugInIOOperation.readInput.rawValue:
 
+    // Read
+    case AudioServerPlugInIOOperation.readInput.rawValue:
+      for frame in 0 ..< frameSize {
+        for channel in 0 ..< kChannelCount {
+          let writeFrame = Int(frame * kChannelCount + channel)
+          if EQMControl.outputMuted {
+            sample.advanced(by: writeFrame).pointee = 0
+          } else {
+            let nextSampleTime = sampleTime + Int(frame)
+            let remainder = nextSampleTime % Int(ringBufferSize)
+            let readFrame = remainder * Int(kChannelCount) + Int(channel)
+            sample.advanced(by: writeFrame).pointee = buffer!.advanced(by: readFrame).pointee
+          }
+
+          // Clean up buffer
+          let cleanFromFrame = sampleTime + Int(frame) - 16384
+          let remainder = cleanFromFrame % Int(ringBufferSize)
+          let cleanFrame = remainder * Int(kChannelCount) + Int(channel)
+          buffer?.advanced(by: cleanFrame).pointee = 0
+        }
+      }
       break
     default: break
     }

@@ -159,7 +159,6 @@
 				1CB8B3601BBBB78D000E2DD1 /* Sources */,
 				1CB8B3611BBBB78D000E2DD1 /* Frameworks */,
 				1CB8B3621BBBB78D000E2DD1 /* Resources */,
-				E0267AFF218BA84900FB2E5A /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -222,26 +221,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		E0267AFF218BA84900FB2E5A /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "#./Scripts/build.sh\n";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1CB8B3601BBBB78D000E2DD1 /* Sources */ = {

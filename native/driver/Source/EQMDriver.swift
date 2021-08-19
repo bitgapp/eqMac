@@ -460,7 +460,7 @@ func EQM_DoIOOperation (inDriver: AudioServerPlugInDriverRef, inDeviceObjectID: 
     clientID: inClientID,
     operationID: inOperationID,
     sample: sample,
-    sampleTime: inIOCycleInfo.pointee.mInputTime.mSampleTime,
+    sampleTime: Int(inIOCycleInfo.pointee.mInputTime.mSampleTime),
     frameSize: inIOBufferFrameSize
   )
 }
@@ -469,4 +469,5 @@ func EQM_EndIOOperation (inDriver: AudioServerPlugInDriverRef, inDeviceObjectID:
   // This is called at the end of an IO operation. This device doesn't do anything, so just check
   // the arguments and return.
   guard validate(inDriver) else { return kAudioHardwareBadObjectError }
+  return noErr
 }
