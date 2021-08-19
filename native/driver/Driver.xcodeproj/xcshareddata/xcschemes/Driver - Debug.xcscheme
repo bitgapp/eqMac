@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
    LastUpgradeVersion = "1020"
-   version = "1.3">
+   version = "1.7">
    <BuildAction
       parallelizeBuildables = "YES"
       buildImplicitDependencies = "YES">
@@ -35,12 +35,31 @@
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       debugAsWhichUser = "root"
-      launchStyle = "1"
+      launchStyle = "0"
       useCustomWorkingDirectory = "NO"
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
+      <PreActions>
+         <ExecutionAction
+            ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
+            <ActionContent
+               title = "Run Script"
+               scriptText = "export SUDO_ASKPASS=~/askpass.sh&#10;&#10;# Unload CoreAudio&#10;sudo -A launchctl unload /System/Library/LaunchDaemons/com.apple.audio.coreaudiod.plist&#10;&#10;# Uninstall any new driver leftovers&#10;sudo -A rm -rf /Library/Audio/Plug-Ins/HAL/eqMac.driver/&#10;# Install the new driver&#10;sudo -A cp -f -r &quot;$BUILT_PRODUCTS_DIR/$FULL_PRODUCT_NAME&quot; /Library/Audio/Plug-Ins/HAL/&#10;&#10;# Load CoreAudio&#10;#sudo -A launchctl load /System/Library/LaunchDaemons/com.apple.audio.coreaudiod.plist&#10;"
+               shellToInvoke = "/bin/sh">
+               <EnvironmentBuildable>
+                  <BuildableReference
+                     BuildableIdentifier = "primary"
+                     BlueprintIdentifier = "1CB8B3631BBBB78D000E2DD1"
+                     BuildableName = "eqMac.driver"
+                     BlueprintName = "eqMac"
+                     ReferencedContainer = "container:Driver.xcodeproj">
+                  </BuildableReference>
+               </EnvironmentBuildable>
+            </ActionContent>
+         </ExecutionAction>
+      </PreActions>
       <PathRunnable
          runnableDebuggingMode = "0"
          FilePath = "/usr/sbin/coreaudiod">

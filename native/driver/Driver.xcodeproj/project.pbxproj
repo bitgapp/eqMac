@@ -49,7 +49,6 @@
 		78A804E926C596080021981C /* EQMDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EQMDevice.swift; sourceTree = "<group>"; };
 		E01A29F72456E50500369F41 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		E0DAAFBC21FE545F00DCCCEC /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
-		E0FA2BB021FBB917001C99CD /* build.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = build.sh; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,7 +69,6 @@
 			children = (
 				7838E34D26C897450039D466 /* Shared */,
 				1CB8B3661BBBB78D000E2DD1 /* Source */,
-				E0FA2BAF21FBB917001C99CD /* Scripts */,
 				1CB8B3651BBBB78D000E2DD1 /* Products */,
 				1CB8B3671BBBB78D000E2DD1 /* Supporting Files */,
 				E00879C7237EC3D3006AACF8 /* Frameworks */,
@@ -141,14 +139,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		E0FA2BAF21FBB917001C99CD /* Scripts */ = {
-			isa = PBXGroup;
-			children = (
-				E0FA2BB021FBB917001C99CD /* build.sh */,
-			);
-			path = Scripts;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -184,7 +174,6 @@
 				TargetAttributes = {
 					1CB8B3631BBBB78D000E2DD1 = {
 						CreatedOnToolsVersion = 6.4;
-						DevelopmentTeam = JZA6C97KJA;
 						LastSwiftMigration = 1240;
 						ProvisioningStyle = Manual;
 					};
@@ -400,14 +389,14 @@
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = NO;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1.2.3;
 				DEAD_CODE_STRIPPING = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = JZA6C97KJA;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_NS_ASSERTIONS = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
