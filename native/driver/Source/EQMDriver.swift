@@ -115,12 +115,12 @@ import CoreAudio.AudioServerPlugIn
     return "Unknown"
   }
   
-  static func calculateHostTicksPerFrame () -> Float64 {
+  static func calculateHostTicksPerFrame () {
     //  calculate the host ticks per frame
     var theTimeBaseInfo = mach_timebase_info()
     mach_timebase_info(&theTimeBaseInfo)
     var theHostClockFrequency = Float64(theTimeBaseInfo.denom) / Float64(theTimeBaseInfo.numer)
     theHostClockFrequency *= 1000000000.0
-    return theHostClockFrequency / EQMDevice.sampleRate
+    hostTicksPerFrame = theHostClockFrequency / EQMDevice.sampleRate
   }
 }

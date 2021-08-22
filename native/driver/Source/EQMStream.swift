@@ -72,7 +72,7 @@ class EQMStream: EQMObject {
     case kAudioStreamPropertyVirtualFormat,
          kAudioStreamPropertyPhysicalFormat: return sizeof(AudioStreamBasicDescription.self)
     case kAudioStreamPropertyAvailableVirtualFormats,
-         kAudioStreamPropertyAvailablePhysicalFormats: return 6 * sizeof(AudioStreamRangedDescription.self)
+         kAudioStreamPropertyAvailablePhysicalFormats: return UInt32(kSupportedSamplingRates.count) * sizeof(AudioStreamRangedDescription.self)
     default:
       return nil
     }

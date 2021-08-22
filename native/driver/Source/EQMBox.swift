@@ -137,7 +137,11 @@ class EQMBox: EQMObject {
       return .integer(0)
     case kAudioBoxPropertyDeviceList:
       //  This is used to indicate which devices came from this box
-      return .integer(acquired ? kObjectID_Device : 0)
+      if acquired {
+        return .integer(kObjectID_Device)
+      } else {
+        return .null()
+      }
     default: return nil
     }
   }

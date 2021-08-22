@@ -30,7 +30,7 @@ let kDeviceManufacturer = "Bitgapp Ltd"
 let kBoxDefaultName = "eqMac Box"
 
 let kPlugInBundleId = "com.bitgapp.eqmac.driver"
-let kBoxUID = "eqMacBox_UID"
+let kBoxUID = "EQMBox"
 let kDeviceUID = "EQMDevice"
 let kDeviceModelUID = "EQMDeviceModelUID"
 

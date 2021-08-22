@@ -84,11 +84,10 @@ func EQM_Initialize (inDriver: AudioServerPlugInDriverRef, inHost: AudioServerPl
   if (EQMBox.name == nil) {
     EQMBox.name = kBoxDefaultName
   }
+
+  EQMDriver.calculateHostTicksPerFrame()
   
-  EQMBox.acquired = true
-  EQMDriver.hostTicksPerFrame = EQMDriver.calculateHostTicksPerFrame()
-  
-  return kAudioHardwareNoError
+  return noErr
 }
 
 func EQM_CreateDevice (inDriver: AudioServerPlugInDriverRef, inDescription: CFDictionary, inClientInfo: UnsafePointer<AudioServerPlugInClientInfo>, outDeviceObjectID: UnsafeMutablePointer<AudioObjectID>) -> OSStatus {
@@ -150,9 +149,9 @@ func EQM_PerformDeviceConfigurationChange (inDriver: AudioServerPlugInDriverRef,
   if !kSupportedSamplingRates.contains(where: { UInt64($0) == inChangeAction }) { return kAudioHardwareBadObjectError }
   
   EQMDevice.sampleRate = Float64(inChangeAction)
-  EQMDriver.hostTicksPerFrame = EQMDriver.calculateHostTicksPerFrame()
+  EQMDriver.calculateHostTicksPerFrame()
   
-  return kAudioHardwareNoError
+  return noErr
 }
 
 func EQM_AbortDeviceConfigurationChange (inDriver: AudioServerPlugInDriverRef, inDeviceObjectID: AudioObjectID, inChangeAction: UInt64, inChangeInfo: UnsafeMutableRawPointer?) -> OSStatus {

@@ -113,7 +113,7 @@ class EQMDevice: EQMObject {
     case kAudioObjectPropertyControlList: return 6 * sizeof(AudioObjectID.self)
     case kAudioDevicePropertySafetyOffset: return sizeof(UInt32.self)
     case kAudioDevicePropertyNominalSampleRate: return sizeof(Float64.self)
-    case kAudioDevicePropertyAvailableNominalSampleRates: return 6 * sizeof(AudioValueRange.self)
+    case kAudioDevicePropertyAvailableNominalSampleRates: return UInt32(kSupportedSamplingRates.count) * sizeof(AudioValueRange.self)
     case kAudioDevicePropertyIsHidden: return sizeof(UInt32.self)
     case kAudioDevicePropertyPreferredChannelsForStereo: return 2 * sizeof(UInt32.self)
     case kAudioDevicePropertyPreferredChannelLayout:
@@ -183,7 +183,8 @@ class EQMDevice: EQMObject {
           kObjectID_Volume_Output_Master,
           kObjectID_Mute_Output_Master,
           kObjectID_DataSource_Output_Master,
-        ])      default: return .objectIDList([])
+        ])
+      default: return .objectIDList([])
       }
     case kAudioDevicePropertyDeviceUID:
       //  This is a CFString that is a persistent token that can identify the same
@@ -335,7 +336,8 @@ class EQMDevice: EQMObject {
         mNumberChannelDescriptions: UInt32(kChannelCount),
         mChannelDescriptions: AudioChannelDescription()
       )
-      let channelSize = MemoryLayout<AudioChannelDescription>.stride * channelDescriptions.count
+      // INFO: have to go with channelDescriptions.count - 1 as MemoryLayout<AudioChannelDescription>.stride might already contain the size for 1 channel
+      let channelSize = MemoryLayout<AudioChannelDescription>.stride * channelDescriptions.count - 1
       memcpy(&channelLayout.mChannelDescriptions, &channelDescriptions, channelSize)
       return .channelLayout(channelLayout)
     case kAudioDevicePropertyZeroTimeStampPeriod:

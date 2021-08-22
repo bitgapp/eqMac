@@ -32,18 +32,7 @@ class EQMPlugIn: EQMObject {
 
   static func isPropertySettable (objectID: AudioObjectID? = nil, address: AudioObjectPropertyAddress) -> Bool {
     switch address.mSelector {
-    case kAudioObjectPropertyBaseClass,
-         kAudioObjectPropertyClass,
-         kAudioObjectPropertyOwner,
-         kAudioObjectPropertyManufacturer,
-         kAudioObjectPropertyOwnedObjects,
-         kAudioPlugInPropertyBoxList,
-         kAudioPlugInPropertyTranslateUIDToBox,
-         kAudioPlugInPropertyDeviceList,
-         kAudioPlugInPropertyTranslateUIDToDevice,
-         kAudioPlugInPropertyResourceBundle,
-         kAudioObjectPropertyCustomPropertyInfoList: return true
-    default: return false
+      default: return false
     }
   }
 
@@ -88,19 +77,35 @@ class EQMPlugIn: EQMObject {
       case kAudioObjectPropertyManufacturer:
         //  This is the human readable name of the maker of the plug-in.
         return .string(kDeviceManufacturer as CFString)
+
       case kAudioObjectPropertyOwnedObjects:
-        return .objectIDList([kObjectID_Box, kObjectID_Device])
+        var objects = ContiguousArray<AudioObjectID>()
+        objects.append(kObjectID_Box)
+        if EQMBox.acquired {
+          objects.append(kObjectID_Device)
+        }
+        return .objectIDList(objects)
+
       case kAudioPlugInPropertyBoxList:
         return .objectIDList([kObjectID_Box])
+
       case kAudioPlugInPropertyTranslateUIDToBox:
         let uid = inData?.assumingMemoryBound(to: CFString?.self).pointee
+
         if (CFStringCompare(uid, kBoxUID as CFString, .init(rawValue: 0)) == CFComparisonResult.compareEqualTo) {
           return .integer(kObjectID_Box)
         } else {
           return .integer(kAudioObjectUnknown)
         }
+        
       case kAudioPlugInPropertyDeviceList:
-        return .objectIDList([kObjectID_Device])
+        var devices = ContiguousArray<AudioObjectID>()
+
+        if EQMBox.acquired {
+          devices.append(kObjectID_Device)
+        }
+        return .objectIDList(devices)
+
       case kAudioPlugInPropertyTranslateUIDToDevice:
         //  This property takes the CFString passed in the qualifier and converts that
         //  to the object ID of the device it corresponds to. For this driver, there is

@@ -19,6 +19,7 @@ protocol EQMObject: class {
 
 enum EQMObjectProperty {
   // Primitives
+  case null (Void? = nil)
   case audioClassID(AudioClassID)
   case bool(CFBoolean)
   case string(CFString)
@@ -43,6 +44,7 @@ enum EQMObjectProperty {
   
   func write(to address: UnsafeMutableRawPointer?, size: UnsafeMutablePointer<UInt32>, requestedSize: UInt32?) {
     switch self {
+    case .null(_):                          self.write(element: NSNull(), address: address, size: size)
     case .bool(let data):                   self.write(element: data, address: address, size: size)
     case .string(let data):                 self.write(element: data, address: address, size: size)
     case .float32(let data):                self.write(element: data, address: address, size: size)
@@ -67,10 +69,12 @@ enum EQMObjectProperty {
   
   
   private func write<T>(element: T, address: UnsafeMutableRawPointer?, size: UnsafeMutablePointer<UInt32>) {
-    // Write data size
-    size.pointee = UInt32(MemoryLayout.size(ofValue: element))
-    // Write data
-    address?.assumingMemoryBound(to: T.self).pointee = element
+    if T.self != NSNull.self {
+      size.pointee = UInt32(MemoryLayout.size(ofValue: element))
+      address?.assumingMemoryBound(to: T.self).pointee = element
+    } else {
+      size.pointee = 0
+    }
   }
   
   private func write<T: Any>(array arr: ContiguousArray<T>, address: UnsafeMutableRawPointer?, size: UnsafeMutablePointer<UInt32>, requestedSize: UInt32?) {
