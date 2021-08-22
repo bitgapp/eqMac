@@ -9,7 +9,7 @@
 import Foundation
 import CoreAudio.AudioServerPlugIn
 
-class EQMControl: EQMObjectProtocol {
+class EQMControl: EQMObject {
   static var outputVolume: Float32 = 1
   static var outputMuted = false
   static var inputDataSource: UInt32 = 0
@@ -148,7 +148,7 @@ class EQMControl: EQMObjectProtocol {
     }
   }
 
-  static func getPropertyData (objectID: AudioObjectID?, address: AudioObjectPropertyAddress) -> EQMObjectProperty? {
+  static func getPropertyData (objectID: AudioObjectID?, address: AudioObjectPropertyAddress, inData: UnsafeRawPointer?) -> EQMObjectProperty? {
     switch objectID {
     case kObjectID_Volume_Input_Master,
          kObjectID_Volume_Output_Master:
@@ -185,7 +185,7 @@ class EQMControl: EQMObjectProtocol {
           default: return 0
           }
         })()
-        return .float32(volumeToScalar(volume))
+        return .float32(Volume.toScalar(volume))
       case kAudioLevelControlPropertyDecibelValue:
         //  This returns the dB value of the control.
         //  Note that we need to take the state lock to examine the value.
@@ -196,7 +196,7 @@ class EQMControl: EQMObjectProtocol {
           default: return 0
           }
         })()
-        return .float32(volumeToDecibel(volume))
+        return .float32(Volume.toDecibel(volume))
       case kAudioLevelControlPropertyDecibelRange:
         //  This returns the dB range of the control.
         return .valueRange(
@@ -311,7 +311,7 @@ class EQMControl: EQMObjectProtocol {
     }
   }
 
-  static func setPropertyData(objectID: AudioObjectID?, address: AudioObjectPropertyAddress, data: UnsafeRawPointer) -> OSStatus {
+  static func setPropertyData(objectID: AudioObjectID?, address: AudioObjectPropertyAddress, data: UnsafeRawPointer, changedProperties: inout [AudioObjectPropertyAddress]) -> OSStatus {
     switch objectID {
       case kObjectID_Volume_Input_Master,
            kObjectID_Volume_Output_Master:
@@ -323,7 +323,7 @@ class EQMControl: EQMObjectProtocol {
               return kAudioHardwareBadPropertySizeError
             }
 
-            var newVolume = scalarToVolume(scalar)
+            var newVolume = Volume.fromScalar(scalar)
             newVolume = clamp(value: newVolume, min: 0.0, max: 1.0)
 
             switch objectID {
@@ -348,7 +348,7 @@ class EQMControl: EQMObjectProtocol {
             }
             decibel = clamp(value: decibel, min: kMinVolumeDB, max: kMaxVolumeDB)
 
-            var newVolume = decibelToVolume(decibel)
+            var newVolume = Volume.fromDecibel(decibel)
             newVolume = clamp(value: newVolume, min: 0.0, max: 1.0)
 
             switch objectID {

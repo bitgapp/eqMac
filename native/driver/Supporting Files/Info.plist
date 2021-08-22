@@ -28,9 +28,7 @@
 	<key>CFPlugInTypes</key>
 	<dict>
 		<key>443ABAB8-E7B3-491A-B985-BEB9187030DB</key>
-		<array>
-			<string>7080ba34-76cc-40b2-b2b3-819d28460e7e</string>
-		</array>
+		<string>7080ba34-76cc-40b2-b2b3-819d28460e7e</string>
 	</dict>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2015 - 2021 Bitgapp Ltd.</string>

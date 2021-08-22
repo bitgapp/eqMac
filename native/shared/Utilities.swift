@@ -11,3 +11,13 @@ import Foundation
 func sizeof <T> (_ type: T) -> UInt32 {
   return UInt32(MemoryLayout.size(ofValue: type))
 }
+
+func clamp <T: Comparable> (value val: T, min: T, max: T) -> T {
+  var value = val
+  if value < min {
+    value = min
+  } else if value > min {
+    value = max
+  }
+  return value
+}

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 47;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -20,9 +20,12 @@
 		78A804D726C4903E0021981C /* EQMDriver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A804D626C4903E0021981C /* EQMDriver.swift */; };
 		78A804DD26C563860021981C /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A804DC26C563860021981C /* Constants.swift */; };
 		78A804E026C5676D0021981C /* EQMPlugIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A804DF26C5676D0021981C /* EQMPlugIn.swift */; };
-		78A804E426C58F3C0021981C /* Atomics in Frameworks */ = {isa = PBXBuildFile; productRef = 78A804E326C58F3C0021981C /* Atomics */; };
 		78A804E726C595D80021981C /* EQMBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A804E626C595D80021981C /* EQMBox.swift */; };
 		78A804EA26C596080021981C /* EQMDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A804E926C596080021981C /* EQMDevice.swift */; };
+		78E8F7CE26D12B4C00B6B969 /* Volume.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E8F7CD26D12B4C00B6B969 /* Volume.swift */; };
+		78E8F7D226D12BD500B6B969 /* AtomicCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E8F7D126D12BD500B6B969 /* AtomicCounter.swift */; };
+		78E8F7D526D12C0100B6B969 /* EQMObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E8F7D426D12C0100B6B969 /* EQMObject.swift */; };
+		78E8F7D926D166D800B6B969 /* EQMInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E8F7D826D166D800B6B969 /* EQMInterface.swift */; };
 		E01A29F82456E50500369F41 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E01A29F72456E50500369F41 /* CoreFoundation.framework */; };
 		E0DAAFBD21FE545F00DCCCEC /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = E0DAAFBC21FE545F00DCCCEC /* icon.icns */; };
 /* End PBXBuildFile section */
@@ -47,6 +50,10 @@
 		78A804DF26C5676D0021981C /* EQMPlugIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EQMPlugIn.swift; sourceTree = "<group>"; };
 		78A804E626C595D80021981C /* EQMBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EQMBox.swift; sourceTree = "<group>"; };
 		78A804E926C596080021981C /* EQMDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EQMDevice.swift; sourceTree = "<group>"; };
+		78E8F7CD26D12B4C00B6B969 /* Volume.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Volume.swift; path = ../shared/Volume.swift; sourceTree = "<group>"; };
+		78E8F7D126D12BD500B6B969 /* AtomicCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AtomicCounter.swift; path = ../shared/AtomicCounter.swift; sourceTree = "<group>"; };
+		78E8F7D426D12C0100B6B969 /* EQMObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EQMObject.swift; sourceTree = "<group>"; };
+		78E8F7D826D166D800B6B969 /* EQMInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EQMInterface.swift; sourceTree = "<group>"; };
 		E01A29F72456E50500369F41 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		E0DAAFBC21FE545F00DCCCEC /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -57,7 +64,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E01A29F82456E50500369F41 /* CoreFoundation.framework in Frameworks */,
-				78A804E426C58F3C0021981C /* Atomics in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -89,6 +95,8 @@
 				78A8049C26C486350021981C /* Bridge */,
 				78A804DC26C563860021981C /* Constants.swift */,
 				78A804D626C4903E0021981C /* EQMDriver.swift */,
+				78E8F7D826D166D800B6B969 /* EQMInterface.swift */,
+				78E8F7D426D12C0100B6B969 /* EQMObject.swift */,
 				78A804DF26C5676D0021981C /* EQMPlugIn.swift */,
 				78A804E626C595D80021981C /* EQMBox.swift */,
 				78A804E926C596080021981C /* EQMDevice.swift */,
@@ -117,6 +125,8 @@
 				7838E34E26C897560039D466 /* SharedConstants.swift */,
 				7838E35026C897560039D466 /* StringExtensions.swift */,
 				7838E35E26C8A4190039D466 /* Utilities.swift */,
+				78E8F7CD26D12B4C00B6B969 /* Volume.swift */,
+				78E8F7D126D12BD500B6B969 /* AtomicCounter.swift */,
 			);
 			name = Shared;
 			sourceTree = "<group>";
@@ -156,7 +166,6 @@
 			);
 			name = eqMac;
 			packageProductDependencies = (
-				78A804E326C58F3C0021981C /* Atomics */,
 			);
 			productName = EQMDriver;
 			productReference = 1CB8B3641BBBB78D000E2DD1 /* eqMac.driver */;
@@ -189,7 +198,6 @@
 			);
 			mainGroup = 1CB8B3591BBBB69C000E2DD1;
 			packageReferences = (
-				78A804E226C58F3C0021981C /* XCRemoteSwiftPackageReference "swift-atomics" */,
 			);
 			productRefGroup = 1CB8B3651BBBB78D000E2DD1 /* Products */;
 			projectDirPath = "";
@@ -226,10 +234,14 @@
 				78A804E026C5676D0021981C /* EQMPlugIn.swift in Sources */,
 				7838E35226C897560039D466 /* SharedConstants.swift in Sources */,
 				78A804EA26C596080021981C /* EQMDevice.swift in Sources */,
+				78E8F7D226D12BD500B6B969 /* AtomicCounter.swift in Sources */,
 				7838E36426C9CC430039D466 /* ArrayExtensions.swift in Sources */,
+				78E8F7D526D12C0100B6B969 /* EQMObject.swift in Sources */,
+				78E8F7D926D166D800B6B969 /* EQMInterface.swift in Sources */,
 				7838E35B26C898F30039D466 /* EQMControl.swift in Sources */,
 				78A804DD26C563860021981C /* Constants.swift in Sources */,
 				7838E35526C897560039D466 /* NumericTypesConversions.swift in Sources */,
+				78E8F7CE26D12B4C00B6B969 /* Volume.swift in Sources */,
 				78A804E726C595D80021981C /* EQMBox.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -392,9 +404,10 @@
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1.2.3;
 				DEAD_CODE_STRIPPING = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_NS_ASSERTIONS = YES;
@@ -402,7 +415,7 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_CPP_RTTI = YES;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
-				GCC_PREPROCESSOR_DEFINITIONS = "";
+				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
 				GCC_TREAT_WARNINGS_AS_ERRORS = NO;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -413,16 +426,13 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Supporting Files/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Audio/Plug-Ins/HAL";
 				IPHONEOS_DEPLOYMENT_TARGET = "";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/../Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MARKETING_VERSION = 1.2.3;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CODE_SIGN_FLAGS = "";
+				OTHER_SWIFT_FLAGS = "-D DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bitgapp.eqmac.driver;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -460,6 +470,7 @@
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
 				CURRENT_PROJECT_VERSION = 1.2.3;
 				DEAD_CODE_STRIPPING = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -480,11 +491,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Supporting Files/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Audio/Plug-Ins/HAL";
 				IPHONEOS_DEPLOYMENT_TARGET = "";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/../Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MARKETING_VERSION = 1.2.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
@@ -525,25 +532,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		78A804E226C58F3C0021981C /* XCRemoteSwiftPackageReference "swift-atomics" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/apple/swift-atomics.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.0.3;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		78A804E326C58F3C0021981C /* Atomics */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 78A804E226C58F3C0021981C /* XCRemoteSwiftPackageReference "swift-atomics" */;
-			productName = Atomics;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 1CB8B35A1BBBB69C000E2DD1 /* Project object */;
 }

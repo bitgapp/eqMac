@@ -8,9 +8,8 @@
 
 import Foundation
 import CoreAudio.AudioServerPlugIn
-import Atomics
 
-class EQMDevice: EQMObjectProtocol {
+class EQMDevice: EQMObject {
   static let id = AudioObjectID(kDeviceUID)!
   static var name = kDeviceName
   static var sampleRate = kDefaultSampleRate
@@ -18,7 +17,7 @@ class EQMDevice: EQMObjectProtocol {
   static var shown = false
   static var latency: UInt32 = 0
   static var ringBufferSize: UInt32 = 16384
-  static var ioCounter = ManagedAtomic<UInt64>(0)
+  static var ioCounter = AtomicCounter<UInt64>()
   static var hostTime: UInt64 = 0
   static var sampleTime: UInt64 = 0
   static var timestampCount: UInt64 = 0
@@ -124,18 +123,18 @@ class EQMDevice: EQMObjectProtocol {
 
     case kAudioDevicePropertyZeroTimeStampPeriod: return sizeof(UInt32.self)
     case kAudioDevicePropertyIcon: return sizeof(CFURL.self)
+    
+    case kAudioObjectPropertyCustomPropertyInfoList: return sizeof(AudioServerPlugInCustomPropertyInfo.self) * 3
     case kEQMDeviceCustomPropertyLatency: return sizeof(UInt32.self)
     case kEQMDeviceCustomPropertyShown: return sizeof(CFBoolean.self)
     case kEQMDeviceCustomPropertyVersion: return sizeof(CFString.self)
-    case kAudioObjectPropertyCustomPropertyInfoList: return sizeof(AudioServerPlugInCustomPropertyInfo.self) * 4
 
     default:
       return nil
     }
   }
 
-  static func getPropertyData (objectID: AudioObjectID? = nil, address: AudioObjectPropertyAddress) -> EQMObjectProperty? {
-
+  static func getPropertyData (objectID: AudioObjectID? = nil, address: AudioObjectPropertyAddress, inData: UnsafeRawPointer?) -> EQMObjectProperty? {
     switch address.mSelector {
     case kAudioObjectPropertyBaseClass:
       //  The base class for kAudioDeviceClassID is kAudioObjectClassID
@@ -350,9 +349,7 @@ class EQMDevice: EQMObjectProtocol {
       return .url(url!)
     case kAudioObjectPropertyCustomPropertyInfoList:
       //  This property returns an array of AudioServerPlugInCustomPropertyInfo's that
-      //  describe the type of data used by any custom properties. For this example,
-      //  the plug-in supports a single property whose data type is a CFString and
-      //  whose qualifier is a CFString.
+      //  describe the type of data used by any custom properties. 
       let customProperties = ContiguousArray([
         AudioServerPlugInCustomPropertyInfo(
           mSelector: kEQMDeviceCustomPropertyVersion,
@@ -386,7 +383,7 @@ class EQMDevice: EQMObjectProtocol {
     }
   }
 
-  static func setPropertyData(objectID: AudioObjectID? = nil, address: AudioObjectPropertyAddress, data: UnsafeRawPointer) -> OSStatus {
+  static func setPropertyData(objectID: AudioObjectID? = nil, address: AudioObjectPropertyAddress, data: UnsafeRawPointer, changedProperties: inout [AudioObjectPropertyAddress]) -> OSStatus {
     switch address.mSelector {
 
     case kAudioDevicePropertyNominalSampleRate:
@@ -440,7 +437,7 @@ class EQMDevice: EQMObjectProtocol {
   }
 
   static func startIO () -> OSStatus {
-    let ioCount = ioCounter.load(ordering: .relaxed)
+    let ioCount = ioCounter.value
 
     // Reached max amount of possible IOs
     if ioCount == UInt64.max {
@@ -456,7 +453,7 @@ class EQMDevice: EQMObjectProtocol {
       buffer = UnsafeMutablePointer<Float32>.allocate(capacity: Int(bufferSize * kChannelCount))
     } else {
       // IO already running so increment the counter
-      ioCounter.wrappingIncrement(ordering: .relaxed)
+      ioCounter.increment()
     }
 
     return noErr
@@ -468,10 +465,11 @@ class EQMDevice: EQMObjectProtocol {
       return kAudioHardwareIllegalOperationError
     }
 
-    var ioCount = ioCounter.load(ordering: .relaxed)
+    var ioCount = ioCounter.value
 
     if ioCount > 0 {
-      ioCount = ioCounter.wrappingDecrementThenLoad(ordering: .relaxed)
+      ioCounter.decrement()
+      ioCount = ioCounter.value
     }
 
     // If IO reached zero deinit

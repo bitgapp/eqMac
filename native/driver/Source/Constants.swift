@@ -9,6 +9,12 @@
 import Foundation
 import CoreAudio.AudioServerPlugIn
 
+#if DEBUG
+let DEBUG = true
+#else
+let DEBUG = false
+#endif
+
 let kAudioServerPluginTypeUUID = CFUUIDGetConstantUUIDWithBytes(nil, 0x44, 0x3A, 0xBA, 0xB8, 0xE7, 0xB3, 0x49, 0x1A, 0xB9, 0x85, 0xBE, 0xB9, 0x18, 0x70, 0x30, 0xDB)!
 let kAudioServerPluginDriverInterfaceUUID = CFUUIDGetConstantUUIDWithBytes(nil, 0xEE, 0xA5, 0x77, 0x3D, 0xCC, 0x43, 0x49, 0xF1, 0x8E, 0x00, 0x8F, 0x96, 0xE7, 0xD2, 0x3B, 0x17)!
 let IUnknownUUID = CFUUIDGetConstantUUIDWithBytes(kCFAllocatorSystemDefault, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xC0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x4)!
@@ -21,9 +27,10 @@ let kDataSource_NumberItems: UInt32 = 1
 
 let kDeviceName = "eqMac"
 let kDeviceManufacturer = "Bitgapp Ltd"
+let kBoxDefaultName = "eqMac Box"
 
 let kPlugInBundleId = "com.bitgapp.eqmac.driver"
-let kBoxUID = "EQMBox"
+let kBoxUID = "eqMacBox_UID"
 let kDeviceUID = "EQMDevice"
 let kDeviceModelUID = "EQMDeviceModelUID"
 
@@ -61,7 +68,7 @@ extension HRESULT {
   static let accessDenied     = HRESULT(bitPattern: 0x80000009)
 }
 
-let kObjectID_PlugIn: UInt32                    = 1
+let kObjectID_PlugIn: UInt32                    = kAudioObjectPlugInObject
 let kObjectID_Box: UInt32                       = 2
 let kObjectID_Device: UInt32                    = 3
 let kObjectID_Stream_Input: UInt32              = 4

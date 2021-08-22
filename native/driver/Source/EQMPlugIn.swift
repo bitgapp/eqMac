@@ -9,7 +9,7 @@
 import Foundation
 import CoreAudio.AudioServerPlugIn
 
-class EQMPlugIn: EQMObjectProtocol {
+class EQMPlugIn: EQMObject {
   static let id = AudioObjectID(kPlugInBundleId)!
 
   static func hasProperty (objectID: AudioObjectID? = nil, address: AudioObjectPropertyAddress) -> Bool {
@@ -74,7 +74,7 @@ class EQMPlugIn: EQMObjectProtocol {
     }
   }
 
-  static func getPropertyData (objectID: AudioObjectID? = nil, address: AudioObjectPropertyAddress) -> EQMObjectProperty? {
+  static func getPropertyData (objectID: AudioObjectID? = nil, address: AudioObjectPropertyAddress, inData: UnsafeRawPointer?) -> EQMObjectProperty? {
     switch address.mSelector {
       case kAudioObjectPropertyBaseClass:
         //  The base class for kAudioPlugInClassID is kAudioObjectClassID
@@ -93,7 +93,12 @@ class EQMPlugIn: EQMObjectProtocol {
       case kAudioPlugInPropertyBoxList:
         return .objectIDList([kObjectID_Box])
       case kAudioPlugInPropertyTranslateUIDToBox:
-        return .integer(kObjectID_Box)
+        let uid = inData?.assumingMemoryBound(to: CFString?.self).pointee
+        if (CFStringCompare(uid, kBoxUID as CFString, .init(rawValue: 0)) == CFComparisonResult.compareEqualTo) {
+          return .integer(kObjectID_Box)
+        } else {
+          return .integer(kAudioObjectUnknown)
+        }
       case kAudioPlugInPropertyDeviceList:
         return .objectIDList([kObjectID_Device])
       case kAudioPlugInPropertyTranslateUIDToDevice:
@@ -102,7 +107,12 @@ class EQMPlugIn: EQMObjectProtocol {
         //  just the one device. Note that it is not an error if the string in the
         //  qualifier doesn't match any devices. In such case, kAudioObjectUnknown is
         //  the object ID to return.
-        return .integer(kObjectID_Device)
+        let uid = inData?.assumingMemoryBound(to: CFString?.self).pointee
+        if (CFStringCompare(uid, kDeviceUID as CFString, .init(rawValue: 0)) == CFComparisonResult.compareEqualTo) {
+          return .integer(kObjectID_Device)
+        } else {
+          return .integer(kAudioObjectUnknown)
+        }
       case kAudioPlugInPropertyResourceBundle:
         //  The resource bundle is a path relative to the path of the plug-in's bundle.
         //  To specify that the plug-in bundle itself should be used, we just return the
@@ -119,7 +129,7 @@ class EQMPlugIn: EQMObjectProtocol {
     }
   }
 
-  static func setPropertyData(objectID: AudioObjectID? = nil, address: AudioObjectPropertyAddress, data: UnsafeRawPointer) -> OSStatus {
+  static func setPropertyData(objectID: AudioObjectID? = nil, address: AudioObjectPropertyAddress, data: UnsafeRawPointer, changedProperties: inout [AudioObjectPropertyAddress]) -> OSStatus {
     switch address.mSelector {
     default: return kAudioHardwareUnknownPropertyError
     }

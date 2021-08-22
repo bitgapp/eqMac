@@ -9,7 +9,7 @@
 import Foundation
 import CoreAudio.AudioServerPlugIn
 
-class EQMStream: EQMObjectProtocol {
+class EQMStream: EQMObject {
   static var inputActive = true
   static var outputActive = true
   static var description: AudioStreamBasicDescription {
@@ -78,7 +78,7 @@ class EQMStream: EQMObjectProtocol {
     }
   }
 
-  static func getPropertyData (objectID: AudioObjectID?, address: AudioObjectPropertyAddress) -> EQMObjectProperty? {
+  static func getPropertyData (objectID: AudioObjectID?, address: AudioObjectPropertyAddress, inData: UnsafeRawPointer?) -> EQMObjectProperty? {
 
     switch address.mSelector {
     case kAudioObjectPropertyBaseClass:
@@ -177,7 +177,7 @@ class EQMStream: EQMObjectProtocol {
     }
   }
 
-  static func setPropertyData(objectID: AudioObjectID?, address: AudioObjectPropertyAddress, data: UnsafeRawPointer) -> OSStatus {
+  static func setPropertyData(objectID: AudioObjectID?, address: AudioObjectPropertyAddress, data: UnsafeRawPointer, changedProperties: inout [AudioObjectPropertyAddress]) -> OSStatus {
     switch address.mSelector {
     case kAudioStreamPropertyIsActive:
       //  Changing the active state of a stream doesn't affect IO or change the structure

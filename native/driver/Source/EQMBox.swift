@@ -9,9 +9,9 @@
 import Foundation
 import CoreAudio.AudioServerPlugIn
 
-class EQMBox: EQMObjectProtocol {
+class EQMBox: EQMObject {
   static let id = AudioObjectID(kBoxUID)!
-  static var name = "eqMac Box"
+  static var name: String? = kBoxDefaultName
   static var acquired = false
 
   static func hasProperty (objectID: AudioObjectID? = nil, address: AudioObjectPropertyAddress) -> Bool {
@@ -77,8 +77,7 @@ class EQMBox: EQMObjectProtocol {
     }
   }
 
-  static func getPropertyData (objectID: AudioObjectID? = nil, address: AudioObjectPropertyAddress) -> EQMObjectProperty? {
-
+  static func getPropertyData (objectID: AudioObjectID? = nil, address: AudioObjectPropertyAddress, inData: UnsafeRawPointer?) -> EQMObjectProperty? {
     switch address.mSelector {
     case kAudioObjectPropertyBaseClass:
       //  The base class for kAudioBoxClassID is kAudioObjectClassID
@@ -91,7 +90,7 @@ class EQMBox: EQMObjectProtocol {
       return .integer(kObjectID_PlugIn)
     case kAudioObjectPropertyName:
       //  This is the human readable name of the maker of the box.
-      return .string(name as CFString)
+      return .string((name ?? kBoxDefaultName) as CFString)
     case kAudioObjectPropertyModelName:
       //  This is the human readable name of the maker of the box.
       return .string("eqMac Model" as CFString)
@@ -143,7 +142,7 @@ class EQMBox: EQMObjectProtocol {
     }
   }
 
-  static func setPropertyData(objectID: AudioObjectID? = nil, address: AudioObjectPropertyAddress, data: UnsafeRawPointer) -> OSStatus {
+  static func setPropertyData(objectID: AudioObjectID? = nil, address: AudioObjectPropertyAddress, data: UnsafeRawPointer, changedProperties: inout [AudioObjectPropertyAddress]) -> OSStatus {
     switch address.mSelector {
     case kAudioObjectPropertyName:
       //  Boxes should allow their name to be editable
@@ -163,7 +162,37 @@ class EQMBox: EQMObjectProtocol {
       if (acquired != wasAcquired) {
         //  the new value is different from the old value, so save it
         acquired = wasAcquired
+        
+        _ = EQMDriver.host?.pointee.WriteToStorage(EQMDriver.host!, "box acquired" as CFString, acquired ? kCFBooleanTrue : kCFBooleanFalse)
+        
+        //  and it means that this property and the device list property have changed
+        changedProperties.append(
+          AudioObjectPropertyAddress(
+            mSelector: kAudioBoxPropertyAcquired,
+            mScope: kAudioObjectPropertyScopeGlobal,
+            mElement: kAudioObjectPropertyElementMaster
+          )
+        )
+        
+        changedProperties.append(
+          AudioObjectPropertyAddress(
+            mSelector: kAudioBoxPropertyDeviceList,
+            mScope: kAudioObjectPropertyScopeGlobal,
+            mElement: kAudioObjectPropertyElementMaster
+          )
+        )
+        
+        //  but it also means that the device list has changed for the plug-in too
+        DispatchQueue.global(qos: .default).async {
+          var address = AudioObjectPropertyAddress(
+            mSelector: kAudioPlugInPropertyDeviceList,
+            mScope: kAudioObjectPropertyScopeGlobal,
+            mElement: kAudioObjectPropertyElementMaster
+          )
+          _ = EQMDriver.host?.pointee.PropertiesChanged(EQMDriver.host!, kObjectID_PlugIn, 1, &address);
+        }
       }
+      
       return noErr
     default: return kAudioHardwareUnknownPropertyError
     }
