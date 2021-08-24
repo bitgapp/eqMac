@@ -132,7 +132,7 @@ class EQMStream: EQMObject {
         AudioStreamBasicDescription(
           mSampleRate: EQMDevice.sampleRate,
           mFormatID: kAudioFormatLinearPCM,
-          mFormatFlags: kAudioFormatFlagIsFloat & kAudioFormatFlagsNativeEndian & kAudioFormatFlagIsPacked,
+          mFormatFlags: kAudioFormatFlagIsFloat | kAudioFormatFlagsNativeEndian | kAudioFormatFlagIsPacked,
           mBytesPerPacket: kBytesPerFrame,
           mFramesPerPacket: 1,
           mBytesPerFrame: kBytesPerFrame,
@@ -157,7 +157,7 @@ class EQMStream: EQMObject {
           mFormat: AudioStreamBasicDescription(
             mSampleRate: sampleRate,
             mFormatID: kAudioFormatLinearPCM,
-            mFormatFlags: kAudioFormatFlagIsFloat & kAudioFormatFlagsNativeEndian & kAudioFormatFlagIsPacked,
+            mFormatFlags: kAudioFormatFlagIsFloat | kAudioFormatFlagsNativeEndian | kAudioFormatFlagIsPacked,
             mBytesPerPacket: kBytesPerFrame,
             mFramesPerPacket: 1,
             mBytesPerFrame: kBytesPerFrame,

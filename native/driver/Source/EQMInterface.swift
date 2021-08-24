@@ -160,7 +160,7 @@ func EQM_AbortDeviceConfigurationChange (inDriver: AudioServerPlugInDriverRef, i
 func EQM_HasProperty (inDriver: AudioServerPlugInDriverRef, inObjectID: AudioObjectID, inClientProcessID: pid_t, inAddress: UnsafePointer<AudioObjectPropertyAddress>) -> DarwinBoolean {
   // This method returns whether or not the given object has the given property.
 
-  log("Invoking: \(EQMDriver.getEQMObjectClassName(from: inObjectID)).hasProperty(\(inAddress.pointee.mSelector.code))")
+  log("Invoking: \(EQMDriver.getEQMObjectClassName(from: inObjectID)).hasProperty(\(propertyName(inAddress.pointee.mSelector)))")
   let hasProperty: Bool = ({
     guard EQMDriver.validateDriver(inDriver) else { return false }
     if let obj = EQMDriver.getEQMObject(from: inObjectID) {
@@ -169,7 +169,7 @@ func EQM_HasProperty (inDriver: AudioServerPlugInDriverRef, inObjectID: AudioObj
       return false
     }
   })()
-  log("\(EQMDriver.getEQMObjectClassName(from: inObjectID)).hasProperty(\(inAddress.pointee.mSelector.code)) = \(hasProperty)")
+  log("\(EQMDriver.getEQMObjectClassName(from: inObjectID)).hasProperty(\(propertyName(inAddress.pointee.mSelector))) = \(hasProperty)")
 
   return DarwinBoolean(hasProperty)
 }
@@ -178,7 +178,7 @@ func EQM_IsPropertySettable (inDriver: AudioServerPlugInDriverRef, inObjectID: A
   // This method returns whether or not the given property on the object can have its value changed.
   guard EQMDriver.validateDriver(inDriver) else { return kAudioHardwareBadObjectError }
   
-  log("Invoking: \(EQMDriver.getEQMObjectClassName(from: inObjectID)).isPropertySettable(\(inAddress.pointee.mSelector.code))")
+  log("Invoking: \(EQMDriver.getEQMObjectClassName(from: inObjectID)).isPropertySettable(\(propertyName(inAddress.pointee.mSelector)))")
   let isSettable = DarwinBoolean(({
     if let obj = EQMDriver.getEQMObject(from: inObjectID) {
       return obj.isPropertySettable(objectID: inObjectID, address: inAddress.pointee)
@@ -186,7 +186,7 @@ func EQM_IsPropertySettable (inDriver: AudioServerPlugInDriverRef, inObjectID: A
       return false
     }
   })())
-  log("\(EQMDriver.getEQMObjectClassName(from: inObjectID)).getPropertySettable(\(inAddress.pointee.mSelector.code)) = \(isSettable)")
+  log("\(EQMDriver.getEQMObjectClassName(from: inObjectID)).getPropertySettable(\(propertyName(inAddress.pointee.mSelector))) = \(isSettable)")
 
   outIsSettable.pointee = isSettable
   
@@ -197,7 +197,7 @@ func EQM_GetPropertyDataSize (inDriver: AudioServerPlugInDriverRef, inObjectID: 
   // This method returns the byte size of the property's data.
   guard EQMDriver.validateDriver(inDriver) && EQMDriver.validateObject(inObjectID) else { return kAudioHardwareBadObjectError }
   
-  log("Invoking: \(EQMDriver.getEQMObjectClassName(from: inObjectID)).getPropertyDataSize(\(inAddress.pointee.mSelector.code))")
+  log("Invoking: \(EQMDriver.getEQMObjectClassName(from: inObjectID)).getPropertyDataSize(\(propertyName(inAddress.pointee.mSelector)))")
   let size = ({ () -> UInt32? in
     if let obj = EQMDriver.getEQMObject(from: inObjectID) {
       return obj.getPropertyDataSize(objectID: inObjectID, address: inAddress.pointee)
@@ -205,7 +205,7 @@ func EQM_GetPropertyDataSize (inDriver: AudioServerPlugInDriverRef, inObjectID: 
       return nil
     }
   })()
-  log("\(EQMDriver.getEQMObjectClassName(from: inObjectID)).getPropertyDataSize(\(inAddress.pointee.mSelector.code)) = \(size ?? 0)")
+  log("\(EQMDriver.getEQMObjectClassName(from: inObjectID)).getPropertyDataSize(\(propertyName(inAddress.pointee.mSelector))) = \(size ?? 0)")
 
   if size != nil {
     outDataSize.pointee = size!
@@ -218,11 +218,11 @@ func EQM_GetPropertyDataSize (inDriver: AudioServerPlugInDriverRef, inObjectID: 
 func EQM_GetPropertyData (inDriver: AudioServerPlugInDriverRef, inObjectID: AudioObjectID, inClientProcessID: pid_t, inAddress: UnsafePointer<AudioObjectPropertyAddress>, inQualifierDataSize: UInt32, inQualifierData: UnsafeRawPointer?, inDataSize: UInt32, outDataSize: UnsafeMutablePointer<UInt32>, outData: UnsafeMutableRawPointer) -> OSStatus {
   // Fetches the data of the given property and places it in the provided buffer.
   guard EQMDriver.validateDriver(inDriver) && EQMDriver.validateObject(inObjectID) else {
-    log("Invalid driver or object id while in EQM_GetPropertyData(\(inAddress.pointee.mSelector.code))")
+    log("Invalid driver or object id while in EQM_GetPropertyData(\(propertyName(inAddress.pointee.mSelector)))")
     return kAudioHardwareBadObjectError
   }
   
-  log("Invoking: \(EQMDriver.getEQMObjectClassName(from: inObjectID)).getPropertyData(\(inAddress.pointee.mSelector.code)) - Size requested: \(inDataSize)")
+  log("Invoking: \(EQMDriver.getEQMObjectClassName(from: inObjectID)).getPropertyData(\(propertyName(inAddress.pointee.mSelector))) - Size requested: \(inDataSize)")
   
   let data = ({ () -> EQMObjectProperty? in
     if let obj = EQMDriver.getEQMObject(from: inObjectID) {
@@ -231,7 +231,7 @@ func EQM_GetPropertyData (inDriver: AudioServerPlugInDriverRef, inObjectID: Audi
       return nil
     }
   })()
-  log("\(EQMDriver.getEQMObjectClassName(from: inObjectID)).getPropertyData(\(inAddress.pointee.mSelector.code)) = \(String(describing: data))")
+  log("\(EQMDriver.getEQMObjectClassName(from: inObjectID)).getPropertyData(\(propertyName(inAddress.pointee.mSelector))) = \(String(describing: data))")
   if data != nil {
     data!.write(to: outData, size: outDataSize, requestedSize: inDataSize)
     return noErr
@@ -245,7 +245,7 @@ func EQM_SetPropertyData (inDriver: AudioServerPlugInDriverRef, inObjectID: Audi
   // Tells an object to change the value of the given property.
   guard EQMDriver.validateDriver(inDriver) else { return kAudioHardwareBadObjectError }
   
-  log("\(EQMDriver.getEQMObjectClassName(from: inObjectID)).setPropertyData(\(inAddress.pointee.mSelector.code)) = \(String(describing: inData))")
+  log("\(EQMDriver.getEQMObjectClassName(from: inObjectID)).setPropertyData(\(propertyName(inAddress.pointee.mSelector))) = \(String(describing: inData))")
 
   if let obj = EQMDriver.getEQMObject(from: inObjectID) {
     var changedProperties: [AudioObjectPropertyAddress] = []
@@ -254,7 +254,9 @@ func EQM_SetPropertyData (inDriver: AudioServerPlugInDriverRef, inObjectID: Audi
     if changedProperties.count > 0 {
       _ = EQMDriver.host!.pointee.PropertiesChanged(EQMDriver.host!, inObjectID, UInt32(changedProperties.count), changedProperties)
     }
-    
+
+    log("\(EQMDriver.getEQMObjectClassName(from: inObjectID)).setPropertyData(\(propertyName(inAddress.pointee.mSelector))) - Status: \(status) - Changed Properties: \(changedProperties)")
+
     return status
   } else {
     return kAudioHardwareBadObjectError
@@ -269,16 +271,26 @@ func EQM_StartIO (inDriver: AudioServerPlugInDriverRef, inDeviceObjectID: AudioO
   // So, work only needs to be done when the first client starts. All subsequent starts simply
   // increment the counter.
   guard EQMDriver.validateDriver(inDriver) else { return kAudioHardwareBadObjectError }
-  
-  return EQMDevice.startIO()
+  log("EQM_StartIO() - Invoked")
+
+  let status = EQMDevice.startIO()
+
+  log("EQM_StartIO() - Finished")
+
+  return status
 }
 
 func EQM_StopIO (inDriver: AudioServerPlugInDriverRef, inDeviceObjectID: AudioObjectID, inClientID: UInt32) -> OSStatus {
   // This call tells the device that the client has stopped IO. The driver can stop the hardware
   // once all clients have stopped.
   guard EQMDriver.validateDriver(inDriver) else { return kAudioHardwareBadObjectError }
-  
-  return EQMDevice.stopIO()
+  log("EQM_StopIO() - Invoked")
+
+  let status = EQMDevice.stopIO()
+
+  log("EQM_StopIO() - Finished")
+
+  return status
 }
 
 func EQM_GetZeroTimeStamp (inDriver: AudioServerPlugInDriverRef, inDeviceObjectID: AudioObjectID, inClientID: UInt32, outSampleTime: UnsafeMutablePointer<Float64>, outHostTime: UnsafeMutablePointer<UInt64>, outSeed: UnsafeMutablePointer<UInt64>) -> OSStatus {
@@ -291,12 +303,16 @@ func EQM_GetZeroTimeStamp (inDriver: AudioServerPlugInDriverRef, inDeviceObjectI
   // For this device, the zero time stamps' sample time increments every kDevice_RingBufferSize
   // frames and the host time increments by kDevice_RingBufferSize * gDevice_HostTicksPerFrame.
   guard EQMDriver.validateDriver(inDriver) else { return kAudioHardwareBadObjectError }
-  
-  return EQMDevice.getZeroTimeStamp(
+  log("EQM_GetZeroTimeStamp() - Invoked")
+
+  let status = EQMDevice.getZeroTimeStamp(
     outSampleTime: outSampleTime,
     outHostTime: outHostTime,
     outSeed: outSeed
   )
+  log("EQM_GetZeroTimeStamp() - Finished: Status = \(status) Sample TIme = \(outSampleTime.pointee) hostTime = \(outHostTime.pointee) Seed = \(outSeed.pointee)")
+
+  return status
 }
 
 func EQM_WillDoIOOperation (inDriver: AudioServerPlugInDriverRef, inDeviceObjectID: AudioObjectID, inClientID: UInt32, inOperationID: UInt32, outWillDo: UnsafeMutablePointer<DarwinBoolean>, outWillDoInPlace: UnsafeMutablePointer<DarwinBoolean>) -> OSStatus {
@@ -304,7 +320,9 @@ func EQM_WillDoIOOperation (inDriver: AudioServerPlugInDriverRef, inDeviceObject
   // This method returns whether or not the device will do a given IO operation. For this device,
   // we only support reading input data and writing output data.
   guard EQMDriver.validateDriver(inDriver) else { return kAudioHardwareBadObjectError }
-  
+
+  log("EQM_WillDoIOOperation() - Invoked")
+
   var willDo = false
   var willDoInPlace = true
   
@@ -322,7 +340,9 @@ func EQM_WillDoIOOperation (inDriver: AudioServerPlugInDriverRef, inDeviceObject
   
   outWillDo.pointee = DarwinBoolean(willDo)
   outWillDoInPlace.pointee = DarwinBoolean(willDoInPlace)
-  
+
+  log("EQM_WillDoIOOperation() - Finished: willDo: \(willDo) willDoInPlace: \(willDoInPlace)")
+
   return noErr
 }
 
@@ -331,6 +351,7 @@ func EQM_BeginIOOperation (inDriver: AudioServerPlugInDriverRef, inDeviceObjectI
   // This is called at the beginning of an IO operation. This device doesn't do anything, so just
   // check the arguments and return.
   guard EQMDriver.validateDriver(inDriver) else { return kAudioHardwareBadObjectError }
+  log("EQM_BeginIOOperation()")
   return noErr
 }
 
@@ -341,19 +362,26 @@ func EQM_DoIOOperation (inDriver: AudioServerPlugInDriverRef, inDeviceObjectID: 
   guard let sample = ioMainBuffer?.assumingMemoryBound(to: Float32.self) else {
     return noErr
   }
-  
-  return EQMDevice.doIO(
+
+  log("EQM_DoIOOperation() - Started")
+
+  let status = EQMDevice.doIO(
     clientID: inClientID,
     operationID: inOperationID,
     sample: sample,
     sampleTime: Int(inIOCycleInfo.pointee.mInputTime.mSampleTime),
     frameSize: inIOBufferFrameSize
   )
+
+  log("EQM_DoIOOperation() - Ended - Status: \(status)")
+
+  return status
 }
 
 func EQM_EndIOOperation (inDriver: AudioServerPlugInDriverRef, inDeviceObjectID: AudioObjectID, inClientID: UInt32, inOperationID: UInt32, inIOBufferFrameSize: UInt32, inIOCycleInfo: UnsafePointer<AudioServerPlugInIOCycleInfo>) -> OSStatus {
   // This is called at the end of an IO operation. This device doesn't do anything, so just check
   // the arguments and return.
   guard EQMDriver.validateDriver(inDriver) else { return kAudioHardwareBadObjectError }
+  log("EQM_EndIOOperation()")
   return noErr
 }

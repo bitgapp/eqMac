@@ -184,7 +184,7 @@ class EQMDevice: EQMObject {
           kObjectID_Mute_Output_Master,
           kObjectID_DataSource_Output_Master,
         ])
-      default: return .objectIDList([])
+      default: return .null()
       }
     case kAudioDevicePropertyDeviceUID:
       //  This is a CFString that is a persistent token that can identify the same
@@ -267,12 +267,12 @@ class EQMDevice: EQMObject {
         return .objectIDList([ kObjectID_Stream_Input, kObjectID_Stream_Output ])
       case kAudioObjectPropertyScopeInput:
         //  input scope means just the objects on the input side
-        return .objectIDList([ kObjectID_Stream_Input ])
+        return .integer(kObjectID_Stream_Input)
       case kAudioObjectPropertyScopeOutput:
         //  output scope means just the objects on the output side
-        return .objectIDList([ kObjectID_Stream_Output ])
+        return .integer(kObjectID_Stream_Output)
       default:
-        return .objectIDList([])
+        return .null()
       }
 
     case kAudioObjectPropertyControlList:

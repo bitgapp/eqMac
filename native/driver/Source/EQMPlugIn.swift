@@ -62,9 +62,8 @@ class EQMPlugIn: EQMObject {
         //  This is the human readable name of the maker of the plug-in.
         return .string(kDeviceManufacturer as CFString)
 
-      case kAudioObjectPropertyOwnedObjects:
-        return .objectIDList([kObjectID_Device])
-      case kAudioPlugInPropertyDeviceList:
+      case kAudioObjectPropertyOwnedObjects,
+           kAudioPlugInPropertyDeviceList:
         return .objectIDList([kObjectID_Device])
 
       case kAudioPlugInPropertyTranslateUIDToDevice:

@@ -3,7 +3,12 @@
    version = "3.0">
    <TimelineItems>
       <LoggerValueHistoryTimelineItem
-         documentLocation = "file:///Users/nodeful/Programming/Bitgapp/eqMac/native/app/Sandbox.playground#CharacterRangeLen=57&amp;CharacterRangeLoc=494&amp;EndingColumnNumber=0&amp;EndingLineNumber=19&amp;StartingColumnNumber=32&amp;StartingLineNumber=16&amp;Timestamp=645400816.412694"
+         documentLocation = "file:///Users/nodeful/Programming/Bitgapp/eqMac/native/app/Sandbox.playground#CharacterRangeLen=1118&amp;CharacterRangeLoc=0&amp;EndingColumnNumber=0&amp;EndingLineNumber=43&amp;StartingColumnNumber=0&amp;StartingLineNumber=0&amp;Timestamp=651537732.92888"
+         selectedRepresentationIndex = "0"
+         shouldTrackSuperviewWidth = "NO">
+      </LoggerValueHistoryTimelineItem>
+      <LoggerValueHistoryTimelineItem
+         documentLocation = "file:///Users/nodeful/Programming/Bitgapp/eqMac/native/app/Sandbox.playground#CharacterRangeLen=1118&amp;CharacterRangeLoc=0&amp;EndingColumnNumber=0&amp;EndingLineNumber=43&amp;StartingColumnNumber=0&amp;StartingLineNumber=0&amp;Timestamp=651537732.9289711"
          selectedRepresentationIndex = "0"
          shouldTrackSuperviewWidth = "NO">
       </LoggerValueHistoryTimelineItem>
