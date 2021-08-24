@@ -12,7 +12,7 @@ import CoreAudio.AudioServerPlugIn
 class EQMBox: EQMObject {
   static let id = AudioObjectID(kBoxUID)!
   static var name: String? = kBoxDefaultName
-  static var acquired = false
+  static var acquired = true
 
   static func hasProperty (objectID: AudioObjectID? = nil, address: AudioObjectPropertyAddress) -> Bool {
     switch address.mSelector {

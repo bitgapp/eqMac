@@ -301,7 +301,7 @@ class EQMControl: EQMObject {
         //  case, only that number of items will be returned
 
         // eqMac only has 1 Source
-        return .integer(0)
+        return .integerList([0])
       case kAudioSelectorControlPropertyItemName:
         //  This returns the user-readable name for the selector item in the qualifier
         return .string(kDeviceName as CFString)

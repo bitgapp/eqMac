@@ -23,8 +23,7 @@ class EQMPlugIn: EQMObject {
          kAudioPlugInPropertyTranslateUIDToBox,
          kAudioPlugInPropertyDeviceList,
          kAudioPlugInPropertyTranslateUIDToDevice,
-         kAudioPlugInPropertyResourceBundle,
-         kAudioObjectPropertyCustomPropertyInfoList: return true
+         kAudioPlugInPropertyResourceBundle: return true
     default:
       return false
     }
@@ -58,7 +57,6 @@ class EQMPlugIn: EQMObject {
       }
     case kAudioPlugInPropertyTranslateUIDToDevice: return sizeof(AudioObjectID.self)
     case kAudioPlugInPropertyResourceBundle: return  sizeof(CFString.self)
-    case kAudioObjectPropertyCustomPropertyInfoList: return sizeof(AudioServerPlugInCustomPropertyInfo.self) * 0
     default: return nil
     }
   }
@@ -73,7 +71,7 @@ class EQMPlugIn: EQMObject {
         return .audioClassID(kAudioPlugInClassID)
       case kAudioObjectPropertyOwner:
         //  The plug-in doesn't have an owning object
-        return .audioClassID(kAudioObjectUnknown)
+        return .integer(kAudioObjectUnknown)
       case kAudioObjectPropertyManufacturer:
         //  This is the human readable name of the maker of the plug-in.
         return .string(kDeviceManufacturer as CFString)
