@@ -68,37 +68,10 @@ func EQM_Initialize (inDriver: AudioServerPlugInDriverRef, inHost: AudioServerPl
   log("Invoked EQM_Initialize()")
 
   EQMDriver.host = inHost
-  
-  //  initialize the box acquired property from the settings
-  var settingsPointer: Unmanaged<CFPropertyList>?
-  _ = EQMDriver.host!.pointee.CopyFromStorage(EQMDriver.host!, "box acquired" as CFString, &settingsPointer)
-  
-  if let settings = settingsPointer?.takeUnretainedValue() {
-    if (CFGetTypeID(settings) == CFBooleanGetTypeID()) {
-      EQMBox.acquired = CFBooleanGetValue((settings as! CFBoolean))
-    } else if (CFGetTypeID(settings) == CFNumberGetTypeID()) {
-      var value: Int32 = 0
-      CFNumberGetValue((settings as! CFNumber), .sInt32Type, &value)
-      EQMBox.acquired = value == 1
-    }
-  }
-  
-  //  initialize the box name from the settings
-  _ = EQMDriver.host!.pointee.CopyFromStorage(EQMDriver.host!, "box acquired" as CFString, &settingsPointer)
-  if let settings = settingsPointer?.takeUnretainedValue() {
-    if (CFGetTypeID(settings) == CFStringGetTypeID()) {
-      EQMBox.name = (settings as! CFString) as String
-    }
-  }
-  
-  //  set the box name directly as a last resort
-  if (EQMBox.name == nil) {
-    EQMBox.name = kBoxDefaultName
-  }
 
   EQMDriver.calculateHostTicksPerFrame()
   
-  log("EQM_Initialize() - Host: \(String(describing: EQMDriver.host)) | EQMBox.acquired = \(EQMBox.acquired) | EQMBox.name = \(String(describing: EQMBox.name)) | hostTicksPerFrame = \(String(describing: EQMDriver.hostTicksPerFrame))")
+  log("EQM_Initialize() - Host: \(String(describing: EQMDriver.host)) | hostTicksPerFrame = \(String(describing: EQMDriver.hostTicksPerFrame))")
 
   return noErr
 }

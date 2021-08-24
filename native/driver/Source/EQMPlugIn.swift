@@ -19,8 +19,6 @@ class EQMPlugIn: EQMObject {
          kAudioObjectPropertyOwner,
          kAudioObjectPropertyManufacturer,
          kAudioObjectPropertyOwnedObjects,
-         kAudioPlugInPropertyBoxList,
-         kAudioPlugInPropertyTranslateUIDToBox,
          kAudioPlugInPropertyDeviceList,
          kAudioPlugInPropertyTranslateUIDToDevice,
          kAudioPlugInPropertyResourceBundle: return true
@@ -41,20 +39,8 @@ class EQMPlugIn: EQMObject {
     case kAudioObjectPropertyClass: return sizeof(AudioClassID.self)
     case kAudioObjectPropertyOwner: return sizeof(AudioObjectID.self)
     case kAudioObjectPropertyManufacturer: return sizeof(CFString.self)
-    case kAudioObjectPropertyOwnedObjects:
-      if (EQMBox.acquired) {
-        return 2 * sizeof(AudioClassID.self)
-      } else {
-        return sizeof(AudioClassID.self)
-      }
-    case kAudioPlugInPropertyBoxList: return sizeof(AudioClassID.self)
-    case kAudioPlugInPropertyTranslateUIDToBox: return sizeof(AudioObjectID.self)
-    case kAudioPlugInPropertyDeviceList:
-      if (EQMBox.acquired) {
-        return sizeof(AudioClassID.self)
-      } else {
-        return 0
-      }
+    case kAudioObjectPropertyOwnedObjects: return sizeof(AudioClassID.self)
+    case kAudioPlugInPropertyDeviceList: return sizeof(AudioClassID.self)
     case kAudioPlugInPropertyTranslateUIDToDevice: return sizeof(AudioObjectID.self)
     case kAudioPlugInPropertyResourceBundle: return  sizeof(CFString.self)
     default: return nil
@@ -77,32 +63,9 @@ class EQMPlugIn: EQMObject {
         return .string(kDeviceManufacturer as CFString)
 
       case kAudioObjectPropertyOwnedObjects:
-        var objects = ContiguousArray<AudioObjectID>()
-        objects.append(kObjectID_Box)
-        if EQMBox.acquired {
-          objects.append(kObjectID_Device)
-        }
-        return .objectIDList(objects)
-
-      case kAudioPlugInPropertyBoxList:
-        return .objectIDList([kObjectID_Box])
-
-      case kAudioPlugInPropertyTranslateUIDToBox:
-        let uid = inData?.assumingMemoryBound(to: CFString?.self).pointee
-
-        if (CFStringCompare(uid, kBoxUID as CFString, .init(rawValue: 0)) == CFComparisonResult.compareEqualTo) {
-          return .integer(kObjectID_Box)
-        } else {
-          return .integer(kAudioObjectUnknown)
-        }
-        
+        return .objectIDList([kObjectID_Device])
       case kAudioPlugInPropertyDeviceList:
-        var devices = ContiguousArray<AudioObjectID>()
-
-        if EQMBox.acquired {
-          devices.append(kObjectID_Device)
-        }
-        return .objectIDList(devices)
+        return .objectIDList([kObjectID_Device])
 
       case kAudioPlugInPropertyTranslateUIDToDevice:
         //  This property takes the CFString passed in the qualifier and converts that
@@ -121,12 +84,6 @@ class EQMPlugIn: EQMObject {
         //  To specify that the plug-in bundle itself should be used, we just return the
         //  empty string.
         return .string("" as CFString)
-      case kAudioObjectPropertyCustomPropertyInfoList:
-        //  This property returns an array of AudioServerPlugInCustomPropertyInfo's that
-        //  describe the type of data used by any custom properties. For this example,
-        //  the plug-in supports a single property whose data type is a CFString and
-        //  whose qualifier is a CFString.
-        return .customPropertyInfoList([])
       default:
         return nil
     }

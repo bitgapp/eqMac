@@ -20,7 +20,6 @@
 		78A804D726C4903E0021981C /* EQMDriver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A804D626C4903E0021981C /* EQMDriver.swift */; };
 		78A804DD26C563860021981C /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A804DC26C563860021981C /* Constants.swift */; };
 		78A804E026C5676D0021981C /* EQMPlugIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A804DF26C5676D0021981C /* EQMPlugIn.swift */; };
-		78A804E726C595D80021981C /* EQMBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A804E626C595D80021981C /* EQMBox.swift */; };
 		78A804EA26C596080021981C /* EQMDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A804E926C596080021981C /* EQMDevice.swift */; };
 		78E8F7CE26D12B4C00B6B969 /* Volume.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E8F7CD26D12B4C00B6B969 /* Volume.swift */; };
 		78E8F7D226D12BD500B6B969 /* AtomicCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E8F7D126D12BD500B6B969 /* AtomicCounter.swift */; };
@@ -48,7 +47,6 @@
 		78A804D626C4903E0021981C /* EQMDriver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EQMDriver.swift; sourceTree = "<group>"; };
 		78A804DC26C563860021981C /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		78A804DF26C5676D0021981C /* EQMPlugIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EQMPlugIn.swift; sourceTree = "<group>"; };
-		78A804E626C595D80021981C /* EQMBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EQMBox.swift; sourceTree = "<group>"; };
 		78A804E926C596080021981C /* EQMDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EQMDevice.swift; sourceTree = "<group>"; };
 		78E8F7CD26D12B4C00B6B969 /* Volume.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Volume.swift; path = ../shared/Volume.swift; sourceTree = "<group>"; };
 		78E8F7D126D12BD500B6B969 /* AtomicCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AtomicCounter.swift; path = ../shared/AtomicCounter.swift; sourceTree = "<group>"; };
@@ -98,7 +96,6 @@
 				78E8F7D826D166D800B6B969 /* EQMInterface.swift */,
 				78E8F7D426D12C0100B6B969 /* EQMObject.swift */,
 				78A804DF26C5676D0021981C /* EQMPlugIn.swift */,
-				78A804E626C595D80021981C /* EQMBox.swift */,
 				78A804E926C596080021981C /* EQMDevice.swift */,
 				7838E35726C898D60039D466 /* EQMStream.swift */,
 				7838E35A26C898F30039D466 /* EQMControl.swift */,
@@ -242,7 +239,6 @@
 				78A804DD26C563860021981C /* Constants.swift in Sources */,
 				7838E35526C897560039D466 /* NumericTypesConversions.swift in Sources */,
 				78E8F7CE26D12B4C00B6B969 /* Volume.swift in Sources */,
-				78A804E726C595D80021981C /* EQMBox.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

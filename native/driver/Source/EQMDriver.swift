@@ -93,7 +93,6 @@ import CoreAudio.AudioServerPlugIn
   static func getEQMObject(from objectID: AudioObjectID) -> EQMObject.Type? {
     switch objectID {
     case kObjectID_PlugIn: return EQMPlugIn.self
-    case kObjectID_Box: return EQMBox.self
     case kObjectID_Device: return EQMDevice.self
     case kObjectID_Stream_Input,
          kObjectID_Stream_Output: return EQMStream.self

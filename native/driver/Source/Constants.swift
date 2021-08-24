@@ -27,10 +27,8 @@ let kDataSource_NumberItems: UInt32 = 1
 
 let kDeviceName = "eqMac"
 let kDeviceManufacturer = "Bitgapp Ltd"
-let kBoxDefaultName = "eqMac Box"
 
 let kPlugInBundleId = "com.bitgapp.eqmac.driver"
-let kBoxUID = "EQMBox"
 let kDeviceUID = "EQMDevice"
 let kDeviceModelUID = "EQMDeviceModelUID"
 
@@ -69,7 +67,6 @@ extension HRESULT {
 }
 
 let kObjectID_PlugIn: UInt32                    = kAudioObjectPlugInObject
-let kObjectID_Box: UInt32                       = 2
 let kObjectID_Device: UInt32                    = 3
 let kObjectID_Stream_Input: UInt32              = 4
 let kObjectID_Volume_Input_Master: UInt32       = 5
