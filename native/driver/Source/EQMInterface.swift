@@ -271,11 +271,8 @@ func EQM_StartIO (inDriver: AudioServerPlugInDriverRef, inDeviceObjectID: AudioO
   // So, work only needs to be done when the first client starts. All subsequent starts simply
   // increment the counter.
   guard EQMDriver.validateDriver(inDriver) else { return kAudioHardwareBadObjectError }
-  log("EQM_StartIO() - Invoked")
 
   let status = EQMDevice.startIO()
-
-  log("EQM_StartIO() - Finished")
 
   return status
 }
@@ -284,11 +281,8 @@ func EQM_StopIO (inDriver: AudioServerPlugInDriverRef, inDeviceObjectID: AudioOb
   // This call tells the device that the client has stopped IO. The driver can stop the hardware
   // once all clients have stopped.
   guard EQMDriver.validateDriver(inDriver) else { return kAudioHardwareBadObjectError }
-  log("EQM_StopIO() - Invoked")
 
   let status = EQMDevice.stopIO()
-
-  log("EQM_StopIO() - Finished")
 
   return status
 }
@@ -303,14 +297,12 @@ func EQM_GetZeroTimeStamp (inDriver: AudioServerPlugInDriverRef, inDeviceObjectI
   // For this device, the zero time stamps' sample time increments every kDevice_RingBufferSize
   // frames and the host time increments by kDevice_RingBufferSize * gDevice_HostTicksPerFrame.
   guard EQMDriver.validateDriver(inDriver) else { return kAudioHardwareBadObjectError }
-  log("EQM_GetZeroTimeStamp() - Invoked")
 
   let status = EQMDevice.getZeroTimeStamp(
     outSampleTime: outSampleTime,
     outHostTime: outHostTime,
     outSeed: outSeed
   )
-  log("EQM_GetZeroTimeStamp() - Finished: Status = \(status) Sample TIme = \(outSampleTime.pointee) hostTime = \(outHostTime.pointee) Seed = \(outSeed.pointee)")
 
   return status
 }
@@ -320,8 +312,6 @@ func EQM_WillDoIOOperation (inDriver: AudioServerPlugInDriverRef, inDeviceObject
   // This method returns whether or not the device will do a given IO operation. For this device,
   // we only support reading input data and writing output data.
   guard EQMDriver.validateDriver(inDriver) else { return kAudioHardwareBadObjectError }
-
-  log("EQM_WillDoIOOperation() - Invoked")
 
   var willDo = false
   var willDoInPlace = true
@@ -341,8 +331,6 @@ func EQM_WillDoIOOperation (inDriver: AudioServerPlugInDriverRef, inDeviceObject
   outWillDo.pointee = DarwinBoolean(willDo)
   outWillDoInPlace.pointee = DarwinBoolean(willDoInPlace)
 
-  log("EQM_WillDoIOOperation() - Finished: willDo: \(willDo) willDoInPlace: \(willDoInPlace)")
-
   return noErr
 }
 
@@ -351,7 +339,7 @@ func EQM_BeginIOOperation (inDriver: AudioServerPlugInDriverRef, inDeviceObjectI
   // This is called at the beginning of an IO operation. This device doesn't do anything, so just
   // check the arguments and return.
   guard EQMDriver.validateDriver(inDriver) else { return kAudioHardwareBadObjectError }
-  log("EQM_BeginIOOperation()")
+
   return noErr
 }
 
@@ -363,8 +351,6 @@ func EQM_DoIOOperation (inDriver: AudioServerPlugInDriverRef, inDeviceObjectID: 
     return noErr
   }
 
-  log("EQM_DoIOOperation() - Started")
-
   let status = EQMDevice.doIO(
     clientID: inClientID,
     operationID: inOperationID,
@@ -373,8 +359,6 @@ func EQM_DoIOOperation (inDriver: AudioServerPlugInDriverRef, inDeviceObjectID: 
     frameSize: inIOBufferFrameSize
   )
 
-  log("EQM_DoIOOperation() - Ended - Status: \(status)")
-
   return status
 }
 
@@ -382,6 +366,6 @@ func EQM_EndIOOperation (inDriver: AudioServerPlugInDriverRef, inDeviceObjectID:
   // This is called at the end of an IO operation. This device doesn't do anything, so just check
   // the arguments and return.
   guard EQMDriver.validateDriver(inDriver) else { return kAudioHardwareBadObjectError }
-  log("EQM_EndIOOperation()")
+
   return noErr
 }
