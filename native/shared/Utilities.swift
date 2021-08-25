@@ -8,8 +8,8 @@
 
 import Foundation
 
-func sizeof <T> (_ type: T) -> UInt32 {
-  return UInt32(MemoryLayout.size(ofValue: type))
+func sizeof <T> (_ type: T.Type) -> UInt32 {
+  return UInt32(MemoryLayout<T>.stride)
 }
 
 func clamp <T: Comparable> (value val: T, min: T, max: T) -> T {

@@ -161,7 +161,7 @@ class EQMControl: EQMObject {
         return .audioClassID(kAudioVolumeControlClassID)
       case kAudioObjectPropertyOwner:
         //  The control's owner is the device object
-        return .integer(kObjectID_Device)
+        return .audioObjectID(kObjectID_Device)
       case kAudioObjectPropertyOwnedObjects:
         //  Controls do not own any objects
         return .objectIDList([])
@@ -227,7 +227,7 @@ class EQMControl: EQMObject {
         return .audioClassID(kAudioMuteControlClassID)
       case kAudioObjectPropertyOwner:
         //  The control's owner is the device object
-        return .integer(kObjectID_Device)
+        return .audioObjectID(kObjectID_Device)
       case kAudioObjectPropertyOwnedObjects:
         //  Controls do not own any objects
         return .objectIDList([])
@@ -267,7 +267,7 @@ class EQMControl: EQMObject {
         return .audioClassID(kAudioDataSourceControlClassID)
       case kAudioObjectPropertyOwner:
         //  The control's owner is the device object
-        return .integer(kObjectID_Device)
+        return .audioObjectID(kObjectID_Device)
       case kAudioObjectPropertyOwnedObjects:
         //  Controls do not own any objects
         return .objectIDList([])

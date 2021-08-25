@@ -57,7 +57,7 @@ class EQMPlugIn: EQMObject {
         return .audioClassID(kAudioPlugInClassID)
       case kAudioObjectPropertyOwner:
         //  The plug-in doesn't have an owning object
-        return .integer(kAudioObjectUnknown)
+        return .audioObjectID(kAudioObjectUnknown)
       case kAudioObjectPropertyManufacturer:
         //  This is the human readable name of the maker of the plug-in.
         return .string(kDeviceManufacturer as CFString)
@@ -74,9 +74,9 @@ class EQMPlugIn: EQMObject {
         //  the object ID to return.
         let uid = inData?.assumingMemoryBound(to: CFString?.self).pointee
         if (CFStringCompare(uid, kDeviceUID as CFString, .init(rawValue: 0)) == CFComparisonResult.compareEqualTo) {
-          return .integer(kObjectID_Device)
+          return .audioObjectID(kObjectID_Device)
         } else {
-          return .integer(kAudioObjectUnknown)
+          return .audioObjectID(kAudioObjectUnknown)
         }
       case kAudioPlugInPropertyResourceBundle:
         //  The resource bundle is a path relative to the path of the plug-in's bundle.

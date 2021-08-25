@@ -24,6 +24,20 @@ class EQMDevice: EQMObject {
   static var buffer: UnsafeMutablePointer<Float32>?
   static let bufferSize: UInt32 = 65536 * kChannelCount
 
+  static func getDescription (for samplingRate: Float64) -> AudioStreamBasicDescription {
+    return AudioStreamBasicDescription(
+      mSampleRate: samplingRate,
+      mFormatID: kAudioFormatLinearPCM,
+      mFormatFlags: kAudioFormatFlagIsFloat | kAudioFormatFlagsNativeEndian | kAudioFormatFlagIsPacked,
+      mBytesPerPacket: kBytesPerFrame,
+      mFramesPerPacket: 1,
+      mBytesPerFrame: kBytesPerFrame,
+      mChannelsPerFrame: kChannelCount,
+      mBitsPerChannel: kBitsPerChannel,
+      mReserved: 0
+    )
+  }
+
   static func hasProperty (objectID: AudioObjectID? = nil, address: AudioObjectPropertyAddress) -> Bool {
     switch address.mSelector {
     case kAudioObjectPropertyBaseClass,
@@ -144,7 +158,7 @@ class EQMDevice: EQMObject {
       return .audioClassID(kAudioDeviceClassID)
     case kAudioObjectPropertyOwner:
       //  The device's owner is the plug-in object
-      return .integer(kObjectID_PlugIn)
+      return .audioObjectID(kObjectID_PlugIn)
     case kAudioObjectPropertyName:
       //  This is the human readable name of the device.
       return .string(name as CFString)
@@ -267,10 +281,10 @@ class EQMDevice: EQMObject {
         return .objectIDList([ kObjectID_Stream_Input, kObjectID_Stream_Output ])
       case kAudioObjectPropertyScopeInput:
         //  input scope means just the objects on the input side
-        return .integer(kObjectID_Stream_Input)
+        return .audioObjectID(kObjectID_Stream_Input)
       case kAudioObjectPropertyScopeOutput:
         //  output scope means just the objects on the output side
-        return .integer(kObjectID_Stream_Output)
+        return .audioObjectID(kObjectID_Stream_Output)
       default:
         return .null()
       }
@@ -529,8 +543,11 @@ class EQMDevice: EQMObject {
           buffer!.advanced(by: cleanFrame).pointee = 0
         }
       }
-      break
 
+      // Make output buffer silent
+      sample.assign(repeating: 0, count: Int(frameSize * kChannelCount))
+
+      break
     // Read
     case AudioServerPlugInIOOperation.readInput.rawValue:
       for frame in 0 ..< frameSize {

@@ -12,15 +12,27 @@ import CoreAudio.AudioServerPlugIn
 // MARK: - Pure Functions
 func log (_ msg: String) {
   if DEBUG {
-    let message = "coreaudiod: eqMac - \(msg)"
+    let message = "📕 coreaudiod: eqMac - \(msg)"
     Swift.print(message)
     NSLog(message)
   }
 }
 
+// Debug helpers
+
 func propertyName (_ property: AudioObjectPropertySelector) -> String {
   return "\(property.code) - \(AudioProperties.filter { $0.0 == property }.map { $0.1 }.joined(separator: " || "))"
 }
+
+func scopeName (_ scope: AudioObjectPropertyScope) -> String {
+  return AudioPropertyScopes[scope] ?? "Unknown"
+}
+
+let AudioPropertyScopes: [AudioObjectPropertyScope: String] = [
+  kAudioObjectPropertyScopeGlobal: "Global",
+  kAudioObjectPropertyScopeInput: "Input",
+  kAudioObjectPropertyScopeOutput: "Output"
+]
 
 // This is a hashmap of all properties for debug loggin purposes
 let AudioProperties: [(AudioObjectPropertySelector, String)] = [

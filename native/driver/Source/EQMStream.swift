@@ -12,19 +12,6 @@ import CoreAudio.AudioServerPlugIn
 class EQMStream: EQMObject {
   static var inputActive = true
   static var outputActive = true
-  static var description: AudioStreamBasicDescription {
-    return AudioStreamBasicDescription(
-      mSampleRate: EQMDevice.sampleRate,
-      mFormatID: kAudioFormatLinearPCM,
-      mFormatFlags: kAudioFormatFlagIsFloat & kAudioFormatFlagsNativeEndian & kAudioFormatFlagIsPacked,
-      mBytesPerPacket: kBytesPerFrame,
-      mFramesPerPacket: 1,
-      mBytesPerFrame: kBytesPerFrame,
-      mChannelsPerFrame: kChannelCount,
-      mBitsPerChannel: kBitsPerChannel,
-      mReserved: 0
-    )
-  }
 
   static func hasProperty (objectID: AudioObjectID? = nil, address: AudioObjectPropertyAddress) -> Bool {
     switch address.mSelector {
@@ -89,7 +76,7 @@ class EQMStream: EQMObject {
       return .audioClassID(kAudioStreamClassID)
     case kAudioObjectPropertyOwner:
       //  The stream's owner is the device object
-      return .integer(kObjectID_Device)
+      return .audioObjectID(kObjectID_Device)
     case kAudioObjectPropertyOwnedObjects:
       //  Streams do not own any objects
       return .objectIDList([])
@@ -129,17 +116,7 @@ class EQMStream: EQMObject {
       //  format has to be the same as the physical format.
 
       return .streamDescription(
-        AudioStreamBasicDescription(
-          mSampleRate: EQMDevice.sampleRate,
-          mFormatID: kAudioFormatLinearPCM,
-          mFormatFlags: kAudioFormatFlagIsFloat | kAudioFormatFlagsNativeEndian | kAudioFormatFlagIsPacked,
-          mBytesPerPacket: kBytesPerFrame,
-          mFramesPerPacket: 1,
-          mBytesPerFrame: kBytesPerFrame,
-          mChannelsPerFrame: kChannelCount,
-          mBitsPerChannel: kBitsPerChannel,
-          mReserved: 0
-        )
+        EQMDevice.getDescription(for: EQMDevice.sampleRate)
       )
     case kAudioStreamPropertyAvailableVirtualFormats,
          kAudioStreamPropertyAvailablePhysicalFormats:
@@ -154,17 +131,7 @@ class EQMStream: EQMObject {
 
       let formats = ContiguousArray(kSupportedSamplingRates.map { sampleRate in
         return AudioStreamRangedDescription(
-          mFormat: AudioStreamBasicDescription(
-            mSampleRate: sampleRate,
-            mFormatID: kAudioFormatLinearPCM,
-            mFormatFlags: kAudioFormatFlagIsFloat | kAudioFormatFlagsNativeEndian | kAudioFormatFlagIsPacked,
-            mBytesPerPacket: kBytesPerFrame,
-            mFramesPerPacket: 1,
-            mBytesPerFrame: kBytesPerFrame,
-            mChannelsPerFrame: kChannelCount,
-            mBitsPerChannel: kBitsPerChannel,
-            mReserved: 0
-          ),
+          mFormat: EQMDevice.getDescription(for: sampleRate),
           mSampleRateRange: AudioValueRange(
             mMinimum: sampleRate,
             mMaximum: sampleRate
@@ -214,13 +181,13 @@ class EQMStream: EQMObject {
       }
 
       //  If we made it this far, the requested format is something we support, so make sure the sample rate is actually different
-      if EQMDevice.sampleRate != description.mSampleRate {
+      if EQMDevice.sampleRate != newDescription.mSampleRate {
         //  we dispatch this so that the change can happen asynchronously
         DispatchQueue.main.async {
           _ = EQMDriver.host?.pointee.RequestDeviceConfigurationChange(
             EQMDriver.host!,
             kObjectID_Device,
-            UInt64(description.mSampleRate),
+            UInt64(newDescription.mSampleRate),
             nil
           )
         }
