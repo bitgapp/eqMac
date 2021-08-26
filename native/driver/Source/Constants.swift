@@ -69,9 +69,6 @@ extension HRESULT {
 let kObjectID_PlugIn: UInt32                    = kAudioObjectPlugInObject
 let kObjectID_Device: UInt32                    = 3
 let kObjectID_Stream_Input: UInt32              = 4
-let kObjectID_Volume_Input_Master: UInt32       = 5
-let kObjectID_Mute_Input_Master: UInt32         = 6
-let kObjectID_DataSource_Input_Master: UInt32   = 7
 let kObjectID_Stream_Output: UInt32             = 8
 let kObjectID_Volume_Output_Master: UInt32      = 9
 let kObjectID_Mute_Output_Master: UInt32        = 10

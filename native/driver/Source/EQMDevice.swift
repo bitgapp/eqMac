@@ -176,9 +176,7 @@ class EQMDevice: EQMObject {
       case kAudioObjectPropertyScopeGlobal:
         return .objectIDList([
           kObjectID_Stream_Input,
-          kObjectID_Volume_Input_Master,
-          kObjectID_Mute_Input_Master,
-          kObjectID_DataSource_Input_Master,
+
           kObjectID_Stream_Output,
           kObjectID_Volume_Output_Master,
           kObjectID_Mute_Output_Master,
@@ -187,9 +185,6 @@ class EQMDevice: EQMObject {
       case kAudioObjectPropertyScopeInput:
         return .objectIDList([
           kObjectID_Stream_Input,
-          kObjectID_Volume_Input_Master,
-          kObjectID_Mute_Input_Master,
-          kObjectID_DataSource_Input_Master
         ])
       case kAudioObjectPropertyScopeOutput:
         return .objectIDList([

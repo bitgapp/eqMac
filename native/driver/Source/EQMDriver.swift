@@ -96,11 +96,8 @@ import CoreAudio.AudioServerPlugIn
     case kObjectID_Device: return EQMDevice.self
     case kObjectID_Stream_Input,
          kObjectID_Stream_Output: return EQMStream.self
-    case kObjectID_Volume_Input_Master,
-         kObjectID_Volume_Output_Master,
-         kObjectID_Mute_Input_Master,
+    case kObjectID_Volume_Output_Master,
          kObjectID_Mute_Output_Master,
-         kObjectID_DataSource_Input_Master,
          kObjectID_DataSource_Output_Master: return EQMControl.self
     default: return nil
     }
@@ -112,11 +109,8 @@ import CoreAudio.AudioServerPlugIn
     case kObjectID_Device: return "​🔴​​ Device"
     case kObjectID_Stream_Input,
          kObjectID_Stream_Output: return "🟠 Stream"
-    case kObjectID_Volume_Input_Master,
-         kObjectID_Volume_Output_Master,
-         kObjectID_Mute_Input_Master,
+    case kObjectID_Volume_Output_Master,
          kObjectID_Mute_Output_Master,
-         kObjectID_DataSource_Input_Master,
          kObjectID_DataSource_Output_Master: return "🔵​ Control"
     default: return "⚫️ Unknown"
     }

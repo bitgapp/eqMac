@@ -15,8 +15,7 @@ class EQMControl: EQMObject {
 
   static func hasProperty (objectID: AudioObjectID?, address: AudioObjectPropertyAddress) -> Bool {
     switch(objectID) {
-    case kObjectID_Volume_Input_Master,
-         kObjectID_Volume_Output_Master:
+    case kObjectID_Volume_Output_Master:
       switch(address.mSelector) {
       case kAudioObjectPropertyBaseClass,
            kAudioObjectPropertyClass,
@@ -33,8 +32,7 @@ class EQMControl: EQMObject {
       default: return false
       }
 
-    case kObjectID_Mute_Input_Master,
-         kObjectID_Mute_Output_Master:
+    case kObjectID_Mute_Output_Master:
       switch(address.mSelector) {
       case kAudioObjectPropertyBaseClass,
            kAudioObjectPropertyClass,
@@ -46,8 +44,7 @@ class EQMControl: EQMObject {
         return true
       default: return false
       }
-    case kObjectID_DataSource_Input_Master,
-         kObjectID_DataSource_Output_Master:
+    case kObjectID_DataSource_Output_Master:
       switch(address.mSelector) {
       case kAudioObjectPropertyBaseClass,
            kAudioObjectPropertyClass,
@@ -81,8 +78,7 @@ class EQMControl: EQMObject {
         return true
       default: return false
       }
-    case kObjectID_DataSource_Input_Master,
-         kObjectID_DataSource_Output_Master:
+    case kObjectID_DataSource_Output_Master:
       switch(address.mSelector) {
       case kAudioSelectorControlPropertyCurrentItem:
         return true
@@ -94,8 +90,7 @@ class EQMControl: EQMObject {
 
   static func getPropertyDataSize (objectID: AudioObjectID?, address: AudioObjectPropertyAddress) -> UInt32? {
     switch objectID {
-    case kObjectID_Volume_Input_Master,
-         kObjectID_Volume_Output_Master:
+    case kObjectID_Volume_Output_Master:
       switch address.mSelector {
       case kAudioObjectPropertyBaseClass: return sizeof(AudioClassID.self)
       case kAudioObjectPropertyClass: return sizeof(AudioClassID.self)
@@ -111,8 +106,7 @@ class EQMControl: EQMObject {
       default:
         return nil
       }
-    case kObjectID_Mute_Input_Master,
-         kObjectID_Mute_Output_Master:
+    case kObjectID_Mute_Output_Master:
       switch address.mSelector {
       case kAudioObjectPropertyBaseClass: return sizeof(AudioClassID.self)
       case kAudioObjectPropertyClass: return sizeof(AudioClassID.self)
@@ -124,8 +118,7 @@ class EQMControl: EQMObject {
       default:
         return nil
       }
-    case kObjectID_DataSource_Input_Master,
-         kObjectID_DataSource_Output_Master:
+    case kObjectID_DataSource_Output_Master:
       switch address.mSelector {
       case kAudioObjectPropertyBaseClass: return sizeof(AudioClassID.self)
       case kAudioObjectPropertyClass: return sizeof(AudioClassID.self)
@@ -146,8 +139,7 @@ class EQMControl: EQMObject {
 
   static func getPropertyData (objectID: AudioObjectID?, address: AudioObjectPropertyAddress, inData: UnsafeRawPointer?) -> EQMObjectProperty? {
     switch objectID {
-    case kObjectID_Volume_Input_Master,
-         kObjectID_Volume_Output_Master:
+    case kObjectID_Volume_Output_Master:
       switch address.mSelector {
       case kAudioObjectPropertyBaseClass:
         //  The base class for kAudioVolumeControlClassID is kAudioLevelControlClassID
@@ -164,7 +156,6 @@ class EQMControl: EQMObject {
       case kAudioControlPropertyScope:
         //  This property returns the scope that the control is attached to.
         switch objectID {
-        case kObjectID_Volume_Input_Master: return .scope(kAudioObjectPropertyScopeInput)
         case kObjectID_Volume_Output_Master: return .scope(kAudioObjectPropertyScopeOutput)
         default: return .scope(kAudioObjectPropertyScopeGlobal)
         }
@@ -176,7 +167,6 @@ class EQMControl: EQMObject {
         //  Note that we need to take the state lock to examine the value.
         let volume = ({ () -> Float32 in
           switch objectID {
-          case kObjectID_Volume_Input_Master: return 0
           case kObjectID_Volume_Output_Master: return self.volume
           default: return 0
           }
@@ -187,7 +177,6 @@ class EQMControl: EQMObject {
         //  Note that we need to take the state lock to examine the value.
         let volume = ({ () -> Float32 in
           switch objectID {
-          case kObjectID_Volume_Input_Master: return 0
           case kObjectID_Volume_Output_Master: return self.volume
           default: return 0
           }
@@ -227,8 +216,7 @@ class EQMControl: EQMObject {
       default: return nil
       }
 
-    case kObjectID_Mute_Input_Master,
-         kObjectID_Mute_Output_Master:
+    case kObjectID_Mute_Output_Master:
       switch address.mSelector {
       case kAudioObjectPropertyBaseClass:
         //  The base class for kAudioMuteControlClassID is kAudioBooleanControlClassID
@@ -245,7 +233,6 @@ class EQMControl: EQMObject {
       case kAudioControlPropertyScope:
         //  This property returns the scope that the control is attached to.
         switch objectID {
-          case kObjectID_Mute_Input_Master: return .scope(kAudioObjectPropertyScopeInput)
           case kObjectID_Mute_Output_Master: return .scope(kAudioObjectPropertyScopeOutput)
           default: return .scope(kAudioObjectPropertyScopeGlobal)
         }
@@ -258,7 +245,6 @@ class EQMControl: EQMObject {
         //  Note that we need to take the state lock to examine this value.
         let muted = ({ () -> Bool in
           switch objectID {
-          case kObjectID_Mute_Input_Master: return false
           case kObjectID_Mute_Output_Master: return self.muted
           default: return false
           }
@@ -266,8 +252,7 @@ class EQMControl: EQMObject {
         return .integer(muted ? 1 : 0)
       default: return nil
       }
-    case kObjectID_DataSource_Input_Master,
-         kObjectID_DataSource_Output_Master:
+    case kObjectID_DataSource_Output_Master:
       //    case kObjectID_DataDestination_PlayThru_Master:
       switch address.mSelector {
       case kAudioObjectPropertyBaseClass:
@@ -285,8 +270,6 @@ class EQMControl: EQMObject {
       case kAudioControlPropertyScope:
         //  This property returns the scope that the control is attached to.
         switch objectID {
-        case kObjectID_DataSource_Input_Master:
-          return .scope(kAudioObjectPropertyScopeInput)
         case kObjectID_DataSource_Output_Master:
           return .scope(kAudioObjectPropertyScopeOutput)
         default: return nil
@@ -320,8 +303,7 @@ class EQMControl: EQMObject {
 
   static func setPropertyData(objectID: AudioObjectID?, address: AudioObjectPropertyAddress, data: UnsafeRawPointer, changedProperties: inout [AudioObjectPropertyAddress]) -> OSStatus {
     switch objectID {
-      case kObjectID_Volume_Input_Master,
-           kObjectID_Volume_Output_Master:
+      case kObjectID_Volume_Output_Master:
         switch address.mSelector {
           case kAudioLevelControlPropertyScalarValue:
             //  For the scalar volume, we clamp the new value to [0, 1]. Note that if this
@@ -393,8 +375,7 @@ class EQMControl: EQMObject {
           default: return kAudioHardwareUnknownPropertyError
         }
 
-      case kObjectID_Mute_Input_Master,
-           kObjectID_Mute_Output_Master:
+      case kObjectID_Mute_Output_Master:
         switch address.mSelector {
           case kAudioBooleanControlPropertyValue:
             guard let mutedInt = data.assumingMemoryBound(to: UInt32?.self).pointee else {
@@ -419,8 +400,7 @@ class EQMControl: EQMObject {
           default: return kAudioHardwareUnknownPropertyError
         }
 
-      case kObjectID_DataSource_Input_Master,
-           kObjectID_DataSource_Output_Master:
+      case kObjectID_DataSource_Output_Master:
         //    case kObjectID_DataDestination_PlayThru_Master:
         switch address.mSelector {
           case kAudioSelectorControlPropertyCurrentItem:
