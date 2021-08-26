@@ -12,12 +12,6 @@ func sizeof <T> (_ type: T.Type) -> UInt32 {
   return UInt32(MemoryLayout<T>.stride)
 }
 
-func clamp <T: Comparable> (value val: T, min: T, max: T) -> T {
-  var value = val
-  if value < min {
-    value = min
-  } else if value > min {
-    value = max
-  }
-  return value
+func clamp <T: Comparable> (value: T, min minimum: T, max maximum: T) -> T {
+  return min(maximum, max(minimum, value))
 }

@@ -12,7 +12,7 @@ import CoreAudio.AudioServerPlugIn
 // MARK: - Pure Functions
 func log (_ msg: String) {
   if DEBUG {
-    let message = "📕 coreaudiod: eqMac - \(msg)"
+    let message = "coreaudiod: eqMac - \(msg)"
     Swift.print(message)
     NSLog(message)
   }
@@ -21,7 +21,9 @@ func log (_ msg: String) {
 // Debug helpers
 
 func propertyName (_ property: AudioObjectPropertySelector) -> String {
-  return "\(property.code) - \(AudioProperties.filter { $0.0 == property }.map { $0.1 }.joined(separator: " || "))"
+  var props: [String] = AudioProperties.filter { $0.0 == property }.map { $0.1 }
+  if props.count == 0 { props.append(property.code) }
+  return "\(props.joined(separator: " | "))"
 }
 
 func scopeName (_ scope: AudioObjectPropertyScope) -> String {
@@ -50,6 +52,7 @@ let AudioProperties: [(AudioObjectPropertySelector, String)] = [
   (kAudioObjectPropertyIdentify, "kAudioObjectPropertyIdentify"),
   (kAudioObjectPropertySerialNumber, "kAudioObjectPropertySerialNumber"),
   (kAudioObjectPropertyFirmwareVersion, "kAudioObjectPropertyFirmwareVersion"),
+  (kAudioObjectPropertyCustomPropertyInfoList, "kAudioObjectPropertyCustomPropertyInfoList"),
 
   // Plug-in
   (kAudioPlugInPropertyBundleID, "kAudioPlugInPropertyBundleID"),
@@ -59,6 +62,7 @@ let AudioProperties: [(AudioObjectPropertySelector, String)] = [
   (kAudioPlugInPropertyTranslateUIDToBox, "kAudioPlugInPropertyTranslateUIDToBox"),
   (kAudioPlugInPropertyClockDeviceList, "kAudioPlugInPropertyClockDeviceList"),
   (kAudioPlugInPropertyTranslateUIDToClockDevice, "kAudioPlugInPropertyTranslateUIDToClockDevice"),
+  (kAudioPlugInPropertyResourceBundle, "kAudioPlugInPropertyResourceBundle"),
 
   // Transport Manager
   (kAudioTransportManagerPropertyEndPointList, "kAudioTransportManagerPropertyEndPointList"),

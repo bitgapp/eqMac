@@ -152,14 +152,28 @@ class EQMStream: EQMObject {
       guard let activeInt = data.assumingMemoryBound(to: UInt32?.self).pointee else {
         return kAudioHardwareBadPropertySizeError
       }
-      let active = activeInt == 1
+      let active = activeInt != 0
 
       switch objectID {
       case kObjectID_Stream_Input:
         inputActive = active
+        changedProperties.append(
+          .init(
+            mSelector: kAudioStreamPropertyIsActive,
+            mScope: kAudioObjectPropertyScopeGlobal,
+            mElement: kAudioObjectPropertyElementMaster
+          )
+        )
         break
       case kObjectID_Stream_Output:
         outputActive = active
+        changedProperties.append(
+          .init(
+            mSelector: kAudioStreamPropertyIsActive,
+            mScope: kAudioObjectPropertyScopeGlobal,
+            mElement: kAudioObjectPropertyElementMaster
+          )
+        )
         break
       default: return kAudioHardwareBadObjectError
       }
@@ -183,7 +197,7 @@ class EQMStream: EQMObject {
       //  If we made it this far, the requested format is something we support, so make sure the sample rate is actually different
       if EQMDevice.sampleRate != newDescription.mSampleRate {
         //  we dispatch this so that the change can happen asynchronously
-        DispatchQueue.main.async {
+        DispatchQueue.global(qos: .default).async {
           _ = EQMDriver.host?.pointee.RequestDeviceConfigurationChange(
             EQMDriver.host!,
             kObjectID_Device,

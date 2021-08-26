@@ -145,13 +145,13 @@ func EQM_PerformDeviceConfigurationChange (
   // change, the new sample rate is passed in the inChangeAction argument.
   
   guard EQMDriver.validateDriver(inDriver) else { return kAudioHardwareBadObjectError }
-//  log("Invoked EQM_PerformDeviceConfigurationChange()")
+  log("Invoked EQM_PerformDeviceConfigurationChange()")
   if !kSupportedSamplingRates.contains(where: { UInt64($0) == inChangeAction }) { return kAudioHardwareBadObjectError }
   
   EQMDevice.sampleRate = Float64(inChangeAction)
   EQMDriver.calculateHostTicksPerFrame()
   
-//  log("EQM_PerformDeviceConfigurationChange() - EQMDevice.sampleRate = \(EQMDevice.sampleRate) | hostTicksPerFrame = \(String(describing: EQMDriver.hostTicksPerFrame))")
+  log("EQM_PerformDeviceConfigurationChange() - EQMDevice.sampleRate = \(EQMDevice.sampleRate) | hostTicksPerFrame = \(String(describing: EQMDriver.hostTicksPerFrame))")
 
   return noErr
 }
@@ -183,17 +183,18 @@ func EQM_HasProperty (
   inAddress: UnsafePointer<AudioObjectPropertyAddress>
 ) -> DarwinBoolean {
   // This method returns whether or not the given object has the given property.
+  let address = inAddress.pointee
 
-//  log("Invoking: \(EQMDriver.getEQMObjectClassName(from: inObjectID)).hasProperty(\(propertyName(inAddress.pointee.mSelector)))")
+//  log("Invoking: \(EQMDriver.getEQMObjectClassName(from: inObjectID)).hasProperty(\(propertyName(address.mSelector)))")
   let hasProperty: Bool = ({
     guard EQMDriver.validateDriver(inDriver) else { return false }
     if let obj = EQMDriver.getEQMObject(from: inObjectID) {
-      return obj.hasProperty(objectID: inObjectID, address: inAddress.pointee)
+      return obj.hasProperty(objectID: inObjectID, address: address)
     } else {
       return false
     }
   })()
-//  log("\(EQMDriver.getEQMObjectClassName(from: inObjectID)).hasProperty(\(propertyName(inAddress.pointee.mSelector))) = \(hasProperty)")
+  log("\(EQMDriver.getEQMObjectClassName(from: inObjectID)).hasProperty(\(propertyName(address.mSelector)), \(scopeName(address.mScope))) = \(hasProperty)")
 
   return DarwinBoolean(hasProperty)
 }
@@ -205,18 +206,19 @@ func EQM_IsPropertySettable (
   inAddress: UnsafePointer<AudioObjectPropertyAddress>,
   outIsSettable: UnsafeMutablePointer<DarwinBoolean>
 ) -> OSStatus {
+  let address = inAddress.pointee
   // This method returns whether or not the given property on the object can have its value changed.
   guard EQMDriver.validateDriver(inDriver) else { return kAudioHardwareBadObjectError }
   
 //  log("Invoking: \(EQMDriver.getEQMObjectClassName(from: inObjectID)).isPropertySettable(\(propertyName(inAddress.pointee.mSelector)))")
   let isSettable = DarwinBoolean(({
     if let obj = EQMDriver.getEQMObject(from: inObjectID) {
-      return obj.isPropertySettable(objectID: inObjectID, address: inAddress.pointee)
+      return obj.isPropertySettable(objectID: inObjectID, address: address)
     } else {
       return false
     }
   })())
-//  log("\(EQMDriver.getEQMObjectClassName(from: inObjectID)).getPropertySettable(\(propertyName(inAddress.pointee.mSelector))) = \(isSettable)")
+  log("\(EQMDriver.getEQMObjectClassName(from: inObjectID)).getPropertySettable(\(propertyName(address.mSelector)), \(scopeName(address.mScope))) = \(isSettable)")
 
   outIsSettable.pointee = isSettable
   
@@ -306,14 +308,19 @@ func EQM_SetPropertyData (
   // Tells an object to change the value of the given property.
   guard EQMDriver.validateDriver(inDriver) else { return kAudioHardwareBadObjectError }
   
-  log("\(EQMDriver.getEQMObjectClassName(from: inObjectID)).setPropertyData(\(propertyName(inAddress.pointee.mSelector)), \(scopeName(address.mScope))) = \(String(describing: inData))")
+//  log("\(EQMDriver.getEQMObjectClassName(from: inObjectID)).setPropertyData(\(propertyName(address.mSelector)), \(scopeName(address.mScope))) = \(String(describing: inData))")
 
   if let obj = EQMDriver.getEQMObject(from: inObjectID) {
     var changedProperties: [AudioObjectPropertyAddress] = []
     let status = obj.setPropertyData(objectID: inObjectID, address: address, data: inData, changedProperties: &changedProperties)
     
     if changedProperties.count > 0 {
-      _ = EQMDriver.host!.pointee.PropertiesChanged(EQMDriver.host!, inObjectID, UInt32(changedProperties.count), changedProperties)
+      _ = EQMDriver.host!.pointee.PropertiesChanged(
+        EQMDriver.host!,
+        inObjectID,
+        UInt32(changedProperties.count),
+        changedProperties
+      )
     }
 
     log("\(EQMDriver.getEQMObjectClassName(from: inObjectID)).setPropertyData(\(propertyName(address.mSelector)), \(scopeName(address.mScope))) - Status: \(status) - Changed Properties: \(changedProperties)")

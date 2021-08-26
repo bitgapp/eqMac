@@ -10,10 +10,8 @@ import Foundation
 import CoreAudio.AudioServerPlugIn
 
 class EQMControl: EQMObject {
-  static var outputVolume: Float32 = 1
-  static var outputMuted = false
-  static var inputDataSource: UInt32 = 0
-  static var outputDataSource: UInt32 = 0
+  static var volume: Float32 = 1
+  static var muted = false
 
   static func hasProperty (objectID: AudioObjectID?, address: AudioObjectPropertyAddress) -> Bool {
     switch(objectID) {
@@ -69,8 +67,7 @@ class EQMControl: EQMObject {
 
   static func isPropertySettable (objectID: AudioObjectID?, address: AudioObjectPropertyAddress) -> Bool {
     switch(objectID) {
-    case kObjectID_Volume_Input_Master,
-         kObjectID_Volume_Output_Master:
+    case kObjectID_Volume_Output_Master:
       switch(address.mSelector) {
       case kAudioLevelControlPropertyScalarValue,
            kAudioLevelControlPropertyDecibelValue:
@@ -78,8 +75,7 @@ class EQMControl: EQMObject {
       default: return false
       }
 
-    case kObjectID_Mute_Input_Master,
-         kObjectID_Mute_Output_Master:
+    case kObjectID_Mute_Output_Master:
       switch(address.mSelector) {
       case kAudioBooleanControlPropertyValue:
         return true
@@ -181,7 +177,7 @@ class EQMControl: EQMObject {
         let volume = ({ () -> Float32 in
           switch objectID {
           case kObjectID_Volume_Input_Master: return 0
-          case kObjectID_Volume_Output_Master: return outputVolume
+          case kObjectID_Volume_Output_Master: return self.volume
           default: return 0
           }
         })()
@@ -192,7 +188,7 @@ class EQMControl: EQMObject {
         let volume = ({ () -> Float32 in
           switch objectID {
           case kObjectID_Volume_Input_Master: return 0
-          case kObjectID_Volume_Output_Master: return outputVolume
+          case kObjectID_Volume_Output_Master: return self.volume
           default: return 0
           }
         })()
@@ -207,12 +203,27 @@ class EQMControl: EQMObject {
         )
       case kAudioLevelControlPropertyConvertScalarToDecibels:
         // This takes the scalar value in outData and converts it to dB.
-        // TODO: eqMac does not implement this function for now
-        return .float32(0)
+        guard var scalar = inData?.assumingMemoryBound(to: Float32?.self).pointee else {
+          return .float32(0)
+        }
+
+        scalar = clamp(value: scalar, min: 0, max: 1)
+
+        let decibel = Volume.toDecibel(Volume.fromScalar(scalar))
+
+        return .float32(decibel)
       case kAudioLevelControlPropertyConvertDecibelsToScalar:
         //  This takes the dB value in outData and converts it to scalar.
-        // TODO: eqMac does not implement this function for now
-        return .float32(0)
+
+        guard var decibel = inData?.assumingMemoryBound(to: Float32?.self).pointee else {
+          return .float32(0)
+        }
+
+        decibel = clamp(value: decibel, min: kMinVolumeDB, max: kMaxVolumeDB)
+
+        let scalar = Volume.toScalar(Volume.fromDecibel(decibel))
+
+        return .float32(scalar)
       default: return nil
       }
 
@@ -247,9 +258,9 @@ class EQMControl: EQMObject {
         //  Note that we need to take the state lock to examine this value.
         let muted = ({ () -> Bool in
           switch objectID {
-            case kObjectID_Mute_Input_Master: return false
-            case kObjectID_Mute_Output_Master: return outputMuted
-            default: return false
+          case kObjectID_Mute_Input_Master: return false
+          case kObjectID_Mute_Output_Master: return self.muted
+          default: return false
           }
         })()
         return .integer(muted ? 1 : 0)
@@ -288,11 +299,7 @@ class EQMControl: EQMObject {
       case kAudioSelectorControlPropertyCurrentItem:
         //  This returns the value of the data source selector.
         //  Note that we need to take the state lock to examine this value.
-        switch objectID {
-        case kObjectID_DataSource_Input_Master: return .integer(inputDataSource)
-        case kObjectID_DataSource_Output_Master: return .integer(outputDataSource)
-        default: return nil
-        }
+        return .integer(0)
       case kAudioSelectorControlPropertyAvailableItems:
         //  This returns the IDs for all the items the data source control supports.
 
@@ -326,15 +333,25 @@ class EQMControl: EQMObject {
             var newVolume = Volume.fromScalar(scalar)
             newVolume = clamp(value: newVolume, min: 0.0, max: 1.0)
 
-            switch objectID {
-            case kObjectID_Volume_Input_Master:
-              break
-            case kObjectID_Volume_Output_Master:
-              if outputVolume != newVolume {
-                outputVolume = newVolume
-              }
-              break
-            default: return kAudioHardwareBadObjectError
+            log("Scalar: \(scalar), New Volume: \(newVolume), Current Volume: \(volume)")
+
+            if volume != newVolume {
+              volume = newVolume
+              changedProperties.append(
+                AudioObjectPropertyAddress(
+                  mSelector: kAudioLevelControlPropertyScalarValue,
+                  mScope: kAudioObjectPropertyScopeGlobal,
+                  mElement: kAudioObjectPropertyElementMaster
+                )
+              )
+
+              changedProperties.append(
+                AudioObjectPropertyAddress(
+                  mSelector: kAudioLevelControlPropertyDecibelValue,
+                  mScope: kAudioObjectPropertyScopeGlobal,
+                  mElement: kAudioObjectPropertyElementMaster
+                )
+              )
             }
 
             return noErr
@@ -351,15 +368,24 @@ class EQMControl: EQMObject {
             var newVolume = Volume.fromDecibel(decibel)
             newVolume = clamp(value: newVolume, min: 0.0, max: 1.0)
 
-            switch objectID {
-            case kObjectID_Volume_Input_Master:
-              break
-            case kObjectID_Volume_Output_Master:
-              if outputVolume != newVolume {
-                outputVolume = newVolume
-              }
-              break
-            default: return kAudioHardwareBadObjectError
+            if volume != newVolume {
+              volume = newVolume
+
+              changedProperties.append(
+                AudioObjectPropertyAddress(
+                  mSelector: kAudioLevelControlPropertyScalarValue,
+                  mScope: kAudioObjectPropertyScopeGlobal,
+                  mElement: kAudioObjectPropertyElementMaster
+                )
+              )
+
+              changedProperties.append(
+                AudioObjectPropertyAddress(
+                  mSelector: kAudioLevelControlPropertyDecibelValue,
+                  mScope: kAudioObjectPropertyScopeGlobal,
+                  mElement: kAudioObjectPropertyElementMaster
+                )
+              )
             }
 
             return noErr
@@ -375,18 +401,20 @@ class EQMControl: EQMObject {
               return kAudioHardwareBadPropertySizeError
             }
 
-            let muted = mutedInt == 1
-            switch objectID {
-              case kObjectID_DataSource_Input_Master:
-                return noErr
+            let newMuted = mutedInt == 1
 
-              case kObjectID_DataSource_Output_Master:
-                if (outputMuted != muted) {
-                  outputMuted = muted
-                }
-                return noErr
-            default: return kAudioHardwareBadObjectError
+            if (muted != newMuted) {
+              muted = newMuted
+
+              changedProperties.append(
+                AudioObjectPropertyAddress(
+                  mSelector: kAudioBooleanControlPropertyValue,
+                  mScope: kAudioObjectPropertyScopeGlobal,
+                  mElement: kAudioObjectPropertyElementMaster
+                )
+              )
             }
+            return noErr
 
           default: return kAudioHardwareUnknownPropertyError
         }

@@ -124,7 +124,7 @@ class EQMDevice: EQMObject {
       default:
         return nil
       }
-    case kAudioObjectPropertyControlList: return 6 * sizeof(AudioObjectID.self)
+    case kAudioObjectPropertyControlList: return 3 * sizeof(AudioObjectID.self)
     case kAudioDevicePropertySafetyOffset: return sizeof(UInt32.self)
     case kAudioDevicePropertyNominalSampleRate: return sizeof(Float64.self)
     case kAudioDevicePropertyAvailableNominalSampleRates: return UInt32(kSupportedSamplingRates.count) * sizeof(AudioValueRange.self)
@@ -250,11 +250,12 @@ class EQMDevice: EQMObject {
       //  default device for content. This is the device that iTunes and QuickTime
       //  will use to play their content on and FaceTime will use as it's microhphone.
       //  Nearly all devices should allow for this.
-      if address.mScope == kAudioObjectPropertyScopeInput {
-        return .integer(0)
-      } else {
-        return .integer(shown ? 1 : 0)
-      }
+//      if address.mScope == kAudioObjectPropertyScopeInput {
+//        return .integer(0)
+//      } else {
+//        return .integer(shown ? 1 : 0)
+//      }
+      return .integer(1)
     case kAudioDevicePropertyDeviceCanBeDefaultSystemDevice:
       //  This property returns whether or not the device wants to be the system
       //  default device. This is the device that is used to play interface sounds and
@@ -294,9 +295,6 @@ class EQMDevice: EQMObject {
       //  number is allowed to be smaller than the actual size of the list. In such
       //  case, only that number of items will be returned
       return .objectIDList([
-        kObjectID_Volume_Input_Master,
-        kObjectID_Mute_Input_Master,
-        kObjectID_DataSource_Input_Master,
         kObjectID_Volume_Output_Master,
         kObjectID_Mute_Output_Master,
         kObjectID_DataSource_Output_Master
@@ -418,11 +416,11 @@ class EQMDevice: EQMObject {
       //  make sure that the new value is different than the old value
       if (sampleRate != newSampleRate) {
         //  we dispatch this so that the change can happen asynchronously
-        DispatchQueue.main.async {
+        DispatchQueue.global(qos: .default).async {
           _ = EQMDriver.host?.pointee.RequestDeviceConfigurationChange(
             EQMDriver.host!,
             kObjectID_Device,
-            UInt64(sampleRate),
+            UInt64(newSampleRate),
             nil
           )
         }
@@ -526,7 +524,7 @@ class EQMDevice: EQMObject {
       for frame in 0 ..< frameSize {
         for channel in 0 ..< kChannelCount {
           let readFrame = Int(frame * kChannelCount + channel)
-          if EQMControl.outputMuted {
+          if EQMControl.muted {
             // Muted
             sample.advanced(by: readFrame).pointee = 0
           } else {
@@ -553,7 +551,7 @@ class EQMDevice: EQMObject {
       for frame in 0 ..< frameSize {
         for channel in 0 ..< kChannelCount {
           let writeFrame = Int(frame * kChannelCount + channel)
-          if EQMControl.outputMuted {
+          if EQMControl.muted {
             sample.advanced(by: writeFrame).pointee = 0
           } else {
             let nextSampleTime = sampleTime + Int(frame)

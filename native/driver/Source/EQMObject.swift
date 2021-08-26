@@ -94,7 +94,7 @@ enum EQMObjectProperty {
     let outSize = sizeof(T.self)
 
     guard requestedSize == outSize else {
-      log("Requested Size: \(requestedSize) != Out Size: \(outSize) (\(T.self))")
+      log("​🚫​ Requested Size: \(requestedSize) != Out Size: \(outSize) (\(T.self))")
       return kAudioHardwareBadPropertySizeError
     }
 
@@ -110,7 +110,7 @@ enum EQMObjectProperty {
 
     let requestedCount = Int(requestedSize / elementSize)
     array = ContiguousArray(array[0..<requestedCount])
-    log("Data Count: \(arr.count) - Data Size: \(UInt32(arr.count) * elementSize) - Requested Size: \(requestedSize) - Resulting Count: \(array.count) - Resulting Size: \(UInt32(array.count) * elementSize)")
+//    log("Data Count: \(arr.count) - Data Size: \(UInt32(arr.count) * elementSize) - Requested Size: \(requestedSize) - Resulting Count: \(array.count) - Resulting Size: \(UInt32(array.count) * elementSize)")
 
     let totalSize = UInt32(array.count) * elementSize
     
