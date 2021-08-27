@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreAudio.AudioServerPlugIn
+import Atomics
 
 @objc class EQMDriver: NSObject {
   static var host: AudioServerPlugInHostRef?
@@ -16,7 +17,7 @@ import CoreAudio.AudioServerPlugIn
   static private var _interface: AudioServerPlugInDriverInterface?
   static private var _interfacePtr: UnsafeMutablePointer<AudioServerPlugInDriverInterface>?
   
-  static var refCounter = AtomicCounter<UInt32>()
+  static var refCounter = ManagedAtomic<UInt32>(0)
   
   @objc public static var ref: AudioServerPlugInDriverRef?
   
@@ -117,7 +118,7 @@ import CoreAudio.AudioServerPlugIn
   }
   
   static func calculateHostTicksPerFrame () {
-    //  calculate the host ticks per frame
+    // calculate the host ticks per frame
     var theTimeBaseInfo = mach_timebase_info()
     mach_timebase_info(&theTimeBaseInfo)
     var theHostClockFrequency = Float64(theTimeBaseInfo.denom) / Float64(theTimeBaseInfo.numer)

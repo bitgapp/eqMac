@@ -41,7 +41,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, SUUpdaterDelegate {
         }
       }
 
-      Utilities.delay(2000) {
+      delay(2000) {
         self.updateProcessed.emit()
       }
     } else {
@@ -93,7 +93,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, SUUpdaterDelegate {
   }
   
   func updater(_ updater: SUUpdater, didDismissUpdateAlertPermanently permanently: Bool, for item: SUAppcastItem) {
-    Utilities.delay(500, completion: {
+    delay(500, completion: {
       if !self.willBeDownloadingUpdate {
         self.updateProcessed.emit()
       }

@@ -1,9 +1,9 @@
 //
-//  EQMControl.swift
-//  eqMac
+// EQMControl.swift
+// eqMac
 //
-//  Created by Nodeful on 15/08/2021.
-//  Copyright © 2021 Bitgapp. All rights reserved.
+// Created by Nodeful on 15/08/2021.
+// Copyright © 2021 Bitgapp. All rights reserved.
 //
 
 import Foundation
@@ -142,29 +142,29 @@ class EQMControl: EQMObject {
     case kObjectID_Volume_Output_Master:
       switch address.mSelector {
       case kAudioObjectPropertyBaseClass:
-        //  The base class for kAudioVolumeControlClassID is kAudioLevelControlClassID
+        // The base class for kAudioVolumeControlClassID is kAudioLevelControlClassID
         return .audioClassID(kAudioLevelControlClassID)
       case kAudioObjectPropertyClass:
-        //  Volume controls are of the class, kAudioVolumeControlClassID
+        // Volume controls are of the class, kAudioVolumeControlClassID
         return .audioClassID(kAudioVolumeControlClassID)
       case kAudioObjectPropertyOwner:
-        //  The control's owner is the device object
+        // The control's owner is the device object
         return .audioObjectID(kObjectID_Device)
       case kAudioObjectPropertyOwnedObjects:
-        //  Controls do not own any objects
+        // Controls do not own any objects
         return .objectIDList([])
       case kAudioControlPropertyScope:
-        //  This property returns the scope that the control is attached to.
+        // This property returns the scope that the control is attached to.
         switch objectID {
         case kObjectID_Volume_Output_Master: return .scope(kAudioObjectPropertyScopeOutput)
         default: return .scope(kAudioObjectPropertyScopeGlobal)
         }
       case kAudioControlPropertyElement:
-        //  This property returns the element that the control is attached to.
+        // This property returns the element that the control is attached to.
         return .element(kAudioObjectPropertyElementMaster)
       case kAudioLevelControlPropertyScalarValue:
-        //  This returns the value of the control in the normalized range of 0 to 1.
-        //  Note that we need to take the state lock to examine the value.
+        // This returns the value of the control in the normalized range of 0 to 1.
+        // Note that we need to take the state lock to examine the value.
         let volume = ({ () -> Float32 in
           switch objectID {
           case kObjectID_Volume_Output_Master: return self.volume
@@ -173,8 +173,8 @@ class EQMControl: EQMObject {
         })()
         return .float32(Volume.toScalar(volume))
       case kAudioLevelControlPropertyDecibelValue:
-        //  This returns the dB value of the control.
-        //  Note that we need to take the state lock to examine the value.
+        // This returns the dB value of the control.
+        // Note that we need to take the state lock to examine the value.
         let volume = ({ () -> Float32 in
           switch objectID {
           case kObjectID_Volume_Output_Master: return self.volume
@@ -183,7 +183,7 @@ class EQMControl: EQMObject {
         })()
         return .float32(Volume.toDecibel(volume))
       case kAudioLevelControlPropertyDecibelRange:
-        //  This returns the dB range of the control.
+        // This returns the dB range of the control.
         return .valueRange(
           AudioValueRange(
             mMinimum: Float64(kMinVolumeDB),
@@ -202,7 +202,7 @@ class EQMControl: EQMObject {
 
         return .float32(decibel)
       case kAudioLevelControlPropertyConvertDecibelsToScalar:
-        //  This takes the dB value in outData and converts it to scalar.
+        // This takes the dB value in outData and converts it to scalar.
 
         guard var decibel = inData?.assumingMemoryBound(to: Float32?.self).pointee else {
           return .float32(0)
@@ -219,30 +219,30 @@ class EQMControl: EQMObject {
     case kObjectID_Mute_Output_Master:
       switch address.mSelector {
       case kAudioObjectPropertyBaseClass:
-        //  The base class for kAudioMuteControlClassID is kAudioBooleanControlClassID
+        // The base class for kAudioMuteControlClassID is kAudioBooleanControlClassID
         return .audioClassID(kAudioBooleanControlClassID)
       case kAudioObjectPropertyClass:
-        //  Mute controls are of the class, kAudioMuteControlClassID
+        // Mute controls are of the class, kAudioMuteControlClassID
         return .audioClassID(kAudioMuteControlClassID)
       case kAudioObjectPropertyOwner:
-        //  The control's owner is the device object
+        // The control's owner is the device object
         return .audioObjectID(kObjectID_Device)
       case kAudioObjectPropertyOwnedObjects:
-        //  Controls do not own any objects
+        // Controls do not own any objects
         return .objectIDList([])
       case kAudioControlPropertyScope:
-        //  This property returns the scope that the control is attached to.
+        // This property returns the scope that the control is attached to.
         switch objectID {
-          case kObjectID_Mute_Output_Master: return .scope(kAudioObjectPropertyScopeOutput)
-          default: return .scope(kAudioObjectPropertyScopeGlobal)
+        case kObjectID_Mute_Output_Master: return .scope(kAudioObjectPropertyScopeOutput)
+        default: return .scope(kAudioObjectPropertyScopeGlobal)
         }
       case kAudioControlPropertyElement:
-        //  This property returns the element that the control is attached to.
+        // This property returns the element that the control is attached to.
         return .element(kAudioObjectPropertyElementMaster)
       case kAudioBooleanControlPropertyValue:
-        //  This returns the value of the mute control where 0 means that mute is off
-        //  and audio can be heard and 1 means that mute is on and audio cannot be heard.
-        //  Note that we need to take the state lock to examine this value.
+        // This returns the value of the mute control where 0 means that mute is off
+        // and audio can be heard and 1 means that mute is on and audio cannot be heard.
+        // Note that we need to take the state lock to examine this value.
         let muted = ({ () -> Bool in
           switch objectID {
           case kObjectID_Mute_Output_Master: return self.muted
@@ -256,19 +256,19 @@ class EQMControl: EQMObject {
       //    case kObjectID_DataDestination_PlayThru_Master:
       switch address.mSelector {
       case kAudioObjectPropertyBaseClass:
-        //  The base class for kAudioDataSourceControlClassID is kAudioSelectorControlClassID
+        // The base class for kAudioDataSourceControlClassID is kAudioSelectorControlClassID
         return .audioClassID(kAudioSelectorControlClassID)
       case kAudioObjectPropertyClass:
-        //  Data Source controls are of the class, kAudioDataSourceControlClassID
+        // Data Source controls are of the class, kAudioDataSourceControlClassID
         return .audioClassID(kAudioDataSourceControlClassID)
       case kAudioObjectPropertyOwner:
-        //  The control's owner is the device object
+        // The control's owner is the device object
         return .audioObjectID(kObjectID_Device)
       case kAudioObjectPropertyOwnedObjects:
-        //  Controls do not own any objects
+        // Controls do not own any objects
         return .objectIDList([])
       case kAudioControlPropertyScope:
-        //  This property returns the scope that the control is attached to.
+        // This property returns the scope that the control is attached to.
         switch objectID {
         case kObjectID_DataSource_Output_Master:
           return .scope(kAudioObjectPropertyScopeOutput)
@@ -276,24 +276,24 @@ class EQMControl: EQMObject {
         }
 
       case kAudioControlPropertyElement:
-        //  This property returns the element that the control is attached to.
+        // This property returns the element that the control is attached to.
         return .element(kAudioObjectPropertyElementMaster)
 
       case kAudioSelectorControlPropertyCurrentItem:
-        //  This returns the value of the data source selector.
-        //  Note that we need to take the state lock to examine this value.
+        // This returns the value of the data source selector.
+        // Note that we need to take the state lock to examine this value.
         return .integer(0)
       case kAudioSelectorControlPropertyAvailableItems:
-        //  This returns the IDs for all the items the data source control supports.
+        // This returns the IDs for all the items the data source control supports.
 
-        //  Calculate the number of items that have been requested. Note that this
-        //  number is allowed to be smaller than the actual size of the list. In such
-        //  case, only that number of items will be returned
+        // Calculate the number of items that have been requested. Note that this
+        // number is allowed to be smaller than the actual size of the list. In such
+        // case, only that number of items will be returned
 
         // eqMac only has 1 Source
         return .integer(0)
       case kAudioSelectorControlPropertyItemName:
-        //  This returns the user-readable name for the selector item in the qualifier
+        // This returns the user-readable name for the selector item in the qualifier
         return .string(kDeviceName as CFString)
       default: return nil
       }
@@ -303,113 +303,105 @@ class EQMControl: EQMObject {
 
   static func setPropertyData(objectID: AudioObjectID?, address: AudioObjectPropertyAddress, data: UnsafeRawPointer, changedProperties: inout [AudioObjectPropertyAddress]) -> OSStatus {
     switch objectID {
-      case kObjectID_Volume_Output_Master:
-        switch address.mSelector {
-          case kAudioLevelControlPropertyScalarValue:
-            //  For the scalar volume, we clamp the new value to [0, 1]. Note that if this
-            //  value changes, it implies that the dB value changed too.
-            guard let scalar = data.assumingMemoryBound(to: Float32?.self).pointee else {
-              return kAudioHardwareBadPropertySizeError
-            }
+    case kObjectID_Volume_Output_Master:
+      switch address.mSelector {
+      case kAudioLevelControlPropertyScalarValue:
+        // For the scalar volume, we clamp the new value to [0, 1]. Note that if this
+        // value changes, it implies that the dB value changed too.
+        let scalar = data.load(as: Float32.self)
 
-            var newVolume = Volume.fromScalar(scalar)
-            newVolume = clamp(value: newVolume, min: 0.0, max: 1.0)
+        var newVolume = Volume.fromScalar(scalar)
+        newVolume = clamp(value: newVolume, min: 0.0, max: 1.0)
 
-            log("Scalar: \(scalar), New Volume: \(newVolume), Current Volume: \(volume)")
+        if volume != newVolume {
+          volume = newVolume
+          changedProperties.append(
+            AudioObjectPropertyAddress(
+              mSelector: kAudioLevelControlPropertyScalarValue,
+              mScope: kAudioObjectPropertyScopeGlobal,
+              mElement: kAudioObjectPropertyElementMaster
+            )
+          )
 
-            if volume != newVolume {
-              volume = newVolume
-              changedProperties.append(
-                AudioObjectPropertyAddress(
-                  mSelector: kAudioLevelControlPropertyScalarValue,
-                  mScope: kAudioObjectPropertyScopeGlobal,
-                  mElement: kAudioObjectPropertyElementMaster
-                )
-              )
-
-              changedProperties.append(
-                AudioObjectPropertyAddress(
-                  mSelector: kAudioLevelControlPropertyDecibelValue,
-                  mScope: kAudioObjectPropertyScopeGlobal,
-                  mElement: kAudioObjectPropertyElementMaster
-                )
-              )
-            }
-
-            return noErr
-
-          case kAudioLevelControlPropertyDecibelValue:
-            //  For the dB value, we first convert it to a scalar value since that is how
-            //  the value is tracked. Note that if this value changes, it implies that the
-            //  scalar value changes as well.
-            guard var decibel = data.assumingMemoryBound(to: Float32?.self).pointee else {
-              return kAudioHardwareBadPropertySizeError
-            }
-            decibel = clamp(value: decibel, min: kMinVolumeDB, max: kMaxVolumeDB)
-
-            var newVolume = Volume.fromDecibel(decibel)
-            newVolume = clamp(value: newVolume, min: 0.0, max: 1.0)
-
-            if volume != newVolume {
-              volume = newVolume
-
-              changedProperties.append(
-                AudioObjectPropertyAddress(
-                  mSelector: kAudioLevelControlPropertyScalarValue,
-                  mScope: kAudioObjectPropertyScopeGlobal,
-                  mElement: kAudioObjectPropertyElementMaster
-                )
-              )
-
-              changedProperties.append(
-                AudioObjectPropertyAddress(
-                  mSelector: kAudioLevelControlPropertyDecibelValue,
-                  mScope: kAudioObjectPropertyScopeGlobal,
-                  mElement: kAudioObjectPropertyElementMaster
-                )
-              )
-            }
-
-            return noErr
-
-          default: return kAudioHardwareUnknownPropertyError
+          changedProperties.append(
+            AudioObjectPropertyAddress(
+              mSelector: kAudioLevelControlPropertyDecibelValue,
+              mScope: kAudioObjectPropertyScopeGlobal,
+              mElement: kAudioObjectPropertyElementMaster
+            )
+          )
         }
 
-      case kObjectID_Mute_Output_Master:
-        switch address.mSelector {
-          case kAudioBooleanControlPropertyValue:
-            guard let mutedInt = data.assumingMemoryBound(to: UInt32?.self).pointee else {
-              return kAudioHardwareBadPropertySizeError
-            }
+        return noErr
 
-            let newMuted = mutedInt == 1
+      case kAudioLevelControlPropertyDecibelValue:
+        // For the dB value, we first convert it to a scalar value since that is how
+        // the value is tracked. Note that if this value changes, it implies that the
+        // scalar value changes as well.
+        var decibel = data.load(as: Float32.self)
+        decibel = clamp(value: decibel, min: kMinVolumeDB, max: kMaxVolumeDB)
 
-            if (muted != newMuted) {
-              muted = newMuted
+        var newVolume = Volume.fromDecibel(decibel)
+        newVolume = clamp(value: newVolume, min: 0.0, max: 1.0)
 
-              changedProperties.append(
-                AudioObjectPropertyAddress(
-                  mSelector: kAudioBooleanControlPropertyValue,
-                  mScope: kAudioObjectPropertyScopeGlobal,
-                  mElement: kAudioObjectPropertyElementMaster
-                )
-              )
-            }
-            return noErr
+        if volume != newVolume {
+          volume = newVolume
 
-          default: return kAudioHardwareUnknownPropertyError
+          changedProperties.append(
+            AudioObjectPropertyAddress(
+              mSelector: kAudioLevelControlPropertyScalarValue,
+              mScope: kAudioObjectPropertyScopeGlobal,
+              mElement: kAudioObjectPropertyElementMaster
+            )
+          )
+
+          changedProperties.append(
+            AudioObjectPropertyAddress(
+              mSelector: kAudioLevelControlPropertyDecibelValue,
+              mScope: kAudioObjectPropertyScopeGlobal,
+              mElement: kAudioObjectPropertyElementMaster
+            )
+          )
         }
 
-      case kObjectID_DataSource_Output_Master:
-        //    case kObjectID_DataDestination_PlayThru_Master:
-        switch address.mSelector {
-          case kAudioSelectorControlPropertyCurrentItem:
-            //  For selector controls, we check to make sure the requested value is in the
-            //  available items list and just store the value.
-            return noErr
+        return noErr
 
-          default: return kAudioHardwareUnknownPropertyError;
+      default: return kAudioHardwareUnknownPropertyError
+      }
+
+    case kObjectID_Mute_Output_Master:
+      switch address.mSelector {
+      case kAudioBooleanControlPropertyValue:
+        let mutedInt = data.load(as: UInt32.self)
+
+        let newMuted = mutedInt == 1
+
+        if (muted != newMuted) {
+          muted = newMuted
+
+          changedProperties.append(
+            AudioObjectPropertyAddress(
+              mSelector: kAudioBooleanControlPropertyValue,
+              mScope: kAudioObjectPropertyScopeGlobal,
+              mElement: kAudioObjectPropertyElementMaster
+            )
+          )
         }
+        return noErr
+
+      default: return kAudioHardwareUnknownPropertyError
+      }
+
+    case kObjectID_DataSource_Output_Master:
+      //    case kObjectID_DataDestination_PlayThru_Master:
+      switch address.mSelector {
+      case kAudioSelectorControlPropertyCurrentItem:
+        // For selector controls, we check to make sure the requested value is in the
+        // available items list and just store the value.
+        return noErr
+
+      default: return kAudioHardwareUnknownPropertyError;
+      }
     default: return kAudioHardwareBadObjectError
     }
   }

@@ -1,9 +1,9 @@
 //
-//  EQMDriverBridge.h
-//  Driver
+// EQMDriverBridge.h
+// Driver
 //
-//  Created by Nodeful on 12/08/2021.
-//  Copyright © 2021 Bitgapp. All rights reserved.
+// Created by Nodeful on 12/08/2021.
+// Copyright © 2021 Bitgapp. All rights reserved.
 //
 
 #import <CoreFoundation/CoreFoundation.h>

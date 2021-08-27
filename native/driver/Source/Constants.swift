@@ -1,9 +1,9 @@
 //
-//  Constants.swift
-//  eqMac
+// Constants.swift
+// eqMac
 //
-//  Created by Nodeful on 12/08/2021.
-//  Copyright © 2021 Bitgapp. All rights reserved.
+// Created by Nodeful on 12/08/2021.
+// Copyright © 2021 Bitgapp. All rights reserved.
 //
 
 import Foundation
@@ -32,17 +32,7 @@ let kPlugInBundleId = "com.bitgapp.eqmac.driver"
 let kDeviceUID = "EQMDevice"
 let kDeviceModelUID = "EQMDeviceModelUID"
 
-let kSupportedSamplingRates: [Float64] = [
-  44_100,
-  48_000,
-  88_200,
-  96_000,
-  176_400,
-  192_000
-]
-
-let kDefaultSampleRate: Float64 = kSupportedSamplingRates[0]
-let kDefaultInputVolume: Float32 = 1.0
+let kDefaultSampleRate: Float64 = kEQMDeviceSupportedSampleRates[0]
 let kDefaultOutputVolume: Float32 = 1.0
 
 let kMinVolumeDB: Float32 = -96

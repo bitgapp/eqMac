@@ -49,7 +49,7 @@ class Sources {
             InputSource.requestPermission() { allowed in
               if !InputSource.hasPermission {
                 NSWorkspace.shared.open(URL(string:"x-apple.systempreferences:com.apple.preference.security?Privacy_Microphone")!)
-                Utilities.delay(1000) {
+                delay(1000) {
                   
                   Alert.confirm(
                     title: "Microphone Usage Permission",

@@ -1,9 +1,9 @@
 //
-//  ArrayExtensions.swift
-//  eqMac
+// ArrayExtensions.swift
+// eqMac
 //
-//  Created by Roman Kisil on 14/02/2018.
-//  Copyright © 2018 Roman Kisil. All rights reserved.
+// Created by Roman Kisil on 14/02/2018.
+// Copyright © 2018 Roman Kisil. All rights reserved.
 //
 
 import Foundation

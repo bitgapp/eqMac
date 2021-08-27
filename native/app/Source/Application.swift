@@ -107,7 +107,7 @@ class Application {
     equalizersTypeChangedListener = Equalizers.typeChanged.on { _ in
       if (enabled) {
         stopSave {}
-        Utilities.delay(100) {
+        delay(100) {
           setupAudio()
         }
       }
@@ -175,7 +175,7 @@ class Application {
           removeEngines()
           try! AudioDeviceEvents.recreateEventEmitters([.isAliveChanged, .volumeChanged, .nominalSampleRateChanged])
           self.setupDriverDeviceEvents()
-          Utilities.delay(500) {
+          delay(500) {
             selectOutput(device: getLastKnowDeviceFromStack())
           }
         }
@@ -192,7 +192,7 @@ class Application {
         }
       } else {
         stopRemoveEngines {
-          Utilities.delay(1000) {
+          delay(1000) {
             // need a delay, because emitter should finish it's work at first
             try! AudioDeviceEvents.recreateEventEmitters([.isAliveChanged, .volumeChanged, .nominalSampleRateChanged])
             setupDriverDeviceEvents()
@@ -240,7 +240,7 @@ class Application {
   static func selectOutput (device: AudioDevice) {
     ignoreEvents = true
     stopRemoveEngines {
-      Utilities.delay(500) {
+      delay(500) {
         ignoreEvents = false
         AudioDevice.currentOutputDevice = device
       }
@@ -267,7 +267,7 @@ class Application {
     }
 
     if (selectedDevice!.outputBalanceSupported) {
-      balance = Utilities.mapValue(
+      balance = mapValue(
         value: Double(selectedDevice!.virtualMasterBalance(direction: .playback)!),
         inMin: 0,
         inMax: 1,
@@ -286,12 +286,11 @@ class Application {
     self.matchDriverSampleRateToOutput()
     
     Console.log("Driver new Latency: \(Driver.latency)")
-    Console.log("Driver new Safety Offset: \(Driver.safetyOffset)")
     Console.log("Driver new Sample Rate: \(Driver.device!.actualSampleRate())")
     
     AudioDevice.currentOutputDevice = Driver.device!
     // TODO: Figure out a better way
-    Utilities.delay(1000) {
+    delay(1000) {
       ignoreEvents = false
       createAudioPipeline()
     }
@@ -317,8 +316,7 @@ class Application {
 
   private static func matchDriverSampleRateToOutput () {
     let outputSampleRate = selectedDevice!.actualSampleRate()!
-    let driverSampleRates = Driver.sampleRates
-    let closestSampleRate = driverSampleRates.min( by: { abs($0 - outputSampleRate) < abs($1 - outputSampleRate) } )!
+    let closestSampleRate = kEQMDeviceSupportedSampleRates.min( by: { abs($0 - outputSampleRate) < abs($1 - outputSampleRate) } )!
     Driver.device!.setNominalSampleRate(closestSampleRate)
   }
   
@@ -338,7 +336,7 @@ class Application {
         if ignoreEvents { return }
         ignoreEvents = true
         stopRemoveEngines {
-          Utilities.delay(1000) {
+          delay(1000) {
             // need a delay, because emitter should finish it's work at first
             try! AudioDeviceEvents.recreateEventEmitters([.isAliveChanged, .volumeChanged, .nominalSampleRateChanged])
             setupDriverDeviceEvents()
@@ -389,7 +387,7 @@ class Application {
     }
     if direction == .UP {
       ignoreNextDriverMuteEvent = true
-      Utilities.delay(100) {
+      delay(100) {
         ignoreNextDriverMuteEvent = false
       }
     }
@@ -416,7 +414,7 @@ class Application {
       var newGain = steps[stepIndex]
       
       if (newGain <= 1) {
-        Utilities.delay(100) {
+        delay(100) {
           Driver.device!.setVirtualMasterVolume(Float(newGain), direction: .playback)
         }
       } else {
@@ -477,7 +475,7 @@ class Application {
   static func stopEngines (_ completion: @escaping () -> Void) {
     DispatchQueue.main.async {
       var returned = false
-      Utilities.delay(2000) {
+      delay(2000) {
         if (!returned) {
           completion()
         }
@@ -519,7 +517,7 @@ class Application {
 
   static func handleWakeUp () {
     // Wait for devices to initialize, not sure what delay is appropriate
-    Utilities.delay(1000) {
+    delay(1000) {
       if !enabled { return }
       if lastKnownDeviceStack.count == 0 { return setupAudio() }
       let lastDevice = lastKnownDeviceStack.last
@@ -533,7 +531,7 @@ class Application {
           if newDevice != nil && newDevice!.isAlive() && newDevice!.nominalSampleRate() != nil {
             setupAudio()
           } else {
-            Utilities.delay(1000) {
+            delay(1000) {
               checkLastKnownDeviceActive()
             }
           }

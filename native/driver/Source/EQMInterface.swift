@@ -1,9 +1,9 @@
 //
-//  EQMInterface.swift
-//  eqMac
+// EQMInterface.swift
+// eqMac
 //
-//  Created by Romans Kisils on 21/08/2021.
-//  Copyright © 2021 Bitgapp. All rights reserved.
+// Created by Romans Kisils on 21/08/2021.
+// Copyright © 2021 Bitgapp. All rights reserved.
 //
 
 import Foundation
@@ -22,7 +22,7 @@ func EQM_QueryInterface (
   // gAudioServerPlugInDriverInterfacePtr regardless of which one is asked for.
   guard EQMDriver.validateDriver(inDriver) else { return kAudioHardwareBadObjectError }
   
-//  log("Invoked EQM_QueryInterface()")
+  // log("Invoked EQM_QueryInterface()")
   let uuid = CFUUIDCreateFromUUIDBytes(nil, inUUID)
   if uuid == nil || outInterface == nil {
     return kAudioHardwareIllegalOperationError
@@ -30,10 +30,10 @@ func EQM_QueryInterface (
   
   guard CFEqual(uuid, IUnknownUUID) || CFEqual(uuid, kAudioServerPluginDriverInterfaceUUID) else { return HRESULT.noInterface }
   
-  EQMDriver.refCounter.increment()
+  EQMDriver.refCounter.wrappingIncrement(ordering: .relaxed)
   outInterface!.pointee = UnsafeMutableRawPointer(EQMDriver.ref)
   
-//  log("EQM_QueryInterface() -> \(String(describing: EQMDriver.ref))")
+  // log("EQM_QueryInterface() -> \(String(describing: EQMDriver.ref))")
   
   return HRESULT.ok
 }
@@ -41,21 +41,16 @@ func EQM_QueryInterface (
 func EQM_AddRef (inDriver: UnsafeMutableRawPointer?) -> ULONG {
   // This call returns the resulting reference count after the increment.
   guard EQMDriver.validateDriver(inDriver) else { return ULONG(kAudioHardwareBadObjectError) }
-//  log("Invoked EQM_AddRef()")
+  // log("Invoked EQM_AddRef()")
   
-  EQMDriver.refCounter.increment()
-  
-//  log("EQM_AddRef() -> \(EQMDriver.refCounter.value)")
-  return EQMDriver.refCounter.value
+  return EQMDriver.refCounter.wrappingIncrementThenLoad(ordering: .relaxed)
 }
 
 func EQM_Release (inDriver: UnsafeMutableRawPointer?) -> ULONG {
   // This call returns the resulting reference count after the decrement.
   guard EQMDriver.validateDriver(inDriver) else { return ULONG(kAudioHardwareBadObjectError) }
-//  log("Invoked EQM_Release()")
-  EQMDriver.refCounter.decrement()
-//  log("EQM_Release() -> \(EQMDriver.refCounter.value)")
-  return EQMDriver.refCounter.value
+  // log("Invoked EQM_Release()")
+  return EQMDriver.refCounter.wrappingDecrementThenLoad(ordering: .relaxed)
 }
 
 // MARK: - Basic Operations
@@ -69,13 +64,13 @@ func EQM_Initialize (inDriver: AudioServerPlugInDriverRef, inHost: AudioServerPl
   // execution of this method.
   guard EQMDriver.validateDriver(inDriver) else { return kAudioHardwareBadObjectError }
   
-//  log("Invoked EQM_Initialize()")
+  // log("Invoked EQM_Initialize()")
 
   EQMDriver.host = inHost
 
   EQMDriver.calculateHostTicksPerFrame()
   
-//  log("EQM_Initialize() - Host: \(String(describing: EQMDriver.host)) | hostTicksPerFrame = \(String(describing: EQMDriver.hostTicksPerFrame))")
+  // log("EQM_Initialize() - Host: \(String(describing: EQMDriver.host)) | hostTicksPerFrame = \(String(describing: EQMDriver.hostTicksPerFrame))")
 
   return noErr
 }
@@ -145,13 +140,13 @@ func EQM_PerformDeviceConfigurationChange (
   // change, the new sample rate is passed in the inChangeAction argument.
   
   guard EQMDriver.validateDriver(inDriver) else { return kAudioHardwareBadObjectError }
-  log("Invoked EQM_PerformDeviceConfigurationChange()")
-  if !kSupportedSamplingRates.contains(where: { UInt64($0) == inChangeAction }) { return kAudioHardwareBadObjectError }
+//  log("Invoked EQM_PerformDeviceConfigurationChange()")
+  if !kEQMDeviceSupportedSampleRates.contains(where: { UInt64($0) == inChangeAction }) { return kAudioHardwareBadObjectError }
   
   EQMDevice.sampleRate = Float64(inChangeAction)
   EQMDriver.calculateHostTicksPerFrame()
   
-  log("EQM_PerformDeviceConfigurationChange() - EQMDevice.sampleRate = \(EQMDevice.sampleRate) | hostTicksPerFrame = \(String(describing: EQMDriver.hostTicksPerFrame))")
+//  log("EQM_PerformDeviceConfigurationChange() - EQMDevice.sampleRate = \(EQMDevice.sampleRate) | hostTicksPerFrame = \(String(describing: EQMDriver.hostTicksPerFrame))")
 
   return noErr
 }
@@ -172,9 +167,9 @@ func EQM_AbortDeviceConfigurationChange (
 }
 
 // MARK: - Property Operations
-//  Note that for each object, this driver implements all the required properties plus a few
-//  extras that are useful but not required. There is more detailed commentary about each
-//  property in the EQMPlugin.getPropertyData() and EQMDevice.getPropertyData() methods.
+// Note that for each object, this driver implements all the required properties plus a few
+// extras that are useful but not required. There is more detailed commentary about each
+// property in the EQMPlugin.getPropertyData() and EQMDevice.getPropertyData() methods.
 
 func EQM_HasProperty (
   inDriver: AudioServerPlugInDriverRef,
@@ -185,7 +180,7 @@ func EQM_HasProperty (
   // This method returns whether or not the given object has the given property.
   let address = inAddress.pointee
 
-//  log("Invoking: \(EQMDriver.getEQMObjectClassName(from: inObjectID)).hasProperty(\(propertyName(address.mSelector)))")
+  // log("Invoking: \(EQMDriver.getEQMObjectClassName(from: inObjectID)).hasProperty(\(propertyName(address.mSelector)))")
   let hasProperty: Bool = ({
     guard EQMDriver.validateDriver(inDriver) else { return false }
     if let obj = EQMDriver.getEQMObject(from: inObjectID) {
@@ -194,7 +189,7 @@ func EQM_HasProperty (
       return false
     }
   })()
-  log("\(EQMDriver.getEQMObjectClassName(from: inObjectID)).hasProperty(\(propertyName(address.mSelector)), \(scopeName(address.mScope))) = \(hasProperty)")
+//  log("\(EQMDriver.getEQMObjectClassName(from: inObjectID)).hasProperty(\(propertyName(address.mSelector)), \(scopeName(address.mScope))) = \(hasProperty)")
 
   return DarwinBoolean(hasProperty)
 }
@@ -210,7 +205,7 @@ func EQM_IsPropertySettable (
   // This method returns whether or not the given property on the object can have its value changed.
   guard EQMDriver.validateDriver(inDriver) else { return kAudioHardwareBadObjectError }
   
-//  log("Invoking: \(EQMDriver.getEQMObjectClassName(from: inObjectID)).isPropertySettable(\(propertyName(inAddress.pointee.mSelector)))")
+  // log("Invoking: \(EQMDriver.getEQMObjectClassName(from: inObjectID)).isPropertySettable(\(propertyName(inAddress.pointee.mSelector)))")
   let isSettable = DarwinBoolean(({
     if let obj = EQMDriver.getEQMObject(from: inObjectID) {
       return obj.isPropertySettable(objectID: inObjectID, address: address)
@@ -218,7 +213,7 @@ func EQM_IsPropertySettable (
       return false
     }
   })())
-  log("\(EQMDriver.getEQMObjectClassName(from: inObjectID)).getPropertySettable(\(propertyName(address.mSelector)), \(scopeName(address.mScope))) = \(isSettable)")
+//  log("\(EQMDriver.getEQMObjectClassName(from: inObjectID)).getPropertySettable(\(propertyName(address.mSelector)), \(scopeName(address.mScope))) = \(isSettable)")
 
   outIsSettable.pointee = isSettable
   
@@ -271,11 +266,11 @@ func EQM_GetPropertyData (
 
   // Fetches the data of the given property and places it in the provided buffer.
   guard EQMDriver.validateDriver(inDriver) && EQMDriver.validateObject(inObjectID) else {
-    log("Invalid driver or object id while in EQM_GetPropertyData(\(propertyName(address.mSelector)), \(scopeName(address.mScope))")
+//    log("Invalid driver or object id while in EQM_GetPropertyData(\(propertyName(address.mSelector)), \(scopeName(address.mScope))")
     return kAudioHardwareBadObjectError
   }
 
-//  log("Invoking: \(EQMDriver.getEQMObjectClassName(from: inObjectID)).getPropertyData(\(propertyName(inAddress.pointee.mSelector))) - Size requested: \(inDataSize)")
+   log("Invoking: \(EQMDriver.getEQMObjectClassName(from: inObjectID)).getPropertyData(\(propertyName(inAddress.pointee.mSelector))) - Size requested: \(inDataSize)")
   
   let data = ({ () -> EQMObjectProperty? in
     if let obj = EQMDriver.getEQMObject(from: inObjectID) {
@@ -308,7 +303,7 @@ func EQM_SetPropertyData (
   // Tells an object to change the value of the given property.
   guard EQMDriver.validateDriver(inDriver) else { return kAudioHardwareBadObjectError }
   
-//  log("\(EQMDriver.getEQMObjectClassName(from: inObjectID)).setPropertyData(\(propertyName(address.mSelector)), \(scopeName(address.mScope))) = \(String(describing: inData))")
+   log("\(EQMDriver.getEQMObjectClassName(from: inObjectID)).setPropertyData(\(propertyName(address.mSelector)), \(scopeName(address.mScope))) = \(String(describing: inData))")
 
   if let obj = EQMDriver.getEQMObject(from: inObjectID) {
     var changedProperties: [AudioObjectPropertyAddress] = []
@@ -445,7 +440,11 @@ func EQM_DoIOOperation (
 ) -> OSStatus {
   // This is called to actuall perform a given operation.
   guard EQMDriver.validateDriver(inDriver) else { return kAudioHardwareBadObjectError }
-  
+
+  guard inStreamObjectID == kObjectID_Stream_Input || inStreamObjectID == kObjectID_Stream_Output else {
+    return kAudioHardwareBadObjectError
+  }
+
   guard let sample = ioMainBuffer?.assumingMemoryBound(to: Float32.self) else {
     return noErr
   }
@@ -454,7 +453,7 @@ func EQM_DoIOOperation (
     clientID: inClientID,
     operationID: inOperationID,
     sample: sample,
-    sampleTime: Int(inIOCycleInfo.pointee.mInputTime.mSampleTime),
+    cycleInfo: inIOCycleInfo.pointee,
     frameSize: inIOBufferFrameSize
   )
 

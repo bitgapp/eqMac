@@ -273,12 +273,12 @@ class UI: StoreSubscriber {
             UI.cachedIsShown = shown
             UI.isShownChanged.emit(shown)
           }
-          Utilities.delay(1000) { checkIfVisible() }
+          delay(1000) { checkIfVisible() }
         }
 
         checkIfVisible()
         completion()
-        Utilities.delay(1000) {
+        delay(1000) {
           UI.duringInit = false
         }
       }
@@ -419,7 +419,7 @@ class UI: StoreSubscriber {
       }
     }
     
-    Utilities.delay(1000) {
+    delay(1000) {
       if (!returned) {
         returned = true
         completion(false)

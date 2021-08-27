@@ -61,7 +61,7 @@ class Output {
     
     self.setupCallback()
     
-    Utilities.delay(200) { [weak self] in
+    delay(200) { [weak self] in
       self?.start()
       self?.startComputeVarispeedRate()
     }

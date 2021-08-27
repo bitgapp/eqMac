@@ -1,13 +1,14 @@
 //
-//  EQMDevice.swift
-//  eqMac
+// EQMDevice.swift
+// eqMac
 //
-//  Created by Nodeful on 12/08/2021.
-//  Copyright © 2021 Bitgapp. All rights reserved.
+// Created by Nodeful on 12/08/2021.
+// Copyright © 2021 Bitgapp. All rights reserved.
 //
 
 import Foundation
 import CoreAudio.AudioServerPlugIn
+import Atomics
 
 class EQMDevice: EQMObject {
   static let id = AudioObjectID(kDeviceUID)!
@@ -16,13 +17,13 @@ class EQMDevice: EQMObject {
   static var running = false
   static var shown = false
   static var latency: UInt32 = 0
-  static var ringBufferSize: UInt32 = 16384
-  static var ioCounter = AtomicCounter<UInt64>()
-  static var hostTime: UInt64 = 0
-  static var sampleTime: UInt64 = 0
+  static var ioCounter = ManagedAtomic<UInt64>(0)
+  static var anchorHostTime: UInt64 = 0
+  static var anchorSampleTime: UInt64 = 0
   static var timestampCount: UInt64 = 0
-  static var buffer: UnsafeMutablePointer<Float32>?
-  static let bufferSize: UInt32 = 65536 * kChannelCount
+
+  static let ringBufferSize: UInt32 = 16384
+  static var ringBuffer = UnsafeMutablePointer<Float32>.allocate(capacity: Int(ringBufferSize * kChannelCount))
 
   static func getDescription (for samplingRate: Float64) -> AudioStreamBasicDescription {
     return AudioStreamBasicDescription(
@@ -127,17 +128,18 @@ class EQMDevice: EQMObject {
     case kAudioObjectPropertyControlList: return 3 * sizeof(AudioObjectID.self)
     case kAudioDevicePropertySafetyOffset: return sizeof(UInt32.self)
     case kAudioDevicePropertyNominalSampleRate: return sizeof(Float64.self)
-    case kAudioDevicePropertyAvailableNominalSampleRates: return UInt32(kSupportedSamplingRates.count) * sizeof(AudioValueRange.self)
+    case kAudioDevicePropertyAvailableNominalSampleRates: return UInt32(kEQMDeviceSupportedSampleRates.count) * sizeof(AudioValueRange.self)
     case kAudioDevicePropertyIsHidden: return sizeof(UInt32.self)
     case kAudioDevicePropertyPreferredChannelsForStereo: return 2 * sizeof(UInt32.self)
     case kAudioDevicePropertyPreferredChannelLayout:
-      let basicSize = UInt(MemoryLayout<AudioChannelLayout>.stride) // contains one channel already
-      let additionalChannels = UInt(MemoryLayout<AudioChannelDescription>.stride) * UInt(kChannelCount - 1) // the other channels
-      return UInt32(basicSize + additionalChannels)
+      let layoutSize = sizeof(AudioChannelLayout.self)
+      // Layout will already contain size for 1 channel description
+      let channelsSize = sizeof(AudioChannelDescription.self) * kChannelCount - 1
+      return layoutSize + channelsSize
 
     case kAudioDevicePropertyZeroTimeStampPeriod: return sizeof(UInt32.self)
     case kAudioDevicePropertyIcon: return sizeof(CFURL.self)
-    
+
     case kAudioObjectPropertyCustomPropertyInfoList: return sizeof(AudioServerPlugInCustomPropertyInfo.self) * 3
     case kEQMDeviceCustomPropertyLatency: return sizeof(UInt32.self)
     case kEQMDeviceCustomPropertyShown: return sizeof(CFBoolean.self)
@@ -151,27 +153,27 @@ class EQMDevice: EQMObject {
   static func getPropertyData (objectID: AudioObjectID? = nil, address: AudioObjectPropertyAddress, inData: UnsafeRawPointer?) -> EQMObjectProperty? {
     switch address.mSelector {
     case kAudioObjectPropertyBaseClass:
-      //  The base class for kAudioDeviceClassID is kAudioObjectClassID
+      // The base class for kAudioDeviceClassID is kAudioObjectClassID
       return .audioClassID(kAudioObjectClassID)
     case kAudioObjectPropertyClass:
-      //  The class is always kAudioDeviceClassID for devices created by drivers
+      // The class is always kAudioDeviceClassID for devices created by drivers
       return .audioClassID(kAudioDeviceClassID)
     case kAudioObjectPropertyOwner:
-      //  The device's owner is the plug-in object
+      // The device's owner is the plug-in object
       return .audioObjectID(kObjectID_PlugIn)
     case kAudioObjectPropertyName:
-      //  This is the human readable name of the device.
+      // This is the human readable name of the device.
       return .string(name as CFString)
     case kAudioObjectPropertyManufacturer:
-      //  This is the human readable name of the maker of the plug-in.
+      // This is the human readable name of the maker of the plug-in.
       return .string(kDeviceManufacturer as CFString)
     case kAudioObjectPropertyOwnedObjects:
-      //  Calculate the number of items that have been requested. Note that this
-      //  number is allowed to be smaller than the actual size of the list. In such
-      //  case, only that number of items will be returned
+      // Calculate the number of items that have been requested. Note that this
+      // number is allowed to be smaller than the actual size of the list. In such
+      // case, only that number of items will be returned
 
-      //  The device owns its streams and controls. Note that what is returned here
-      //  depends on the scope requested.
+      // The device owns its streams and controls. Note that what is returned here
+      // depends on the scope requested.
       switch address.mScope {
       case kAudioObjectPropertyScopeGlobal:
         return .objectIDList([
@@ -196,121 +198,120 @@ class EQMDevice: EQMObject {
       default: return .null()
       }
     case kAudioDevicePropertyDeviceUID:
-      //  This is a CFString that is a persistent token that can identify the same
-      //  audio device across boot sessions. Note that two instances of the same
-      //  device must have different values for this property.
+      // This is a CFString that is a persistent token that can identify the same
+      // audio device across boot sessions. Note that two instances of the same
+      // device must have different values for this property.
       return .string(kDeviceUID as CFString)
     case kAudioDevicePropertyModelUID:
-      //  This is a CFString that is a persistent token that can identify audio
-      //  devices that are the same kind of device. Note that two instances of the
-      //  save device must have the same value for this property.
+      // This is a CFString that is a persistent token that can identify audio
+      // devices that are the same kind of device. Note that two instances of the
+      // save device must have the same value for this property.
       return .string(kDeviceModelUID as CFString)
     case kAudioDevicePropertyTransportType:
-      //  This value represents how the device is attached to the system. This can be
-      //  any 32 bit integer, but common values for this property are defined in
-      //  <CoreAudio/AudioHardwareBase.h>
+      // This value represents how the device is attached to the system. This can be
+      // any 32 bit integer, but common values for this property are defined in
+      // <CoreAudio/AudioHardwareBase.h>
       return .integer(kAudioDeviceTransportTypeVirtual)
     case kAudioDevicePropertyRelatedDevices:
-      //  The related devices property identifys device objects that are very closely
-      //  related. Generally, this is for relating devices that are packaged together
-      //  in the hardware such as when the input side and the output side of a piece
-      //  of hardware can be clocked separately and therefore need to be represented
-      //  as separate AudioDevice objects. In such case, both devices would report
-      //  that they are related to each other. Note that at minimum, a device is
-      //  related to itself, so this list will always be at least one item long.
+      // The related devices property identifys device objects that are very closely
+      // related. Generally, this is for relating devices that are packaged together
+      // in the hardware such as when the input side and the output side of a piece
+      // of hardware can be clocked separately and therefore need to be represented
+      // as separate AudioDevice objects. In such case, both devices would report
+      // that they are related to each other. Note that at minimum, a device is
+      // related to itself, so this list will always be at least one item long.
 
-      //  Calculate the number of items that have been requested. Note that this
-      //  number is allowed to be smaller than the actual size of the list. In such
-      //  case, only that number of items will be returned
+      // Calculate the number of items that have been requested. Note that this
+      // number is allowed to be smaller than the actual size of the list. In such
+      // case, only that number of items will be returned
       return .objectIDList([ kObjectID_Device ])
     case kAudioDevicePropertyClockDomain:
-      //  This property allows the device to declare what other devices it is
-      //  synchronized with in hardware. The way it works is that if two devices have
-      //  the same value for this property and the value is not zero, then the two
-      //  devices are synchronized in hardware. Note that a device that either can't
-      //  be synchronized with others or doesn't know should return 0 for this
-      //  property.
+      // This property allows the device to declare what other devices it is
+      // synchronized with in hardware. The way it works is that if two devices have
+      // the same value for this property and the value is not zero, then the two
+      // devices are synchronized in hardware. Note that a device that either can't
+      // be synchronized with others or doesn't know should return 0 for this
+      // property.
       return .integer(0)
     case kAudioDevicePropertyDeviceIsAlive:
-      //  This property returns whether or not the device is alive. Note that it is
-      //  note uncommon for a device to be dead but still momentarily availble in the
-      //  device list. In the case of this device, it will always be alive.
+      // This property returns whether or not the device is alive. Note that it is
+      // note uncommon for a device to be dead but still momentarily availble in the
+      // device list. In the case of this device, it will always be alive.
       return .integer(1)
     case kAudioDevicePropertyDeviceIsRunning:
-      //  This property returns whether or not IO is running for the device. Note that
-      //  we need to take both the state lock to check this value for thread safety.
+      // This property returns whether or not IO is running for the device. Note that
+      // we need to take both the state lock to check this value for thread safety.
       return .integer(running ? 1 : 0)
     case kAudioDevicePropertyDeviceCanBeDefaultDevice:
-      //  This property returns whether or not the device wants to be able to be the
-      //  default device for content. This is the device that iTunes and QuickTime
-      //  will use to play their content on and FaceTime will use as it's microhphone.
-      //  Nearly all devices should allow for this.
-//      if address.mScope == kAudioObjectPropertyScopeInput {
-//        return .integer(0)
-//      } else {
-//        return .integer(shown ? 1 : 0)
-//      }
-      return .integer(1)
+      // This property returns whether or not the device wants to be able to be the
+      // default device for content. This is the device that iTunes and QuickTime
+      // will use to play their content on and FaceTime will use as it's microhphone.
+      // Nearly all devices should allow for this.
+      if address.mScope == kAudioObjectPropertyScopeInput {
+        return .integer(0)
+      } else {
+        return .integer(shown ? 1 : 0)
+      }
     case kAudioDevicePropertyDeviceCanBeDefaultSystemDevice:
-      //  This property returns whether or not the device wants to be the system
-      //  default device. This is the device that is used to play interface sounds and
-      //  other incidental or UI-related sounds on. Most devices should allow this
-      //  although devices with lots of latency may not want to.
+      // This property returns whether or not the device wants to be the system
+      // default device. This is the device that is used to play interface sounds and
+      // other incidental or UI-related sounds on. Most devices should allow this
+      // although devices with lots of latency may not want to.
       return .integer(shown ? 1 : 0)
     case kAudioDevicePropertyLatency:
-      //  This property returns the presentation latency of the device. For this,
-      //  device, the value is 0 due to the fact that it always vends silence.
+      // This property returns the presentation latency of the device. For this,
+      // device, the value is 0 due to the fact that it always vends silence.
       if address.mScope == kAudioObjectPropertyScopeInput {
         return .integer(0)
       } else {
         return .integer(latency)
       }
     case kAudioDevicePropertyStreams:
-      //  Calculate the number of items that have been requested. Note that this
-      //  number is allowed to be smaller than the actual size of the list. In such
-      //  case, only that number of items will be returned
+      // Calculate the number of items that have been requested. Note that this
+      // number is allowed to be smaller than the actual size of the list. In such
+      // case, only that number of items will be returned
 
-      //  Note that what is returned here depends on the scope requested.
+      // Note that what is returned here depends on the scope requested.
       switch address.mScope {
       case kAudioObjectPropertyScopeGlobal:
-        //  global scope means return all streams
+        // global scope means return all streams
         return .objectIDList([ kObjectID_Stream_Input, kObjectID_Stream_Output ])
       case kAudioObjectPropertyScopeInput:
-        //  input scope means just the objects on the input side
+        // input scope means just the objects on the input side
         return .audioObjectID(kObjectID_Stream_Input)
       case kAudioObjectPropertyScopeOutput:
-        //  output scope means just the objects on the output side
+        // output scope means just the objects on the output side
         return .audioObjectID(kObjectID_Stream_Output)
       default:
         return .null()
       }
 
     case kAudioObjectPropertyControlList:
-      //  Calculate the number of items that have been requested. Note that this
-      //  number is allowed to be smaller than the actual size of the list. In such
-      //  case, only that number of items will be returned
+      // Calculate the number of items that have been requested. Note that this
+      // number is allowed to be smaller than the actual size of the list. In such
+      // case, only that number of items will be returned
       return .objectIDList([
         kObjectID_Volume_Output_Master,
         kObjectID_Mute_Output_Master,
         kObjectID_DataSource_Output_Master
       ])
     case kAudioDevicePropertySafetyOffset:
-      //  This property returns the how close to now the HAL can read and write. For
-      //  this, device, the value is 0 due to the fact that it always vends silence.
+      // This property returns the how close to now the HAL can read and write. For
+      // this, device, the value is 0 due to the fact that it always vends silence.
       return .integer(0)
 
     case kAudioDevicePropertyNominalSampleRate:
-      //  This property returns the nominal sample rate of the device. Note that we
-      //  only need to take the state lock to get this value.
+      // This property returns the nominal sample rate of the device. Note that we
+      // only need to take the state lock to get this value.
       return .float64(sampleRate)
 
     case kAudioDevicePropertyAvailableNominalSampleRates:
-      //  This returns all nominal sample rates the device supports as an array of
-      //  AudioValueRangeStructs. Note that for discrete sampler rates, the range
-      //  will have the minimum value equal to the maximum value.
+      // This returns all nominal sample rates the device supports as an array of
+      // AudioValueRangeStructs. Note that for discrete sampler rates, the range
+      // will have the minimum value equal to the maximum value.
 
       return .valueRangeList(
-        ContiguousArray(kSupportedSamplingRates.map { freq -> AudioValueRange in
+        ContiguousArray(kEQMDeviceSupportedSampleRates.map { freq -> AudioValueRange in
           let frequency = Float64(freq)
           let range = AudioValueRange(mMinimum: frequency, mMaximum: frequency)
           return range
@@ -318,47 +319,48 @@ class EQMDevice: EQMObject {
       )
 
     case kAudioDevicePropertyIsHidden:
-      //  This returns whether or not the device is visible to clients.
+      // This returns whether or not the device is visible to clients.
       return .integer(0)
 
     case kAudioDevicePropertyPreferredChannelsForStereo:
-      //  This property returns which two channesl to use as left/right for stereo
-      //  data by default. Note that the channel numbers are 1-based.xz
+      // This property returns which two channesl to use as left/right for stereo
+      // data by default. Note that the channel numbers are 1-based.xz
       return .integerList([ 1, 2 ])
 
     case kAudioDevicePropertyPreferredChannelLayout:
-      //  This property returns the default AudioChannelLayout to use for the device
-      //  by default. For this device, we return a stereo ACL.
-      //  calcualte how big the
-      var channelDescriptions = ContiguousArray((1...kChannelCount).map { channelNumber in
-        return AudioChannelDescription(
-          mChannelLabel: channelNumber,
+      // This property returns the default AudioChannelLayout to use for the device
+      // by default. For this device, we return a stereo ACL.
+      // calcualte how big the
+      let channelDescriptionsPtr = UnsafeMutablePointer<AudioChannelDescription>.allocate(capacity: Int(kChannelCount))
+
+      for channelNumber in 0 ..< Int(kChannelCount) {
+        channelDescriptionsPtr[channelNumber] = AudioChannelDescription(
+          mChannelLabel: AudioChannelLabel(channelNumber),
           mChannelFlags: AudioChannelFlags(rawValue: 0),
           mCoordinates: (0, 0, 0)
         )
-      })
-      var channelLayout = AudioChannelLayout(
+      }
+
+      let channelLayout = AudioChannelLayout(
         mChannelLayoutTag: kAudioChannelLayoutTag_UseChannelDescriptions,
         mChannelBitmap: AudioChannelBitmap(rawValue: 0),
-        mNumberChannelDescriptions: UInt32(kChannelCount),
-        mChannelDescriptions: AudioChannelDescription()
+        mNumberChannelDescriptions: kChannelCount,
+        mChannelDescriptions: channelDescriptionsPtr.pointee
       )
-      // INFO: have to go with channelDescriptions.count - 1 as MemoryLayout<AudioChannelDescription>.stride might already contain the size for 1 channel
-      let channelSize = MemoryLayout<AudioChannelDescription>.stride * channelDescriptions.count - 1
-      memcpy(&channelLayout.mChannelDescriptions, &channelDescriptions, channelSize)
+
       return .channelLayout(channelLayout)
     case kAudioDevicePropertyZeroTimeStampPeriod:
-      //  This property returns how many frames the HAL should expect to see between
-      //  successive sample times in the zero time stamps this device provides.
+      // This property returns how many frames the HAL should expect to see between
+      // successive sample times in the zero time stamps this device provides.
       return .integer(ringBufferSize)
     case kAudioDevicePropertyIcon:
-      //  This is a CFURL that points to the device's Icon in the plug-in's resource bundle.
+      // This is a CFURL that points to the device's Icon in the plug-in's resource bundle.
       let bundle = CFBundleGetBundleWithIdentifier(kPlugInBundleId as CFString)
       let url = CFBundleCopyResourceURL(bundle, "icon.icns" as CFString, nil, nil)
       return .url(url!)
     case kAudioObjectPropertyCustomPropertyInfoList:
-      //  This property returns an array of AudioServerPlugInCustomPropertyInfo's that
-      //  describe the type of data used by any custom properties. 
+      // This property returns an array of AudioServerPlugInCustomPropertyInfo's that
+      // describe the type of data used by any custom properties.
       let customProperties = ContiguousArray([
         AudioServerPlugInCustomPropertyInfo(
           mSelector: kEQMDeviceCustomPropertyVersion,
@@ -396,21 +398,19 @@ class EQMDevice: EQMObject {
     switch address.mSelector {
 
     case kAudioDevicePropertyNominalSampleRate:
-      //  Changing the sample rate needs to be handled via the
-      //  RequestConfigChange/PerformConfigChange machinery.
+      // Changing the sample rate needs to be handled via the
+      // RequestConfigChange/PerformConfigChange machinery.
 
-      //  check the arguments
-      guard let newSampleRate = data.assumingMemoryBound(to: Float64?.self).pointee else {
-        return kAudioHardwareBadPropertySizeError
-      }
+      // check the arguments
+      let newSampleRate = data.load(as: Float64.self)
 
-      if !kSupportedSamplingRates.contains(newSampleRate) {
+      if !kEQMDeviceSupportedSampleRates.contains(newSampleRate) {
         return kAudioHardwareIllegalOperationError
       }
 
-      //  make sure that the new value is different than the old value
+      // make sure that the new value is different than the old value
       if (sampleRate != newSampleRate) {
-        //  we dispatch this so that the change can happen asynchronously
+        // we dispatch this so that the change can happen asynchronously
         DispatchQueue.global(qos: .default).async {
           _ = EQMDriver.host?.pointee.RequestDeviceConfigurationChange(
             EQMDriver.host!,
@@ -424,17 +424,13 @@ class EQMDevice: EQMObject {
 
     // Custom Properties
     case kEQMDeviceCustomPropertyShown:
-      guard let shownRef = data.assumingMemoryBound(to: CFBoolean?.self).pointee else {
-        return kAudioHardwareBadPropertySizeError
-      }
+      let shownRef = data.load(as: CFBoolean.self)
 
       shown = CFBooleanGetValue(shownRef)
       return noErr
 
     case kEQMDeviceCustomPropertyLatency:
-      guard let newLatency = data.assumingMemoryBound(to: UInt32?.self).pointee else {
-        return kAudioHardwareBadPropertySizeError
-      }
+      let newLatency = data.load(as: UInt32.self)
 
       if latency != newLatency {
         latency = UInt32(newLatency)
@@ -446,7 +442,7 @@ class EQMDevice: EQMObject {
   }
 
   static func startIO () -> OSStatus {
-    let ioCount = ioCounter.value
+    let ioCount = ioCounter.load(ordering: .relaxed)
 
     // Reached max amount of possible IOs
     if ioCount == UInt64.max {
@@ -457,12 +453,12 @@ class EQMDevice: EQMObject {
     if ioCount == 0 {
       running = true
       timestampCount = 0
-      sampleTime = 0
-      hostTime = mach_absolute_time()
-      buffer = UnsafeMutablePointer<Float32>.allocate(capacity: Int(bufferSize * kChannelCount))
+      anchorSampleTime = 0
+      anchorHostTime = mach_absolute_time()
+      ringBuffer = UnsafeMutablePointer<Float32>.allocate(capacity: Int(ringBufferSize * kChannelCount))
     } else {
       // IO already running so increment the counter
-      ioCounter.increment()
+      ioCounter.wrappingIncrement(ordering: .relaxed)
     }
 
     return noErr
@@ -474,66 +470,65 @@ class EQMDevice: EQMObject {
       return kAudioHardwareIllegalOperationError
     }
 
-    var ioCount = ioCounter.value
+    var ioCount = ioCounter.load(ordering: .relaxed)
 
     if ioCount > 0 {
-      ioCounter.decrement()
-      ioCount = ioCounter.value
+      ioCount = ioCounter.wrappingDecrementThenLoad(ordering: .relaxed)
     }
 
     // If IO reached zero deinit
     if ioCount == 0 {
       running = false
-      buffer?.deallocate()
+      ringBuffer.deallocate()
     }
 
     return noErr
   }
 
   static func getZeroTimeStamp (outSampleTime: UnsafeMutablePointer<Float64>, outHostTime: UnsafeMutablePointer<UInt64>, outSeed: UnsafeMutablePointer<UInt64>) -> OSStatus {
-    //  get the current host time
+    // get the current host time
     let currentHostTime = mach_absolute_time()
 
-    //  calculate the next host time
+    // calculate the next host time
     let hostTicksPerRingBuffer = EQMDriver.hostTicksPerFrame! * Float64(ringBufferSize)
     let hostTicksOffset = Float64(timestampCount + 1) * hostTicksPerRingBuffer
-    let nextHostTime = hostTime + UInt64(hostTicksOffset)
+    let nextHostTime = anchorHostTime + UInt64(hostTicksOffset)
 
     if nextHostTime <= currentHostTime {
       timestampCount += 1
     }
 
     outSampleTime.pointee = Float64(timestampCount * UInt64(ringBufferSize))
-    outHostTime.pointee = hostTime + timestampCount * UInt64(hostTicksPerRingBuffer)
+    outHostTime.pointee = anchorHostTime + timestampCount * UInt64(hostTicksPerRingBuffer)
     outSeed.pointee = 1
 
     return noErr
   }
 
-  static func doIO (clientID: UInt32, operationID: UInt32, sample: UnsafeMutablePointer<Float32>, sampleTime: Int, frameSize: UInt32) -> OSStatus {
-
+  static func doIO (clientID: UInt32, operationID: UInt32, sample: UnsafeMutablePointer<Float32>, cycleInfo: AudioServerPlugInIOCycleInfo, frameSize: UInt32) -> OSStatus {
 
     switch operationID {
     // Store
     case AudioServerPlugInIOOperation.writeMix.rawValue:
+      let sampleTime = Int(cycleInfo.mOutputTime.mSampleTime)
       for frame in 0 ..< frameSize {
         for channel in 0 ..< kChannelCount {
           let readFrame = Int(frame * kChannelCount + channel)
           if EQMControl.muted {
             // Muted
-            sample.advanced(by: readFrame).pointee = 0
+            sample[readFrame] = 0
           } else {
             let nextSampleTime = sampleTime + Int(frame)
             let remainder = nextSampleTime % Int(ringBufferSize)
             let writeFrame = remainder * Int(kChannelCount) + Int(channel)
-            buffer!.advanced(by: writeFrame).pointee += sample.advanced(by: readFrame).pointee
+            ringBuffer[writeFrame] += sample[readFrame]
           }
 
           // Clean up buffer
           let cleanFromFrame = sampleTime + Int(frame) + 8192
           let remainder = cleanFromFrame % Int(ringBufferSize)
           let cleanFrame = remainder * Int(kChannelCount) + Int(channel)
-          buffer!.advanced(by: cleanFrame).pointee = 0
+          ringBuffer[cleanFrame] = 0
         }
       }
 
@@ -543,23 +538,24 @@ class EQMDevice: EQMObject {
       break
     // Read
     case AudioServerPlugInIOOperation.readInput.rawValue:
+      let sampleTime = Int(cycleInfo.mInputTime.mSampleTime)
       for frame in 0 ..< frameSize {
         for channel in 0 ..< kChannelCount {
           let writeFrame = Int(frame * kChannelCount + channel)
           if EQMControl.muted {
-            sample.advanced(by: writeFrame).pointee = 0
+            sample[writeFrame] = 0
           } else {
             let nextSampleTime = sampleTime + Int(frame)
             let remainder = nextSampleTime % Int(ringBufferSize)
             let readFrame = remainder * Int(kChannelCount) + Int(channel)
-            sample.advanced(by: writeFrame).pointee = buffer!.advanced(by: readFrame).pointee
+            sample[writeFrame] = ringBuffer[readFrame]
           }
 
           // Clean up buffer
           let cleanFromFrame = sampleTime + Int(frame) - 16384
           let remainder = cleanFromFrame % Int(ringBufferSize)
           let cleanFrame = remainder * Int(kChannelCount) + Int(channel)
-          buffer?.advanced(by: cleanFrame).pointee = 0
+          ringBuffer[cleanFrame] = 0
         }
       }
       break

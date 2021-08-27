@@ -19,7 +19,7 @@ class Window: NSWindow, NSWindowDelegate {
     self.titlebarAppearsTransparent = true
     self.isMovableByWindowBackground = true
     
-    Utilities.delay(1000, completion: {
+    delay(1000, completion: {
       for subview in self.contentView!.superview!.subviews {
         if subview.isKind(of: NSClassFromString("NSTitlebarContainerView")!) {
           let titleBarView = subview.subviews[0]

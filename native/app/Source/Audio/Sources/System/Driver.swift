@@ -11,13 +11,6 @@ import AMCoreAudio
 import CoreFoundation
 import Version
 
-enum CustomProperties: String {
-  case kAudioDeviceCustomPropertyLatency = "cltc"
-  case kAudioDeviceCustomPropertySafetyOffset = "csfo"
-  case kAudioDeviceCustomPropertyShown = "shwn"
-  case kAudioDeviceCustomPropertyVersion = "vrsn"
-}
-
 class Driver {
   static func check (_ completion: @escaping() -> Void) {
     if !Driver.isInstalled || !Driver.isCompatible {
@@ -97,85 +90,28 @@ class Driver {
     }
   }
 
-  static var sampleRates: [Double] {
-    return [
-      8_000,
-      11_025,
-      12_000,
-      16_000,
-      22_050,
-      24_000,
-      32_000,
-      44_100,
-      48_000,
-      64_000,
-      88_200,
-      96_000,
-      128_000,
-      176_400,
-      192_000
-    ]
-  }
-  
-  private static func getPropertySelectorFromString (_ str: String) -> AudioObjectPropertySelector {
-    return AudioObjectPropertySelector(UInt32.init(from: str.byteArray))
-  }
-  
-  static var hasLatency: Bool {
-    var address = AudioObjectPropertyAddress(
-      mSelector: getPropertySelectorFromString(CustomProperties.kAudioDeviceCustomPropertyLatency.rawValue),
-      mScope: kAudioObjectPropertyScopeOutput,
-      mElement: kAudioObjectPropertyElementMaster
-    )
-    Console.log(CustomProperties.kAudioDeviceCustomPropertyLatency.rawValue, address.mSelector)
-    return AudioObjectHasProperty(device!.id, &address)
-  }
-
   static var latency: UInt32 {
     get {
       return Driver.device!.latency(direction: .playback)!
     }
     set {
       var address = AudioObjectPropertyAddress(
-        mSelector: getPropertySelectorFromString(CustomProperties.kAudioDeviceCustomPropertyLatency.rawValue),
+        mSelector: kEQMDeviceCustomPropertyLatency,
         mScope: kAudioObjectPropertyScopeGlobal,
         mElement: kAudioObjectPropertyElementMaster
       )
       
-      let size: UInt32 = UInt32(MemoryLayout<CFNumber>.size)
-      
-      var newLatency = newValue
-      var latency: CFNumber = CFNumberCreate(kCFAllocatorDefault, CFNumberType.sInt32Type, &newLatency)
-      
+      let size = sizeof(UInt32.self)
+      var latency: UInt32 = newValue
       checkErr(AudioObjectSetPropertyData(Driver.device!.id, &address, 0, nil, size, &latency))
     }
   }
 
-  static var safetyOffset: UInt32 {
-    get {
-      return Driver.device!.safetyOffset(direction: .playback)!
-    }
-    set {
-      var address = AudioObjectPropertyAddress(
-        mSelector: getPropertySelectorFromString(CustomProperties.kAudioDeviceCustomPropertySafetyOffset.rawValue),
-        mScope: kAudioObjectPropertyScopeOutput,
-        mElement: kAudioObjectPropertyElementMaster
-      )
-      
-      let size: UInt32 = UInt32(MemoryLayout<CFNumber>.size)
-      
-      var newSafetyOffset = newValue
-      var safetyOffset: CFNumber = CFNumberCreate(kCFAllocatorDefault, CFNumberType.sInt32Type, &newSafetyOffset)
-      
-      checkErr(AudioObjectSetPropertyData(Driver.device!.id, &address, 0, nil, size, &safetyOffset))
-    }
-  }
-  
   static var shown: Bool {
     get {
       if Driver.device == nil { return false }
       var address = AudioObjectPropertyAddress(
-        mSelector: getPropertySelectorFromString(CustomProperties.kAudioDeviceCustomPropertyShown.rawValue),
+        mSelector: kEQMDeviceCustomPropertyShown,
         mScope: kAudioObjectPropertyScopeGlobal,
         mElement: kAudioObjectPropertyElementMaster
       )
@@ -196,7 +132,7 @@ class Driver {
       if Driver.device == nil { return }
 
       var address = AudioObjectPropertyAddress(
-        mSelector: getPropertySelectorFromString(CustomProperties.kAudioDeviceCustomPropertyShown.rawValue),
+        mSelector: kEQMDeviceCustomPropertyShown,
         mScope: kAudioObjectPropertyScopeGlobal,
         mElement: kAudioObjectPropertyElementMaster
       )
@@ -211,7 +147,7 @@ class Driver {
   static var installedVersion: Version {
     if Driver.device == nil { return .null }
     var address = AudioObjectPropertyAddress(
-      mSelector: getPropertySelectorFromString(CustomProperties.kAudioDeviceCustomPropertyVersion.rawValue),
+      mSelector: kEQMDeviceCustomPropertyVersion,
       mScope: kAudioObjectPropertyScopeGlobal,
       mElement: kAudioObjectPropertyElementMaster
     )
