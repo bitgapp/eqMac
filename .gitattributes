@@ -6,9 +6,9 @@
 *.m linguist-detectable=false
 *.mpp linguist-detectable=false
 *.sh linguist-detectable=false
+*.cpp linguist-detectable=false
+*.c linguist-detectable=false
+*.h linguist-detectable=false
 
 *.swift linguist-detectable=true
 *.ts linguist-detectable=true
-*.cpp linguist-detectable=true
-*.c linguist-detectable=true
-*.h linguist-detectable=true
