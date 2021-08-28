@@ -282,12 +282,13 @@ class Application {
     
     Driver.device!.setVirtualMasterVolume(volume > 1 ? 1 : Float32(volume), direction: .playback)
     Driver.latency = selectedDevice!.latency(direction: .playback) ?? 0 // Set driver latency to mimic device
-    //    Driver.safetyOffset = selectedDevice.safetyOffset(direction: .playback) ?? 0 // Set driver safetyOffset to mimic device
+    Driver.name = "\(selectedDevice!.sourceName ?? selectedDevice!.name) (eqMac)"
     self.matchDriverSampleRateToOutput()
     
     Console.log("Driver new Latency: \(Driver.latency)")
     Console.log("Driver new Sample Rate: \(Driver.device!.actualSampleRate())")
-    
+    Console.log("Driver new name: \(Driver.name)")
+
     AudioDevice.currentOutputDevice = Driver.device!
     // TODO: Figure out a better way
     delay(1000) {
@@ -469,6 +470,8 @@ class Application {
         }
       }
     }
+
+    Driver.name = ""
     AudioDevice.currentOutputDevice = device
   }
 

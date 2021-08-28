@@ -12,7 +12,7 @@ import Atomics
 
 class EQMDevice: EQMObject {
   static let id = AudioObjectID(kDeviceUID)!
-  static var name = kDeviceName
+  static var name = kEQMDeviceDefaultName
   static var sampleRate = kDefaultSampleRate
   static var running = false
   static var shown = false
@@ -62,9 +62,10 @@ class EQMDevice: EQMObject {
          kAudioDevicePropertyIcon,
          kAudioDevicePropertyStreams,
          kAudioObjectPropertyCustomPropertyInfoList,
-         kEQMDeviceCustomPropertyShown,
-         kEQMDeviceCustomPropertyVersion,
-         kEQMDeviceCustomPropertyLatency:
+         EQMDeviceCustom.properties.shown,
+         EQMDeviceCustom.properties.version,
+         EQMDeviceCustom.properties.latency,
+         EQMDeviceCustom.properties.name:
       return true
 
     case kAudioDevicePropertyDeviceCanBeDefaultDevice,
@@ -83,8 +84,9 @@ class EQMDevice: EQMObject {
   static func isPropertySettable (objectID: AudioObjectID? = nil, address: AudioObjectPropertyAddress) -> Bool {
     switch address.mSelector {
     case kAudioDevicePropertyNominalSampleRate,
-         kEQMDeviceCustomPropertyShown,
-         kEQMDeviceCustomPropertyLatency:
+         EQMDeviceCustom.properties.shown,
+         EQMDeviceCustom.properties.latency,
+         EQMDeviceCustom.properties.name:
       return true
 
     default:
@@ -140,10 +142,11 @@ class EQMDevice: EQMObject {
     case kAudioDevicePropertyZeroTimeStampPeriod: return sizeof(UInt32.self)
     case kAudioDevicePropertyIcon: return sizeof(CFURL.self)
 
-    case kAudioObjectPropertyCustomPropertyInfoList: return sizeof(AudioServerPlugInCustomPropertyInfo.self) * 3
-    case kEQMDeviceCustomPropertyLatency: return sizeof(UInt32.self)
-    case kEQMDeviceCustomPropertyShown: return sizeof(CFBoolean.self)
-    case kEQMDeviceCustomPropertyVersion: return sizeof(CFString.self)
+    case kAudioObjectPropertyCustomPropertyInfoList: return sizeof(AudioServerPlugInCustomPropertyInfo.self) * EQMDeviceCustom.properties.count
+    case EQMDeviceCustom.properties.latency: return sizeof(UInt32.self)
+    case EQMDeviceCustom.properties.shown: return sizeof(CFBoolean.self)
+    case EQMDeviceCustom.properties.version: return sizeof(CFString.self)
+    case EQMDeviceCustom.properties.name: return sizeof(CFString.self)
 
     default:
       return nil
@@ -363,24 +366,29 @@ class EQMDevice: EQMObject {
       // describe the type of data used by any custom properties.
       let customProperties = ContiguousArray([
         AudioServerPlugInCustomPropertyInfo(
-          mSelector: kEQMDeviceCustomPropertyVersion,
+          mSelector: EQMDeviceCustom.properties.version,
           mPropertyDataType: kAudioServerPlugInCustomPropertyDataTypeCFString,
           mQualifierDataType: kAudioServerPlugInCustomPropertyDataTypeNone
         ),
         AudioServerPlugInCustomPropertyInfo(
-          mSelector: kEQMDeviceCustomPropertyShown,
+          mSelector: EQMDeviceCustom.properties.shown,
           mPropertyDataType: kAudioServerPlugInCustomPropertyDataTypeCFPropertyList,
           mQualifierDataType: kAudioServerPlugInCustomPropertyDataTypeNone
         ),
         AudioServerPlugInCustomPropertyInfo(
-          mSelector: kEQMDeviceCustomPropertyLatency,
+          mSelector: EQMDeviceCustom.properties.latency,
           mPropertyDataType: kAudioServerPlugInCustomPropertyDataTypeCFPropertyList,
+          mQualifierDataType: kAudioServerPlugInCustomPropertyDataTypeNone
+        ),
+        AudioServerPlugInCustomPropertyInfo(
+          mSelector: EQMDeviceCustom.properties.name,
+          mPropertyDataType: kAudioServerPlugInCustomPropertyDataTypeCFString,
           mQualifierDataType: kAudioServerPlugInCustomPropertyDataTypeNone
         )
       ])
 
       return .customPropertyInfoList(customProperties)
-    case kEQMDeviceCustomPropertyVersion:
+    case EQMDeviceCustom.properties.version:
       let version = CFCopyDescription(
         CFBundleGetValueForInfoDictionaryKey(
           CFBundleGetBundleWithIdentifier(kPlugInBundleId as CFString),
@@ -388,7 +396,7 @@ class EQMDevice: EQMObject {
         )
       )
       return .string(version!)
-    case kEQMDeviceCustomPropertyShown:
+    case EQMDeviceCustom.properties.shown:
       return .bool(shown ? kCFBooleanTrue : kCFBooleanFalse)
     default: return nil
     }
@@ -423,20 +431,38 @@ class EQMDevice: EQMObject {
       return noErr
 
     // Custom Properties
-    case kEQMDeviceCustomPropertyShown:
+    case EQMDeviceCustom.properties.shown:
       let shownRef = data.load(as: CFBoolean.self)
 
       shown = CFBooleanGetValue(shownRef)
       return noErr
 
-    case kEQMDeviceCustomPropertyLatency:
+    case EQMDeviceCustom.properties.latency:
       let newLatency = data.load(as: UInt32.self)
 
       if latency != newLatency {
         latency = UInt32(newLatency)
       }
       return noErr
+    case EQMDeviceCustom.properties.name:
+      var newName = data.load(as: CFString.self) as String
 
+      if name != newName {
+        if newName == "" {
+          newName = kEQMDeviceDefaultName
+        }
+        name = newName
+
+        changedProperties.append(
+          .init(
+            mSelector: kAudioObjectPropertyName,
+            mScope: kAudioObjectPropertyScopeGlobal,
+            mElement: kAudioObjectPropertyElementMaster
+          )
+        )
+      }
+
+      return noErr
     default: return kAudioHardwareUnknownPropertyError
     }
   }

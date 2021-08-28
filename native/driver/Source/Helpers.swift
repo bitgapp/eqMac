@@ -64,7 +64,7 @@ let AudioPropertyScopes: [AudioObjectPropertyScope: String] = [
 ]
 
 // This is a hashmap of all properties for debug loggin purposes
-let AudioProperties: [(AudioObjectPropertySelector, String)] = [
+var AudioProperties: [(AudioObjectPropertySelector, String)] = [
   // Shared
   (kAudioObjectPropertyBaseClass, "kAudioObjectPropertyBaseClass"),
   (kAudioObjectPropertyClass, "kAudioObjectPropertyClass"),
@@ -129,11 +129,6 @@ let AudioProperties: [(AudioObjectPropertySelector, String)] = [
   (kAudioDevicePropertyIsHidden, "kAudioDevicePropertyIsHidden"),
   (kAudioDevicePropertyPreferredChannelsForStereo, "kAudioDevicePropertyPreferredChannelsForStereo"),
   (kAudioDevicePropertyPreferredChannelLayout, "kAudioDevicePropertyPreferredChannelLayout"),
-
-  // Custom EQMDevice Properties
-  (kEQMDeviceCustomPropertyShown, "kEQMDeviceCustomPropertyShown"),
-  (kEQMDeviceCustomPropertyLatency, "kEQMDeviceCustomPropertyLatency"),
-  (kEQMDeviceCustomPropertyVersion, "kEQMDeviceCustomPropertyVersion"),
 
   // Clock Device
   (kAudioClockDevicePropertyDeviceUID, "kAudioClockDevicePropertyDeviceUID"),

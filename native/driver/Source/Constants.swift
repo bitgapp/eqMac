@@ -25,7 +25,7 @@ let kBytesPerChannel = kBitsPerChannel / 8
 let kBytesPerFrame = kChannelCount * kBytesPerChannel
 let kDataSource_NumberItems: UInt32 = 1
 
-let kDeviceName = "eqMac"
+let kEQMDeviceDefaultName = "eqMac"
 let kDeviceManufacturer = "Bitgapp Ltd"
 
 let kPlugInBundleId = "com.bitgapp.eqmac.driver"

@@ -1,9 +1,20 @@
 import Foundation
 import CoreAudio.AudioServerPlugIn
 
-let kEQMDeviceCustomPropertyVersion = AudioObjectPropertySelector.fromString("vrsn")
-let kEQMDeviceCustomPropertyShown = AudioObjectPropertySelector.fromString("shwn")
-let kEQMDeviceCustomPropertyLatency = AudioObjectPropertySelector.fromString("cltc")
+struct EQMDeviceCustomProperties: Loopable {
+  let version = AudioObjectPropertySelector.fromString("vrsn")
+  let shown = AudioObjectPropertySelector.fromString("shwn")
+  let latency = AudioObjectPropertySelector.fromString("cltc")
+  let name = AudioObjectPropertySelector.fromString("eqmn")
+
+  var count: UInt32 {
+    return UInt32(properties.count)
+  }
+}
+
+struct EQMDeviceCustom {
+  static let properties = EQMDeviceCustomProperties()
+}
 
 let kEQMDeviceSupportedSampleRates: [Float64] = [
   44_100,

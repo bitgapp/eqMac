@@ -90,13 +90,30 @@ class Driver {
     }
   }
 
+  static var name: String {
+    get {
+      return device!.name
+    }
+    set {
+      var address = AudioObjectPropertyAddress(
+        mSelector: EQMDeviceCustom.properties.name,
+        mScope: kAudioObjectPropertyScopeGlobal,
+        mElement: kAudioObjectPropertyElementMaster
+      )
+
+      let size = sizeof(CFString.self)
+      var name = newValue as CFString
+      checkErr(AudioObjectSetPropertyData(Driver.device!.id, &address, 0, nil, size, &name))
+    }
+  }
+
   static var latency: UInt32 {
     get {
       return Driver.device!.latency(direction: .playback)!
     }
     set {
       var address = AudioObjectPropertyAddress(
-        mSelector: kEQMDeviceCustomPropertyLatency,
+        mSelector: EQMDeviceCustom.properties.latency,
         mScope: kAudioObjectPropertyScopeGlobal,
         mElement: kAudioObjectPropertyElementMaster
       )
@@ -111,7 +128,7 @@ class Driver {
     get {
       if Driver.device == nil { return false }
       var address = AudioObjectPropertyAddress(
-        mSelector: kEQMDeviceCustomPropertyShown,
+        mSelector: EQMDeviceCustom.properties.shown,
         mScope: kAudioObjectPropertyScopeGlobal,
         mElement: kAudioObjectPropertyElementMaster
       )
@@ -132,7 +149,7 @@ class Driver {
       if Driver.device == nil { return }
 
       var address = AudioObjectPropertyAddress(
-        mSelector: kEQMDeviceCustomPropertyShown,
+        mSelector: EQMDeviceCustom.properties.shown,
         mScope: kAudioObjectPropertyScopeGlobal,
         mElement: kAudioObjectPropertyElementMaster
       )
@@ -147,7 +164,7 @@ class Driver {
   static var installedVersion: Version {
     if Driver.device == nil { return .null }
     var address = AudioObjectPropertyAddress(
-      mSelector: kEQMDeviceCustomPropertyVersion,
+      mSelector: EQMDeviceCustom.properties.version,
       mScope: kAudioObjectPropertyScopeGlobal,
       mElement: kAudioObjectPropertyElementMaster
     )

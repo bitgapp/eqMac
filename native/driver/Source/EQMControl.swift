@@ -294,7 +294,7 @@ class EQMControl: EQMObject {
         return .integer(0)
       case kAudioSelectorControlPropertyItemName:
         // This returns the user-readable name for the selector item in the qualifier
-        return .string(kDeviceName as CFString)
+        return .string(EQMDevice.name as CFString)
       default: return nil
       }
     default: return nil
