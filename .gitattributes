@@ -9,6 +9,7 @@
 *.cpp linguist-detectable=false
 *.c linguist-detectable=false
 *.h linguist-detectable=false
+native/Podfile linguist-detectable=false
 
 *.swift linguist-detectable=true
 *.ts linguist-detectable=true
