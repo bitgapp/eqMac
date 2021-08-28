@@ -81,7 +81,7 @@ class Driver {
   }
 
   static var pluginId: AudioObjectID? {
-    return AudioDevice.lookupIDByPluginBundleID(by: Constants.DRIVER_BUNDLE_ID)
+    return AudioDevice.lookupIDByPluginBundleID(by: DRIVER_BUNDLE_ID)
   }
   
   static var isInstalled: Bool {

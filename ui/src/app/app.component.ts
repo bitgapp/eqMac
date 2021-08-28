@@ -130,6 +130,12 @@ This data would help us improve and grow the product.`
             [
               {
                 type: 'button',
+                label: 'Save',
+                isEnabled: () => !saving,
+                action: () => privacyDialog.close()
+              },
+              {
+                type: 'button',
                 label: 'Accept all',
                 isEnabled: () => !saving,
                 action: async () => {
@@ -141,12 +147,6 @@ This data would help us improve and grow the product.`
                   await this.utils.delay(200)
                   privacyDialog.close()
                 }
-              },
-              {
-                type: 'button',
-                label: 'Save',
-                isEnabled: () => !saving,
-                action: () => privacyDialog.close()
               }
             ]
           ] as Options

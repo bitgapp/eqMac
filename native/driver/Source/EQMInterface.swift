@@ -106,6 +106,9 @@ func EQM_AddDeviceClient (inDriver: AudioServerPlugInDriverRef, inDeviceObjectID
   // not need to track the clients using the device, so we just check the arguments and return
   // successfully.
   guard EQMDriver.validateDriver(inDriver) else { return kAudioHardwareBadObjectError }
+
+  EQMClients.add(inClientInfo.pointee)
+
   return noErr
 }
 
@@ -115,6 +118,9 @@ func EQM_RemoveDeviceClient (inDriver: AudioServerPlugInDriverRef, inDeviceObjec
   // device. This driver does not track clients, so we just check the arguments and return
   // successfully.
   guard EQMDriver.validateDriver(inDriver) else { return kAudioHardwareBadObjectError }
+
+  EQMClients.remove(inClientInfo.pointee)
+
   return noErr
 }
 
@@ -303,11 +309,17 @@ func EQM_SetPropertyData (
   // Tells an object to change the value of the given property.
   guard EQMDriver.validateDriver(inDriver) else { return kAudioHardwareBadObjectError }
   
-   log("\(EQMDriver.getEQMObjectClassName(from: inObjectID)).setPropertyData(\(propertyName(address.mSelector)), \(scopeName(address.mScope))) = \(String(describing: inData))")
+  log("PID(\(inClientProcessID)) \(EQMDriver.getEQMObjectClassName(from: inObjectID)).setPropertyData(\(propertyName(address.mSelector)), \(scopeName(address.mScope))) = \(String(describing: inData))")
 
   if let obj = EQMDriver.getEQMObject(from: inObjectID) {
     var changedProperties: [AudioObjectPropertyAddress] = []
-    let status = obj.setPropertyData(objectID: inObjectID, address: address, data: inData, changedProperties: &changedProperties)
+    let status = obj.setPropertyData(
+      client: EQMClients.get(by: inClientProcessID),
+      objectID: inObjectID,
+      address: address,
+      data: inData,
+      changedProperties: &changedProperties
+    )
     
     if changedProperties.count > 0 {
       _ = EQMDriver.host!.pointee.PropertiesChanged(

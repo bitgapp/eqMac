@@ -10,7 +10,7 @@ import Foundation
 import CoreAudio.AudioServerPlugIn
 
 class EQMPlugIn: EQMObject {
-  static let id = AudioObjectID(kPlugInBundleId)!
+  static let id = AudioObjectID(DRIVER_BUNDLE_ID)!
   
   static func hasProperty (objectID: AudioObjectID? = nil, address: AudioObjectPropertyAddress) -> Bool {
     switch address.mSelector {
@@ -88,7 +88,7 @@ class EQMPlugIn: EQMObject {
     }
   }
   
-  static func setPropertyData(objectID: AudioObjectID? = nil, address: AudioObjectPropertyAddress, data: UnsafeRawPointer, changedProperties: inout [AudioObjectPropertyAddress]) -> OSStatus {
+  static func setPropertyData(client: AudioServerPlugInClientInfo?, objectID: AudioObjectID? = nil, address: AudioObjectPropertyAddress, data: UnsafeRawPointer, changedProperties: inout [AudioObjectPropertyAddress]) -> OSStatus {
     switch address.mSelector {
     default: return kAudioHardwareUnknownPropertyError
     }

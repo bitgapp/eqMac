@@ -358,7 +358,7 @@ class EQMDevice: EQMObject {
       return .integer(ringBufferSize)
     case kAudioDevicePropertyIcon:
       // This is a CFURL that points to the device's Icon in the plug-in's resource bundle.
-      let bundle = CFBundleGetBundleWithIdentifier(kPlugInBundleId as CFString)
+      let bundle = CFBundleGetBundleWithIdentifier(DRIVER_BUNDLE_ID as CFString)
       let url = CFBundleCopyResourceURL(bundle, "icon.icns" as CFString, nil, nil)
       return .url(url!)
     case kAudioObjectPropertyCustomPropertyInfoList:
@@ -391,7 +391,7 @@ class EQMDevice: EQMObject {
     case EQMDeviceCustom.properties.version:
       let version = CFCopyDescription(
         CFBundleGetValueForInfoDictionaryKey(
-          CFBundleGetBundleWithIdentifier(kPlugInBundleId as CFString),
+          CFBundleGetBundleWithIdentifier(DRIVER_BUNDLE_ID as CFString),
           kCFBundleVersionKey
         )
       )
@@ -402,7 +402,7 @@ class EQMDevice: EQMObject {
     }
   }
 
-  static func setPropertyData(objectID: AudioObjectID? = nil, address: AudioObjectPropertyAddress, data: UnsafeRawPointer, changedProperties: inout [AudioObjectPropertyAddress]) -> OSStatus {
+  static func setPropertyData(client: AudioServerPlugInClientInfo?, objectID: AudioObjectID? = nil, address: AudioObjectPropertyAddress, data: UnsafeRawPointer, changedProperties: inout [AudioObjectPropertyAddress]) -> OSStatus {
     switch address.mSelector {
 
     case kAudioDevicePropertyNominalSampleRate:
@@ -432,12 +432,18 @@ class EQMDevice: EQMObject {
 
     // Custom Properties
     case EQMDeviceCustom.properties.shown:
+      // Only allow eqMac app to set this property
+      guard client?.bundleId == APP_BUNDLE_ID else { return noErr }
+
       let shownRef = data.load(as: CFBoolean.self)
 
       shown = CFBooleanGetValue(shownRef)
       return noErr
 
     case EQMDeviceCustom.properties.latency:
+      // Only allow eqMac app to set this property
+      guard client?.bundleId == APP_BUNDLE_ID else { return noErr }
+
       let newLatency = data.load(as: UInt32.self)
 
       if latency != newLatency {
@@ -445,6 +451,9 @@ class EQMDevice: EQMObject {
       }
       return noErr
     case EQMDeviceCustom.properties.name:
+      // Only allow eqMac app to set this property
+      guard client?.bundleId == APP_BUNDLE_ID else { return noErr }
+
       var newName = data.load(as: CFString.self) as String
 
       if name != newName {

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		781FD6D126DADCE7006CAAEA /* EQMClients.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781FD6D026DADCE7006CAAEA /* EQMClients.swift */; };
 		7823A94B26D8158E004BABC6 /* Atomics in Frameworks */ = {isa = PBXBuildFile; productRef = 7823A94A26D8158E004BABC6 /* Atomics */; };
 		7838E35226C897560039D466 /* SharedConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7838E34E26C897560039D466 /* SharedConstants.swift */; };
 		7838E35326C897560039D466 /* AudioObjectPropertySelectorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7838E34F26C897560039D466 /* AudioObjectPropertySelectorExtensions.swift */; };
@@ -31,6 +32,7 @@
 /* Begin PBXFileReference section */
 		1CB8B3641BBBB78D000E2DD1 /* eqMac.driver */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = eqMac.driver; sourceTree = BUILT_PRODUCTS_DIR; };
 		1CB8B3681BBBB78D000E2DD1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		781FD6D026DADCE7006CAAEA /* EQMClients.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EQMClients.swift; sourceTree = "<group>"; };
 		7838E34E26C897560039D466 /* SharedConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SharedConstants.swift; path = ../shared/SharedConstants.swift; sourceTree = "<group>"; };
 		7838E34F26C897560039D466 /* AudioObjectPropertySelectorExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AudioObjectPropertySelectorExtensions.swift; path = ../shared/AudioObjectPropertySelectorExtensions.swift; sourceTree = "<group>"; };
 		7838E35026C897560039D466 /* StringExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StringExtensions.swift; path = ../shared/StringExtensions.swift; sourceTree = "<group>"; };
@@ -97,6 +99,7 @@
 				78A804E926C596080021981C /* EQMDevice.swift */,
 				7838E35726C898D60039D466 /* EQMStream.swift */,
 				7838E35A26C898F30039D466 /* EQMControl.swift */,
+				781FD6D026DADCE7006CAAEA /* EQMClients.swift */,
 				7838E36626C9CFA10039D466 /* Helpers.swift */,
 			);
 			path = Source;
@@ -257,6 +260,7 @@
 				78E8F7D926D166D800B6B969 /* EQMInterface.swift in Sources */,
 				7838E35B26C898F30039D466 /* EQMControl.swift in Sources */,
 				78A804DD26C563860021981C /* Constants.swift in Sources */,
+				781FD6D126DADCE7006CAAEA /* EQMClients.swift in Sources */,
 				7838E35526C897560039D466 /* NumericTypesConversions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

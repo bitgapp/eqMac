@@ -28,7 +28,6 @@ let kDataSource_NumberItems: UInt32 = 1
 let kEQMDeviceDefaultName = "eqMac"
 let kDeviceManufacturer = "Bitgapp Ltd"
 
-let kPlugInBundleId = "com.bitgapp.eqmac.driver"
 let kDeviceUID = "EQMDevice"
 let kDeviceModelUID = "EQMDeviceModelUID"
 

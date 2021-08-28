@@ -144,7 +144,7 @@ class EQMStream: EQMObject {
     }
   }
   
-  static func setPropertyData(objectID: AudioObjectID?, address: AudioObjectPropertyAddress, data: UnsafeRawPointer, changedProperties: inout [AudioObjectPropertyAddress]) -> OSStatus {
+  static func setPropertyData(client: AudioServerPlugInClientInfo?, objectID: AudioObjectID?, address: AudioObjectPropertyAddress, data: UnsafeRawPointer, changedProperties: inout [AudioObjectPropertyAddress]) -> OSStatus {
     switch address.mSelector {
     case kAudioStreamPropertyIsActive:
       // Changing the active state of a stream doesn't affect IO or change the structure
