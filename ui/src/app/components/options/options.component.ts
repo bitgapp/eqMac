@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectorRef } from '@angular/core'
-import { DropdownComponent, FlatSliderValueChangedEvent, SkeuomorphSliderValueChangedEvent } from '@eqmac/components'
+import { DropdownComponent, FlatSliderValueChangedEvent, IconName, SkeuomorphSliderValueChangedEvent } from '@eqmac/components'
 import { ApplicationService } from '../../services/app.service'
 
 interface BaseOptions {
@@ -54,16 +54,18 @@ export interface CheckboxOption extends BaseOptions {
   toggled?: (value: boolean) => any
 }
 
-export interface SelectOptionOption {
-  id: string
-  label: string
+export interface SelectOptionOption <T = string> {
+  id: T
+  label?: string
+  icon?: IconName
+  iconStroke?: number
 }
-export interface SelectOption extends BaseOptions {
+export interface SelectOption <T = string> extends BaseOptions {
   type: 'select'
   label: string
-  options: SelectOptionOption[]
-  selectedId: string
-  selected?: (id: string) => any
+  options: SelectOptionOption<T>[]
+  selectedId: T
+  selected?: (id: T) => any
 }
 
 export interface BreadcrumbsOption extends BaseOptions {
@@ -176,5 +178,12 @@ export class OptionsComponent {
   openUrl (url?: string) {
     if (!url) return
     this.app.openURL(new URL(url))
+  }
+
+  sliderUserChangedValue (option: FlatSliderOption | SkeuomorphSliderOption, event: FlatSliderValueChangedEvent | SkeuomorphSliderValueChangedEvent) {
+    if (option.userChangedValue) {
+      option.userChangedValue(event)
+    }
+    this.ref.detectChanges()
   }
 }

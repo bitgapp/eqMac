@@ -34,13 +34,14 @@ class Volume: StoreSubscriber {
       var virtualVolume: Double = 1
       if (gain <= 1) {
         if (volumeSupported) {
+          Application.ignoreNextVolumeEvent = true
           device.setVirtualMasterVolume(Float32(gain), direction: .playback)
         } else {
           virtualVolume = gain
         }
 
         if (balanceSupported) {
-          device.setVirtualMasterBalance(Float32(Utilities.mapValue(value: balance, inMin: -1, inMax: 1, outMin: 0, outMax: 1)), direction: .playback)
+          device.setVirtualMasterBalance(Float32(mapValue(value: balance, inMin: -1, inMax: 1, outMin: 0, outMax: 1)), direction: .playback)
           mixer.pan = 0
         } else {
           mixer.pan = Float(balance)
@@ -53,17 +54,19 @@ class Volume: StoreSubscriber {
           return
         }
         if (volumeSupported) {
+          Application.ignoreNextVolumeEvent = true
           device.setVirtualMasterVolume(1.0, direction: .playback)
         }
-        virtualVolume = Utilities.mapValue(value: gain, inMin: 1, inMax: 2, outMin: 1, outMax: 6)
+        virtualVolume = mapValue(value: gain, inMin: 1, inMax: 2, outMin: 1, outMax: 6)
 
         if (balanceSupported) {
-          device.setVirtualMasterBalance(Float32(Utilities.mapValue(value: balance, inMin: -1, inMax: 1, outMin: 0, outMax: 1)), direction: .playback)
+          device.setVirtualMasterBalance(Float32(mapValue(value: balance, inMin: -1, inMax: 1, outMin: 0, outMax: 1)), direction: .playback)
           mixer.pan = 0
         } else {
           mixer.pan = Float(balance)
         }
 
+        Application.ignoreNextVolumeEvent = true
         Driver.device!.setVirtualMasterVolume(1, direction: .playback)
       }
 

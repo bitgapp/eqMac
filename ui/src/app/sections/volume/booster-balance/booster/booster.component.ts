@@ -108,6 +108,7 @@ export class BoosterComponent implements OnInit, OnDestroy {
       this.getGain()
       this.ignoreUpdates = false
     }, 1000)
+    this.changeRef.detectChanges()
     this.boosterService.setGain(gain)
   }
 

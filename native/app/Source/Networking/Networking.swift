@@ -45,7 +45,7 @@ class Networking {
       }
     }
 
-    Utilities.delay(1000) {
+    delay(1000) {
       if (!returned) {
         returned = true
         completion(false)

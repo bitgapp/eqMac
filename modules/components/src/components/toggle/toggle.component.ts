@@ -1,9 +1,10 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
+import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core'
 
 @Component({
   selector: 'eqm-toggle',
   templateUrl: './toggle.component.html',
-  styleUrls: [ './toggle.component.scss' ]
+  styleUrls: [ './toggle.component.scss' ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ToggleComponent implements OnInit {
   @Input() state = false

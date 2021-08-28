@@ -30,7 +30,7 @@ func AdvancedEqualizerStateReducer(action: Action, state: AdvancedEqualizerState
     state.transition = transition
   case .setShowDefaultPresets(let show)?:
     state.showDefaultPresets = show
-    Utilities.delay(100) {
+    delay(100) {
       AdvancedEqualizer.presetsChanged.emit(AdvancedEqualizer.presets)
     }
   case .none:

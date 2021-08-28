@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7823A97926D91ECF004BABC6 /* SharedConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7823A97126D91ECF004BABC6 /* SharedConstants.swift */; };
+		7823A97A26D91ECF004BABC6 /* NumericTypesConversions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7823A97226D91ECF004BABC6 /* NumericTypesConversions.swift */; };
+		7823A97B26D91ECF004BABC6 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7823A97326D91ECF004BABC6 /* StringExtensions.swift */; };
+		7823A97C26D91ECF004BABC6 /* assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7823A97426D91ECF004BABC6 /* assets.xcassets */; };
+		7823A97D26D91ECF004BABC6 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7823A97526D91ECF004BABC6 /* Utilities.swift */; };
+		7823A97E26D91ECF004BABC6 /* ArrayExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7823A97626D91ECF004BABC6 /* ArrayExtensions.swift */; };
+		7823A98026D91ECF004BABC6 /* AudioObjectPropertySelectorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7823A97826D91ECF004BABC6 /* AudioObjectPropertySelectorExtensions.swift */; };
 		78242E96261A8AEE00058ADE /* Connectivity in Frameworks */ = {isa = PBXBuildFile; productRef = 78242E95261A8AEE00058ADE /* Connectivity */; };
 		783A6F9A266FA1A600A96B42 /* CircularBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783A6F97266FA1A600A96B42 /* CircularBuffer.swift */; };
 		783A6F9D266FA1F300A96B42 /* Atomics in Frameworks */ = {isa = PBXBuildFile; productRef = 783A6F9C266FA1F300A96B42 /* Atomics */; };
@@ -26,7 +33,6 @@
 		E00618EB20F22BD1003BA0B0 /* Effect.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00618EA20F22BD1003BA0B0 /* Effect.swift */; };
 		E00618ED20F292B9003BA0B0 /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00618EC20F292B9003BA0B0 /* Networking.swift */; };
 		E00C595D23BBBB6C00C7B8B6 /* UnsafeMutableAudioBufferListPointer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00C595C23BBBB6C00C7B8B6 /* UnsafeMutableAudioBufferListPointer.swift */; };
-		E012A46E2044BC200029C800 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E012A46D2044BC200029C800 /* StringExtensions.swift */; };
 		E012A4702044C4DA0029C800 /* Sysctl.swift in Sources */ = {isa = PBXBuildFile; fileRef = E012A46F2044C4DA0029C800 /* Sysctl.swift */; };
 		E0136BB322D9EC920048D5BC /* DraggableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0136BB222D9EC920048D5BC /* DraggableView.swift */; };
 		E017A0091FF055B50019BBF1 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = E017A0081FF055B50019BBF1 /* User.swift */; };
@@ -35,8 +41,6 @@
 		E01B1BB9235E454500CC58E5 /* InputSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01B1BB8235E454500CC58E5 /* InputSource.swift */; };
 		E01B1BBB235E456600CC58E5 /* SystemSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01B1BBA235E456600CC58E5 /* SystemSource.swift */; };
 		E01B1BBD235E458200CC58E5 /* Driver.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01B1BBC235E458200CC58E5 /* Driver.swift */; };
-		E01F2F5D203391EA005123BE /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01F2F5C203391EA005123BE /* Utilities.swift */; };
-		E01F2F5F2034A188005123BE /* ArrayExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01F2F5E2034A188005123BE /* ArrayExtensions.swift */; };
 		E021BCE722313F1E004921FF /* SettingsDataBus.swift in Sources */ = {isa = PBXBuildFile; fileRef = E021BCE622313F1E004921FF /* SettingsDataBus.swift */; };
 		E0241AA5225E9FB700748656 /* BasicEqualizerPreset.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0241AA4225E9FB700748656 /* BasicEqualizerPreset.swift */; };
 		E02662F022BC3239006B486C /* NSSavePanelExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E02662EF22BC3239006B486C /* NSSavePanelExtensions.swift */; };
@@ -78,7 +82,6 @@
 		E089AC492095E0B1005B72E5 /* Console.swift in Sources */ = {isa = PBXBuildFile; fileRef = E089AC482095E0B1005B72E5 /* Console.swift */; };
 		E090AD5820A9725F003BE5FF /* Volume.swift in Sources */ = {isa = PBXBuildFile; fileRef = E090AD5720A9725F003BE5FF /* Volume.swift */; };
 		E090AD5A20A972DE003BE5FF /* BasicEqualizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E090AD5920A972DE003BE5FF /* BasicEqualizer.swift */; };
-		E095BBC62014E4A1003473E9 /* NumericTypesConversions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E095BBC52014E4A1003473E9 /* NumericTypesConversions.swift */; };
 		E09C17201FEC1969008E65A4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E09C171F1FEC1969008E65A4 /* Main.storyboard */; };
 		E0A3B96120DF8FE500E46908 /* Effects.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A3B96020DF8FE500E46908 /* Effects.swift */; };
 		E0A3B96320DF992600E46908 /* Buffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A3B96220DF992600E46908 /* Buffer.swift */; };
@@ -118,6 +121,13 @@
 
 /* Begin PBXFileReference section */
 		454077A0596E209B8ABF4043 /* Pods-eqMac.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-eqMac.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-eqMac/Pods-eqMac.debug.xcconfig"; sourceTree = "<group>"; };
+		7823A97126D91ECF004BABC6 /* SharedConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SharedConstants.swift; path = ../../shared/SharedConstants.swift; sourceTree = "<group>"; };
+		7823A97226D91ECF004BABC6 /* NumericTypesConversions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NumericTypesConversions.swift; path = ../../shared/NumericTypesConversions.swift; sourceTree = "<group>"; };
+		7823A97326D91ECF004BABC6 /* StringExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StringExtensions.swift; path = ../../shared/StringExtensions.swift; sourceTree = "<group>"; };
+		7823A97426D91ECF004BABC6 /* assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = assets.xcassets; path = ../../shared/assets.xcassets; sourceTree = "<group>"; };
+		7823A97526D91ECF004BABC6 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Utilities.swift; path = ../../shared/Utilities.swift; sourceTree = "<group>"; };
+		7823A97626D91ECF004BABC6 /* ArrayExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ArrayExtensions.swift; path = ../../shared/ArrayExtensions.swift; sourceTree = "<group>"; };
+		7823A97826D91ECF004BABC6 /* AudioObjectPropertySelectorExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AudioObjectPropertySelectorExtensions.swift; path = ../../shared/AudioObjectPropertySelectorExtensions.swift; sourceTree = "<group>"; };
 		783A6F97266FA1A600A96B42 /* CircularBuffer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircularBuffer.swift; sourceTree = "<group>"; };
 		783A6F9F2670225C00A96B42 /* Benchmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Benchmark.swift; sourceTree = "<group>"; };
 		785453AA269B75F000E8AB42 /* Assets */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = folder; path = Assets; sourceTree = SOURCE_ROOT; };
@@ -134,7 +144,6 @@
 		E00618EA20F22BD1003BA0B0 /* Effect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Effect.swift; sourceTree = "<group>"; };
 		E00618EC20F292B9003BA0B0 /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
 		E00C595C23BBBB6C00C7B8B6 /* UnsafeMutableAudioBufferListPointer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnsafeMutableAudioBufferListPointer.swift; sourceTree = "<group>"; };
-		E012A46D2044BC200029C800 /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
 		E012A46F2044C4DA0029C800 /* Sysctl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sysctl.swift; sourceTree = "<group>"; };
 		E0136BB222D9EC920048D5BC /* DraggableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DraggableView.swift; sourceTree = "<group>"; };
 		E017A0081FF055B50019BBF1 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -143,8 +152,6 @@
 		E01B1BB8235E454500CC58E5 /* InputSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputSource.swift; sourceTree = "<group>"; };
 		E01B1BBA235E456600CC58E5 /* SystemSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemSource.swift; sourceTree = "<group>"; };
 		E01B1BBC235E458200CC58E5 /* Driver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Driver.swift; sourceTree = "<group>"; };
-		E01F2F5C203391EA005123BE /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
-		E01F2F5E2034A188005123BE /* ArrayExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtensions.swift; sourceTree = "<group>"; };
 		E021BCE622313F1E004921FF /* SettingsDataBus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsDataBus.swift; sourceTree = "<group>"; };
 		E0241AA4225E9FB700748656 /* BasicEqualizerPreset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicEqualizerPreset.swift; sourceTree = "<group>"; };
 		E02662EF22BC3239006B486C /* NSSavePanelExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSSavePanelExtensions.swift; sourceTree = "<group>"; };
@@ -191,7 +198,6 @@
 		E089AC482095E0B1005B72E5 /* Console.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Console.swift; sourceTree = "<group>"; };
 		E090AD5720A9725F003BE5FF /* Volume.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Volume.swift; sourceTree = "<group>"; };
 		E090AD5920A972DE003BE5FF /* BasicEqualizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicEqualizer.swift; sourceTree = "<group>"; };
-		E095BBC52014E4A1003473E9 /* NumericTypesConversions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumericTypesConversions.swift; sourceTree = "<group>"; };
 		E09C171F1FEC1969008E65A4 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		E0A3B96020DF8FE500E46908 /* Effects.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Effects.swift; sourceTree = "<group>"; };
 		E0A3B96220DF992600E46908 /* Buffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Buffer.swift; sourceTree = "<group>"; };
@@ -247,6 +253,20 @@
 			path = Networking;
 			sourceTree = "<group>";
 		};
+		7823A97026D91EB7004BABC6 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				7823A97626D91ECF004BABC6 /* ArrayExtensions.swift */,
+				7823A97426D91ECF004BABC6 /* assets.xcassets */,
+				7823A97826D91ECF004BABC6 /* AudioObjectPropertySelectorExtensions.swift */,
+				7823A97226D91ECF004BABC6 /* NumericTypesConversions.swift */,
+				7823A97126D91ECF004BABC6 /* SharedConstants.swift */,
+				7823A97326D91ECF004BABC6 /* StringExtensions.swift */,
+				7823A97526D91ECF004BABC6 /* Utilities.swift */,
+			);
+			name = Shared;
+			sourceTree = "<group>";
+		};
 		A433E835860EBA2247574C67 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -260,13 +280,11 @@
 			isa = PBXGroup;
 			children = (
 				E00C595C23BBBB6C00C7B8B6 /* UnsafeMutableAudioBufferListPointer.swift */,
-				E01F2F5E2034A188005123BE /* ArrayExtensions.swift */,
 				E07A24E31FF3D49F007AEF20 /* AudioDevice.swift */,
 				E07B45A520FBA4990086AA7E /* Encodable.swift */,
 				E018710E21696D9500436B68 /* NSObject.swift */,
 				E083214620715BBA0038ED1A /* NSOpenPanelExtensions.swift */,
 				E044AB7721ED2CA9000C41A1 /* NumberExtensions.swift */,
-				E012A46D2044BC200029C800 /* StringExtensions.swift */,
 				E02662EF22BC3239006B486C /* NSSavePanelExtensions.swift */,
 				E0ECA88A23B8B8DD002AFBF0 /* AVAudioEngine.swift */,
 				E072856A23F84A5500EDE8AC /* BoolExtensions.swift */,
@@ -365,12 +383,10 @@
 				E0D1A0D9249E191700BBC742 /* eqMac2.swift */,
 				E0ECA88923B7F816002AFBF0 /* ExceptionCatcher.h */,
 				E07A6EE022B6BA4E00DE7B16 /* File.swift */,
-				E095BBC52014E4A1003473E9 /* NumericTypesConversions.swift */,
 				E0267AFC218AE39500FB2E5A /* Script.swift */,
 				E0C5629820A75BAD000902ED /* Storage.swift */,
 				E012A46F2044C4DA0029C800 /* Sysctl.swift */,
 				E02FF91722C8E87D0051342A /* Time.swift */,
-				E01F2F5C203391EA005123BE /* Utilities.swift */,
 				783A6F9F2670225C00A96B42 /* Benchmark.swift */,
 			);
 			path = Helpers;
@@ -503,6 +519,7 @@
 		E0F661751FDCA05F00252923 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				7823A97026D91EB7004BABC6 /* Shared */,
 				E086AFFF1FCCB8E700CF9F0D /* AppDelegate.swift */,
 				E073727C20167E7600874CC6 /* Application.swift */,
 				E036BCE9235B1171001F057B /* ApplicationDataBus.swift */,
@@ -639,6 +656,7 @@
 				785453AB269B75F100E8AB42 /* Assets in Resources */,
 				78E2441424B661C3003C1FBC /* Embedded in Resources */,
 				789F83CF250E20A8004F871D /* restart_coreaudio.sh in Resources */,
+				7823A97C26D91ECF004BABC6 /* assets.xcassets in Resources */,
 				7858FBC224A9630800637941 /* restart_mac.scpt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -767,10 +785,12 @@
 				E089AC492095E0B1005B72E5 /* Console.swift in Sources */,
 				E090AD5820A9725F003BE5FF /* Volume.swift in Sources */,
 				E02FF91622C7EC6C0051342A /* Transition.swift in Sources */,
+				7823A97926D91ECF004BABC6 /* SharedConstants.swift in Sources */,
 				E0E8B63220EEB6A900DE905C /* EqualizersState.swift in Sources */,
 				E036BCEA235B1171001F057B /* ApplicationDataBus.swift in Sources */,
 				E036BCEC235B2C12001F057B /* EffectsDataBus.swift in Sources */,
 				E0FFB705200679DD0003EC9E /* Engine.swift in Sources */,
+				7823A97D26D91ECF004BABC6 /* Utilities.swift in Sources */,
 				E073727B20167CA300874CC6 /* Constants.swift in Sources */,
 				E044AB7821ED2CA9000C41A1 /* NumberExtensions.swift in Sources */,
 				E02B922E219CBCD800AC130B /* AudioDeviceEvents.swift in Sources */,
@@ -782,16 +802,16 @@
 				E057A64922710F2B0019D13C /* AdvancedEqualizerDataBus.swift in Sources */,
 				E07CB5B121902F4F0033DA89 /* Output.swift in Sources */,
 				E0267AFD218AE39500FB2E5A /* Script.swift in Sources */,
+				7823A97A26D91ECF004BABC6 /* NumericTypesConversions.swift in Sources */,
 				E0F661861FDDED0C00252923 /* ViewController.swift in Sources */,
 				E02FF91822C8E87D0051342A /* Time.swift in Sources */,
 				E083214720715BBA0038ED1A /* NSOpenPanelExtensions.swift in Sources */,
-				E01F2F5D203391EA005123BE /* Utilities.swift in Sources */,
+				7823A97B26D91ECF004BABC6 /* StringExtensions.swift in Sources */,
 				E0E2CFF72104EA7A002DC989 /* Equalizers.swift in Sources */,
 				E07A24E61FF3D4E4007AEF20 /* CheckErr.swift in Sources */,
-				E012A46E2044BC200029C800 /* StringExtensions.swift in Sources */,
 				783A6F9A266FA1A600A96B42 /* CircularBuffer.swift in Sources */,
 				E0C8F78621D3B6590023B1E5 /* UIDataBus.swift in Sources */,
-				E095BBC62014E4A1003473E9 /* NumericTypesConversions.swift in Sources */,
+				7823A97E26D91ECF004BABC6 /* ArrayExtensions.swift in Sources */,
 				E07A6EE122B6BA4E00DE7B16 /* File.swift in Sources */,
 				E0A3B96320DF992600E46908 /* Buffer.swift in Sources */,
 				E00618ED20F292B9003BA0B0 /* Networking.swift in Sources */,
@@ -822,13 +842,13 @@
 				E0E8B63420EEB6A900DE905C /* VolumeState.swift in Sources */,
 				E057A637227032EC0019D13C /* EngineDataBus.swift in Sources */,
 				E057A6472270582C0019D13C /* EqualizersDataBus.swift in Sources */,
+				7823A98026D91ECF004BABC6 /* AudioObjectPropertySelectorExtensions.swift in Sources */,
 				E057A6512271A7DC0019D13C /* OutputsDataBus.swift in Sources */,
 				E0136BB322D9EC920048D5BC /* DraggableView.swift in Sources */,
 				E0493D0B21F222D300A8FD3D /* EventInterceptor.swift in Sources */,
 				E044AB7621ED27E4000C41A1 /* Equalizer.swift in Sources */,
 				E01B1BB5235E452D00CC58E5 /* Sources.swift in Sources */,
 				E090AD5A20A972DE003BE5FF /* BasicEqualizer.swift in Sources */,
-				E01F2F5F2034A188005123BE /* ArrayExtensions.swift in Sources */,
 				E0DDF3FA2188390300B37E77 /* Alert.swift in Sources */,
 				E0FFB703200119060003EC9E /* StatusItem.swift in Sources */,
 				E07A24E41FF3D49F007AEF20 /* AudioDevice.swift in Sources */,
@@ -968,7 +988,7 @@
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1.2.0;
+				CURRENT_PROJECT_VERSION = 1.3.0;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1007,7 +1027,7 @@
 					"$(PROJECT_DIR)/Source/Vendor",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				MARKETING_VERSION = v1.2.0;
+				MARKETING_VERSION = v1.3.0;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bitgapp.eqmac;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1016,7 +1036,7 @@
 				SWIFT_COMPILATION_MODE = singlefile;
 				SWIFT_INCLUDE_PATHS = "$(PROJECT_DIR) $(PROJECT_DIR)/Source/Vendor";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/Source/Helpers/ExceptionCatcher.h";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 4.2;
 				USER_HEADER_SEARCH_PATHS = "";
 			};
@@ -1032,7 +1052,7 @@
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1.2.0;
+				CURRENT_PROJECT_VERSION = 1.3.0;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = JZA6C97KJA;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1071,7 +1091,7 @@
 					"$(PROJECT_DIR)/Source/Vendor",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				MARKETING_VERSION = v1.2.0;
+				MARKETING_VERSION = v1.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bitgapp.eqmac;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1079,7 +1099,7 @@
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_INCLUDE_PATHS = "$(PROJECT_DIR) $(PROJECT_DIR)/Source/Vendor";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/Source/Helpers/ExceptionCatcher.h";
-				SWIFT_OPTIMIZATION_LEVEL = "-Osize";
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 4.2;
 				USER_HEADER_SEARCH_PATHS = "";
 			};

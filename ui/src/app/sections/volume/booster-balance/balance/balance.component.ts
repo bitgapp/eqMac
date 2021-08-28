@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core'
+import { Component, OnInit, Input, OnDestroy, ChangeDetectorRef } from '@angular/core'
 import { BalanceChangedEventCallback, BalanceService } from './balance.service'
 import { ApplicationService } from '../../../../services/app.service'
 import { KnobValueChangedEvent, FlatSliderValueChangedEvent } from '@eqmac/components'
@@ -20,7 +20,8 @@ export class BalanceComponent implements OnInit, OnDestroy {
   constructor (
     public balanceService: BalanceService,
     public app: ApplicationService,
-    public ui: UIService
+    public ui: UIService,
+    private readonly changeRef: ChangeDetectorRef
   ) { }
 
   ngOnInit () {
@@ -63,6 +64,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
   }
 
   async setBalance (event: KnobValueChangedEvent | FlatSliderValueChangedEvent) {
+    this.changeRef.detectChanges()
     this.balanceService.setBalance(event.value, event.transition)
   }
 

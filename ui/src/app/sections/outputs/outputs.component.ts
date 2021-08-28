@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core'
+import { ApplicationService } from '../../services/app.service'
 import { OutputsService, Output } from './outputs.service'
 
 @Component({
@@ -9,7 +10,7 @@ import { OutputsService, Output } from './outputs.service'
 export class OutputsComponent implements OnInit {
   outputs: Output[]
   selected: Output
-  constructor (public service: OutputsService) { }
+  constructor (public service: OutputsService, public app: ApplicationService) { }
 
   async ngOnInit () {
     await this.sync()

@@ -8,7 +8,9 @@ import {
   ViewChild,
   EventEmitter,
   HostBinding,
-  OnDestroy
+  OnDestroy,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef
 } from '@angular/core'
 import {
   UtilitiesService
@@ -22,12 +24,14 @@ export interface SkeuomorphSliderValueChangedEvent {
 @Component({
   selector: 'eqm-skeuomorph-slider',
   templateUrl: './skeuomorph-slider.component.html',
-  styleUrls: [ './skeuomorph-slider.component.scss' ]
+  styleUrls: [ './skeuomorph-slider.component.scss' ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SkeuomorphSliderComponent implements OnInit, OnDestroy {
   constructor (
     public utils: UtilitiesService,
-    public elRef: ElementRef<HTMLElement>
+    public elRef: ElementRef<HTMLElement>,
+    private readonly changeRef: ChangeDetectorRef
   ) {}
 
   @Input() min: number = 0
@@ -66,10 +70,10 @@ export class SkeuomorphSliderComponent implements OnInit, OnDestroy {
         diffFromMiddle *= -1
       }
       const percFromMiddle = this.utils.mapValue(diffFromMiddle, 0, this.max - middleValue, 0, 100)
-      if ((this._value).toFixed(2) === (middleValue).toFixed(2) && percFromMiddle < 5) {
+      if ((this._value).toFixed(2) === (middleValue).toFixed(2) && percFromMiddle < 2) {
         value = middleValue
       } else if ((this._value < middleValue && newValue > this._value) || (this._value > middleValue && newValue < this._value)) {
-        if (percFromMiddle < 3) {
+        if (percFromMiddle < 1) {
           value = middleValue
           this.stickedToMiddle.emit()
         }
@@ -77,6 +81,7 @@ export class SkeuomorphSliderComponent implements OnInit, OnDestroy {
     }
     this._value = this.clampValue(value)
     this.valueChange.emit(this._value)
+    this.changeRef.detectChanges()
   }
 
   get value () { return this._value }
@@ -89,7 +94,10 @@ export class SkeuomorphSliderComponent implements OnInit, OnDestroy {
       const now = new Date().getTime()
       if ((now - this.lastWheelEvent) < this.wheelDebouncer) return
       this.lastWheelEvent = now
-      this.value += -event.deltaY / 100
+      const changeDelta = -event.deltaY
+      const diff = changeDelta < 0 ? -changeDelta : changeDelta
+      if (diff < 2) return
+      this.value += changeDelta / 100
       this.userChangedValue.emit({ value: this.value })
     }
   }
@@ -148,7 +156,17 @@ export class SkeuomorphSliderComponent implements OnInit, OnDestroy {
     this.dettachWindowEvents()
   }
 
+  @HostListener('mouseenter', [ '$event' ])
+  mouseenter () {
+    if (this.windowEventsAttached) {
+      this.dettachWindowEvents()
+    }
+  }
+
+  private windowEventsAttached = false
   private attachWindowEvents () {
+    if (this.windowEventsAttached) return
+    this.windowEventsAttached = true
     window.addEventListener('mousemove', this.mousemove, true)
     window.addEventListener('mouseup', this.mouseup, true)
   }
@@ -156,6 +174,7 @@ export class SkeuomorphSliderComponent implements OnInit, OnDestroy {
   private dettachWindowEvents () {
     window.removeEventListener('mousemove', this.mousemove, true)
     window.removeEventListener('mouseup', this.mouseup, true)
+    this.windowEventsAttached = false
   }
 
   doubleclick () {

@@ -1,9 +1,10 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core'
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, ChangeDetectionStrategy } from '@angular/core'
 
 @Component({
   selector: 'eqm-select-box',
   templateUrl: './select-box.component.html',
-  styleUrls: [ './select-box.component.scss' ]
+  styleUrls: [ './select-box.component.scss' ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SelectBoxComponent implements OnInit {
   _items: any[] = []

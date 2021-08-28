@@ -1,9 +1,10 @@
-import { Component, OnInit, Input, EventEmitter, Output, ViewChild, HostBinding, ElementRef } from '@angular/core'
+import { Component, OnInit, Input, EventEmitter, Output, ViewChild, HostBinding, ElementRef, ChangeDetectionStrategy } from '@angular/core'
 
 @Component({
   selector: 'eqm-input-field',
   templateUrl: './input-field.component.html',
-  styleUrls: [ './input-field.component.scss' ]
+  styleUrls: [ './input-field.component.scss' ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class InputFieldComponent implements OnInit {
   @Input() text?: string

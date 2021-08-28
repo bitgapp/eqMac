@@ -1,43 +1,39 @@
-import AVFoundation
-import PlaygroundSupport
-import Foundation
 
+// Loopable allows to dynamically get static properties of a class/struct
+protocol Loopable {
+  var properties: [String: Any] { get }
+}
 
-var engine = AVAudioEngine()
-// File
-let path = Bundle.main.path(forResource: "track", ofType: "mp3")!
-let url = URL(fileURLWithPath: path)
-let file = try! AVAudioFile(forReading: url)
-let fileFormat = file.processingFormat
-let frameCount = UInt32(file.length)
+extension Loopable {
+  var properties: [String: Any] {
+    var result: [String: Any] = [:]
+    let mirror = Mirror(reflecting: self)
 
-let buffer = AVAudioPCMBuffer(pcmFormat: fileFormat, frameCapacity: frameCount)!
-try! file.read(into: buffer, frameCount: frameCount)
+    for (property, value) in mirror.children {
+      guard let property = property else {
+        continue
+      }
 
-let player = AVAudioPlayerNode()
-let mixer = AVAudioMixerNode()
-let eq = AVAudioUnitEQ()
+      result[property] = value
+    }
 
-engine.attach(player)
-engine.attach(mixer)
-engine.attach(eq)
-engine.connect(player, to: mixer, format: fileFormat)
-engine.connect(mixer, to: eq, format: fileFormat)
+    return result
+  }
+}
 
-engine.connect(eq, to: engine.mainMixerNode, format: fileFormat)
+struct EQMDeviceCustomProperties: Loopable {
+  let version = 1
+  let shown = 2
+  let latency = 3
+  let name = 4
 
-engine.prepare()
+  var count: UInt32 {
+    return UInt32(properties.count)
+  }
+}
 
-try! engine.start()
-print(engine)
-engine.mainMixerNode.outputVolume = 0.01
+struct EQMDeviceCustom {
+  static let properties = EQMDeviceCustomProperties()
+}
 
-
-player.play()
-player.scheduleBuffer(buffer, at: AVAudioTime(hostTime: 0), options:.loops, completionHandler: nil)
-
-DispatchQueue.main.asyncAfter(deadline: .now() + 5, execute:  {
-  mixer.pan = -1
-})
-
-let unit = mixer.auAudioUnit.component
+print(EQMDeviceCustom.properties.count)

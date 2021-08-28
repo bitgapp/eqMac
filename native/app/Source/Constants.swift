@@ -22,13 +22,12 @@ struct Constants {
   #endif
   
   static let SENTRY_ENDPOINT = "https://afd95e4c332b4b1da4bb23b9cc66782c@sentry.io/1243254"
-  static let DRIVER_BUNDLE_ID = "com.bitgapp.eqmac.driver"
   static let DOMAIN = "eqmac.app"
   static let WEBSITE_URL = URL(string: "https://\(Constants.DOMAIN)")!
   static let FAQ_URL = URL(string: "https://\(Constants.DOMAIN)/faq")!
   static let BUG_REPORT_URL = URL(string: "https://\(Constants.DOMAIN)/bug-report")!
   static let DRIVER_DEVICE_UID = "EQMDevice"
-  static let DRIVER_MINIMUM_VERSION = Version(tolerant: "1.2")!
+  static let DRIVER_MINIMUM_VERSION = Version(tolerant: "1.3")!
   static let LEGACY_DRIVER_UIDS = ["EQMAC2.1_DRIVER_ENGINE", "EQMAC2_DRIVER_ENGINE"]
   static let TOKEN_STORAGE_KEY = "eqMac Server Tokens"
   static let UI_SERVER_PREFERRED_PORT: UInt = 37628

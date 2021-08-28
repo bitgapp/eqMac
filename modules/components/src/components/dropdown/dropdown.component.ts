@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, ElementRef, EventEmitter, Output, NgZone, HostBinding, HostListener } from '@angular/core'
+import { Component, OnInit, Input, ViewChild, ElementRef, EventEmitter, Output, NgZone, HostBinding, HostListener, ChangeDetectionStrategy } from '@angular/core'
 import { SelectBoxComponent } from '../select-box/select-box.component'
 import { UtilitiesService } from '../../services/utilities.service'
 import { FadeInOutAnimation } from '../../animations'
@@ -7,7 +7,8 @@ import { FadeInOutAnimation } from '../../animations'
   selector: 'eqm-dropdown',
   templateUrl: './dropdown.component.html',
   styleUrls: [ './dropdown.component.scss' ],
-  animations: [ FadeInOutAnimation ]
+  animations: [ FadeInOutAnimation ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DropdownComponent implements OnInit {
   constructor (

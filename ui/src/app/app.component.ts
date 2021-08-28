@@ -40,6 +40,13 @@ export class AppComponent implements OnInit, AfterContentInit {
     style.transform = `scale(${this.app.uiScale})`
     style.width = `calc(100% / ${this.app.uiScale})`
     style.height = `calc(100% / ${this.app.uiScale})`
+
+    const dropdownSection = document.getElementById('dropdown-section')
+    if (dropdownSection) {
+      const minHeight = dropdownSection.offsetHeight
+      style.minHeight = `${minHeight}px`
+    }
+
     return style
   }
 
@@ -124,6 +131,12 @@ This data would help us improve and grow the product.`
             [
               {
                 type: 'button',
+                label: 'Save',
+                isEnabled: () => !saving,
+                action: () => privacyDialog.close()
+              },
+              {
+                type: 'button',
                 label: 'Accept all',
                 isEnabled: () => !saving,
                 action: async () => {
@@ -135,12 +148,6 @@ This data would help us improve and grow the product.`
                   await this.utils.delay(200)
                   privacyDialog.close()
                 }
-              },
-              {
-                type: 'button',
-                label: 'Save',
-                isEnabled: () => !saving,
-                action: () => privacyDialog.close()
               }
             ]
           ] as Options

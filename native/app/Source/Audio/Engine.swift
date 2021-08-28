@@ -15,7 +15,6 @@ import AudioToolbox
 import EmitterKit
 
 class Engine {
-  private var equalizersTypeChangedListener: EventListener<EqualizerType>?
 
   let sources: Sources!
   let effects: Effects!
@@ -56,7 +55,7 @@ class Engine {
   
   private func setupBuffer () {
     let framesPerSample = Driver.device!.bufferFrameSize(direction: .playback)
-    buffer = CircularBuffer<Float>(channelCount: 2, capacity: Int(framesPerSample) * 64)
+    buffer = CircularBuffer<Float>(channelCount: 2, capacity: Int(framesPerSample) * 2048)
   }
   
   private func attach () {
@@ -77,18 +76,6 @@ class Engine {
   private func attachEqualizer () {
     engine.attach(effects.equalizers.active.eq)
     attachedEqualizer = effects.equalizers.active
-  }
-  
-  private func detachEqualizer () {
-    if attachedEqualizer != nil {
-      engine.detach(attachedEqualizer!.eq)
-      attachedEqualizer = nil
-    }
-  }
-  
-  private func reattachEqualizer () {
-    detachEqualizer()
-    attachEqualizer()
   }
   
   private func chain () {
@@ -147,16 +134,7 @@ class Engine {
   }
   
   private func setupListeners () {
-    equalizersTypeChangedListener = Equalizers.typeChanged.on { [weak self] _ in
-      if self == nil { return }
-      self!.stop()
-      Utilities.delay(100) { [weak self] in
-        if self == nil { return }
-        self!.reattachEqualizer()
-        self!.chain()
-        self!.start()
-      }
-    }
+    
   }
   
   private func start () {
@@ -173,7 +151,5 @@ class Engine {
   }
 
   deinit {
-    equalizersTypeChangedListener?.isListening = false
-    equalizersTypeChangedListener = nil
   }
 }

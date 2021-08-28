@@ -1,9 +1,10 @@
-import { Component, ViewChild, ElementRef, AfterViewInit, Input } from '@angular/core'
+import { Component, ViewChild, ElementRef, AfterViewInit, Input, ChangeDetectionStrategy } from '@angular/core'
 
 @Component({
   selector: 'eqm-loading',
   templateUrl: './loading.component.html',
-  styleUrls: [ './loading.component.scss' ]
+  styleUrls: [ './loading.component.scss' ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoadingComponent implements AfterViewInit {
   @ViewChild('wave', { static: true }) wave!: ElementRef

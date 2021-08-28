@@ -18,7 +18,7 @@
     fxLayoutAlign="space-around center">
     <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="5px">
       <eqm-label>BASS</eqm-label>
-      <eqm-knob #bassKnob size="large" [enabled]="enabled" [min]="-24" [max]="24" [(value)]="gains.bass"
+      <eqm-knob #bassKnob size="large" [controlStyle]="ui.settings.knobControlStyle" [enabled]="enabled" [min]="-24" [max]="24" [(value)]="gains.bass"
         (userChangedValue)="setGain('bass', $event)" [stickToMiddle]="stickSlidersToMiddle"
         (stickedToMiddle)="performHapticFeedback($event)" [animationDuration]="animationDuration"
         [animationFps]="animationFps"></eqm-knob>
@@ -27,7 +27,7 @@
     </div>
     <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="5px">
       <eqm-label>MID</eqm-label>
-      <eqm-knob #bassKnob size="large" [enabled]="enabled" [min]="-24" [max]="24" [(value)]="gains.mid"
+      <eqm-knob #bassKnob size="large" [enabled]="enabled" [controlStyle]="ui.settings.knobControlStyle" [min]="-24" [max]="24" [(value)]="gains.mid"
         (userChangedValue)="setGain('mid', $event)" [stickToMiddle]="stickSlidersToMiddle"
         (stickedToMiddle)="performHapticFeedback($event)" [animationDuration]="animationDuration"
         [animationFps]="animationFps"></eqm-knob>
@@ -35,7 +35,7 @@
     </div>
     <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="5px">
       <eqm-label>TREBLE</eqm-label>
-      <eqm-knob #bassKnob size="large" [enabled]="enabled" [min]="-24" [max]="24" [(value)]="gains.treble"
+      <eqm-knob #bassKnob size="large" [enabled]="enabled" [controlStyle]="ui.settings.knobControlStyle" [min]="-24" [max]="24" [(value)]="gains.treble"
         (userChangedValue)="setGain('treble', $event)" [stickToMiddle]="stickSlidersToMiddle"
         (stickedToMiddle)="performHapticFeedback($event)" [animationDuration]="animationDuration"
         [animationFps]="animationFps"></eqm-knob>

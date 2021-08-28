@@ -56,7 +56,7 @@ class ViewController: NSViewController, WKNavigationDelegate {
     self.webView.load(request)
 
     
-    Utilities.delay(1000) {
+    delay(1000) {
       self.loadingView.isHidden = true
       self.loadingSpinner.stopAnimation(nil)
     }

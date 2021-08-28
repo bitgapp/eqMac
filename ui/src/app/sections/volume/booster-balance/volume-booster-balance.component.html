@@ -1,11 +1,11 @@
 <div *ngIf="!replaceKnobsWithSliders" fxLayout="row" fxFill fxLayoutAlign="space-around stretch">
-  <eqm-booster fxFlex="49%" [hide]="hide"></eqm-booster>
-  <eqm-divider orientation="vertical"></eqm-divider>
-  <eqm-balance fxFlex="49%" [hide]="hide"></eqm-balance>
+  <eqm-booster *ngIf="ui.settings.volumeFeatureEnabled" fxFlex="49%" [hide]="hide"></eqm-booster>
+  <eqm-divider *ngIf="ui.settings.volumeFeatureEnabled && ui.settings.balanceFeatureEnabled" orientation="vertical"></eqm-divider>
+  <eqm-balance *ngIf="ui.settings.balanceFeatureEnabled" fxFlex="49%" [hide]="hide"></eqm-balance>
 </div>
 
 <div *ngIf="replaceKnobsWithSliders" fxLayout="column">
-  <eqm-booster [hide]="hide"></eqm-booster>
-  <eqm-divider></eqm-divider>
-  <eqm-balance [hide]="hide"></eqm-balance>
+  <eqm-booster *ngIf="ui.settings.volumeFeatureEnabled" [hide]="hide"></eqm-booster>
+  <eqm-divider *ngIf="ui.settings.volumeFeatureEnabled && ui.settings.balanceFeatureEnabled"></eqm-divider>
+  <eqm-balance *ngIf="ui.settings.balanceFeatureEnabled" [hide]="hide"></eqm-balance>
 </div>
