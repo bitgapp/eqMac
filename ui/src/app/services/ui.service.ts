@@ -43,7 +43,7 @@ export class UIService extends DataService {
   route = `${this.route}/ui`
   dimensionsChanged = new Subject<UIDimensions>()
   settingsChanged = new Subject<UISettings>()
-  settings: UISettings
+  settings: UISettings = {}
 
   readonly colors = {
     accent: '#4f8d71',

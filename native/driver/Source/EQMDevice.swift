@@ -143,7 +143,7 @@ class EQMDevice: EQMObject {
     case kAudioDevicePropertyIcon: return sizeof(CFURL.self)
 
     case kAudioObjectPropertyCustomPropertyInfoList: return sizeof(AudioServerPlugInCustomPropertyInfo.self) * EQMDeviceCustom.properties.count
-    case EQMDeviceCustom.properties.latency: return sizeof(UInt32.self)
+    case EQMDeviceCustom.properties.latency: return sizeof(CFNumber.self)
     case EQMDeviceCustom.properties.shown: return sizeof(CFBoolean.self)
     case EQMDeviceCustom.properties.version: return sizeof(CFString.self)
     case EQMDeviceCustom.properties.name: return sizeof(CFString.self)
@@ -444,7 +444,9 @@ class EQMDevice: EQMObject {
       // Only allow eqMac app to set this property
       guard client?.bundleId == APP_BUNDLE_ID else { return noErr }
 
-      let newLatency = data.load(as: UInt32.self)
+      let newLatencyRef = data.load(as: CFNumber.self)
+      var newLatency: Int32 = 0
+      CFNumberGetValue(newLatencyRef, .sInt32Type, &newLatency)
 
       if latency != newLatency {
         latency = UInt32(newLatency)

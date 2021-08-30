@@ -118,8 +118,11 @@ class Driver {
         mElement: kAudioObjectPropertyElementMaster
       )
       
-      let size = sizeof(UInt32.self)
-      var latency: UInt32 = newValue
+      let size = sizeof(CFNumber.self)
+
+      var newLatency = newValue
+      var latency: CFNumber = CFNumberCreate(kCFAllocatorDefault, CFNumberType.sInt32Type, &newLatency)
+      
       checkErr(AudioObjectSetPropertyData(Driver.device!.id, &address, 0, nil, size, &latency))
     }
   }

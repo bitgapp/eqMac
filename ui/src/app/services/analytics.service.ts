@@ -38,6 +38,10 @@ export class AnalyticsService {
     })
     this.injected = true
 
+    while (!window.ga || typeof window.ga !== 'function') {
+      await this.utils.waitForProperty(window, 'ga')
+    }
+
     window.ga('create', 'UA-96287398-6')
     this.send()
 
