@@ -5,15 +5,13 @@ import {
   AfterContentInit
 } from '@angular/core'
 import { UtilitiesService } from './services/utilities.service'
-import { UIService, UIDimensions, UIShownChangedEventCallback } from './services/ui.service'
+import { UIService } from './services/ui.service'
 import { FadeInOutAnimation, FromTopAnimation } from '@eqmac/components'
 import { MatDialog, MatDialogRef } from '@angular/material/dialog'
 import { TransitionService } from './services/transitions.service'
 import { AnalyticsService } from './services/analytics.service'
 import { ApplicationService } from './services/app.service'
 import { SettingsService, IconMode } from './sections/settings/settings.service'
-import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component'
-import { SemanticVersion } from './services/semantic-version.service'
 import { OptionsDialogComponent } from './components/options-dialog/options-dialog.component'
 import { Option, Options } from './components/options/options.component'
 
@@ -173,8 +171,6 @@ This data would help us improve and grow the product.`
 
   async ngAfterContentInit () {
     await this.utils.delay(this.animationDuration)
-    this.syncDimensions()
-    this.startDimensionsSync()
     this.loaded = true
     this.ui.loaded()
   }
@@ -185,54 +181,10 @@ This data would help us improve and grow the product.`
     ])
   }
 
-  async syncDimensions (dimensions?: UIDimensions) {
-    await Promise.all([
-      this.syncHeight(dimensions),
-      this.syncWidth(dimensions)
-    ])
-  }
-
   async getTransitionSettings () {
     const settings = await this.transitions.getSettings()
     this.animationDuration = settings.duration
     this.animationFps = settings.fps
-  }
-
-  async syncHeight (dimensions?: UIDimensions) {
-    await this.utils.delay(10)
-    let height: number = this.container.nativeElement.offsetHeight
-    if (dimensions) {
-      if (dimensions.heightDiff) {
-        height += dimensions.heightDiff
-      } else if (dimensions.height) {
-        height = dimensions.height
-      }
-    }
-
-    height *= this.app.uiScale
-
-    this.ui.setHeight(height)
-  }
-
-  async syncWidth (dimensions?: UIDimensions) {
-    await this.utils.delay(10)
-    let width: number = this.container.nativeElement.offsetWidth
-    if (dimensions) {
-      if (dimensions.widthDiff) {
-        width += dimensions.widthDiff
-      } else if (dimensions.width) {
-        width = dimensions.width
-      }
-    }
-    width *= this.app.uiScale
-    this.ui.setWidth(width)
-  }
-
-  startDimensionsSync () {
-    this.ui.dimensionsChanged.subscribe(async dimensions => await this.syncDimensions(dimensions))
-    this.app.uiScaleChanged.subscribe(async uiScale => await this.syncDimensions())
-
-    setInterval(async () => await this.syncDimensions(), 1000)
   }
 
   toggleDropdownSection (section: string) {

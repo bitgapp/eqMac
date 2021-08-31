@@ -1,4 +1,4 @@
-<div #container class="container" [ngStyle]="containerStyle">
+<div #container fxLayout="column" class="container" [ngStyle]="containerStyle">
   <eqm-loading class="loader" *ngIf="!loaded"></eqm-loading>
   <eqm-header class="header" id="header"
     (settingsToggled)="toggleDropdownSection('settings')"
@@ -24,7 +24,7 @@
   <eqm-volume-booster-balance *ngIf="ui.settings.volumeFeatureEnabled && ui.settings.balanceFeatureEnabled"></eqm-volume-booster-balance>
   <eqm-divider *ngIf="ui.settings.volumeFeatureEnabled && ui.settings.balanceFeatureEnabled"></eqm-divider>
 
-  <eqm-equalizers (type)="syncDimensions()" *ngIf="ui.settings.equalizersFeatureEnabled" (visibilityToggled)="syncDimensions()"></eqm-equalizers>
+  <eqm-equalizers fxFlex (type)="syncDimensions()" *ngIf="ui.settings.equalizersFeatureEnabled" (visibilityToggled)="syncDimensions()"></eqm-equalizers>
   <eqm-divider *ngIf="ui.settings.equalizersFeatureEnabled && ui.settings.outputFeatureEnabled"></eqm-divider>
 
   <eqm-outputs *ngIf="ui.settings.outputFeatureEnabled"></eqm-outputs>

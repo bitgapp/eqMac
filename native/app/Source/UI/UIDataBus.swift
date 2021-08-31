@@ -38,30 +38,11 @@ class UIDataBus: DataBus {
       return nil
     }
     
-    self.on(.POST, "/height") { data, _  in
-      let height = data["height"] as? Double
-      if height == nil || height! < 0 {
-        throw "Please provide a valid 'height' parameter."
-      }
-      Application.dispatchAction(UIAction.setHeight(height!))
-      return "UI Height has been set"
-    }
-    
     self.on(.GET, "/width") { _, res in
       DispatchQueue.main.async {
         res.send([ "width": self.state.width ])
       }
       return nil
-    }
-    
-    self.on(.POST, "/width") { data, _ in
-      let width = data["width"] as? Double
-      
-      if width == nil || width! < 0 {
-        throw "Please provide a valid 'width' parameter."
-      }
-      Application.dispatchAction(UIAction.setWidth(width!))
-      return "UI Width has been set"
     }
     
     self.on(.GET, "/settings") { _, _ in

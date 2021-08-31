@@ -10,9 +10,10 @@ import Foundation
 import Cocoa
 
 class Window: NSWindow, NSWindowDelegate {
+
   override init(contentRect: NSRect, styleMask style: NSWindow.StyleMask, backing backingStoreType: NSWindow.BackingStoreType, defer flag: Bool) {
     super.init(contentRect: contentRect, styleMask: style, backing: backingStoreType, defer: flag)
-    
+
     self.delegate = self
     self.isOneShot = false
     self.titleVisibility = .hidden
@@ -68,6 +69,7 @@ class Window: NSWindow, NSWindowDelegate {
       setFrameOrigin(newPosition)
     }
   }
+
   var height: Double {
     get {
       return Double(self.frame.height)
@@ -100,7 +102,40 @@ class Window: NSWindow, NSWindowDelegate {
       self.setFrame(frame, display: false, animate: false)
     }
   }
-  
+
+  override var minSize: NSSize {
+    get {
+      return UI.minSize
+    }
+    set {}
+  }
+
+  override var maxSize: NSSize {
+    get {
+      return UI.maxSize
+    }
+    set {}
+  }
+
+  override var styleMask: NSWindow.StyleMask {
+    get {
+      var mask: NSWindow.StyleMask = [
+        .borderless,
+        .fullSizeContentView,
+        .hudWindow
+      ]
+
+      if UI.isResizable {
+        mask.insert(.resizable)
+      } else {
+        mask.remove(.resizable)
+      }
+
+      return mask
+    }
+    set {}
+  }
+
   // MARK: -  Public functions
   
   func show() {
@@ -133,5 +168,9 @@ class Window: NSWindow, NSWindowDelegate {
     super.performDrag(with: event)
     Application.dispatchAction(UIAction.setWindowPosition(position))
   }
-  
+
+  func windowDidResize(_ notification: Notification) {
+    Application.dispatchAction(UIAction.setWidth(width))
+    Application.dispatchAction(UIAction.setHeight(height))
+  }
 }

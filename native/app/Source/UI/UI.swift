@@ -28,6 +28,59 @@ extension UIMode {
 }
 
 class UI: StoreSubscriber {
+  static var state: UIState {
+    return Application.store.state.ui
+  }
+
+  struct originalHeights {
+    static let header: Float = 25
+    static let divider: Float = 3
+    static let volumeBalance: Float = 78
+    static let basicEqualizer: Float = 234
+    static let advancedEqualizer: Float = 298
+    static let outputs: Float = 52
+  }
+
+  static var headerHeight: Float {
+    return originalHeights.header + originalHeights.divider
+  }
+
+  static var volumeBalanceHeight: Float {
+    return originalHeights.volumeBalance + originalHeights.divider
+  }
+
+  static var equalizersHeight: Float {
+    return ({
+    switch Application.store.state.effects.equalizers.type {
+    case .basic: return originalHeights.basicEqualizer
+    case .advanced: return originalHeights.advancedEqualizer
+    }
+    })() + originalHeights.divider
+  }
+
+  static var outputsHeight: Float {
+    return originalHeights.outputs
+  }
+
+  static var minHeight: Float {
+    return headerHeight + volumeBalanceHeight + equalizersHeight + outputsHeight
+  }
+
+  static var minSize: NSSize {
+    return NSSize(width: 400 * state.scale, height: Double(minHeight) * state.scale)
+  }
+
+  static var maxSize: NSSize {
+    return NSSize(
+      width: (isResizable ? 4000 : 400) * state.scale,
+      height: Double((isResizable ? 4000 : minHeight)) * state.scale
+    )
+  }
+
+  static var isResizable: Bool {
+    return true
+  }
+  
   static var domain = Constants.UI_ENDPOINT_URL.host!
 
   static func unarchiveZip () {
@@ -87,7 +140,7 @@ class UI: StoreSubscriber {
       if (mode == .popover) {
         return popover.isShown
       } else {
-        return UI.window.isShown
+        return window.isShown
       }
     }
   }
@@ -96,14 +149,14 @@ class UI: StoreSubscriber {
       if (mode == .popover) {
         return popover.height
       } else {
-        return UI.window.height
+        return window.height
       }
     }
     set {
       if (mode == .popover) {
-        UI.popover.height = newValue
+        popover.height = newValue
       } else {
-        UI.window.height = newValue
+        window.height = newValue
       }
     }
   }
@@ -113,14 +166,14 @@ class UI: StoreSubscriber {
       if (mode == .popover) {
         return popover.width
       } else {
-        return UI.window.width
+        return window.width
       }
     }
     set {
       if (mode == .popover) {
-        UI.popover.width = newValue
+        popover.width = newValue
       } else {
-        UI.window.width = newValue
+        window.width = newValue
       }
     }
   }
@@ -132,17 +185,17 @@ class UI: StoreSubscriber {
           window.close()
           window.resignFirstResponder()
           window.contentViewController = nil
-          popover.popover.contentViewController = viewController
-          popover.popover.becomeFirstResponder()
+          popover.contentViewController = viewController
+          popover.becomeFirstResponder()
         } else {
           popover.hide()
-          popover.popover.resignFirstResponder()
-          popover.popover.contentViewController = nil
+          popover.resignFirstResponder()
+          popover.contentViewController = nil
           window.contentViewController = viewController
           window.becomeFirstResponder()
         }
-        if (!UI.duringInit) {
-          UI.show()
+        if (!duringInit) {
+          show()
         }
       }
     }
@@ -152,10 +205,10 @@ class UI: StoreSubscriber {
     didSet {
       DispatchQueue.main.async {
         if alwaysOnTop {
-          popover.popover.behavior = .applicationDefined
+          popover.behavior = .applicationDefined
           window.level = .floating
         } else {
-          popover.popover.behavior = .transient
+          popover.behavior = .transient
           window.level = .normal
         }
       }
@@ -167,14 +220,14 @@ class UI: StoreSubscriber {
       if (mode == .popover) {
         return popover.canHide
       } else {
-        return UI.window.canHide
+        return window.canHide
       }
     }
     set {
       if (mode == .popover) {
-        UI.popover.canHide = newValue
+        popover.canHide = newValue
       } else {
-        UI.window.canHide = newValue
+        window.canHide = newValue
       }
     }
   }
@@ -302,7 +355,7 @@ class UI: StoreSubscriber {
   }
   
   static func setupBridge () {
-    bridge = Bridge(webView: UI.viewController.webView)
+    bridge = Bridge(webView: viewController.webView)
   }
   
   // MARK: - State
@@ -316,12 +369,6 @@ class UI: StoreSubscriber {
   
   func newState(state: UIState) {
     DispatchQueue.main.async {
-      if (state.height != UI.height) {
-        UI.height = state.height
-      }
-      if (state.width != UI.width) {
-        UI.width = state.width
-      }
       if (state.mode != UI.mode) {
         UI.mode = state.mode
       }
@@ -335,8 +382,8 @@ class UI: StoreSubscriber {
   }
   
   private static func setupListeners () {
-    statusItemClickedListener = UI.statusItem.clicked.on {_ in
-      UI.toggle()
+    statusItemClickedListener = statusItem.clicked.on {_ in
+      toggle()
     }
   }
   
@@ -345,7 +392,7 @@ class UI: StoreSubscriber {
   
   static func whenLoaded (_ completion: @escaping () -> Void) {
     if hasLoaded { return completion() }
-    UI.loaded.once {
+    loaded.once {
       completion()
     }
   }
@@ -355,7 +402,7 @@ class UI: StoreSubscriber {
     
     func startUILoad (_ url: URL) {
       DispatchQueue.main.async {
-        UI.viewController.load(url)
+        viewController.load(url)
       }
     }
 
@@ -365,9 +412,9 @@ class UI: StoreSubscriber {
       self.getRemoteVersion { remoteVersion in
         if remoteVersion != nil {
           let fs = FileManager.default
-          if fs.fileExists(atPath: UI.remoteZipPath.path) {
-            UI.unarchiveZip()
-            let currentVersion = try? String(contentsOf: UI.localPath.appendingPathComponent("version.txt"))
+          if fs.fileExists(atPath: remoteZipPath.path) {
+            unarchiveZip()
+            let currentVersion = try? String(contentsOf: localPath.appendingPathComponent("version.txt"))
             if (currentVersion?.trim() != remoteVersion?.trim()) {
               self.cacheRemote()
             }
@@ -380,8 +427,8 @@ class UI: StoreSubscriber {
 
     func loadLocal () {
       Console.log("Loading Local UI")
-      UI.unarchiveZip()
-      let url = URL(string: "\(UI.localPath)/index.html")!
+      unarchiveZip()
+      let url = URL(string: "\(localPath)/index.html")!
       startUILoad(url)
     }
 
@@ -438,7 +485,7 @@ class UI: StoreSubscriber {
         Console.log("Finished caching Remote UI")
         if resp.error == nil {
           do {
-            try resp.data.write(to: UI.remoteZipPath, options: .atomic)
+            try resp.data.write(to: remoteZipPath, options: .atomic)
           } catch {
             print(error)
           }

@@ -19,6 +19,7 @@ struct UIState: State {
   var settings: JSON = JSON()
   var mode: UIMode = .window
   var statusItemIconType: StatusItemIconType = .classic
+  var scale: Double = 1
 }
 
 enum UIAction: Action {
@@ -29,6 +30,7 @@ enum UIAction: Action {
   case setSettings(JSON)
   case setMode(UIMode)
   case setStatusItemIconType(StatusItemIconType)
+  case setScale(Double)
 }
 
 func UIStateReducer(action: Action, state: UIState?) -> UIState {
@@ -49,6 +51,8 @@ func UIStateReducer(action: Action, state: UIState?) -> UIState {
     state.mode = mode
   case .setStatusItemIconType(let type)?:
     state.statusItemIconType = type
+  case .setScale(let scale)?:
+    state.scale = scale
   case .none:
     break
   }

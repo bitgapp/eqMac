@@ -91,7 +91,7 @@ class View: NSView {
     if backgroundAdded { return }
 
     // Should only apply this to the popover
-    guard window == UI.popover.popover.contentViewController?.view.window else {
+    guard window == UI.popover.contentViewController?.view.window else {
       return
     }
 

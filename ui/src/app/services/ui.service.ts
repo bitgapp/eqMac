@@ -100,17 +100,9 @@ export class UIService extends DataService {
     return width
   }
 
-  setWidth (width: number) {
-    return this.request({ method: 'POST', endpoint: '/width', data: { width } })
-  }
-
   async getHeight () {
     const { height } = await this.request({ method: 'GET', endpoint: '/height' })
     return height
-  }
-
-  setHeight (height: number) {
-    return this.request({ method: 'POST', endpoint: '/height', data: { height } })
   }
 
   hide () {
