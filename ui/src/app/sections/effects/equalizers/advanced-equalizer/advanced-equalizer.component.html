@@ -1,5 +1,5 @@
 <eqm-loading *ngIf="!selectedPreset || !presets"></eqm-loading>
-<div *ngIf="selectedPreset && presets" fxLayoutAlign="start center" fxLayout="column" fxLayoutGap="10px" fxFill>
+<div *ngIf="selectedPreset && presets" fxLayoutAlign="space-between center" fxLayout="column" fxLayoutGap="10px" class="w-100 h-100">
   <div fxLayout="row" style="width: 95%" fxLayoutAlign="space-around center" fxLayoutGap="10px">
     <eqm-value-screen [enabled]="enabled">Global:</eqm-value-screen>
     <div style="width: 90%">
@@ -10,37 +10,25 @@
     </div>
     <eqm-value-screen [enabled]="enabled">{{screenValue(global)}}</eqm-value-screen>
   </div>
-  <table fxFill>
-    <tr>
-      <td class="band annotations">
-        <eqm-label [fontSize]="10">Hz</eqm-label>
-      </td>
-      <td class="band" *ngFor="let frequencyLabel of bandFrequencyLabels">
-        <eqm-label class="frequency" [fontSize]="10">{{frequencyLabel}}</eqm-label>
-      </td>
-    </tr>
-    <tr>
-      <td class="band annotations">
-        <eqm-button type="transparent" (pressed)="selectFlatPreset()" [enabled]="enabled">
-          <eqm-icon name="triangle" color="#4f8d71" [width]="10" [height]="10"></eqm-icon>
-        </eqm-button>
-      </td>
-      <td class="band" *ngFor="let frequencyLabel of bandFrequencyLabels; index as i; trackBy: bandTracker">
-        <eqm-skeuomorph-slider [enabled]="enabled" [min]="-24" [max]="24" [(value)]="bands[i]"
+  <div fxLayout="row" fxFlex fxLayout="space-between center" class="w-100">
+    <div fxLayout="column" fxLayoutAlign="space-between center">
+      <eqm-label [fontSize]="10">Hz</eqm-label>
+      <eqm-button type="transparent" (pressed)="selectFlatPreset()" [enabled]="enabled">
+        <eqm-icon name="triangle" color="#4f8d71" [width]="10" [height]="10"></eqm-icon>
+      </eqm-button>
+      <eqm-label [fontSize]="8" class="gain">Gain</eqm-label>
+    </div>
+
+    <div fxLayout="column" *ngFor="let frequencyLabel of bandFrequencyLabels; index as i; trackBy: bandTracker" class="band" fxLayoutAlign="space-between center" fxFlex>
+      <eqm-label class="frequency" [fontSize]="10">{{frequencyLabel}}</eqm-label>
+      <eqm-skeuomorph-slider [enabled]="enabled" [min]="-24" [max]="24" [(value)]="bands[i]" fxFlex
           (userChangedValue)="setGain(i, $event)" [stickToMiddle]="stickSlidersToMiddle"
           (stickedToMiddle)="performHapticFeedback()" [animationDuration]="animationDuration"
-          [animationFps]="animationFps"></eqm-skeuomorph-slider>
-      </td>
-    </tr>
-    <tr>
-      <td class="band annotations">
-        <eqm-label [fontSize]="8">Gain</eqm-label>
-      </td>
-      <td class="band" *ngFor="let frequencyLabel of bandFrequencyLabels; index as i; trackBy: bandTracker">
-        <eqm-value-screen [enabled]="enabled" class="gain" [fontSize]="8">
-          {{screenValue(bands[i])}}
-        </eqm-value-screen>
-      </td>
-    </tr>
-  </table>
+          [animationFps]="animationFps">
+      </eqm-skeuomorph-slider>
+      <eqm-value-screen [enabled]="enabled" class="gain" [fontSize]="8">
+        {{screenValue(bands[i])}}
+      </eqm-value-screen>
+    </div>
+  </div>
 </div>

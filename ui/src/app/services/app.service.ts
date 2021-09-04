@@ -19,16 +19,6 @@ export class ApplicationService extends DataService {
   enabled: boolean
   ref?: AppComponent
   info?: Info
-  private _uiScale = 1
-  uiScaleChanged = new EventEmitter<number>()
-
-  get uiScale () { return this._uiScale }
-  set uiScale (newUIScale: number) {
-    if (this.uiScale !== newUIScale) {
-      this._uiScale = newUIScale
-      this.uiScaleChanged.emit(this.uiScale)
-    }
-  }
 
   constructor (
     public toast: ToastService,
@@ -46,17 +36,10 @@ export class ApplicationService extends DataService {
   }
 
   async sync () {
-    const [ uiSettings, enabled ] = await Promise.all([
-      this.ui.getSettings(),
+    const [ enabled ] = await Promise.all([
       this.getEnabled()
     ])
     this.enabled = enabled
-    this.uiScale = uiSettings.uiScale ?? 1
-  }
-
-  setUIScale (uiScale: number) {
-    this.uiScale = uiScale
-    this.ui.setSettings({ uiScale })
   }
 
   async getInfo (): Promise<Info> {

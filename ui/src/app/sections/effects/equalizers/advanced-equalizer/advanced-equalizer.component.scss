@@ -1,26 +1,19 @@
 
 :host {
   display: block;
-  padding-bottom: 5px;
 }
 
-table {
-  white-space: nowrap;
-  table-layout:fixed;
-}
 .band {
-  width: 9.5%;
   padding: 0px;
   display:inline-block;
   overflow: hidden;    
   text-align: center;
-  eqm-skeuomorph-slider {
-    height: 145px;
-  }
 }
 
 .gain {
   margin-top: 2px;
+  margin-bottom: 5px;
+  height: 15px;
 }
 
 .annotations {

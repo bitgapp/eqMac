@@ -46,5 +46,11 @@ struct Constants {
   static let UPDATES_FEED = URL(string: "https://update.eqmac.app/update.xml")!
   static let BETA_UPDATES_FEED = URL(string: "https://update.eqmac.app/beta-update.xml")!
   static let OPEN_URL_TRUSTED_DOMAINS: [String] = ["eqmac.app", "github.com"]
+  static let TRUSTED_URL_PREFIXES: [String] = [
+    "https://eqmac.app",
+    "https://github.com/bitgapp/",
+    "https://github.com/bitgapp/",
+    "https://github.com/jaakkopasanen/AutoEq"
+  ]
 }
 

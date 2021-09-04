@@ -14,6 +14,10 @@ export class VolumeBoosterBalanceComponent implements OnInit {
     public ui: UIService
   ) { }
 
+  get height () {
+    return this.replaceKnobsWithSliders ? 125 : 78
+  }
+
   async ngOnInit () {
     this.syncUISettings()
     this.setupListeners()

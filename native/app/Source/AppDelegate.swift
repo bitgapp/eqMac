@@ -75,6 +75,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, SUUpdaterDelegate {
 //      UI.show()
 //    }
   }
+
+  func applicationDidResignActive(_ notification: Notification) {
+    if UI.mode == .popover {
+      UI.close()
+    }
+  }
   
   func updaterDidNotFindUpdate(_ updater: SUUpdater) {
     updateProcessed.emit()

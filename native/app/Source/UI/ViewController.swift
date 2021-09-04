@@ -80,34 +80,6 @@ class ViewController: NSViewController, WKNavigationDelegate {
 }
 
 class View: NSView {
-  var backgroundAdded = false
-
-  override func viewDidMoveToWindow() {
-    addBackground()
-  }
-
-  // This is a workaround to color the popover top triangle to a non-default system color
-  func addBackground () {
-    if backgroundAdded { return }
-
-    // Should only apply this to the popover
-    guard window == UI.popover.contentViewController?.view.window else {
-      return
-    }
-
-    guard let frameView = window?.contentView?.superview else {
-      return
-    }
-
-    let backgroundView = NSView(frame: frameView.bounds)
-    backgroundView.wantsLayer = true
-    backgroundView.layer?.backgroundColor = NSColor(red: 62 / 255, green: 62 / 255, blue: 62 / 255, alpha: 1).cgColor
-    backgroundView.autoresizingMask = [.width, .height]
-
-    frameView.addSubview(backgroundView, positioned: .below, relativeTo: frameView)
-    backgroundAdded = true
-  }
-  
   override var acceptsFirstResponder: Bool { true }
   override func keyDown(with event: NSEvent) {
     // This is an override to disable OS sound effects (beeps and boops) when pressing keys inside the view

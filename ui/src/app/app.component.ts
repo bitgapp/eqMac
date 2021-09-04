@@ -14,6 +14,10 @@ import { ApplicationService } from './services/app.service'
 import { SettingsService, IconMode } from './sections/settings/settings.service'
 import { OptionsDialogComponent } from './components/options-dialog/options-dialog.component'
 import { Option, Options } from './components/options/options.component'
+import { HeaderComponent } from './sections/header/header.component'
+import { VolumeBoosterBalanceComponent } from './sections/volume/booster-balance/volume-booster-balance.component'
+import { EqualizersComponent } from './sections/effects/equalizers/equalizers.component'
+import { OutputsComponent } from './sections/outputs/outputs.component'
 
 @Component({
   selector: 'app-root',
@@ -24,6 +28,11 @@ import { Option, Options } from './components/options/options.component'
 
 export class AppComponent implements OnInit, AfterContentInit {
   @ViewChild('container', { static: true }) container
+  @ViewChild('header', { static: true }) header: HeaderComponent
+  @ViewChild('volumeBoosterBalance', { static: false }) volumeBoosterBalance: VolumeBoosterBalanceComponent
+  @ViewChild('equalizers', { static: false }) equalizers: EqualizersComponent
+  @ViewChild('outputs', { static: false }) outputs: OutputsComponent
+
   loaded = false
   animationDuration = 500
   animationFps = 30
@@ -36,13 +45,9 @@ export class AppComponent implements OnInit, AfterContentInit {
   get containerStyle () {
     const style: any = {}
 
-    style.transform = `scale(${this.app.uiScale})`
-
-    const dropdownSection = document.getElementById('dropdown-section')
-    if (dropdownSection) {
-      const minHeight = dropdownSection.offsetHeight
-      style.minHeight = `${minHeight}px`
-    }
+    style.width = `${100 / this.ui.scale}%`
+    style.height = `${100 / this.ui.scale}%`
+    style.transform = `scale(${this.ui.scale})`
 
     return style
   }
@@ -59,16 +64,40 @@ export class AppComponent implements OnInit, AfterContentInit {
     this.app.ref = this
   }
 
+  get minHeight () {
+    const divider = 3
+
+    const {
+      volumeFeatureEnabled, balanceFeatureEnabled,
+      equalizersFeatureEnabled,
+      outputFeatureEnabled
+    } = this.ui.settings
+    let minHeight = this.header.height + divider +
+      ((volumeFeatureEnabled || balanceFeatureEnabled) ? (this.volumeBoosterBalance.height + divider) : 0) +
+      (equalizersFeatureEnabled ? (this.equalizers.height + divider) : 0) +
+      (outputFeatureEnabled ? this.outputs.height : 0)
+
+    const dropdownSection = document.getElementById('dropdown-section')
+    if (dropdownSection) {
+      const dropdownHeight = dropdownSection.offsetHeight + this.header.height + divider
+      if (dropdownHeight > minHeight) {
+        minHeight = dropdownHeight
+      }
+    }
+
+    return minHeight
+  }
+
   async ngOnInit () {
     await this.sync()
+    this.startHeightSync()
     await this.fixUIMode()
     await this.setupPrivacy()
   }
 
   async setupPrivacy () {
-    const [ uiSettings, info ] = await Promise.all([
-      this.ui.getSettings(),
-      this.app.getInfo()
+    const [ uiSettings ] = await Promise.all([
+      this.ui.getSettings()
     ])
 
     if (typeof uiSettings.privacyFormSeen !== 'boolean') {
@@ -179,6 +208,17 @@ This data would help us improve and grow the product.`
     await Promise.all([
       this.getTransitionSettings()
     ])
+  }
+
+  async startHeightSync () {
+    this.syncHeight()
+    setInterval(() => {
+      this.syncHeight()
+    }, 1000)
+  }
+
+  async syncHeight () {
+    await this.ui.setMinHeight({ minHeight: this.minHeight })
   }
 
   async getTransitionSettings () {

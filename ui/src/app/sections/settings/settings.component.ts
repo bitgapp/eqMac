@@ -230,7 +230,7 @@ before they go out to all users.
         clearTimeout(this.uiScaleSliderDebounceTimer)
       }
       this.uiScaleSliderDebounceTimer = setTimeout(() => {
-        this.app.setUIScale(event.value)
+        this.ui.setScale(event.value)
       }, 1000) as any
     },
     style: {
@@ -372,7 +372,8 @@ before they go out to all users.
       doOTAUpdates,
       alwaytOnTop,
       statusItemIconType,
-      doBetaUpdates
+      doBetaUpdates,
+      uiScale
     ] = await Promise.all([
       this.settingsService.getLaunchOnStartup(),
       this.settingsService.getIconMode(),
@@ -382,7 +383,8 @@ before they go out to all users.
       this.settingsService.getDoOTAUpdates(),
       this.ui.getAlwaysOnTop(),
       this.ui.getStatusItemIconType(),
-      this.settingsService.getDoBetaUpdates()
+      this.settingsService.getDoBetaUpdates(),
+      this.ui.getScale()
     ])
     this.iconModeOption.selectedId = iconMode
     this.launchOnStartupOption.value = launchOnStartup
@@ -395,7 +397,7 @@ before they go out to all users.
     this.alwaysOnTopOption.value = alwaytOnTop
     this.statusItemIconTypeOption.selectedId = statusItemIconType
     this.betaUpdatesOption.value = doBetaUpdates
-    this.uiScaleSlider.value = UISettings.uiScale ?? 1
+    this.uiScaleSlider.value = uiScale
     this.setUIScaleScreenValue()
   }
 

@@ -122,7 +122,9 @@ class Window: NSWindow, NSWindowDelegate {
       var mask: NSWindow.StyleMask = [
         .borderless,
         .fullSizeContentView,
-        .hudWindow
+        .hudWindow,
+        .titled,
+        .miniaturizable
       ]
 
       if UI.isResizable {

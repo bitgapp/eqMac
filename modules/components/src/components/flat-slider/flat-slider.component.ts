@@ -431,6 +431,11 @@ export class FlatSliderComponent implements OnInit, OnDestroy {
     return style
   }
 
+  @HostListener('window:resize')
+  onWindowResize () {
+    this.changeRef.detectChanges()
+  }
+
   private mapValue ({ value, inMin, inMax, outMin, outMax, logInverse }: {
     value: number
     inMin: number

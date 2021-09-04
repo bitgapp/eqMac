@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core'
+import { Component, OnInit, EventEmitter, Output, HostBinding } from '@angular/core'
 import { ApplicationService } from 'src/app/services/app.service'
 import { UIService, UIMode } from 'src/app/services/ui.service'
 import { FadeInOutAnimation } from '@eqmac/components'
@@ -17,6 +17,7 @@ export class HeaderComponent implements OnInit {
   showBooleanDebouncers: { [name: string]: any } = {}
   uiMode: UIMode
   appEnabled: boolean = true
+  @HostBinding('style.height.px') height = 25
 
   @Output() settingsToggled = new EventEmitter()
   @Output() helpToggled = new EventEmitter()

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef } from '@angular/core'
+import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef, HostBinding } from '@angular/core'
 import { BasicEqualizerService, BasicEqualizerPreset, BasicEqualizerBand, BasicEqualizerPresetGains } from './basic-equalizer.service'
 import { EqualizerComponent } from '../equalizer.component'
 import { KnobValueChangedEvent } from '@eqmac/components'
@@ -13,6 +13,9 @@ import { UIService } from '../../../../services/ui.service'
 })
 export class BasicEqualizerComponent extends EqualizerComponent implements OnInit {
   @Input() enabled = true
+  get height () {
+    return this.replaceKnobsWithSliders ? 180 : 164
+  }
 
   gains: BasicEqualizerPresetGains = {
     bass: 0,

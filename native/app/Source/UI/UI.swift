@@ -32,53 +32,49 @@ class UI: StoreSubscriber {
     return Application.store.state.ui
   }
 
-  struct originalHeights {
-    static let header: Float = 25
-    static let divider: Float = 3
-    static let volumeBalance: Float = 78
-    static let basicEqualizer: Float = 234
-    static let advancedEqualizer: Float = 298
-    static let outputs: Float = 52
+  static var minHeight: Double {
+    return state.minHeight * scale
   }
 
-  static var headerHeight: Float {
-    return originalHeights.header + originalHeights.divider
-  }
-
-  static var volumeBalanceHeight: Float {
-    return originalHeights.volumeBalance + originalHeights.divider
-  }
-
-  static var equalizersHeight: Float {
-    return ({
-    switch Application.store.state.effects.equalizers.type {
-    case .basic: return originalHeights.basicEqualizer
-    case .advanced: return originalHeights.advancedEqualizer
+  static var height: Double {
+    get {
+      return window.height
     }
-    })() + originalHeights.divider
+    set {
+      window.height = newValue
+    }
   }
 
-  static var outputsHeight: Float {
-    return originalHeights.outputs
+  static var width: Double {
+    get {
+      return window.width
+    }
+    set {
+      window.width = newValue
+    }
   }
 
-  static var minHeight: Float {
-    return headerHeight + volumeBalanceHeight + equalizersHeight + outputsHeight
+  static var scale: Double {
+    return state.scale
   }
 
   static var minSize: NSSize {
-    return NSSize(width: 400 * state.scale, height: Double(minHeight) * state.scale)
-  }
-
-  static var maxSize: NSSize {
     return NSSize(
-      width: (isResizable ? 4000 : 400) * state.scale,
-      height: Double((isResizable ? 4000 : minHeight)) * state.scale
+      width: 400 * scale,
+      height: minHeight
     )
   }
 
+  static var maxSize: NSSize {
+    if isResizable {
+      return NSSize(width: 4000, height: 4000)
+    } else {
+      return minSize
+    }
+  }
+
   static var isResizable: Bool {
-    return true
+    return false
   }
   
   static var domain = Constants.UI_ENDPOINT_URL.host!
@@ -125,7 +121,6 @@ class UI: StoreSubscriber {
       withIdentifier: "EQMWindowController"
     ) as! NSWindowController)
   static var window: Window = (windowController.window! as! Window)
-  static var popover = Popover(statusItem)
 
   static var viewController = (
     storyboard.instantiateController(
@@ -135,65 +130,15 @@ class UI: StoreSubscriber {
 
   static var cachedIsShown: Bool = false
   static var isShownChanged = Event<Bool>()
+
   static var isShown: Bool {
-    get {
-      if (mode == .popover) {
-        return popover.isShown
-      } else {
-        return window.isShown
-      }
-    }
-  }
-  static var height: Double {
-    get {
-      if (mode == .popover) {
-        return popover.height
-      } else {
-        return window.height
-      }
-    }
-    set {
-      if (mode == .popover) {
-        popover.height = newValue
-      } else {
-        window.height = newValue
-      }
-    }
-  }
-  
-  static var width: Double {
-    get {
-      if (mode == .popover) {
-        return popover.width
-      } else {
-        return window.width
-      }
-    }
-    set {
-      if (mode == .popover) {
-        popover.width = newValue
-      } else {
-        window.width = newValue
-      }
-    }
+    return window.isShown
   }
   
   static var mode: UIMode = .window {
     willSet {
       DispatchQueue.main.async {
-        if (newValue == .popover) {
-          window.close()
-          window.resignFirstResponder()
-          window.contentViewController = nil
-          popover.contentViewController = viewController
-          popover.becomeFirstResponder()
-        } else {
-          popover.hide()
-          popover.resignFirstResponder()
-          popover.contentViewController = nil
-          window.contentViewController = viewController
-          window.becomeFirstResponder()
-        }
+        window.becomeFirstResponder()
         if (!duringInit) {
           show()
         }
@@ -205,10 +150,8 @@ class UI: StoreSubscriber {
     didSet {
       DispatchQueue.main.async {
         if alwaysOnTop {
-          popover.behavior = .applicationDefined
           window.level = .floating
         } else {
-          popover.behavior = .transient
           window.level = .normal
         }
       }
@@ -217,18 +160,10 @@ class UI: StoreSubscriber {
   
   static var canHide: Bool {
     get {
-      if (mode == .popover) {
-        return popover.canHide
-      } else {
-        return window.canHide
-      }
+      return window.canHide
     }
     set {
-      if (mode == .popover) {
-        popover.canHide = newValue
-      } else {
-        window.canHide = newValue
-      }
+      window.canHide = newValue
     }
   }
   
@@ -244,30 +179,32 @@ class UI: StoreSubscriber {
   
   static func show () {
     DispatchQueue.main.async {
-      if (mode == .popover) {
-        popover.show()
-      } else {
-        window.show()
+      if mode == .popover {
+        // If mode is Popover move the window to where the Popover would be
+        if let frame = statusItem.item.button?.window?.frame {
+          var point = frame.origin
+          point.x = point.x - window.frame.width / 2 + frame.width / 2
+          point.y -= 10
+          window.setFrameOrigin(point)
+        }
       }
+
+      window.show()
       NSApp.activate(ignoringOtherApps: true)
     }
   }
   
   static func close () {
     DispatchQueue.main.async {
-      if (mode == .popover) {
-        popover.hide()
-      } else {
-        window.close()
-      }
+      window.close()
       NSApp.hide(self)
     }
   }
 
   static func hide () {
     DispatchQueue.main.async {
-      if (mode == .popover) {
-        popover.hide()
+      if mode == .popover {
+        close()
       } else {
         window.performMiniaturize(nil)
       }
@@ -289,6 +226,8 @@ class UI: StoreSubscriber {
           UI.height = Application.store.state.ui.height
           UI.statusItem.iconType = Application.store.state.ui.statusItemIconType
         })()
+
+        UI.window.contentViewController = UI.viewController
 
         // Set window position to where it was last time, in case that position is not available anymore - reset.
         if var windowPosition = Application.store.state.ui.windowPosition {
@@ -378,6 +317,35 @@ class UI: StoreSubscriber {
       if (state.statusItemIconType != UI.statusItem.iconType) {
         UI.statusItem.iconType = state.statusItemIconType
       }
+
+      if (state.height != UI.height && state.fromUI) {
+        UI.height = state.height
+      }
+
+      if (state.width != UI.width && state.fromUI) {
+        UI.width = state.width
+      }
+
+      UI.checkFixWindowSize()
+
+    }
+  }
+
+  private static func checkFixWindowSize () {
+    if (UI.height < Double(UI.minSize.height)) {
+      UI.height = Double(UI.minSize.height)
+    }
+
+    if (UI.height > Double(UI.maxSize.height)) {
+      UI.height = Double(UI.maxSize.height)
+    }
+
+    if (UI.width < Double(UI.minSize.width)) {
+      UI.width = Double(UI.minSize.width)
+    }
+
+    if (UI.width > Double(UI.maxSize.width)) {
+      UI.width = Double(UI.maxSize.width)
     }
   }
   

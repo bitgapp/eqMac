@@ -37,12 +37,40 @@ class UIDataBus: DataBus {
       }
       return nil
     }
+
+    self.on(.POST, "/height") { data, _  in
+      guard let height = data["height"] as? Double, height > 0 else {
+        throw "Please provide a valid 'height' parameter."
+      }
+      Application.dispatchAction(UIAction.setHeight(height, true))
+      return "UI Height has been set"
+    }
+
+    self.on(.GET, "/width") { _, res in
+      DispatchQueue.main.async {
+        res.send([ "width": self.state.width ])
+      }
+      return nil
+    }
     
     self.on(.GET, "/width") { _, res in
       DispatchQueue.main.async {
         res.send([ "width": self.state.width ])
       }
       return nil
+    }
+
+    self.on(.POST, "/width") { data, _ in
+      guard let width = data["width"] as? Double, width > 0 else {
+        throw "Please provide a valid 'width' parameter."
+      }
+
+      Application.dispatchAction(UIAction.setWidth(width, true))
+      return "UI Width has been set"
+    }
+
+    self.on(.GET, "/settings") { _, _ in
+      return self.state.settings
     }
     
     self.on(.GET, "/settings") { _, _ in
@@ -111,7 +139,34 @@ class UIDataBus: DataBus {
       }
       throw "Please provide a valid 'statusItemIconType' parameter"
     }
-    
+
+    self.on(.GET, "/min-height") { _, _ in
+      return [ "minHeight": self.state.minHeight ]
+    }
+
+    self.on(.POST, "/min-height") { data, _ in
+      guard let minHeight = data["minHeight"] as? Double else {
+        throw "Please provide a valid 'minHeight' parameter, must be a Float value"
+      }
+
+      Application.dispatchAction(UIAction.setMinHeight(minHeight))
+      return "Min Height has been set"
+    }
+
+    self.on(.GET, "/scale") { _, _ in
+      return [ "scale": self.state.scale ]
+    }
+
+    self.on(.POST, "/scale") { data, _ in
+      guard let scale = data["scale"] as? Double, (0.5...2.0).contains(scale) else {
+        throw "Invalid 'scale' parameter, must be a Double in range 0.5...2.0"
+      }
+
+      Application.dispatchAction(UIAction.setScale(scale))
+
+      return "UI Scale has been set"
+    }
+
     self.isShownChangedListener = UI.isShownChanged.on { isShown in
       self.send(to: "/shown", data: JSON([ "isShown": isShown ]))
     }

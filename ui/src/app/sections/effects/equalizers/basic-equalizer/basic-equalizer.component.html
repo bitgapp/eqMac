@@ -1,5 +1,5 @@
 <eqm-loading *ngIf="!selectedPreset || !presets"></eqm-loading>
-<div *ngIf="selectedPreset && presets" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="10px">
+<div *ngIf="selectedPreset && presets" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px" fxFlex>
   <div fxLayout="row">
     <div fxLayout="column">
       <div fxLayout="row" fxLayoutAlign="center center" style="width: 100%;">
@@ -14,8 +14,7 @@
   </div>
 
   <!-- Knobs -->
-  <div *ngIf="!replaceKnobsWithSliders" class="basic-level-knobs"  style="width: 100%;" fxLayout="row"
-    fxLayoutAlign="space-around center">
+  <div *ngIf="!replaceKnobsWithSliders" class="basic-level-knobs"  style="width: 100%;" fxLayout="row" fxLayoutAlign="space-around center">
     <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="5px">
       <eqm-label>BASS</eqm-label>
       <eqm-knob #bassKnob size="large" [controlStyle]="ui.settings.knobControlStyle" [enabled]="enabled" [min]="-24" [max]="24" [(value)]="gains.bass"
@@ -23,7 +22,6 @@
         (stickedToMiddle)="performHapticFeedback($event)" [animationDuration]="animationDuration"
         [animationFps]="animationFps"></eqm-knob>
       <eqm-value-screen [enabled]="enabled">{{screenValue(gains.bass)}}</eqm-value-screen>
-
     </div>
     <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="5px">
       <eqm-label>MID</eqm-label>
@@ -44,8 +42,7 @@
   </div>
 
   <!-- Sliders -->
-  <div *ngIf="replaceKnobsWithSliders" class="basic-level-sliders" fxFill fxLayoutGap="15px" fxLayout="column"
-    fxLayoutAlign="space-around center">
+  <div *ngIf="replaceKnobsWithSliders" class="basic-level-sliders w-100" fxLayoutGap="20px" fxLayout="column" fxLayoutAlign="space-around center">
     <div fxLayout="row" fxLayoutAlign="center center" fxFill fxLayoutGap="5px">
       <eqm-label fxFlex="52px">BASS</eqm-label>
       <div fxFlex="70%">

@@ -68,7 +68,6 @@
 		E057A64D2271A6DD0019D13C /* VolumeDataBus.swift in Sources */ = {isa = PBXBuildFile; fileRef = E057A64C2271A6DD0019D13C /* VolumeDataBus.swift */; };
 		E057A6512271A7DC0019D13C /* OutputsDataBus.swift in Sources */ = {isa = PBXBuildFile; fileRef = E057A6502271A7DC0019D13C /* OutputsDataBus.swift */; };
 		E06E98D021D17E230041DD9C /* UI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E06E98CF21D17E230041DD9C /* UI.swift */; };
-		E06E98D221D2E32E0041DD9C /* Popover.swift in Sources */ = {isa = PBXBuildFile; fileRef = E06E98D121D2E32E0041DD9C /* Popover.swift */; };
 		E072856B23F84A5500EDE8AC /* BoolExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E072856A23F84A5500EDE8AC /* BoolExtensions.swift */; };
 		E073727B20167CA300874CC6 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E073727A20167CA300874CC6 /* Constants.swift */; };
 		E07A24E41FF3D49F007AEF20 /* AudioDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = E07A24E31FF3D49F007AEF20 /* AudioDevice.swift */; };
@@ -180,7 +179,6 @@
 		E057A6502271A7DC0019D13C /* OutputsDataBus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutputsDataBus.swift; sourceTree = "<group>"; };
 		E05901ED2221F21E006B93A5 /* Sandbox.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Sandbox.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		E06E98CF21D17E230041DD9C /* UI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI.swift; sourceTree = "<group>"; };
-		E06E98D121D2E32E0041DD9C /* Popover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Popover.swift; sourceTree = "<group>"; };
 		E072856A23F84A5500EDE8AC /* BoolExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoolExtensions.swift; sourceTree = "<group>"; };
 		E073727A20167CA300874CC6 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		E073727C20167E7600874CC6 /* Application.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Application.swift; sourceTree = "<group>"; };
@@ -395,14 +393,13 @@
 		E095BBC12014CDF1003473E9 /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				E0C5629220A39651000902ED /* Bridge.swift */,
-				E0C8F78521D3B6590023B1E5 /* UIDataBus.swift */,
-				E06E98CF21D17E230041DD9C /* UI.swift */,
 				E09C171F1FEC1969008E65A4 /* Main.storyboard */,
+				E06E98CF21D17E230041DD9C /* UI.swift */,
 				E00618E120F14C08003BA0B0 /* UIState.swift */,
+				E0C8F78521D3B6590023B1E5 /* UIDataBus.swift */,
 				E0FFB702200119060003EC9E /* StatusItem.swift */,
+				E0C5629220A39651000902ED /* Bridge.swift */,
 				E0F661851FDDED0C00252923 /* ViewController.swift */,
-				E06E98D121D2E32E0041DD9C /* Popover.swift */,
 				E0A9A90D22D24A6200EB1E49 /* Window.swift */,
 				E0136BB222D9EC920048D5BC /* DraggableView.swift */,
 			);
@@ -828,7 +825,6 @@
 				E0E8B62F20EEB6A900DE905C /* EffectsState.swift in Sources */,
 				E0D5F88722DD20F800499250 /* SettingsState.swift in Sources */,
 				E01B1BB9235E454500CC58E5 /* InputSource.swift in Sources */,
-				E06E98D221D2E32E0041DD9C /* Popover.swift in Sources */,
 				789B5F73269A45C400C72029 /* NSImageExtensions.swift in Sources */,
 				E07B45A620FBA4990086AA7E /* Encodable.swift in Sources */,
 				E0241AA5225E9FB700748656 /* BasicEqualizerPreset.swift in Sources */,

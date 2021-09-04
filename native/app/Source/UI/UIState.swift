@@ -20,27 +20,32 @@ struct UIState: State {
   var mode: UIMode = .window
   var statusItemIconType: StatusItemIconType = .classic
   var scale: Double = 1
+  var minHeight: Double = 400
+  var fromUI = false
 }
 
 enum UIAction: Action {
-  case setHeight(Double)
-  case setWidth(Double)
+  case setHeight(Double, Bool? = nil)
+  case setWidth(Double, Bool? = nil)
   case setWindowPosition(NSPoint)
   case setAlwaysOnTop(Bool)
   case setSettings(JSON)
   case setMode(UIMode)
   case setStatusItemIconType(StatusItemIconType)
   case setScale(Double)
+  case setMinHeight(Double)
 }
 
 func UIStateReducer(action: Action, state: UIState?) -> UIState {
   var state = state ?? UIState()
   
   switch action as? UIAction {
-  case .setHeight(let height)?:
+  case .setHeight(let height, let fromUI)?:
     state.height = height
-  case .setWidth(let width)?:
+    state.fromUI = fromUI == true
+  case .setWidth(let width, let fromUI)?:
     state.width = width
+    state.fromUI = fromUI == true
   case .setWindowPosition(let point)?:
     state.windowPosition = point
   case .setAlwaysOnTop(let alwaysOnTop)?:
@@ -53,6 +58,8 @@ func UIStateReducer(action: Action, state: UIState?) -> UIState {
     state.statusItemIconType = type
   case .setScale(let scale)?:
     state.scale = scale
+  case .setMinHeight(let minHeight)?:
+    state.minHeight = minHeight
   case .none:
     break
   }

@@ -43,6 +43,8 @@ export class SkeuomorphSliderComponent implements OnInit, OnDestroy {
   @Input() stickToMiddle = false
   @Output() stickedToMiddle = new EventEmitter()
 
+  private readonly padding = 14
+
   get middleValue () {
     return typeof this.middle === 'number' ? this.middle : (this.min + this.max) / 2
   }
@@ -86,6 +88,22 @@ export class SkeuomorphSliderComponent implements OnInit, OnDestroy {
 
   get value () { return this._value }
 
+  get width () {
+    return this.elRef.nativeElement.offsetWidth
+  }
+
+  get height () {
+    return this.elRef.nativeElement.offsetHeight
+  }
+
+  get notchCount () {
+    let multiplier = this.height / 167
+    multiplier = Math.floor(Math.max(1, multiplier))
+    let count = multiplier * 11
+    count = count % 2 === 1 ? count : count + 1
+    return count
+  }
+
   private lastWheelEvent = new Date().getTime()
   private readonly wheelDebouncer = 1000 / 30
   @HostListener('mousewheel', [ '$event' ])
@@ -105,9 +123,7 @@ export class SkeuomorphSliderComponent implements OnInit, OnDestroy {
   public getValueFromMouseEvent (event: MouseEvent) {
     const coords = this.utils.getCoordinatesInsideElementFromEvent(event, this.elRef.nativeElement)
     const y = coords.y
-    const height = this.elRef.nativeElement.offsetHeight
-    const padding = height * 0.11
-    const value = this.clampValue(this.utils.mapValue(y, height - padding / 2, padding, this.min, this.max))
+    const value = this.clampValue(this.utils.mapValue(y, this.height - this.padding / 2, this.padding, this.min, this.max))
     return value
   }
 
@@ -196,6 +212,7 @@ export class SkeuomorphSliderComponent implements OnInit, OnDestroy {
       this.drawNotches()
       setTimeout(() => this.drawNotches())
     }
+    setTimeout(() => this.changeRef.detectChanges())
   }
 
   async animateSlider (from: number, to: number) {
@@ -214,30 +231,32 @@ export class SkeuomorphSliderComponent implements OnInit, OnDestroy {
   }
 
   @HostListener('window:resize')
+  onWindowResize () {
+    this.drawNotches()
+    this.changeRef.detectChanges()
+  }
+
   drawNotches () {
     const canvas = this.notches.nativeElement
     const ctx: CanvasRenderingContext2D = canvas.getContext('2d')
-    const height = this.elRef.nativeElement.offsetHeight
-    const width = this.elRef.nativeElement.offsetWidth
-    canvas.height = height
-    canvas.width = width
-    const padding = height * 0.08
-    const gap = (height - padding * 2) / 10
+    canvas.height = this.height
+    canvas.width = this.width
+    const gap = (this.height - this.padding * 2) / (this.notchCount - 1)
     ctx.strokeStyle = '#559e7d'
-    for (let i = 0; i <= 10; i++) {
-      const y = Math.round(padding + gap * i) - 0.5
+    for (let i = 0; i < this.notchCount; i++) {
+      const y = Math.round(this.padding + gap * i) - 1
       ctx.beginPath()
-      const lineWidth = [ 0, 5, 10 ].includes(i) ? width : (width * 0.9)
-      ctx.moveTo((width - lineWidth) / 1, y)
+      const lineWidth = [ 0, (this.notchCount - 1) / 2, this.notchCount - 1 ].includes(i) ? this.width : (this.width * 0.9)
+      ctx.moveTo((this.width - lineWidth) / 1, y)
       ctx.lineTo(lineWidth, y)
       ctx.stroke()
       ctx.closePath()
     }
-    ctx.clearRect(width / 2 - 5, 0, 9, height)
+    ctx.clearRect(this.width / 2 - 5, 0, 9, this.height)
   }
 
   calculateTop () {
-    return `${this.utils.mapValue(this._value, this.min, this.max, this.elRef.nativeElement.offsetHeight - 25, 0)}px`
+    return `${this.utils.mapValue(this._value, this.min, this.max, this.height - 25, 0) - 1}px`
   }
 
   ngOnDestroy () {

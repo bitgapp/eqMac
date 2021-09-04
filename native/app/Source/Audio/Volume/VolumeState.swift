@@ -19,8 +19,8 @@ struct VolumeState: State {
 }
 
 enum VolumeAction: Action {
-  case setGain(Double, Bool)
-  case setBalance(Double, Bool)
+  case setGain(Double, Bool? = nil)
+  case setBalance(Double, Bool? = nil)
   case setMuted(Bool)
   case setBoostEnabled(Bool)
 }
@@ -31,10 +31,10 @@ func VolumeStateReducer(action: Action, state: VolumeState?) -> VolumeState {
   switch action as? VolumeAction {
   case .setGain(let gain, let transition)?:
     state.gain = gain
-    state.transition = transition
+    state.transition = transition == true
   case .setBalance(let balance, let transition)?:
     state.balance = balance
-    state.transition = transition
+    state.transition = transition == true
   case .setMuted(let muted)?:
     state.muted = muted
   case .setBoostEnabled(let enabled)?:

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, HostBinding, OnInit } from '@angular/core'
 import { ApplicationService } from '../../services/app.service'
 import { OutputsService, Output } from './outputs.service'
 
@@ -10,6 +10,9 @@ import { OutputsService, Output } from './outputs.service'
 export class OutputsComponent implements OnInit {
   outputs: Output[]
   selected: Output
+
+  @HostBinding('style.height.px') height = 52
+
   constructor (public service: OutputsService, public app: ApplicationService) { }
 
   async ngOnInit () {

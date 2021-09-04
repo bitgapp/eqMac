@@ -43,17 +43,16 @@ class ApplicationDataBus: DataBus {
     }
     
     self.on(.POST, "/open-url") { data, _ in
-      if let urlString = data["url"] as? String {
-        if let url = URL(string: urlString) {
-          if (Constants.OPEN_URL_TRUSTED_DOMAINS.contains(url.host ?? "")) {
-            NSWorkspace.shared.open(url)
-            return "Openned"
-          } else {
-            throw "Untrusted domain"
-          }
-        }
+      guard let urlString = (data["url"] as? String), let url = URL(string: urlString), let host = url.host else {
+        throw "Invalid URL"
       }
-      throw "Invalid URL"
+
+      guard Constants.OPEN_URL_TRUSTED_DOMAINS.contains(host), Constants.TRUSTED_URL_PREFIXES.contains(where: { url.absoluteString.hasPrefix($0) }) else {
+        throw "Untrusted URL"
+      }
+
+      NSWorkspace.shared.open(url)
+      return "Openned"
     }
 
     var lastHaptic: UInt?

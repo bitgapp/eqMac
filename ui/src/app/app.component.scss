@@ -42,8 +42,6 @@ $noise: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAYAAAA6/NlyA
   padding-top: 25px;
   transform-origin: top left;
   $border-radius: 0px;
-  width: 100%;
-  height: 100%;
   
   min-width: 400px; 
   top: 0;
@@ -86,11 +84,12 @@ $noise: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAYAAAA6/NlyA
 
   .dropdown-section {
     width: 100%;
+    max-width: 400px;
     box-sizing: border-box;
     position: absolute;
     z-index: 4;
     transform-origin: right top;
-    left: 0;
+    right: 0;
   }
   
 }

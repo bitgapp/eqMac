@@ -1,6 +1,6 @@
 <div #container fxLayout="column" class="container" [ngStyle]="containerStyle">
   <eqm-loading class="loader" *ngIf="!loaded"></eqm-loading>
-  <eqm-header class="header" id="header"
+  <eqm-header class="header" id="header" #header
     (settingsToggled)="toggleDropdownSection('settings')"
     (helpToggled)="toggleDropdownSection('help')"
   ></eqm-header>
@@ -21,12 +21,12 @@
     *ngIf="showDropdownSections.help"
   ></eqm-help>
 
-  <eqm-volume-booster-balance *ngIf="ui.settings.volumeFeatureEnabled && ui.settings.balanceFeatureEnabled"></eqm-volume-booster-balance>
-  <eqm-divider *ngIf="ui.settings.volumeFeatureEnabled && ui.settings.balanceFeatureEnabled"></eqm-divider>
+  <eqm-volume-booster-balance *ngIf="ui.settings.volumeFeatureEnabled || ui.settings.balanceFeatureEnabled" #volumeBoosterBalance></eqm-volume-booster-balance>
+  <eqm-divider *ngIf="ui.settings.volumeFeatureEnabled || ui.settings.balanceFeatureEnabled"></eqm-divider>
 
-  <eqm-equalizers fxFlex (type)="syncDimensions()" *ngIf="ui.settings.equalizersFeatureEnabled" (visibilityToggled)="syncDimensions()"></eqm-equalizers>
+  <eqm-equalizers fxFlex *ngIf="ui.settings.equalizersFeatureEnabled" #equalizers></eqm-equalizers>
   <eqm-divider *ngIf="ui.settings.equalizersFeatureEnabled && ui.settings.outputFeatureEnabled"></eqm-divider>
 
-  <eqm-outputs *ngIf="ui.settings.outputFeatureEnabled"></eqm-outputs>
+  <eqm-outputs *ngIf="ui.settings.outputFeatureEnabled" #outputs></eqm-outputs>
   <eqm-tooltip-container></eqm-tooltip-container>
 </div>

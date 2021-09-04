@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output, ViewChild, Input, ChangeDetectorRef, OnDestroy } from '@angular/core'
+import { Component, OnInit, EventEmitter, Output, ViewChild, Input, ChangeDetectorRef, OnDestroy, HostBinding } from '@angular/core'
 import { EqualizersService, EqualizersTypeChangedEventCallback, EqualizerType } from './equalizers.service'
 import { BasicEqualizerComponent } from './basic-equalizer/basic-equalizer.component'
 import { AdvancedEqualizerComponent } from './advanced-equalizer/advanced-equalizer.component'
@@ -26,20 +26,36 @@ export class EqualizersComponent implements OnInit, OnDestroy {
   @ViewChild('basicEqualizer', { static: false }) basicEqualizer: BasicEqualizerComponent
   @ViewChild('advancedEqualizer', { static: false }) advancedEqualizer: AdvancedEqualizerComponent
 
+  toolbarHeight = 30
+  presetsHeight = 46
+  @HostBinding('style.min-height.px') get height () {
+    return this.toolbarHeight + (this.show ? ((this.activeEqualizer?.height ?? 0) + this.presetsHeight) : 0)
+  }
+
   loaded = false
   enabled = true
   show = true
-  activeEqualizer: EqualizerComponent = this.getEqualizerFromType('Basic')
 
+  activeEqualizer? = this.getEqualizerFromType('Basic')
   presets: EqualizerPreset[] = []
   selectedPreset: EqualizerPreset
 
   _type: EqualizerType
   set type (newType: EqualizerType) {
     if (this._type === newType) return
+    const oldMinHeight = this.height
+    const oldType = this.type
     this._type = newType
     this.changeRef.detectChanges()
     this.activeEqualizer = this.getEqualizerFromType(this.type)
+    if (oldType !== undefined) {
+      setTimeout(() => {
+        const newMinHeight = this.height
+        const minHeightDiff = newMinHeight - oldMinHeight
+        console.log({ minHeightDiff })
+        this.ui.changeHeight({ diff: minHeightDiff })
+      })
+    }
   }
 
   get type () { return this._type }
@@ -122,6 +138,7 @@ export class EqualizersComponent implements OnInit, OnDestroy {
     this.show = !this.show
     this.ui.setSettings({ showEqualizers: this.show })
     this.visibilityToggled.emit(this.show)
+    setTimeout(() => { this.activeEqualizer = this.getEqualizerFromType(this.type) })
   }
 
   openSettings () {

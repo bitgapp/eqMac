@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core'
+import { EventEmitter, Injectable } from '@angular/core'
 import { DataService } from './data.service'
 import { Subject } from 'rxjs'
 import packageJson from '../../../package.json'
@@ -8,7 +8,6 @@ export interface UISettings {
   replaceKnobsWithSliders?: boolean
   doCollectTelemetry?: boolean
   privacyFormSeen?: boolean
-  uiScale?: number
   knobControlStyle?: KnobControlStyle
 
   volumeFeatureEnabled?: boolean
@@ -44,6 +43,16 @@ export class UIService extends DataService {
   dimensionsChanged = new Subject<UIDimensions>()
   settingsChanged = new Subject<UISettings>()
   settings: UISettings = {}
+  private _scale = 1
+  uiScaleChanged = new EventEmitter<number>()
+
+  get scale () { return this._scale }
+  set scale (newScale: number) {
+    if (this._scale !== newScale) {
+      this._scale = newScale
+      this.uiScaleChanged.emit(this._scale)
+    }
+  }
 
   readonly colors = {
     accent: '#4f8d71',
@@ -60,8 +69,9 @@ export class UIService extends DataService {
   }
 
   async sync () {
-    const [ uiSettings ] = await Promise.all([
-      this.getSettings()
+    const [ uiSettings, uiScale ] = await Promise.all([
+      this.getSettings(),
+      this.getScale()
     ])
     this.settings = uiSettings
     if (!uiSettings.knobControlStyle) {
@@ -81,6 +91,8 @@ export class UIService extends DataService {
       this.settings.outputFeatureEnabled = true
     }
     this.setSettings(this.settings)
+
+    this.scale = uiScale
   }
 
   get version () {
@@ -95,14 +107,28 @@ export class UIService extends DataService {
     return !this.isLocal
   }
 
-  async getWidth () {
+  async getWidth (): Promise<number> {
     const { width } = await this.request({ method: 'GET', endpoint: '/width' })
     return width
   }
 
-  async getHeight () {
+  setWidth (width: number) {
+    return this.request({ method: 'POST', endpoint: '/width', data: { width } })
+  }
+
+  async getHeight (): Promise<number> {
     const { height } = await this.request({ method: 'GET', endpoint: '/height' })
     return height
+  }
+
+  setHeight (height: number) {
+    return this.request({ method: 'POST', endpoint: '/height', data: { height } })
+  }
+
+  async changeHeight ({ diff }: { diff: number }) {
+    const currentHeight = await this.getHeight()
+    const height = currentHeight + diff
+    await this.setHeight(height)
   }
 
   hide () {
@@ -154,6 +180,25 @@ export class UIService extends DataService {
 
   async loaded () {
     return this.request({ method: 'POST', endpoint: '/loaded' })
+  }
+
+  async getScale (): Promise<number> {
+    const { scale } = await this.request({ method: 'GET', endpoint: '/scale' })
+    return scale
+  }
+
+  async setScale (scale: number) {
+    this.scale = scale
+    return this.request({ method: 'POST', endpoint: '/scale', data: { scale } })
+  }
+
+  async getMinHeight (): Promise<number> {
+    const { minHeight } = await this.request({ method: 'GET', endpoint: '/min-height' })
+    return minHeight
+  }
+
+  async setMinHeight ({ minHeight }: { minHeight: number }) {
+    return this.request({ method: 'POST', endpoint: '/min-height', data: { minHeight } })
   }
 
   onShownChanged (cb: UIShownChangedEventCallback) {

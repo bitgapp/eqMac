@@ -5,25 +5,16 @@
   justify-items: center;
   position: relative;
 
-  .button-container {
-    width: 100%;
-    .button {
-      width: 27.5%;
-    }
+  .toolbar {
+    padding: 0 5px;
   }
   
   .presets {
     width: 95%;
   }
 
-  .equalizers {
+  .equalizer {
     width: 100%;
-    
-    .equalizer {
-      width: 100%;
-    }
+    height: 100%;
   }
-  
-
-  
 }
