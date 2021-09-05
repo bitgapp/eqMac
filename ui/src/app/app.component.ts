@@ -217,8 +217,14 @@ This data would help us improve and grow the product.`
     }, 1000)
   }
 
+  private previousMinHeight
   async syncHeight () {
+    const diff = this.minHeight - this.previousMinHeight
+    this.previousMinHeight = this.minHeight
     await this.ui.setMinHeight({ minHeight: this.minHeight })
+    if (diff < 0) {
+      this.ui.changeHeight({ diff })
+    }
   }
 
   async getTransitionSettings () {
