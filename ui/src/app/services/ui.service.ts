@@ -188,8 +188,19 @@ export class UIService extends DataService {
   }
 
   async setScale (scale: number) {
+    const oldScale = this.scale
     this.scale = scale
-    return this.request({ method: 'POST', endpoint: '/scale', data: { scale } })
+    let [ height, width ] = await Promise.all([
+      this.getHeight(),
+      this.getWidth()
+    ])
+    height = scale * height / oldScale
+    width = scale * width / oldScale
+    await this.request({ method: 'POST', endpoint: '/scale', data: { scale } })
+    await Promise.all([
+      this.setHeight(height),
+      this.setWidth(width)
+    ])
   }
 
   async getMinHeight (): Promise<number> {
