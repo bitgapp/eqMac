@@ -107,7 +107,7 @@ func EQM_AddDeviceClient (inDriver: AudioServerPlugInDriverRef, inDeviceObjectID
   // successfully.
   guard EQMDriver.validateDriver(inDriver) else { return kAudioHardwareBadObjectError }
 
-  EQMClients.add(inClientInfo.pointee)
+  EQMClients.add(EQMClient(from: inClientInfo.pointee))
 
   return noErr
 }
@@ -119,7 +119,7 @@ func EQM_RemoveDeviceClient (inDriver: AudioServerPlugInDriverRef, inDeviceObjec
   // successfully.
   guard EQMDriver.validateDriver(inDriver) else { return kAudioHardwareBadObjectError }
 
-  EQMClients.remove(inClientInfo.pointee)
+  EQMClients.remove(EQMClient(from: inClientInfo.pointee))
 
   return noErr
 }

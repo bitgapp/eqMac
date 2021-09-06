@@ -301,7 +301,7 @@ class EQMControl: EQMObject {
     }
   }
 
-  static func setPropertyData(client: AudioServerPlugInClientInfo?, objectID: AudioObjectID?, address: AudioObjectPropertyAddress, data: UnsafeRawPointer, changedProperties: inout [AudioObjectPropertyAddress]) -> OSStatus {
+  static func setPropertyData(client: EQMClient?, objectID: AudioObjectID?, address: AudioObjectPropertyAddress, data: UnsafeRawPointer, changedProperties: inout [AudioObjectPropertyAddress]) -> OSStatus {
     switch objectID {
     case kObjectID_Volume_Output_Master:
       switch address.mSelector {

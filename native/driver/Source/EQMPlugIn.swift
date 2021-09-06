@@ -88,7 +88,7 @@ class EQMPlugIn: EQMObject {
     }
   }
   
-  static func setPropertyData(client: AudioServerPlugInClientInfo?, objectID: AudioObjectID? = nil, address: AudioObjectPropertyAddress, data: UnsafeRawPointer, changedProperties: inout [AudioObjectPropertyAddress]) -> OSStatus {
+  static func setPropertyData(client: EQMClient?, objectID: AudioObjectID? = nil, address: AudioObjectPropertyAddress, data: UnsafeRawPointer, changedProperties: inout [AudioObjectPropertyAddress]) -> OSStatus {
     switch address.mSelector {
     default: return kAudioHardwareUnknownPropertyError
     }

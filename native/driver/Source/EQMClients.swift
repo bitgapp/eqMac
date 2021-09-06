@@ -10,35 +10,41 @@ import Foundation
 import CoreAudio.AudioServerPlugIn
 
 class EQMClients {
-  static var clients: [UInt32: AudioServerPlugInClientInfo] = [:]
+  static var clients: [UInt32: EQMClient] = [:]
 
-  static func add (_ client: AudioServerPlugInClientInfo) {
+  static func add (_ client: EQMClient) {
     clients[client.mClientID] = client
   }
 
-  static func remove (_ client: AudioServerPlugInClientInfo) {
+  static func remove (_ client: EQMClient) {
     clients.removeValue(forKey: client.mClientID)
   }
 
-  static func get (by clientId: UInt32) -> AudioServerPlugInClientInfo? {
+  static func get (by clientId: UInt32) -> EQMClient? {
     return clients[clientId]
   }
 
-  static func get (by processId: pid_t) -> AudioServerPlugInClientInfo? {
+  static func get (by processId: pid_t) -> EQMClient? {
     return clients.values.first { $0.mProcessID == processId }
   }
 
-  static func get (by bundleId: String) -> AudioServerPlugInClientInfo? {
+  static func get (by bundleId: String) -> EQMClient? {
     return clients.values.first { client in
-      guard let clientBundleId = client.mBundleID?.takeUnretainedValue() else { return false }
-      return clientBundleId as String == bundleId
+      return client.bundleId == bundleId
     }
   }
 }
 
-extension AudioServerPlugInClientInfo {
-  var bundleId: String? {
-    guard let id = mBundleID?.takeUnretainedValue() else { return nil }
-    return id as String
+class EQMClient {
+  var mClientID: UInt32
+  var mProcessID: pid_t
+  var mIsNativeEndian: DarwinBoolean
+  var bundleId: String?
+
+  init (from clientInfo: AudioServerPlugInClientInfo) {
+    mClientID = clientInfo.mClientID
+    mProcessID = clientInfo.mProcessID
+    mIsNativeEndian = clientInfo.mIsNativeEndian
+    bundleId = clientInfo.mBundleID?.takeUnretainedValue() as String?
   }
 }

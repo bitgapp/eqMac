@@ -14,7 +14,7 @@ protocol EQMObject: class {
   static func isPropertySettable (objectID: AudioObjectID?, address: AudioObjectPropertyAddress) -> Bool
   static func getPropertyDataSize (objectID: AudioObjectID?, address: AudioObjectPropertyAddress) -> UInt32?
   static func getPropertyData (objectID: AudioObjectID?, address: AudioObjectPropertyAddress, inData: UnsafeRawPointer?) -> EQMObjectProperty?
-  static func setPropertyData (client: AudioServerPlugInClientInfo?, objectID: AudioObjectID?, address: AudioObjectPropertyAddress, data: UnsafeRawPointer, changedProperties: inout [AudioObjectPropertyAddress]) -> OSStatus
+  static func setPropertyData (client: EQMClient?, objectID: AudioObjectID?, address: AudioObjectPropertyAddress, data: UnsafeRawPointer, changedProperties: inout [AudioObjectPropertyAddress]) -> OSStatus
 }
 
 enum EQMObjectProperty {
