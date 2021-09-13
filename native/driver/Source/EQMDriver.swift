@@ -18,8 +18,9 @@ import Atomics
   static private var _interfacePtr: UnsafeMutablePointer<AudioServerPlugInDriverInterface>?
   
   static var refCounter = ManagedAtomic<UInt32>(0)
-  
   @objc public static var ref: AudioServerPlugInDriverRef?
+
+  static var mutex = Mutex()
   
   @objc
   public static func create (allocator: CFAllocator!, requestedTypeUUID: CFUUID!) -> UnsafeMutableRawPointer? {
@@ -124,5 +125,17 @@ import Atomics
     var theHostClockFrequency = Float64(theTimeBaseInfo.denom) / Float64(theTimeBaseInfo.numer)
     theHostClockFrequency *= 1000000000.0
     hostTicksPerFrame = theHostClockFrequency / EQMDevice.sampleRate
+  }
+
+  static func propertiesUpdated (objectId: AudioObjectID, changedProperties: [AudioObjectPropertyAddress]) {
+    guard let host = host, changedProperties.count > 0 else {
+      return
+    }
+    _ = host.pointee.PropertiesChanged(
+      host,
+      objectId,
+      UInt32(changedProperties.count),
+      changedProperties
+    )
   }
 }

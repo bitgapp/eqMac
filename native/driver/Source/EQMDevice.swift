@@ -21,6 +21,7 @@ class EQMDevice: EQMObject {
   static var anchorHostTime: UInt64 = 0
   static var anchorSampleTime: UInt64 = 0
   static var timestampCount: UInt64 = 0
+  static let ioMutex = Mutex()
 
   static let ringBufferSize: UInt32 = 16384
   static var ringBuffer = UnsafeMutablePointer<Float32>.allocate(capacity: Int(ringBufferSize * kChannelCount))
@@ -523,6 +524,9 @@ class EQMDevice: EQMObject {
   }
 
   static func getZeroTimeStamp (outSampleTime: UnsafeMutablePointer<Float64>, outHostTime: UnsafeMutablePointer<UInt64>, outSeed: UnsafeMutablePointer<UInt64>) -> OSStatus {
+
+    ioMutex.lock()
+
     // get the current host time
     let currentHostTime = mach_absolute_time()
 
@@ -539,10 +543,14 @@ class EQMDevice: EQMObject {
     outHostTime.pointee = anchorHostTime + timestampCount * UInt64(hostTicksPerRingBuffer)
     outSeed.pointee = 1
 
+    ioMutex.unlock()
+
     return noErr
   }
 
   static func doIO (clientID: UInt32, operationID: UInt32, sample: UnsafeMutablePointer<Float32>, cycleInfo: AudioServerPlugInIOCycleInfo, frameSize: UInt32) -> OSStatus {
+
+    ioMutex.lock()
 
     switch operationID {
     // Store
@@ -598,6 +606,8 @@ class EQMDevice: EQMObject {
       break
     default: break
     }
+
+    ioMutex.unlock()
 
     return noErr
   }

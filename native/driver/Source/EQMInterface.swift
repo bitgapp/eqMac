@@ -107,7 +107,9 @@ func EQM_AddDeviceClient (inDriver: AudioServerPlugInDriverRef, inDeviceObjectID
   // successfully.
   guard EQMDriver.validateDriver(inDriver) else { return kAudioHardwareBadObjectError }
 
+  EQMDriver.mutex.lock()
   EQMClients.add(EQMClient(from: inClientInfo.pointee))
+  EQMDriver.mutex.unlock()
 
   return noErr
 }
@@ -119,7 +121,9 @@ func EQM_RemoveDeviceClient (inDriver: AudioServerPlugInDriverRef, inDeviceObjec
   // successfully.
   guard EQMDriver.validateDriver(inDriver) else { return kAudioHardwareBadObjectError }
 
+  EQMDriver.mutex.lock()
   EQMClients.remove(EQMClient(from: inClientInfo.pointee))
+  EQMDriver.mutex.unlock()
 
   return noErr
 }
@@ -148,10 +152,13 @@ func EQM_PerformDeviceConfigurationChange (
   guard EQMDriver.validateDriver(inDriver) else { return kAudioHardwareBadObjectError }
 //  log("Invoked EQM_PerformDeviceConfigurationChange()")
   if !kEQMDeviceSupportedSampleRates.contains(where: { UInt64($0) == inChangeAction }) { return kAudioHardwareBadObjectError }
+
+  EQMDriver.mutex.lock()
   
   EQMDevice.sampleRate = Float64(inChangeAction)
   EQMDriver.calculateHostTicksPerFrame()
-  
+
+  EQMDriver.mutex.unlock()
 //  log("EQM_PerformDeviceConfigurationChange() - EQMDevice.sampleRate = \(EQMDevice.sampleRate) | hostTicksPerFrame = \(String(describing: EQMDriver.hostTicksPerFrame))")
 
   return noErr
@@ -321,14 +328,7 @@ func EQM_SetPropertyData (
       changedProperties: &changedProperties
     )
     
-    if changedProperties.count > 0 {
-      _ = EQMDriver.host!.pointee.PropertiesChanged(
-        EQMDriver.host!,
-        inObjectID,
-        UInt32(changedProperties.count),
-        changedProperties
-      )
-    }
+    EQMDriver.propertiesUpdated(objectId: inObjectID, changedProperties: changedProperties)
 
     log("\(EQMDriver.getEQMObjectClassName(from: inObjectID)).setPropertyData(\(propertyName(address.mSelector)), \(scopeName(address.mScope))) - Status: \(status) - Changed Properties: \(changedProperties)")
 
@@ -347,7 +347,9 @@ func EQM_StartIO (inDriver: AudioServerPlugInDriverRef, inDeviceObjectID: AudioO
   // increment the counter.
   guard EQMDriver.validateDriver(inDriver) else { return kAudioHardwareBadObjectError }
 
+  EQMDriver.mutex.lock()
   let status = EQMDevice.startIO()
+  EQMDriver.mutex.unlock()
 
   return status
 }
@@ -357,8 +359,10 @@ func EQM_StopIO (inDriver: AudioServerPlugInDriverRef, inDeviceObjectID: AudioOb
   // once all clients have stopped.
   guard EQMDriver.validateDriver(inDriver) else { return kAudioHardwareBadObjectError }
 
+  EQMDriver.mutex.lock()
   let status = EQMDevice.stopIO()
-
+  EQMDriver.mutex.unlock()
+  
   return status
 }
 

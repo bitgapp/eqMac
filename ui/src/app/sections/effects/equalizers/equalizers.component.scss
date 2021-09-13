@@ -1,3 +1,5 @@
+@import "../../../styles/colors";
+
 :host {
   display: flex;
   flex-direction: column;
@@ -6,7 +8,51 @@
   position: relative;
 
   .toolbar {
+    $bg: darken($gradient-start, 6);
+    
+    background-color: lighten($color: $gradient-end, $amount: 3);
     padding: 0 5px;
+    // clip-path: url(.active);
+    box-shadow: 0 10px 10px 0px $bg;
+    .type {
+      padding: 5px 10px;
+      padding-bottom: 8px;
+      margin-top: 3px;
+      position: relative;
+      color: $gradient-start;
+    }
+
+    .active {
+      background-color: $bg;
+      $radius: 5px;
+      border-top-left-radius: $radius;
+      border-top-right-radius: $radius;
+
+      &:before,
+      &:after {
+        content: "";
+        position: absolute;
+
+        height: 10px;
+        width: 20px;
+
+        bottom: 0;
+      }
+
+      &:before {
+        left: -20px;
+        border-radius: 0 0 $radius 0;
+        box-shadow: 10px 0 0 0 $bg;
+      }
+
+      &:after {
+        right: -20px;
+        border-radius: 0 0 0 $radius;
+        box-shadow: -10px 0 0 0 $bg;
+      }
+
+      
+    }
   }
   
   .presets {

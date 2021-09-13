@@ -171,7 +171,7 @@ class EQMControl: EQMObject {
           default: return 0
           }
         })()
-        return .float32(Volume.toScalar(volume))
+        return .float32(VolumeConverter.toScalar(volume))
       case kAudioLevelControlPropertyDecibelValue:
         // This returns the dB value of the control.
         // Note that we need to take the state lock to examine the value.
@@ -181,7 +181,7 @@ class EQMControl: EQMObject {
           default: return 0
           }
         })()
-        return .float32(Volume.toDecibel(volume))
+        return .float32(VolumeConverter.toDecibel(volume))
       case kAudioLevelControlPropertyDecibelRange:
         // This returns the dB range of the control.
         return .valueRange(
@@ -198,7 +198,7 @@ class EQMControl: EQMObject {
 
         scalar = clamp(value: scalar, min: 0, max: 1)
 
-        let decibel = Volume.toDecibel(Volume.fromScalar(scalar))
+        let decibel = VolumeConverter.toDecibel(VolumeConverter.fromScalar(scalar))
 
         return .float32(decibel)
       case kAudioLevelControlPropertyConvertDecibelsToScalar:
@@ -210,7 +210,7 @@ class EQMControl: EQMObject {
 
         decibel = clamp(value: decibel, min: kMinVolumeDB, max: kMaxVolumeDB)
 
-        let scalar = Volume.toScalar(Volume.fromDecibel(decibel))
+        let scalar = VolumeConverter.toScalar(VolumeConverter.fromDecibel(decibel))
 
         return .float32(scalar)
       default: return nil
@@ -310,7 +310,7 @@ class EQMControl: EQMObject {
         // value changes, it implies that the dB value changed too.
         let scalar = data.load(as: Float32.self)
 
-        var newVolume = Volume.fromScalar(scalar)
+        var newVolume = VolumeConverter.fromScalar(scalar)
         newVolume = clamp(value: newVolume, min: 0.0, max: 1.0)
 
         if volume != newVolume {
@@ -341,7 +341,7 @@ class EQMControl: EQMObject {
         var decibel = data.load(as: Float32.self)
         decibel = clamp(value: decibel, min: kMinVolumeDB, max: kMaxVolumeDB)
 
-        var newVolume = Volume.fromDecibel(decibel)
+        var newVolume = VolumeConverter.fromDecibel(decibel)
         newVolume = clamp(value: newVolume, min: 0.0, max: 1.0)
 
         if volume != newVolume {

@@ -13,11 +13,11 @@ class EQMClients {
   static var clients: [UInt32: EQMClient] = [:]
 
   static func add (_ client: EQMClient) {
-    clients[client.mClientID] = client
+    clients[client.clientId] = client
   }
 
   static func remove (_ client: EQMClient) {
-    clients.removeValue(forKey: client.mClientID)
+    clients.removeValue(forKey: client.clientId)
   }
 
   static func get (by clientId: UInt32) -> EQMClient? {
@@ -25,26 +25,30 @@ class EQMClients {
   }
 
   static func get (by processId: pid_t) -> EQMClient? {
-    return clients.values.first { $0.mProcessID == processId }
+    return clients.values.first { $0.processId == processId }
   }
 
-  static func get (by bundleId: String) -> EQMClient? {
-    return clients.values.first { client in
+  static func get (by bundleId: String) -> [EQMClient] {
+    return clients.values.filter { client in
       return client.bundleId == bundleId
     }
   }
-}
 
-class EQMClient {
-  var mClientID: UInt32
-  var mProcessID: pid_t
-  var mIsNativeEndian: DarwinBoolean
-  var bundleId: String?
+  static func get (by client: EQMClient) -> EQMClient? {
+    if let byClient = get(by: client.clientId) {
+      return byClient
+    }
 
-  init (from clientInfo: AudioServerPlugInClientInfo) {
-    mClientID = clientInfo.mClientID
-    mProcessID = clientInfo.mProcessID
-    mIsNativeEndian = clientInfo.mIsNativeEndian
-    bundleId = clientInfo.mBundleID?.takeUnretainedValue() as String?
+    if let byProcessId = get(by: client.processId) {
+      return byProcessId
+    }
+
+    if let bundleId = client.bundleId {
+      let bundles = get(by: bundleId)
+      return bundles[0]
+    }
+
+    return nil
   }
 }
+
