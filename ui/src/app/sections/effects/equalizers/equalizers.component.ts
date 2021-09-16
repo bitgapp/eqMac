@@ -32,6 +32,12 @@ export class EqualizersComponent implements OnInit, OnDestroy {
     return this.toolbarHeight + (this.show ? ((this.activeEqualizer?.height ?? 0) + this.presetsHeight) : 0)
   }
 
+  @HostBinding('style.max-height.px') get maxHeight () {
+    switch (this.type) {
+      default: return this.height
+    }
+  }
+
   loaded = false
   enabled = true
   show = true

@@ -21,6 +21,9 @@ struct UIState: State {
   var statusItemIconType: StatusItemIconType = .classic
   var scale: Double = 1
   var minHeight: Double = 400
+  var minWidth: Double = 400
+  var maxHeight: Double?
+  var maxWidth: Double?
   var fromUI = false
 }
 
@@ -34,6 +37,9 @@ enum UIAction: Action {
   case setStatusItemIconType(StatusItemIconType)
   case setScale(Double)
   case setMinHeight(Double)
+  case setMinWidth(Double)
+  case setMaxHeight(Double?)
+  case setMaxWidth(Double?)
 }
 
 func UIStateReducer(action: Action, state: UIState?) -> UIState {
@@ -60,6 +66,12 @@ func UIStateReducer(action: Action, state: UIState?) -> UIState {
     state.scale = scale
   case .setMinHeight(let minHeight)?:
     state.minHeight = minHeight
+  case .setMinWidth(let minWidth)?:
+    state.minWidth = minWidth
+  case .setMaxHeight(let maxHeight)?:
+    state.maxHeight = maxHeight
+  case .setMaxWidth(let maxWidth)?:
+    state.maxWidth = maxWidth
   case .none:
     break
   }

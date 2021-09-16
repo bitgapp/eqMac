@@ -35,6 +35,18 @@ class UI: StoreSubscriber {
   static var minHeight: Double {
     return state.minHeight * scale
   }
+  
+  static var minWidth: Double {
+    return state.minWidth * scale
+  }
+  
+  static var maxHeight: Double {
+    return state.maxHeight ?? 4000 * scale
+  }
+  
+  static var maxWidth: Double {
+    return state.maxWidth ?? 4000 * scale
+  }
 
   static var height: Double {
     get {
@@ -60,14 +72,17 @@ class UI: StoreSubscriber {
 
   static var minSize: NSSize {
     return NSSize(
-      width: 400 * scale,
+      width: minWidth,
       height: minHeight
     )
   }
 
   static var maxSize: NSSize {
     if isResizable {
-      return NSSize(width: 4000, height: 4000)
+      return NSSize(
+        width: maxWidth,
+        height: maxHeight
+      )
     } else {
       return minSize
     }

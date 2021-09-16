@@ -88,10 +88,38 @@ export class AppComponent implements OnInit, AfterContentInit {
     return minHeight
   }
 
+  get minWidth () {
+    return 400
+  }
+
+  get maxHeight () {
+    const divider = 3
+
+    const {
+      volumeFeatureEnabled, balanceFeatureEnabled,
+      equalizersFeatureEnabled,
+      outputFeatureEnabled
+    } = this.ui.settings
+    let maxHeight = this.header.height + divider +
+      ((volumeFeatureEnabled || balanceFeatureEnabled) ? (this.volumeBoosterBalance.height + divider) : 0) +
+      (equalizersFeatureEnabled ? (this.equalizers.maxHeight + divider) : 0) +
+      (outputFeatureEnabled ? this.outputs.height : 0)
+
+    const dropdownSection = document.getElementById('dropdown-section')
+    if (dropdownSection) {
+      const dropdownHeight = dropdownSection.offsetHeight + this.header.height + divider
+      if (dropdownHeight > maxHeight) {
+        maxHeight = dropdownHeight
+      }
+    }
+
+    return maxHeight
+  }
+
   async ngOnInit () {
     await this.sync()
-    this.startHeightSync()
     await this.fixUIMode()
+    this.startDimensionsSync()
     await this.setupPrivacy()
   }
 
@@ -210,19 +238,39 @@ This data would help us improve and grow the product.`
     ])
   }
 
-  async startHeightSync () {
-    this.syncHeight()
+  async startDimensionsSync () {
     setInterval(() => {
-      this.syncHeight()
+      this.syncMinHeight()
+      this.syncMaxHeight()
     }, 1000)
   }
 
   private previousMinHeight
-  async syncHeight () {
+  async syncMinHeight () {
     const diff = this.minHeight - this.previousMinHeight
     this.previousMinHeight = this.minHeight
-    await this.ui.setMinHeight({ minHeight: this.minHeight })
-    if (diff < 0) {
+    if (diff !== 0) {
+      await this.ui.setMinHeight({ minHeight: this.minHeight })
+      this.ui.changeHeight({ diff })
+    }
+  }
+
+  private previousMinWidth
+  async syncMinWidth () {
+    const diff = this.minWidth - this.previousMinWidth
+    this.previousMinWidth = this.minWidth
+    if (diff !== 0) {
+      await this.ui.setMinWidth({ minWidth: this.minWidth })
+      this.ui.changeWidth({ diff })
+    }
+  }
+
+  private previousMaxHeight
+  async syncMaxHeight () {
+    const diff = this.maxHeight - this.previousMaxHeight
+    this.previousMaxHeight = this.maxHeight
+    if (diff !== 0) {
+      await this.ui.setMaxHeight({ maxHeight: this.maxHeight })
       this.ui.changeHeight({ diff })
     }
   }
