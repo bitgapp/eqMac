@@ -65,7 +65,7 @@ extension AudioDevice {
       if (self.canMuteVirtualMasterChannel(direction: .playback)) {
         return self.isMuted(channel: 0, direction: .playback)!
       } else {
-        return (1...self.channels(direction: .playback).intValue).allSatisfy { self.isMuted(channel: UInt32($0), direction: .playback)! }
+        return (1...self.channels(direction: .playback).intValue).allSatisfy { self.isMuted(channel: UInt32($0), direction: .playback) ?? false }
       }
     }
     set {
