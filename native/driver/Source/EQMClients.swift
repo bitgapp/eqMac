@@ -10,41 +10,55 @@ import Foundation
 import CoreAudio.AudioServerPlugIn
 
 class EQMClients {
+  private static let mutex = Mutex()
   static var clients: [UInt32: EQMClient] = [:]
 
   static func add (_ client: EQMClient) {
+    mutex.lock()
     clients[client.clientId] = client
+    mutex.unlock()
   }
 
   static func remove (_ client: EQMClient) {
+    mutex.lock()
     clients.removeValue(forKey: client.clientId)
+    mutex.unlock()
   }
 
-  static func get (by clientId: UInt32) -> EQMClient? {
-    return clients[clientId]
+  static func get (clientId: UInt32) -> EQMClient? {
+    mutex.lock()
+    let client = clients[clientId]
+    mutex.unlock()
+    return client
   }
 
-  static func get (by processId: pid_t) -> EQMClient? {
-    return clients.values.first { $0.processId == processId }
+  static func get (processId: pid_t) -> EQMClient? {
+    mutex.lock()
+    let client = clients.values.first { $0.processId == processId }
+    mutex.unlock()
+    return client
   }
 
-  static func get (by bundleId: String) -> [EQMClient] {
-    return clients.values.filter { client in
+  static func get (bundleId: String) -> [EQMClient] {
+    mutex.lock()
+    let matchingClients = clients.values.filter { client in
       return client.bundleId == bundleId
     }
+    mutex.unlock()
+    return matchingClients
   }
 
-  static func get (by client: EQMClient) -> EQMClient? {
-    if let byClient = get(by: client.clientId) {
+  static func get (client: EQMClient) -> EQMClient? {
+    if let byClient = get(clientId: client.clientId) {
       return byClient
     }
 
-    if let byProcessId = get(by: client.processId) {
+    if let byProcessId = get(processId: client.processId) {
       return byProcessId
     }
 
     if let bundleId = client.bundleId {
-      let bundles = get(by: bundleId)
+      let bundles = get(bundleId: bundleId)
       return bundles[0]
     }
 

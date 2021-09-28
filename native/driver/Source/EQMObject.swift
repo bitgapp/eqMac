@@ -30,12 +30,13 @@ enum EQMObjectProperty {
   case url(CFURL)
   case scope(AudioObjectPropertyScope)
   case element(AudioObjectPropertyElement)
-  
+  case cfPropertyList(CFPropertyList)
+
   // Structs
   case streamDescription(AudioStreamBasicDescription)
   case channelLayout(AudioChannelLayout)
   case valueRange(AudioValueRange)
-  
+
   // Arrays
   case objectIDList(ContiguousArray<AudioObjectID>)
   case customPropertyInfoList(ContiguousArray<AudioServerPlugInCustomPropertyInfo>)
@@ -63,7 +64,9 @@ enum EQMObjectProperty {
          .audioClassID(let data),
          .audioObjectID(let data):
       return self.write(element: data, address: address, size: size, requestedSize: requestedSize)
-      
+    case .cfPropertyList(let data):
+      return self.write(element: data, address: address, size: size, requestedSize: requestedSize)
+
     case .streamDescription(let data):
       return self.write(element: data, address: address, size: size, requestedSize: requestedSize)
     case .channelLayout(let data):
@@ -90,11 +93,10 @@ enum EQMObjectProperty {
       size.pointee = 0
       return noErr
     }
-
     let outSize = sizeof(T.self)
 
     guard requestedSize == outSize else {
-//      log("​🚫​ Requested Size: \(requestedSize) != Out Size: \(outSize) (\(T.self))")
+      log("​🚫​ Requested Size: \(requestedSize) != Out Size: \(outSize) (\(T.self))")
       return kAudioHardwareBadPropertySizeError
     }
 
@@ -110,7 +112,7 @@ enum EQMObjectProperty {
 
     let requestedCount = Int(requestedSize / elementSize)
     array = ContiguousArray(array[0..<requestedCount])
-    //    log("Data Count: \(arr.count) - Data Size: \(UInt32(arr.count) * elementSize) - Requested Size: \(requestedSize) - Resulting Count: \(array.count) - Resulting Size: \(UInt32(array.count) * elementSize)")
+        log("Data Count: \(arr.count) - Data Size: \(UInt32(arr.count) * elementSize) - Requested Size: \(requestedSize) - Resulting Count: \(array.count) - Resulting Size: \(UInt32(array.count) * elementSize)")
 
     let totalSize = UInt32(array.count) * elementSize
     

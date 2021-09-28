@@ -20,6 +20,7 @@
 		7838E36726C9CFA10039D466 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7838E36626C9CFA10039D466 /* Helpers.swift */; };
 		784763FA26EF760B00CF9394 /* EQMClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 784763F926EF760B00CF9394 /* EQMClient.swift */; };
 		784763FD26EF764B00CF9394 /* VolumeConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 784763FC26EF764B00CF9394 /* VolumeConverter.swift */; };
+		787E04EB26FF2D66003CD682 /* Mutex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787E04EA26FF2D66003CD682 /* Mutex.swift */; };
 		78A8049E26C4866D0021981C /* EQMDriverBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 78A8049D26C4866D0021981C /* EQMDriverBridge.m */; };
 		78A804D726C4903E0021981C /* EQMDriver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A804D626C4903E0021981C /* EQMDriver.swift */; };
 		78A804DD26C563860021981C /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A804DC26C563860021981C /* Constants.swift */; };
@@ -46,6 +47,7 @@
 		7838E36626C9CFA10039D466 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		784763F926EF760B00CF9394 /* EQMClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EQMClient.swift; path = ../shared/EQMClient.swift; sourceTree = "<group>"; };
 		784763FC26EF764B00CF9394 /* VolumeConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = VolumeConverter.swift; path = ../shared/VolumeConverter.swift; sourceTree = "<group>"; };
+		787E04EA26FF2D66003CD682 /* Mutex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Mutex.swift; path = ../shared/Mutex.swift; sourceTree = "<group>"; };
 		78A8049D26C4866D0021981C /* EQMDriverBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EQMDriverBridge.m; sourceTree = "<group>"; };
 		78A804A026C486820021981C /* EQMDriverBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EQMDriverBridge.h; sourceTree = "<group>"; };
 		78A804D526C4903E0021981C /* EQMDriver-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "EQMDriver-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -123,6 +125,7 @@
 			children = (
 				7838E36326C9CC430039D466 /* ArrayExtensions.swift */,
 				7838E34F26C897560039D466 /* AudioObjectPropertySelectorExtensions.swift */,
+				787E04EA26FF2D66003CD682 /* Mutex.swift */,
 				7838E35126C897560039D466 /* NumericTypesConversions.swift */,
 				7838E34E26C897560039D466 /* SharedConstants.swift */,
 				7838E35026C897560039D466 /* StringExtensions.swift */,
@@ -228,7 +231,7 @@
 		7823A93C26D597F6004BABC6 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
+			buildActionMask = 12;
 			files = (
 			);
 			inputFileListPaths = (
@@ -256,6 +259,7 @@
 				784763FD26EF764B00CF9394 /* VolumeConverter.swift in Sources */,
 				78A804D726C4903E0021981C /* EQMDriver.swift in Sources */,
 				7838E36726C9CFA10039D466 /* Helpers.swift in Sources */,
+				787E04EB26FF2D66003CD682 /* Mutex.swift in Sources */,
 				7838E35426C897560039D466 /* StringExtensions.swift in Sources */,
 				7838E35F26C8A4190039D466 /* Utilities.swift in Sources */,
 				7838E35326C897560039D466 /* AudioObjectPropertySelectorExtensions.swift in Sources */,

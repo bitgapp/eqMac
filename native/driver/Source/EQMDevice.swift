@@ -11,11 +11,10 @@ import CoreAudio.AudioServerPlugIn
 import Atomics
 
 class EQMDevice: EQMObject {
-  static let id = AudioObjectID(kDeviceUID)!
   static var name = kEQMDeviceDefaultName
   static var sampleRate = kDefaultSampleRate
   static var running = false
-  static var shown = false
+  static var shown = true
   static var latency: UInt32 = 0
   static var ioCounter = ManagedAtomic<UInt64>(0)
   static var anchorHostTime: UInt64 = 0
@@ -24,7 +23,7 @@ class EQMDevice: EQMObject {
   static let ioMutex = Mutex()
 
   static let ringBufferSize: UInt32 = 16384
-  static var ringBuffer = UnsafeMutablePointer<Float32>.allocate(capacity: Int(ringBufferSize * kChannelCount))
+  static var ringBuffer = UnsafeMutablePointer<Float32>.allocate(capacity: Int(ringBufferSize * 4 * kChannelCount))
 
   static func getDescription (for samplingRate: Float64) -> AudioStreamBasicDescription {
     return AudioStreamBasicDescription(
@@ -63,6 +62,7 @@ class EQMDevice: EQMObject {
          kAudioDevicePropertyIcon,
          kAudioDevicePropertyStreams,
          kAudioObjectPropertyCustomPropertyInfoList,
+         kAudioDevicePropertyDeviceCanBeDefaultSystemDevice,
          EQMDeviceCustom.properties.shown,
          EQMDeviceCustom.properties.version,
          EQMDeviceCustom.properties.latency,
@@ -70,7 +70,6 @@ class EQMDevice: EQMObject {
       return true
 
     case kAudioDevicePropertyDeviceCanBeDefaultDevice,
-         kAudioDevicePropertyDeviceCanBeDefaultSystemDevice,
          kAudioDevicePropertyLatency,
          kAudioDevicePropertySafetyOffset,
          kAudioDevicePropertyPreferredChannelsForStereo,
@@ -143,7 +142,8 @@ class EQMDevice: EQMObject {
     case kAudioDevicePropertyZeroTimeStampPeriod: return sizeof(UInt32.self)
     case kAudioDevicePropertyIcon: return sizeof(CFURL.self)
 
-    case kAudioObjectPropertyCustomPropertyInfoList: return sizeof(AudioServerPlugInCustomPropertyInfo.self) * EQMDeviceCustom.properties.count
+    case kAudioObjectPropertyCustomPropertyInfoList:
+      return sizeof(AudioServerPlugInCustomPropertyInfo.self) * EQMDeviceCustom.properties.count
     case EQMDeviceCustom.properties.latency: return sizeof(CFNumber.self)
     case EQMDeviceCustom.properties.shown: return sizeof(CFBoolean.self)
     case EQMDeviceCustom.properties.version: return sizeof(CFString.self)
@@ -261,7 +261,7 @@ class EQMDevice: EQMObject {
       // default device. This is the device that is used to play interface sounds and
       // other incidental or UI-related sounds on. Most devices should allow this
       // although devices with lots of latency may not want to.
-      return .integer(shown ? 1 : 0)
+      return .integer(1)
     case kAudioDevicePropertyLatency:
       // This property returns the presentation latency of the device. For this,
       // device, the value is 0 due to the fact that it always vends silence.
@@ -439,6 +439,22 @@ class EQMDevice: EQMObject {
       let shownRef = data.load(as: CFBoolean.self)
 
       shown = CFBooleanGetValue(shownRef)
+
+      changedProperties.append(
+        AudioObjectPropertyAddress(
+          mSelector: kAudioDevicePropertyDeviceCanBeDefaultDevice,
+          mScope: kAudioObjectPropertyScopeOutput,
+          mElement: kAudioObjectPropertyElementMaster
+        )
+      )
+
+      changedProperties.append(
+        AudioObjectPropertyAddress(
+          mSelector: kAudioDevicePropertyDeviceCanBeDefaultSystemDevice,
+          mScope: kAudioObjectPropertyScopeGlobal,
+          mElement: kAudioObjectPropertyElementMaster
+        )
+      )
       return noErr
 
     case EQMDeviceCustom.properties.latency:
@@ -452,6 +468,14 @@ class EQMDevice: EQMObject {
       if latency != newLatency {
         latency = UInt32(newLatency)
       }
+
+      changedProperties.append(
+        AudioObjectPropertyAddress(
+          mSelector: kAudioDevicePropertyLatency,
+          mScope: kAudioObjectPropertyScopeOutput,
+          mElement: kAudioObjectPropertyElementMaster
+        )
+      )
       return noErr
     case EQMDeviceCustom.properties.name:
       // Only allow eqMac app to set this property
@@ -493,7 +517,7 @@ class EQMDevice: EQMObject {
       timestampCount = 0
       anchorSampleTime = 0
       anchorHostTime = mach_absolute_time()
-      ringBuffer = UnsafeMutablePointer<Float32>.allocate(capacity: Int(ringBufferSize * kChannelCount))
+      ringBuffer = UnsafeMutablePointer<Float32>.allocate(capacity: Int(ringBufferSize * 4 * kChannelCount))
     } else {
       // IO already running so increment the counter
       ioCounter.wrappingIncrement(ordering: .relaxed)
@@ -548,7 +572,7 @@ class EQMDevice: EQMObject {
     return noErr
   }
 
-  static func doIO (clientID: UInt32, operationID: UInt32, sample: UnsafeMutablePointer<Float32>, cycleInfo: AudioServerPlugInIOCycleInfo, frameSize: UInt32) -> OSStatus {
+  static func doIO (client: EQMClient?, operationID: UInt32, sample: UnsafeMutablePointer<Float32>, cycleInfo: AudioServerPlugInIOCycleInfo, frameSize: UInt32) -> OSStatus {
 
     ioMutex.lock()
 
@@ -597,7 +621,7 @@ class EQMDevice: EQMObject {
           }
 
           // Clean up buffer
-          let cleanFromFrame = sampleTime + Int(frame) - 16384
+          let cleanFromFrame = sampleTime + Int(frame) - Int(ringBufferSize)
           let remainder = cleanFromFrame % Int(ringBufferSize)
           let cleanFrame = remainder * Int(kChannelCount) + Int(channel)
           ringBuffer[cleanFrame] = 0

@@ -107,9 +107,7 @@ func EQM_AddDeviceClient (inDriver: AudioServerPlugInDriverRef, inDeviceObjectID
   // successfully.
   guard EQMDriver.validateDriver(inDriver) else { return kAudioHardwareBadObjectError }
 
-  EQMDriver.mutex.lock()
   EQMClients.add(EQMClient(from: inClientInfo.pointee))
-  EQMDriver.mutex.unlock()
 
   return noErr
 }
@@ -121,9 +119,7 @@ func EQM_RemoveDeviceClient (inDriver: AudioServerPlugInDriverRef, inDeviceObjec
   // successfully.
   guard EQMDriver.validateDriver(inDriver) else { return kAudioHardwareBadObjectError }
 
-  EQMDriver.mutex.lock()
   EQMClients.remove(EQMClient(from: inClientInfo.pointee))
-  EQMDriver.mutex.unlock()
 
   return noErr
 }
@@ -321,7 +317,7 @@ func EQM_SetPropertyData (
   if let obj = EQMDriver.getEQMObject(from: inObjectID) {
     var changedProperties: [AudioObjectPropertyAddress] = []
     let status = obj.setPropertyData(
-      client: EQMClients.get(by: inClientProcessID),
+      client: EQMClients.get(processId: inClientProcessID),
       objectID: inObjectID,
       address: address,
       data: inData,
@@ -457,16 +453,14 @@ func EQM_DoIOOperation (
   // This is called to actuall perform a given operation.
   guard EQMDriver.validateDriver(inDriver) else { return kAudioHardwareBadObjectError }
 
-  guard inStreamObjectID == kObjectID_Stream_Input || inStreamObjectID == kObjectID_Stream_Output else {
-    return kAudioHardwareBadObjectError
-  }
-
   guard let sample = ioMainBuffer?.assumingMemoryBound(to: Float32.self) else {
     return noErr
   }
 
+  let client = EQMClients.get(clientId: inClientID)
+
   let status = EQMDevice.doIO(
-    clientID: inClientID,
+    client: client,
     operationID: inOperationID,
     sample: sample,
     cycleInfo: inIOCycleInfo.pointee,

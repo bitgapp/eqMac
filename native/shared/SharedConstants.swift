@@ -15,8 +15,35 @@ struct EQMDeviceCustomProperties: Loopable {
   }
 }
 
+struct EQMDeviceCustomAddresses {
+  var version = AudioObjectPropertyAddress(
+    mSelector: EQMDeviceCustom.properties.version,
+    mScope: kAudioObjectPropertyScopeGlobal,
+    mElement: kAudioObjectPropertyElementMaster
+  )
+
+  var shown = AudioObjectPropertyAddress(
+    mSelector: EQMDeviceCustom.properties.shown,
+    mScope: kAudioObjectPropertyScopeGlobal,
+    mElement: kAudioObjectPropertyElementMaster
+  )
+
+  var latency = AudioObjectPropertyAddress(
+    mSelector: EQMDeviceCustom.properties.latency,
+    mScope: kAudioObjectPropertyScopeGlobal,
+    mElement: kAudioObjectPropertyElementMaster
+  )
+
+  var name = AudioObjectPropertyAddress(
+    mSelector: EQMDeviceCustom.properties.name,
+    mScope: kAudioObjectPropertyScopeGlobal,
+    mElement: kAudioObjectPropertyElementMaster
+  )
+}
+
 struct EQMDeviceCustom {
   static let properties = EQMDeviceCustomProperties()
+  static var addresses = EQMDeviceCustomAddresses()
 }
 
 let kEQMDeviceSupportedSampleRates: [Float64] = [
@@ -27,3 +54,6 @@ let kEQMDeviceSupportedSampleRates: [Float64] = [
   176_400,
   192_000
 ]
+
+let kMinVolumeDB: Float32 = -96
+let kMaxVolumeDB: Float32 = 0

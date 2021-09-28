@@ -2,6 +2,15 @@
   "object": {
     "pins": [
       {
+        "package": "BetterCodable",
+        "repositoryURL": "https://github.com/marksands/BetterCodable",
+        "state": {
+          "branch": null,
+          "revision": "61153170668db7a46a20a87e35e70f80b24d4eb5",
+          "version": "0.4.0"
+        }
+      },
+      {
         "package": "Connectivity",
         "repositoryURL": "https://github.com/rwbutler/connectivity",
         "state": {

@@ -33,3 +33,16 @@ extension Array {
     return false
   }
 }
+
+extension Array where Element: Any {
+  @discardableResult mutating func removeEveryOther () -> [Element] {
+    self = self.enumerated().filter({ index, _ in
+        index % 2 != 0
+    }).map { $0.1 }
+    return self
+  }
+}
+
+
+
+

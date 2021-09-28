@@ -34,9 +34,6 @@ let kDeviceModelUID = "EQMDeviceModelUID"
 let kDefaultSampleRate: Float64 = kEQMDeviceSupportedSampleRates[0]
 let kDefaultOutputVolume: Float32 = 1.0
 
-let kMinVolumeDB: Float32 = -96
-let kMaxVolumeDB: Float32 = 0
-
 extension HRESULT {
   // Success
   static let ok               = HRESULT(bitPattern: 0x00000000)
