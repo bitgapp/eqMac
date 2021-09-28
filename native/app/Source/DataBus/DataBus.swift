@@ -13,6 +13,7 @@ enum DataMethod: String {
   case GET = "GET"
   case POST = "POST"
   case DELETE = "DELETE"
+  case ANY = "ANY"
 }
 
 typealias DataBusHandler = (JSON?, BridgeResponse) throws -> JSON?
@@ -20,8 +21,8 @@ typealias DataBusMiddlewareHandler = (JSON?) throws -> Void
 
 class DataBus {
   private var childBuses: [DataBus] = []
-  private let route: String!
-  private var bridge: Bridge!
+  private let route: String
+  private var bridge: Bridge
   private var middlewares: [String: [DataBusMiddlewareHandler]] = [:]
   
   required init (route: String, bridge: Bridge) {
@@ -38,10 +39,10 @@ class DataBus {
   }
   
   func on (_ method: DataMethod, _ path: String, _ handler: @escaping DataBusHandler) {
-    let event = "\(method.rawValue) \(self.route!)\(path)"
+    let event = constructEventName(method: method, path: path)
     self.bridge.on(event: event) { (data, res) in
       do {
-        let middlewareHandlers = self.getMiddlewareHandlersMatching(path: path)
+        let middlewareHandlers = self.getMiddlewareHandlersMatching(method: method, path: path)
         
         if (middlewareHandlers.count > 0) {
           for middlewareHandler in middlewareHandlers {
@@ -57,11 +58,13 @@ class DataBus {
     }
   }
   
-  private func getMiddlewareHandlersMatching (path: String) -> [DataBusMiddlewareHandler] {
+  private func getMiddlewareHandlersMatching (method: DataMethod, path: String) -> [DataBusMiddlewareHandler] {
     var handlers: [DataBusMiddlewareHandler] = []
     let keys = middlewares.map { String($0.key) }
+    let event = constructEventName(method: method, path: path)
+    let wildcardEvent = constructEventName(method: .ANY, path: path)
     let matchingKeys = keys.filter { key in
-      return path.hasPrefix(key)
+      return event.hasPrefix(key) || event.hasPrefix(wildcardEvent)
     }
 
     for (_, key) in matchingKeys.enumerated() {
@@ -75,12 +78,17 @@ class DataBus {
     return handlers
   }
 
-  func onAll (_ path: String, _ handler: @escaping DataBusMiddlewareHandler) {
-    if middlewares[path] == nil {
-      middlewares[path] = []
+  private func constructEventName (method: DataMethod, path: String) -> String {
+    return "\(method.rawValue) \(self.route)\(path)"
+  }
+
+  func middleware (method: DataMethod = .ANY, path: String = "/", _ handler: @escaping DataBusMiddlewareHandler) {
+    let event = constructEventName(method: method, path: path)
+    if middlewares[event] == nil {
+      middlewares[event] = []
     }
     
-    middlewares[path]!.append(handler)
+    middlewares[event]!.append(handler)
   }
   
   func add (_ route: String, _ Bus: DataBus.Type) {
