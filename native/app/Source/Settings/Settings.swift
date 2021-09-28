@@ -113,6 +113,8 @@ class Settings: StoreSubscriber {
     }
   }
   
-
+  deinit {
+    Application.store.unsubscribe(self)
+  }
 
 }

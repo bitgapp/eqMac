@@ -8,9 +8,13 @@
 
 import Foundation
 import AppKit
+import EmitterKit
 import SwiftyJSON
+import AudioToolbox
 
 class ApplicationDataBus: DataBus {
+  var errorListener: EventListener<String>?
+  
   required init(route: String, bridge: Bridge) {
     super.init(route: route, bridge: bridge)
     
@@ -104,5 +108,65 @@ class ApplicationDataBus: DataBus {
     self.add("/transition", TransitionDataBus.self)
     self.add("/ui", UIDataBus.self)
     self.add("/settings", SettingsDataBus.self)
+    
+    errorListener = Application.error.on { error in
+      self.send(to: "/error", data: [ "error": error ])
+    }
+
+    self.on(.GET, "/bundle-icon") { data, _ in
+      guard let bundleId = data["bundleId"] as? String else {
+        throw "Invalid 'bundleId' parameter, must be a string"
+      }
+
+      guard let path = NSWorkspace.shared.absolutePathForApplication(withBundleIdentifier: bundleId) else {
+        return JSON.null
+      }
+
+      return [
+        "base64": NSWorkspace.shared.icon(forFile: path).base64String ?? JSON.null
+      ]
+    }
+
+    var lastSound: UInt?
+    self.on(.GET, "/alert-sound") { _, _ in
+      if lastSound == nil || Time.stamp - lastSound! > 100 {
+        lastSound = Time.stamp
+        AudioServicesPlayAlertSound(kSystemSoundID_UserPreferredAlert)
+        return "Sound played"
+      } else {
+        return "Too much"
+      }
+    }
+
+    self.on(.POST, "/system-sound") { data, _ in
+      let sounds: [String] = [
+        "Basso",
+        "Blow",
+        "Bottle",
+        "From",
+        "Funk",
+        "Glass",
+        "Hero",
+        "Morse",
+        "Ping",
+        "Pop",
+        "Purr",
+        "Sosumi",
+        "Submarine",
+        "Tink",
+      ]
+
+      guard let sound = data["name"] as? String, sounds.contains(sound) else {
+        throw "Invalid 'name' parameter, must be a string that is one of these: \(sounds)"
+      }
+
+      if lastSound == nil || Time.stamp - lastSound! > 100 {
+        lastSound = Time.stamp
+        NSSound(named: sound)?.play()
+        return "Sound played"
+      } else {
+        return "Too much"
+      }
+    }
   }
 }

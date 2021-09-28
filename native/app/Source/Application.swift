@@ -25,6 +25,9 @@ enum VolumeChangeDirection: String {
 }
 
 class Application {
+  static var bundleId: String {
+    return Bundle.main.bundleIdentifier!
+  }
   static var engine: Engine?
   static var output: Output?
   static var engineCreated = EmitterKit.Event<Void>()
@@ -43,13 +46,15 @@ class Application {
 
   static var settings: Settings!
   static var ui: UI!
-  
+
   static var dataBus: ApplicationDataBus!
+  static let error = EmitterKit.Event<String>()
+  
   static var updater = SUUpdater(for: Bundle.main)!
   
   static let store: Store = Store(
     reducer: ApplicationStateReducer,
-    state: Storage[.state] ?? ApplicationState(),
+    state: ApplicationState.load(),
     middleware: []
   )
 
@@ -94,7 +99,7 @@ class Application {
       }
     }
   }
-  
+
   private static func setupListeners () {
     enabledChangedListener = enabledChanged.on { enabled in
       if (enabled) {
@@ -129,11 +134,16 @@ class Application {
     }
   }
 
+  private static var settingUpAudio = false
   private static func setupAudio () {
+    if (settingUpAudio) { return }
+    settingUpAudio = true
     Console.log("Setting up Audio Engine")
     Driver.show {
       setupDeviceEvents()
-      startPassthrough()
+      startPassthrough {
+        settingUpAudio = false
+      }
     }
   }
   
@@ -246,8 +256,15 @@ class Application {
       }
     }
   }
-  
-  static func startPassthrough () {
+
+  static var startingPassthrough = false
+  static func startPassthrough (_ completion: (() -> Void)? = nil) {
+    if (startingPassthrough) {
+      completion?()
+      return
+    }
+
+    startingPassthrough = true
     selectedDevice = AudioDevice.currentOutputDevice
 
     if (selectedDevice!.id == Driver.device!.id) {
@@ -290,10 +307,14 @@ class Application {
     Console.log("Driver new name: \(Driver.name)")
 
     AudioDevice.currentOutputDevice = Driver.device!
+    AudioDevice.currentSystemDevice = Driver.device!
+
     // TODO: Figure out a better way
     delay(1000) {
       ignoreEvents = false
       createAudioPipeline()
+      startingPassthrough = false
+      completion?()
     }
   }
 
@@ -302,17 +323,20 @@ class Application {
     if (lastKnownDeviceStack.count > 0) {
       device = lastKnownDeviceStack.removeLast()
     } else {
-      return AudioDevice.builtInOutputDevice
+      device = selectedDevice ?? AudioDevice.builtInOutputDevice
     }
-    if device == nil { return getLastKnowDeviceFromStack() }
+    guard device != nil, device!.id != Driver.device!.id else {
+      selectedDevice = nil
+      return getLastKnowDeviceFromStack()
+    }
 
     Console.log("Last known device: \(device!.id) - \(device!.name)")
-    let newDevice = Outputs.allowedDevices.first(where: { $0.id == device!.id || $0.name == device!.name })
-    if newDevice == nil {
+    guard let newDevice = Outputs.allowedDevices.first(where: { $0.id == device!.id || $0.name == device!.name }) else {
       Console.log("Last known device is not currently available, trying next")
       return getLastKnowDeviceFromStack()
     }
-    return newDevice!
+
+    return newDevice
   }
 
   private static func matchDriverSampleRateToOutput () {
@@ -323,49 +347,48 @@ class Application {
   
   private static func createAudioPipeline () {
     engine = nil
-    engine = Engine {
-      engineCreated.emit()
-      output = nil
-      output = Output(device: selectedDevice!)
-      outputCreated.emit()
+    engine = Engine()
+    engineCreated.emit()
+    output = nil
+    output = Output(device: selectedDevice!)
+    outputCreated.emit()
 
-      selectedDeviceSampleRateChangedListener = AudioDeviceEvents.on(
-        .nominalSampleRateChanged,
-        onDevice: selectedDevice!,
-        retain: false
-      ) {
-        if ignoreEvents { return }
-        ignoreEvents = true
-        stopRemoveEngines {
-          delay(1000) {
-            // need a delay, because emitter should finish it's work at first
-            try! AudioDeviceEvents.recreateEventEmitters([.isAliveChanged, .volumeChanged, .nominalSampleRateChanged])
-            setupDriverDeviceEvents()
-            matchDriverSampleRateToOutput()
-            createAudioPipeline()
-            ignoreEvents = false
-          }
+    selectedDeviceSampleRateChangedListener = AudioDeviceEvents.on(
+      .nominalSampleRateChanged,
+      onDevice: selectedDevice!,
+      retain: false
+    ) {
+      if ignoreEvents { return }
+      ignoreEvents = true
+      stopRemoveEngines {
+        delay(1000) {
+          // need a delay, because emitter should finish it's work at first
+          try! AudioDeviceEvents.recreateEventEmitters([.isAliveChanged, .volumeChanged, .nominalSampleRateChanged])
+          setupDriverDeviceEvents()
+          matchDriverSampleRateToOutput()
+          createAudioPipeline()
+          ignoreEvents = false
         }
       }
-      
-      selectedDeviceVolumeChangedListener = AudioDeviceEvents.on(
-        .volumeChanged,
-        onDevice: selectedDevice!,
-        retain: false
-      ) {
-        if ignoreEvents { return }
-        if ignoreNextVolumeEvent {
-          ignoreNextVolumeEvent = false
-          return
-        }
-        let deviceVolume = selectedDevice!.virtualMasterVolume(direction: .playback)!
-        let driverVolume = Driver.device!.virtualMasterVolume(direction: .playback)!
-        if (deviceVolume != driverVolume) {
-          Driver.device!.setVirtualMasterVolume(deviceVolume, direction: .playback)
-        }
-      }
-      audioPipelineIsRunning.emit()
     }
+
+    selectedDeviceVolumeChangedListener = AudioDeviceEvents.on(
+      .volumeChanged,
+      onDevice: selectedDevice!,
+      retain: false
+    ) {
+      if ignoreEvents { return }
+      if ignoreNextVolumeEvent {
+        ignoreNextVolumeEvent = false
+        return
+      }
+      let deviceVolume = selectedDevice!.virtualMasterVolume(direction: .playback)!
+      let driverVolume = Driver.device!.virtualMasterVolume(direction: .playback)!
+      if (deviceVolume != driverVolume) {
+        Driver.device!.setVirtualMasterVolume(deviceVolume, direction: .playback)
+      }
+    }
+    audioPipelineIsRunning.emit()
   }
   
   private static func setupUI (_ completion: @escaping () -> Void) {
@@ -432,7 +455,7 @@ class Application {
   }
   
   private static func switchBackToLastKnownDevice () {
-    // If the active equalizer global gain hass been lowered we need to equalize the volume to avoid blowing people ears our
+    // If the active equalizer global gain hass been lowered we need to equalize the volume to avoid blowing people ears out
     let device = getLastKnowDeviceFromStack()
 
     let globalGain = ({ () -> Double in
@@ -473,6 +496,7 @@ class Application {
 
     Driver.name = ""
     AudioDevice.currentOutputDevice = device
+    AudioDevice.currentSystemDevice = device
   }
 
   static func stopEngines (_ completion: @escaping () -> Void) {
@@ -496,10 +520,10 @@ class Application {
   }
 
   static func stopRemoveEngines (_ completion: @escaping () -> Void) {
-    stopEngines {
+//    stopEngines {
       removeEngines()
       completion()
-    }
+//    }
   }
 
   static func stopSave (_ completion: @escaping () -> Void) {

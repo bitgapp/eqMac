@@ -26,7 +26,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, SUUpdaterDelegate {
 
     Application.updater.delegate = self
     Application.updater.feedURL = Settings.updatesFeedUrl
-    Console.log(Application.updater.feedURL)
     
     updateProcessed.once { _ in
       Application.start()

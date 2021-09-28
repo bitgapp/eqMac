@@ -10,18 +10,38 @@ import Foundation
 import SwiftyUserDefaults
 import ReSwift
 import SwiftyJSON
+import BetterCodable
+
+fileprivate struct ScaleDefault: DefaultCodableStrategy {
+  static var defaultValue: Double = 1
+}
+
+fileprivate struct MinWidthDefault: DefaultCodableStrategy {
+  static var defaultValue: Double = 400
+}
+
+fileprivate struct MinHeightDefault: DefaultCodableStrategy {
+  static var defaultValue: Double = 400
+}
+
+fileprivate struct StatusItemIconTypeDefault: DefaultCodableStrategy {
+  static var defaultValue: StatusItemIconType = .classic
+}
 
 struct UIState: State {
   var height: Double = 400
   var width: Double = 400
   var windowPosition: NSPoint? = nil
-  var alwaysOnTop = false
+  @DefaultFalse var alwaysOnTop = false
   var settings: JSON = JSON()
   var mode: UIMode = .window
-  var statusItemIconType: StatusItemIconType = .classic
-  var scale: Double = 1
-  var minHeight: Double = 400
-  var fromUI = false
+  @DefaultCodable<StatusItemIconTypeDefault> var statusItemIconType = StatusItemIconTypeDefault.value
+  @DefaultCodable<ScaleDefault> var scale = ScaleDefault.value
+  @DefaultCodable<MinHeightDefault> var minHeight = MinHeightDefault.value
+  @DefaultCodable<MinWidthDefault> var minWidth = MinWidthDefault.value
+  var maxHeight: Double?
+  var maxWidth: Double?
+  @DefaultFalse var fromUI = false
 }
 
 enum UIAction: Action {
@@ -34,6 +54,9 @@ enum UIAction: Action {
   case setStatusItemIconType(StatusItemIconType)
   case setScale(Double)
   case setMinHeight(Double)
+  case setMinWidth(Double)
+  case setMaxHeight(Double?)
+  case setMaxWidth(Double?)
 }
 
 func UIStateReducer(action: Action, state: UIState?) -> UIState {
@@ -60,6 +83,12 @@ func UIStateReducer(action: Action, state: UIState?) -> UIState {
     state.scale = scale
   case .setMinHeight(let minHeight)?:
     state.minHeight = minHeight
+  case .setMinWidth(let minWidth)?:
+    state.minWidth = minWidth
+  case .setMaxHeight(let maxHeight)?:
+    state.maxHeight = maxHeight
+  case .setMaxWidth(let maxWidth)?:
+    state.maxWidth = maxWidth
   case .none:
     break
   }

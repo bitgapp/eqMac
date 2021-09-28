@@ -65,7 +65,7 @@ extension AudioDevice {
       if (self.canMuteVirtualMasterChannel(direction: .playback)) {
         return self.isMuted(channel: 0, direction: .playback)!
       } else {
-        return (1...self.channels(direction: .playback).intValue).allSatisfy { self.isMuted(channel: UInt32($0), direction: .playback)! }
+        return (1...self.channels(direction: .playback).intValue).allSatisfy { self.isMuted(channel: UInt32($0), direction: .playback) ?? false }
       }
     }
     set {
@@ -189,6 +189,11 @@ extension AudioDevice {
       newValue.setAsDefaultOutputDevice()
     }
   }
+
+  static public var currentSystemDevice: AudioDevice {
+    get { return AudioDevice.defaultSystemOutputDevice()! }
+    set { newValue.setAsDefaultSystemDevice() }
+  }
   
   static public var currentInputDevice: AudioDevice {
     get { return AudioDevice.defaultInputDevice()! }
@@ -230,13 +235,18 @@ extension AudioDevice {
   }
   
   public static func getPropertyData<T>(_ objectID: AudioObjectID, address: AudioObjectPropertyAddress, andValue value: inout T) -> OSStatus {
-    
+
     var theAddress = address
     var size = UInt32(MemoryLayout<T>.size)
     let status = AudioObjectGetPropertyData(objectID, &theAddress, UInt32(0), nil, &size, &value)
-    
+
     return status
   }
-  
+
+  public static func getPropertyDataSize(_ objectID: AudioObjectID, address: AudioObjectPropertyAddress, size: inout UInt32) -> (OSStatus) {
+      var theAddress = address
+
+      return AudioObjectGetPropertyDataSize(objectID, &theAddress, 0, nil, &size)
+  }
 }
 

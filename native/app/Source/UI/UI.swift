@@ -35,6 +35,26 @@ class UI: StoreSubscriber {
   static var minHeight: Double {
     return state.minHeight * scale
   }
+  
+  static var minWidth: Double {
+    return state.minWidth * scale
+  }
+  
+  static var maxHeight: Double {
+    var maxHeight = (state.maxHeight ?? 4000) * scale
+    if (maxHeight < minHeight) {
+      maxHeight = minHeight
+    }
+    return maxHeight
+  }
+  
+  static var maxWidth: Double {
+    var maxWidth = (state.maxWidth ?? 4000) * scale
+    if (maxWidth < minWidth) {
+      maxWidth = minWidth
+    }
+    return maxWidth
+  }
 
   static var height: Double {
     get {
@@ -60,14 +80,17 @@ class UI: StoreSubscriber {
 
   static var minSize: NSSize {
     return NSSize(
-      width: 400 * scale,
+      width: minWidth,
       height: minHeight
     )
   }
 
   static var maxSize: NSSize {
     if isResizable {
-      return NSSize(width: 4000, height: 4000)
+      return NSSize(
+        width: maxWidth,
+        height: maxHeight
+      )
     } else {
       return minSize
     }
@@ -461,5 +484,9 @@ class UI: StoreSubscriber {
       }
 
     }
+  }
+
+  deinit {
+    Application.store.unsubscribe(self)
   }
 }

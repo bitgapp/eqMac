@@ -9,15 +9,38 @@
 import Foundation
 import ReSwift
 import SwiftyUserDefaults
+import BetterCodable
 
-protocol State: StateType, Codable, DefaultsSerializable {}
+protocol State: Codable, DefaultsSerializable {}
+
+fileprivate struct VolumeDefault: DefaultCodableStrategy {
+  static var defaultValue = VolumeState()
+}
 
 struct ApplicationState: State {
   var settings = SettingsState()
   var ui = UIState()
   var effects = EffectsState()
-  var volume = VolumeState()
-  var enabled = true
+  @DefaultCodable<VolumeDefault> var volume = VolumeDefault.value
+  @DefaultTrue var enabled = true
+
+  static func load () -> ApplicationState {
+    guard let stateData = UserDefaults.standard.data(forKey: "state") else {
+      return ApplicationState()
+    }
+
+    guard let state = ({ () -> ApplicationState? in 
+      if Constants.DEBUG {
+        return try! JSONDecoder().decode(ApplicationState.self, from: stateData)
+      } else {
+        return try? JSONDecoder().decode(ApplicationState.self, from: stateData)
+      }
+    })() else {
+      return ApplicationState()
+    }
+
+    return state
+  }
 }
 
 enum ApplicationAction: Action {

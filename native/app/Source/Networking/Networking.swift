@@ -11,7 +11,7 @@ import Connectivity
 import EmitterKit
 class Networking {
   static private let connectivity = Connectivity()
-
+  
   static var status: ConnectivityStatus = .determining {
     didSet {
       if oldValue != status {
@@ -20,7 +20,7 @@ class Networking {
     }
   }
   static let statusChanged = Event<ConnectivityStatus>()
-
+  
   static func startMonitor () {
     connectivity.whenConnected = { connectivity in
       Networking.status = connectivity.status
@@ -31,7 +31,7 @@ class Networking {
     }
     connectivity.startNotifier()
   }
-
+  
   static func checkConnected (_ completion: @escaping (Bool) -> Void) {
     if (connectivity.status == .notConnected) {
       return completion(false)
@@ -40,7 +40,6 @@ class Networking {
     connectivity.checkConnectivity { connectivity in
       if (!returned) {
         returned = true
-
         completion(statusConsideredConnected(connectivity.status))
       }
     }
@@ -52,11 +51,11 @@ class Networking {
       }
     }
   }
-
+  
   static func whenConnected (_ completion: @escaping () -> Void) {
     checkConnected { connected in
       if (connected) { return completion() }
-
+      
       statusChanged.once { status in
         if (isConnected) { return completion() }
         whenConnected(completion)
@@ -77,7 +76,7 @@ class Networking {
     ]
     return accepted.contains(connectivity.status)
   }
-
+  
   static func tcpPortIsAvailable(_ port: UInt) -> Bool {
     let socketFileDescriptor = socket(AF_INET, SOCK_STREAM, 0)
     if socketFileDescriptor == -1 {

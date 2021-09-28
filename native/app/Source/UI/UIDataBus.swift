@@ -152,6 +152,40 @@ class UIDataBus: DataBus {
       Application.dispatchAction(UIAction.setMinHeight(minHeight))
       return "Min Height has been set"
     }
+    
+    self.on(.GET, "/min-width") { _, _ in
+      return [ "minWidth": self.state.minWidth ]
+    }
+
+    self.on(.POST, "/min-width") { data, _ in
+      guard let minWidth = data["minWidth"] as? Double else {
+        throw "Please provide a valid 'minWidth' parameter, must be a Float value"
+      }
+
+      Application.dispatchAction(UIAction.setMinWidth(minWidth))
+      return "Min Width has been set"
+    }
+    
+    self.on(.GET, "/max-height") { _, _ in
+      return [ "maxHeight": self.state.maxHeight ]
+    }
+
+    self.on(.POST, "/max-height") { data, _ in
+      let maxHeight = data["maxHeight"] as? Double
+      Application.dispatchAction(UIAction.setMaxHeight(maxHeight))
+      return "Max Height has been set"
+    }
+    
+    self.on(.GET, "/max-width") { _, _ in
+      return [ "maxWidth": self.state.maxWidth ]
+    }
+
+    self.on(.POST, "/max-width") { data, _ in
+      let maxWidth = data["maxWidth"] as? Double
+      Application.dispatchAction(UIAction.setMaxWidth(maxWidth))
+      return "Min Width has been set"
+    }
+    
 
     self.on(.GET, "/scale") { _, _ in
       return [ "scale": self.state.scale ]

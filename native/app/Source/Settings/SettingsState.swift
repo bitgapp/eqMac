@@ -10,13 +10,14 @@ import Foundation
 
 import SwiftyUserDefaults
 import ReSwift
+import BetterCodable
 
 struct SettingsState: State {
   var iconMode: IconMode = .both
-  var doCollectCrashReports = false
-  var doAutoCheckUpdates = true
-  var doOTAUpdates = true
-  var doBetaUpdates = false
+  @DefaultFalse var doCollectCrashReports = false
+  @DefaultTrue var doAutoCheckUpdates = true
+  @DefaultTrue var doOTAUpdates = true
+  @DefaultFalse var doBetaUpdates = false
 }
 
 enum SettingsAction: Action {

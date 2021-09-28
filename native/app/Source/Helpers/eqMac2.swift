@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+import AVFoundation
 
 class eqMac2 {
   
@@ -37,4 +37,5 @@ class eqMac2 {
     }
     return []
   }
+
 }

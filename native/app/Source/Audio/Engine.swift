@@ -46,7 +46,7 @@ class Engine {
     engine.attach(equalizers.active!.eq)
 
     // Chain
-    engine.connect(engine.inputNode, to: equalizers.active.unit, format: format)
+    engine.connect(engine.inputNode, to: equalizers.active!.eq, format: format)
     engine.connect(equalizers.active!.eq, to: engine.mainMixerNode, format: format)
 
     // Render callback
