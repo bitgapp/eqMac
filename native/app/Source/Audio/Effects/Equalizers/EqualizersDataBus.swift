@@ -23,7 +23,7 @@ class EqualizersDataBus: DataBus {
     self.on(.GET, "/enabled") { _, _ in
       return [ "enabled": self.state.enabled ]
     }
-     
+    
     self.on(.POST, "/enabled") { data, _ in
       let enabled = data["enabled"] as? Bool
       if (enabled == nil) {

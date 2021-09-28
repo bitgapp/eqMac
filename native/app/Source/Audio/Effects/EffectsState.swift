@@ -18,6 +18,6 @@ func EffectsStateReducer(action: Action, state: EffectsState?) -> EffectsState {
   var state = state ?? EffectsState()
   
   state.equalizers = EqualizersStateReducer(action: action, state: state.equalizers)
-  
+
   return state
 }

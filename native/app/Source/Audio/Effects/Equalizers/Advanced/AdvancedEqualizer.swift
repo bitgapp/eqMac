@@ -156,5 +156,7 @@ class AdvancedEqualizer: Equalizer, StoreSubscriber {
   }
   typealias StoreSubscriberStateType = AdvancedEqualizerState
   
-  
+  deinit {
+    Application.store.unsubscribe(self)
+  }
 }

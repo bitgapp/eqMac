@@ -203,5 +203,9 @@ class BasicEqualizer: Equalizer, StoreSubscriber {
       }
     }
   }
+
+  deinit {
+    Application.store.unsubscribe(self)
+  }
 }
 

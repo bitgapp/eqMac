@@ -27,7 +27,7 @@ enum EqualizerType : String, Codable {
 
 let AllEqualizerTypes = [
   EqualizerType.basic.rawValue,
-  EqualizerType.advanced.rawValue
+  EqualizerType.advanced.rawValue,
 ]
 
 class Equalizers: Effect, StoreSubscriber {
@@ -35,23 +35,20 @@ class Equalizers: Effect, StoreSubscriber {
   static let typeChanged = Event<EqualizerType>()
   
   // MARK: - Properties
-  private var _type: EqualizerType! {
+  var type: EqualizerType = Application.store.state.effects.equalizers.type {
     didSet {
-      setCorrectActiveEqualizer()
+      if oldValue != type {
+        Equalizers.typeChanged.emit(type)
+      }
     }
-  }
-  var type: EqualizerType! {
-    return Application.store.state.effects.equalizers.type
   }
   
   var state: EqualizersState {
     return Application.store.state.effects.equalizers
   }
   
-  var active: Equalizer!
-  var basic: BasicEqualizer!
-  var advanced: AdvancedEqualizer!
-  
+  var active: Equalizer?
+
   // MARK: - State
   typealias StoreSubscriberStateType = EqualizersState
   
@@ -59,13 +56,14 @@ class Equalizers: Effect, StoreSubscriber {
   override init () {
     Console.log("Creating Equalizers")
     super.init()
-    basic = BasicEqualizer()
-    advanced = AdvancedEqualizer()
-    
-    enabled = state.enabled
-    _type = state.type
-    
-    setCorrectActiveEqualizer()
+
+    ({
+      type = state.type
+      setCorrectActiveEqualizer()
+      
+      enabled = state.enabled
+    })()
+
     setupStateListener()
   }
   
@@ -79,24 +77,25 @@ class Equalizers: Effect, StoreSubscriber {
     if (state.enabled != enabled) {
       enabled = state.enabled
     }
-    if (_type != state.type) {
-      _type = state.type
-      Equalizers.typeChanged.emit(_type)
+    if (type != state.type) {
+      type = state.type
     }
   }
-  
+    
   internal func setCorrectActiveEqualizer () {
     switch type {
-    case .basic?:
-      active = basic
-    case .advanced?:
-      active = advanced
-    default: break
+    case .basic:
+      active = BasicEqualizer()
+    case .advanced:
+      active = AdvancedEqualizer()
     }
   }
-  
+
   override func enabledDidSet() {
-    basic.enabled = enabled
-    advanced.enabled = enabled
+    active?.enabled = enabled
+  }
+
+  deinit {
+    Application.store.unsubscribe(self)
   }
 }
