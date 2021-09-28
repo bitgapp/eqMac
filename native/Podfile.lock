@@ -2,7 +2,7 @@ PODS:
   - AMCoreAudio (3.5)
   - EmitterKit (5.2.2)
   - KeychainSwift (13.0.0)
-  - ReSwift (5.0.0)
+  - ReSwift (6.1.0)
   - Sentry (7.1.3):
     - Sentry/Core (= 7.1.3)
   - Sentry/Core (7.1.3)
@@ -19,7 +19,7 @@ DEPENDENCIES:
   - AMCoreAudio (from `https://github.com/bitgapp/AMCoreAudio.git`, commit `f02015b7dfbaeb9b5f70b658e860afe94f85df9c`)
   - EmitterKit (~> 5.2.2)
   - KeychainSwift (~> 13.0)
-  - ReSwift
+  - ReSwift (~> 6.1)
   - Sentry (~> 7.1.3)
   - Sparkle (~> 1.24)
   - STPrivilegedTask (from `https://github.com/sveinbjornt/STPrivilegedTask.git`, commit `fdca677c77adb166a2be4c5ea9c7580a738c49c9`)
@@ -64,7 +64,7 @@ SPEC CHECKSUMS:
   AMCoreAudio: d7fc6672b56df2ade8e77d08f3247d18d59697e3
   EmitterKit: e7a27b37118823d8ad413b8396f75e40d59f8cba
   KeychainSwift: 23d6c16cbc33f20fafa30c3d783241b4b87d998c
-  ReSwift: 628f1a9b3ee52e3b3ca2a644435472fd77afafe1
+  ReSwift: eab3c01e4279ba81b54a61e4fd6499634d20123a
   Sentry: 6d963d64804dd06d96e778be729613f481394312
   Sparkle: 270cd27377bf04e9c128af06e3a22d0f572d6ee3
   STPrivilegedTask: 56c3397238a1ec07720fb877a044898373cd2c68
@@ -75,6 +75,6 @@ SPEC CHECKSUMS:
   WebViewJavascriptBridge: 7f5bc4d3581e672e8f32bd0f812d54bc69bb8e29
   Zip: 8877eede3dda76bcac281225c20e71c25270774c
 
-PODFILE CHECKSUM: 29d370b86a71feb5aef7020abe11be1992fc5b22
+PODFILE CHECKSUM: 500a228af9e9f201e43551499c38b05824162409
 
 COCOAPODS: 1.9.3
