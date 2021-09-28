@@ -191,5 +191,8 @@ class Volume: StoreSubscriber {
   func postSetup () {
     (gain = gain)
   }
-  
+
+  deinit {
+    Application.store.unsubscribe(self)
+  }
 }
