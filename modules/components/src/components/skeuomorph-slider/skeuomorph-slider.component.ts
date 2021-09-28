@@ -115,7 +115,7 @@ export class SkeuomorphSliderComponent implements OnInit, OnDestroy {
       const changeDelta = -event.deltaY
       const diff = changeDelta < 0 ? -changeDelta : changeDelta
       if (diff < 2) return
-      this.value += changeDelta / 100
+      this.value += changeDelta * ((this.max - this.min) / 1000)
       this.userChangedValue.emit({ value: this.value })
     }
   }

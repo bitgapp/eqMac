@@ -1,4 +1,4 @@
-import { Directive, OnDestroy, Input, HostListener, ElementRef } from '@angular/core'
+import { Directive, OnDestroy, Input, HostListener, ElementRef, ChangeDetectorRef } from '@angular/core'
 import { TooltipService } from './tooltip.service'
 import { TooltipPositionSide } from './tooltip.component'
 
@@ -12,7 +12,10 @@ export class TooltipDirective implements OnDestroy {
   @Input() eqmTooltipShowArrow: boolean = true
   public id?: string
   public left?: boolean
-  constructor (public tooltipService: TooltipService, public element: ElementRef) { }
+  constructor (
+    public tooltipService: TooltipService,
+    public element: ElementRef
+  ) { }
 
   @HostListener('mouseenter')
   onMouseEnter (): void {

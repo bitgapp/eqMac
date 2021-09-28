@@ -65,3 +65,7 @@
 .enabled {
   filter: none;
 }
+
+.highlighted {
+  box-shadow: 0 0 0 2px $accent;
+}

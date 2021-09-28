@@ -15,8 +15,7 @@ import { FadeInOutAnimation } from '../../animations/fade-in-out'
       </eqm-tooltip>
     </div>
   `,
-  animations: [ FadeInOutAnimation ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  animations: [ FadeInOutAnimation ]
 })
 export class TooltipContainerComponent {
   constructor (public tooltipService: TooltipService) {}

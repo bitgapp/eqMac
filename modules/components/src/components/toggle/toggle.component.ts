@@ -11,6 +11,7 @@ export class ToggleComponent implements OnInit {
   @Output() stateChange = new EventEmitter()
   @Input() enabled = true
   @Input() interactive = true
+  @Input() highlighted = false
 
   ngOnInit () {
   }

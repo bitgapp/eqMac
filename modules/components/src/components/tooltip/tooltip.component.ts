@@ -13,8 +13,7 @@ export type TooltipPositionSide = 'top' | 'bottom' | 'left' | 'right'
 @Component({
   selector: 'eqm-tooltip',
   templateUrl: './tooltip.component.html',
-  styleUrls: [ './tooltip.component.scss' ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: [ './tooltip.component.scss' ]
 })
 export class TooltipComponent implements OnInit {
   @Input() text?: string
