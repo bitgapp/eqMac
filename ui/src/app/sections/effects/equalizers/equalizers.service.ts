@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core'
 import { EffectService } from '../effect.service'
+import { EqualizersComponent } from './equalizers.component'
 
 export const EqualizersTypes = [
   'Basic',
@@ -12,6 +13,8 @@ export type EqualizerType = typeof EqualizersTypes[number]
 })
 export class EqualizersService extends EffectService {
   route = `${this.route}/equalizers`
+
+  ref?: EqualizersComponent
 
   async getType (): Promise<EqualizerType> {
     const resp = await this.request({ method: 'GET', endpoint: '/type' })

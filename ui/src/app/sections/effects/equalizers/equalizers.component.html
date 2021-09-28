@@ -1,23 +1,23 @@
 <div fxLayout="row" class="toolbar w-100" [style.min-height.px]="toolbarHeight" fxLayoutAlign="space-between center" >
     <div fxFlex="20" fxLayoutGap="10px" fxLayout="row" fxLayoutAlign="start center">
-        <eqm-toggle [enabled]="app.enabled" class="on-off" [(state)]="enabled" (stateChange)="setEnabled()"></eqm-toggle>
-        <eqm-icon [@FadeInOut] *ngIf="activeEqualizer && activeEqualizer.settings.length" (click)="enabled && openSettings()" eqmTooltip="Settings" eqmTooltipPositionSide="bottom" name="cog" color="#8E8E93" [size]="16"></eqm-icon>
+      <eqm-toggle [enabled]="app.enabled" [highlighted]="enabledToggleHighlighted" [(state)]="enabled" (stateChange)="setEnabled()"></eqm-toggle>
+      <eqm-icon [@FadeInOut] *ngIf="activeEqualizer && activeEqualizer.settings.length" (click)="openSettings()" eqmTooltip="Settings" eqmTooltipPositionSide="bottom" name="cog" color="#8E8E93" [size]="16"></eqm-icon>
     </div>
 
-    <div fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="10px">
+    <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5px">
       <eqm-label>Equalizer: </eqm-label>
       <eqm-label class="type" [class.active]="type === 'Basic'" (click)="setType('Basic')">Basic</eqm-label>
       <eqm-label class="type" [class.active]="type === 'Advanced'" (click)="setType('Advanced')">Advanced</eqm-label>
     </div>
 
-    <div fxFlex="20" fxLayoutGap="5px" fxLayout="row" fxLayoutAlign="end center">
+    <div fxFlex="10" fxLayoutGap="5px" fxLayout="row" fxLayoutAlign="end center">
       <eqm-icon (click)="toggleVisibility()" [name]="show ? 'hide' : 'show'"></eqm-icon>
     </div>
 </div>
 
 <eqm-loading *ngIf="show && !loaded"></eqm-loading>
 
-<eqm-equalizer-presets *ngIf="show && loaded"
+<eqm-equalizer-presets *ngIf="show && loaded" (click)="clicked()"
   [enabled]="enabled && app.enabled"
   class="presets"
   [presets]="presets" [selectedPreset]="selectedPreset" 
@@ -28,14 +28,14 @@
   [additionalRightOption]="activeEqualizer?.additionalPresetOptionRight"
 ></eqm-equalizer-presets>
 
-<eqm-basic-equalizer *ngIf="show && loaded && type === 'Basic'" #basicEqualizer
+<eqm-basic-equalizer *ngIf="show && loaded && type === 'Basic'" #basicEqualizer (click)="clicked()"
   [enabled]="enabled && app.enabled" class="equalizer" 
   (presetsChange)="presets = $event" (selectedPresetChange)="selectedPreset = $event" 
   [animationDuration]="animationDuration" [animationFps]="animationFps"
   [settingsDialog]="settingsDialog"
 ></eqm-basic-equalizer>
 
-<eqm-advanced-equalizer *ngIf="show && loaded && type === 'Advanced'" #advancedEqualizer
+<eqm-advanced-equalizer *ngIf="show && loaded && type === 'Advanced'" #advancedEqualizer (click)="clicked()"
   [enabled]="enabled && app.enabled" class="equalizer"
   (presetsChange)="presets = $event" (selectedPresetChange)="selectedPreset = $event"
   [animationDuration]="animationDuration" [animationFps]="animationFps"

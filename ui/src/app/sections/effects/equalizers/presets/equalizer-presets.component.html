@@ -23,7 +23,7 @@
     <eqm-dropdown
       [enabled]="enabled"
       [editable]="false" noItemsPlaceholder="No Presets" placeholder="Select Preset"
-      [items]="presets"
+      [items]="orderedPresets"
       [selectedItem]="selectedPreset"
       labelParam="name"
       (itemSelected)="presetSelected.emit($event)"

@@ -98,4 +98,8 @@ export class EqualizerPresetsComponent implements OnInit {
       this.presetDeleted.emit()
     }
   }
+
+  get orderedPresets () {
+    return this.presets.sort((a, b) => a.isDefault ? 1 : a.name.localeCompare(b.name))
+  }
 }

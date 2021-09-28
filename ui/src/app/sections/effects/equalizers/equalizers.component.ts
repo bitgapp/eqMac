@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output, ViewChild, Input, ChangeDetectorRef, OnDestroy, HostBinding } from '@angular/core'
+import { Component, OnInit, EventEmitter, Output, ViewChild, Input, ChangeDetectorRef, OnDestroy, HostBinding, HostListener } from '@angular/core'
 import { EqualizersService, EqualizersTypeChangedEventCallback, EqualizerType } from './equalizers.service'
 import { BasicEqualizerComponent } from './basic-equalizer/basic-equalizer.component'
 import { AdvancedEqualizerComponent } from './advanced-equalizer/advanced-equalizer.component'
@@ -9,8 +9,8 @@ import { OptionsDialogComponent } from '../../../components/options-dialog/optio
 import { EqualizerPreset } from './presets/equalizer-presets.component'
 import { UIService } from '../../../services/ui.service'
 import { EffectEnabledChangedEventCallback } from '../effect.service'
-import { UtilitiesService } from '../../../services/utilities.service'
 import { ApplicationService } from '../../../services/app.service'
+import { UtilitiesService } from '../../../services/utilities.service'
 
 @Component({
   selector: 'eqm-equalizers',
@@ -32,9 +32,25 @@ export class EqualizersComponent implements OnInit, OnDestroy {
     return this.toolbarHeight + (this.show ? ((this.activeEqualizer?.height ?? 0) + this.presetsHeight) : 0)
   }
 
+  @HostBinding('style.max-height.px') get maxHeight () {
+    let maxHeight = this.toolbarHeight
+
+    if (this.show) {
+      const eqMaxHeight = (() => {
+        switch (this.type) {
+          default: return this.activeEqualizer?.height ?? 0
+        }
+      })()
+      maxHeight += this.presetsHeight + eqMaxHeight
+    }
+
+    return maxHeight
+  }
+
   loaded = false
   enabled = true
   show = true
+  enabledToggleHighlighted = false
 
   activeEqualizer? = this.getEqualizerFromType('Basic')
   presets: EqualizerPreset[] = []
@@ -43,19 +59,9 @@ export class EqualizersComponent implements OnInit, OnDestroy {
   _type: EqualizerType
   set type (newType: EqualizerType) {
     if (this._type === newType) return
-    const oldMinHeight = this.height
-    const oldType = this.type
     this._type = newType
     this.changeRef.detectChanges()
     this.activeEqualizer = this.getEqualizerFromType(this.type)
-    if (oldType !== undefined) {
-      setTimeout(() => {
-        const newMinHeight = this.height
-        const minHeightDiff = newMinHeight - oldMinHeight
-        console.log({ minHeightDiff })
-        this.ui.changeHeight({ diff: minHeightDiff })
-      })
-    }
   }
 
   get type () { return this._type }
@@ -65,14 +71,16 @@ export class EqualizersComponent implements OnInit, OnDestroy {
   public settingsDialog: MatDialogRef<OptionsDialogComponent>
 
   constructor (
-    public equalizersService: EqualizersService,
+    public service: EqualizersService,
     public dialog: MatDialog,
     public ui: UIService,
     public app: ApplicationService,
     private readonly changeRef: ChangeDetectorRef,
     private readonly utils: UtilitiesService,
     public colors: ColorsService
-  ) { }
+  ) {
+    this.service.ref = this
+  }
 
   async ngOnInit () {
     await this.sync()
@@ -88,8 +96,8 @@ export class EqualizersComponent implements OnInit, OnDestroy {
       enabled,
       uiSettings
     ] = await Promise.all([
-      this.equalizersService.getType(),
-      this.equalizersService.getEnabled(),
+      this.service.getType(),
+      this.service.getEnabled(),
       this.ui.getSettings()
     ])
     this.type = type
@@ -103,26 +111,26 @@ export class EqualizersComponent implements OnInit, OnDestroy {
     this.onEnabledChangedEventCallback = ({ enabled }) => {
       this.enabled = enabled
     }
-    this.equalizersService.onEnabledChanged(this.onEnabledChangedEventCallback)
+    this.service.onEnabledChanged(this.onEnabledChangedEventCallback)
 
     this.onTypeChangedEventCallback = ({ type }) => {
       this.type = type
     }
-    this.equalizersService.onTypeChanged(this.onTypeChangedEventCallback)
+    this.service.onTypeChanged(this.onTypeChangedEventCallback)
   }
 
   private destroyEvents () {
-    this.equalizersService.offEnabledChanged(this.onEnabledChangedEventCallback)
-    this.equalizersService.offTypeChanged(this.onTypeChangedEventCallback)
+    this.service.offEnabledChanged(this.onEnabledChangedEventCallback)
+    this.service.offTypeChanged(this.onTypeChangedEventCallback)
   }
 
   setEnabled () {
-    this.equalizersService.setEnabled(this.enabled)
+    this.service.setEnabled(this.enabled)
   }
 
   async setType (type: EqualizerType) {
     if (!this.app.enabled) return
-    await this.equalizersService.setType(type)
+    await this.service.setType(type)
     this.type = type
     await this.utils.delay(this.animationDuration)
     this.ui.dimensionsChanged.next()
@@ -139,10 +147,16 @@ export class EqualizersComponent implements OnInit, OnDestroy {
     this.show = !this.show
     this.ui.setSettings({ showEqualizers: this.show })
     this.visibilityToggled.emit(this.show)
-    setTimeout(() => { this.activeEqualizer = this.getEqualizerFromType(this.type) })
+
+    setTimeout(() => {
+      this.activeEqualizer = this.getEqualizerFromType(this.type)
+    })
   }
 
   openSettings () {
+    if (!this.app.enabled || !this.enabled) {
+      return this.clicked()
+    }
     const width = '90vw'
     this.settingsDialog = this.dialog.open(OptionsDialogComponent, {
       hasBackdrop: true,
@@ -167,6 +181,23 @@ export class EqualizersComponent implements OnInit, OnDestroy {
 
   selectPreset (preset: EqualizerPreset) {
     return this.activeEqualizer.selectPreset(preset)
+  }
+
+  clicked () {
+    if (!this.enabled) {
+      this.blinkEnabledToggle()
+    }
+  }
+
+  private async blinkEnabledToggle () {
+    this.enabledToggleHighlighted = true
+    await this.utils.delay(100)
+    this.enabledToggleHighlighted = false
+    await this.utils.delay(100)
+    this.enabledToggleHighlighted = true
+    await this.utils.delay(100)
+    this.enabledToggleHighlighted = false
+    await this.utils.delay(100)
   }
 
   ngOnDestroy () {
