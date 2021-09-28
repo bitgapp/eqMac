@@ -16,16 +16,16 @@
       <eqm-icon *ngIf="showLeftIcons" [@FadeInOut] color="#2E2E2E" [width]="8" [height]="8" name="triangle" [rotate]="uiMode == 'window' ? -90 : 90"></eqm-icon>
     </div>
     <eqm-toggle eqmTooltip="eqMac Bypass: {{appEnabled ? 'Disabled' : 'Enabled'}}" eqmTooltipPositionSide="bottom" [state]="appEnabled" (stateChange)="setAppEnabled($event)"></eqm-toggle>
-  </div>
+  </div> 
 
-  <div fxLayout="row" fxLayoutGap="5px">
+  <div fxFlex="40%" fxLayout="row" fxLayoutAlign="center center">
     <div style="width: 28px;"></div>
     <eqm-label> eqMac </eqm-label>
     <div style="width: 28px;"></div>
-  </div>  
-
-  <div class="menu-buttons" 
-  fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="8px" fxFlex="40%"
+  </div>
+  
+  <div class="menu-buttons" fxFlex="40%"
+  fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="8px"
   >
     <div class="circle-button right" 
     fxLayout="row" fxLayoutAlign="center center"

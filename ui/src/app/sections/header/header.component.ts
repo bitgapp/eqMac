@@ -104,6 +104,7 @@ export class HeaderComponent implements OnInit {
     }
     await this.ui.setMode(this.uiMode)
   }
+
   // toggleMode () {
   //   this.mode = this.mode === 'window' ? 'popover' : 'window'
   //   return this.ui.setMode(this.mode)
