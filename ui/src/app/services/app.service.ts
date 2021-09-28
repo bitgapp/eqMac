@@ -12,6 +12,25 @@ export interface Info {
   isOpenSource: boolean
   driverVersion?: string
 }
+
+export const SystemSounds = [
+  'Basso',
+  'Blow',
+  'Bottle',
+  'From',
+  'Funk',
+  'Glass',
+  'Hero',
+  'Morse',
+  'Ping',
+  'Pop',
+  'Purr',
+  'Sosumi',
+  'Submarine',
+  'Tink'
+] as const
+export type SystemSound = typeof SystemSounds[number]
+
 @Injectable({
   providedIn: 'root'
 })
@@ -84,5 +103,18 @@ export class ApplicationService extends DataService {
   setEnabled (enabled: boolean) {
     this.enabled = enabled
     return this.request({ method: 'POST', endpoint: '/enabled', data: { enabled } })
+  }
+
+  async getBundleIcon (bundleId: string): Promise<string> {
+    const resp = await this.request({ method: 'GET', endpoint: '/bundle-icon', data: { bundleId } })
+    return resp?.base64
+  }
+
+  playAlertSound () {
+    return this.request({ method: 'GET', endpoint: '/alert-sound' })
+  }
+
+  playSystemSound (name: SystemSound) {
+    return this.request({ method: 'POST', endpoint: '/system-sound', data: { name } })
   }
 }

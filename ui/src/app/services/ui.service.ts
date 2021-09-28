@@ -15,7 +15,6 @@ export interface UISettings {
   equalizersFeatureEnabled?: boolean
   outputFeatureEnabled?: boolean
 
-  showReverbs?: boolean
   showEqualizers?: boolean
 
   reverbsShownBefore?: boolean
@@ -116,6 +115,12 @@ export class UIService extends DataService {
     return this.request({ method: 'POST', endpoint: '/width', data: { width } })
   }
 
+  async changeWidth ({ diff }: { diff: number }) {
+    const currentWidth = await this.getWidth()
+    const width = currentWidth + diff
+    await this.setWidth(width)
+  }
+
   async getHeight (): Promise<number> {
     const { height } = await this.request({ method: 'GET', endpoint: '/height' })
     return height
@@ -203,6 +208,7 @@ export class UIService extends DataService {
     ])
   }
 
+  onMinHeightChanged = new EventEmitter()
   async getMinHeight (): Promise<number> {
     const { minHeight } = await this.request({ method: 'GET', endpoint: '/min-height' })
     return minHeight
@@ -210,6 +216,33 @@ export class UIService extends DataService {
 
   async setMinHeight ({ minHeight }: { minHeight: number }) {
     return this.request({ method: 'POST', endpoint: '/min-height', data: { minHeight } })
+  }
+
+  async getMinWidth (): Promise<number> {
+    const { minWidth } = await this.request({ method: 'GET', endpoint: '/min-width' })
+    return minWidth
+  }
+
+  async setMinWidth ({ minWidth }: { minWidth: number }) {
+    return this.request({ method: 'POST', endpoint: '/min-width', data: { minWidth } })
+  }
+
+  async getMaxHeight (): Promise<number | null> {
+    const { maxHeight } = await this.request({ method: 'GET', endpoint: '/max-height' })
+    return maxHeight
+  }
+
+  async setMaxHeight ({ maxHeight }: { maxHeight?: number }) {
+    return this.request({ method: 'POST', endpoint: '/max-height', data: { maxHeight } })
+  }
+
+  async getMaxWidth (): Promise<number | null> {
+    const { maxWidth } = await this.request({ method: 'GET', endpoint: '/max-width' })
+    return maxWidth
+  }
+
+  async setMaxWidth ({ maxWidth }: { maxWidth?: number }) {
+    return this.request({ method: 'POST', endpoint: '/max-width', data: { maxWidth } })
   }
 
   onShownChanged (cb: UIShownChangedEventCallback) {

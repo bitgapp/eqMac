@@ -29,7 +29,6 @@ export class ToastService {
     const toast = this.snackBar.open(message, action, {
       horizontalPosition: 'center',
       verticalPosition: 'top',
-      duration,
       panelClass: [ bgClass, textClass ]
     })
     setTimeout(() => {

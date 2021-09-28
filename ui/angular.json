@@ -26,19 +26,13 @@
               "src/favicon.ico",
               "src/assets",
               "src/manifest.json",
-              "src/robots.txt",
-              {
-                "glob": "**/*",
-                "input": "src/app/modules/eqmac-components/assets",
-                "output": "assets/"
-              }
-             
+              "src/robots.txt"
             ],
             "styles": [
               "src/styles.scss"
             ],
             "scripts": [],
-            "aot": false,
+            "aot": true,
             "vendorChunk": true,
             "extractLicenses": false,
             "buildOptimizer": false,
@@ -58,12 +52,11 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
-              "buildOptimizer": true,
+              "buildOptimizer": false,
               "budgets": [
                 {
                   "type": "initial",

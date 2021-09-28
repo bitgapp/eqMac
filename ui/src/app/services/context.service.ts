@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 
-export type Context = 'EQ_TYPE_EXPERT'
+export type Context = never
 
 @Injectable({
   providedIn: 'root'

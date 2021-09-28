@@ -7,7 +7,7 @@
   },
   "angularCompilerOptions": {
     "enableIvy": true,
-    "strictTemplates": true
+    "strictTemplates": true,
   },
   "exclude": [],
   "paths": { "@angular/*": [ "./node_modules/@angular/*" ] }

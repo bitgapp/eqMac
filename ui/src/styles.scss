@@ -2,14 +2,40 @@
 @import '~@angular/cdk/overlay-prebuilt.css';
 @import "~@angular/material/prebuilt-themes/pink-bluegrey.css";
 
-.mat-dialog-container {
-  padding: 12px !important;
-}
-
 .w-100 {
   width: 100%;
 }
 
 .h-100 {
   height: 100%;
+}
+
+.mat-dialog-container {
+  padding: 12px !important;
+}
+
+.mat-menu-panel {
+  min-height: 0px !important;
+}
+
+.underline {
+  text-decoration: underline;
+}
+
+.clickable {
+  cursor: pointer !important;
+
+  * {
+    cursor: pointer !important;
+  }
+}
+
+.not-available-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%; 
+  height: 100%; 
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
 }

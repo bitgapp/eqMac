@@ -12,6 +12,15 @@ export class UtilitiesService {
     return (value - inMin) * (outMax - outMin) / (inMax - inMin) + outMin
   }
 
+  clampValue ({ value, min, max }: { value: number, min: number, max: number }) {
+    if (value < min) {
+      value = min
+    } else if (value > max) {
+      value = max
+    }
+    return value
+  }
+
   getTimestampFromDurationAndProgress (duration, progress = 1) {
     const currentSecond = Math.floor(duration * progress)
     let minutes = Math.floor(currentSecond / 60).toString()
@@ -55,6 +64,16 @@ export class UtilitiesService {
     })
   }
 
+  getCoordinatesInsideElementFromEvent (event: MouseEvent, element?: HTMLElement) {
+    const el = element || event.target as HTMLElement
+    const rect = el.getBoundingClientRect()
+    const scale = rect.width / el.clientWidth
+    return {
+      x: (event.clientX - rect.left) / scale,
+      y: (event.clientY - rect.top) / scale
+    }
+  }
+
   static async injectScript ({ src, id }: { src: string, id?: string }) {
     return new Promise<void>((resolve, reject) => {
       const script = document.createElement('script')
@@ -73,5 +92,18 @@ export class UtilitiesService {
       const head = document.getElementsByTagName('head')[0]
       head.appendChild(script)
     })
+  }
+
+  quickHash (str: string) { return UtilitiesService.quickHash(str) }
+  static quickHash (str: string) {
+    let hash = 0
+    let chr: number
+    if (str.length === 0) return hash
+    for (let i = 0; i < str.length; i++) {
+      chr = str.charCodeAt(i)
+      hash = ((hash << 5) - hash) + chr
+      hash |= 0 // Convert to 32bit integer
+    }
+    return hash
   }
 }

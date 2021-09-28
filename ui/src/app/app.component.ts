@@ -12,6 +12,7 @@ import { TransitionService } from './services/transitions.service'
 import { AnalyticsService } from './services/analytics.service'
 import { ApplicationService } from './services/app.service'
 import { SettingsService, IconMode } from './sections/settings/settings.service'
+import { ToastService } from './services/toast.service'
 import { OptionsDialogComponent } from './components/options-dialog/options-dialog.component'
 import { Option, Options } from './components/options/options.component'
 import { HeaderComponent } from './sections/header/header.component'
@@ -59,7 +60,8 @@ export class AppComponent implements OnInit, AfterContentInit {
     public transitions: TransitionService,
     public analytics: AnalyticsService,
     public app: ApplicationService,
-    public settings: SettingsService
+    public settings: SettingsService,
+    public toast: ToastService
   ) {
     this.app.ref = this
   }
@@ -88,10 +90,38 @@ export class AppComponent implements OnInit, AfterContentInit {
     return minHeight
   }
 
+  get minWidth () {
+    return 400
+  }
+
+  get maxHeight () {
+    const divider = 3
+
+    const {
+      volumeFeatureEnabled, balanceFeatureEnabled,
+      equalizersFeatureEnabled,
+      outputFeatureEnabled
+    } = this.ui.settings
+    let maxHeight = this.header.height + divider +
+      ((volumeFeatureEnabled || balanceFeatureEnabled) ? (this.volumeBoosterBalance.height + divider) : 0) +
+      (equalizersFeatureEnabled ? (this.equalizers.maxHeight + divider) : 0) +
+      (outputFeatureEnabled ? this.outputs.height : 0)
+
+    const dropdownSection = document.getElementById('dropdown-section')
+    if (dropdownSection) {
+      const dropdownHeight = dropdownSection.offsetHeight + this.header.height + divider
+      if (dropdownHeight > maxHeight) {
+        maxHeight = dropdownHeight
+      }
+    }
+
+    return maxHeight
+  }
+
   async ngOnInit () {
     await this.sync()
-    this.startHeightSync()
     await this.fixUIMode()
+    this.startDimensionsSync()
     await this.setupPrivacy()
   }
 
@@ -201,6 +231,7 @@ This data would help us improve and grow the product.`
   async ngAfterContentInit () {
     await this.utils.delay(this.animationDuration)
     this.loaded = true
+    await this.utils.delay(1000)
     this.ui.loaded()
   }
 
@@ -210,20 +241,36 @@ This data would help us improve and grow the product.`
     ])
   }
 
-  async startHeightSync () {
-    this.syncHeight()
+  async startDimensionsSync () {
+    this.previousMinHeight = this.minHeight
+    this.previousMaxHeight = this.maxHeight
     setInterval(() => {
-      this.syncHeight()
+      this.syncMinHeight()
+      this.syncMaxHeight()
     }, 1000)
   }
 
-  private previousMinHeight
-  async syncHeight () {
+  private previousMinHeight: number
+  async syncMinHeight () {
     const diff = this.minHeight - this.previousMinHeight
     this.previousMinHeight = this.minHeight
-    await this.ui.setMinHeight({ minHeight: this.minHeight })
+    if (diff !== 0) {
+      this.ui.onMinHeightChanged.emit()
+      await this.ui.setMinHeight({ minHeight: this.minHeight })
+    }
+
     if (diff < 0) {
       this.ui.changeHeight({ diff })
+    }
+  }
+
+  private previousMaxHeight
+  async syncMaxHeight () {
+    const diff = this.maxHeight - this.previousMaxHeight
+    this.previousMaxHeight = this.maxHeight
+    await this.ui.setMaxHeight({ maxHeight: this.maxHeight })
+    if (diff > 0) {
+      // this.ui.changeHeight({ diff })
     }
   }
 
@@ -239,6 +286,12 @@ This data would help us improve and grow the product.`
     }
   }
 
+  openDropdownSection (section: string) {
+    for (const key in this.showDropdownSections) {
+      this.showDropdownSections[key] = key === section
+    }
+  }
+
   async fixUIMode () {
     const [ mode, iconMode ] = await Promise.all([
       this.ui.getMode(),
@@ -250,7 +303,7 @@ This data would help us improve and grow the product.`
     }
   }
 
-  closeDropdownSection (section: string, event?: any) {
+  closeDropdownSection (section: string, event?: MouseEvent) {
     // if (event && event.target && ['backdrop', 'mat-dialog'].some(e => event.target.className.includes(e))) return
     if (this.dialog.openDialogs.length > 0) return
     if (section in this.showDropdownSections) {

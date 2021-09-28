@@ -5,8 +5,8 @@ import { Injectable } from '@angular/core'
 })
 export class ConstantsService {
   readonly DOMAIN = 'eqmac.app'
-  readonly FAQ_URL = new URL(`https://${this.DOMAIN}/faq`)
+  readonly FAQ_URL = new URL(`https://${this.DOMAIN}#faq`)
+  readonly FEATURES_URL = new URL(`https://${this.DOMAIN}#features`)
+  readonly ACCOUNT_URL = new URL(`https://${this.DOMAIN}/account`)
   readonly BUG_REPORT_URL = new URL(`https://${this.DOMAIN}/report-bug`)
-  readonly LOCAL_API_URL = 'https://127.0.0.1'
-  readonly REMOTE_API_URL = `https://api.${this.DOMAIN}`
 }
