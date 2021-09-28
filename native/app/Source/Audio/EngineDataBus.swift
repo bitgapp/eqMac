@@ -10,11 +10,11 @@ import Foundation
 import SwiftyJSON
 
 class EngineDataBus: DataBus {
-    required init (route: String, bridge: Bridge) {
-        super.init(route: route, bridge: bridge)
-        
-        self.add("/volume", VolumeDataBus.self)
-        self.add("/effects", EffectsDataBus.self)
-        self.add("/outputs", OutputsDataBus.self)
-    }
+  required init (route: String, bridge: Bridge) {
+    super.init(route: route, bridge: bridge)
+
+    self.add("/volume", VolumeDataBus.self)
+    self.add("/effects", EffectsDataBus.self)
+    self.add("/outputs", OutputsDataBus.self)
+  }
 }

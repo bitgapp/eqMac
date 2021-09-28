@@ -16,97 +16,52 @@ import EmitterKit
 
 class Engine {
 
-  let sources: Sources!
-  let effects: Effects!
-  var attachedEqualizer: Equalizer?
-  
-  var format: AVAudioFormat!
-  var engine: AVAudioEngine!
-  
+  let engine: AVAudioEngine
+  let sources: Sources
+  let equalizers: Equalizers
+  let format: AVAudioFormat
+
   var lastSampleTime: Double = -1
+  var buffer: CircularBuffer<Float>
   
-  // Middleware
-  var buffer: CircularBuffer<Float>!
-  
-  init (_ completion: @escaping () -> Void) {
+  init () {
     Console.log("Creating Engine")
-    self.effects = Effects()
-    self.sources = Sources()
-    Sources.getInputPermission() {
-      self.sources.initializeSystem()
-      self.setupEngine()
-      self.setupSink()
-      self.setupBuffer()
-      self.attach()
-      self.chain()
-      self.setupListeners()
-      self.start()
-      completion()
-    }
-  }
-  
-  private func setupEngine () {
     engine = AVAudioEngine()
-  }
-  
-  private func setupSink () {
+    sources = Sources()
+    equalizers = Equalizers()
+
+    // Sink audio into void
     engine.mainMixerNode.outputVolume = 0
-  }
-  
-  private func setupBuffer () {
+
+    // Setup Buffer
     let framesPerSample = Driver.device!.bufferFrameSize(direction: .playback)
     buffer = CircularBuffer<Float>(channelCount: 2, capacity: Int(framesPerSample) * 2048)
-  }
-  
-  private func attach () {
-    attachSource()
-    attachEffects()
-  }
-  
-  private func attachSource () {
+
+    // Attach Source
     engine.setInputDevice(sources.system.device)
     format = engine.inputNode.inputFormat(forBus: 0)
     Console.log("Set Input Engine format to: \(format.description)")
-  }
-  
-  private func attachEffects () {
-    attachEqualizer()
-  }
-  
-  private func attachEqualizer () {
-    engine.attach(effects.equalizers.active.eq)
-    attachedEqualizer = effects.equalizers.active
-  }
-  
-  private func chain () {
-    chainSourceToEffects()
-    chainEffects()
-    chainEffectsToSink()
-    setupRenderCallback()
-  }
-  
-  private func chainSourceToEffects () {
-    Console.log("Chaining Source to Effects")
-    engine.connect(engine.inputNode, to: effects.equalizers.active.eq, format: format)
-  }
 
-  private func chainEffects () {
-    Console.log("Chaining Effects")
-  }
-  
-  private func chainEffectsToSink () {
-    engine.connect(effects.equalizers.active.eq, to: engine.mainMixerNode, format: format)
-  }
-  
-  private func setupRenderCallback () {
-    Console.log("Setting up Input Render Callback")
-    let lastAVUnit = effects.equalizers.active.eq as AVAudioUnit
+    // Attach Effects
+    engine.attach(equalizers.active!.eq)
+
+    // Chain
+    engine.connect(engine.inputNode, to: equalizers.active.unit, format: format)
+    engine.connect(equalizers.active!.eq, to: engine.mainMixerNode, format: format)
+
+    // Render callback
+    let lastAVUnit = equalizers.active!.eq as AVAudioUnit
     if let err = checkErr(AudioUnitAddRenderNotify(lastAVUnit.audioUnit,
                                                    renderCallback,
                                                    nil)) {
       Console.log(err)
       return
     }
+
+    // Start Engine
+    engine.prepare()
+    Console.log(engine)
+    try! engine.start()
   }
 
   let renderCallback: AURenderCallback = {
@@ -124,26 +79,13 @@ class Engine {
 
       let start = sampleTime.int64Value
       let end = start + Int64(inNumberFrames)
-      if Application.engine!.buffer.write(from: ioData!, start: start, end: end) != .noError {
-        return OSStatus()
+      if Application.engine?.buffer.write(from: ioData!, start: start, end: end) != .noError {
+        return noErr
       }
-      Application.engine!.lastSampleTime = sampleTime
+      Application.engine?.lastSampleTime = sampleTime
     }
 
     return noErr
-  }
-  
-  private func setupListeners () {
-    
-  }
-  
-  private func start () {
-    engine.prepare()
-
-    Console.log("Starting Input Engine")
-    Console.log(engine)
-    try! engine.start()
-    Console.log("Input Engine started")
   }
   
   func stop () {

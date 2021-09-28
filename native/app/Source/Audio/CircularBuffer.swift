@@ -30,12 +30,12 @@ class CircularBuffer<T: CircularBufferType> {
     buffer.initialize(repeating: T(), count: bufferLength)
   }
   
-  /// Number of allocated elements in buffer for all channels.
+  // Number of allocated elements in buffer for all channels.
   private var bufferLength: Int {
     return channelCount * capacity
   }
   
-  /// Buffer pointer just for debug purpose.
+  // Buffer pointer just for debug purpose.
   var bufferPointer: UnsafeMutableBufferPointer<T> {
     return UnsafeMutableBufferPointer(start: buffer, count: bufferLength)
   }
