@@ -10,6 +10,7 @@ import Foundation
 import AMCoreAudio
 import CoreFoundation
 import Version
+import EmitterKit
 
 class Driver {
   static func check (_ completion: @escaping() -> Void) {
