@@ -269,7 +269,6 @@
 		7860D7C42703C12D00D1347B /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
-				E017A0081FF055B50019BBF1 /* User.swift */,
 				7810723726112C2B005DB609 /* Security.framework */,
 			);
 			name = "Recovered References";
