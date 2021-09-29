@@ -266,14 +266,6 @@
 			name = Shared;
 			sourceTree = "<group>";
 		};
-		7860D7C42703C12D00D1347B /* Recovered References */ = {
-			isa = PBXGroup;
-			children = (
-				7810723726112C2B005DB609 /* Security.framework */,
-			);
-			name = "Recovered References";
-			sourceTree = "<group>";
-		};
 		7860D7DA2703C1F700D1347B /* User */ = {
 			isa = PBXGroup;
 			children = (
@@ -368,7 +360,6 @@
 				E086AFFD1FCCB8E700CF9F0D /* Products */,
 				A433E835860EBA2247574C67 /* Pods */,
 				E6BAF3EF1807277C1A4360F7 /* Frameworks */,
-				7860D7C42703C12D00D1347B /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
