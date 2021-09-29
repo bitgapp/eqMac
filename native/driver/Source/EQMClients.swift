@@ -64,5 +64,9 @@ class EQMClients {
 
     return nil
   }
+
+  static var isAppClientPresent: Bool {
+    return Array(clients.values).contains { $0.bundleId == APP_BUNDLE_ID }
+  }
 }
 

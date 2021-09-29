@@ -14,7 +14,27 @@ class EQMDevice: EQMObject {
   static var name = kEQMDeviceDefaultName
   static var sampleRate = kDefaultSampleRate
   static var running = false
-  static var shown = true
+  static var shown = true {
+    didSet {
+      if (oldValue != shown) {
+        EQMDriver.propertiesUpdated(
+          objectId: kObjectID_Device,
+          changedProperties: [
+            AudioObjectPropertyAddress(
+              mSelector: kAudioDevicePropertyDeviceCanBeDefaultDevice,
+              mScope: kAudioObjectPropertyScopeOutput,
+              mElement: kAudioObjectPropertyElementMaster
+            ),
+            AudioObjectPropertyAddress(
+              mSelector: kAudioDevicePropertyDeviceCanBeDefaultSystemDevice,
+              mScope: kAudioObjectPropertyScopeGlobal,
+              mElement: kAudioObjectPropertyElementMaster
+            )
+          ]
+        )
+      }
+    }
+  }
   static var latency: UInt32 = 0
   static var ioCounter = ManagedAtomic<UInt64>(0)
   static var anchorHostTime: UInt64 = 0
@@ -437,24 +457,12 @@ class EQMDevice: EQMObject {
       guard client?.bundleId == APP_BUNDLE_ID else { return noErr }
 
       let shownRef = data.load(as: CFBoolean.self)
+      let newShown = CFBooleanGetValue(shownRef)
 
-      shown = CFBooleanGetValue(shownRef)
+      if newShown == shown { return noErr }
 
-      changedProperties.append(
-        AudioObjectPropertyAddress(
-          mSelector: kAudioDevicePropertyDeviceCanBeDefaultDevice,
-          mScope: kAudioObjectPropertyScopeOutput,
-          mElement: kAudioObjectPropertyElementMaster
-        )
-      )
+      shown = newShown
 
-      changedProperties.append(
-        AudioObjectPropertyAddress(
-          mSelector: kAudioDevicePropertyDeviceCanBeDefaultSystemDevice,
-          mScope: kAudioObjectPropertyScopeGlobal,
-          mElement: kAudioObjectPropertyElementMaster
-        )
-      )
       return noErr
 
     case EQMDeviceCustom.properties.latency:

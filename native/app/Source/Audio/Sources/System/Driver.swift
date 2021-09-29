@@ -96,15 +96,9 @@ class Driver {
       return device!.name
     }
     set {
-      var address = AudioObjectPropertyAddress(
-        mSelector: EQMDeviceCustom.properties.name,
-        mScope: kAudioObjectPropertyScopeGlobal,
-        mElement: kAudioObjectPropertyElementMaster
-      )
-
       let size = sizeof(CFString.self)
       var name = newValue as CFString
-      checkErr(AudioObjectSetPropertyData(Driver.device!.id, &address, 0, nil, size, &name))
+      checkErr(AudioObjectSetPropertyData(Driver.device!.id, &EQMDeviceCustom.addresses.name, 0, nil, size, &name))
     }
   }
 
@@ -113,35 +107,23 @@ class Driver {
       return Driver.device!.latency(direction: .playback)!
     }
     set {
-      var address = AudioObjectPropertyAddress(
-        mSelector: EQMDeviceCustom.properties.latency,
-        mScope: kAudioObjectPropertyScopeGlobal,
-        mElement: kAudioObjectPropertyElementMaster
-      )
-      
       let size = sizeof(CFNumber.self)
 
       var newLatency = newValue
       var latency: CFNumber = CFNumberCreate(kCFAllocatorDefault, CFNumberType.sInt32Type, &newLatency)
       
-      checkErr(AudioObjectSetPropertyData(Driver.device!.id, &address, 0, nil, size, &latency))
+      checkErr(AudioObjectSetPropertyData(Driver.device!.id, &EQMDeviceCustom.addresses.latency, 0, nil, size, &latency))
     }
   }
 
   static var shown: Bool {
     get {
       if Driver.device == nil { return false }
-      var address = AudioObjectPropertyAddress(
-        mSelector: EQMDeviceCustom.properties.shown,
-        mScope: kAudioObjectPropertyScopeGlobal,
-        mElement: kAudioObjectPropertyElementMaster
-      )
-      
       var size: UInt32 = UInt32(MemoryLayout<CFBoolean>.size)
       
       var shownBool = kCFBooleanFalse
       
-      let err = AudioObjectGetPropertyData(Driver.device!.id, &address, 0, nil, &size, &shownBool)
+      let err = AudioObjectGetPropertyData(Driver.device!.id, &EQMDeviceCustom.addresses.shown, 0, nil, &size, &shownBool)
       if err == noErr {
         return CFBooleanGetValue(shownBool!)
       }
@@ -151,33 +133,21 @@ class Driver {
     }
     set {
       if Driver.device == nil { return }
-
-      var address = AudioObjectPropertyAddress(
-        mSelector: EQMDeviceCustom.properties.shown,
-        mScope: kAudioObjectPropertyScopeGlobal,
-        mElement: kAudioObjectPropertyElementMaster
-      )
       
       let size: UInt32 = UInt32(MemoryLayout<CFBoolean>.size)
       var shownBool: CFBoolean = newValue.cfBooleanValue
       
-      checkErr(AudioObjectSetPropertyData(Driver.device!.id, &address, 0, nil, size, &shownBool))
+      checkErr(AudioObjectSetPropertyData(Driver.device!.id, &EQMDeviceCustom.addresses.shown, 0, nil, size, &shownBool))
     }
   }
   
   static var installedVersion: Version {
     if Driver.device == nil { return .null }
-    var address = AudioObjectPropertyAddress(
-      mSelector: EQMDeviceCustom.properties.version,
-      mScope: kAudioObjectPropertyScopeGlobal,
-      mElement: kAudioObjectPropertyElementMaster
-    )
-    
     var size: UInt32 = UInt32(MemoryLayout<CFString>.size)
     
     var version: CFString? = nil
     
-    checkErr(AudioObjectGetPropertyData(Driver.device!.id, &address, 0, nil, &size, &version))
+    checkErr(AudioObjectGetPropertyData(Driver.device!.id, &EQMDeviceCustom.addresses.version, 0, nil, &size, &version))
 
     let verStr = version as String?
     return verStr != nil ? (Version(tolerant: verStr!) ?? .null) : .null

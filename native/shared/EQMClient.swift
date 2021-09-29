@@ -45,6 +45,10 @@ class EQMClient {
     return dict as CFDictionary
   }
 
+  var isAppClient: Bool {
+    return bundleId == APP_BUNDLE_ID
+  }
+
   static func fromDictionary (_ dict: [String: Any]) -> EQMClient? {
     guard
       let clientId = dict["clientId"] as? UInt32,
