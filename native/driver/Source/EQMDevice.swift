@@ -43,7 +43,7 @@ class EQMDevice: EQMObject {
   static let ioMutex = Mutex()
 
   static let ringBufferSize: UInt32 = 16384
-  static var ringBuffer = UnsafeMutablePointer<Float32>.allocate(capacity: Int(ringBufferSize * 4 * kChannelCount))
+  static var ringBuffer: UnsafeMutablePointer<Float32>?
 
   static func getDescription (for samplingRate: Float64) -> AudioStreamBasicDescription {
     return AudioStreamBasicDescription(
@@ -519,17 +519,22 @@ class EQMDevice: EQMObject {
       return kAudioHardwareIllegalOperationError
     }
 
+    ioMutex.lock()
+
     // If IO is not running we need start it and init all the important vars
     if ioCount == 0 {
       running = true
       timestampCount = 0
       anchorSampleTime = 0
       anchorHostTime = mach_absolute_time()
+      ringBuffer?.deallocate()
       ringBuffer = UnsafeMutablePointer<Float32>.allocate(capacity: Int(ringBufferSize * 4 * kChannelCount))
     } else {
       // IO already running so increment the counter
       ioCounter.wrappingIncrement(ordering: .relaxed)
     }
+    
+    ioMutex.unlock()
 
     return noErr
   }
@@ -546,11 +551,16 @@ class EQMDevice: EQMObject {
       ioCount = ioCounter.wrappingDecrementThenLoad(ordering: .relaxed)
     }
 
+    ioMutex.lock()
+
     // If IO reached zero deinit
     if ioCount == 0 {
       running = false
-      ringBuffer.deallocate()
+      ringBuffer?.deallocate()
+      ringBuffer = nil
     }
+    
+    ioMutex.unlock()
 
     return noErr
   }
@@ -598,14 +608,14 @@ class EQMDevice: EQMObject {
             let nextSampleTime = sampleTime + Int(frame)
             let remainder = nextSampleTime % Int(ringBufferSize)
             let writeFrame = remainder * Int(kChannelCount) + Int(channel)
-            ringBuffer[writeFrame] += sample[readFrame]
+            ringBuffer![writeFrame] += sample[readFrame]
           }
 
           // Clean up buffer
           let cleanFromFrame = sampleTime + Int(frame) + 8192
           let remainder = cleanFromFrame % Int(ringBufferSize)
           let cleanFrame = remainder * Int(kChannelCount) + Int(channel)
-          ringBuffer[cleanFrame] = 0
+          ringBuffer![cleanFrame] = 0
         }
       }
 
@@ -625,14 +635,14 @@ class EQMDevice: EQMObject {
             let nextSampleTime = sampleTime + Int(frame)
             let remainder = nextSampleTime % Int(ringBufferSize)
             let readFrame = remainder * Int(kChannelCount) + Int(channel)
-            sample[writeFrame] = ringBuffer[readFrame]
+            sample[writeFrame] = ringBuffer![readFrame]
           }
 
           // Clean up buffer
           let cleanFromFrame = sampleTime + Int(frame) - Int(ringBufferSize)
           let remainder = cleanFromFrame % Int(ringBufferSize)
           let cleanFrame = remainder * Int(kChannelCount) + Int(channel)
-          ringBuffer[cleanFrame] = 0
+          ringBuffer![cleanFrame] = 0
         }
       }
       break
