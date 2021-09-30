@@ -13,7 +13,7 @@ PODS:
   - SwiftyJSON (4.3.0)
   - SwiftyUserDefaults (4.0.0)
   - WebViewJavascriptBridge (6.0.3)
-  - Zip (1.1.0)
+  - Zip (2.1.1)
 
 DEPENDENCIES:
   - AMCoreAudio (from `https://github.com/bitgapp/AMCoreAudio.git`, commit `f02015b7dfbaeb9b5f70b658e860afe94f85df9c`)
@@ -28,7 +28,7 @@ DEPENDENCIES:
   - SwiftyJSON (~> 4.2)
   - SwiftyUserDefaults (= 4.0)
   - WebViewJavascriptBridge (~> 6.0)
-  - Zip (~> 1.1)
+  - Zip (from `https://github.com/bitgapp/Zip.git`)
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
@@ -42,7 +42,6 @@ SPEC REPOS:
     - SwiftyJSON
     - SwiftyUserDefaults
     - WebViewJavascriptBridge
-    - Zip
 
 EXTERNAL SOURCES:
   AMCoreAudio:
@@ -51,6 +50,8 @@ EXTERNAL SOURCES:
   STPrivilegedTask:
     :commit: fdca677c77adb166a2be4c5ea9c7580a738c49c9
     :git: https://github.com/sveinbjornt/STPrivilegedTask.git
+  Zip:
+    :git: https://github.com/bitgapp/Zip.git
 
 CHECKOUT OPTIONS:
   AMCoreAudio:
@@ -59,6 +60,9 @@ CHECKOUT OPTIONS:
   STPrivilegedTask:
     :commit: fdca677c77adb166a2be4c5ea9c7580a738c49c9
     :git: https://github.com/sveinbjornt/STPrivilegedTask.git
+  Zip:
+    :commit: 7d91fccaa887d8a0e09434a6bae6768a22360539
+    :git: https://github.com/bitgapp/Zip.git
 
 SPEC CHECKSUMS:
   AMCoreAudio: d7fc6672b56df2ade8e77d08f3247d18d59697e3
@@ -73,8 +77,8 @@ SPEC CHECKSUMS:
   SwiftyJSON: 6faa0040f8b59dead0ee07436cbf76b73c08fd08
   SwiftyUserDefaults: 6a1951df1daa19337862b677dd9a4b9bd4c288cd
   WebViewJavascriptBridge: 7f5bc4d3581e672e8f32bd0f812d54bc69bb8e29
-  Zip: 8877eede3dda76bcac281225c20e71c25270774c
+  Zip: 414f59909701fda9a84ab774ebe0f5449b1082cc
 
-PODFILE CHECKSUM: 500a228af9e9f201e43551499c38b05824162409
+PODFILE CHECKSUM: 4baf3ce071f18349d96b36cf9ed5a1d7c5ad6fdc
 
 COCOAPODS: 1.9.3
