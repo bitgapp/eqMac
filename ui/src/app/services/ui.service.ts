@@ -245,6 +245,15 @@ export class UIService extends DataService {
     return this.request({ method: 'POST', endpoint: '/max-width', data: { maxWidth } })
   }
 
+  async getResizable (): Promise<boolean> {
+    const { resizable } = await this.request({ method: 'GET', endpoint: '/resizable' })
+    return resizable
+  }
+
+  async setResizable (resizable: boolean) {
+    return this.request({ method: 'POST', endpoint: '/resizable', data: { resizable } })
+  }
+
   onShownChanged (cb: UIShownChangedEventCallback) {
     this.on('/shown', cb)
   }
