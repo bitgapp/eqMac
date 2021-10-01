@@ -97,7 +97,7 @@ class UI: StoreSubscriber {
   }
 
   static var isResizable: Bool {
-    return false
+    return state.resizable
   }
   
   static var domain = Constants.UI_ENDPOINT_URL.host!

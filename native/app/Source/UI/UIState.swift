@@ -42,6 +42,7 @@ struct UIState: State {
   var maxHeight: Double?
   var maxWidth: Double?
   @DefaultFalse var fromUI = false
+  @DefaultFalse var resizable = false
 }
 
 enum UIAction: Action {
@@ -57,6 +58,7 @@ enum UIAction: Action {
   case setMinWidth(Double)
   case setMaxHeight(Double?)
   case setMaxWidth(Double?)
+  case setResizable(Bool)
 }
 
 func UIStateReducer(action: Action, state: UIState?) -> UIState {
@@ -89,6 +91,8 @@ func UIStateReducer(action: Action, state: UIState?) -> UIState {
     state.maxHeight = maxHeight
   case .setMaxWidth(let maxWidth)?:
     state.maxWidth = maxWidth
+  case .setResizable(let resizable)?:
+    state.resizable = resizable
   case .none:
     break
   }

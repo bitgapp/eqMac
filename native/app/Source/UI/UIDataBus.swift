@@ -204,6 +204,20 @@ class UIDataBus: DataBus {
     self.isShownChangedListener = UI.isShownChanged.on { isShown in
       self.send(to: "/shown", data: JSON([ "isShown": isShown ]))
     }
+
+    self.on(.GET, "/resizable") { _, _ in
+      return [ "resizable": self.state.resizable ]
+    }
+
+    self.on(.POST, "/resizable") { data, _ in
+      guard let resizable = data["resizable"] as? Bool else {
+        throw "Invalid 'resizable' parameter, must be a boolean."
+      }
+
+      Application.dispatchAction(UIAction.setResizable(resizable))
+
+      return "Resizable parameter has been set"
+    }
     
   }
 }
