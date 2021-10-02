@@ -20,6 +20,8 @@ export class TooltipComponent implements OnInit {
   @Input() parent?: any
   @Input() positionSide: TooltipPositionSide = 'top'
   @Input() showArrow: Boolean = true
+  @Input() scale = 1
+
   public padding = 10
 
   @ViewChild('arrow', {
@@ -51,9 +53,9 @@ export class TooltipComponent implements OnInit {
     let x = -999
     let y = -999
     const body = document.body
-    const html = document.documentElement
-    const viewHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight)
-    const viewWidth = Math.max(body.scrollWidth, body.offsetWidth, html.clientWidth, html.scrollWidth, html.offsetWidth)
+    const viewHeight = body.offsetHeight / this.scale
+    const viewWidth = body.offsetWidth / this.scale
+
     const tooltipEl = this.tooltip.nativeElement
     const tooltipWidth = parseInt(tooltipEl.offsetWidth) + 3
     const tooltipHeight = parseInt(tooltipEl.offsetHeight) + 2

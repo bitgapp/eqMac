@@ -28,5 +28,5 @@
   <eqm-divider *ngIf="ui.settings.equalizersFeatureEnabled"></eqm-divider>
 
   <eqm-outputs *ngIf="ui.settings.outputFeatureEnabled" #outputs></eqm-outputs>
-  <eqm-tooltip-container></eqm-tooltip-container>
+  <eqm-tooltip-container [scale]="ui.scale"></eqm-tooltip-container>
 </div>

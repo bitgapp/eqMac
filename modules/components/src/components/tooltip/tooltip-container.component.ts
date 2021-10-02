@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core'
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core'
 import { TooltipService } from './tooltip.service'
 import { FadeInOutAnimation } from '../../animations/fade-in-out'
 
@@ -11,6 +11,7 @@ import { FadeInOutAnimation } from '../../animations/fade-in-out'
         [text]="tooltip.text"
         [parent]="tooltip.parent"
         [positionSide]="tooltip.positionSide"
+        [scale]="scale"
         [showArrow]="tooltip.showArrow">
       </eqm-tooltip>
     </div>
@@ -18,5 +19,6 @@ import { FadeInOutAnimation } from '../../animations/fade-in-out'
   animations: [ FadeInOutAnimation ]
 })
 export class TooltipContainerComponent {
+  @Input() scale = 1
   constructor (public tooltipService: TooltipService) {}
 }
