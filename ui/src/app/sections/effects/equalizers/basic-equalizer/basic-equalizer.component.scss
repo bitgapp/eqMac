@@ -1,5 +1,5 @@
 :host {
-  display: block;
+  display: flex;
 }
 
 .basic-level-knobs {
@@ -11,5 +11,6 @@
 
 
 .basic-level-sliders {
+  flex: 1 1 0%;
   margin: 10px;
 }

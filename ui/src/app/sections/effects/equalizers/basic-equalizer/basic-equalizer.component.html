@@ -1,5 +1,5 @@
 <eqm-loading *ngIf="!selectedPreset || !presets"></eqm-loading>
-<div *ngIf="selectedPreset && presets" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px" fxFlex>
+<div *ngIf="selectedPreset && presets" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="5px" fxFlex>
   <div fxLayout="row">
     <div fxLayout="column">
       <div fxLayout="row" fxLayoutAlign="center center" style="width: 100%;">
@@ -42,32 +42,31 @@
   </div>
 
   <!-- Sliders -->
-  <div *ngIf="replaceKnobsWithSliders" class="basic-level-sliders w-100" fxLayoutGap="20px" fxLayout="column" fxLayoutAlign="space-around center">
-    <div fxLayout="row" fxLayoutAlign="center center" fxFill fxLayoutGap="5px">
+  <div *ngIf="replaceKnobsWithSliders" class="basic-level-sliders w-100" fxLayoutGap="10px" fxLayout="column" fxLayoutAlign="space-around center">
+    <div fxLayout="row" class="w-100" fxLayoutAlign="center center" fxLayoutGap="5px">
       <eqm-label fxFlex="52px">BASS</eqm-label>
       <div fxFlex="70%">
-        <eqm-flat-slider [enabled]="enabled" [min]="-24" [max]="24" [(value)]="gains.bass"
+        <eqm-flat-slider [enabled]="enabled" [min]="-24" [max]="24" [(value)]="gains.bass" [thickness]="3" [thumbRadius]="6"
           (userChangedValue)="setGain('bass', $event)" [doubleClickToAnimateToMiddle]="true"
           [animationDuration]="animationDuration" [animationFps]="animationFps" [stickToMiddle]="true"
           (stickedToMiddle)="performHapticFeedback($event)"></eqm-flat-slider>
       </div>
       <eqm-value-screen fxFlex="52px" [enabled]="enabled">{{screenValue(gains.bass)}}</eqm-value-screen>
-
     </div>
-    <div fxLayout="row" fxLayoutAlign="center center" fxFill fxLayoutGap="5px">
+    <div fxLayout="row" class="w-100" fxLayoutAlign="center center" fxLayoutGap="5px">
       <eqm-label fxFlex="52px">MID</eqm-label>
       <div fxFlex="70%">
-        <eqm-flat-slider [enabled]="enabled" [min]="-24" [max]="24" [(value)]="gains.mid"
+        <eqm-flat-slider [enabled]="enabled" [min]="-24" [max]="24" [(value)]="gains.mid" [thickness]="3" [thumbRadius]="6"
           (userChangedValue)="setGain('mid', $event)" [doubleClickToAnimateToMiddle]="true"
           [animationDuration]="animationDuration" [animationFps]="animationFps" [stickToMiddle]="true"
           (stickedToMiddle)="performHapticFeedback($event)"></eqm-flat-slider>
       </div>
       <eqm-value-screen fxFlex="52px" [enabled]="enabled">{{screenValue(gains.mid)}}</eqm-value-screen>
     </div>
-    <div fxLayout="row" fxLayoutAlign="center center" fxFill fxLayoutGap="5px">
+    <div fxLayout="row" class="w-100" fxLayoutAlign="center center" fxLayoutGap="5px">
       <eqm-label fxFlex="52px">TREBLE</eqm-label>
       <div fxFlex="70%">
-        <eqm-flat-slider [enabled]="enabled" [min]="-24" [max]="24" [(value)]="gains.treble"
+        <eqm-flat-slider [enabled]="enabled" [min]="-24" [max]="24" [(value)]="gains.treble" [thickness]="3" [thumbRadius]="6"
           (userChangedValue)="setGain('treble', $event)" [doubleClickToAnimateToMiddle]="true"
           [animationDuration]="animationDuration" [animationFps]="animationFps" [stickToMiddle]="true"
           (stickedToMiddle)="performHapticFeedback($event)"></eqm-flat-slider>

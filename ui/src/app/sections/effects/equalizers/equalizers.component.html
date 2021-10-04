@@ -4,7 +4,7 @@
       <eqm-icon [@FadeInOut] *ngIf="activeEqualizer && activeEqualizer.settings.length" (click)="openSettings()" eqmTooltip="Settings" eqmTooltipPositionSide="bottom" name="cog" color="#8E8E93" [size]="16"></eqm-icon>
     </div>
 
-    <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5px">
+    <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="8px">
       <eqm-label>Equalizer: </eqm-label>
       <eqm-label class="type" [class.active]="type === 'Basic'" (click)="setType('Basic')">Basic</eqm-label>
       <eqm-label class="type" [class.active]="type === 'Advanced'" (click)="setType('Advanced')">Advanced</eqm-label>

@@ -6,7 +6,8 @@ import {
   Output,
   ChangeDetectorRef,
   OnDestroy,
-  HostBinding
+  HostBinding,
+  Host
 } from '@angular/core'
 import { AdvancedEqualizerService, AdvancedEqualizerPreset, AdvancedEqualizerPresetsChangedEventCallback, AdvancedEqualizerSelectedPresetChangedEventCallback } from 'src/app/sections/effects/equalizers/advanced-equalizer/advanced-equalizer.service'
 import { EqualizerComponent } from '../equalizer.component'
@@ -22,7 +23,8 @@ import { ToastService } from '../../../../services/toast.service'
 })
 export class AdvancedEqualizerComponent extends EqualizerComponent implements OnInit, OnDestroy {
   @Input() enabled = true
-  height = 228
+
+  @HostBinding('style.height.px') height = 228
 
   public ShowDefaultPresetsCheckbox: CheckboxOption = {
     type: 'checkbox',

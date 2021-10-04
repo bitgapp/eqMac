@@ -13,7 +13,7 @@ import Version
 struct Constants {
   
   #if DEBUG
-//  static let UI_ENDPOINT_URL = URL(string: "http://localhost:8080")!
+//  static let UI_ENDPOINT_URL = URL(string: "http://eqmac.local:8080")!
   static let UI_ENDPOINT_URL = URL(string: "https://ui-v3.eqmac.app")!
   static let DEBUG = true
   #else

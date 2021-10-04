@@ -242,8 +242,6 @@ This data would help us improve and grow the product.`
   }
 
   async startDimensionsSync () {
-    this.previousMinHeight = this.minHeight
-    this.previousMaxHeight = this.maxHeight
     setInterval(() => {
       this.syncMinHeight()
       this.syncMaxHeight()
@@ -252,6 +250,12 @@ This data would help us improve and grow the product.`
 
   private previousMinHeight: number
   async syncMinHeight () {
+    if (!this.previousMinHeight) {
+      this.previousMinHeight = this.minHeight
+      await this.ui.setMinHeight({ minHeight: this.minHeight })
+      return
+    }
+
     const diff = this.minHeight - this.previousMinHeight
     this.previousMinHeight = this.minHeight
     if (diff !== 0) {
@@ -264,8 +268,14 @@ This data would help us improve and grow the product.`
     }
   }
 
-  private previousMaxHeight
+  private previousMaxHeight: number
   async syncMaxHeight () {
+    if (!this.previousMaxHeight) {
+      this.previousMaxHeight = this.maxHeight
+      await this.ui.setMaxHeight({ maxHeight: this.maxHeight })
+      return
+    }
+
     const diff = this.maxHeight - this.previousMaxHeight
     this.previousMaxHeight = this.maxHeight
     await this.ui.setMaxHeight({ maxHeight: this.maxHeight })
