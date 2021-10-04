@@ -274,6 +274,14 @@
 			path = User;
 			sourceTree = "<group>";
 		};
+		78AD99102708F1F800B95E9C /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				7810723726112C2B005DB609 /* Security.framework */,
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
 		A433E835860EBA2247574C67 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -360,6 +368,7 @@
 				E086AFFD1FCCB8E700CF9F0D /* Products */,
 				A433E835860EBA2247574C67 /* Pods */,
 				E6BAF3EF1807277C1A4360F7 /* Frameworks */,
+				78AD99102708F1F800B95E9C /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -992,7 +1001,7 @@
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1.3.0;
+				CURRENT_PROJECT_VERSION = 1.3.1;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1056,7 +1065,7 @@
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1.3.0;
+				CURRENT_PROJECT_VERSION = 1.3.1;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = JZA6C97KJA;
 				ENABLE_HARDENED_RUNTIME = YES;

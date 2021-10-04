@@ -35,18 +35,18 @@
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       debugAsWhichUser = "root"
-      launchStyle = "1"
+      launchStyle = "0"
       useCustomWorkingDirectory = "NO"
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <PreActions>
+      <PostActions>
          <ExecutionAction
             ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
             <ActionContent
                title = "Run Script"
-               scriptText = "export SUDO_ASKPASS=~/askpass.sh&#10;&#10;# Unload CoreAudio&#10;sudo -A launchctl unload /System/Library/LaunchDaemons/com.apple.audio.coreaudiod.plist&#10;&#10;# Uninstall any new driver leftovers&#10;sudo -A rm -rf /Library/Audio/Plug-Ins/HAL/eqMac.driver/&#10;# Install the new driver&#10;sudo -A cp -f -r &quot;$BUILT_PRODUCTS_DIR/$FULL_PRODUCT_NAME&quot; /Library/Audio/Plug-Ins/HAL/&#10;"
+               scriptText = "export SUDO_ASKPASS=~/askpass.sh&#10;# Uninstall any new driver leftovers&#10;sudo -A rm -rf /Library/Audio/Plug-Ins/HAL/eqMac.driver/&#10;# Install the new driver&#10;sudo -A cp -f -r &quot;$BUILT_PRODUCTS_DIR/$FULL_PRODUCT_NAME&quot; /Library/Audio/Plug-Ins/HAL/&#10;# Restart CoreAudio&#10;sudo -A launchctl kickstart -k system/com.apple.audio.coreaudiod&#10;"
                shellToInvoke = "/bin/sh">
                <EnvironmentBuildable>
                   <BuildableReference
@@ -59,11 +59,7 @@
                </EnvironmentBuildable>
             </ActionContent>
          </ExecutionAction>
-      </PreActions>
-      <PathRunnable
-         runnableDebuggingMode = "0"
-         FilePath = "/usr/sbin/coreaudiod">
-      </PathRunnable>
+      </PostActions>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
@@ -80,10 +76,6 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <PathRunnable
-         runnableDebuggingMode = "0"
-         FilePath = "/usr/sbin/coreaudiod">
-      </PathRunnable>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
