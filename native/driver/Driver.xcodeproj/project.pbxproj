@@ -461,6 +461,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
+					"/Library/Audio/Plug-Ins/HAL/eqMac.driver/Contents/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MARKETING_VERSION = 1.3.0;
@@ -533,6 +534,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
+					"/Library/Audio/Plug-Ins/HAL/eqMac.driver/Contents/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MARKETING_VERSION = 1.3.0;

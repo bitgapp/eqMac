@@ -592,6 +592,10 @@ class EQMDevice: EQMObject {
 
   static func doIO (client: EQMClient?, operationID: UInt32, sample: UnsafeMutablePointer<Float32>, cycleInfo: AudioServerPlugInIOCycleInfo, frameSize: UInt32) -> OSStatus {
 
+    guard let buffer = ringBuffer else {
+      return noErr
+    }
+
     ioMutex.lock()
 
     switch operationID {
@@ -601,21 +605,22 @@ class EQMDevice: EQMObject {
       for frame in 0 ..< frameSize {
         for channel in 0 ..< kChannelCount {
           let readFrame = Int(frame * kChannelCount + channel)
+
           if EQMControl.muted {
             // Muted
             sample[readFrame] = 0
-          } else {
-            let nextSampleTime = sampleTime + Int(frame)
-            let remainder = nextSampleTime % Int(ringBufferSize)
-            let writeFrame = remainder * Int(kChannelCount) + Int(channel)
-            ringBuffer![writeFrame] += sample[readFrame]
           }
 
+          let writePosition = sampleTime + Int(frame)
+          let writeRemainder = writePosition % Int(ringBufferSize)
+          let writeFrame = writeRemainder * Int(kChannelCount) + Int(channel)
+          buffer[writeFrame] += sample[readFrame]
+
           // Clean up buffer
-          let cleanFromFrame = sampleTime + Int(frame) + 8192
-          let remainder = cleanFromFrame % Int(ringBufferSize)
-          let cleanFrame = remainder * Int(kChannelCount) + Int(channel)
-          ringBuffer![cleanFrame] = 0
+          let cleanCleanPosition = sampleTime + Int(frame) + 8192
+          let cleanRemainder = cleanCleanPosition % Int(ringBufferSize)
+          let cleanFrame = cleanRemainder * Int(kChannelCount) + Int(channel)
+          buffer[cleanFrame] = 0
         }
       }
 
@@ -629,20 +634,24 @@ class EQMDevice: EQMObject {
       for frame in 0 ..< frameSize {
         for channel in 0 ..< kChannelCount {
           let writeFrame = Int(frame * kChannelCount + channel)
+
           if EQMControl.muted {
             sample[writeFrame] = 0
           } else {
-            let nextSampleTime = sampleTime + Int(frame)
-            let remainder = nextSampleTime % Int(ringBufferSize)
-            let readFrame = remainder * Int(kChannelCount) + Int(channel)
-            sample[writeFrame] = ringBuffer![readFrame]
+            let readPosition = sampleTime + Int(frame)
+            let readRemainder = readPosition % Int(ringBufferSize)
+            let readFrame = readRemainder * Int(kChannelCount) + Int(channel)
+            sample[writeFrame] = buffer[readFrame]
           }
 
           // Clean up buffer
-          let cleanFromFrame = sampleTime + Int(frame) - Int(ringBufferSize)
-          let remainder = cleanFromFrame % Int(ringBufferSize)
-          let cleanFrame = remainder * Int(kChannelCount) + Int(channel)
-          ringBuffer![cleanFrame] = 0
+          let cleanPosition = sampleTime + Int(frame) - Int(ringBufferSize)
+          if (cleanPosition > 0) {
+            let cleanRemainder = cleanPosition % Int(ringBufferSize)
+            let cleanFrame = cleanRemainder * Int(kChannelCount) + Int(channel)
+            buffer[cleanFrame] = 0
+          }
+
         }
       }
       break
