@@ -39,7 +39,7 @@ export enum StatusItemIconType {
 })
 export class UIService extends DataService {
   route = `${this.route}/ui`
-  dimensionsChanged = new Subject<UIDimensions>()
+  dimensionsChanged = new EventEmitter()
   settingsChanged = new Subject<UISettings>()
   settings: UISettings = {}
   private _scale = 1

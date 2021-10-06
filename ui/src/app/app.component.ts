@@ -2,7 +2,8 @@ import {
   Component,
   OnInit,
   ViewChild,
-  AfterContentInit
+  AfterContentInit,
+  HostListener
 } from '@angular/core'
 import { UtilitiesService } from './services/utilities.service'
 import { UIService } from './services/ui.service'
@@ -43,11 +44,13 @@ export class AppComponent implements OnInit, AfterContentInit {
     help: false
   }
 
+  private containerWidth = 400
+  private containerHeight = 400
   get containerStyle () {
     const style: any = {}
 
-    style.width = `${100 / this.ui.scale}%`
-    style.height = `${100 / this.ui.scale}%`
+    style.width = `${this.containerWidth / this.ui.scale}px`
+    style.height = `${this.containerHeight / this.ui.scale}px`
     style.transform = `scale(${this.ui.scale})`
 
     return style
@@ -282,6 +285,28 @@ This data would help us improve and grow the product.`
     if (diff > 0) {
       // this.ui.changeHeight({ diff })
     }
+  }
+
+  private windowResizeHandlerTimer: number
+  @HostListener('window:resize')
+  handleWindowResize () {
+    if (this.windowResizeHandlerTimer) {
+      clearTimeout(this.windowResizeHandlerTimer)
+    }
+
+    this.windowResizeHandlerTimer = setTimeout(async () => {
+      const [ height, width ] = await Promise.all([
+        this.ui.getHeight(),
+        this.ui.getWidth()
+      ])
+
+      this.containerHeight = height
+      this.containerWidth = width
+
+      setTimeout(() => {
+        this.ui.dimensionsChanged.emit()
+      }, 100)
+    }, 100) as any
   }
 
   async getTransitionSettings () {

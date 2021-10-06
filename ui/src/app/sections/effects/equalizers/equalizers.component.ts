@@ -133,7 +133,6 @@ export class EqualizersComponent implements OnInit, OnDestroy {
     await this.service.setType(type)
     this.type = type
     await this.utils.delay(this.animationDuration)
-    this.ui.dimensionsChanged.next()
   }
 
   public getEqualizerFromType (type: EqualizerType): EqualizerComponent {

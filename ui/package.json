@@ -1,6 +1,6 @@
 {
   "name": "ui",
-  "version": "3.0.1",
+  "version": "3.0.4",
   "scripts": {
     "lint": "npx eslint .",
     "start": "../node_modules/.bin/ng serve --port 8080 --host 0.0.0.0 --disable-host-check",

@@ -230,12 +230,6 @@ export class SkeuomorphSliderComponent implements OnInit, OnDestroy {
     }
   }
 
-  @HostListener('window:resize')
-  onWindowResize () {
-    this.drawNotches()
-    this.changeRef.detectChanges()
-  }
-
   drawNotches () {
     const canvas = this.notches.nativeElement
     const ctx: CanvasRenderingContext2D = canvas.getContext('2d')
