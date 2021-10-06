@@ -646,7 +646,7 @@ class EQMDevice: EQMObject {
 
           // Clean up buffer
           let cleanPosition = sampleTime + Int(frame) - Int(ringBufferSize)
-          if (cleanPosition > 0) {
+          if (cleanPosition > -1) {
             let cleanRemainder = cleanPosition % Int(ringBufferSize)
             let cleanFrame = cleanRemainder * Int(kChannelCount) + Int(channel)
             buffer[cleanFrame] = 0
