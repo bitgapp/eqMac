@@ -12,7 +12,7 @@
 
 ## Features
 ### Current
-* System audio source
+* System audio Source
 * Volume Booster
 * HDMI Volume Support
 * Volume Balance support for all devices (including HDMI)
@@ -22,18 +22,21 @@
 * Spectrum analyzer*
 * [AutoEQ](https://github.com/jaakkopasanen/AutoEq?referrer=eqMac&referer=eqMac&utm_source=eqMac) Integration*
 * Reverb* - Spatial audio enhancement
+* Volume Mixer* - Apply different volume levels per each application
 
 *Not Open Sourced
 
 ### Roadmap
 Idea is to become the ultimate Audio toolbox for macOS (some features might not be open sourced)
-* Volume Mixer - Apply different volume levels per each application
-* Separate L/R Channel EQ - Fix hearing impairements 
 * Input Audio Source - Apply effects to any device: guitar, microphone etc.
+* Virtual Output - Export the Adjusted audio to any application
+* Custom UI - Fully customize the look and feel of eqMac by changing the User Interface Colors, Feature visibility and arrangement.
+* Hotkeys - Control eqMac with Keyboard Shortcuts
 * Recorder - save any audio playback (System, Input device, File)
-* File playback and rendering - Apply effects to audio files and instantly render them
 * Remote control from your phone
-* Fully customizable UI
+* Separate L/R Channel EQ - Fix hearing impairements 
+* API - Control all aspects of eqMac through a WebSocket API. Works with any programming language that supports WebSockets.
+* File playback and rendering - Apply effects to audio files and instantly render them
 * and more...
 
 [Vote on the Features you want to see sooner](https://eqmac.app/#coming-soon)
