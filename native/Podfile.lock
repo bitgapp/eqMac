@@ -16,7 +16,7 @@ PODS:
   - Zip (2.1.1)
 
 DEPENDENCIES:
-  - AMCoreAudio (from `https://github.com/bitgapp/AMCoreAudio.git`, commit `f02015b7dfbaeb9b5f70b658e860afe94f85df9c`)
+  - AMCoreAudio (from `https://github.com/bitgapp/AMCoreAudio.git`, commit `b312d1509ef863dea3ca56cfa3f57451de4ff721`)
   - EmitterKit (~> 5.2.2)
   - KeychainSwift (~> 13.0)
   - ReSwift (~> 6.1)
@@ -45,7 +45,7 @@ SPEC REPOS:
 
 EXTERNAL SOURCES:
   AMCoreAudio:
-    :commit: f02015b7dfbaeb9b5f70b658e860afe94f85df9c
+    :commit: b312d1509ef863dea3ca56cfa3f57451de4ff721
     :git: https://github.com/bitgapp/AMCoreAudio.git
   STPrivilegedTask:
     :commit: fdca677c77adb166a2be4c5ea9c7580a738c49c9
@@ -55,7 +55,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   AMCoreAudio:
-    :commit: f02015b7dfbaeb9b5f70b658e860afe94f85df9c
+    :commit: b312d1509ef863dea3ca56cfa3f57451de4ff721
     :git: https://github.com/bitgapp/AMCoreAudio.git
   STPrivilegedTask:
     :commit: fdca677c77adb166a2be4c5ea9c7580a738c49c9
@@ -79,6 +79,6 @@ SPEC CHECKSUMS:
   WebViewJavascriptBridge: 7f5bc4d3581e672e8f32bd0f812d54bc69bb8e29
   Zip: 414f59909701fda9a84ab774ebe0f5449b1082cc
 
-PODFILE CHECKSUM: 4baf3ce071f18349d96b36cf9ed5a1d7c5ad6fdc
+PODFILE CHECKSUM: 80a9c25477279d138986fe22fa3da41f77c4e379
 
-COCOAPODS: 1.9.3
+COCOAPODS: 1.11.2
