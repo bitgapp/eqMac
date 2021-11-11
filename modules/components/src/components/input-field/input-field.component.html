@@ -1,5 +1,5 @@
-<eqm-container class="container" #container>
-  <input [type]="type" [(ngModel)]="text" 
+<eqm-container class="container" #container [color]="bgColor">
+  <input [type]="type" [(ngModel)]="text" [style.color]="color"
   [placeholder]="placeholder" autocomplete="true"
   (input)="inputChanged()" (keyup.enter)="enterPressed()" 
   class="input-field" [readonly]="!enabled || !editable" 

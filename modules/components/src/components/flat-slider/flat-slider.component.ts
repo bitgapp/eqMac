@@ -17,6 +17,7 @@ import {
 } from '../../services/utilities.service'
 import { FadeInOutAnimation } from '../../animations'
 import { DomSanitizer } from '@angular/platform-browser'
+import { ColorsService } from '../../services/colors.service'
 
 export interface FlatSliderValueChangedEvent {
   value: number
@@ -35,7 +36,8 @@ export class FlatSliderComponent implements OnInit, OnDestroy {
     public utils: UtilitiesService,
     public elem: ElementRef<HTMLElement>,
     public sanitizer: DomSanitizer,
-    private readonly changeRef: ChangeDetectorRef
+    private readonly changeRef: ChangeDetectorRef,
+    public colors: ColorsService
   ) {}
 
   @Input() scale: 'logarithmic' | 'linear' = 'linear'
@@ -63,7 +65,7 @@ export class FlatSliderComponent implements OnInit, OnDestroy {
     return typeof this.middle === 'number' ? this.middle : (this.min + this.max) / 2
   }
 
-  public defaultColor = '#4f8d71'
+  public defaultColor = ColorsService.accent
   public _enabled = true
 
   @HostBinding('class.enabled')

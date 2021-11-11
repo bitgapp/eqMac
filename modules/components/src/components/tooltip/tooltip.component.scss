@@ -1,6 +1,6 @@
 
 :host {
-  z-index: 9999;
+  z-index: 100001;
 }
 
 .container {
@@ -10,7 +10,7 @@
   left: -100px;
   top: -100px;
   pointer-events: none;
-  z-index: 9999;
+  z-index: 100001;
 
   .tooltip {
     text-align: center;
@@ -20,7 +20,7 @@
 
   .arrow-container {
     position: absolute;
-    z-index: 9998;
+    z-index: 100000;
     width: 12px;
     height: 12px;
     display: flex;

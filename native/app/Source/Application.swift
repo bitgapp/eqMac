@@ -45,7 +45,11 @@ class Application {
   private static var ignoreEvents = false
 
   static var settings: Settings!
+    
+    
   static var ui: UI!
+    
+    
 
   static var dataBus: ApplicationDataBus!
   static let error = EmitterKit.Event<String>()

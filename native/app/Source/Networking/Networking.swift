@@ -10,7 +10,7 @@ import Foundation
 import Connectivity
 import EmitterKit
 class Networking {
-  static private let connectivity = Connectivity()
+  static let connectivity = Connectivity()
   
   static var status: ConnectivityStatus = .determining {
     didSet {
@@ -22,10 +22,13 @@ class Networking {
   static let statusChanged = Event<ConnectivityStatus>()
   
   static func startMonitor () {
+//    connectivity.connectivityURLs = [Constants.UI_ENDPOINT_URL.appendingPathComponent("/success.html")]
+//    connectivity.successThreshold = Connectivity.Percentage(100)
+    
     connectivity.whenConnected = { connectivity in
       Networking.status = connectivity.status
     }
-
+    
     connectivity.whenDisconnected = { connectivity in
       Networking.status = connectivity.status
     }
@@ -43,7 +46,7 @@ class Networking {
         completion(statusConsideredConnected(connectivity.status))
       }
     }
-
+    
     delay(1000) {
       if (!returned) {
         returned = true
@@ -61,13 +64,13 @@ class Networking {
         whenConnected(completion)
       }
     }
-
+    
   }
-
+  
   static var isConnected: Bool {
     return statusConsideredConnected(status)
   }
-
+  
   static func statusConsideredConnected (_ status: ConnectivityStatus) -> Bool {
     let accepted: [ConnectivityStatus] = [
       .connected,
@@ -82,7 +85,7 @@ class Networking {
     if socketFileDescriptor == -1 {
       return false
     }
-
+    
     var addr = sockaddr_in()
     let sizeOfSockkAddr = MemoryLayout<sockaddr_in>.size
     addr.sin_len = __uint8_t(sizeOfSockkAddr)
@@ -92,7 +95,7 @@ class Networking {
     addr.sin_zero = (0, 0, 0, 0, 0, 0, 0, 0)
     var bind_addr = sockaddr()
     memcpy(&bind_addr, &addr, Int(sizeOfSockkAddr))
-
+    
     if Darwin.bind(socketFileDescriptor, &bind_addr, socklen_t(sizeOfSockkAddr)) == -1 {
       release(socket: socketFileDescriptor)
       return false
@@ -104,7 +107,7 @@ class Networking {
     release(socket: socketFileDescriptor)
     return true
   }
-
+  
   static func getAvailabilePort (_ start: UInt) -> UInt {
     var port = start
     while !tcpPortIsAvailable(port) {
@@ -112,7 +115,7 @@ class Networking {
     }
     return port
   }
-
+  
   static func release(socket: Int32) {
     Darwin.shutdown(socket, SHUT_RDWR)
     close(socket)

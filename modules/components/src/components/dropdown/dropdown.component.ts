@@ -2,6 +2,7 @@ import { Component, OnInit, Input, ViewChild, ElementRef, EventEmitter, Output, 
 import { SelectBoxComponent } from '../select-box/select-box.component'
 import { UtilitiesService } from '../../services/utilities.service'
 import { FadeInOutAnimation } from '../../animations'
+import { ColorsService } from '../../services/colors.service'
 
 @Component({
   selector: 'eqm-dropdown',
@@ -14,7 +15,8 @@ export class DropdownComponent implements OnInit {
   constructor (
     public utils: UtilitiesService,
     public zone: NgZone,
-    public ref: ElementRef
+    public ref: ElementRef,
+    public colors: ColorsService
   ) {
   }
 

@@ -53,6 +53,7 @@ export class TooltipComponent implements OnInit {
     let x = -999
     let y = -999
     const body = document.body
+
     const viewHeight = body.offsetHeight / this.scale
     const viewWidth = body.offsetWidth / this.scale
 

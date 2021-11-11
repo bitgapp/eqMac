@@ -1,4 +1,5 @@
 import { Component, ViewChild, ElementRef, AfterViewInit, Input, ChangeDetectionStrategy } from '@angular/core'
+import { ColorsService } from '../../services/colors.service'
 
 @Component({
   selector: 'eqm-loading',
@@ -10,6 +11,10 @@ export class LoadingComponent implements AfterViewInit {
   @ViewChild('wave', { static: true }) wave!: ElementRef
   @Input() text?: string
   @Input() showText = true
+
+  constructor (
+    public colors: ColorsService
+  ) {}
 
   ngAfterViewInit () {
     const path = this.wave.nativeElement

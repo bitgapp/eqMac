@@ -15,6 +15,7 @@ import { Options, CheckboxOption } from 'src/app/components/options/options.comp
 import { TransitionService } from '../../../../services/transitions.service'
 import { ApplicationService } from '../../../../services/app.service'
 import { ToastService } from '../../../../services/toast.service'
+import { ColorsService } from '@eqmac/components'
 
 @Component({
   selector: 'eqm-advanced-equalizer',
@@ -123,7 +124,8 @@ export class AdvancedEqualizerComponent extends EqualizerComponent implements On
     public transition: TransitionService,
     public change: ChangeDetectorRef,
     public app: ApplicationService,
-    public toast: ToastService
+    public toast: ToastService,
+    public colors: ColorsService
   ) {
     super()
     this.getImportLegacyAvailable()

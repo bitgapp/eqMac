@@ -30,7 +30,7 @@ struct ApplicationState: State {
     }
 
     guard let state = ({ () -> ApplicationState? in 
-      if Constants.DEBUG {
+      if Constants.DEBUG && false {
         return try! JSONDecoder().decode(ApplicationState.self, from: stateData)
       } else {
         return try? JSONDecoder().decode(ApplicationState.self, from: stateData)

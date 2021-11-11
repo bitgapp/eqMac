@@ -14,7 +14,7 @@
     <div fxLayout="column" fxLayoutAlign="space-between center">
       <eqm-label [fontSize]="10">Hz</eqm-label>
       <eqm-button type="transparent" (pressed)="selectFlatPreset()" [enabled]="enabled">
-        <eqm-icon name="triangle" color="#4f8d71" [width]="10" [height]="10"></eqm-icon>
+        <eqm-icon name="triangle" [color]="colors.accent" [width]="10" [height]="10"></eqm-icon>
       </eqm-button>
       <eqm-label [fontSize]="8" class="gain">Gain</eqm-label>
     </div>

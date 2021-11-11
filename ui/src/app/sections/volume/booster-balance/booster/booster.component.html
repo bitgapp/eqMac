@@ -13,7 +13,7 @@
       [enabled]="boostEnabledAvailable && app.enabled" 
       [eqmTooltip]="boostEnabledAvailable ? (boostEnabled ? 'Disable Boost' : 'Enable Boost') : ('Enable/Disable Boost\nOnly available after v1.0.0')" 
       style="position: absolute; top: 5px; right: -10px;" 
-      [checked]="boostEnabled" (checkedChanged)="setBoostEnabled($event)"
+      [checked]="boostEnabled" (checkedChange)="setBoostEnabled($event)"
     ></eqm-checkbox>
     <eqm-label>Boost</eqm-label>
     <eqm-value-screen [enabled]="boostEnabled && app.enabled">{{(gain | mapValue:1:2:0:100 | clipValue:0:100 | fixFloat:0:false)}}%</eqm-value-screen>
@@ -36,7 +36,7 @@
   <ng-container *ngTemplateOutlet="volume"></ng-container>
   <div fxFlex="60%">
     <eqm-flat-slider [min]="0" [enabled]="app.enabled" [max]="boostEnabled ? 2 : 1" [(value)]="gain" (userChangedValue)="setGain($event.value)"
-    [doubleClickToAnimateToMiddle]="false" [showMiddleNotch]="boostEnabled"
+    [doubleClickToAnimateToMiddle]="false" [showMiddleNotch]="boostEnabled" [thickness]="4" [thumbRadius]="5"
     [stickToMiddle]="boostEnabled" (stickedToMiddle)="performHapticFeedback($event)"></eqm-flat-slider>
   </div>
   <ng-container *ngTemplateOutlet="boost"></ng-container>

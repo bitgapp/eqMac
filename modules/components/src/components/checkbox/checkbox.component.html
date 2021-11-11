@@ -1,5 +1,5 @@
 <ng-template #label>
-  <eqm-label style="margin: 0 5px;" [clickable]="enabled">
+  <eqm-label style="margin: 0 5px;" [clickable]="enabled" [color]="labelColor">
     <ng-content></ng-content>
   </eqm-label>
 </ng-template>
@@ -7,8 +7,8 @@
 <div *ngIf="labelSide === 'left'" #content>
   <ng-container *ngTemplateOutlet="label"></ng-container>
 </div>
-<eqm-container>
-  <eqm-icon name="checkbox" [size]="10" [color]="checked ? '#4f8d71' : 'transparent'"></eqm-icon>
+<eqm-container [color]="bgColor">
+  <eqm-icon name="checkbox" [size]="10" [color]="checked ? color : 'transparent'"></eqm-icon>
 </eqm-container>
 <div *ngIf="labelSide === 'right'" #content>
   <ng-container *ngTemplateOutlet="label"></ng-container>

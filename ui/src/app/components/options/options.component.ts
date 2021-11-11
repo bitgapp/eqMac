@@ -149,7 +149,7 @@ export class OptionsComponent {
     }
 
     if (option.type === 'dropdown') {
-      style['z-index'] = 9999
+      style['z-index'] = 9000
     }
 
     return style

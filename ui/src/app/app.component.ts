@@ -245,6 +245,7 @@ This data would help us improve and grow the product.`
   }
 
   async startDimensionsSync () {
+    this.handleWindowResize()
     setInterval(() => {
       this.syncMinHeight()
       this.syncMaxHeight()

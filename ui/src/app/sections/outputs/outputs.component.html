@@ -1,5 +1,5 @@
 <div fxFill class="outputs" fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="10px">
-  <eqm-icon (click)="select(selected)" name="reset" color="#4f8d71" eqmTooltip="Reset playback" eqmTooltipPositionSide="top"></eqm-icon>
+  <eqm-icon (click)="select(selected)" name="reset" [color]="colors.accent" eqmTooltip="Reset playback" eqmTooltipPositionSide="top"></eqm-icon>
   <eqm-dropdown fxFlex
   labelParam="name" noItemsPlaceholder="No Outputs" placeholder="Select Output" 
   [items]="outputs" [(selectedItem)]="selected" (itemSelected)="select($event)"

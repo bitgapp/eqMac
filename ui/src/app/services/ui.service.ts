@@ -53,15 +53,6 @@ export class UIService extends DataService {
     }
   }
 
-  readonly colors = {
-    accent: '#4f8d71',
-    warning: '#e80415',
-    'gradient-start': '#5a5b5f',
-    'gradient-end': '#2c2c2e',
-    light: '#c9cdd0',
-    dark: '#16191c'
-  }
-
   constructor () {
     super()
     this.sync()

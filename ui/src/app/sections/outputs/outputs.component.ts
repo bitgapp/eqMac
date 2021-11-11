@@ -1,4 +1,5 @@
 import { Component, HostBinding, OnInit } from '@angular/core'
+import { ColorsService } from '@eqmac/components'
 import { ApplicationService } from '../../services/app.service'
 import { OutputsService, Output } from './outputs.service'
 
@@ -13,7 +14,11 @@ export class OutputsComponent implements OnInit {
 
   @HostBinding('style.height.px') height = 52
 
-  constructor (public service: OutputsService, public app: ApplicationService) { }
+  constructor (
+    public service: OutputsService,
+    public app: ApplicationService,
+    public colors: ColorsService
+  ) { }
 
   async ngOnInit () {
     await this.sync()

@@ -41,6 +41,7 @@ export class SkeuomorphSliderComponent implements OnInit, OnDestroy {
   @Input() scrollEnabled = true
   @Input() middle?: number
   @Input() stickToMiddle = false
+  @Input() doubleClickToAnimateToMiddle = true
   @Output() stickedToMiddle = new EventEmitter()
 
   private readonly padding = 14
@@ -194,7 +195,7 @@ export class SkeuomorphSliderComponent implements OnInit, OnDestroy {
   }
 
   doubleclick () {
-    if (this.enabled) {
+    if (this.enabled && this.doubleClickToAnimateToMiddle) {
       if (this.doubleclickTimeout) {
         clearTimeout(this.doubleclickTimeout)
       }
