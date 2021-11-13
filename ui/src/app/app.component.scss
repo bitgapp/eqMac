@@ -112,3 +112,12 @@ $noise: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAYAAAA6/NlyA
   
 }
 
+.tooltip-container {
+  position: absolute;
+  pointer-events: none;
+  transform-origin: top left;
+  z-index: 9999;
+  min-width: 400px; 
+  top: 0;
+  left: 0;
+}

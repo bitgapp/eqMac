@@ -53,6 +53,10 @@ export class AppComponent implements OnInit, AfterContentInit {
     style.height = `${this.containerHeight / this.ui.scale}px`
     style.transform = `scale(${this.ui.scale})`
 
+    const cdkOverlays = document.getElementsByClassName('cdk-overlay-pane')
+    for (let i = 0; i < cdkOverlays.length; i++) {
+      cdkOverlays[i].setAttribute('style', `transform: scale(${this.ui.scale.toFixed(2)}); max-width: ${Math.round(90 / this.ui.scale)}vw`)
+    }
     return style
   }
 
@@ -133,7 +137,7 @@ export class AppComponent implements OnInit, AfterContentInit {
       this.ui.getSettings()
     ])
 
-    if (typeof uiSettings.privacyFormSeen !== 'boolean') {
+    if (typeof uiSettings.privacyFormSeen !== 'boolean' || true) {
       let doCollectTelemetry = uiSettings.doCollectTelemetry ?? false
       let doCollectCrashReports = await this.settings.getDoCollectCrashReports()
       let saving = false

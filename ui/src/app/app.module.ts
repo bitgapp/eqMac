@@ -68,12 +68,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { SettingsComponent } from './sections/settings/settings.component'
 import { OptionsComponent } from './components/options/options.component'
 import { HelpComponent } from './sections/help/help.component'
-import { MatDialogModule } from '@angular/material/dialog'
+import { MatDialogConfig, MatDialogModule, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog'
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component'
 import { EqualizerPresetsComponent } from './sections/effects/equalizers/presets/equalizer-presets.component'
 import { PromptDialogComponent } from './components/prompt-dialog/prompt-dialog.component'
 import { OptionsDialogComponent } from './components/options-dialog/options-dialog.component'
 import { MatSnackBarModule } from '@angular/material/snack-bar'
+import { UIService } from './services/ui.service'
 
 @NgModule({
   imports: [
@@ -114,7 +115,17 @@ import { MatSnackBarModule } from '@angular/material/snack-bar'
     PromptDialogComponent,
     OptionsDialogComponent
   ],
-  providers: [],
+  providers: [
+    {
+      provide: MAT_DIALOG_DEFAULT_OPTIONS,
+      useValue: {
+        ...new MatDialogConfig(),
+        hasBackdrop: true,
+        maxWidth: 10,
+        width: '10px'
+      } as MatDialogConfig
+    }
+  ],
   bootstrap: [ AppComponent ]
 })
 export class AppModule {}

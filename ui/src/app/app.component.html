@@ -29,5 +29,5 @@
 
   <eqm-outputs *ngIf="ui.settings.outputFeatureEnabled" #outputs></eqm-outputs>
 
-  <eqm-tooltip-container [scale]="ui.scale"></eqm-tooltip-container>
 </div>
+<eqm-tooltip-container class="tooltip-container" [scale]="ui.scale" [ngStyle]="containerStyle"></eqm-tooltip-container>

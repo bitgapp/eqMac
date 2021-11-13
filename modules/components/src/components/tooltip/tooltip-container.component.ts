@@ -16,7 +16,12 @@ import { FadeInOutAnimation } from '../../animations/fade-in-out'
       </eqm-tooltip>
     </div>
   `,
-  animations: [ FadeInOutAnimation ]
+  animations: [ FadeInOutAnimation ],
+  styles: [
+    `:host {
+      z-index: 10000;
+    }`
+  ]
 })
 export class TooltipContainerComponent {
   @Input() scale = 1
