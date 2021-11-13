@@ -137,7 +137,7 @@ export class AppComponent implements OnInit, AfterContentInit {
       this.ui.getSettings()
     ])
 
-    if (typeof uiSettings.privacyFormSeen !== 'boolean' || true) {
+    if (typeof uiSettings.privacyFormSeen !== 'boolean') {
       let doCollectTelemetry = uiSettings.doCollectTelemetry ?? false
       let doCollectCrashReports = await this.settings.getDoCollectCrashReports()
       let saving = false
