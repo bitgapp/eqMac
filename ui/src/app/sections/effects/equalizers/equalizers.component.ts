@@ -156,13 +156,7 @@ export class EqualizersComponent implements OnInit, OnDestroy {
     if (!this.app.enabled || !this.enabled) {
       return this.clicked()
     }
-    const width = '90vw'
     this.settingsDialog = this.dialog.open(OptionsDialogComponent, {
-      hasBackdrop: true,
-      disableClose: false,
-      width: width,
-      maxWidth: width,
-      panelClass: 'options-dialog-container',
       data: {
         options: this.activeEqualizer.settings,
         title: `${this.type} Equalizer Settings`

@@ -486,9 +486,13 @@ class Application {
 
     if (globalGain < 0) {
       if (device.canSetVirtualMasterVolume(direction: .playback)) {
-        var decibels = device.virtualMasterVolumeInDecibels(direction: .playback)!
+        var decibels =
+          device.volumeInDecibels(channel: 0, direction: .playback)
+          ?? device.volumeInDecibels(channel: 1, direction: .playback)
+          ?? 0.5
         decibels = decibels + Float(globalGain)
-        device.setVirtualMasterVolume(device.decibelsToScalar(volume: decibels, channel: 1, direction: .playback)!, direction: .playback)
+        let newVolume = device.decibelsToScalar(volume: decibels, channel: 0, direction: .playback) ?? device.decibelsToScalar(volume: decibels, channel: 1, direction: .playback) ?? 0.1
+        device.setVirtualMasterVolume(newVolume, direction: .playback)
       } else if (device.canSetVolume(channel: 1, direction: .playback)) {
         var decibels = device.volumeInDecibels(channel: 1, direction: .playback)!
         decibels = decibels + Float(globalGain)
@@ -576,13 +580,16 @@ class Application {
     }
   }
   
-  static func quit (_ completion: (() -> Void)? = nil) {
+  static func quit () {
+    NSApp.terminate(nil)
+  }
+  
+  static func handleTermination (_ completion: (() -> Void)? = nil) {
     stopSave {
       Driver.hidden = true
       if completion != nil {
         completion!()
       }
-      NSApp.terminate(nil)
     }
   }
   

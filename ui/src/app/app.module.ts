@@ -121,8 +121,7 @@ import { UIService } from './services/ui.service'
       useValue: {
         ...new MatDialogConfig(),
         hasBackdrop: true,
-        maxWidth: 10,
-        width: '10px'
+        disableClose: false
       } as MatDialogConfig
     }
   ],

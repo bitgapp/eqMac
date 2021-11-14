@@ -19,9 +19,7 @@ class ApplicationDataBus: DataBus {
     super.init(route: route, bridge: bridge)
     
     self.on(.GET, "/quit") { _, res in
-      Application.quit {
-        res.send(JSON("Application Quit"))
-      }
+      Application.quit()
       return nil
     }
     

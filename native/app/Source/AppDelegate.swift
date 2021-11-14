@@ -57,7 +57,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, SUUpdaterDelegate {
   }
   
   func applicationWillTerminate(_ aNotification: Notification) {
-    Application.quit()
+    Application.handleTermination()
   }
   
   func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {

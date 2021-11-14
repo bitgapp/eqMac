@@ -55,7 +55,7 @@ export class AppComponent implements OnInit, AfterContentInit {
 
     const cdkOverlays = document.getElementsByClassName('cdk-overlay-pane')
     for (let i = 0; i < cdkOverlays.length; i++) {
-      cdkOverlays[i].setAttribute('style', `transform: scale(${this.ui.scale.toFixed(2)}); max-width: ${Math.round(90 / this.ui.scale)}vw`)
+      cdkOverlays[i].setAttribute('style', `transform: scale(${this.ui.scale.toFixed(2)}); width: ${Math.round(90 / this.ui.scale)}vw`)
     }
     return style
   }
