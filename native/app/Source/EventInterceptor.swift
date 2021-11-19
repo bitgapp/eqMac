@@ -34,8 +34,16 @@ class EventInterceptor: NSApplication {
         }
       }
     }
-    if (event.type == .keyDown && event.keyCode == 53) {
-//      Application.escapePressed()
+    if (event.type == .keyDown) {
+      switch (event.characters) {
+      case "w":
+        if (commandPressed(event: event)) {
+          UI.close()
+        }
+        break
+      default:
+        break
+      }
     }
     super.sendEvent(event)
   }
@@ -46,6 +54,10 @@ class EventInterceptor: NSApplication {
   
   func optionPressed (event: NSEvent) -> Bool {
     return event.modifierFlags.contains(.option)
+  }
+  
+  func commandPressed (event: NSEvent) -> Bool {
+    return event.modifierFlags.contains(.command)
   }
   
 }

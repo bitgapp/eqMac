@@ -643,7 +643,7 @@
 			packageReferences = (
 				78D8C3302569B2910084739C /* XCRemoteSwiftPackageReference "LaunchAtLogin" */,
 				78242E94261A8AEE00058ADE /* XCRemoteSwiftPackageReference "connectivity" */,
-				783A6F9B266FA1F300A96B42 /* XCRemoteSwiftPackageReference "swift-atomics.git" */,
+				783A6F9B266FA1F300A96B42 /* XCRemoteSwiftPackageReference "swift-atomics" */,
 				7893D5732674F6B100F3815B /* XCRemoteSwiftPackageReference "Version" */,
 				78AA48F2270362AA007CDE89 /* XCRemoteSwiftPackageReference "BetterCodable" */,
 			);
@@ -1024,7 +1024,7 @@
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1.3.1;
+				CURRENT_PROJECT_VERSION = 1.3.2;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1063,7 +1063,7 @@
 					"$(PROJECT_DIR)/Source/Vendor",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				MARKETING_VERSION = v1.3.0;
+				MARKETING_VERSION = v1.3.2;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bitgapp.eqmac;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1088,7 +1088,7 @@
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1.3.1;
+				CURRENT_PROJECT_VERSION = 1.3.2;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = JZA6C97KJA;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1127,7 +1127,7 @@
 					"$(PROJECT_DIR)/Source/Vendor",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				MARKETING_VERSION = v1.3.0;
+				MARKETING_VERSION = v1.3.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bitgapp.eqmac;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1173,7 +1173,7 @@
 				minimumVersion = 5.0.1;
 			};
 		};
-		783A6F9B266FA1F300A96B42 /* XCRemoteSwiftPackageReference "swift-atomics.git" */ = {
+		783A6F9B266FA1F300A96B42 /* XCRemoteSwiftPackageReference "swift-atomics" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/apple/swift-atomics.git";
 			requirement = {
@@ -1215,7 +1215,7 @@
 		};
 		783A6F9C266FA1F300A96B42 /* Atomics */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 783A6F9B266FA1F300A96B42 /* XCRemoteSwiftPackageReference "swift-atomics.git" */;
+			package = 783A6F9B266FA1F300A96B42 /* XCRemoteSwiftPackageReference "swift-atomics" */;
 			productName = Atomics;
 		};
 		7893D5742674F6B100F3815B /* Version */ = {
