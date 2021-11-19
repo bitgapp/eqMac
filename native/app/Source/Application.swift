@@ -43,6 +43,7 @@ class Application {
   static let audioPipelineIsRunning = EmitterKit.Event<Void>()
   static var audioPipelineIsRunningListener: EmitterKit.EventListener<Void>?
   private static var ignoreEvents = false
+  private static var ignoreVolumeEvents = false
 
   static var settings: Settings!
     
@@ -223,7 +224,10 @@ class Application {
   static var ignoreNextDriverMuteEvent = false
   static func setupDriverDeviceEvents () {
     AudioDeviceEvents.on(.volumeChanged, onDevice: Driver.device!) {
-      if ignoreEvents { return }
+      if ignoreEvents || ignoreVolumeEvents {
+        return
+      }
+      
       if ignoreNextVolumeEvent {
         ignoreNextVolumeEvent = false
         return
@@ -381,7 +385,9 @@ class Application {
       onDevice: selectedDevice!,
       retain: false
     ) {
-      if ignoreEvents { return }
+      if ignoreEvents || ignoreVolumeEvents {
+        return
+      }
       if ignoreNextVolumeEvent {
         ignoreNextVolumeEvent = false
         return
@@ -389,7 +395,12 @@ class Application {
       let deviceVolume = selectedDevice!.virtualMasterVolume(direction: .playback)!
       let driverVolume = Driver.device!.virtualMasterVolume(direction: .playback)!
       if (deviceVolume != driverVolume) {
+        ignoreVolumeEvents = true
         Driver.device!.setVirtualMasterVolume(deviceVolume, direction: .playback)
+        Volume.gainChanged.emit(Double(deviceVolume))
+        delay (50) {
+          ignoreVolumeEvents = false
+        }
       }
     }
     audioPipelineIsRunning.emit()
