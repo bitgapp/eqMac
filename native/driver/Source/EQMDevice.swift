@@ -14,22 +14,12 @@ class EQMDevice: EQMObject {
   static var name = kEQMDeviceDefaultName
   static var sampleRate = kDefaultSampleRate
   static var running = false
-  static var shown = true {
+  static var shown = false {
     didSet {
       if (oldValue != shown) {
         EQMDriver.propertiesUpdated(
           objectId: kObjectID_Device,
           changedProperties: [
-            AudioObjectPropertyAddress(
-              mSelector: kAudioDevicePropertyDeviceCanBeDefaultDevice,
-              mScope: kAudioObjectPropertyScopeOutput,
-              mElement: kAudioObjectPropertyElementMaster
-            ),
-            AudioObjectPropertyAddress(
-              mSelector: kAudioDevicePropertyDeviceCanBeDefaultSystemDevice,
-              mScope: kAudioObjectPropertyScopeGlobal,
-              mElement: kAudioObjectPropertyElementMaster
-            )
           ]
         )
       }
@@ -274,7 +264,7 @@ class EQMDevice: EQMObject {
       if address.mScope == kAudioObjectPropertyScopeInput {
         return .integer(0)
       } else {
-        return .integer(shown ? 1 : 0)
+        return .integer(1)
       }
     case kAudioDevicePropertyDeviceCanBeDefaultSystemDevice:
       // This property returns whether or not the device wants to be the system
@@ -344,7 +334,7 @@ class EQMDevice: EQMObject {
 
     case kAudioDevicePropertyIsHidden:
       // This returns whether or not the device is visible to clients.
-      return .integer(0)
+      return .integer(shown ? 0 : 1)
 
     case kAudioDevicePropertyPreferredChannelsForStereo:
       // This property returns which two channesl to use as left/right for stereo
