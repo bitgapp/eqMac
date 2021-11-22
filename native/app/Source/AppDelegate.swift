@@ -32,7 +32,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, SUUpdaterDelegate {
     }
 
     if (Application.store.state.settings.doAutoCheckUpdates) {
+      var stillCheckingConnection = true
       Networking.checkConnected { connected in
+        stillCheckingConnection = false
         if (connected) {
           Application.updater.checkForUpdatesInBackground()
         } else {
@@ -41,7 +43,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, SUUpdaterDelegate {
       }
 
       delay(2000) {
-        self.updateProcessed.emit()
+        if (stillCheckingConnection) {
+          self.updateProcessed.emit()
+        }
       }
     } else {
       self.updateProcessed.emit()
