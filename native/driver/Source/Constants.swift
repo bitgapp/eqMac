@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreAudio.AudioServerPlugIn
+import Shared
 
 #if DEBUG
 let DEBUG = true

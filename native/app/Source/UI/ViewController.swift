@@ -9,6 +9,7 @@
 import Cocoa
 import WebKit
 import EmitterKit
+import Shared
 
 class ViewController: NSViewController, WKNavigationDelegate {
   // MARK: - Properties
@@ -56,7 +57,7 @@ class ViewController: NSViewController, WKNavigationDelegate {
     self.webView.load(request)
 
     
-    delay(1000) {
+    Async.delay(1000) {
       self.loadingView.isHidden = true
       self.loadingSpinner.stopAnimation(nil)
     }

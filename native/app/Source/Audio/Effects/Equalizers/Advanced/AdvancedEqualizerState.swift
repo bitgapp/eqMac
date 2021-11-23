@@ -9,6 +9,7 @@
 import Foundation
 import ReSwift
 import SwiftyUserDefaults
+import Shared
 
 struct AdvancedEqualizerState: State {
   var selectedPresetId: String = "flat"
@@ -30,7 +31,7 @@ func AdvancedEqualizerStateReducer(action: Action, state: AdvancedEqualizerState
     state.transition = transition
   case .setShowDefaultPresets(let show)?:
     state.showDefaultPresets = show
-    delay(100) {
+    Async.delay(100) {
       AdvancedEqualizer.presetsChanged.emit(AdvancedEqualizer.presets)
     }
   case .none:

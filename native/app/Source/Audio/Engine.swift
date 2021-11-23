@@ -13,6 +13,7 @@ import AVFoundation
 import Foundation
 import AudioToolbox
 import EmitterKit
+import Shared
 
 class Engine {
 

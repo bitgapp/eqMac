@@ -14,6 +14,7 @@ import SwiftyUserDefaults
 import WebKit
 import Zip
 import SwiftHTTP
+import Shared
 
 enum UIMode: String, Codable {
   case window = "window"
@@ -288,12 +289,12 @@ class UI: StoreSubscriber {
             UI.cachedIsShown = shown
             UI.isShownChanged.emit(shown)
           }
-          delay(1000) { checkIfVisible() }
+          Async.delay(1000) { checkIfVisible() }
         }
 
         checkIfVisible()
         completion()
-        delay(1000) {
+        Async.delay(1000) {
           UI.duringInit = false
         }
       }
@@ -457,7 +458,7 @@ class UI: StoreSubscriber {
       }
     }
     
-    delay(1000) {
+    Async.delay(1000) {
       if (!returned) {
         returned = true
         completion(false)

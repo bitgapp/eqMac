@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreAudio.AudioServerPlugIn
+import Shared
 
 class EQMStream: EQMObject {
   static var inputActive = true
@@ -47,19 +48,19 @@ class EQMStream: EQMObject {
   
   static func getPropertyDataSize (objectID: AudioObjectID? = nil, address: AudioObjectPropertyAddress) -> UInt32? {
     switch address.mSelector {
-    case kAudioObjectPropertyBaseClass: return sizeof(AudioClassID.self)
-    case kAudioObjectPropertyClass: return sizeof(AudioClassID.self)
-    case kAudioObjectPropertyOwner: return sizeof(AudioObjectID.self)
-    case kAudioObjectPropertyOwnedObjects: return 0 * sizeof(AudioObjectID.self)
-    case kAudioStreamPropertyIsActive: return sizeof(UInt32.self)
-    case kAudioStreamPropertyDirection: return sizeof(UInt32.self)
-    case kAudioStreamPropertyTerminalType: return sizeof(UInt32.self)
-    case kAudioStreamPropertyStartingChannel: return sizeof(UInt32.self)
-    case kAudioStreamPropertyLatency: return sizeof(UInt32.self)
+    case kAudioObjectPropertyBaseClass: return Memory.sizeof(AudioClassID.self)
+    case kAudioObjectPropertyClass: return Memory.sizeof(AudioClassID.self)
+    case kAudioObjectPropertyOwner: return Memory.sizeof(AudioObjectID.self)
+    case kAudioObjectPropertyOwnedObjects: return 0 * Memory.sizeof(AudioObjectID.self)
+    case kAudioStreamPropertyIsActive: return Memory.sizeof(UInt32.self)
+    case kAudioStreamPropertyDirection: return Memory.sizeof(UInt32.self)
+    case kAudioStreamPropertyTerminalType: return Memory.sizeof(UInt32.self)
+    case kAudioStreamPropertyStartingChannel: return Memory.sizeof(UInt32.self)
+    case kAudioStreamPropertyLatency: return Memory.sizeof(UInt32.self)
     case kAudioStreamPropertyVirtualFormat,
-         kAudioStreamPropertyPhysicalFormat: return sizeof(AudioStreamBasicDescription.self)
+         kAudioStreamPropertyPhysicalFormat: return Memory.sizeof(AudioStreamBasicDescription.self)
     case kAudioStreamPropertyAvailableVirtualFormats,
-         kAudioStreamPropertyAvailablePhysicalFormats: return UInt32(kEQMDeviceSupportedSampleRates.count) * sizeof(AudioStreamRangedDescription.self)
+         kAudioStreamPropertyAvailablePhysicalFormats: return UInt32(kEQMDeviceSupportedSampleRates.count) * Memory.sizeof(AudioStreamRangedDescription.self)
     default:
       return nil
     }

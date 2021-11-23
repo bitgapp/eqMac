@@ -9,6 +9,8 @@
 import Foundation
 import Connectivity
 import EmitterKit
+import Shared
+
 class Networking {
   static let connectivity = Connectivity()
   
@@ -47,7 +49,7 @@ class Networking {
       }
     }
     
-    delay(1000) {
+    Async.delay(1000) {
       if (!returned) {
         returned = true
         completion(false)

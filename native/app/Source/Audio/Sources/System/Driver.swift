@@ -11,6 +11,7 @@ import AMCoreAudio
 import CoreFoundation
 import Version
 import EmitterKit
+import Shared
 
 class Driver {
   static func check (_ completion: @escaping() -> Void) {
@@ -96,7 +97,7 @@ class Driver {
       return device!.name
     }
     set {
-      let size = sizeof(CFString.self)
+      let size = Memory.sizeof(CFString.self)
       var name = newValue as CFString
       checkErr(AudioObjectSetPropertyData(Driver.device!.id, &EQMDeviceCustom.addresses.name, 0, nil, size, &name))
     }
@@ -107,7 +108,7 @@ class Driver {
       return Driver.device!.latency(direction: .playback)!
     }
     set {
-      let size = sizeof(CFNumber.self)
+      let size = Memory.sizeof(CFNumber.self)
 
       var newLatency = newValue
       var latency: CFNumber = CFNumberCreate(kCFAllocatorDefault, CFNumberType.sInt32Type, &newLatency)

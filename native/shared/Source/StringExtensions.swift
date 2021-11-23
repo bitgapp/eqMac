@@ -25,11 +25,11 @@ extension String {
     return nil
   }
   
-  var byteArray: [UInt8] {
+  public var byteArray: [UInt8] {
     return Array(self.utf8)
   }
   
-  func trim() -> String {
+  public func trim() -> String {
     return self.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
   }
 }
@@ -41,11 +41,11 @@ extension String: LocalizedError {
 }
 
 extension String {
-  func capitalizingFirstLetter() -> String {
+  public func capitalizingFirstLetter() -> String {
     return prefix(1).uppercased() + dropFirst()
   }
   
-  var camelCasedString: String {
+  public var camelCasedString: String {
     return self.components(separatedBy: " ")
       .enumerated()
       .map { (index, component) in

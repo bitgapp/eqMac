@@ -9,6 +9,7 @@
 import Foundation
 import CoreAudio.AudioServerPlugIn
 import Atomics
+import Shared
 
 @objc class EQMDriver: NSObject {
   static var host: AudioServerPlugInHostRef?

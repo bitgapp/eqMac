@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreAudio.AudioServerPlugIn
+import Shared
 
 class EQMPlugIn: EQMObject {
   static let id = AudioObjectID(DRIVER_BUNDLE_ID)!
@@ -35,14 +36,14 @@ class EQMPlugIn: EQMObject {
   
   static func getPropertyDataSize (objectID: AudioObjectID? = nil, address: AudioObjectPropertyAddress) -> UInt32? {
     switch address.mSelector {
-    case kAudioObjectPropertyBaseClass: return sizeof(AudioClassID.self)
-    case kAudioObjectPropertyClass: return sizeof(AudioClassID.self)
-    case kAudioObjectPropertyOwner: return sizeof(AudioObjectID.self)
-    case kAudioObjectPropertyManufacturer: return sizeof(CFString.self)
-    case kAudioObjectPropertyOwnedObjects: return sizeof(AudioClassID.self)
-    case kAudioPlugInPropertyDeviceList: return sizeof(AudioClassID.self)
-    case kAudioPlugInPropertyTranslateUIDToDevice: return sizeof(AudioObjectID.self)
-    case kAudioPlugInPropertyResourceBundle: return  sizeof(CFString.self)
+    case kAudioObjectPropertyBaseClass: return Memory.sizeof(AudioClassID.self)
+    case kAudioObjectPropertyClass: return Memory.sizeof(AudioClassID.self)
+    case kAudioObjectPropertyOwner: return Memory.sizeof(AudioObjectID.self)
+    case kAudioObjectPropertyManufacturer: return Memory.sizeof(CFString.self)
+    case kAudioObjectPropertyOwnedObjects: return Memory.sizeof(AudioClassID.self)
+    case kAudioPlugInPropertyDeviceList: return Memory.sizeof(AudioClassID.self)
+    case kAudioPlugInPropertyTranslateUIDToDevice: return Memory.sizeof(AudioObjectID.self)
+    case kAudioPlugInPropertyResourceBundle: return  Memory.sizeof(CFString.self)
     default: return nil
     }
   }

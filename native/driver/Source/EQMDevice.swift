@@ -9,6 +9,7 @@
 import Foundation
 import CoreAudio.AudioServerPlugIn
 import Atomics
+import Shared
 
 class EQMDevice: EQMObject {
   static var name = kEQMDeviceDefaultName
@@ -106,58 +107,58 @@ class EQMDevice: EQMObject {
 
   static func getPropertyDataSize (objectID: AudioObjectID? = nil, address: AudioObjectPropertyAddress) -> UInt32? {
     switch address.mSelector {
-    case kAudioObjectPropertyBaseClass: return sizeof(AudioClassID.self)
-    case kAudioObjectPropertyClass: return sizeof(AudioClassID.self)
-    case kAudioObjectPropertyOwner: return sizeof(AudioObjectID.self)
-    case kAudioObjectPropertyName: return sizeof(CFString.self)
-    case kAudioObjectPropertyManufacturer: return sizeof(CFString.self)
+    case kAudioObjectPropertyBaseClass: return Memory.sizeof(AudioClassID.self)
+    case kAudioObjectPropertyClass: return Memory.sizeof(AudioClassID.self)
+    case kAudioObjectPropertyOwner: return Memory.sizeof(AudioObjectID.self)
+    case kAudioObjectPropertyName: return Memory.sizeof(CFString.self)
+    case kAudioObjectPropertyManufacturer: return Memory.sizeof(CFString.self)
     case kAudioObjectPropertyOwnedObjects:
       switch (address.mScope) {
-      case kAudioObjectPropertyScopeGlobal: return 8 * sizeof(AudioObjectID.self)
-      case kAudioObjectPropertyScopeInput: return 4 * sizeof(AudioObjectID.self)
-      case kAudioObjectPropertyScopeOutput: return 4 * sizeof(AudioObjectID.self)
+      case kAudioObjectPropertyScopeGlobal: return 8 * Memory.sizeof(AudioObjectID.self)
+      case kAudioObjectPropertyScopeInput: return 4 * Memory.sizeof(AudioObjectID.self)
+      case kAudioObjectPropertyScopeOutput: return 4 * Memory.sizeof(AudioObjectID.self)
       default:
         return nil
       }
-    case kAudioDevicePropertyDeviceUID: return sizeof(CFString.self)
-    case kAudioDevicePropertyModelUID: return sizeof(CFString.self)
-    case kAudioDevicePropertyTransportType: return sizeof(UInt32.self)
-    case kAudioDevicePropertyRelatedDevices: return sizeof(AudioObjectID.self)
-    case kAudioDevicePropertyClockDomain: return sizeof(UInt32.self)
-    case kAudioDevicePropertyDeviceIsAlive: return sizeof(AudioClassID.self)
-    case kAudioDevicePropertyDeviceIsRunning: return sizeof(UInt32.self)
-    case kAudioDevicePropertyDeviceCanBeDefaultDevice: return sizeof(UInt32.self)
-    case kAudioDevicePropertyDeviceCanBeDefaultSystemDevice: return sizeof(UInt32.self)
-    case kAudioDevicePropertyLatency: return sizeof(UInt32.self)
+    case kAudioDevicePropertyDeviceUID: return Memory.sizeof(CFString.self)
+    case kAudioDevicePropertyModelUID: return Memory.sizeof(CFString.self)
+    case kAudioDevicePropertyTransportType: return Memory.sizeof(UInt32.self)
+    case kAudioDevicePropertyRelatedDevices: return Memory.sizeof(AudioObjectID.self)
+    case kAudioDevicePropertyClockDomain: return Memory.sizeof(UInt32.self)
+    case kAudioDevicePropertyDeviceIsAlive: return Memory.sizeof(AudioClassID.self)
+    case kAudioDevicePropertyDeviceIsRunning: return Memory.sizeof(UInt32.self)
+    case kAudioDevicePropertyDeviceCanBeDefaultDevice: return Memory.sizeof(UInt32.self)
+    case kAudioDevicePropertyDeviceCanBeDefaultSystemDevice: return Memory.sizeof(UInt32.self)
+    case kAudioDevicePropertyLatency: return Memory.sizeof(UInt32.self)
     case kAudioDevicePropertyStreams:
       switch(address.mScope) {
-      case kAudioObjectPropertyScopeGlobal: return 2 * sizeof(AudioObjectID.self)
-      case kAudioObjectPropertyScopeInput: return sizeof(AudioObjectID.self)
-      case kAudioObjectPropertyScopeOutput: return sizeof(AudioObjectID.self)
+      case kAudioObjectPropertyScopeGlobal: return 2 * Memory.sizeof(AudioObjectID.self)
+      case kAudioObjectPropertyScopeInput: return Memory.sizeof(AudioObjectID.self)
+      case kAudioObjectPropertyScopeOutput: return Memory.sizeof(AudioObjectID.self)
       default:
         return nil
       }
-    case kAudioObjectPropertyControlList: return 3 * sizeof(AudioObjectID.self)
-    case kAudioDevicePropertySafetyOffset: return sizeof(UInt32.self)
-    case kAudioDevicePropertyNominalSampleRate: return sizeof(Float64.self)
-    case kAudioDevicePropertyAvailableNominalSampleRates: return UInt32(kEQMDeviceSupportedSampleRates.count) * sizeof(AudioValueRange.self)
-    case kAudioDevicePropertyIsHidden: return sizeof(UInt32.self)
-    case kAudioDevicePropertyPreferredChannelsForStereo: return 2 * sizeof(UInt32.self)
+    case kAudioObjectPropertyControlList: return 3 * Memory.sizeof(AudioObjectID.self)
+    case kAudioDevicePropertySafetyOffset: return Memory.sizeof(UInt32.self)
+    case kAudioDevicePropertyNominalSampleRate: return Memory.sizeof(Float64.self)
+    case kAudioDevicePropertyAvailableNominalSampleRates: return UInt32(kEQMDeviceSupportedSampleRates.count) * Memory.sizeof(AudioValueRange.self)
+    case kAudioDevicePropertyIsHidden: return Memory.sizeof(UInt32.self)
+    case kAudioDevicePropertyPreferredChannelsForStereo: return 2 * Memory.sizeof(UInt32.self)
     case kAudioDevicePropertyPreferredChannelLayout:
-      let layoutSize = sizeof(AudioChannelLayout.self)
+      let layoutSize = Memory.sizeof(AudioChannelLayout.self)
       // Layout will already contain size for 1 channel description
-      let channelsSize = sizeof(AudioChannelDescription.self) * kChannelCount - 1
+      let channelsSize = Memory.sizeof(AudioChannelDescription.self) * kChannelCount - 1
       return layoutSize + channelsSize
 
-    case kAudioDevicePropertyZeroTimeStampPeriod: return sizeof(UInt32.self)
-    case kAudioDevicePropertyIcon: return sizeof(CFURL.self)
+    case kAudioDevicePropertyZeroTimeStampPeriod: return Memory.sizeof(UInt32.self)
+    case kAudioDevicePropertyIcon: return Memory.sizeof(CFURL.self)
 
     case kAudioObjectPropertyCustomPropertyInfoList:
-      return sizeof(AudioServerPlugInCustomPropertyInfo.self) * EQMDeviceCustom.properties.count
-    case EQMDeviceCustom.properties.latency: return sizeof(CFNumber.self)
-    case EQMDeviceCustom.properties.shown: return sizeof(CFBoolean.self)
-    case EQMDeviceCustom.properties.version: return sizeof(CFString.self)
-    case EQMDeviceCustom.properties.name: return sizeof(CFString.self)
+      return Memory.sizeof(AudioServerPlugInCustomPropertyInfo.self) * EQMDeviceCustom.properties.count
+    case EQMDeviceCustom.properties.latency: return Memory.sizeof(CFNumber.self)
+    case EQMDeviceCustom.properties.shown: return Memory.sizeof(CFBoolean.self)
+    case EQMDeviceCustom.properties.version: return Memory.sizeof(CFString.self)
+    case EQMDeviceCustom.properties.name: return Memory.sizeof(CFString.self)
 
     default:
       return nil

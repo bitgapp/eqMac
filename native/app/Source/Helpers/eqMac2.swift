@@ -8,6 +8,7 @@
 
 import Foundation
 import AVFoundation
+import Shared
 
 class eqMac2 {
   
@@ -27,7 +28,7 @@ class eqMac2 {
               isDefault: false,
               gains: AdvancedEqualizerPresetGains(
                 global: 0,
-                bands: gains.map { mapValue(value: $0, inMin: -1, inMax: 1, outMin: -24, outMax: 24) }
+                bands: gains.map { $0.remap(inMin: -1, inMax: 1, outMin: -24, outMax: 24) }
               )
             ))
           }

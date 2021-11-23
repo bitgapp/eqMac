@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreAudio.AudioServerPlugIn
+import Shared
 
 // MARK: - Inheritance
 func EQM_QueryInterface (

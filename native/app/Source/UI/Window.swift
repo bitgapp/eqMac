@@ -8,6 +8,7 @@
 
 import Foundation
 import Cocoa
+import Shared
 
 class Window: NSWindow, NSWindowDelegate {
 
@@ -20,7 +21,7 @@ class Window: NSWindow, NSWindowDelegate {
     self.titlebarAppearsTransparent = true
     self.isMovableByWindowBackground = true
     
-    delay(1000, completion: {
+    Async.delay(1000, completion: {
       for subview in self.contentView!.superview!.subviews {
         if subview.isKind(of: NSClassFromString("NSTitlebarContainerView")!) {
           let titleBarView = subview.subviews[0]

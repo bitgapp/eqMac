@@ -9,6 +9,7 @@
 import Foundation
 import ReSwift
 import EmitterKit
+import Shared
 
 public enum SourceType : String {
   //    case File = "File"
@@ -51,7 +52,7 @@ class Sources {
             InputSource.requestPermission() { allowed in
               if !InputSource.hasPermission {
                 NSWorkspace.shared.open(URL(string:"x-apple.systempreferences:com.apple.preference.security?Privacy_Microphone")!)
-                delay(1000) {
+                Async.delay(1000) {
                   
                   Alert.confirm(
                     title: "Microphone Usage Permission",

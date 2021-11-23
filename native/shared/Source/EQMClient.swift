@@ -9,24 +9,24 @@
 import Foundation
 import CoreAudio.AudioServerPlugIn
 
-class EQMClient {
-  var clientId: UInt32
-  var processId: pid_t
-  var bundleId: String?
+public class EQMClient {
+  public var clientId: UInt32
+  public var processId: pid_t
+  public var bundleId: String?
 
-  init (clientId: UInt32, processId: pid_t, bundleId: String? = nil, volume: Float = 1) {
+  public init (clientId: UInt32, processId: pid_t, bundleId: String? = nil, volume: Float = 1) {
     self.clientId = clientId
     self.processId = processId
     self.bundleId = bundleId
   }
 
-  init (from clientInfo: AudioServerPlugInClientInfo) {
+  public init (from clientInfo: AudioServerPlugInClientInfo) {
     clientId = clientInfo.mClientID
     processId = clientInfo.mProcessID
     bundleId = clientInfo.mBundleID?.takeUnretainedValue() as String?
   }
 
-  var dictionary: [String: Any] {
+  public var dictionary: [String: Any] {
     var dict = [
       "clientId": clientId,
       "processId": processId,
@@ -39,17 +39,17 @@ class EQMClient {
     return dict
   }
 
-  var cfDictionary: CFDictionary {
+  public var cfDictionary: CFDictionary {
     let dict = NSDictionary(dictionary: dictionary)
 
     return dict as CFDictionary
   }
 
-  var isAppClient: Bool {
+  public var isAppClient: Bool {
     return bundleId == APP_BUNDLE_ID
   }
 
-  static func fromDictionary (_ dict: [String: Any]) -> EQMClient? {
+  public static func fromDictionary (_ dict: [String: Any]) -> EQMClient? {
     guard
       let clientId = dict["clientId"] as? UInt32,
       let processId = dict["processId"] as? pid_t,

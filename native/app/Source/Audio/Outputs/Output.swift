@@ -12,6 +12,7 @@ import SwiftyUserDefaults
 import EmitterKit
 import AVFoundation
 import AudioToolbox
+import Shared
 
 class Output {
   var device: AudioDevice
@@ -61,7 +62,7 @@ class Output {
     
     self.setupCallback()
     
-    delay(200) { [weak self] in
+    Async.delay(200) { [weak self] in
       self?.start()
       self?.startComputeVarispeedRate()
     }

@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreAudio.AudioServerPlugIn
+import Shared
 
 class EQMClients {
   private static let mutex = Mutex()

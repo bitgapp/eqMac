@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:Shared">
+   </FileRef>
+   <FileRef
       location = "group:app/eqMac.xcodeproj">
    </FileRef>
    <FileRef

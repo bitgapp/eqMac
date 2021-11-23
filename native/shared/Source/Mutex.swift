@@ -8,10 +8,10 @@
 
 import Foundation
 
-class Mutex {
-  var mutex = pthread_mutex_t()
+public class Mutex {
+  public var mutex = pthread_mutex_t()
 
-  init () {
+  public init () {
     var attributes = pthread_mutexattr_t()
     guard pthread_mutexattr_init(&attributes) == 0 else {
       preconditionFailure()
@@ -26,11 +26,11 @@ class Mutex {
     pthread_mutexattr_destroy(&attributes)
   }
 
-  func lock () {
+  public func lock () {
     pthread_mutex_lock(&mutex)
   }
 
-  func unlock () {
+  public func unlock () {
     pthread_mutex_unlock(&mutex)
   }
 

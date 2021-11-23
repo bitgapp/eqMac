@@ -1,27 +1,27 @@
 import CoreAudio
 import Atomics
 
-protocol CircularBufferType { init() }
+public protocol CircularBufferType { init() }
 extension Float: CircularBufferType {}
 extension Int32: CircularBufferType {}
 extension Int: CircularBufferType {}
 extension Double: CircularBufferType {}
 
 
-enum CircularBufferError {
+public enum CircularBufferError {
   case noError
   case tooMuch
   case cpuOverload
 }
 
-class CircularBuffer<T: CircularBufferType> {
+public class CircularBuffer<T: CircularBufferType> {
   private(set) var channelCount: Int
   private(set) var capacity: Int
   private let timeBounds: CircularBufferTimeBounds
   private let bytesPerFrame: Int64 = Int64(MemoryLayout<T>.stride)
   private var buffer: UnsafeMutablePointer<T>
 
-  init(channelCount: Int, capacity: Int) {
+  public init(channelCount: Int, capacity: Int) {
     self.channelCount = channelCount
     self.capacity = capacity
     timeBounds = CircularBufferTimeBounds()
@@ -40,7 +40,7 @@ class CircularBuffer<T: CircularBufferType> {
     return UnsafeMutableBufferPointer(start: buffer, count: bufferLength)
   }
 
-  func write(from abl: UnsafePointer<AudioBufferList>,
+  public func write(from abl: UnsafePointer<AudioBufferList>,
              start: Int64, end: Int64) -> CircularBufferError {
     let toWrite = end - start
 
@@ -156,7 +156,7 @@ class CircularBuffer<T: CircularBufferType> {
     }
   }
 
-  func read(into abl: UnsafeMutablePointer<AudioBufferList>,
+  public func read(into abl: UnsafeMutablePointer<AudioBufferList>,
             from: Int64, to: Int64) -> CircularBufferError {
 
     let count = to - from

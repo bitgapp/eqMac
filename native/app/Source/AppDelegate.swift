@@ -12,6 +12,7 @@ import ServiceManagement
 import Sparkle
 import EmitterKit
 import AMCoreAudio
+import Shared
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate, SUUpdaterDelegate {
@@ -42,7 +43,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, SUUpdaterDelegate {
         }
       }
 
-      delay(2000) {
+      Async.delay(2000) {
         if (stillCheckingConnection) {
           self.updateProcessed.emit()
         }
@@ -102,7 +103,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, SUUpdaterDelegate {
   }
   
   func updater(_ updater: SUUpdater, didDismissUpdateAlertPermanently permanently: Bool, for item: SUAppcastItem) {
-    delay(500, completion: {
+    Async.delay(500, completion: {
       if !self.willBeDownloadingUpdate {
         self.updateProcessed.emit()
       }

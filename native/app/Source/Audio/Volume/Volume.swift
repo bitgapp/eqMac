@@ -41,7 +41,7 @@ class Volume: StoreSubscriber {
         }
 
         if (balanceSupported) {
-          device.setVirtualMasterBalance(Float32(mapValue(value: balance, inMin: -1, inMax: 1, outMin: 0, outMax: 1)), direction: .playback)
+          device.setVirtualMasterBalance(Float32(balance.remap(inMin: -1, inMax: 1, outMin: 0, outMax: 1)), direction: .playback)
           mixer.pan = 0
         } else {
           mixer.pan = Float(balance)
@@ -57,10 +57,10 @@ class Volume: StoreSubscriber {
           Application.ignoreNextVolumeEvent = true
           device.setVirtualMasterVolume(1.0, direction: .playback)
         }
-        virtualVolume = mapValue(value: gain, inMin: 1, inMax: 2, outMin: 1, outMax: 6)
+        virtualVolume = gain.remap(inMin: 1, inMax: 2, outMin: 1, outMax: 6)
 
         if (balanceSupported) {
-          device.setVirtualMasterBalance(Float32(mapValue(value: balance, inMin: -1, inMax: 1, outMin: 0, outMax: 1)), direction: .playback)
+          device.setVirtualMasterBalance(Float32(balance.remap(inMin: -1, inMax: 1, outMin: 0, outMax: 1)), direction: .playback)
           mixer.pan = 0
         } else {
           mixer.pan = Float(balance)

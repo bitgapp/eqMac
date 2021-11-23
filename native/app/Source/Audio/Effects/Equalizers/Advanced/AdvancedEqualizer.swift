@@ -10,6 +10,7 @@ import Foundation
 import ReSwift
 import EmitterKit
 import SwiftyUserDefaults
+import Shared
 
 class AdvancedEqualizer: Equalizer, StoreSubscriber {
   static let frequencies: [Double] = [32, 64, 125, 250, 500, 1_000, 2_000, 4_000, 8_000, 16_000]

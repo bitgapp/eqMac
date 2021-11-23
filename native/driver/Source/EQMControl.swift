@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreAudio.AudioServerPlugIn
+import Shared
 
 class EQMControl: EQMObject {
   static var volume: Float32 = 1
@@ -92,43 +93,43 @@ class EQMControl: EQMObject {
     switch objectID {
     case kObjectID_Volume_Output_Master:
       switch address.mSelector {
-      case kAudioObjectPropertyBaseClass: return sizeof(AudioClassID.self)
-      case kAudioObjectPropertyClass: return sizeof(AudioClassID.self)
-      case kAudioObjectPropertyOwner: return sizeof(AudioObjectID.self)
-      case kAudioObjectPropertyOwnedObjects: return 0 * sizeof(AudioObjectID.self)
-      case kAudioControlPropertyScope: return sizeof(AudioObjectPropertyScope.self)
-      case kAudioControlPropertyElement: return sizeof(AudioObjectPropertyElement.self)
-      case kAudioLevelControlPropertyScalarValue: return sizeof(Float32.self)
-      case kAudioLevelControlPropertyDecibelValue: return sizeof(Float32.self)
-      case kAudioLevelControlPropertyDecibelRange: return sizeof(AudioValueRange.self)
-      case kAudioLevelControlPropertyConvertScalarToDecibels: return sizeof(Float32.self)
-      case kAudioLevelControlPropertyConvertDecibelsToScalar: return sizeof(Float32.self)
+      case kAudioObjectPropertyBaseClass: return Memory.sizeof(AudioClassID.self)
+      case kAudioObjectPropertyClass: return Memory.sizeof(AudioClassID.self)
+      case kAudioObjectPropertyOwner: return Memory.sizeof(AudioObjectID.self)
+      case kAudioObjectPropertyOwnedObjects: return 0 * Memory.sizeof(AudioObjectID.self)
+      case kAudioControlPropertyScope: return Memory.sizeof(AudioObjectPropertyScope.self)
+      case kAudioControlPropertyElement: return Memory.sizeof(AudioObjectPropertyElement.self)
+      case kAudioLevelControlPropertyScalarValue: return Memory.sizeof(Float32.self)
+      case kAudioLevelControlPropertyDecibelValue: return Memory.sizeof(Float32.self)
+      case kAudioLevelControlPropertyDecibelRange: return Memory.sizeof(AudioValueRange.self)
+      case kAudioLevelControlPropertyConvertScalarToDecibels: return Memory.sizeof(Float32.self)
+      case kAudioLevelControlPropertyConvertDecibelsToScalar: return Memory.sizeof(Float32.self)
       default:
         return nil
       }
     case kObjectID_Mute_Output_Master:
       switch address.mSelector {
-      case kAudioObjectPropertyBaseClass: return sizeof(AudioClassID.self)
-      case kAudioObjectPropertyClass: return sizeof(AudioClassID.self)
-      case kAudioObjectPropertyOwner: return sizeof(AudioObjectID.self)
-      case kAudioObjectPropertyOwnedObjects: return 0 * sizeof(AudioObjectID.self)
-      case kAudioControlPropertyScope: return sizeof(AudioObjectPropertyScope.self)
-      case kAudioControlPropertyElement: return sizeof(AudioObjectPropertyElement.self)
-      case kAudioBooleanControlPropertyValue: return sizeof(UInt32.self)
+      case kAudioObjectPropertyBaseClass: return Memory.sizeof(AudioClassID.self)
+      case kAudioObjectPropertyClass: return Memory.sizeof(AudioClassID.self)
+      case kAudioObjectPropertyOwner: return Memory.sizeof(AudioObjectID.self)
+      case kAudioObjectPropertyOwnedObjects: return 0 * Memory.sizeof(AudioObjectID.self)
+      case kAudioControlPropertyScope: return Memory.sizeof(AudioObjectPropertyScope.self)
+      case kAudioControlPropertyElement: return Memory.sizeof(AudioObjectPropertyElement.self)
+      case kAudioBooleanControlPropertyValue: return Memory.sizeof(UInt32.self)
       default:
         return nil
       }
     case kObjectID_DataSource_Output_Master:
       switch address.mSelector {
-      case kAudioObjectPropertyBaseClass: return sizeof(AudioClassID.self)
-      case kAudioObjectPropertyClass: return sizeof(AudioClassID.self)
-      case kAudioObjectPropertyOwner: return sizeof(AudioObjectID.self)
-      case kAudioObjectPropertyOwnedObjects: return 0 * sizeof(AudioObjectID.self)
-      case kAudioControlPropertyScope: return sizeof(AudioObjectPropertyScope.self)
-      case kAudioControlPropertyElement: return sizeof(AudioObjectPropertyElement.self)
-      case kAudioSelectorControlPropertyCurrentItem: return sizeof(UInt32.self)
-      case kAudioSelectorControlPropertyAvailableItems: return kDataSource_NumberItems * sizeof(UInt32.self)
-      case kAudioSelectorControlPropertyItemName: return sizeof(CFString.self)
+      case kAudioObjectPropertyBaseClass: return Memory.sizeof(AudioClassID.self)
+      case kAudioObjectPropertyClass: return Memory.sizeof(AudioClassID.self)
+      case kAudioObjectPropertyOwner: return Memory.sizeof(AudioObjectID.self)
+      case kAudioObjectPropertyOwnedObjects: return 0 * Memory.sizeof(AudioObjectID.self)
+      case kAudioControlPropertyScope: return Memory.sizeof(AudioObjectPropertyScope.self)
+      case kAudioControlPropertyElement: return Memory.sizeof(AudioObjectPropertyElement.self)
+      case kAudioSelectorControlPropertyCurrentItem: return Memory.sizeof(UInt32.self)
+      case kAudioSelectorControlPropertyAvailableItems: return kDataSource_NumberItems * Memory.sizeof(UInt32.self)
+      case kAudioSelectorControlPropertyItemName: return Memory.sizeof(CFString.self)
       default:
         return nil
       }
@@ -196,7 +197,7 @@ class EQMControl: EQMObject {
           return .float32(0)
         }
 
-        scalar = clamp(value: scalar, min: 0, max: 1)
+        scalar = scalar.clamp(min: 0, max: 1)
 
         let decibel = VolumeConverter.toDecibel(VolumeConverter.fromScalar(scalar))
 
@@ -208,7 +209,7 @@ class EQMControl: EQMObject {
           return .float32(0)
         }
 
-        decibel = clamp(value: decibel, min: kMinVolumeDB, max: kMaxVolumeDB)
+        decibel = decibel.clamp(min: kMinVolumeDB, max: kMaxVolumeDB)
 
         let scalar = VolumeConverter.toScalar(VolumeConverter.fromDecibel(decibel))
 
@@ -311,7 +312,7 @@ class EQMControl: EQMObject {
         let scalar = data.load(as: Float32.self)
 
         var newVolume = VolumeConverter.fromScalar(scalar)
-        newVolume = clamp(value: newVolume, min: 0.0, max: 1.0)
+        newVolume = newVolume.clamp(min: 0.0, max: 1.0)
 
         if volume != newVolume {
           volume = newVolume
@@ -339,10 +340,10 @@ class EQMControl: EQMObject {
         // the value is tracked. Note that if this value changes, it implies that the
         // scalar value changes as well.
         var decibel = data.load(as: Float32.self)
-        decibel = clamp(value: decibel, min: kMinVolumeDB, max: kMaxVolumeDB)
+        decibel = decibel.clamp(min: kMinVolumeDB, max: kMaxVolumeDB)
 
         var newVolume = VolumeConverter.fromDecibel(decibel)
-        newVolume = clamp(value: newVolume, min: 0.0, max: 1.0)
+        newVolume = newVolume.clamp(min: 0.0, max: 1.0)
 
         if volume != newVolume {
           volume = newVolume

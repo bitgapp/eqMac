@@ -18,6 +18,7 @@ import SwiftyJSON
 import ServiceManagement
 import ReSwift
 import Sparkle
+import Shared
 
 enum VolumeChangeDirection: String {
   case UP = "UP"
@@ -117,7 +118,7 @@ class Application {
     equalizersTypeChangedListener = Equalizers.typeChanged.on { _ in
       if (enabled) {
         stopSave {}
-        delay(100) {
+        Async.delay(100) {
           setupAudio()
         }
       }
@@ -190,7 +191,7 @@ class Application {
           removeEngines()
           try! AudioDeviceEvents.recreateEventEmitters([.isAliveChanged, .volumeChanged, .nominalSampleRateChanged])
           self.setupDriverDeviceEvents()
-          delay(500) {
+          Async.delay(500) {
             selectOutput(device: getLastKnowDeviceFromStack())
           }
         }
@@ -207,7 +208,7 @@ class Application {
         }
       } else {
         stopRemoveEngines {
-          delay(1000) {
+          Async.delay(1000) {
             // need a delay, because emitter should finish it's work at first
             try! AudioDeviceEvents.recreateEventEmitters([.isAliveChanged, .volumeChanged, .nominalSampleRateChanged])
             setupDriverDeviceEvents()
@@ -258,7 +259,7 @@ class Application {
   static func selectOutput (device: AudioDevice) {
     ignoreEvents = true
     stopRemoveEngines {
-      delay(500) {
+      Async.delay(500) {
         ignoreEvents = false
         AudioDevice.currentOutputDevice = device
       }
@@ -292,8 +293,7 @@ class Application {
     }
 
     if (selectedDevice!.outputBalanceSupported) {
-      balance = mapValue(
-        value: Double(selectedDevice!.virtualMasterBalance(direction: .playback)!),
+      balance = Double(selectedDevice!.virtualMasterBalance(direction: .playback)!).remap(
         inMin: 0,
         inMax: 1,
         outMin: -1,
@@ -318,7 +318,7 @@ class Application {
     AudioDevice.currentSystemDevice = Driver.device!
 
     // TODO: Figure out a better way
-    delay(1000) {
+    Async.delay(1000) {
       ignoreEvents = false
       createAudioPipeline()
       startingPassthrough = false
@@ -369,7 +369,7 @@ class Application {
       if ignoreEvents { return }
       ignoreEvents = true
       stopRemoveEngines {
-        delay(1000) {
+        Async.delay(1000) {
           // need a delay, because emitter should finish it's work at first
           try! AudioDeviceEvents.recreateEventEmitters([.isAliveChanged, .volumeChanged, .nominalSampleRateChanged])
           setupDriverDeviceEvents()
@@ -398,7 +398,7 @@ class Application {
         ignoreVolumeEvents = true
         Driver.device!.setVirtualMasterVolume(deviceVolume, direction: .playback)
         Volume.gainChanged.emit(Double(deviceVolume))
-        delay (50) {
+        Async.delay (50) {
           ignoreVolumeEvents = false
         }
       }
@@ -426,7 +426,7 @@ class Application {
     }
     if direction == .UP {
       ignoreNextDriverMuteEvent = true
-      delay(100) {
+      Async.delay(100) {
         ignoreNextDriverMuteEvent = false
       }
     }
@@ -453,7 +453,7 @@ class Application {
       var newGain = steps[stepIndex]
       
       if (newGain <= 1) {
-        delay(100) {
+        Async.delay(100) {
           Driver.device!.setVirtualMasterVolume(Float(newGain), direction: .playback)
         }
       } else {
@@ -521,7 +521,7 @@ class Application {
   static func stopEngines (_ completion: @escaping () -> Void) {
     DispatchQueue.main.async {
       var returned = false
-      delay(2000) {
+      Async.delay(2000) {
         if (!returned) {
           completion()
         }
@@ -563,7 +563,7 @@ class Application {
 
   static func handleWakeUp () {
     // Wait for devices to initialize, not sure what delay is appropriate
-    delay(1000) {
+    Async.delay(1000) {
       if !enabled { return }
       if lastKnownDeviceStack.count == 0 { return setupAudio() }
       let lastDevice = lastKnownDeviceStack.last
@@ -577,7 +577,7 @@ class Application {
           if newDevice != nil && newDevice!.isAlive() && newDevice!.nominalSampleRate() != nil {
             setupAudio()
           } else {
-            delay(1000) {
+            Async.delay(1000) {
               checkLastKnownDeviceActive()
             }
           }

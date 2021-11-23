@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreAudio.AudioServerPlugIn
+import Shared
 
 protocol EQMObject: class {
   static func hasProperty (objectID: AudioObjectID?, address: AudioObjectPropertyAddress) -> Bool
@@ -93,7 +94,7 @@ enum EQMObjectProperty {
       size.pointee = 0
       return noErr
     }
-    let outSize = sizeof(T.self)
+    let outSize = Memory.sizeof(T.self)
 
     guard requestedSize == outSize else {
       log("​🚫​ Requested Size: \(requestedSize) != Out Size: \(outSize) (\(T.self))")
@@ -108,7 +109,7 @@ enum EQMObjectProperty {
 
   private func write<T: Any>(array arr: ContiguousArray<T>, address: UnsafeMutableRawPointer, size: UnsafeMutablePointer<UInt32>, requestedSize: UInt32) -> OSStatus {
     var array = arr
-    let elementSize = sizeof(ContiguousArray<T>.Element.self)
+    let elementSize = Memory.sizeof(ContiguousArray<T>.Element.self)
 
     let requestedCount = Int(requestedSize / elementSize)
     array = ContiguousArray(array[0..<requestedCount])
