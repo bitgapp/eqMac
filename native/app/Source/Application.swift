@@ -209,7 +209,7 @@ class Application {
       } else {
         stopRemoveEngines {
           Async.delay(1000) {
-            // need a delay, because emitter should finish it's work at first
+            // need a delay, because emitter should finish its work at first
             try! AudioDeviceEvents.recreateEventEmitters([.isAliveChanged, .volumeChanged, .nominalSampleRateChanged])
             setupDriverDeviceEvents()
             matchDriverSampleRateToOutput()
@@ -370,7 +370,7 @@ class Application {
       ignoreEvents = true
       stopRemoveEngines {
         Async.delay(1000) {
-          // need a delay, because emitter should finish it's work at first
+          // need a delay, because emitter should finish its work at first
           try! AudioDeviceEvents.recreateEventEmitters([.isAliveChanged, .volumeChanged, .nominalSampleRateChanged])
           setupDriverDeviceEvents()
           matchDriverSampleRateToOutput()

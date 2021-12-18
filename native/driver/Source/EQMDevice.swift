@@ -260,7 +260,7 @@ class EQMDevice: EQMObject {
     case kAudioDevicePropertyDeviceCanBeDefaultDevice:
       // This property returns whether or not the device wants to be able to be the
       // default device for content. This is the device that iTunes and QuickTime
-      // will use to play their content on and FaceTime will use as it's microhphone.
+      // will use to play their content on and FaceTime will use as its microphone.
       // Nearly all devices should allow for this.
       if address.mScope == kAudioObjectPropertyScopeInput {
         return .integer(0)

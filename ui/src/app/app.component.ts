@@ -185,7 +185,7 @@ and make it a more stable product.
           options: [
             [ { type: 'label', label: 'Privacy' } ],
             [ {
-              type: 'label', label: `eqMac respects it's user's privacy 
+              type: 'label', label: `eqMac respects its user's privacy 
 and is giving you a choice what data you wish to share with the developer.
 This data would help us improve and grow the product.`
             } ],
