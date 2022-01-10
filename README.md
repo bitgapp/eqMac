@@ -10,6 +10,8 @@
   <a href="https://discord.eqmac.app"><img src="https://img.shields.io/badge/chat-discord-black?style=flat&logo=discord" alt="discord chat"></a>
 </p>
 
+Notice: Currently the this repository is a little out of date from the release version of eqMac as most work is done on a private fork. Changes will be merged soon
+
 ## Features
 ### Current
 * System audio Source
