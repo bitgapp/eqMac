@@ -10,7 +10,7 @@
   <a href="https://discord.eqmac.app"><img src="https://img.shields.io/badge/chat-discord-black?style=flat&logo=discord" alt="discord chat"></a>
 </p>
 
-Notice: Currently the this repository is a little out of date from the release version of eqMac as most work is done on a private fork. Changes will be merged soon
+Notice: Currently the code in this repository corresponds to v1.3.2 of eqMac and all the newer releases are done on a private fork. I'm still unsure if new releases will be open sourced, mostly because I don't see the benefit of open sourcing the app anymore. Change my mind.
 
 ## Features
 ### Current
