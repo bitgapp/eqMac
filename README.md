@@ -10,23 +10,23 @@
   <a href="https://discord.eqmac.app"><img src="https://img.shields.io/badge/chat-discord-black?style=flat&logo=discord" alt="discord chat"></a>
 </p>
 
-Notice: Currently the code in this repository corresponds to v1.3.2 of eqMac and all the newer releases are done on a private fork. I'm still unsure if new releases will be open sourced, mostly because I don't see the benefit of open sourcing the app anymore. Change my mind.
+**Notice: Currently the code in this repository corresponds to v1.3.2 of eqMac without any Pro Features and all the newer releases are done on a private fork. Having the Free parts of the app open sourced required too much time to maintain and split off.**
 
 ## Features
 ### Current
-* System audio Source
-* Volume Booster
-* HDMI Volume Support
-* Volume Balance support for all devices (including HDMI)
-* Basic EQ - Bass, Mids, Treble control
-* Advanced EQ - Fixed 10 bands
-* Expert EQ - Unlimited bands, fully customizable (Filter Type, Frequency, Gain, Bandwidth)
-* Spectrum analyzer
-* [AutoEQ](https://github.com/jaakkopasanen/AutoEq?referrer=eqMac&referer=eqMac&utm_source=eqMac) Integration*
-* AudioUnit (AU) Hosting* - add 3rd party effects to the Audio Pipeline
-* Spatial Audio
-* Volume Mixer - Apply different volume levels per each application
-* Custom UI - Fully customize the look and feel of eqMac by changing the User Interface Colors, Feature visibility and arrangement.
+* `Free` System Audio Processing
+* `Free` Volume Booster
+* `Free` HDMI Volume Support
+* `Free` Volume Balance support for all devices (including HDMI)
+* `Free` Basic EQ - Bass, Mids, Treble control
+* `Free` Advanced EQ - Fixed 10 bands
+* `Pro` Expert EQ - Unlimited bands, fully customizable (Filter Type, Frequency, Gain, Bandwidth)
+* `Pro` Spectrum analyzer
+* [AutoEQ](https://github.com/jaakkopasanen/AutoEq?referrer=eqMac&referer=eqMac&utm_source=eqMac) Integration - Automatic Headphone Equalization from frequency responses. `Free` for Advanced EQ and `Pro` as part of the Expert EQ
+* `Pro` AudioUnit (AU) Hosting* - add 3rd party effects to the Audio Pipeline
+* `Pro` Spatial Audio - simulate different listening environments like Concert Halls or Different sized Rooms.
+* `Pro` Volume Mixer - Apply different volume levels per each application
+* Custom UI - Fully customize the look and feel of eqMac by changing the User Interface Colors (`Pro`), Feature visibility (`Free`) and arrangement (Soon).
 
 ### Roadmap
 Idea is to become the ultimate Audio toolbox for macOS
@@ -43,60 +43,18 @@ Idea is to become the ultimate Audio toolbox for macOS
 [Vote on the Features you want to see sooner](https://eqmac.app/#coming-soon)
 
 ## User support
-This project is heavily reliant on the whole community helping each other out. If you have an issue with eqMac please go through [Issues](https://github.com/bitgapp/eqMac/issues) to see if it's already being discussed, if not create a new one. Also you can [join our Discord](https://discord.eqmac.app), I'm there all the time and I like to chat with people.
+If you are a `Pro` customer I provide Customer Support through the Contact form on the website :)
+This project is heavily reliant on the whole community helping each other out. If you have an issue with eqMac please go through [Issues](https://github.com/bitgapp/eqMac/issues) to see if it's already being discussed, if not create a new one. Also you can [join our Discord](https://discord.eqmac.app), I'm there all the time and I like to chat with people. 
 
 ## Technology
 eqMac was built using these technologies:
-* [Driver](https://github.com/bitgapp/eqMac/tree/master/native/driver) - System Audio loopback/passthrough device based on [Apple's Null Audio Server Driver Plug-in](https://developer.apple.com/documentation/coreaudio/creating_an_audio_server_driver_plug-in) example. One of the first Examples of a macOS System Capture drivers written in Swift. The driver grabs the system audio stream and sends it to the input channels (similar to [BlackHole](https://github.com/ExistentialAudio/BlackHole)). eqMac can grab this stream, process it and send to the appropriate audio device. The driver runs in User space instead of Kernel like the previous drivers (i.e SoundFlower), which means it's much more secure and stable.
-* [App](https://github.com/bitgapp/eqMac/tree/master/native/app) - Native backend to the whole app. Responsible for audio processing, filesystem access, window management, API and general lifecycle of eqMac. Written in Swift and uses Apple's more modern [AVAudioEngine API](https://developer.apple.com/documentation/avfoundation/avaudioengine), unlike the previous version that used a deprecated AUGraph API.
-* [UI](https://github.com/bitgapp/eqMac/tree/master/ui) - Web based user interface that is hosted remotely and thus allows for over the air updates & bug fixes. Built with [Angular](https://angular.io/) + [TypeScript](https://www.typescriptlang.org/) and is cached for offline availability.
-
-## Contribution
-At the moment eqMac is going through a major rewrite and it's hard to coordinate the development of big features. But bug fixes, performance optimizations and refactoring PR's are welcomed! Please create an issue on GitHub (please check if your issue is already being discussed) or [join our Discord](https://discord.eqmac.app) to discuss. Once a piece of work has been agreed - fork, build, debug, fix, merge and create a Pull Request to get your work merged in :) 
-Check the documentation below to understand how to start eqMac debug process from Xcode
-
-## Development
-Fork the repository, then run these commands in Terminal.app:
-
-``` 
-git clone https://github.com/YOUR_USERNAME/eqMac.git
-cd eqMac/
-```
-
-### Native app + driver
-#### Prerequisites
-
-1. Download [Xcode](https://apps.apple.com/us/app/xcode/id497799835?mt=12)
-2. Install [CocoaPods](https://cocoapods.org/) by `sudo gem install cocoapods`
-
-#### Building and running the App
-
-1. Go into the native/app directory from root of the repo by: `cd native/`
-2. Install Cocoapod dependencies: `pod install`
-3. Open the Xcode workspace: `open eqMac.xcworkspace`
-4. Launch eqMac in debug mode by running the **App - Debug** Scheme:
-<img width="512" src="https://user-images.githubusercontent.com/8472525/83069640-279c1100-a062-11ea-85a7-45aa5253771b.png"/>
-
-### Web User Interface
-You don't need to run the UI code locally to debug just the Swift side of the app, unless you want to debug the UI code :)
-If you want to run the web based User Interface locally then you need to follow these steps to make that happen:
-
-#### Prerequisites
-Install [Node.js](https://nodejs.org/en/) LTS version preferrably using [NVM](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Install [Yarn](https://classic.yarnpkg.com/en/) v1 globally: `npm i -g yarn` (this is needed because the project uses [Yarn Workspaces](https://classic.yarnpkg.com/en/docs/workspaces/))
-
-#### Building and running the Web UI
-1. Run `yarn` from the root directory of the Monorepo
-2. Go into the ui/ directory by `cd ui/`
-3. Start local development server with `yarn start`
-
+* [App](https://github.com/bitgapp/eqMac/tree/master/native/app) - Native backend to the whole app. Responsible for audio processing, filesystem access, window management, API and general lifecycle of eqMac.
+* [UI](https://github.com/bitgapp/eqMac/tree/master/ui) - Web based user interface that is hosted remotely and thus allows for Over the Air (OTA) updates & bug fixes. Built with [Angular](https://angular.io/) + [TypeScript](https://www.typescriptlang.org/) and is cached for offline availability.
+* [Driver](https://github.com/bitgapp/eqMac/tree/master/native/driver) - System Audio loopback/passthrough device based on [Apple's Null Audio Server Driver Plug-in](https://developer.apple.com/documentation/coreaudio/creating_an_audio_server_driver_plug-in) example. One of the first Examples of a macOS System Capture drivers written in Swift. The driver grabs the system audio stream and sends it to the app through a secure memory tunnel. eqMac can grab this stream, process it and send to the appropriate audio device. The driver runs in User space instead of Kernel like the previous drivers (i.e SoundFlower), which means it's much more secure and stable.
 
 ## Credits
 
 [@nodeful](https://github.com/nodeful) - Creator and Developer of eqMac
-
-Apple Inc. - For open sourcing this [HAL Driver Example](https://developer.apple.com/documentation/coreaudio/creating_an_audio_server_driver_plug-in)
 
 [@titanicbobo](https://github.com/titanicbobo) - For the [Big Sur icon design](https://github.com/bitgapp/eqMac/blob/master/assets/icon/icon.svg)
 
