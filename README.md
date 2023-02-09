@@ -1,9 +1,9 @@
 <p align="center">
-  <img width="512" src="https://github.com/bitgapp/eqMac/raw/master/assets/logos/promo-dark.png"/>
+  <img width="400" src="https://github.com/bitgapp/eqMac/raw/master/assets/logos/promo-dark.png"/>
 </p>
 
 <p align="center">
-  <img width="512" src="https://github.com/bitgapp/eqMac/raw/master/assets/screenshots/main.png"/>
+  <img width="1024" src="https://github.com/bitgapp/eqMac/raw/master/assets/screenshots/autoeq-promo.png"/>
 </p>
 
 <p align="center">
@@ -20,19 +20,18 @@ Notice: Currently the code in this repository corresponds to v1.3.2 of eqMac and
 * Volume Balance support for all devices (including HDMI)
 * Basic EQ - Bass, Mids, Treble control
 * Advanced EQ - Fixed 10 bands
-* Expert EQ* - Unlimited bands, fully customizable (Filter Type, Frequency, Gain, Bandwidth)
-* Spectrum analyzer*
+* Expert EQ - Unlimited bands, fully customizable (Filter Type, Frequency, Gain, Bandwidth)
+* Spectrum analyzer
 * [AutoEQ](https://github.com/jaakkopasanen/AutoEq?referrer=eqMac&referer=eqMac&utm_source=eqMac) Integration*
-* Reverb* - Spatial audio enhancement
-* Volume Mixer* - Apply different volume levels per each application
-
-*Not Open Sourced
+* AudioUnit (AU) Hosting* - add 3rd party effects to the Audio Pipeline
+* Spatial Audio
+* Volume Mixer - Apply different volume levels per each application
+* Custom UI - Fully customize the look and feel of eqMac by changing the User Interface Colors, Feature visibility and arrangement.
 
 ### Roadmap
-Idea is to become the ultimate Audio toolbox for macOS (some features might not be open sourced)
+Idea is to become the ultimate Audio toolbox for macOS
 * Input Audio Source - Apply effects to any device: guitar, microphone etc.
 * Virtual Output - Export the Adjusted audio to any application
-* Custom UI - Fully customize the look and feel of eqMac by changing the User Interface Colors, Feature visibility and arrangement.
 * Hotkeys - Control eqMac with Keyboard Shortcuts
 * Recorder - save any audio playback (System, Input device, File)
 * Remote control from your phone
