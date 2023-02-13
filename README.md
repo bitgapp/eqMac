@@ -22,8 +22,8 @@
 * `Free` Advanced EQ - Fixed 10 bands
 * `Pro` Expert EQ - Unlimited bands, fully customizable (Filter Type, Frequency, Gain, Bandwidth)
 * `Pro` Spectrum analyzer
-* [AutoEQ](https://github.com/jaakkopasanen/AutoEq?referrer=eqMac&referer=eqMac&utm_source=eqMac) Integration - Automatic Headphone Equalization from frequency responses. `Free` for Advanced EQ and `Pro` as part of the Expert EQ
-* `Pro` AudioUnit (AU) Hosting* - add 3rd party effects to the Audio Pipeline
+* `Free/Pro` [AutoEQ](https://github.com/jaakkopasanen/AutoEq?referrer=eqMac&referer=eqMac&utm_source=eqMac) Integration - Automatic Headphone Equalization from frequency responses. `Free` for Advanced EQ and `Pro` as part of the Expert EQ
+* `Pro` AudioUnit (AU) Hosting - add 3rd party effects to the Audio Pipeline
 * `Pro` Spatial Audio - simulate different listening environments like Concert Halls or Different sized Rooms.
 * `Pro` Volume Mixer - Apply different volume levels per each application
 * Custom UI - Fully customize the look and feel of eqMac by changing the User Interface Colors (`Pro`), Feature visibility (`Free`) and arrangement (Soon).
