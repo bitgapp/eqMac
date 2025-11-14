@@ -40,6 +40,7 @@ class Application {
   static var selectedDeviceSampleRateChangedListener: EventListener<AudioDevice>?
   static var justChangedSelectedDeviceVolume = false
   static var lastKnownDeviceStack: [AudioDevice] = []
+  static var lastNonHeadphoneDevice: AudioDevice?
 
   static let audioPipelineIsRunning = EmitterKit.Event<Void>()
   static var audioPipelineIsRunningListener: EmitterKit.EventListener<Void>?
@@ -183,7 +184,7 @@ class Application {
           }
         }
       } else if (list.removed.count > 0) {
-        
+        let removedHeadphone = list.removed.first(where: { Outputs.isHeadphone($0) })
         let currentDeviceRemoved = list.removed.contains(where: { $0.id == selectedDevice?.id })
         
         if (currentDeviceRemoved) {
@@ -192,7 +193,11 @@ class Application {
           try! AudioDeviceEvents.recreateEventEmitters([.isAliveChanged, .volumeChanged, .nominalSampleRateChanged])
           self.setupDriverDeviceEvents()
           Async.delay(500) {
-            selectOutput(device: getLastKnowDeviceFromStack())
+            if (removedHeadphone != nil && self.lastNonHeadphoneDevice != nil) {
+              self.selectOutput(device: self.lastNonHeadphoneDevice!)
+            } else {
+              self.selectOutput(device: self.getLastKnowDeviceFromStack())
+            }
           }
         }
       }
@@ -278,6 +283,10 @@ class Application {
 
     if (selectedDevice!.id == Driver.device!.id) {
       selectedDevice = getLastKnowDeviceFromStack()
+    }
+
+    if !Outputs.isHeadphone(selectedDevice!) {
+      lastNonHeadphoneDevice = selectedDevice
     }
 
     lastKnownDeviceStack.append(selectedDevice!)

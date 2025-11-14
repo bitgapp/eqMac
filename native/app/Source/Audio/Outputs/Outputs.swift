@@ -30,10 +30,19 @@ class Outputs {
     let types: [TransportType] = [.bluetooth, .bluetoothLE, .builtIn]
     return isDeviceAllowed(device) && types.contains(device.transportType!)
   }
+
+  static func isHeadphone (_ device: AudioDevice) -> Bool {
+    let headphoneTransportTypes: [TransportType] = [.bluetooth, .bluetoothLE]
+    if let transportType = device.transportType {
+      return headphoneTransportTypes.contains(transportType)
+    }
+    return false
+  }
   
   static var allowedDevices: [AudioDevice] {
     return AudioDevice.allOutputDevices().filter({ isDeviceAllowed($0) })
   }
+
   
   static let SUPPORTED_TRANSPORT_TYPES = [
     TransportType.airPlay,
