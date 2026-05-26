@@ -59,6 +59,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, SUUpdaterDelegate {
     NSWorkspace.shared.notificationCenter.addObserver(
         self, selector: #selector(willSleep(event:)),
         name: NSWorkspace.willSleepNotification, object: nil)
+
+    NSWorkspace.shared.notificationCenter.addObserver(
+        self, selector: #selector(activeSpaceDidChange(event:)),
+        name: NSWorkspace.activeSpaceDidChangeNotification, object: nil)
   }
   
   func applicationWillTerminate(_ aNotification: Notification) {
@@ -129,6 +133,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, SUUpdaterDelegate {
   @objc func didWakeUp(event: NSNotification) {
     Application.handleWakeUp()
   }
+
+  @objc func activeSpaceDidChange(event: NSNotification) {
+    if UI.hasLoaded && UI.mode == .popover {
+      UI.close()
+    }
+  }
 }
-
-
